@@ -17,7 +17,7 @@
           http://www.springframework.org/schema/util/spring-util.xsd">
 
     <!-- Scans the classpath of this application for @Components to deploy as beans -->
-    <context:component-scan base-package="com.receiptofi">
+    <context:component-scan base-package="com.token">
         <!--<context:exclude-filter type="assignable" expression="com.receiptofi.service.MailService" />-->
         <!--<context:exclude-filter type="assignable" expression="com.receiptofi.service.ReportService" />-->
     </context:component-scan>
@@ -40,7 +40,7 @@
 
     <!-- Swagger Initialization for Rest API Starts -->
     <bean class="springfox.documentation.swagger.configuration.SwaggerCommonConfiguration" />
-    <bean class="com.receiptofi.mobile.web.config.SwaggerConfig"/>
+    <bean class="com.token.mobile.web.config.SwaggerConfig"/>
     <!-- Swagger Initialization for Rest API Ends   -->
 
     <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">

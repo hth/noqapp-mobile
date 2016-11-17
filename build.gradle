@@ -140,10 +140,10 @@ subprojects {
     }
 
     dependencies {
-        compile "com.token:common:2.+"
-        compile "com.token:domain:2.+"
-        compile "com.token:service:2.+"
-        compile "com.token:social:2.+"
+//        compile "com.token:common:2.+"
+//        compile "com.token:domain:2.+"
+//        compile "com.token:service:2.+"
+//        compile "com.token:social:2.+"
 
         compile 'org.springframework.social:spring-social-core:1.1.4.RELEASE'
         compile 'org.springframework.social:spring-social-google:1.0.0.RELEASE'

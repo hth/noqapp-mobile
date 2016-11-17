@@ -1,7 +1,7 @@
 <configuration>
 
     <property name="log_home" value="/var/log/tomcat" />
-    <property name="log_name" value="receiptofi-mobile" />
+    <property name="log_name" value="token-mobile" />
     <property name="log_ext" value="log" />
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
@@ -38,9 +38,9 @@
         </encoder>
     </appender>
 
-    <logger name="com.receiptofi" level="DEBUG" />
-    <logger name="com.receiptofi.mobile.web.filter.LogContextFilter" level="ON" />
-    <logger name="com.receiptofi.mobile.service" level="INFO" />
+    <logger name="com.token" level="DEBUG" />
+    <logger name="com.token.mobile.web.filter.LogContextFilter" level="ON" />
+    <logger name="com.token.mobile.service" level="INFO" />
     <logger name="org.springframework" level="WARN" />
     <logger name="com.mangofactory" level="INFO" />
     <logger name="org.springframework.data.mongodb" level="WARN" />

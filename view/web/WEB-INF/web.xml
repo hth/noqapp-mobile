@@ -89,7 +89,7 @@
         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener>
     <listener>
-        <listener-class>com.receiptofi.mobile.web.listener.ReceiptofiServletContextListener</listener-class>
+        <listener-class>com.token.mobile.web.listener.ReceiptofiServletContextListener</listener-class>
     </listener>
 
     <servlet>
