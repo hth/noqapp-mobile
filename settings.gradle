@@ -1,0 +1,2 @@
+include "service", "view"
+rootProject.name = 'token-mobile'

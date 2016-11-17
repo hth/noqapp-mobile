@@ -1,0 +1,59 @@
+<configuration>
+
+    <property name="log_home" value="/var/log/receiptofi" />
+    <property name="log_name" value="receiptofi-mobile" />
+    <property name="log_ext" value="log" />
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+
+        <file>${log_home}/${log_name}.${log_ext}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${log_name}.%i$.{log.ext}.zip</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>30</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>100MB</maxFileSize>
+        </triggeringPolicy>
+
+        <!--<encoder>-->
+            <!--<pattern>[DateTime=%d{yyyy-MM-dd HH:mm:ss}] [Thread=%thread] [ID=%X{X-REQUEST-ID}] Type=%-5p [LineNumber=%L] [Method=%C{46}.%M] Message=%msg%n</pattern>-->
+        <!--</encoder>-->
+
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
+
+        <encoder>
+            <pattern>%-5level %C{46}.%M Message=%msg%n%ex{full}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.receiptofi" level="DEBUG" />
+    <logger name="com.receiptofi.mobile.web.filter.LogContextFilter" level="OFF" />
+    <logger name="com.receiptofi.mobile.service" level="INFO" />
+    <logger name="org.springframework" level="WARN" />
+    <logger name="com.mangofactory" level="INFO" />
+    <logger name="org.springframework.data.mongodb" level="WARN" />
+
+    <logger name="net.bull.javamelody" level="ON"/>
+    <logger name="org.apache.activemq" level="OFF"/>
+    <logger name="org.apache" level="OFF"/>
+    <logger name="org.apache.http" level="OFF"/>
+    <logger name="org.springframework.jms.listener" level="OFF"/>
+    <logger name="org.mongodb" level="WARN"/>
+
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

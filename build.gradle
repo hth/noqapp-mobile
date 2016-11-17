@@ -1,0 +1,500 @@
+if (!hasProperty('env')) {
+    ext.env = System.env['GRADLE_ENV']
+}
+
+println "Building for environment: $env"
+
+ext {
+    webInf = file('/WEB-INF')
+    lib = file("$webInf/lib")
+    javaClasses = file("$webInf/classes")
+    conf = file("$javaClasses/conf")
+    images = file("$javaClasses/images")
+
+    warDir = file("$buildDir/explodedWar/$env")
+    warWebInfDir = file("$warDir$webInf")
+    warLibDir = file("$warDir$lib")
+    warClassesDir = file("$warDir$javaClasses")
+    warConfDir = file("$warDir$conf")
+    warWebInfClassesImagesDir = file("$warDir$images")
+
+    unzipDir = file("${buildDir}/unpacked/dist")
+    unzipLibDir = file("$unzipDir$lib")
+
+    passFileLocal = file('view/resources/conf/pass.properties')
+    passFileTest = file(passwordTestFileLocation)
+    passFileProd = file(passwordProdFileLocation)
+}
+
+allprojects {
+    group = 'com.token.mobile'
+    apply from: "$rootDir/versioning.gradle"
+}
+
+subprojects {
+    apply plugin: 'idea'
+    apply plugin: 'java'
+
+    apply plugin: 'checkstyle'  //for java code conventions, you can use sonar instead but it need DB
+    apply plugin: 'findbugs'    //for static code analysis
+    apply plugin: 'pmd'
+    apply plugin: 'jacoco'      //for code coverage
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    sourceSets {
+        test {
+            //Make files under integration compiled
+            resources { srcDir 'src/test/resources' }
+            java { srcDir 'src/test/java' }
+            resources { srcDir 'src/integration/resources' }
+            java { srcDir 'src/integration/java' }
+        }
+    }
+
+    checkstyle {
+        ignoreFailures = true
+    }
+
+    findbugs {
+        toolVersion = "3.0.1"
+        ignoreFailures = true
+        reportsDir = file("$project.buildDir/reports/findbugs")
+        effort = "max"
+        reportLevel = "medium"
+        visitors = ["FindSqlInjection", "SwitchFallthrough"]
+        omitVisitors = ["FindNonShortCircuit"]
+//        includeFilter = file("$rootProject.projectDir/config/findbugs/includeFilter.xml")
+//        excludeFilter = file("$rootProject.projectDir/config/findbugs/excludeFilter.xml")
+    }
+
+    pmd {
+        ignoreFailures = true
+        toolVersion = '5.5.0'
+
+        ruleSets = [
+                "java-basic",
+                "java-braces",
+                "java-naming",
+                "java-android",
+                "java-clone",
+                "java-codesize",
+                "java-controversial",
+                "java-design",
+                "java-finalizers",
+                "java-imports",
+                "java-j2ee",
+                "java-javabeans",
+                "java-junit",
+                "java-migrating",
+                "java-optimizations",
+                "java-strictexception",
+                "java-strings",
+                "java-sunsecure",
+                "java-typeresolution",
+                "java-unusedcode"
+        ]
+    }
+
+    jar {
+        manifest {
+            attributes(
+                    "Implementation-Vendor": "Receiptofi Inc",
+                    "Implementation-Title": rootProject.name,
+                    "Implementation-Version": allprojects.version + " $env",
+                    "Copyright" : "2012-2016, Receiptofi Inc"
+            )
+        }
+    }
+
+    idea {
+        module {
+            downloadSources = true
+            downloadJavadoc = true
+            //and some extra integration test source and resources dirs
+            testSourceDirs += file('/src/integration/java')
+            testSourceDirs += file('/src/integration/resources')
+        }
+    }
+
+    jacoco {
+        toolVersion = "0.7.7.201606060606"
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled false
+            csv.enabled false
+            html.destination "${buildDir}/reports/jacocoHtml"
+        }
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven { url "http://repo.spring.io/libs-milestone" }
+        maven { url "http://repo1.maven.org/maven2/" }
+        maven { url 'https://repo.spring.io/libs-snapshot' }
+    }
+
+    dependencies {
+        compile "com.token:common:2.+"
+        compile "com.token:domain:2.+"
+        compile "com.token:service:2.+"
+        compile "com.token:social:2.+"
+
+        compile 'org.springframework.social:spring-social-core:1.1.4.RELEASE'
+        compile 'org.springframework.social:spring-social-google:1.0.0.RELEASE'
+        compile 'org.springframework.social:spring-social-web:1.1.4.RELEASE'
+        compile 'org.springframework.social:spring-social-security:1.1.4.RELEASE'
+        compile 'org.springframework.social:spring-social-facebook:2.0.3.RELEASE'
+
+        compile 'org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1'
+        compile 'org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1'
+
+        compile 'io.dropwizard.metrics:metrics-core:3.1.2'
+        compile 'io.dropwizard.metrics:metrics-annotation:3.1.2'
+        compile 'io.dropwizard.metrics:metrics-graphite:3.1.2'
+
+        compile "$springGroup:spring-aop:$springVersion"
+        compile "$springGroup:spring-aspects:$springVersion"
+        compile "$springGroup:spring-beans:$springVersion"
+        compile "$springGroup:spring-context:$springVersion"
+        compile "$springGroup:spring-context-support:$springVersion"
+        compile "$springGroup:spring-core:$springVersion"
+        compile "$springGroup:spring-expression:$springVersion"
+        compile "$springGroup:spring-instrument:$springVersion"
+        compile "$springGroup:spring-instrument-tomcat:$springVersion"
+        compile "$springGroup:spring-jms:$springVersion"
+        compile "$springGroup:spring-oxm:$springVersion"
+        compile "$springGroup:spring-test:$springVersion"
+        compile "$springGroup:spring-tx:$springVersion"
+        compile "$springGroup:spring-web:$springVersion"
+        compile "$springGroup:spring-webmvc:$springVersion"
+
+        compile "$springSecurityGroup:spring-security-aspects:$springSecurityVersion"
+        compile "$springSecurityGroup:spring-security-config:$springSecurityVersion"
+        compile "$springSecurityGroup:spring-security-core:$springSecurityVersion"
+        compile "$springSecurityGroup:spring-security-crypto:$springSecurityVersion"
+        compile "$springSecurityGroup:spring-security-taglibs:$springSecurityVersion"
+        compile "$springSecurityGroup:spring-security-web:$springSecurityVersion"
+
+        compile "$springDataGroup:spring-data-mongodb:$springDataMongo"
+        compile "$springDataGroup:spring-data-commons:$springDataCommon"
+        compile "org.mongodb:mongo-java-driver:$mongoJavaDriver"
+
+        compile "com.braintreepayments.gateway:braintree-java:$braintree"
+        compile "$springDataGroup:spring-data-redis:$redis"
+        compile "redis.clients:jedis:$jedis"
+
+        /** --- Specific to Receipt Mobile Web Application ---- */
+        compile "io.springfox:springfox-swagger2:2.5.0"
+        compile "io.springfox:springfox-swagger-ui:2.5.0"
+        /** To prevent URIException not found. */
+        compile group: 'commons-httpclient', name: 'commons-httpclient', version: '3.1'
+        /** ------- */
+
+        compile "org.apache.commons:commons-vfs2:$vfs2"
+        compile "com.jcraft:jsch:$jsch"
+        compile 'aopalliance:aopalliance:1.0'
+
+        compile "org.aspectj:aspectjrt:$aspectjrt"
+        compile "org.slf4j:slf4j-api:$slf4japi"
+        compile 'org.hibernate:hibernate-validator:5.3.0.Final'
+        compile "joda-time:joda-time:$joda"
+        compile 'org.freemarker:freemarker:2.3.23'
+
+        compile "com.google.guava:guava:$guava"
+        compile "com.google.code.gson:gson:$gson"
+        compile "com.google.maps:google-maps-services:$googleMap"
+        compile "com.googlecode.libphonenumber:libphonenumber:$libphonenumber"
+        compile 'com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239'
+
+        compile 'com.fasterxml:classmate:1.3.1'
+        compile "com.fasterxml.jackson.core:jackson-annotations:$jackson"
+        compile "com.fasterxml.jackson.core:jackson-core:$jackson"
+        compile "com.fasterxml.jackson.core:jackson-databind:$jackson"
+
+        compile 'org.json:json:20160212'
+
+        compile "commons-fileupload:commons-fileupload:$commonsfileupload"
+        compile "commons-io:commons-io:$commonsio"
+        compile "commons-validator:commons-validator:$commonsvalidator"
+        compile 'commons-codec:commons-codec:1.10'
+        compile 'commons-logging:commons-logging:1.2'
+
+        compile 'javax.mail:mail:1.4.7'
+        compile 'javax.validation:validation-api:1.1.0.Final'
+        compile 'javax.inject:javax.inject:1'
+
+        compile "org.apache.activemq:activemq-client:$activemq"
+        compile "org.apache.commons:commons-lang3:$commonslang3"
+        compile "org.apache.poi:poi:$poi"
+        compile "org.apache.tika:tika-parsers:$tika"
+        compile "org.apache.tika:tika-core:$tika"
+        compile 'org.apache.httpcomponents:httpclient:4.5.2'
+        compile 'org.apache.commons:commons-collections4:4.1'
+        compile 'org.apache.commons:commons-lang3:3.4'
+
+        compile 'ch.qos.logback:logback-core:1.1.7'
+        compile 'ch.qos.logback:logback-classic:1.1.7'
+        compile "net.logstash.logback:logstash-logback-encoder:$logstashlogbackencoder"
+        compile 'net.bull.javamelody:javamelody-core:1.+'
+        /** Because using org.junit.Assert in code. */
+        compile group: 'junit', name: 'junit', version: '4.+'
+
+        testCompile group: 'junit', name: 'junit', version: '4.+'
+        testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
+        testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+        testCompile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: "$flapdoodle"
+        testCompile group: 'org.springframework', name: 'spring-test', version: "$springVersion"
+    }
+
+    test {
+        // set heap size for the test JVM(s)
+        minHeapSize = "128m"
+        maxHeapSize = "512m"
+
+        // set JVM arguments for the test JVM(s)
+        jvmArgs '-XX:MaxPermSize=256m'
+
+        // listen to events in the test execution lifecycle
+        beforeTest { descriptor ->
+            logger.lifecycle("Running test: $descriptor")
+        }
+
+        // listen to standard out and standard error of the test JVM(s)
+        onOutput { descriptor, event ->
+            logger.lifecycle("Test: $descriptor produced standard out/err: $event.message")
+        }
+
+        testLogging {
+            // false when hiding system.out logs
+            showStandardStreams = false
+
+            // set options for log level LIFECYCLE
+            events "failed"
+            exceptionFormat "short"
+
+            // set options for log level DEBUG
+            debug {
+                events "started", "skipped", "failed"
+                exceptionFormat "full"
+            }
+
+            // remove standard output/error logging from --info builds
+            // by assigning only 'failed' and 'skipped' events
+            info.events = ["failed", "skipped"]
+
+            // Disable the test report for the individual test task
+            reports.html.enabled = false
+        }
+    }
+
+    tasks.withType(FindBugs) {
+        reports {
+            xml.enabled = true
+            html.enabled = false
+        }
+    }
+
+    tasks.withType(Pmd) {
+        reports {
+            xml.enabled = true
+            html.enabled = true
+        }
+    }
+
+// Sonar run rests here. I could not run this using gradle but standalone is working well
+//    apply plugin: 'sonar'
+//    apply plugin: 'sonar-runner'
+//    sonarRunner {
+//        sonarProperties {
+//            property 'sonar.projectKey', 'receipt-mobile-application'
+//            property 'sonar.projectName', 'Receipt Mobile Application'
+//            property 'sonar.projectDescription', 'Receipt Mobile Application'
+//            property 'sonar.projectVersion', '1.0'
+//
+//            property 'sonar.language', 'java'
+//            property 'sonar.verbose', 'true'
+//            property 'sonar.sourceEncoding', 'UTF-8'
+//
+//            // sonar server and database
+//            property "sonar.host.url", "sonar.receiptofi.com"
+//            property "sonar.jdbc.url", 'jdbc:mysql://192.168.1.68:3306/sonar?useUnicode=true&amp;characterEncoding=utf8'
+//            //property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
+//            property "sonar.jdbc.username", 'receiptofi'
+//            property "sonar.jdbc.password", 'r3f02\\!M'
+//
+//            property 'sonar.jacoco.reportPath', "${buildDir}/jacoco/test.exec"
+//            property 'sonar.junit.reportsPath', "${buildDir}/test-results"
+//        }
+//    }
+}
+project(':service') {
+    jar.baseName = 'token.mobile-service'
+}
+
+project(':view') {
+    apply plugin: 'war'
+    jar.baseName = 'token.mobile-view'
+    war.baseName = 'token.mobile-view'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        project(':service')
+
+        providedCompile 'javax.servlet:javax.servlet-api:3.1.+'
+        runtime 'javax.servlet:jstl:1.+'
+    }
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.2'
+}
+
+task copyJars(type: Copy) {
+    from 'service/build/libs'
+    from 'view/build/libs'
+    into warLibDir
+    include '**/*.jar'
+}
+
+task unzip(type: Copy, dependsOn: [':view:war']) {
+    def zipFile = file("view/build/libs/token.mobile-view-${version}.war")
+
+    from zipTree(zipFile)
+    into unzipDir
+}
+
+task createBuildInfoFile {
+    doLast {
+        buildDir.mkdirs()
+        def buildInfoFile = new File("$buildDir/build-info.properties")
+        Properties props = new Properties();
+        props.setProperty('owner', 'Receiptofi Inc');
+        props.setProperty('copyright', 'All rights reserved');
+        props.setProperty('build.version', project.version.toString());
+        props.setProperty('build.env', "$env");
+
+        props.store(buildInfoFile.newWriter(), null);
+    }
+}
+
+task prepWar(dependsOn: [
+        createBuildInfoFile,
+        unzip,
+        copyJars
+]) {
+    doLast {
+        warClassesDir.mkdirs()
+        warConfDir.mkdirs()
+
+        copy {
+            from 'view/web'
+            into warDir
+            exclude '**/*.classes'
+        }
+
+        copy {
+            from file("view/environment/$env/$env" + ".properties")
+            into warConfDir
+        }
+
+        copy {
+            from 'view/resources/conf/application-messages.properties'
+            from 'view/resources/conf/config.properties'
+
+            if (env == 'prod') {
+                if (passFileProd.exists()) {
+                    from passwordProdFileLocation
+                } else {
+                    throw new Exception("Required pass file does not exists: $passFileProd.canonicalPath")
+                }
+            }
+
+            if (env == 'sandbox') {
+                if (passFileTest.exists()) {
+                    from passwordTestFileLocation
+                } else {
+                    throw new Exception("Required pass file does not exists: $passFileTest.canonicalPath")
+                }
+            }
+
+            if (env == 'dev') {
+                println "Development environment, getting local pass file $passFileLocal.canonicalPath"
+                if (passFileLocal.exists()) {
+                    from 'view/resources/conf/pass.properties'
+                } else {
+                    throw new Exception("Required pass file does not exists: $passFileLocal.canonicalPath")
+                }
+            }
+
+            into warConfDir
+        }
+
+        copy {
+            from "view/environment/$env/logback.xml"
+            from 'view/resources/conf/messages.properties'
+            into warClassesDir
+        }
+
+        copy {
+            from "view/environment/$env/receipt-mobile-servlet.xml"
+            into warWebInfDir
+        }
+
+        copy {
+            from 'view/web/static/images'
+            into warWebInfClassesImagesDir
+        }
+
+        copy {
+            from unzipLibDir
+            into warLibDir
+        }
+
+        copy {
+            from "${buildDir}/build-info.properties"
+            into warClassesDir
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete buildDir
+}
+
+task war(type: War, dependsOn: prepWar) {
+    doFirst {
+        if (env == 'sandbox' || env == 'prod') {
+            baseName = "token-mobile-$env." + project.version.toString()
+        }
+
+        if (env == 'dev') {
+            baseName = "token-mobile-$env"
+        }
+    }
+
+    from warDir
+    version ""
+    destinationDir = file("$buildDir/war/$env")
+}
+
+task testReport(type: TestReport) {
+    destinationDir = file("$buildDir/reports/allTests")
+    // Include the results from the `test` task in all subprojects
+    reportOn subprojects*.test
+
+    doLast {
+        println "Test reports for all test complete"
+    }
+}
+
+defaultTasks 'clean', 'build', 'jar', 'war', 'testReport', 'jacocoTestReport'
