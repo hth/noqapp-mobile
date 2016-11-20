@@ -40,7 +40,7 @@
 
     <!-- Swagger Initialization for Rest API Starts -->
     <bean class="springfox.documentation.swagger.configuration.SwaggerCommonConfiguration" />
-    <bean class="com.token.mobile.web.config.SwaggerConfig"/>
+    <bean class="com.token.mobile.view.config.SwaggerConfig"/>
     <!-- Swagger Initialization for Rest API Ends   -->
 
     <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -155,12 +155,9 @@
         <property name="defaultDestination" ref="destination" />
     </bean>
 
-    <bean id="fileUploadDocumentSenderJMS" class="com.receiptofi.service.routes.FileUploadDocumentSenderJMS" />
-    <bean id="fileUploadDocumentListenerJMS" class="com.receiptofi.service.routes.FileUploadDocumentListenerJMS" />
-
     <jms:listener-container connection-factory="connectionFactory">
         <!--suppress SpringModelInspection -->
-        <jms:listener destination="${queue-name}" ref="fileUploadDocumentListenerJMS" method="receive" />
+        <!--<jms:listener destination="${queue-name}" ref="fileUploadDocumentListenerJMS" method="receive" />-->
     </jms:listener-container>
     <!-- ===================================== -->
     <!-- JSM bean End                          -->

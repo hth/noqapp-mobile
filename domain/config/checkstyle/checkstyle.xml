@@ -16,7 +16,7 @@ page at http://checkstyle.sourceforge.net/config.html -->
 
     <!-- List of files to ignore -->
     <module name="SuppressionFilter">
-        <property name="file" value="service/config/checkstyle/suppressions.xml"/>
+        <property name="file" value="domain/config/checkstyle/suppressions.xml"/>
     </module>
 
     <module name="NewlineAtEndOfFile">

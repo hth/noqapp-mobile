@@ -64,7 +64,7 @@
 
     <filter>
         <filter-name>logContextFilter</filter-name>
-        <filter-class>com.token.mobile.web.filter.LogContextFilter</filter-class>
+        <filter-class>com.token.mobile.view.filter.LogContextFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>logContextFilter</filter-name>
@@ -79,7 +79,7 @@
     </filter>
     <filter-mapping>
         <filter-name>httpPutFormFilter</filter-name>
-        <servlet-name>receipt-mobile</servlet-name>
+        <servlet-name>token-mobile</servlet-name>
     </filter-mapping>
 
     <listener>
@@ -89,7 +89,7 @@
         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener>
     <listener>
-        <listener-class>com.token.mobile.web.listener.ReceiptofiServletContextListener</listener-class>
+        <listener-class>com.token.mobile.view.listener.TokenServletContextListener</listener-class>
     </listener>
 
     <servlet>
@@ -111,7 +111,7 @@
 
     <welcome-file-list>
         <!-- maps to LoginController index -->
-        <welcome-file>isWorking.htm</welcome-file>
+        <welcome-file>/open/isWorking.htm</welcome-file>
     </welcome-file-list>
 
     <!-- for all other errors -->

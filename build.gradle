@@ -140,10 +140,10 @@ subprojects {
     }
 
     dependencies {
-//        compile "com.token:common:2.+"
-//        compile "com.token:domain:2.+"
-//        compile "com.token:service:2.+"
-//        compile "com.token:social:2.+"
+        compile "com.token:common:1.+"
+        compile "com.token:domain:1.+"
+        compile "com.token:service:1.+"
+        compile "com.token:social:1.+"
 
         compile 'org.springframework.social:spring-social-core:1.1.4.RELEASE'
         compile 'org.springframework.social:spring-social-google:1.0.0.RELEASE'
@@ -333,8 +333,33 @@ subprojects {
 //        }
 //    }
 }
+
+project(':domain') {
+    jar.baseName = 'token.mobile-domain'
+}
+
+project(':security') {
+    apply plugin: 'war'
+    jar.baseName = 'token.mobile-security'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile project(':domain')
+
+        providedCompile 'javax.servlet:javax.servlet-api:3.1.+'
+        runtime 'javax.servlet:jstl:1.+'
+    }
+}
+
 project(':service') {
     jar.baseName = 'token.mobile-service'
+
+    dependencies {
+        compile project(':domain')
+    }
 }
 
 project(':view') {
@@ -347,7 +372,7 @@ project(':view') {
     }
 
     dependencies {
-        project(':service')
+        compile project(':domain'), project(':security'), project(':service')
 
         providedCompile 'javax.servlet:javax.servlet-api:3.1.+'
         runtime 'javax.servlet:jstl:1.+'
@@ -360,6 +385,8 @@ task wrapper(type: Wrapper) {
 }
 
 task copyJars(type: Copy) {
+    from 'domain/build/libs'
+    from 'security/build/libs'
     from 'service/build/libs'
     from 'view/build/libs'
     into warLibDir
@@ -446,7 +473,7 @@ task prepWar(dependsOn: [
         }
 
         copy {
-            from "view/environment/$env/receipt-mobile-servlet.xml"
+            from "view/environment/$env/token-mobile-servlet.xml"
             into warWebInfDir
         }
 

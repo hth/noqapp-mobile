@@ -6,6 +6,8 @@ import org.slf4j.MDC;
 
 import org.springframework.util.CollectionUtils;
 
+import com.token.mobile.view.controller.open.IsWorkingController;
+
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -124,7 +126,7 @@ public class LogContextFilter implements Filter {
      * crawlers when a valid user has logged in. We plan to use this until a decision would be made in near future.
      * <p>
      * The reason for this addition has already been fixed in code at location below.
-     * @see com.token.mobile.web.controller.IsWorkingController#isWorking()
+     * @see IsWorkingController#isWorking()
      */
     private boolean isHttpHead(HttpServletRequest request) {
         return "HEAD".equals(request.getMethod());
