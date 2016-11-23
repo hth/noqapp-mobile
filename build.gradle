@@ -193,7 +193,7 @@ subprojects {
         compile "io.springfox:springfox-swagger2:2.5.0"
         compile "io.springfox:springfox-swagger-ui:2.5.0"
         /** To prevent URIException not found. */
-        compile group: 'commons-httpclient', name: 'commons-httpclient', version: '3.1'
+        compile 'commons-httpclient:commons-httpclient:3.1'
         /** ------- */
 
         compile "org.apache.commons:commons-vfs2:$vfs2"
