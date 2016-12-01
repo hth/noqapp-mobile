@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
-import com.token.domain.json.JsonTokenMessage;
+import com.token.domain.json.JsonTokenQueue;
+import com.token.domain.json.JsonTokenState;
 import com.token.mobile.service.TokenService;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class TokenController {
             value = "/{code}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public JsonTokenMessage getNewToken(
+    public JsonTokenState getState(
             @PathVariable ("code")
             String code,
 
@@ -60,7 +61,43 @@ public class TokenController {
             return null;
         }
 
-        return new JsonTokenMessage(code).setToken("15");
+        return new JsonTokenState(code)
+                .setBusinessName("Costco")
+                .setBusinessAddress("Sunnyvale CA")
+                .setServingNumber("11")
+                .setLastNumber("20");
+    }
+
+    @Timed
+    @ExceptionMetered
+    @RequestMapping (
+            method = RequestMethod.POST,
+            value = "/queue/{code}",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public JsonTokenQueue joinQueue(
+            @PathVariable ("code")
+            String code,
+
+            HttpServletResponse response
+    ) throws IOException {
+        LOG.info("code={}", code);
+        if (!tokenService.isValid(code)) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+            return null;
+        }
+
+        JsonTokenQueue  jsonTokenQueue =  new JsonTokenQueue(code)
+                .setToken("25");
+
+        JsonTokenState jsonTokenState = new JsonTokenState(code);
+        jsonTokenState.setBusinessName("Costco")
+                .setBusinessAddress("Sunnyvale CA")
+                .setServingNumber("12")
+                .setLastNumber("25");
+
+        jsonTokenQueue.setJsonTokenState(jsonTokenState);
+        return jsonTokenQueue;
     }
 
 }

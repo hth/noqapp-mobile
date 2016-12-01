@@ -221,15 +221,16 @@
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:1.13.0.M1" />
             <element id="library" level="project" name="Gradle: com.google.guava:guava:20.0" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi:3.15-beta1" />
-            <element id="archive" name="com.token.mobile-service.jar">
-              <element id="module-output" name="service_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/service/build/resources/main" />
-            </element>
             <element id="archive" name="com.token.mobile-security.jar">
               <element id="module-output" name="security_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/security/build/resources/main" />
             </element>
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="archive" name="com.token.mobile-service.jar">
+              <element id="module-output" name="service_main" />
+              <element id="dir-copy" path="$PROJECT_DIR$/service/build/resources/main" />
+            </element>
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/73c49077166faa4c3c0059c5f583d1d7bd1475fe/core-3.3.0.jar" />
           </element>
         </element>
       </root>
@@ -452,6 +453,7 @@
             <element id="library" level="project" name="Gradle: com.token:domain:1.0" />
             <element id="library" level="project" name="Gradle: com.token:service:1.0" />
             <element id="library" level="project" name="Gradle: com.token:social:1.0" />
+            <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.0" />
           </element>
           <element id="file-copy" path="$PROJECT_DIR$/view/web/WEB-INF/web.xml" />
           <element id="file-copy" path="$PROJECT_DIR$/view/web/WEB-INF/root-context.xml" />
@@ -689,6 +691,7 @@
             <element id="library" level="project" name="Gradle: com.google.guava:guava:20.0" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi:3.15-beta1" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/73c49077166faa4c3c0059c5f583d1d7bd1475fe/core-3.3.0.jar" />
           </element>
         </element>
       </root>
@@ -1322,6 +1325,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/2.5.0/7a27a7fc815e481b367ead5df19b4a71ace4a419/protobuf-java-2.5.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.zxing:core:3.3.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/73c49077166faa4c3c0059c5f583d1d7bd1475fe/core-3.3.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/bd6dd9d5dc1decf837b9f224ce4ac97637a248c2/core-3.3.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/39d966e052e28fc7d83793b02e0af97ccf955745/core-3.3.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.googlecode.json-simple:json-simple:1.1.1">
