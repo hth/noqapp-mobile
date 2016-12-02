@@ -88,15 +88,7 @@ public class TokenController {
         }
 
         JsonTokenQueue  jsonTokenQueue =  new JsonTokenQueue(code)
-                .setToken("25");
-
-        JsonTokenState jsonTokenState = new JsonTokenState(code);
-        jsonTokenState.setBusinessName("Costco")
-                .setBusinessAddress("Sunnyvale CA")
-                .setServingNumber("12")
-                .setLastNumber("25");
-
-        jsonTokenQueue.setJsonTokenState(jsonTokenState);
+                .setToken("25").setServingNumber("12");
         return jsonTokenQueue;
     }
 
