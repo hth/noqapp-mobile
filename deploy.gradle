@@ -52,7 +52,7 @@ def deploy(def server, def ip, def serverName, def path, def rootFile, def mobil
     copyFiles(server, "/var/lib/jenkins/jobs/token-$env-build/workspace/build/war/$path/$rootFile")
     copyFiles(server, "/var/lib/jenkins/jobs/token.mobile-$env-build/workspace/build/war/$env/$mobileFile")
     sshExecute(server, "mkdir /usr/local/tomcat/webapps/ROOT")
-    sshExecute(server, "mkdir /usr/local/tomcat/webapps/receipt-mobile")
+    sshExecute(server, "mkdir /usr/local/tomcat/webapps/token-mobile")
     sshExecute(server, "cd /usr/local/tomcat/webapps/; mv $rootFile ROOT/ROOT.war")
     sshExecute(server, "cd /usr/local/tomcat/webapps/; mv $mobileFile token-mobile/token-mobile.war")
     sshExecute(server, "cd /usr/local/tomcat/webapps/ROOT; source ~/.bash_profile; jar xf ROOT.war")
