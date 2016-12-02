@@ -23,7 +23,7 @@ ssh.settings {
 }
 
 remotes {
-    s1 {
+    test {
         host = '192.168.1.45'
         user = 'db'
     }
@@ -31,7 +31,7 @@ remotes {
 
 task deployServer {
     if (env == 'sandbox') {
-        deploy(remotes.s1, "192.168.1.45", "1s", "$env", "ROOT-$env.*.war", "token-mobile-$env.*.war")
+        deploy(remotes.test, "192.168.1.45", "1s", "$env", "ROOT-$env.*.war", "token-mobile-$env.*.war")
     }
     if (env == 'prod') {
 
@@ -62,8 +62,6 @@ def deploy(def server, def ip, def serverName, def path, def rootFile, def mobil
     sshExecute(server, "echo 'server=$serverName' >> /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/build-info.properties")
     sshExecute(server, "echo 'server=$serverName' >> /usr/local/tomcat/webapps/receipt-mobile/WEB-INF/classes/build-info.properties")
 
-    sshExecute(server, "sudo /etc/init.d/activemq restart")
-    sshExecute(server, "sudo /etc/init.d/activemq status")
     sshExecute(server, "sudo service tomcat start")
     sshExecute(server, "sleep 15")
     sshExecute(server, "sudo service tomcat status")
