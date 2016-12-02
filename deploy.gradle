@@ -60,7 +60,7 @@ def deploy(def server, def ip, def serverName, def path, def rootFile, def mobil
     sshExecute(server, "cd /usr/local/tomcat/webapps/ROOT; rm -rf ROOT.war")
     sshExecute(server, "cd /usr/local/tomcat/webapps/token-mobile; rm -rf token-mobile.war")
     sshExecute(server, "echo 'server=$serverName' >> /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/build-info.properties")
-    sshExecute(server, "echo 'server=$serverName' >> /usr/local/tomcat/webapps/receipt-mobile/WEB-INF/classes/build-info.properties")
+    sshExecute(server, "echo 'server=$serverName' >> /usr/local/tomcat/webapps/token-mobile/WEB-INF/classes/build-info.properties")
 
     sshExecute(server, "sudo service tomcat start")
     sshExecute(server, "sleep 15")
