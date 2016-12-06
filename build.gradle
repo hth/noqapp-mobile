@@ -230,7 +230,6 @@ subprojects {
         compile 'javax.validation:validation-api:1.1.0.Final'
         compile 'javax.inject:javax.inject:1'
 
-        compile "org.apache.activemq:activemq-client:$activemq"
         compile "org.apache.commons:commons-lang3:$commonslang3"
         compile "org.apache.poi:poi:$poi"
         compile "org.apache.tika:tika-parsers:$tika"
@@ -382,7 +381,7 @@ project(':view') {
 
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.2'
+    gradleVersion = '3.2.1'
 }
 
 task copyJars(type: Copy) {
