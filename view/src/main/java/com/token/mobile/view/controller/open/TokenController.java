@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
+import com.token.domain.BizStoreEntity;
 import com.token.domain.json.JsonTokenQueue;
 import com.token.domain.json.JsonTokenState;
 import com.token.mobile.service.TokenService;
+import com.token.utils.ScrubbedInput;
 
 import java.io.IOException;
 
@@ -46,24 +48,28 @@ public class TokenController {
     @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.GET,
-            value = "/{code}",
+            value = "/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public JsonTokenState getState(
-            @PathVariable ("code")
-            String code,
+            @PathVariable ("codeQR")
+            ScrubbedInput codeQR,
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("code={}", code);
-        if (!tokenService.isValid(code)) {
+        LOG.info("codeQR={}", codeQR);
+        BizStoreEntity bizStore = tokenService.findByCodeQR(codeQR.getText());
+
+        if (null == bizStore) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
 
-        return new JsonTokenState(code)
-                .setBusinessName("Costco")
-                .setBusinessAddress("Sunnyvale CA")
+        return new JsonTokenState(bizStore.getCodeQR())
+                .setBusinessName(bizStore.getBizName().getBusinessName())
+                .setDisplayName(bizStore.getDisplayName())
+                .setStoreAddress(bizStore.getAddress())
+                .setStorePhone(bizStore.getPhoneFormatted())
                 .setServingNumber("11")
                 .setLastNumber("20");
     }
@@ -72,22 +78,22 @@ public class TokenController {
     @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
-            value = "/queue/{code}",
+            value = "/queue/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public JsonTokenQueue joinQueue(
-            @PathVariable ("code")
-            String code,
+            @PathVariable ("codeQR")
+            ScrubbedInput codeQR,
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("code={}", code);
-        if (!tokenService.isValid(code)) {
+        LOG.info("codeQR={}", codeQR);
+        if (!tokenService.isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
 
-        JsonTokenQueue  jsonTokenQueue =  new JsonTokenQueue(code)
+        JsonTokenQueue  jsonTokenQueue =  new JsonTokenQueue(codeQR.getText())
                 .setToken("25").setServingNumber("12");
         return jsonTokenQueue;
     }
