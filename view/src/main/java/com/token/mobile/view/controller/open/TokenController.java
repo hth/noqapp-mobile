@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
-import com.token.domain.BizStoreEntity;
 import com.token.domain.json.JsonTokenQueue;
 import com.token.domain.json.JsonTokenState;
 import com.token.mobile.service.TokenMobileService;
@@ -58,20 +57,12 @@ public class TokenController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("codeQR={}", codeQR);
-        BizStoreEntity bizStore = tokenMobileService.findByCodeQR(codeQR.getText());
-
-        if (null == bizStore) {
+        if (!tokenMobileService.isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
 
-        return new JsonTokenState(bizStore.getCodeQR())
-                .setBusinessName(bizStore.getBizName().getBusinessName())
-                .setDisplayName(bizStore.getDisplayName())
-                .setStoreAddress(bizStore.getAddress())
-                .setStorePhone(bizStore.getPhoneFormatted())
-                .setServingNumber("11")
-                .setLastNumber("20");
+        return tokenMobileService.findTokenState(codeQR.getText());
     }
 
     @Timed
