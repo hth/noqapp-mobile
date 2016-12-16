@@ -22,7 +22,7 @@ public class TokenMobileServiceTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        this.tokenMobileService = new TokenMobileService(bizStoreManager);
+        this.tokenMobileService = new TokenMobileService(bizStoreManager, tokenService);
     }
 
     @Test
