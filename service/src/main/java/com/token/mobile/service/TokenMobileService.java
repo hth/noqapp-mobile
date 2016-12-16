@@ -11,12 +11,12 @@ import com.token.repository.BizStoreManager;
  * Date: 11/17/16 3:10 PM
  */
 @Service
-public class TokenService {
+public class TokenMobileService {
 
     private BizStoreManager bizStoreManager;
 
     @Autowired
-    public TokenService(BizStoreManager bizStoreManager) {
+    public TokenMobileService(BizStoreManager bizStoreManager) {
         this.bizStoreManager = bizStoreManager;
     }
 
