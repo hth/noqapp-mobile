@@ -15,7 +15,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.token.domain.BizStoreEntity;
 import com.token.domain.json.JsonTokenQueue;
 import com.token.domain.json.JsonTokenState;
-import com.token.mobile.service.TokenService;
+import com.token.mobile.service.TokenMobileService;
 import com.token.utils.ScrubbedInput;
 
 import java.io.IOException;
@@ -37,11 +37,11 @@ import javax.servlet.http.HttpServletResponse;
 public class TokenController {
     private static final Logger LOG = LoggerFactory.getLogger(TokenController.class);
 
-    private TokenService tokenService;
+    private TokenMobileService tokenMobileService;
 
     @Autowired
-    public TokenController(TokenService tokenService) {
-        this.tokenService = tokenService;
+    public TokenController(TokenMobileService tokenMobileService) {
+        this.tokenMobileService = tokenMobileService;
     }
 
     @Timed
@@ -58,7 +58,7 @@ public class TokenController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("codeQR={}", codeQR);
-        BizStoreEntity bizStore = tokenService.findByCodeQR(codeQR.getText());
+        BizStoreEntity bizStore = tokenMobileService.findByCodeQR(codeQR.getText());
 
         if (null == bizStore) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
@@ -88,7 +88,7 @@ public class TokenController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("codeQR={}", codeQR);
-        if (!tokenService.isValidCodeQR(codeQR.getText())) {
+        if (!tokenMobileService.isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }

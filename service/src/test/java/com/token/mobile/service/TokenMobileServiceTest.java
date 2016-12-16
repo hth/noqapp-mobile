@@ -14,20 +14,20 @@ import org.mockito.MockitoAnnotations;
  * User: hitender
  * Date: 11/20/16 6:46 PM
  */
-public class TokenServiceTest {
+public class TokenMobileServiceTest {
     @Mock private BizStoreManager bizStoreManager;
 
-    private TokenService tokenService;
+    private TokenMobileService tokenMobileService;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        this.tokenService = new TokenService(bizStoreManager);
+        this.tokenMobileService = new TokenMobileService(bizStoreManager);
     }
 
     @Test
     public void isValidCodeQR() throws Exception {
         when(bizStoreManager.isValidCodeQR(anyString())).thenReturn(true);
-        assertTrue(tokenService.isValidCodeQR("code"));
+        assertTrue(tokenMobileService.isValidCodeQR("code"));
     }
 }
