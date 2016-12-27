@@ -17,14 +17,14 @@ import com.token.service.TokenQueueService;
  * Date: 11/17/16 3:10 PM
  */
 @Service
-public class TokenMobileService {
-    private static final Logger LOG = LoggerFactory.getLogger(TokenMobileService.class);
+public class TokenQueueMobileService {
+    private static final Logger LOG = LoggerFactory.getLogger(TokenQueueMobileService.class);
 
     private BizStoreManager bizStoreManager;
     private TokenQueueService tokenService;
 
     @Autowired
-    public TokenMobileService(BizStoreManager bizStoreManager, TokenQueueService tokenService) {
+    public TokenQueueMobileService(BizStoreManager bizStoreManager, TokenQueueService tokenService) {
         this.bizStoreManager = bizStoreManager;
         this.tokenService = tokenService;
     }
