@@ -85,7 +85,7 @@ public class TokenController {
         }
 
         JsonTokenQueue  jsonTokenQueue =  new JsonTokenQueue(codeQR.getText())
-                .setToken("25").setServingNumber("12");
+                .setToken(25).setServingNumber(12);
         return jsonTokenQueue;
     }
 

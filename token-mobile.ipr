@@ -214,8 +214,8 @@
             <element id="library" level="project" name="Gradle: org.springframework.social:spring-social-config:1.1.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:1.13.0.M1" />
             <element id="library" level="project" name="Gradle: org.springframework.social:spring-social-core:1.1.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: com.google.guava:guava:21.0-rc1" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi:3.15-beta1" />
-            <element id="library" level="project" name="Gradle: com.google.guava:guava:20.0" />
             <element id="archive" name="com.token.mobile-security.jar">
               <element id="module-output" name="security_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/security/build/resources/main" />
@@ -681,8 +681,8 @@
             <element id="library" level="project" name="Gradle: org.springframework.social:spring-social-config:1.1.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:1.13.0.M1" />
             <element id="library" level="project" name="Gradle: org.springframework.social:spring-social-core:1.1.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: com.google.guava:guava:21.0-rc1" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi:3.15-beta1" />
-            <element id="library" level="project" name="Gradle: com.google.guava:guava:20.0" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
             <element id="file-copy" path="$MAVEN_REPOSITORY$/com/token/common/1.0/common-1.0.jar" />
             <element id="file-copy" path="$MAVEN_REPOSITORY$/com/token/domain/1.0/domain-1.0.jar" />
@@ -1279,15 +1279,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.7/bbb63ca253b483da8ee53a50374593923e3de2e2/gson-2.7-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.guava:guava:20.0">
+    <library name="Gradle: com.google.guava:guava:21.0-rc1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/20.0/89507701249388e1ed5ddcf8c41f4ce1be7831ef/guava-20.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/21.0-rc1/ea4681eb116c7335370adaad583010e0681cc53b/guava-21.0-rc1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/20.0/fcf063ba2bcd1f6866d09feeef65a181bf32da0d/guava-20.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/21.0-rc1/f74ae456efc1c502d3347622390cb82464789858/guava-21.0-rc1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/20.0/9c8493c7991464839b612d7547d6c263adf08f75/guava-20.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/21.0-rc1/3ce3a4ca1616cee28687e3a4fb616e8c88b22247/guava-21.0-rc1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.maps:google-maps-services:0.1.16">
@@ -1489,14 +1489,32 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/token/domain/1.0/domain-1.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../token/common/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/domain/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/loader/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/security/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/service/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/service/src/test/java" />
+        <root url="file://$PROJECT_DIR$/../token/social/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/view/src/main/java" />
+      </SOURCES>
     </library>
     <library name="Gradle: com.token:service:1.0">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/com/token/service/1.0/service-1.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../token/common/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/domain/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/loader/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/security/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/service/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/service/src/test/java" />
+        <root url="file://$PROJECT_DIR$/../token/social/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/view/src/main/java" />
+      </SOURCES>
     </library>
     <library name="Gradle: com.token:social:1.0">
       <CLASSES>
