@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,12 +52,21 @@ public class TokenQueueController {
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public JsonTokenState getState(
+            @RequestHeader ("X-R-DID")
+            String did,
+
+            @RequestHeader ("X-R-DT")
+            String dt,
+
+            @RequestHeader ("X-R-TK")
+            String token,
+
             @PathVariable ("codeQR")
             ScrubbedInput codeQR,
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("codeQR={}", codeQR);
+        LOG.info("did={} dt={} tk={} codeQR={}", did, dt , token, codeQR);
         if (!tokenQueueMobileService.isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
@@ -73,12 +83,21 @@ public class TokenQueueController {
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public JsonTokenQueue joinQueue(
+            @RequestHeader ("X-R-DID")
+            String did,
+
+            @RequestHeader ("X-R-DT")
+            String dt,
+
+            @RequestHeader ("X-R-TK")
+            String token,
+
             @PathVariable ("codeQR")
             ScrubbedInput codeQR,
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("codeQR={}", codeQR);
+        LOG.info("did={} dt={} tk={} codeQR={}", did, dt , token, codeQR);
         if (!tokenQueueMobileService.isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
