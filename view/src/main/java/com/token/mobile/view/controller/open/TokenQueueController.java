@@ -53,13 +53,13 @@ public class TokenQueueController {
     )
     public JsonTokenState getState(
             @RequestHeader ("X-R-DID")
-            String did,
+            ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            String dt,
+            ScrubbedInput dt,
 
             @RequestHeader ("X-R-TK")
-            String token,
+            ScrubbedInput token,
 
             @PathVariable ("codeQR")
             ScrubbedInput codeQR,
@@ -84,13 +84,13 @@ public class TokenQueueController {
     )
     public JsonTokenQueue joinQueue(
             @RequestHeader ("X-R-DID")
-            String did,
+            ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            String dt,
+            ScrubbedInput dt,
 
             @RequestHeader ("X-R-TK")
-            String token,
+            ScrubbedInput token,
 
             @PathVariable ("codeQR")
             ScrubbedInput codeQR,
