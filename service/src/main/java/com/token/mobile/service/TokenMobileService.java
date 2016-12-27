@@ -1,5 +1,8 @@
 package com.token.mobile.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import com.token.service.TokenQueueService;
  */
 @Service
 public class TokenMobileService {
+    private static final Logger LOG = LoggerFactory.getLogger(TokenMobileService.class);
 
     private BizStoreManager bizStoreManager;
     private TokenQueueService tokenService;
@@ -37,6 +41,7 @@ public class TokenMobileService {
         BizStoreEntity bizStore = findByCodeQR(codeQR);
         TokenQueueEntity tokenQueue = tokenService.findByCodeQR(codeQR);
 
+        LOG.info("bizStore={} tokenQueue={}", bizStore.getBizName(), tokenQueue.getCurrentlyServing());
         return new JsonTokenState(bizStore.getCodeQR())
                 .setBusinessName(bizStore.getBizName().getBusinessName())
                 .setDisplayName(bizStore.getDisplayName())
