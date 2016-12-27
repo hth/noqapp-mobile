@@ -14,7 +14,7 @@ import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.token.domain.json.JsonTokenQueue;
 import com.token.domain.json.JsonTokenState;
-import com.token.mobile.service.TokenMobileService;
+import com.token.mobile.service.TokenQueueMobileService;
 import com.token.utils.ScrubbedInput;
 
 import java.io.IOException;
@@ -33,14 +33,14 @@ import javax.servlet.http.HttpServletResponse;
 })
 @RestController
 @RequestMapping (value = "/open/token")
-public class TokenController {
-    private static final Logger LOG = LoggerFactory.getLogger(TokenController.class);
+public class TokenQueueController {
+    private static final Logger LOG = LoggerFactory.getLogger(TokenQueueController.class);
 
-    private TokenMobileService tokenMobileService;
+    private TokenQueueMobileService tokenQueueMobileService;
 
     @Autowired
-    public TokenController(TokenMobileService tokenMobileService) {
-        this.tokenMobileService = tokenMobileService;
+    public TokenQueueController(TokenQueueMobileService tokenQueueMobileService) {
+        this.tokenQueueMobileService = tokenQueueMobileService;
     }
 
     @Timed
@@ -57,12 +57,12 @@ public class TokenController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("codeQR={}", codeQR);
-        if (!tokenMobileService.isValidCodeQR(codeQR.getText())) {
+        if (!tokenQueueMobileService.isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
 
-        return tokenMobileService.findTokenState(codeQR.getText());
+        return tokenQueueMobileService.findTokenState(codeQR.getText());
     }
 
     @Timed
@@ -79,7 +79,7 @@ public class TokenController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("codeQR={}", codeQR);
-        if (!tokenMobileService.isValidCodeQR(codeQR.getText())) {
+        if (!tokenQueueMobileService.isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
