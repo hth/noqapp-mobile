@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.token.domain.BizStoreEntity;
-import com.token.domain.TokenEntity;
+import com.token.domain.TokenQueueEntity;
 import com.token.domain.json.JsonTokenState;
 import com.token.repository.BizStoreManager;
-import com.token.service.TokenService;
+import com.token.service.TokenQueueService;
 
 /**
  * User: hitender
@@ -17,10 +17,10 @@ import com.token.service.TokenService;
 public class TokenMobileService {
 
     private BizStoreManager bizStoreManager;
-    private TokenService tokenService;
+    private TokenQueueService tokenService;
 
     @Autowired
-    public TokenMobileService(BizStoreManager bizStoreManager, TokenService tokenService) {
+    public TokenMobileService(BizStoreManager bizStoreManager, TokenQueueService tokenService) {
         this.bizStoreManager = bizStoreManager;
         this.tokenService = tokenService;
     }
@@ -35,18 +35,18 @@ public class TokenMobileService {
 
     public JsonTokenState findTokenState(String codeQR) {
         BizStoreEntity bizStore = findByCodeQR(codeQR);
-        TokenEntity token = tokenService.findByCodeQR(codeQR);
+        TokenQueueEntity tokenQueue = tokenService.findByCodeQR(codeQR);
 
         return new JsonTokenState(bizStore.getCodeQR())
                 .setBusinessName(bizStore.getBizName().getBusinessName())
                 .setDisplayName(bizStore.getDisplayName())
                 .setStoreAddress(bizStore.getAddress())
                 .setStorePhone(bizStore.getPhoneFormatted())
-                .setTokenAvailableSince(bizStore.getTokenAvailableSince())
+                .setTokenAvailableFrom(bizStore.getTokenAvailableFrom())
                 .setStartHour(bizStore.getStartHour())
                 .setEndHour(bizStore.getEndHour())
-                .setServingNumber(token.getCurrentlyServing())
-                .setLastNumber(token.getLastNumber())
-                .setCloseQueue(token.isCloseQueue());
+                .setServingNumber(tokenQueue.getCurrentlyServing())
+                .setLastNumber(tokenQueue.getLastNumber())
+                .setCloseQueue(tokenQueue.isCloseQueue());
     }
 }

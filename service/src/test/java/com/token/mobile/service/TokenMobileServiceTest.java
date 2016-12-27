@@ -5,7 +5,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 import com.token.repository.BizStoreManager;
-import com.token.service.TokenService;
+import com.token.service.TokenQueueService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations;
  */
 public class TokenMobileServiceTest {
     @Mock private BizStoreManager bizStoreManager;
-    @Mock private TokenService tokenService;
+    @Mock private TokenQueueService tokenService;
 
     private TokenMobileService tokenMobileService;
 
