@@ -128,7 +128,7 @@
     </object>
     <object type="LMREQUEST" id="z110">
         <attribute name="uuid" type="string">494DCBD1-599E-4C73-9AEA-BFE73A086FA9</attribute>
-        <attribute name="url" type="string">https://tp.receiptofi.com/token-mobile/open/token/5862045a0026c65d6325c857.json</attribute>
+        <attribute name="url" type="string">https://tp.receiptofi.com/token-mobile/open/token/58634f3526110e2459147351.json</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
