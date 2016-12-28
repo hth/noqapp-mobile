@@ -139,7 +139,7 @@
         <attribute name="name" type="string">Get State of Queue at Store</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z109"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z111 z112 z113 z114"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z112 z111 z113 z114"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z111">
         <attribute name="value" type="string">dfsdfsf</attribute>
@@ -216,7 +216,7 @@
     </object>
     <object type="LMREQUEST" id="z120">
         <attribute name="uuid" type="string">E1ACD243-F424-4C05-9E64-E0A7AAC4B1FD</attribute>
-        <attribute name="url" type="string">http://localhost:9090/token-mobile/open/token/5862045a0026c65d6325c857.json</attribute>
+        <attribute name="url" type="string">http://localhost:9090/token-mobile/open/token/586207d0b0dd2b906feabd1a.json</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
