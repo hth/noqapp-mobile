@@ -18,6 +18,10 @@
         <intercept-url pattern="/api/**"
                        access="permitAll"/>
 
+        <!-- Not required but added for path /open -->
+        <intercept-url pattern="/open/**"
+                       access="permitAll"/>
+
         <intercept-url pattern="/monitoring/**"
                        access="hasIpAddress('192.168.1.0/24')" />
 

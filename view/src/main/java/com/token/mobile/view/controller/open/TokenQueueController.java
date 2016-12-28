@@ -44,6 +44,17 @@ public class TokenQueueController {
         this.tokenQueueMobileService = tokenQueueMobileService;
     }
 
+    /**
+     * Get state of queue at the store.
+     *
+     * @param did
+     * @param dt
+     * @param token
+     * @param codeQR
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @Timed
     @ExceptionMetered
     @RequestMapping (
@@ -75,6 +86,17 @@ public class TokenQueueController {
         return tokenQueueMobileService.findTokenState(codeQR.getText());
     }
 
+    /**
+     * Join the queue.
+     *
+     * @param did
+     * @param dt
+     * @param token
+     * @param codeQR
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @Timed
     @ExceptionMetered
     @RequestMapping (
