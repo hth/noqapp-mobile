@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
-import com.token.repository.BizStoreManager;
+import com.token.service.BizService;
 import com.token.service.TokenQueueService;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,20 +16,20 @@ import org.mockito.MockitoAnnotations;
  * Date: 11/20/16 6:46 PM
  */
 public class TokenQueueMobileServiceTest {
-    @Mock private BizStoreManager bizStoreManager;
-    @Mock private TokenQueueService tokenService;
+    @Mock private BizService bizService;
+    @Mock private TokenQueueService tokenQueueService;
 
     private TokenQueueMobileService tokenQueueMobileService;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        this.tokenQueueMobileService = new TokenQueueMobileService(bizStoreManager, tokenService);
+        this.tokenQueueMobileService = new TokenQueueMobileService(tokenQueueService, bizService);
     }
 
     @Test
     public void isValidCodeQR() throws Exception {
-        when(bizStoreManager.isValidCodeQR(anyString())).thenReturn(true);
-        assertTrue(tokenQueueMobileService.isValidCodeQR("code"));
+        when(bizService.isValidCodeQR(anyString())).thenReturn(true);
+        assertTrue(bizService.isValidCodeQR("code"));
     }
 }

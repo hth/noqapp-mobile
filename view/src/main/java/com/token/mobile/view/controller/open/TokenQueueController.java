@@ -78,7 +78,7 @@ public class TokenQueueController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("did={} dt={} tk={} codeQR={}", did, dt , token, codeQR);
-        if (!tokenQueueMobileService.isValidCodeQR(codeQR.getText())) {
+        if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
@@ -120,12 +120,12 @@ public class TokenQueueController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("did={} dt={} tk={} codeQR={}", did, dt , token, codeQR);
-        if (!tokenQueueMobileService.isValidCodeQR(codeQR.getText())) {
+        if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
 
-        return tokenQueueMobileService.joinQueue(codeQR.getText());
+        return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null, token.getText());
     }
 
 }

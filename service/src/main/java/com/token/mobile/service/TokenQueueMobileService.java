@@ -10,7 +10,7 @@ import com.token.domain.BizStoreEntity;
 import com.token.domain.TokenQueueEntity;
 import com.token.domain.json.JsonTokenQueue;
 import com.token.domain.json.JsonTokenState;
-import com.token.repository.BizStoreManager;
+import com.token.service.BizService;
 import com.token.service.TokenQueueService;
 
 /**
@@ -21,25 +21,17 @@ import com.token.service.TokenQueueService;
 public class TokenQueueMobileService {
     private static final Logger LOG = LoggerFactory.getLogger(TokenQueueMobileService.class);
 
-    private BizStoreManager bizStoreManager;
     private TokenQueueService tokenQueueService;
+    private BizService bizService;
 
     @Autowired
-    public TokenQueueMobileService(BizStoreManager bizStoreManager, TokenQueueService tokenQueueService) {
-        this.bizStoreManager = bizStoreManager;
+    public TokenQueueMobileService(TokenQueueService tokenQueueService, BizService bizService) {
         this.tokenQueueService = tokenQueueService;
-    }
-
-    private BizStoreEntity findByCodeQR(String codeQR) {
-        return bizStoreManager.findByCodeQR(codeQR);
-    }
-
-    public boolean isValidCodeQR(String codeQR) {
-        return bizStoreManager.isValidCodeQR(codeQR);
+        this.bizService = bizService;
     }
 
     public JsonTokenState findTokenState(String codeQR) {
-        BizStoreEntity bizStore = findByCodeQR(codeQR);
+        BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
         TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(codeQR);
 
         LOG.info("bizStore={} tokenQueue={}", bizStore.getBizName(), tokenQueue.getCurrentlyServing());
@@ -56,14 +48,11 @@ public class TokenQueueMobileService {
                 .setCloseQueue(tokenQueue.isCloseQueue());
     }
 
-    public JsonTokenQueue joinQueue(String codeQR) {
-        BizStoreEntity bizStore = findByCodeQR(codeQR);
-        String topic = bizStore.getTopic();
+    public JsonTokenQueue joinQueue(String codeQR, String did, String rid, String deviceToken) {
+        return tokenQueueService.getNextToken(codeQR, did, rid, deviceToken);
+    }
 
-        TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(codeQR);
-
-
-        return new JsonTokenQueue(codeQR)
-                .setToken(25).setServingNumber(12);
+    public BizService getBizService() {
+        return bizService;
     }
 }
