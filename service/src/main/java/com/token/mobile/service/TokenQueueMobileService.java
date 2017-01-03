@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.token.domain.BizStoreEntity;
 import com.token.domain.TokenQueueEntity;
+import com.token.domain.json.JsonTokenQueue;
 import com.token.domain.json.JsonTokenState;
-import com.token.repository.BizStoreManager;
+import com.token.service.BizService;
 import com.token.service.TokenQueueService;
 
 /**
@@ -20,26 +21,18 @@ import com.token.service.TokenQueueService;
 public class TokenQueueMobileService {
     private static final Logger LOG = LoggerFactory.getLogger(TokenQueueMobileService.class);
 
-    private BizStoreManager bizStoreManager;
-    private TokenQueueService tokenService;
+    private TokenQueueService tokenQueueService;
+    private BizService bizService;
 
     @Autowired
-    public TokenQueueMobileService(BizStoreManager bizStoreManager, TokenQueueService tokenService) {
-        this.bizStoreManager = bizStoreManager;
-        this.tokenService = tokenService;
-    }
-
-    private BizStoreEntity findByCodeQR(String codeQR) {
-        return bizStoreManager.findByCodeQR(codeQR);
-    }
-
-    public boolean isValidCodeQR(String codeQR) {
-        return bizStoreManager.isValidCodeQR(codeQR);
+    public TokenQueueMobileService(TokenQueueService tokenQueueService, BizService bizService) {
+        this.tokenQueueService = tokenQueueService;
+        this.bizService = bizService;
     }
 
     public JsonTokenState findTokenState(String codeQR) {
-        BizStoreEntity bizStore = findByCodeQR(codeQR);
-        TokenQueueEntity tokenQueue = tokenService.findByCodeQR(codeQR);
+        BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
+        TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(codeQR);
 
         LOG.info("bizStore={} tokenQueue={}", bizStore.getBizName(), tokenQueue.getCurrentlyServing());
         return new JsonTokenState(bizStore.getCodeQR())
@@ -53,5 +46,13 @@ public class TokenQueueMobileService {
                 .setServingNumber(tokenQueue.getCurrentlyServing())
                 .setLastNumber(tokenQueue.getLastNumber())
                 .setCloseQueue(tokenQueue.isCloseQueue());
+    }
+
+    public JsonTokenQueue joinQueue(String codeQR, String did, String rid, String deviceToken) {
+        return tokenQueueService.getNextToken(codeQR, did, rid, deviceToken);
+    }
+
+    public BizService getBizService() {
+        return bizService;
     }
 }
