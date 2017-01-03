@@ -125,9 +125,7 @@ public class TokenQueueController {
             return null;
         }
 
-        JsonTokenQueue  jsonTokenQueue =  new JsonTokenQueue(codeQR.getText())
-                .setToken(25).setServingNumber(12);
-        return jsonTokenQueue;
+        return tokenQueueMobileService.joinQueue(codeQR.getText());
     }
 
 }

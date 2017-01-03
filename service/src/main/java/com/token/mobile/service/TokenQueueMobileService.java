@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.token.domain.BizStoreEntity;
 import com.token.domain.TokenQueueEntity;
+import com.token.domain.json.JsonTokenQueue;
 import com.token.domain.json.JsonTokenState;
 import com.token.repository.BizStoreManager;
 import com.token.service.TokenQueueService;
@@ -21,12 +22,12 @@ public class TokenQueueMobileService {
     private static final Logger LOG = LoggerFactory.getLogger(TokenQueueMobileService.class);
 
     private BizStoreManager bizStoreManager;
-    private TokenQueueService tokenService;
+    private TokenQueueService tokenQueueService;
 
     @Autowired
-    public TokenQueueMobileService(BizStoreManager bizStoreManager, TokenQueueService tokenService) {
+    public TokenQueueMobileService(BizStoreManager bizStoreManager, TokenQueueService tokenQueueService) {
         this.bizStoreManager = bizStoreManager;
-        this.tokenService = tokenService;
+        this.tokenQueueService = tokenQueueService;
     }
 
     private BizStoreEntity findByCodeQR(String codeQR) {
@@ -39,7 +40,7 @@ public class TokenQueueMobileService {
 
     public JsonTokenState findTokenState(String codeQR) {
         BizStoreEntity bizStore = findByCodeQR(codeQR);
-        TokenQueueEntity tokenQueue = tokenService.findByCodeQR(codeQR);
+        TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(codeQR);
 
         LOG.info("bizStore={} tokenQueue={}", bizStore.getBizName(), tokenQueue.getCurrentlyServing());
         return new JsonTokenState(bizStore.getCodeQR())
@@ -53,5 +54,16 @@ public class TokenQueueMobileService {
                 .setServingNumber(tokenQueue.getCurrentlyServing())
                 .setLastNumber(tokenQueue.getLastNumber())
                 .setCloseQueue(tokenQueue.isCloseQueue());
+    }
+
+    public JsonTokenQueue joinQueue(String codeQR) {
+        BizStoreEntity bizStore = findByCodeQR(codeQR);
+        String topic = bizStore.getTopic();
+
+        TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(codeQR);
+
+
+        return new JsonTokenQueue(codeQR)
+                .setToken(25).setServingNumber(12);
     }
 }
