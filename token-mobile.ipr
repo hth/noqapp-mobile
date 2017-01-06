@@ -1494,7 +1494,16 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/token/service/1.0/service-1.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../token/common/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/domain/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/loader/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/security/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/service/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/service/src/test/java" />
+        <root url="file://$PROJECT_DIR$/../token/social/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/view/src/main/java" />
+      </SOURCES>
     </library>
     <library name="Gradle: com.token:social:1.0">
       <CLASSES>

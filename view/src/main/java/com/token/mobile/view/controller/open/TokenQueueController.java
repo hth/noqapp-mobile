@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
-import com.token.domain.json.JsonTokenQueue;
-import com.token.domain.json.JsonTokenState;
+import com.token.domain.json.JsonQueue;
+import com.token.domain.json.JsonToken;
 import com.token.mobile.service.TokenQueueMobileService;
 import com.token.utils.ScrubbedInput;
 
@@ -62,7 +62,7 @@ public class TokenQueueController {
             value = "/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public JsonTokenState getState(
+    public JsonQueue getState(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -77,7 +77,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("did={} dt={} tk={} codeQR={}", did, dt , token, codeQR);
+        LOG.info("On scanned code get state did={} dt={} tk={} codeQR={}", did, dt , token, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
@@ -104,7 +104,7 @@ public class TokenQueueController {
             value = "/queue/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public JsonTokenQueue joinQueue(
+    public JsonToken joinQueue(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -119,7 +119,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("did={} dt={} tk={} codeQR={}", did, dt , token, codeQR);
+        LOG.info("Join queue did={} dt={} tk={} codeQR={}", did, dt , token, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;

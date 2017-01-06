@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.token.domain.BizStoreEntity;
 import com.token.domain.TokenQueueEntity;
-import com.token.domain.json.JsonTokenQueue;
-import com.token.domain.json.JsonTokenState;
+import com.token.domain.json.JsonQueue;
+import com.token.domain.json.JsonToken;
 import com.token.service.BizService;
 import com.token.service.TokenQueueService;
 
@@ -30,12 +30,12 @@ public class TokenQueueMobileService {
         this.bizService = bizService;
     }
 
-    public JsonTokenState findTokenState(String codeQR) {
+    public JsonQueue findTokenState(String codeQR) {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
         TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(codeQR);
 
         LOG.info("bizStore={} tokenQueue={}", bizStore.getBizName(), tokenQueue.getCurrentlyServing());
-        return new JsonTokenState(bizStore.getCodeQR())
+        return new JsonQueue(bizStore.getCodeQR())
                 .setBusinessName(bizStore.getBizName().getBusinessName())
                 .setDisplayName(bizStore.getDisplayName())
                 .setStoreAddress(bizStore.getAddress())
@@ -43,12 +43,13 @@ public class TokenQueueMobileService {
                 .setTokenAvailableFrom(bizStore.getTokenAvailableFrom())
                 .setStartHour(bizStore.getStartHour())
                 .setEndHour(bizStore.getEndHour())
+                .setTopic(bizStore.getTopic())
                 .setServingNumber(tokenQueue.getCurrentlyServing())
                 .setLastNumber(tokenQueue.getLastNumber())
                 .setCloseQueue(tokenQueue.isCloseQueue());
     }
 
-    public JsonTokenQueue joinQueue(String codeQR, String did, String rid, String deviceToken) {
+    public JsonToken joinQueue(String codeQR, String did, String rid, String deviceToken) {
         return tokenQueueService.getNextToken(codeQR, did, rid, deviceToken);
     }
 
