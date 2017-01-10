@@ -47,8 +47,9 @@ public class ManageQueueController {
     private QueueMobileService queueMobileService;
 
     @Autowired
-    public ManageQueueController(AuthenticateMobileService authenticateMobileService) {
+    public ManageQueueController(AuthenticateMobileService authenticateMobileService, QueueMobileService queueMobileService) {
         this.authenticateMobileService = authenticateMobileService;
+        this.queueMobileService = queueMobileService;
     }
 
     /**
