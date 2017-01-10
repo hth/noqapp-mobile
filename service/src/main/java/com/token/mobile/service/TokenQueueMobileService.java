@@ -56,4 +56,8 @@ public class TokenQueueMobileService {
     public BizService getBizService() {
         return bizService;
     }
+
+    public JsonToken updateServing(String codeQR, int serving) {
+        return tokenQueueService.updateServing(codeQR, serving);
+    }
 }
