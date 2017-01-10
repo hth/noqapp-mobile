@@ -17,6 +17,8 @@ import com.token.domain.json.JsonToken;
 import com.token.domain.types.QueueStateEnum;
 import com.token.mobile.service.AuthenticateMobileService;
 import com.token.mobile.service.QueueMobileService;
+import com.token.service.BizService;
+import com.token.service.BusinessUserStoreService;
 import com.token.utils.ParseJsonStringToMap;
 import com.token.utils.ScrubbedInput;
 
@@ -45,10 +47,20 @@ public class ManageQueueController {
 
     private AuthenticateMobileService authenticateMobileService;
     private QueueMobileService queueMobileService;
+    private BizService bizService;
+    private BusinessUserStoreService businessUserStoreService;
 
     @Autowired
-    public ManageQueueController(AuthenticateMobileService authenticateMobileService) {
+    public ManageQueueController(
+            AuthenticateMobileService authenticateMobileService,
+            QueueMobileService queueMobileService,
+            BizService bizService,
+            BusinessUserStoreService businessUserStoreService
+    ) {
         this.authenticateMobileService = authenticateMobileService;
+        this.queueMobileService = queueMobileService;
+        this.bizService = bizService;
+        this.businessUserStoreService = businessUserStoreService;
     }
 
     /**
@@ -97,6 +109,13 @@ public class ManageQueueController {
 
         Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(requestBodyJson);
         String codeQR = map.containsKey("c") ? map.get("c").getText() : null;
+
+        if (!businessUserStoreService.hasAccess(rid, codeQR)) {
+            LOG.info("Un-authorized store access to /api/mq by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+         //TODO add error check condition
         int servedNumber = map.containsKey("s") ? Integer.valueOf(map.get("s").getText()) : null;
         QueueStateEnum queueState = map.containsKey("q") ? QueueStateEnum.valueOf(map.get("q").getText()) : null;
 
