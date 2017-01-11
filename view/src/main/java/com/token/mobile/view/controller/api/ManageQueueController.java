@@ -1,5 +1,7 @@
 package com.token.mobile.view.controller.api;
 
+import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,14 +17,16 @@ import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.token.domain.json.JsonToken;
 import com.token.domain.types.QueueStateEnum;
+import com.token.mobile.common.util.ErrorEncounteredJson;
+import com.token.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.token.mobile.service.AuthenticateMobileService;
 import com.token.mobile.service.QueueMobileService;
-import com.token.service.BizService;
 import com.token.service.BusinessUserStoreService;
 import com.token.utils.ParseJsonStringToMap;
 import com.token.utils.ScrubbedInput;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -47,19 +51,16 @@ public class ManageQueueController {
 
     private AuthenticateMobileService authenticateMobileService;
     private QueueMobileService queueMobileService;
-    private BizService bizService;
     private BusinessUserStoreService businessUserStoreService;
 
     @Autowired
     public ManageQueueController(
             AuthenticateMobileService authenticateMobileService,
             QueueMobileService queueMobileService,
-            BizService bizService,
             BusinessUserStoreService businessUserStoreService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.queueMobileService = queueMobileService;
-        this.bizService = bizService;
         this.businessUserStoreService = businessUserStoreService;
     }
 
@@ -81,7 +82,7 @@ public class ManageQueueController {
             value = "/served",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public JsonToken getState(
+    public String getState(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -110,14 +111,34 @@ public class ManageQueueController {
         Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(requestBodyJson);
         String codeQR = map.containsKey("c") ? map.get("c").getText() : null;
 
-        if (!businessUserStoreService.hasAccess(rid, codeQR)) {
+        if (StringUtils.isBlank(codeQR)) {
+            LOG.warn("Not a valid codeQR={} rid={}", codeQR, rid);
+            Map<String, String> errors = getErrorUserInput("Not a valid queue code.");
+            return ErrorEncounteredJson.toJson(errors);
+        } else if (!businessUserStoreService.hasAccess(rid, codeQR)) {
             LOG.info("Un-authorized store access to /api/mq by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
-         //TODO add error check condition
-        int servedNumber = map.containsKey("s") ? Integer.valueOf(map.get("s").getText()) : null;
-        QueueStateEnum queueState = map.containsKey("q") ? QueueStateEnum.valueOf(map.get("q").getText()) : null;
+
+        String serveNumberString = map.containsKey("s") ? map.get("s").getText() : null;
+        int servedNumber;
+        if (StringUtils.isNumeric(serveNumberString)) {
+            servedNumber = Integer.valueOf(serveNumberString);
+        } else {
+            LOG.warn("Not a valid number={} codeQR={} rid={}", serveNumberString, codeQR, rid);
+            Map<String, String> errors = getErrorUserInput("Not a valid number.");
+            return ErrorEncounteredJson.toJson(errors);
+        }
+
+        QueueStateEnum queueState;
+        try {
+            queueState = map.containsKey("q") ? QueueStateEnum.valueOf(map.get("q").getText()) : null;
+        } catch(IllegalArgumentException e) {
+            LOG.error("Failed finding QueueState reason={}", e.getLocalizedMessage(), e);
+            Map<String, String> errors = getErrorUserInput("Not a valid queue state.");
+            return ErrorEncounteredJson.toJson(errors);
+        }
 
         JsonToken jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueState);
         if (null == jsonToken) {
@@ -125,6 +146,22 @@ public class ManageQueueController {
             return null;
         }
 
-        return jsonToken;
+        return jsonToken.asJson();
+    }
+
+    static Map<String, String> getErrorUserInput(String reason) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put(ErrorEncounteredJson.REASON, reason);
+        errors.put(ErrorEncounteredJson.SYSTEM_ERROR, MobileSystemErrorCodeEnum.USER_INPUT.name());
+        errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, MobileSystemErrorCodeEnum.USER_INPUT.getCode());
+        return errors;
+    }
+
+    static Map<String, String> getErrorSevere(String reason) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put(ErrorEncounteredJson.REASON, reason);
+        errors.put(ErrorEncounteredJson.SYSTEM_ERROR, MobileSystemErrorCodeEnum.SEVERE.name());
+        errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, MobileSystemErrorCodeEnum.SEVERE.getCode());
+        return errors;
     }
 }

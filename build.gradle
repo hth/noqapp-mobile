@@ -335,6 +335,10 @@ subprojects {
 //    }
 }
 
+project(':common') {
+    jar.baseName = 'token.mobile-common'
+}
+
 project(':domain') {
     jar.baseName = 'token.mobile-domain'
 }
@@ -386,6 +390,7 @@ task wrapper(type: Wrapper) {
 }
 
 task copyJars(type: Copy) {
+    from 'common/build/libs'
     from 'domain/build/libs'
     from 'security/build/libs'
     from 'service/build/libs'

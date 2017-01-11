@@ -1,2 +1,2 @@
-include "domain", "security", "service", "view"
+include "common", "domain", "security", "service", "view"
 rootProject.name = 'token-mobile'
