@@ -1,5 +1,7 @@
 package com.token.mobile.view.controller.api;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
@@ -108,45 +110,51 @@ public class ManageQueueController {
             return null;
         }
 
-        Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(requestBodyJson);
-        String codeQR = map.containsKey("c") ? map.get("c").getText() : null;
-
-        if (StringUtils.isBlank(codeQR)) {
-            LOG.warn("Not a valid codeQR={} rid={}", codeQR, rid);
-            Map<String, String> errors = getErrorUserInput("Not a valid queue code.");
-            return ErrorEncounteredJson.toJson(errors);
-        } else if (!businessUserStoreService.hasAccess(rid, codeQR)) {
-            LOG.info("Un-authorized store access to /api/mq by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        String serveNumberString = map.containsKey("s") ? map.get("s").getText() : null;
-        int servedNumber;
-        if (StringUtils.isNumeric(serveNumberString)) {
-            servedNumber = Integer.valueOf(serveNumberString);
-        } else {
-            LOG.warn("Not a valid number={} codeQR={} rid={}", serveNumberString, codeQR, rid);
-            Map<String, String> errors = getErrorUserInput("Not a valid number.");
-            return ErrorEncounteredJson.toJson(errors);
-        }
-
-        QueueStateEnum queueState;
         try {
-            queueState = map.containsKey("q") ? QueueStateEnum.valueOf(map.get("q").getText()) : null;
-        } catch(IllegalArgumentException e) {
-            LOG.error("Failed finding QueueState reason={}", e.getLocalizedMessage(), e);
-            Map<String, String> errors = getErrorUserInput("Not a valid queue state.");
+            Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(requestBodyJson);
+            String codeQR = map.containsKey("c") ? map.get("c").getText() : null;
+
+            if (StringUtils.isBlank(codeQR)) {
+                LOG.warn("Not a valid codeQR={} rid={}", codeQR, rid);
+                Map<String, String> errors = getErrorUserInput("Not a valid queue code.");
+                return ErrorEncounteredJson.toJson(errors);
+            } else if (!businessUserStoreService.hasAccess(rid, codeQR)) {
+                LOG.info("Un-authorized store access to /api/mq by mail={}", mail);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+                return null;
+            }
+
+            String serveNumberString = map.containsKey("s") ? map.get("s").getText() : null;
+            int servedNumber;
+            if (StringUtils.isNumeric(serveNumberString)) {
+                servedNumber = Integer.valueOf(serveNumberString);
+            } else {
+                LOG.warn("Not a valid number={} codeQR={} rid={}", serveNumberString, codeQR, rid);
+                Map<String, String> errors = getErrorUserInput("Not a valid number.");
+                return ErrorEncounteredJson.toJson(errors);
+            }
+
+            QueueStateEnum queueState;
+            try {
+                queueState = map.containsKey("q") ? QueueStateEnum.valueOf(map.get("q").getText()) : null;
+            } catch (IllegalArgumentException e) {
+                LOG.error("Failed finding QueueState reason={}", e.getLocalizedMessage(), e);
+                Map<String, String> errors = getErrorUserInput("Not a valid queue state.");
+                return ErrorEncounteredJson.toJson(errors);
+            }
+
+            JsonToken jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueState);
+            if (null == jsonToken) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+                return null;
+            }
+
+            return jsonToken.asJson();
+        } catch (JsonMappingException e) {
+            LOG.error("Fail parsing json={} rid={} message={}", requestBodyJson, rid, e.getLocalizedMessage(), e);
+            Map<String, String> errors = getErrorSevere("Something went wrong. Engineers are looking into this.");
             return ErrorEncounteredJson.toJson(errors);
         }
-
-        JsonToken jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueState);
-        if (null == jsonToken) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
-            return null;
-        }
-
-        return jsonToken.asJson();
     }
 
     static Map<String, String> getErrorUserInput(String reason) {
