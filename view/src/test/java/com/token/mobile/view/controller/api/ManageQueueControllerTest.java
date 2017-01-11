@@ -37,6 +37,12 @@ import javax.servlet.http.HttpServletResponse;
  * User: hitender
  * Date: 1/11/17 12:32 AM
  */
+@SuppressWarnings ({
+        "PMD.BeanMembersShouldSerialize",
+        "PMD.LocalVariableCouldBeFinal",
+        "PMD.MethodArgumentCouldBeFinal",
+        "PMD.LongVariable"
+})
 public class ManageQueueControllerTest {
 
     @Mock private AuthenticateMobileService authenticateMobileService;
