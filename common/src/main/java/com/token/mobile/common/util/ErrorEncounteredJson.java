@@ -22,6 +22,7 @@ public class ErrorEncounteredJson {
     public static final String SYSTEM_ERROR = "systemError";
     public static final String SYSTEM_ERROR_CODE = "systemErrorCode";
     public static final String REASON = "reason";
+    public static final String ERROR = "error";
 
     @SuppressWarnings ("unused")
     private ErrorEncounteredJson() {
@@ -34,7 +35,7 @@ public class ErrorEncounteredJson {
         }
 
         JsonObject result = new JsonObject();
-        result.add("error", error);
+        result.add(ERROR, error);
 
         return new Gson().toJson(result);
     }
