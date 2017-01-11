@@ -145,8 +145,9 @@ public class ManageQueueController {
 
             JsonToken jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueState);
             if (null == jsonToken) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
-                return null;
+                LOG.error("Could not find queue codeQR={} servedNumber={} queueState={}", codeQR, servedNumber, queueState);
+                Map<String, String> errors = getErrorSevere("Something went wrong. Engineers are looking into this.");
+                return ErrorEncounteredJson.toJson(errors);
             }
 
             return jsonToken.asJson();
