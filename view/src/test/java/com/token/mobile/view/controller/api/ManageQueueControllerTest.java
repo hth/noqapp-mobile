@@ -8,20 +8,25 @@ import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import com.token.domain.json.JsonToken;
+import com.token.domain.types.QueueStateEnum;
 import com.token.mobile.service.AuthenticateMobileService;
 import com.token.mobile.service.QueueMobileService;
 import com.token.service.BusinessUserStoreService;
 import com.token.utils.ScrubbedInput;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -61,7 +66,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void getState_fail_authentication1() throws Exception {
+    public void getState_json_parsing_error() throws Exception {
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
         String responseJson = manageQueueController.getState(
                 new ScrubbedInput(""),
@@ -79,4 +84,29 @@ public class ManageQueueControllerTest {
         assertEquals("Something went wrong. Engineers are looking into this.", jo.get(ERROR).getAsJsonObject().get(REASON).getAsString());
     }
 
+    @Test
+    public void getState() throws Exception {
+        JsonObject json = new JsonObject();
+        json.addProperty("c", "queuecode");
+        json.addProperty("s", "1");
+        json.addProperty("q", QueueStateEnum.S.getName());
+        String jsonRequest = new Gson().toJson(json);
+
+        when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
+        when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
+        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueStateEnum.class))).thenReturn(new JsonToken("queuecode"));
+
+        String responseJson = manageQueueController.getState(
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                jsonRequest,
+                response);
+
+        verify(authenticateMobileService, times(1)).getReceiptUserId(any(String.class), any(String.class));
+
+        JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
+        assertEquals("queuecode", jo.get("c").getAsString());
+    }
 }
