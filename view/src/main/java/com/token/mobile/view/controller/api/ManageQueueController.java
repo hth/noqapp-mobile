@@ -29,6 +29,7 @@ import com.token.utils.ScrubbedInput;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -64,6 +65,39 @@ public class ManageQueueController {
         this.authenticateMobileService = authenticateMobileService;
         this.queueMobileService = queueMobileService;
         this.businessUserStoreService = businessUserStoreService;
+    }
+
+    @Timed
+    @ExceptionMetered
+    @RequestMapping (
+            method = RequestMethod.GET,
+            value = "/queues",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public List<JsonToken> getQueues(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            HttpServletResponse response
+    ) throws IOException {
+        LOG.info("On scanned code get state did={} dt={} mail={} auth={}", did, dt, AUTH_KEY_HIDDEN);
+        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (null == rid) {
+            LOG.info("Un-authorized access to /api/mq by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        return businessUserStoreService.getQueues(rid);
     }
 
     /**
