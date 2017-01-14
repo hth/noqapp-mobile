@@ -89,7 +89,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("On scanned code get state did={} dt={} mail={} auth={}", did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("All queues associated with did={} dt={} mail={} auth={}", did, dt, mail, AUTH_KEY_HIDDEN);
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (null == rid) {
             LOG.info("Un-authorized access to /api/mq by mail={}", mail);
@@ -118,7 +118,7 @@ public class ManageQueueController {
             value = "/served",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String getState(
+    public String served(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -136,7 +136,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("On scanned code get state did={} dt={} mail={} auth={}", did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("Served did={} dt={} mail={} auth={}", did, dt, mail, AUTH_KEY_HIDDEN);
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (null == rid) {
             LOG.info("Un-authorized access to /api/mq by mail={}", mail);
