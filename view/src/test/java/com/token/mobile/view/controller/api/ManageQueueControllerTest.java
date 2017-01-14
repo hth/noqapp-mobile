@@ -73,7 +73,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void getState_json_parsing_error() throws Exception {
+    public void served_json_parsing_error() throws Exception {
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
         String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
@@ -92,7 +92,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void getState() throws Exception {
+    public void served() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "queuecode");
         json.addProperty("s", "1");
@@ -120,7 +120,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void getState_code_queue_fail() throws Exception {
+    public void served_code_queue_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "");
         json.addProperty("s", "1");
@@ -148,7 +148,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void getState_code_queue_authentication_fail() throws Exception {
+    public void served_code_queue_authentication_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "queueCode");
         json.addProperty("s", "1");
@@ -173,7 +173,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void getState_serve_number_fail() throws Exception {
+    public void served_serve_number_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "111");
         json.addProperty("s", "a");
@@ -200,7 +200,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void getState_queue_state_fail() throws Exception {
+    public void served_queue_state_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "111");
         json.addProperty("s", "1");
@@ -227,7 +227,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void getState_fail() throws Exception {
+    public void served_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "queuecode");
         json.addProperty("s", "1");
