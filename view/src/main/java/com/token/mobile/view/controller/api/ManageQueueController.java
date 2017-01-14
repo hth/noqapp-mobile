@@ -121,7 +121,7 @@ public class ManageQueueController {
     @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
-            value = "/served",
+            value = "/a",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String served(
