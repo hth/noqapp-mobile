@@ -103,7 +103,7 @@ subprojects {
                     "Implementation-Vendor": "Receiptofi Inc",
                     "Implementation-Title": rootProject.name,
                     "Implementation-Version": allprojects.version + " $env",
-                    "Copyright" : "2012-2016, Receiptofi Inc"
+                    "Copyright" : "2012-2017, Receiptofi Inc"
             )
         }
     }
