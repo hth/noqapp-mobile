@@ -28,6 +28,7 @@ import com.token.utils.ParseJsonStringToMap;
 import com.token.utils.ScrubbedInput;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,7 +98,12 @@ public class ManageQueueController {
             return null;
         }
 
-        return businessUserStoreService.getQueues(rid);
+        try {
+            return businessUserStoreService.getQueues(rid);
+        } catch (Exception e) {
+            LOG.error("Getting queues reason={}", e.getLocalizedMessage(), e);
+            return new ArrayList<>();
+        }
     }
 
     /**
