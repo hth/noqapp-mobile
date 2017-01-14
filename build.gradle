@@ -363,7 +363,7 @@ project(':service') {
     jar.baseName = 'token.mobile-service'
 
     dependencies {
-        compile project(':domain')
+        compile project(':common'), project(':domain')
     }
 }
 
