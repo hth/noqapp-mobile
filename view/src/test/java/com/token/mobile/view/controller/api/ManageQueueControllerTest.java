@@ -60,7 +60,7 @@ public class ManageQueueControllerTest {
 
     @Test
     public void getState_fail_authentication() throws Exception {
-        String responseJson = manageQueueController.getState(
+        String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -75,7 +75,7 @@ public class ManageQueueControllerTest {
     @Test
     public void getState_json_parsing_error() throws Exception {
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
-        String responseJson = manageQueueController.getState(
+        String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -103,7 +103,7 @@ public class ManageQueueControllerTest {
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
         when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueStateEnum.class))).thenReturn(new JsonToken("queuecode"));
 
-        String responseJson = manageQueueController.getState(
+        String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -131,7 +131,7 @@ public class ManageQueueControllerTest {
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
         when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueStateEnum.class))).thenReturn(new JsonToken("queuecode"));
 
-        String responseJson = manageQueueController.getState(
+        String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -158,7 +158,7 @@ public class ManageQueueControllerTest {
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(false);
 
-        String responseJson = manageQueueController.getState(
+        String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -183,7 +183,7 @@ public class ManageQueueControllerTest {
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
 
-        String responseJson = manageQueueController.getState(
+        String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -210,7 +210,7 @@ public class ManageQueueControllerTest {
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
 
-        String responseJson = manageQueueController.getState(
+        String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -238,7 +238,7 @@ public class ManageQueueControllerTest {
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
         when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueStateEnum.class))).thenReturn(null);
 
-        String responseJson = manageQueueController.getState(
+        String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
