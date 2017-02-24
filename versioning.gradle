@@ -8,9 +8,9 @@ class ProjectVersion {
     String build
 
     ProjectVersion(Integer major, Integer minor, Integer build) {
-        this.major = major;
-        this.minor = minor;
-        this.build = build;
+        this.major = major
+        this.minor = minor
+        this.build = build
     }
 
     @Override
