@@ -23,8 +23,16 @@ ssh.settings {
 }
 
 remotes {
-    test {
-        host = '192.168.1.45'
+    tp1 {
+        host = '192.168.1.61'
+        user = 'db'
+    }
+    tp2 {
+        host = '192.168.1.62'
+        user = 'db'
+    }
+    tp3 {
+        host = '192.168.1.63'
         user = 'db'
     }
 }
