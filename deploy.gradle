@@ -39,7 +39,9 @@ remotes {
 
 task deployServer {
     if (env == 'sandbox') {
-        deploy(remotes.test, "192.168.1.45", "1t", "$env-loader", "ROOT-loader-$env.*.war", "token-mobile-$env.*.war")
+        deploy(remotes.tp1, "192.168.1.61", "1tp", "$env", "ROOT-$env.*.war", "token-mobile-$env.*.war")
+        deploy(remotes.tp2, "192.168.1.62", "2tp", "$env", "ROOT-$env.*.war", "token-mobile-$env.*.war")
+        deploy(remotes.tp3, "192.168.1.63", "3tp", "$env-loader", "ROOT-loader-$env.*.war", "token-mobile-$env.*.war")
     }
     if (env == 'prod') {
 
