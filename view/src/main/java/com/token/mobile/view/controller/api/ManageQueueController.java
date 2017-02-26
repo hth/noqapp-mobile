@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.token.domain.json.JsonToken;
+import com.token.domain.json.JsonTopic;
 import com.token.domain.types.QueueStateEnum;
 import com.token.mobile.common.util.ErrorEncounteredJson;
 import com.token.mobile.common.util.MobileSystemErrorCodeEnum;
@@ -75,7 +76,7 @@ public class ManageQueueController {
             value = "/queues",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public List<JsonToken> getQueues(
+    public List<JsonTopic> getQueues(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
