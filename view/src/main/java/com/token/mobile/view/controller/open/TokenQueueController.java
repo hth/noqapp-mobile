@@ -92,7 +92,6 @@ public class TokenQueueController {
      *
      * @param did
      * @param dt
-     * @param token
      * @param response
      * @return
      * @throws IOException
