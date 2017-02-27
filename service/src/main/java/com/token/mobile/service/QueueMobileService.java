@@ -7,9 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.token.domain.QueueEntity;
+import com.token.domain.json.JsonQueue;
 import com.token.domain.json.JsonToken;
+import com.token.domain.json.JsonTokenAndQueue;
 import com.token.domain.types.QueueStateEnum;
 import com.token.repository.QueueManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: hitender
@@ -37,5 +42,19 @@ public class QueueMobileService {
         }
 
         return null;
+    }
+
+    public List<JsonTokenAndQueue> findAllJoinedQueues(String did) {
+        List<QueueEntity> queues = queueManager.findAllByDid(did);
+        List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
+        for (QueueEntity queue : queues) {
+            JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
+            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, null);
+
+            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken, jsonQueue);
+            jsonTokenAndQueues.add(jsonTokenAndQueue);
+        }
+
+        return jsonTokenAndQueues;
     }
 }

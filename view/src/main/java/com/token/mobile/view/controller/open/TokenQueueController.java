@@ -15,10 +15,13 @@ import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.token.domain.json.JsonQueue;
 import com.token.domain.json.JsonToken;
+import com.token.domain.json.JsonTokenAndQueue;
+import com.token.mobile.service.QueueMobileService;
 import com.token.mobile.service.TokenQueueMobileService;
 import com.token.utils.ScrubbedInput;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,10 +41,12 @@ public class TokenQueueController {
     private static final Logger LOG = LoggerFactory.getLogger(TokenQueueController.class);
 
     private TokenQueueMobileService tokenQueueMobileService;
+    private QueueMobileService queueMobileService;
 
     @Autowired
-    public TokenQueueController(TokenQueueMobileService tokenQueueMobileService) {
+    public TokenQueueController(TokenQueueMobileService tokenQueueMobileService, QueueMobileService queueMobileService) {
         this.tokenQueueMobileService = tokenQueueMobileService;
+        this.queueMobileService = queueMobileService;
     }
 
     /**
@@ -49,7 +54,6 @@ public class TokenQueueController {
      *
      * @param did
      * @param dt
-     * @param token
      * @param codeQR
      * @param response
      * @return
@@ -69,15 +73,12 @@ public class TokenQueueController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput dt,
 
-            @RequestHeader ("X-R-TK")
-            ScrubbedInput token,
-
             @PathVariable ("codeQR")
             ScrubbedInput codeQR,
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("On scanned code get state did={} dt={} tk={} codeQR={}", did, dt , token, codeQR);
+        LOG.info("On scanned code get state did={} dt={} tk={} codeQR={}", did, dt, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
@@ -87,11 +88,39 @@ public class TokenQueueController {
     }
 
     /**
-     * Join the queue.
+     * Get all the queues user has token from. In short all the queues user has joined.
      *
      * @param did
      * @param dt
      * @param token
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @Timed
+    @ExceptionMetered
+    @RequestMapping (
+            method = RequestMethod.GET,
+            value = "/queues",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public List<JsonTokenAndQueue> getAllJoinedQueues(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            HttpServletResponse response
+    ) {
+        return queueMobileService.findAllJoinedQueues(did.getText());
+    }
+
+    /**
+     * Join the queue.
+     *
+     * @param did
+     * @param dt
      * @param codeQR
      * @param response
      * @return
@@ -111,21 +140,17 @@ public class TokenQueueController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput dt,
 
-            @RequestHeader ("X-R-TK")
-            ScrubbedInput token,
-
             @PathVariable ("codeQR")
             ScrubbedInput codeQR,
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Join queue did={} dt={} tk={} codeQR={}", did, dt , token, codeQR);
+        LOG.info("Join queue did={} dt={} tk={} codeQR={}", did, dt, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
 
-        return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null, token.getText());
+        return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null);
     }
-
 }

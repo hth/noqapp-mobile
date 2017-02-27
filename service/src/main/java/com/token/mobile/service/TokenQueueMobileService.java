@@ -49,8 +49,8 @@ public class TokenQueueMobileService {
                 .setCloseQueue(tokenQueue.isCloseQueue());
     }
 
-    public JsonToken joinQueue(String codeQR, String did, String rid, String deviceToken) {
-        return tokenQueueService.getNextToken(codeQR, did, rid, deviceToken);
+    public JsonToken joinQueue(String codeQR, String did, String rid) {
+        return tokenQueueService.getNextToken(codeQR, did, rid);
     }
 
     public BizService getBizService() {
