@@ -48,10 +48,10 @@ public class QueueMobileService {
         List<QueueEntity> queues = queueManager.findAllByDid(did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
-            JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
             JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, null);
+            JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
-            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken, jsonQueue);
+            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken.getToken(), jsonToken.isActive(), jsonQueue);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
 
