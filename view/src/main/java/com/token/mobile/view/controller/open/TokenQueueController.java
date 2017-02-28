@@ -152,4 +152,42 @@ public class TokenQueueController {
 
         return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null);
     }
+
+    /**
+     * Abort the queue.
+     *
+     * @param did
+     * @param dt
+     * @param codeQR
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @Timed
+    @ExceptionMetered
+    @RequestMapping (
+            method = RequestMethod.POST,
+            value = "/abort/{codeQR}",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public Boolean abortQueue(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            @PathVariable ("codeQR")
+            ScrubbedInput codeQR,
+
+            HttpServletResponse response
+    ) throws IOException {
+        LOG.info("Cancel queue did={} dt={} tk={} codeQR={}", did, dt, codeQR);
+        if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+            return null;
+        }
+
+        return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), null);
+    }
 }
