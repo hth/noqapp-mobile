@@ -78,7 +78,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("On scanned code get state did={} dt={} tk={} codeQR={}", did, dt, codeQR);
+        LOG.info("On scanned code get state did={} dt={} codeQR={}", did, dt, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
@@ -144,7 +144,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Join queue did={} dt={} tk={} codeQR={}", did, dt, codeQR);
+        LOG.info("Join queue did={} dt={} codeQR={}", did, dt, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
@@ -182,7 +182,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Abort queue did={} dt={} tk={} codeQR={}", did, dt, codeQR);
+        LOG.info("Abort queue did={} dt={} codeQR={}", did, dt, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
