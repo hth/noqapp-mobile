@@ -182,7 +182,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Cancel queue did={} dt={} tk={} codeQR={}", did, dt, codeQR);
+        LOG.info("Abort queue did={} dt={} tk={} codeQR={}", did, dt, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
