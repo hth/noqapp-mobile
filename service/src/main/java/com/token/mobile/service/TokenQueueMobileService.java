@@ -53,6 +53,10 @@ public class TokenQueueMobileService {
         return tokenQueueService.getNextToken(codeQR, did, rid);
     }
 
+    public boolean abortQueue(String codeQR, String did, String rid) {
+        return tokenQueueService.abortQueue(codeQR, did, rid);
+    }
+
     public BizService getBizService() {
         return bizService;
     }
