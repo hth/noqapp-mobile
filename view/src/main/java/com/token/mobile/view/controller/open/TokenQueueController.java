@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
+import com.token.domain.json.JsonBooleanResponse;
 import com.token.domain.json.JsonQueue;
 import com.token.domain.json.JsonToken;
 import com.token.domain.json.JsonTokenAndQueue;
@@ -170,7 +171,7 @@ public class TokenQueueController {
             value = "/abort/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public Boolean abortQueue(
+    public JsonBooleanResponse abortQueue(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
