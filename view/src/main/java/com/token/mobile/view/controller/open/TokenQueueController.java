@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
+import com.token.domain.json.JsonBooleanResponse;
 import com.token.domain.json.JsonQueue;
 import com.token.domain.json.JsonToken;
 import com.token.domain.json.JsonTokenAndQueue;
@@ -78,7 +79,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("On scanned code get state did={} dt={} tk={} codeQR={}", did, dt, codeQR);
+        LOG.info("On scanned code get state did={} dt={} codeQR={}", did, dt, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
@@ -144,7 +145,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Join queue did={} dt={} tk={} codeQR={}", did, dt, codeQR);
+        LOG.info("Join queue did={} dt={} codeQR={}", did, dt, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
@@ -170,7 +171,7 @@ public class TokenQueueController {
             value = "/abort/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public Boolean abortQueue(
+    public JsonBooleanResponse abortQueue(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -182,7 +183,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Abort queue did={} dt={} tk={} codeQR={}", did, dt, codeQR);
+        LOG.info("Abort queue did={} dt={} codeQR={}", did, dt, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;

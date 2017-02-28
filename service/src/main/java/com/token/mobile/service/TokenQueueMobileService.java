@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.token.domain.BizStoreEntity;
 import com.token.domain.TokenQueueEntity;
+import com.token.domain.json.JsonBooleanResponse;
 import com.token.domain.json.JsonQueue;
 import com.token.domain.json.JsonToken;
 import com.token.service.BizService;
@@ -53,7 +54,7 @@ public class TokenQueueMobileService {
         return tokenQueueService.getNextToken(codeQR, did, rid);
     }
 
-    public boolean abortQueue(String codeQR, String did, String rid) {
+    public JsonBooleanResponse abortQueue(String codeQR, String did, String rid) {
         return tokenQueueService.abortQueue(codeQR, did, rid);
     }
 
