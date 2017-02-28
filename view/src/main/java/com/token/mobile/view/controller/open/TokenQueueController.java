@@ -155,7 +155,7 @@ public class TokenQueueController {
     }
 
     /**
-     * Abort the queue.
+     * Abort the queue. App should un-subscribe user from topic.
      *
      * @param did
      * @param dt
