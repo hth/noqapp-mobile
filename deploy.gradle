@@ -54,7 +54,7 @@ def deploy(def server, def ip, def serverName, def path, def rootFile, def mobil
     logger.lifecycle("--------------------------------------------")
 
     sshExecute(server, 'sudo service tomcat stop')
-    sshExecute(server, 'sleep 20')
+    sshExecute(server, 'sleep 5')
     sshExecute(server, 'cd /usr/local/tomcat/webapps/; rm -rf *')
     if (env == 'sandbox') {
         sshExecute(server, 'cd /usr/local/tomcat/logs; rm -rf *')
