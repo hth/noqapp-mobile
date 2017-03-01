@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codahale.metrics.annotation.ExceptionMetered;
+import com.codahale.metrics.annotation.Timed;
 import com.token.domain.UserProfileEntity;
 import com.token.mobile.common.util.ErrorEncounteredJson;
 import com.token.mobile.service.AccountMobileService;
@@ -73,8 +75,10 @@ public class AccountController {
         this.userInfoValidator = userInfoValidator;
     }
 
+    @Timed
+    @ExceptionMetered
     @RequestMapping (
-            value = "/registration.json",
+            value = "/open/registration.json",
             method = RequestMethod.POST,
             headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -174,8 +178,10 @@ public class AccountController {
         return credential;
     }
 
+    @Timed
+    @ExceptionMetered
     @RequestMapping (
-            value = "/recover.json",
+            value = "/open/recover.json",
             method = RequestMethod.POST,
             headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE,
