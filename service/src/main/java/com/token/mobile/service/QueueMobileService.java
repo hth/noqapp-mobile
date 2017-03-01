@@ -51,7 +51,7 @@ public class QueueMobileService {
             JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
-            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken.getToken(), jsonToken.isActive(), jsonQueue);
+            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken.getToken(), jsonToken.getActive(), jsonQueue);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
 
