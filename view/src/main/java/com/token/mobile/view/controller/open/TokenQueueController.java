@@ -189,11 +189,6 @@ public class TokenQueueController {
             return null;
         }
 
-        try {
-            return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), null);
-        } catch (Exception e) {
-            LOG.error("Abort {}", e.getLocalizedMessage(), e);
-            return new JsonResponse(true);
-        }
+        return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), null);
     }
 }
