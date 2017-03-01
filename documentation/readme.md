@@ -120,6 +120,28 @@ Response
       "s": 8,
       "t": 12
     }
+    
+## Abort Queue
+    
+
+    open/token/abort/58b0d19122977c0d4d79f9c1.json
+    
+    curl -X "POST" "https://tp.receiptofi.com/token-mobile/open/token/abort/58b0d19122977c0d4d79f9c1.json" \
+         -H "X-R-DID: 670563dc-d0b9-47c9-acf9-72776a7ff3d711" 
+         -H "X-R-DT: A" 
+         -H "Content-Type: application/json; charset=utf-8" 
+         
+Response
+
+    Success Response is r:1
+    Failure Response is r:0
+         
+    HTTP/1.1 200 
+    Server: nginx
+    Date: Tue, 28 Feb 2017 15:06:30 GMT
+    Content-Type: application/json;charset=UTF-8    
+    
+    {"r":1}         
 
 ## All Data definition
 
