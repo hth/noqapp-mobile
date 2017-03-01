@@ -455,6 +455,9 @@
           <element id="directory" name="mongo">
             <element id="file-copy" path="$PROJECT_DIR$/view/web/WEB-INF/mongo/mongo-config.xml" />
           </element>
+          <element id="directory" name="freemarker">
+            <element id="dir-copy" path="$PROJECT_DIR$/../token/view/web/WEB-INF/freemarker" />
+          </element>
         </element>
       </root>
     </artifact>
