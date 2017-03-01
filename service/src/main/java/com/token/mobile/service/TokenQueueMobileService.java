@@ -33,7 +33,7 @@ public class TokenQueueMobileService {
 
     public JsonQueue findTokenState(String codeQR) {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
-        TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(codeQR);
+        TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
 
         LOG.info("bizStore={} tokenQueue={}", bizStore.getBizName(), tokenQueue.getCurrentlyServing());
         return new JsonQueue(bizStore.getCodeQR())
@@ -64,5 +64,9 @@ public class TokenQueueMobileService {
 
     public JsonToken updateServing(String codeQR, int serving) {
         return tokenQueueService.updateServing(codeQR, serving);
+    }
+
+    public TokenQueueEntity findByCodeQR(String codeQR) {
+        return tokenQueueService.findByCodeQR(codeQR);
     }
 }
