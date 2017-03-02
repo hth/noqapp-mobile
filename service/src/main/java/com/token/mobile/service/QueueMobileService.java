@@ -40,7 +40,7 @@ public class QueueMobileService {
         QueueEntity queue = queueManager.updateAndGetNextInQueue(codeQR, servedNumber, queueState);
         if (null != queue) {
             LOG.info("Found queue codeQR={} servedNumber={} queueState={}", codeQR, servedNumber, queueState);
-            return tokenQueueMobileService.updateServing(codeQR, queue.getTokenNumber());
+            return tokenQueueMobileService.updateServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber());
         }
 
         LOG.info("Reached condition of not having any more to serve");

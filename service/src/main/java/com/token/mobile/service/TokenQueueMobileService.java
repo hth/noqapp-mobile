@@ -11,6 +11,7 @@ import com.token.domain.TokenQueueEntity;
 import com.token.domain.json.JsonQueue;
 import com.token.domain.json.JsonResponse;
 import com.token.domain.json.JsonToken;
+import com.token.domain.types.QueueStatusEnum;
 import com.token.service.BizService;
 import com.token.service.TokenQueueService;
 
@@ -62,8 +63,8 @@ public class TokenQueueMobileService {
         return bizService;
     }
 
-    public JsonToken updateServing(String codeQR, int serving) {
-        return tokenQueueService.updateServing(codeQR, serving);
+    public JsonToken updateServing(String codeQR, QueueStatusEnum queueStatus, int serving) {
+        return tokenQueueService.updateServing(codeQR, queueStatus, serving);
     }
 
     public TokenQueueEntity findByCodeQR(String codeQR) {
