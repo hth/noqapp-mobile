@@ -51,7 +51,7 @@ public class TokenQueueMobileService {
                 .setTopic(bizStore.getTopic())
                 .setServingNumber(tokenQueue.getCurrentlyServing())
                 .setLastNumber(tokenQueue.getLastNumber())
-                .setQueueStatus(tokenQueue.isCloseQueue());
+                .setQueueStatus(tokenQueue.getQueueStatus());
     }
 
     public JsonToken joinQueue(String codeQR, String did, String rid) {
