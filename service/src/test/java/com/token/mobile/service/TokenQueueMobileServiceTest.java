@@ -24,7 +24,7 @@ public class TokenQueueMobileServiceTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        this.tokenQueueMobileService = new TokenQueueMobileService(tokenQueueService, bizService);
+        this.tokenQueueMobileService = new TokenQueueMobileService(tokenQueueService, bizService, tokenQueueManager);
     }
 
     @Test

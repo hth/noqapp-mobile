@@ -12,6 +12,7 @@ import com.token.domain.json.JsonQueue;
 import com.token.domain.json.JsonResponse;
 import com.token.domain.json.JsonToken;
 import com.token.domain.types.QueueStatusEnum;
+import com.token.repository.TokenQueueManager;
 import com.token.service.BizService;
 import com.token.service.TokenQueueService;
 
@@ -25,11 +26,13 @@ public class TokenQueueMobileService {
 
     private TokenQueueService tokenQueueService;
     private BizService bizService;
+    private TokenQueueManager tokenQueueManager;
 
     @Autowired
-    public TokenQueueMobileService(TokenQueueService tokenQueueService, BizService bizService) {
+    public TokenQueueMobileService(TokenQueueService tokenQueueService, BizService bizService, TokenQueueManager tokenQueueManager) {
         this.tokenQueueService = tokenQueueService;
         this.bizService = bizService;
+        this.tokenQueueManager = tokenQueueManager;
     }
 
     public JsonQueue findTokenState(String codeQR) {
@@ -69,5 +72,9 @@ public class TokenQueueMobileService {
 
     public TokenQueueEntity findByCodeQR(String codeQR) {
         return tokenQueueService.findByCodeQR(codeQR);
+    }
+
+    public void changeQueueStatus(String codeQR, QueueStatusEnum queueStatus) {
+        tokenQueueManager.changeQueueStatus(codeQR, queueStatus);
     }
 }
