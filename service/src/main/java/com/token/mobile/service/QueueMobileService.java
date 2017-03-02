@@ -46,6 +46,8 @@ public class QueueMobileService {
         LOG.info("Reached condition of not having any more to serve");
         TokenQueueEntity tokenQueue = tokenQueueMobileService.findByCodeQR(codeQR);
         return new JsonToken(codeQR)
+                .setToken(servedNumber)
+                .setServingNumber(tokenQueue.getCurrentlyServing())
                 .setDisplayName(tokenQueue.getDisplayName())
                 .setQueueStatus(QueueStatusEnum.D);
     }
