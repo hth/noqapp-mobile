@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
+import com.token.repository.TokenQueueManager;
 import com.token.service.BizService;
 import com.token.service.TokenQueueService;
 import org.junit.Before;
@@ -18,6 +19,7 @@ import org.mockito.MockitoAnnotations;
 public class TokenQueueMobileServiceTest {
     @Mock private BizService bizService;
     @Mock private TokenQueueService tokenQueueService;
+    @Mock private TokenQueueManager tokenQueueManager;
 
     private TokenQueueMobileService tokenQueueMobileService;
 
