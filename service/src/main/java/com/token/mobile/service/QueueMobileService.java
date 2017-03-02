@@ -12,6 +12,7 @@ import com.token.domain.json.JsonQueue;
 import com.token.domain.json.JsonToken;
 import com.token.domain.json.JsonTokenAndQueue;
 import com.token.domain.types.QueueStateEnum;
+import com.token.domain.types.QueueStatusEnum;
 import com.token.repository.QueueManager;
 
 import java.util.ArrayList;
@@ -40,18 +41,13 @@ public class QueueMobileService {
         if (null != queue) {
             LOG.info("Found queue codeQR={} servedNumber={} queueState={}", codeQR, servedNumber, queueState);
             return tokenQueueMobileService.updateServing(codeQR, queue.getTokenNumber());
-        } else if(servedNumber > 0) {
-            LOG.info("Reached condition of not having any more to serve");
-            TokenQueueEntity tokenQueue = tokenQueueMobileService.findByCodeQR(codeQR);
-            return new JsonToken(codeQR)
-                    .setToken(servedNumber)
-                    .setServingNumber(tokenQueue.getCurrentlyServing())
-                    .setDisplayName(tokenQueue.getDisplayName())
-                    .setActive(true);
         }
 
-        LOG.error("Should not reach this condition. Condition of not able to serve.");
-        return null;
+        LOG.info("Reached condition of not having any more to serve");
+        TokenQueueEntity tokenQueue = tokenQueueMobileService.findByCodeQR(codeQR);
+        return new JsonToken(codeQR)
+                .setDisplayName(tokenQueue.getDisplayName())
+                .setQueueStatus(QueueStatusEnum.D);
     }
 
     public List<JsonTokenAndQueue> findAllJoinedQueues(String did) {
@@ -61,7 +57,7 @@ public class QueueMobileService {
             JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
-            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken.getToken(), jsonToken.getActive(), jsonQueue);
+            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken.getToken(), jsonToken.getQueueStatus(), jsonQueue);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
 
