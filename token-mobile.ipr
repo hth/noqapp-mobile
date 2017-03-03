@@ -245,6 +245,7 @@
             <element id="file-copy" path="$PROJECT_DIR$/view/resources/conf/messages.properties" />
             <element id="file-copy" path="$PROJECT_DIR$/view/environment/dev/logback.xml" />
             <element id="file-copy" path="$PROJECT_DIR$/view/resources/conf/build-info.properties" />
+            <element id="module-output" name="common_main" />
           </element>
           <element id="directory" name="lib">
             <element id="library" level="project" name="Gradle: aopalliance:aopalliance:1.0" />
