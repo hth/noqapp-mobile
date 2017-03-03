@@ -19,6 +19,7 @@ import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.token.domain.json.JsonToken;
 import com.token.domain.json.JsonTopic;
+import com.token.domain.types.QueueStatusEnum;
 import com.token.domain.types.QueueUserStateEnum;
 import com.token.mobile.common.util.ErrorEncounteredJson;
 import com.token.mobile.common.util.MobileSystemErrorCodeEnum;
@@ -37,6 +38,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Managed by merchant
+ *
  * User: hitender
  * Date: 1/9/17 10:15 AM
  */
@@ -108,7 +111,9 @@ public class ManageQueueController {
     }
 
     /**
-     * Get state of queue at the store.
+     * When client is served by merchant.
+     * And
+     * When client starts to serve for first time or re-start after serving the last in the queue.
      *
      * @param did
      * @param dt
@@ -179,14 +184,39 @@ public class ManageQueueController {
             try {
                 queueUserState = map.containsKey("q") ? QueueUserStateEnum.valueOf(map.get("q").getText()) : null;
             } catch (IllegalArgumentException e) {
-                LOG.error("Failed finding QueueState reason={}", e.getLocalizedMessage(), e);
-                Map<String, String> errors = getErrorUserInput("Not a valid queue state.");
+                LOG.error("Failed finding QueueUserState reason={}", e.getLocalizedMessage(), e);
+                Map<String, String> errors = getErrorUserInput("Not a valid queue user state.");
+                return ErrorEncounteredJson.toJson(errors);
+            }
+            
+            QueueStatusEnum queueStatus;
+            try {
+                queueStatus = map.containsKey("s") ? QueueStatusEnum.valueOf(map.get("s").getText()) : null;
+            } catch (IllegalArgumentException e) {
+                LOG.error("Failed finding QueueStatus reason={}", e.getLocalizedMessage(), e);
+                Map<String, String> errors = getErrorUserInput("Not a valid queue status.");
                 return ErrorEncounteredJson.toJson(errors);
             }
 
-            JsonToken jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState);
+
+            JsonToken jsonToken;
+            switch (queueStatus) {
+                case C:
+                case D:
+                case N:
+                    jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState);
+                    break;
+                case R:
+                case S:
+                    jsonToken = queueMobileService.getNextInQueue(codeQR);
+                    break;
+                default:
+                    LOG.error("Reached unsupported condition queueState={}", map.get("s").getText());
+                    throw new UnsupportedOperationException("Reached unsupported condition for QueueState " + map.get("s").getText());
+            }
+
             if (null == jsonToken) {
-                LOG.error("Could not find queue codeQR={} servedNumber={} queueState={}", codeQR, servedNumber, queueUserState);
+                LOG.error("Could not find queue codeQR={} servedNumber={} queueUserState={}", codeQR, servedNumber, queueUserState);
                 Map<String, String> errors = getErrorSevere("Something went wrong. Engineers are looking into this.");
                 return ErrorEncounteredJson.toJson(errors);
             }
