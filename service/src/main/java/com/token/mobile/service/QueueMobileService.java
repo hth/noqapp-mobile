@@ -53,6 +53,19 @@ public class QueueMobileService {
                 .setQueueStatus(QueueStatusEnum.D);
     }
 
+    public JsonToken getNextInQueue(String codeQR) {
+        LOG.info("Getting queue codeQR={}", codeQR);
+        QueueEntity queue = queueManager.getNext(codeQR);
+        if (null != queue) {
+            LOG.info("Found queue codeQR={}", codeQR);
+            JsonToken jsonToken = tokenQueueMobileService.updateServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber());
+            tokenQueueMobileService.changeQueueStatus(codeQR, QueueStatusEnum.N);
+            return jsonToken;
+        }
+
+        return null;
+    }
+
     public List<JsonTokenAndQueue> findAllJoinedQueues(String did) {
         List<QueueEntity> queues = queueManager.findAllByDid(did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
