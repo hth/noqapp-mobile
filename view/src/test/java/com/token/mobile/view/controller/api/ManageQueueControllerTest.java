@@ -20,6 +20,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import com.token.domain.json.JsonToken;
+import com.token.domain.types.QueueStatusEnum;
 import com.token.domain.types.QueueUserStateEnum;
 import com.token.mobile.service.AuthenticateMobileService;
 import com.token.mobile.service.QueueMobileService;
@@ -95,8 +96,9 @@ public class ManageQueueControllerTest {
     public void served() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "queuecode");
-        json.addProperty("s", "1");
+        json.addProperty("t", "1");
         json.addProperty("q", QueueUserStateEnum.S.getName());
+        json.addProperty("s", QueueStatusEnum.N.getName());
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
@@ -123,8 +125,9 @@ public class ManageQueueControllerTest {
     public void served_code_queue_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "");
-        json.addProperty("s", "1");
+        json.addProperty("t", "1");
         json.addProperty("q", QueueUserStateEnum.S.getName());
+        json.addProperty("s", QueueStatusEnum.N.getName());
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
@@ -151,8 +154,9 @@ public class ManageQueueControllerTest {
     public void served_code_queue_authentication_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "queueCode");
-        json.addProperty("s", "1");
+        json.addProperty("t", "1");
         json.addProperty("q", QueueUserStateEnum.S.getName());
+        json.addProperty("s", QueueStatusEnum.N.getName());
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
@@ -176,8 +180,9 @@ public class ManageQueueControllerTest {
     public void served_serve_number_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "111");
-        json.addProperty("s", "a");
+        json.addProperty("t", "a");
         json.addProperty("q", QueueUserStateEnum.S.getName());
+        json.addProperty("s", QueueStatusEnum.N.getName());
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
@@ -203,8 +208,9 @@ public class ManageQueueControllerTest {
     public void served_queue_state_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "111");
-        json.addProperty("s", "1");
+        json.addProperty("t", "1");
         json.addProperty("q", "ZZ");
+        json.addProperty("s", QueueStatusEnum.N.getName());
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
@@ -223,15 +229,16 @@ public class ManageQueueControllerTest {
         JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
         assertEquals(USER_INPUT.getCode(), jo.get(ERROR).getAsJsonObject().get(SYSTEM_ERROR_CODE).getAsString());
         assertEquals(USER_INPUT.name(), jo.get(ERROR).getAsJsonObject().get(SYSTEM_ERROR).getAsString());
-        assertEquals("Not a valid queue state.", jo.get(ERROR).getAsJsonObject().get(REASON).getAsString());
+        assertEquals("Not a valid queue user state.", jo.get(ERROR).getAsJsonObject().get(REASON).getAsString());
     }
 
     @Test
     public void served_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "queuecode");
-        json.addProperty("s", "1");
+        json.addProperty("t", "1");
         json.addProperty("q", QueueUserStateEnum.S.getName());
+        json.addProperty("s", QueueStatusEnum.N.getName());
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
