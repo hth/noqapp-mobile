@@ -11,8 +11,8 @@ import com.token.domain.TokenQueueEntity;
 import com.token.domain.json.JsonQueue;
 import com.token.domain.json.JsonToken;
 import com.token.domain.json.JsonTokenAndQueue;
-import com.token.domain.types.QueueUserStateEnum;
 import com.token.domain.types.QueueStatusEnum;
+import com.token.domain.types.QueueUserStateEnum;
 import com.token.repository.QueueManager;
 
 import java.util.ArrayList;
@@ -35,6 +35,14 @@ public class QueueMobileService {
         this.tokenQueueMobileService = tokenQueueMobileService;
     }
 
+    /**
+     * When merchant has served a specific token.
+     *
+     * @param codeQR
+     * @param servedNumber
+     * @param queueUserState
+     * @return
+     */
     public JsonToken updateAndGetNextInQueue(String codeQR, int servedNumber, QueueUserStateEnum queueUserState) {
         LOG.info("Getting queue codeQR={} servedNumber={} queueUserState={}", codeQR, servedNumber, queueUserState);
         QueueEntity queue = queueManager.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState);
@@ -53,6 +61,12 @@ public class QueueMobileService {
                 .setQueueStatus(QueueStatusEnum.D);
     }
 
+    /**
+     * Merchant when starting or re-starting to serve token when QueueState has been either Start or Re-Start.
+     *
+     * @param codeQR
+     * @return
+     */
     public JsonToken getNextInQueue(String codeQR) {
         LOG.info("Getting queue codeQR={}", codeQR);
         QueueEntity queue = queueManager.getNext(codeQR);
