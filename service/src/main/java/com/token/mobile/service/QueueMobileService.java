@@ -11,7 +11,7 @@ import com.token.domain.TokenQueueEntity;
 import com.token.domain.json.JsonQueue;
 import com.token.domain.json.JsonToken;
 import com.token.domain.json.JsonTokenAndQueue;
-import com.token.domain.types.QueueStateEnum;
+import com.token.domain.types.QueueUserStateEnum;
 import com.token.domain.types.QueueStatusEnum;
 import com.token.repository.QueueManager;
 
@@ -35,11 +35,11 @@ public class QueueMobileService {
         this.tokenQueueMobileService = tokenQueueMobileService;
     }
 
-    public JsonToken updateAndGetNextInQueue(String codeQR, int servedNumber, QueueStateEnum queueState) {
-        LOG.info("Getting queue codeQR={} servedNumber={} queueState={}", codeQR, servedNumber, queueState);
-        QueueEntity queue = queueManager.updateAndGetNextInQueue(codeQR, servedNumber, queueState);
+    public JsonToken updateAndGetNextInQueue(String codeQR, int servedNumber, QueueUserStateEnum queueUserState) {
+        LOG.info("Getting queue codeQR={} servedNumber={} queueUserState={}", codeQR, servedNumber, queueUserState);
+        QueueEntity queue = queueManager.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState);
         if (null != queue) {
-            LOG.info("Found queue codeQR={} servedNumber={} queueState={}", codeQR, servedNumber, queueState);
+            LOG.info("Found queue codeQR={} servedNumber={} queueUserState={}", codeQR, servedNumber, queueUserState);
             return tokenQueueMobileService.updateServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber());
         }
 

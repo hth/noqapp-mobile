@@ -20,7 +20,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import com.token.domain.json.JsonToken;
-import com.token.domain.types.QueueStateEnum;
+import com.token.domain.types.QueueUserStateEnum;
 import com.token.mobile.service.AuthenticateMobileService;
 import com.token.mobile.service.QueueMobileService;
 import com.token.service.BusinessUserStoreService;
@@ -96,12 +96,12 @@ public class ManageQueueControllerTest {
         JsonObject json = new JsonObject();
         json.addProperty("c", "queuecode");
         json.addProperty("s", "1");
-        json.addProperty("q", QueueStateEnum.S.getName());
+        json.addProperty("q", QueueUserStateEnum.S.getName());
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
-        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueStateEnum.class))).thenReturn(new JsonToken("queuecode"));
+        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueUserStateEnum.class))).thenReturn(new JsonToken("queuecode"));
 
         String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
@@ -113,7 +113,7 @@ public class ManageQueueControllerTest {
 
         verify(authenticateMobileService, times(1)).getReceiptUserId(any(String.class), any(String.class));
         verify(businessUserStoreService, times(1)).hasAccess(any(String.class), any(String.class));
-        verify(queueMobileService, times(1)).updateAndGetNextInQueue(any(String.class), any(Integer.class), Matchers.any(QueueStateEnum.class));
+        verify(queueMobileService, times(1)).updateAndGetNextInQueue(any(String.class), any(Integer.class), Matchers.any(QueueUserStateEnum.class));
 
         JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
         assertEquals("queuecode", jo.get("c").getAsString());
@@ -124,12 +124,12 @@ public class ManageQueueControllerTest {
         JsonObject json = new JsonObject();
         json.addProperty("c", "");
         json.addProperty("s", "1");
-        json.addProperty("q", QueueStateEnum.S.getName());
+        json.addProperty("q", QueueUserStateEnum.S.getName());
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
-        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueStateEnum.class))).thenReturn(new JsonToken("queuecode"));
+        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueUserStateEnum.class))).thenReturn(new JsonToken("queuecode"));
 
         String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
@@ -152,7 +152,7 @@ public class ManageQueueControllerTest {
         JsonObject json = new JsonObject();
         json.addProperty("c", "queueCode");
         json.addProperty("s", "1");
-        json.addProperty("q", QueueStateEnum.S.getName());
+        json.addProperty("q", QueueUserStateEnum.S.getName());
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
@@ -177,7 +177,7 @@ public class ManageQueueControllerTest {
         JsonObject json = new JsonObject();
         json.addProperty("c", "111");
         json.addProperty("s", "a");
-        json.addProperty("q", QueueStateEnum.S.getName());
+        json.addProperty("q", QueueUserStateEnum.S.getName());
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
@@ -231,12 +231,12 @@ public class ManageQueueControllerTest {
         JsonObject json = new JsonObject();
         json.addProperty("c", "queuecode");
         json.addProperty("s", "1");
-        json.addProperty("q", QueueStateEnum.S.getName());
+        json.addProperty("q", QueueUserStateEnum.S.getName());
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
-        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueStateEnum.class))).thenReturn(null);
+        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueUserStateEnum.class))).thenReturn(null);
 
         String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
@@ -248,7 +248,7 @@ public class ManageQueueControllerTest {
 
         verify(authenticateMobileService, times(1)).getReceiptUserId(any(String.class), any(String.class));
         verify(businessUserStoreService, times(1)).hasAccess(any(String.class), any(String.class));
-        verify(queueMobileService, times(1)).updateAndGetNextInQueue(any(String.class), any(Integer.class), Matchers.any(QueueStateEnum.class));
+        verify(queueMobileService, times(1)).updateAndGetNextInQueue(any(String.class), any(Integer.class), Matchers.any(QueueUserStateEnum.class));
 
         JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
         assertEquals(SEVERE.getCode(), jo.get(ERROR).getAsJsonObject().get(SYSTEM_ERROR_CODE).getAsString());

@@ -19,7 +19,7 @@ import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.token.domain.json.JsonToken;
 import com.token.domain.json.JsonTopic;
-import com.token.domain.types.QueueStateEnum;
+import com.token.domain.types.QueueUserStateEnum;
 import com.token.mobile.common.util.ErrorEncounteredJson;
 import com.token.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.token.mobile.service.AuthenticateMobileService;
@@ -175,18 +175,18 @@ public class ManageQueueController {
                 return ErrorEncounteredJson.toJson(errors);
             }
 
-            QueueStateEnum queueState;
+            QueueUserStateEnum queueUserState;
             try {
-                queueState = map.containsKey("q") ? QueueStateEnum.valueOf(map.get("q").getText()) : null;
+                queueUserState = map.containsKey("q") ? QueueUserStateEnum.valueOf(map.get("q").getText()) : null;
             } catch (IllegalArgumentException e) {
                 LOG.error("Failed finding QueueState reason={}", e.getLocalizedMessage(), e);
                 Map<String, String> errors = getErrorUserInput("Not a valid queue state.");
                 return ErrorEncounteredJson.toJson(errors);
             }
 
-            JsonToken jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueState);
+            JsonToken jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState);
             if (null == jsonToken) {
-                LOG.error("Could not find queue codeQR={} servedNumber={} queueState={}", codeQR, servedNumber, queueState);
+                LOG.error("Could not find queue codeQR={} servedNumber={} queueState={}", codeQR, servedNumber, queueUserState);
                 Map<String, String> errors = getErrorSevere("Something went wrong. Engineers are looking into this.");
                 return ErrorEncounteredJson.toJson(errors);
             }
