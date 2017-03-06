@@ -1,12 +1,16 @@
 package com.token.mobile.view.controller.open;
 
+import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
+
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +23,7 @@ import com.token.mobile.common.util.ErrorEncounteredJson;
 import com.token.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.token.mobile.domain.DeviceRegistered;
 import com.token.mobile.service.DeviceService;
+import com.token.utils.ParseJsonStringToMap;
 import com.token.utils.ScrubbedInput;
 
 import java.io.IOException;
@@ -73,12 +78,12 @@ public class DeviceController {
             @RequestHeader (value = "X-R-DT")
             ScrubbedInput deviceType,
 
-            @RequestHeader (value = "X-R-TK")
-            ScrubbedInput deviceToken,
+            @RequestBody
+            String tokenJson,
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Register did={} token={}", did.getText(), deviceToken);
+        LOG.info("Register did={} token={}", did.getText(), tokenJson);
 
         DeviceTypeEnum deviceTypeEnum;
         try {
@@ -88,13 +93,26 @@ public class DeviceController {
             return getErrorReason("Incorrect device type.", USER_INPUT);
         }
 
+        Map<String, ScrubbedInput> map;
+        String deviceToken;
         try {
-            if (deviceService.lastAccessed(did.getText()) != null) {
-                LOG.info("Device already registered did={}", did);
-                return DeviceRegistered.newInstance(true).asJson();
-            } else {
-                return DeviceRegistered.newInstance(deviceService.registerDevice(null, did.getText(), deviceTypeEnum, deviceToken.getText())).asJson();
+            map = ParseJsonStringToMap.jsonStringToMap(tokenJson);
+            if (map.isEmpty()) {
+                /** Validation failure as there is not data in the map. */
+                return getErrorReason("Failed data validation.", USER_INPUT);
             }
+
+            deviceToken = map.get("tk").getText();
+            if (StringUtils.isBlank(deviceToken)) {
+                return getErrorReason("Failed data validation.", USER_INPUT);
+            }
+        } catch (IOException e) {
+            LOG.error("Could not parse json={} reason={}", tokenJson, e.getLocalizedMessage(), e);
+            return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
+        }
+
+        try {
+            return DeviceRegistered.newInstance(deviceService.registerDevice(null, did.getText(), deviceTypeEnum, deviceToken)).asJson();
         } catch (Exception e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", USER_INPUT);

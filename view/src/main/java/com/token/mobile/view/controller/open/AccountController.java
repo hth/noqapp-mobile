@@ -135,7 +135,7 @@ public class AccountController {
             birthday = DateUtil.parseAgeForBirthday(birthday);
 
             UserProfileEntity userProfile = accountService.doesUserExists(mail);
-            if (userProfile != null) {
+            if (null != userProfile) {
                 LOG.info("Failed user registration as already exists mail={}", mail);
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "User already exists. Did you forget password?");
