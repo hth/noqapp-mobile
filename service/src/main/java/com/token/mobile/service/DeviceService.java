@@ -1,5 +1,7 @@
 package com.token.mobile.service;
 
+import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,10 +33,6 @@ public class DeviceService {
         this.registeredDeviceManager = registeredDeviceManager;
     }
 
-    public RegisteredDeviceEntity lastAccessed(String did) {
-        return registeredDeviceManager.lastAccessed(null, did);
-    }
-
     /**
      * Checks if the device is registered, if not registered then it registers the device.
      *
@@ -44,15 +42,18 @@ public class DeviceService {
      * @return
      */
     public boolean registerDevice(String rid, String did, DeviceTypeEnum deviceType, String token) {
-        boolean registrationSuccess = false;
-        RegisteredDeviceEntity registeredDevice = registeredDeviceManager.registerDevice(rid, did, deviceType, token);
-        if (null == registeredDevice) {
-            LOG.error("Failure device registration rid={} did={}", rid, did);
-        } else {
-            LOG.info("Success device registration rid={} did={}", rid, registeredDevice.getDeviceId());
-            registrationSuccess = true;
+        RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(did, token);
+        if (registeredDevice == null) {
+            registeredDevice = RegisteredDeviceEntity.newInstance(rid, did, deviceType, token);
+            registeredDeviceManager.save(registeredDevice);
+            LOG.info("registered device for did={}", did);
+        } else if (StringUtils.isNotBlank(token)) {
+            registeredDevice.setReceiptUserId(rid);
+            registeredDevice.setDeviceType(deviceType);
+            registeredDevice.setToken(token);
+            registeredDeviceManager.save(registeredDevice);
+            LOG.info("updated registered device for did={} token={}", did, token);
         }
-        return registrationSuccess;
+        return true;
     }
-
 }
