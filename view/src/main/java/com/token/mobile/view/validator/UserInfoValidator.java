@@ -77,7 +77,7 @@ public class UserInfoValidator {
         return errors;
     }
 
-    public void passwordValidation(String password, Map<String, String> errors) {
+    void passwordValidation(String password, Map<String, String> errors) {
         if (StringUtils.isBlank(password) || password.length() < passwordLength) {
             LOG.info("failed validation password={}", ManageQueueController.AUTH_KEY_HIDDEN);
             errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
@@ -87,7 +87,7 @@ public class UserInfoValidator {
         }
     }
 
-    public void mailValidation(String mail, Map<String, String> errors) {
+    void mailValidation(String mail, Map<String, String> errors) {
         if (StringUtils.isBlank(mail) || mail.length() < mailLength) {
             LOG.info("failed validation mail={}", mail);
             errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
