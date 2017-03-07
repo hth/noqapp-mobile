@@ -66,15 +66,15 @@ public class TokenQueueMobileService {
         return bizService;
     }
 
-    public JsonToken updateServing(String codeQR, QueueStatusEnum queueStatus, int serving) {
+    JsonToken updateServing(String codeQR, QueueStatusEnum queueStatus, int serving) {
         return tokenQueueService.updateServing(codeQR, queueStatus, serving);
     }
 
-    public TokenQueueEntity findByCodeQR(String codeQR) {
+    TokenQueueEntity findByCodeQR(String codeQR) {
         return tokenQueueService.findByCodeQR(codeQR);
     }
 
-    public void changeQueueStatus(String codeQR, QueueStatusEnum queueStatus) {
+    void changeQueueStatus(String codeQR, QueueStatusEnum queueStatus) {
         tokenQueueManager.changeQueueStatus(codeQR, queueStatus);
     }
 }
