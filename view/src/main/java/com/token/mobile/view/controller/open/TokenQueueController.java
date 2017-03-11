@@ -116,6 +116,35 @@ public class TokenQueueController {
         return queueMobileService.findAllJoinedQueues(did.getText());
     }
 
+
+    /**
+     * Get all the historical queues user has token from. In short all the queues user has joined in past.
+     *
+     * @param did
+     * @param dt
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @Timed
+    @ExceptionMetered
+    @RequestMapping (
+            method = RequestMethod.GET,
+            value = "/historical",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public List<JsonTokenAndQueue> getAllHistoricalJoinedQueues(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            HttpServletResponse response
+    ) {
+        return queueMobileService.findHistoricalQueue(did.getText());
+    }
+
     /**
      * Join the queue.
      *
