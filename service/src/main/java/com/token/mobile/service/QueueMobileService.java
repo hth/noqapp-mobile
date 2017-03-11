@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.token.domain.BizStoreEntity;
 import com.token.domain.QueueEntity;
 import com.token.domain.TokenQueueEntity;
 import com.token.domain.json.JsonQueue;
@@ -14,6 +15,8 @@ import com.token.domain.json.JsonTokenAndQueue;
 import com.token.domain.types.QueueStatusEnum;
 import com.token.domain.types.QueueUserStateEnum;
 import com.token.repository.QueueManager;
+import com.token.repository.QueueManagerJDBC;
+import com.token.service.BizService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +31,20 @@ public class QueueMobileService {
 
     private QueueManager queueManager;
     private TokenQueueMobileService tokenQueueMobileService;
+    private BizService bizService;
+    private QueueManagerJDBC queueManagerJDBC;
 
     @Autowired
-    public QueueMobileService(QueueManager queueManager, TokenQueueMobileService tokenQueueMobileService) {
+    public QueueMobileService(
+            QueueManager queueManager,
+            TokenQueueMobileService tokenQueueMobileService,
+            BizService bizService,
+            QueueManagerJDBC queueManagerJDBC
+    ) {
         this.queueManager = queueManager;
         this.tokenQueueMobileService = tokenQueueMobileService;
+        this.bizService = bizService;
+        this.queueManagerJDBC = queueManagerJDBC;
     }
 
     /**
@@ -88,6 +100,19 @@ public class QueueMobileService {
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken.getToken(), jsonToken.getQueueStatus(), jsonQueue);
+            jsonTokenAndQueues.add(jsonTokenAndQueue);
+        }
+
+        return jsonTokenAndQueues;
+    }
+
+    public List<JsonTokenAndQueue> findHistoricalQueue(String did) {
+        List<QueueEntity> queues = queueManagerJDBC.findByDid(did);
+
+        List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
+        for (QueueEntity queue : queues) {
+            BizStoreEntity bizStore = bizService.findByCodeQR(queue.getCodeQR());
+            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(queue, bizStore);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
 
