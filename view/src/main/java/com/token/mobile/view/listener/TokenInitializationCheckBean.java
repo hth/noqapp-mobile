@@ -37,8 +37,8 @@ public class TokenInitializationCheckBean {
     public void checkRDBConnection() throws SQLException {
         if (this.dataSource.getConnection().isClosed()) {
             LOG.error("RBS could not be connected");
-            throw new RuntimeException("RDBS could not be connected");
+            throw new RuntimeException("RDB could not be connected");
         }
-        LOG.info("RDBS connected");
+        LOG.info("RDB connected");
     }
 }
