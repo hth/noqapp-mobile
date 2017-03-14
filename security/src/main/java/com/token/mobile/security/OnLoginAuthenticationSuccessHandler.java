@@ -1,8 +1,5 @@
 package com.token.mobile.security;
 
-import com.token.domain.site.TokenUser;
-import com.token.domain.types.RoleEnum;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +13,9 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.util.StringUtils;
+
+import com.token.domain.site.TokenUser;
+import com.token.domain.types.RoleEnum;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -109,7 +109,7 @@ public class OnLoginAuthenticationSuccessHandler extends SimpleUrlAuthentication
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         GrantedAuthority grantedAuthority = authorities.iterator().next();
         switch (RoleEnum.valueOf(grantedAuthority.getAuthority())) {
-            case ROLE_USER:
+            case ROLE_CLIENT:
                 targetURL = "/access/landing.htm";
                 break;
             case ROLE_SUPERVISOR:
