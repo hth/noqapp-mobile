@@ -108,7 +108,7 @@
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.1.7/7873092d39ef741575ca91378a6a21c388363ac8/logback-core-1.1.7.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.1.7/9865cf6994f9ff13fce0bf93f2054ef6c65bb462/logback-classic-1.1.7.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.logstash.logback/logstash-logback-encoder/4.8/c9cbf30997277c641fef99f92486522ff7047b83/logstash-logback-encoder-4.8.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.63.0/a20c895599af5cec865388e1005b1a725f2d7a1d/javamelody-core-1.63.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.65.0/d976e799628972cb4f3cc4c3cbe63bbfed1a17e2/javamelody-core-1.65.0.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar" />
             <element id="file-copy" path="$PROJECT_DIR$/common/build/libs/token.mobile-common-1.0.jar" />
             <element id="file-copy" path="$PROJECT_DIR$/domain/build/libs/token.mobile-domain-1.0.jar" />
@@ -417,7 +417,6 @@
             <element id="library" level="project" name="Gradle: org.tallison:jmatio:1.2" />
             <element id="library" level="project" name="Gradle: org.slf4j:jcl-over-slf4j:1.7.22" />
             <element id="library" level="project" name="Gradle: com.google.guava:guava:21.0" />
-            <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.63.0" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.5" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:1.13.0.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:1.10.0.RELEASE" />
@@ -447,6 +446,7 @@
             <element id="library" level="project" name="Gradle: commons-dbcp:commons-dbcp:1.4" />
             <element id="library" level="project" name="Gradle: commons-pool:commons-pool:1.5.4" />
             <element id="library" level="project" name="Gradle: mysql:mysql-connector-java:5.1.31" />
+            <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.65.0" />
           </element>
           <element id="file-copy" path="$PROJECT_DIR$/view/web/WEB-INF/web.xml" />
           <element id="file-copy" path="$PROJECT_DIR$/view/web/WEB-INF/root-context.xml" />
@@ -574,7 +574,7 @@
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.1.7/7873092d39ef741575ca91378a6a21c388363ac8/logback-core-1.1.7.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.1.7/9865cf6994f9ff13fce0bf93f2054ef6c65bb462/logback-classic-1.1.7.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.logstash.logback/logstash-logback-encoder/4.8/c9cbf30997277c641fef99f92486522ff7047b83/logstash-logback-encoder-4.8.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.63.0/a20c895599af5cec865388e1005b1a725f2d7a1d/javamelody-core-1.63.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.65.0/d976e799628972cb4f3cc4c3cbe63bbfed1a17e2/javamelody-core-1.65.0.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar" />
             <element id="file-copy" path="$PROJECT_DIR$/domain/build/libs/token.mobile-domain-1.0.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.8.9/db28774f477f07220eac18d5ec9c4e01f48589d7/aspectjweaver-1.8.9.jar" />
@@ -1521,16 +1521,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/token/domain/1.0/domain-1.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../token/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../token/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.token:service:1.0">
       <CLASSES>
@@ -2036,15 +2027,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/mysql/mysql-connector-java/5.1.31/30ecb102cf41efdcc75da96d7fcd678973f5f89a/mysql-connector-java-5.1.31-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: net.bull.javamelody:javamelody-core:1.63.0">
+    <library name="Gradle: net.bull.javamelody:javamelody-core:1.65.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.63.0/a20c895599af5cec865388e1005b1a725f2d7a1d/javamelody-core-1.63.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.65.0/d976e799628972cb4f3cc4c3cbe63bbfed1a17e2/javamelody-core-1.65.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.63.0/f1f94cdc2a64e7a7e3fcdf1768318c8d55726498/javamelody-core-1.63.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.65.0/27e681c71733282e12d127d0d6f0fa89123cf5c/javamelody-core-1.65.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.63.0/67b9b2358d9591978fdad2f1f9e2d3adb82ef43c/javamelody-core-1.63.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.65.0/9675c654fa6ab689422b73e1745f7a114f3b05b5/javamelody-core-1.65.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: net.java.dev.jna:jna-platform:4.0.0">
