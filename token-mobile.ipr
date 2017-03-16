@@ -85,7 +85,7 @@
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.freemarker/freemarker/2.3.23/cd143cd8c02a9f838e3cb75a6dfe133750437f6d/freemarker-2.3.23.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.0/c4ba5371a29ac9b2ad6129b1d39ea38750043eff/gson-2.8.0.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.maps/google-maps-services/0.1.17/12916c231064fd63e2670f5b9b143aa5e1ff2f2/google-maps-services-0.1.17.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.0.0/ce021971974ee6a26572e43eaba7edf184c3c63d/libphonenumber-8.0.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.3.3/f457d4456f20f20bed793163f917d898f21c7e34/libphonenumber-8.3.3.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.owasp-java-html-sanitizer/owasp-java-html-sanitizer/r239/ea8dd89a9e8fcf90c1b666ac0585e7769224da5e/owasp-java-html-sanitizer-r239.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml/classmate/1.3.1/2ad2fd09dcf5607ca96f8ef432096a96986c40a/classmate-1.3.1.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.8.5/9d82ff47bc2c2d3b5b6a6618fe636782bbcd5b07/jackson-annotations-2.8.5.jar" />
@@ -551,7 +551,7 @@
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.freemarker/freemarker/2.3.23/cd143cd8c02a9f838e3cb75a6dfe133750437f6d/freemarker-2.3.23.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.0/c4ba5371a29ac9b2ad6129b1d39ea38750043eff/gson-2.8.0.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.maps/google-maps-services/0.1.17/12916c231064fd63e2670f5b9b143aa5e1ff2f2/google-maps-services-0.1.17.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.0.0/ce021971974ee6a26572e43eaba7edf184c3c63d/libphonenumber-8.0.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.3.3/f457d4456f20f20bed793163f917d898f21c7e34/libphonenumber-8.3.3.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.owasp-java-html-sanitizer/owasp-java-html-sanitizer/r239/ea8dd89a9e8fcf90c1b666ac0585e7769224da5e/owasp-java-html-sanitizer-r239.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml/classmate/1.3.1/2ad2fd09dcf5607ca96f8ef432096a96986c40a/classmate-1.3.1.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.8.5/9d82ff47bc2c2d3b5b6a6618fe636782bbcd5b07/jackson-annotations-2.8.5.jar" />
@@ -764,9 +764,10 @@
     <file url="PROJECT" charset="UTF-8" />
   </component>
   <component name="EntryPointsManager">
-    <list size="2">
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="org.springframework.stereotype.Component" />
       <item index="1" class="java.lang.String" itemvalue="org.springframework.web.bind.annotation.RequestMapping" />
+      <item index="2" class="java.lang.String" itemvalue="org.springframework.web.bind.annotation.RestController" />
     </list>
   </component>
   <component name="GradleLocalSettings">
@@ -1377,15 +1378,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.juniversalchardet/juniversalchardet/1.0.3/77979eaa98f90806f984155f44f63cc1fb60ac25/juniversalchardet-1.0.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.0.0">
+    <library name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.3.3">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.0.0/ce021971974ee6a26572e43eaba7edf184c3c63d/libphonenumber-8.0.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.3.3/f457d4456f20f20bed793163f917d898f21c7e34/libphonenumber-8.3.3.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.0.0/4c2fd4d7ef3220370640d9522c3326338781ddd2/libphonenumber-8.0.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.3.3/d1c199e63a14e81ea8e7ecf0389f71d1d2943d88/libphonenumber-8.3.3-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.0.0/32a32701ce147f79e19674c059c6159f8cd37bee/libphonenumber-8.0.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.3.3/2a6a1aa974c52d84601dbd30bf632fb11ab3cea3/libphonenumber-8.3.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.googlecode.mp4parser:isoparser:1.1.18">
@@ -1521,14 +1522,33 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/token/domain/1.0/domain-1.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../token/common/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/domain/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/loader/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/security/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/service/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/service/src/test/java" />
+        <root url="file://$PROJECT_DIR$/../token/social/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/view/src/main/java" />
+      </SOURCES>
     </library>
     <library name="Gradle: com.token:service:1.0">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/com/token/service/1.0/service-1.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.ideaLibSources/service-1.0-sources.jar!/" />
+        <root url="file://$PROJECT_DIR$/../token/common/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/domain/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/loader/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/security/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/service/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/service/src/test/java" />
+        <root url="file://$PROJECT_DIR$/../token/social/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../token/view/src/main/java" />
+      </SOURCES>
     </library>
     <library name="Gradle: com.token:social:1.0">
       <CLASSES>
