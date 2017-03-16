@@ -27,7 +27,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.token.domain.UserProfileEntity;
 import com.token.mobile.common.util.ErrorEncounteredJson;
 import com.token.mobile.service.AccountMobileService;
-import com.token.mobile.view.validator.UserInfoValidator;
+import com.token.mobile.view.validator.MerchantInfoValidator;
 import com.token.service.AccountService;
 import com.token.utils.Constants;
 import com.token.utils.DateUtil;
@@ -57,34 +57,35 @@ import javax.servlet.http.HttpServletResponse;
         "PMD.LongVariable"
 })
 @RestController
-public class AccountController {
-    private static final Logger LOG = LoggerFactory.getLogger(AccountController.class);
+@RequestMapping (value = "/open/merchant")
+public class AccountMerchantController {
+    private static final Logger LOG = LoggerFactory.getLogger(AccountMerchantController.class);
 
     private AccountService accountService;
     private AccountMobileService accountMobileService;
-    private UserInfoValidator userInfoValidator;
+    private MerchantInfoValidator merchantInfoValidator;
 
     @Autowired
-    public AccountController(
+    public AccountMerchantController(
             AccountService accountService,
             AccountMobileService accountMobileService,
-            UserInfoValidator userInfoValidator
+            MerchantInfoValidator merchantInfoValidator
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
-        this.userInfoValidator = userInfoValidator;
+        this.merchantInfoValidator = merchantInfoValidator;
     }
 
     @Timed
     @ExceptionMetered
     @RequestMapping (
-            value = "/open/registration.json",
+            value = "/registration.json",
             method = RequestMethod.POST,
             headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String registerUser(
+    public String registerMerchant(
             @RequestBody
             String registrationJson,
 
@@ -101,7 +102,7 @@ public class AccountController {
 
         if (map.isEmpty()) {
             /** Validation failure as there is no data in the map. */
-            return ErrorEncounteredJson.toJson(userInfoValidator.validate(null, null, null, null));
+            return ErrorEncounteredJson.toJson(merchantInfoValidator.validate(null, null, null, null));
         } else {
             Set<String> unknownKeys = invalidElementsInMapDuringRegistration(map);
             if (!unknownKeys.isEmpty()) {
@@ -124,12 +125,12 @@ public class AccountController {
             String password = map.get(REGISTRATION.PW.name()).getText();
             String birthday = map.get(REGISTRATION.BD.name()).getText();
 
-            if (StringUtils.isBlank(mail) || userInfoValidator.getMailLength() > mail.length() ||
-                    StringUtils.isBlank(firstName) || userInfoValidator.getNameLength() > firstName.length() ||
-                    StringUtils.isBlank(password) || userInfoValidator.getPasswordLength() > password.length() ||
+            if (StringUtils.isBlank(mail) || merchantInfoValidator.getMailLength() > mail.length() ||
+                    StringUtils.isBlank(firstName) || merchantInfoValidator.getNameLength() > firstName.length() ||
+                    StringUtils.isBlank(password) || merchantInfoValidator.getPasswordLength() > password.length() ||
                     StringUtils.isNotBlank(birthday) && !Constants.AGE_RANGE.matcher(birthday).matches()) {
 
-                return ErrorEncounteredJson.toJson(userInfoValidator.validate(mail, firstName, password, birthday));
+                return ErrorEncounteredJson.toJson(merchantInfoValidator.validate(mail, firstName, password, birthday));
             }
 
             birthday = DateUtil.parseAgeForBirthday(birthday);
@@ -181,7 +182,7 @@ public class AccountController {
     @Timed
     @ExceptionMetered
     @RequestMapping (
-            value = "/open/recover.json",
+            value = "/recover.json",
             method = RequestMethod.POST,
             headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -204,7 +205,7 @@ public class AccountController {
 
         if (map.isEmpty()) {
             /** Validation failure as there is not data in the map. */
-            return ErrorEncounteredJson.toJson(userInfoValidator.validateFailureWhenEmpty());
+            return ErrorEncounteredJson.toJson(merchantInfoValidator.validateFailureWhenEmpty());
         } else {
             Set<String> unknownKeys = invalidElementsInMapDuringRecovery(map);
             if (!unknownKeys.isEmpty()) {
@@ -213,11 +214,11 @@ public class AccountController {
             }
 
             String mail = StringUtils.lowerCase(map.get(REGISTRATION.EM.name()).getText());
-            if (StringUtils.isBlank(mail) || userInfoValidator.getMailLength() > mail.length()) {
+            if (StringUtils.isBlank(mail) || merchantInfoValidator.getMailLength() > mail.length()) {
                 LOG.info("Failed data validation={}", mail);
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
-                errors.put(REGISTRATION.EM.name(), StringUtils.isBlank(mail) ? UserInfoValidator.EMPTY : mail);
+                errors.put(REGISTRATION.EM.name(), StringUtils.isBlank(mail) ? MerchantInfoValidator.EMPTY : mail);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
                 return ErrorEncounteredJson.toJson(errors);
@@ -248,7 +249,7 @@ public class AccountController {
             }
 
             try {
-                if (accountMobileService.recoverAccount(mail)) {
+                if (accountMobileService.recoverMerchantAccount(mail)) {
                     LOG.info("Sent recovery mail={}", mail);
                     response.setStatus(HttpServletResponse.SC_OK);
                 } else {

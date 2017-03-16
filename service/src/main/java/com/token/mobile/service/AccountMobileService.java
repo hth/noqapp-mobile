@@ -47,7 +47,7 @@ public class AccountMobileService {
     private static final Logger LOG = LoggerFactory.getLogger(AccountMobileService.class);
 
     private String accountValidationEndPoint;
-    private String accountRecoverEndPoint;
+    private String accountMerchantRecoverEndPoint;
     private String registrationAcceptingEndPoint;
     private String inviteUserEndPoint;
 
@@ -61,7 +61,7 @@ public class AccountMobileService {
             String accountSignupEndPoint,
 
             @Value ("${accountRecover:/webapi/mobile/mail/accountRecover.htm}")
-            String accountRecoverEndPoint,
+            String accountMerchantRecoverEndPoint,
 
             @Value ("${registrationAccepting:/webapi/mobile/registration/accepting.htm}")
             String registrationAcceptingEndPoint,
@@ -74,7 +74,7 @@ public class AccountMobileService {
             AccountService accountService
     ) {
         this.accountValidationEndPoint = accountSignupEndPoint;
-        this.accountRecoverEndPoint = accountRecoverEndPoint;
+        this.accountMerchantRecoverEndPoint = accountMerchantRecoverEndPoint;
         this.registrationAcceptingEndPoint = registrationAcceptingEndPoint;
         this.inviteUserEndPoint = inviteUserEndPoint;
 
@@ -96,7 +96,7 @@ public class AccountMobileService {
     public String signup(String mail, String firstName, String lastName, String password, String birthday) {
         UserAccountEntity userAccount;
         try {
-            userAccount = accountService.createNewAccount(mail, firstName, lastName, password, birthday);
+            userAccount = accountService.createNewMerchantAccount(mail, firstName, lastName, password, birthday);
             Assert.notNull(userAccount);
             LOG.info("Registered new user Id={}", userAccount.getReceiptUserId());
         } catch (RuntimeException exce) {
@@ -163,10 +163,10 @@ public class AccountMobileService {
      * @param userId
      * @return
      */
-    public boolean recoverAccount(String userId) {
+    public boolean recoverMerchantAccount(String userId) {
         LOG.debug("userId={} webApiAccessToken={}", userId, "*******");
         HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpPost httpPost = webConnectorService.getHttpPost(accountRecoverEndPoint, httpClient);
+        HttpPost httpPost = webConnectorService.getHttpPost(accountMerchantRecoverEndPoint, httpClient);
         if (null == httpPost) {
             LOG.warn("failed connecting, reason={}", webConnectorService.getNoResponseFromWebServer());
             return false;
