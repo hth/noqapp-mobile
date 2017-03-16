@@ -1,13 +1,12 @@
 package com.token.mobile.view.controller.open;
 
 import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.REGISTRATION_TURNED_OFF;
 import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
 import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.USER_SOCIAL;
-import static com.token.mobile.service.AccountMobileService.*;
+import static com.token.mobile.service.AccountMobileService.REGISTRATION;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -147,23 +146,9 @@ public class AccountMerchantController {
             }
 
             try {
-                String auth = accountMobileService.signup(mail, firstName, lastName, password, birthday);
+                String auth = accountMobileService.createNewMerchantAccount(mail, firstName, lastName, password, birthday);
                 response.addHeader("X-R-MAIL", mail);
-                if (accountMobileService.acceptingSignup()) {
-                    /** X-R-AUTH is sent when server is accepting registration. */
-                    response.addHeader("X-R-AUTH", auth);
-                } else {
-                    /** when server is NOT accepting registration. */
-                    Map<String, String> errors = new HashMap<>();
-                    errors.put(ErrorEncounteredJson.REASON, "Account created successfully. Site is not accepting new " +
-                            "users. When site starts accepting new users, you will be notified through email and your " +
-                            "account would be turned active.");
-                    errors.put(REGISTRATION_TURNED_ON.RTO.name(), Boolean.FALSE.toString());
-                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, REGISTRATION_TURNED_OFF.name());
-                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, REGISTRATION_TURNED_OFF.getCode());
-                    return ErrorEncounteredJson.toJson(errors);
-
-                }
+                response.addHeader("X-R-AUTH", auth);
             } catch (Exception e) {
                 LOG.error("Failed signup for user={} reason={}", mail, e.getLocalizedMessage(), e);
 

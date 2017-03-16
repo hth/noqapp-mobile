@@ -1,18 +1,13 @@
 package com.token.mobile.service;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +43,6 @@ public class AccountMobileService {
 
     private String accountValidationEndPoint;
     private String accountMerchantRecoverEndPoint;
-    private String registrationAcceptingEndPoint;
     private String inviteUserEndPoint;
 
     private WebConnectorService webConnectorService;
@@ -57,14 +51,13 @@ public class AccountMobileService {
 
     @Autowired
     public AccountMobileService(
-            @Value ("${accountSignupEndPoint:/webapi/mobile/mail/accountSignup.htm}")
+            //TODO fix this to register merchant account
+            @Value ("${accountSignupEndPoint:/webapi/mobile/mail/merchant/accountSignup.htm}")
             String accountSignupEndPoint,
 
-            @Value ("${accountRecover:/webapi/mobile/mail/accountRecover.htm}")
+            //TODO fix this to recover merchant account
+            @Value ("${accountRecover:/webapi/mobile/mail/merchant/accountRecover.htm}")
             String accountMerchantRecoverEndPoint,
-
-            @Value ("${registrationAccepting:/webapi/mobile/registration/accepting.htm}")
-            String registrationAcceptingEndPoint,
 
             @Value ("${inviteUser:/webapi/mobile/mail/invite.htm}")
             String inviteUserEndPoint,
@@ -75,7 +68,6 @@ public class AccountMobileService {
     ) {
         this.accountValidationEndPoint = accountSignupEndPoint;
         this.accountMerchantRecoverEndPoint = accountMerchantRecoverEndPoint;
-        this.registrationAcceptingEndPoint = registrationAcceptingEndPoint;
         this.inviteUserEndPoint = inviteUserEndPoint;
 
         this.webConnectorService = webConnectorService;
@@ -93,7 +85,7 @@ public class AccountMobileService {
      * @param birthday
      * @return
      */
-    public String signup(String mail, String firstName, String lastName, String password, String birthday) {
+    public String createNewMerchantAccount(String mail, String firstName, String lastName, String password, String birthday) {
         UserAccountEntity userAccount;
         try {
             userAccount = accountService.createNewMerchantAccount(mail, firstName, lastName, password, birthday);
@@ -176,53 +168,6 @@ public class AccountMobileService {
         return invokeHttpPost(httpClient, httpPost);
     }
 
-    /**
-     * Query server to check if sign-ups are being accepted.
-     *
-     * @return
-     */
-    public boolean acceptingSignup() {
-        LOG.debug("userId={} webApiAccessToken={}", "*******");
-        HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet httpGet = webConnectorService.getHttpGet(registrationAcceptingEndPoint, httpClient);
-
-        if (null == httpGet) {
-            LOG.warn("failed connecting, reason={}", webConnectorService.getNoResponseFromWebServer());
-            return false;
-        }
-
-        HttpResponse response = null;
-        try {
-            response = httpClient.execute(httpGet);
-        } catch (IOException e) {
-            LOG.error("error occurred while executing request path={} reason={}",
-                    httpGet.getURI(), e.getLocalizedMessage(), e);
-        }
-
-        if (null == response) {
-            LOG.warn("failed response, reason={}", webConnectorService.getNoResponseFromWebServer());
-            return false;
-        }
-
-        int status = response.getStatusLine().getStatusCode();
-        LOG.debug("status={}", status);
-        if (WebConnectorService.HTTP_STATUS_200 <= status && WebConnectorService.HTTP_STATUS_300 > status) {
-            try {
-                String data = EntityUtils.toString(response.getEntity());
-                LOG.debug("data={}", data);
-                JsonElement element = new JsonParser().parse(data);
-                JsonObject object = element.getAsJsonObject();
-                return object.get(REGISTRATION_TURNED_ON.RTO.name()).getAsBoolean();
-            } catch (IOException e) {
-                LOG.error("failed parsing data={} reason={}", response.getEntity(), e.getLocalizedMessage(), e);
-                return false;
-            }
-        }
-
-        LOG.error("server responded with response code={}", status);
-        return false;
-    }
-
     private boolean invokeHttpPost(HttpClient httpClient, HttpPost httpPost) {
         HttpResponse response = null;
         try {
@@ -272,9 +217,5 @@ public class AccountMobileService {
         BD, //Birthday
         PW, //Password
         CS  //CountryShortName
-    }
-
-    public enum REGISTRATION_TURNED_ON {
-        RTO
     }
 }
