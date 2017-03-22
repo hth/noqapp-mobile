@@ -84,7 +84,7 @@ public class AccountMerchantController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String registerMerchant(
+    public String register(
             @RequestBody
             String registrationJson,
 
