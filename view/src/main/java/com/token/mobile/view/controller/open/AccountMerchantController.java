@@ -26,7 +26,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.token.domain.UserProfileEntity;
 import com.token.mobile.common.util.ErrorEncounteredJson;
 import com.token.mobile.service.AccountMobileService;
-import com.token.mobile.view.validator.MerchantInfoValidator;
+import com.token.mobile.view.validator.AccountMerchantValidator;
 import com.token.service.AccountService;
 import com.token.utils.Constants;
 import com.token.utils.DateUtil;
@@ -62,17 +62,17 @@ public class AccountMerchantController {
 
     private AccountService accountService;
     private AccountMobileService accountMobileService;
-    private MerchantInfoValidator merchantInfoValidator;
+    private AccountMerchantValidator accountMerchantValidator;
 
     @Autowired
     public AccountMerchantController(
             AccountService accountService,
             AccountMobileService accountMobileService,
-            MerchantInfoValidator merchantInfoValidator
+            AccountMerchantValidator accountMerchantValidator
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
-        this.merchantInfoValidator = merchantInfoValidator;
+        this.accountMerchantValidator = accountMerchantValidator;
     }
 
     @Timed
@@ -101,7 +101,7 @@ public class AccountMerchantController {
 
         if (map.isEmpty()) {
             /** Validation failure as there is no data in the map. */
-            return ErrorEncounteredJson.toJson(merchantInfoValidator.validate(null, null, null, null));
+            return ErrorEncounteredJson.toJson(accountMerchantValidator.validate(null, null, null, null));
         } else {
             Set<String> unknownKeys = invalidElementsInMapDuringRegistration(map);
             if (!unknownKeys.isEmpty()) {
@@ -124,12 +124,12 @@ public class AccountMerchantController {
             String password = map.get(REGISTRATION.PW.name()).getText();
             String birthday = map.get(REGISTRATION.BD.name()).getText();
 
-            if (StringUtils.isBlank(mail) || merchantInfoValidator.getMailLength() > mail.length() ||
-                    StringUtils.isBlank(firstName) || merchantInfoValidator.getNameLength() > firstName.length() ||
-                    StringUtils.isBlank(password) || merchantInfoValidator.getPasswordLength() > password.length() ||
+            if (StringUtils.isBlank(mail) || accountMerchantValidator.getMailLength() > mail.length() ||
+                    StringUtils.isBlank(firstName) || accountMerchantValidator.getNameLength() > firstName.length() ||
+                    StringUtils.isBlank(password) || accountMerchantValidator.getPasswordLength() > password.length() ||
                     StringUtils.isNotBlank(birthday) && !Constants.AGE_RANGE.matcher(birthday).matches()) {
 
-                return ErrorEncounteredJson.toJson(merchantInfoValidator.validate(mail, firstName, password, birthday));
+                return ErrorEncounteredJson.toJson(accountMerchantValidator.validate(mail, firstName, password, birthday));
             }
 
             birthday = DateUtil.parseAgeForBirthday(birthday);
@@ -190,7 +190,7 @@ public class AccountMerchantController {
 
         if (map.isEmpty()) {
             /** Validation failure as there is not data in the map. */
-            return ErrorEncounteredJson.toJson(merchantInfoValidator.validateFailureWhenEmpty());
+            return ErrorEncounteredJson.toJson(accountMerchantValidator.validateFailureWhenEmpty());
         } else {
             Set<String> unknownKeys = invalidElementsInMapDuringRecovery(map);
             if (!unknownKeys.isEmpty()) {
@@ -199,11 +199,11 @@ public class AccountMerchantController {
             }
 
             String mail = StringUtils.lowerCase(map.get(REGISTRATION.EM.name()).getText());
-            if (StringUtils.isBlank(mail) || merchantInfoValidator.getMailLength() > mail.length()) {
+            if (StringUtils.isBlank(mail) || accountMerchantValidator.getMailLength() > mail.length()) {
                 LOG.info("Failed data validation={}", mail);
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
-                errors.put(REGISTRATION.EM.name(), StringUtils.isBlank(mail) ? MerchantInfoValidator.EMPTY : mail);
+                errors.put(REGISTRATION.EM.name(), StringUtils.isBlank(mail) ? AccountMerchantValidator.EMPTY : mail);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
                 return ErrorEncounteredJson.toJson(errors);

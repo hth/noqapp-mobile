@@ -24,8 +24,8 @@ import java.util.Map;
  * Date: 1/14/17 10:56 AM
  */
 @Component
-public class MerchantInfoValidator {
-    private static final Logger LOG = LoggerFactory.getLogger(MerchantInfoValidator.class);
+public class AccountMerchantValidator {
+    private static final Logger LOG = LoggerFactory.getLogger(AccountMerchantValidator.class);
     public static final String EMPTY = "Empty";
 
     private int mailLength;
@@ -34,7 +34,7 @@ public class MerchantInfoValidator {
     private int countryShortNameLength;
 
     @Autowired
-    public MerchantInfoValidator(
+    public AccountMerchantValidator(
             @Value ("${UserInfoValidator.mailLength:5}")
             int mailLength,
 
