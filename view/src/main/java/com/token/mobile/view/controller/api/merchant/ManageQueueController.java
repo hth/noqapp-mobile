@@ -1,4 +1,4 @@
-package com.token.mobile.view.controller.api;
+package com.token.mobile.view.controller.api.merchant;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.token.domain.types.GenderEnum;
 import com.token.mobile.common.util.ErrorEncounteredJson;
-import com.token.mobile.view.controller.api.ManageQueueController;
+import com.token.mobile.view.controller.api.merchant.ManageQueueController;
 import com.token.utils.Constants;
 
 import java.util.HashMap;

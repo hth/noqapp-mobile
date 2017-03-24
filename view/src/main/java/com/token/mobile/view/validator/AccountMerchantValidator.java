@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.token.mobile.common.util.ErrorEncounteredJson;
-import com.token.mobile.view.controller.api.ManageQueueController;
+import com.token.mobile.view.controller.api.merchant.ManageQueueController;
 
 import java.util.HashMap;
 import java.util.Map;
