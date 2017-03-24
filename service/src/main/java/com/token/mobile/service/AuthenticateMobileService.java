@@ -37,7 +37,7 @@ public class AuthenticateMobileService {
         return findUserAccount(mail, auth) != null;
     }
 
-    public UserAccountEntity findUserAccount(String mail, String auth) {
+    UserAccountEntity findUserAccount(String mail, String auth) {
         UserAccountEntity userAccountEntity = userAccountManager.findByUserId(mail);
         try {
             if (userAccountEntity == null) {
