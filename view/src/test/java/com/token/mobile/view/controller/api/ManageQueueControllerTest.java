@@ -24,6 +24,7 @@ import com.token.domain.types.QueueStatusEnum;
 import com.token.domain.types.QueueUserStateEnum;
 import com.token.mobile.service.AuthenticateMobileService;
 import com.token.mobile.service.QueueMobileService;
+import com.token.mobile.view.controller.api.merchant.ManageQueueController;
 import com.token.service.BusinessUserStoreService;
 import com.token.utils.ScrubbedInput;
 import org.junit.Before;
