@@ -6,7 +6,7 @@ import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTI
 import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.USER_SOCIAL;
-import static com.token.mobile.service.AccountMobileService.REGISTRATION;
+import static com.token.mobile.service.AccountMobileService.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -25,6 +25,7 @@ import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.token.domain.UserProfileEntity;
 import com.token.mobile.common.util.ErrorEncounteredJson;
+import com.token.mobile.common.util.ExtractFirstLastName;
 import com.token.mobile.service.AccountMobileService;
 import com.token.mobile.view.validator.AccountMerchantValidator;
 import com.token.service.AccountService;
@@ -109,20 +110,17 @@ public class AccountMerchantController {
                 return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
             }
 
-            String mail = StringUtils.lowerCase(map.get(REGISTRATION.EM.name()).getText());
-            String firstName = WordUtils.capitalize(map.get(REGISTRATION.FN.name()).getText());
+            String mail = StringUtils.lowerCase(map.get(ACCOUNT_REGISTRATION.EM.name()).getText());
+            String firstName = WordUtils.capitalize(map.get(ACCOUNT_REGISTRATION.FN.name()).getText());
             String lastName = null;
             if (StringUtils.isNotBlank(firstName)) {
-                /** NPE is already checked in above condition. */
-                @SuppressWarnings ("all")
-                String[] name = firstName.split(" ");
-                if (name.length > 1) {
-                    lastName = name[name.length - 1];
-                    firstName = StringUtils.trim(firstName.substring(0, firstName.indexOf(lastName)));
-                }
+                ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName(firstName).invoke();
+                firstName = extractFirstLastName.getFirstName();
+                lastName = extractFirstLastName.getLastName();
+
             }
-            String password = map.get(REGISTRATION.PW.name()).getText();
-            String birthday = map.get(REGISTRATION.BD.name()).getText();
+            String password = map.get(ACCOUNT_REGISTRATION_MERCHANT.PW.name()).getText();
+            String birthday = map.get(ACCOUNT_REGISTRATION.BD.name()).getText();
 
             if (StringUtils.isBlank(mail) || accountMerchantValidator.getMailLength() > mail.length() ||
                     StringUtils.isBlank(firstName) || accountMerchantValidator.getNameLength() > firstName.length() ||
@@ -139,7 +137,7 @@ public class AccountMerchantController {
                 LOG.info("Failed user registration as already exists mail={}", mail);
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "User already exists. Did you forget password?");
-                errors.put(REGISTRATION.EM.name(), mail);
+                errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
                 return ErrorEncounteredJson.toJson(errors);
@@ -154,7 +152,7 @@ public class AccountMerchantController {
 
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
-                errors.put(REGISTRATION.EM.name(), mail);
+                errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
                 return ErrorEncounteredJson.toJson(errors);
@@ -198,12 +196,12 @@ public class AccountMerchantController {
                 return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
             }
 
-            String mail = StringUtils.lowerCase(map.get(REGISTRATION.EM.name()).getText());
+            String mail = StringUtils.lowerCase(map.get(ACCOUNT_REGISTRATION.EM.name()).getText());
             if (StringUtils.isBlank(mail) || accountMerchantValidator.getMailLength() > mail.length()) {
                 LOG.info("Failed data validation={}", mail);
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
-                errors.put(REGISTRATION.EM.name(), StringUtils.isBlank(mail) ? AccountMerchantValidator.EMPTY : mail);
+                errors.put(ACCOUNT_REGISTRATION.EM.name(), StringUtils.isBlank(mail) ? AccountMerchantValidator.EMPTY : mail);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
                 return ErrorEncounteredJson.toJson(errors);
@@ -214,7 +212,7 @@ public class AccountMerchantController {
                 LOG.info("User does not exists mail={}", mail);
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "User with this email address is not registered. Would you like to sign up?");
-                errors.put(REGISTRATION.EM.name(), mail);
+                errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
                 return ErrorEncounteredJson.toJson(errors);
@@ -227,7 +225,7 @@ public class AccountMerchantController {
                 errors.put(
                         ErrorEncounteredJson.REASON,
                         "Cannot change password for your account. As you signed up using social login from Facebook or Google+.");
-                errors.put(REGISTRATION.EM.name(), mail);
+                errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_SOCIAL.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_SOCIAL.getCode());
                 return ErrorEncounteredJson.toJson(errors);
@@ -242,7 +240,7 @@ public class AccountMerchantController {
 
                     Map<String, String> errors = new HashMap<>();
                     errors.put(ErrorEncounteredJson.REASON, "Failed sending recovery email. Please try again soon.");
-                    errors.put(REGISTRATION.EM.name(), mail);
+                    errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
                     return ErrorEncounteredJson.toJson(errors);
@@ -252,7 +250,7 @@ public class AccountMerchantController {
 
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
-                errors.put(REGISTRATION.EM.name(), mail);
+                errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
                 return ErrorEncounteredJson.toJson(errors);
@@ -264,9 +262,14 @@ public class AccountMerchantController {
 
     private Set<String> invalidElementsInMapDuringRegistration(Map<String, ScrubbedInput> map) {
         Set<String> keys = new HashSet<>(map.keySet());
-        List<REGISTRATION> enums = new ArrayList<>(Arrays.asList(REGISTRATION.values()));
-        for (REGISTRATION registration : enums) {
+        List<ACCOUNT_REGISTRATION> enums = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION.values()));
+        for (ACCOUNT_REGISTRATION registration : enums) {
             keys.remove(registration.name());
+        }
+
+        List<AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT> merchants = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION_MERCHANT.values()));
+        for(ACCOUNT_REGISTRATION_MERCHANT registration_merchant : merchants) {
+            keys.remove(registration_merchant.name());
         }
 
         return keys;
@@ -274,8 +277,8 @@ public class AccountMerchantController {
 
     private Set<String> invalidElementsInMapDuringRecovery(Map<String, ScrubbedInput> map) {
         Set<String> keys = new HashSet<>(map.keySet());
-        List<REGISTRATION> enums = new ArrayList<>(Collections.singletonList(REGISTRATION.EM));
-        for (REGISTRATION registration : enums) {
+        List<ACCOUNT_REGISTRATION> enums = new ArrayList<>(Collections.singletonList(ACCOUNT_REGISTRATION.EM));
+        for (ACCOUNT_REGISTRATION registration : enums) {
             keys.remove(registration.name());
         }
 

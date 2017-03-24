@@ -88,8 +88,13 @@ public class AccountMobileService {
     public String createNewMerchantAccount(String mail, String firstName, String lastName, String password, String birthday) {
         UserAccountEntity userAccount;
         try {
-            userAccount = accountService.createNewMerchantAccount(mail, firstName, lastName, password, birthday);
-            Assert.notNull(userAccount);
+            userAccount = accountService.createNewMerchantAccount(
+                    mail,
+                    firstName,
+                    lastName,
+                    password,
+                    birthday);
+            Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getReceiptUserId());
         } catch (RuntimeException exce) {
             LOG.error("failed creating new account for user={} reason={}", mail, exce.getLocalizedMessage(), exce);
@@ -98,6 +103,50 @@ public class AccountMobileService {
 
         sendValidationEmail(userAccount);
         return userAccount.getUserAuthentication().getAuthenticationKey();
+    }
+
+    /**
+     *
+     * @param phone
+     * @param firstName
+     * @param lastName
+     * @param mail
+     * @param birthday
+     * @param gender
+     * @param countryShortName
+     * @param timeZone
+     * @return
+     */
+    public UserAccountEntity createNewClientAccount(
+            String phone,
+            String firstName,
+            String lastName,
+            String mail,
+            String birthday,
+            String gender,
+            String countryShortName,
+            String timeZone
+    ) {
+        UserAccountEntity userAccount;
+        try {
+            userAccount = accountService.createNewClientAccount(
+                    phone,
+                    firstName,
+                    lastName,
+                    mail,
+                    birthday,
+                    gender,
+                    countryShortName,
+                    timeZone,
+                    null);
+            Assert.notNull(userAccount, "Account creation cannot be null");
+            LOG.info("Registered new user Id={}", userAccount.getReceiptUserId());
+        } catch (RuntimeException exce) {
+            LOG.error("failed creating new account for user={} reason={}", mail, exce.getLocalizedMessage(), exce);
+            throw new RuntimeException("failed creating new account for user " + mail, exce);
+        }
+
+        return userAccount;
     }
 
     /**
@@ -211,11 +260,17 @@ public class AccountMobileService {
         );
     }
 
-    public enum REGISTRATION {
+    public enum ACCOUNT_REGISTRATION_MERCHANT {
+        PW  //Password
+    }
+
+    public enum ACCOUNT_REGISTRATION {
+        PH, //Phone             //TODO add this to token merchant registration
         FN, //FirstName
         EM, //Email
         BD, //Birthday
-        PW, //Password
-        CS  //CountryShortName
+        GE, //Gender            //TODO add this to token merchant registration
+        CS, //CountryShortName  //TODO add this to token merchant registration
+        TZ, //TimeZone          //TODO add this to token merchant registration
     }
 }
