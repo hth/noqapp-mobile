@@ -241,8 +241,8 @@ subprojects {
         compile 'org.apache.commons:commons-collections4:4.1'
         compile 'org.apache.commons:commons-lang3:3.4'
 
-        compile 'ch.qos.logback:logback-core:1.1.7'
-        compile 'ch.qos.logback:logback-classic:1.1.7'
+        compile "ch.qos.logback:logback-core:$logback"
+        compile "ch.qos.logback:logback-classic:$logback"
         compile "net.logstash.logback:logstash-logback-encoder:$logstashlogbackencoder"
         compile 'net.bull.javamelody:javamelody-core:1.+'
         /** Because using org.junit.Assert in code. */
