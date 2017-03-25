@@ -14,12 +14,9 @@ Response
     
     {
       "cs": "US",
-      "firstName": "First",
-      "lastName": "Last",
-      "mail": "first.last.1@mail.noqapp.com",
-      "name": "First Last",
+      "em": "first.last.1@mail.noqapp.com",
+      "nm": "First Last",
       "pr": "4083408158",
-      "rid": "100000000001",
       "tz" : "TimeZoneId"
     }     
          
