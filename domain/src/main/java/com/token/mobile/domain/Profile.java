@@ -48,7 +48,19 @@ public class Profile {
     @JsonProperty ("pr")
     private String phoneRaw;
 
-    private Profile(String receiptUserId, String name, String firstName, String lastName, String mail, String countryShortName, String phoneRaw) {
+    @JsonProperty ("tz")
+    private String timeZone;
+
+    private Profile(
+            String receiptUserId,
+            String name,
+            String firstName,
+            String lastName,
+            String mail,
+            String countryShortName,
+            String phoneRaw,
+            String timeZone
+    ) {
         this.receiptUserId = receiptUserId;
         this.name = name;
         this.firstName = firstName;
@@ -56,6 +68,7 @@ public class Profile {
         this.mail = mail;
         this.countryShortName = countryShortName;
         this.phoneRaw = phoneRaw;
+        this.timeZone = timeZone;
     }
 
     public static Profile newInstance(UserProfileEntity userProfile) {
@@ -66,7 +79,8 @@ public class Profile {
                 userProfile.getLastName(),
                 userProfile.getEmail(),
                 userProfile.getCountryShortName(),
-                userProfile.getPhoneRaw()
+                userProfile.getPhoneRaw(),
+                userProfile.getTimeZone()
         );
     }
 
