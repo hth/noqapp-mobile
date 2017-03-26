@@ -50,7 +50,7 @@ import javax.servlet.http.HttpServletResponse;
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/api/mq")
+@RequestMapping (value = "/api/m/mq")
 public class ManageQueueController {
     private static final Logger LOG = LoggerFactory.getLogger(ManageQueueController.class);
 
