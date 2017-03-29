@@ -83,7 +83,7 @@ public class AccountClientController {
     )
     public String register(
             @RequestBody
-            String registrationJson,
+                    String registrationJson,
 
             HttpServletResponse response
     ) throws IOException {
@@ -133,18 +133,18 @@ public class AccountClientController {
             /* Required. */
             String timeZone = map.get(ACCOUNT_REGISTRATION.TZ.name()).getText();
 
-            if (StringUtils.isBlank(phone) || StringUtils.isBlank(countryShortName) || StringUtils.isBlank(firstName)) {
-                return ErrorEncounteredJson.toJson(
-                        accountClientValidator.validate(
-                            phone,
-                            firstName,
-                            mail,
-                            birthday,
-                            gender,
-                            countryShortName,
-                            timeZone
-                        )
-                );
+            Map<String, String> errors = accountClientValidator.validate(
+                    phone,
+                    firstName,
+                    mail,
+                    birthday,
+                    gender,
+                    countryShortName,
+                    timeZone
+            );
+
+            if (!errors.isEmpty()) {
+                return ErrorEncounteredJson.toJson(errors);
             }
 
             birthday = DateUtil.parseAgeForBirthday(birthday);
@@ -152,7 +152,7 @@ public class AccountClientController {
             UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone, countryShortName);
             if (null != userProfile) {
                 LOG.info("Failed user registration as already exists mail={}", mail);
-                Map<String, String> errors = new HashMap<>();
+                errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
                 errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
@@ -176,7 +176,7 @@ public class AccountClientController {
             } catch (Exception e) {
                 LOG.error("Failed signup for user={} reason={}", mail, e.getLocalizedMessage(), e);
 
-                Map<String, String> errors = new HashMap<>();
+                errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
                 errors.put(ACCOUNT_REGISTRATION.PH.name(), mail);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());

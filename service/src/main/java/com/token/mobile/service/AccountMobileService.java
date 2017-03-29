@@ -85,15 +85,29 @@ public class AccountMobileService {
      * @param birthday
      * @return
      */
-    public String createNewMerchantAccount(String mail, String firstName, String lastName, String password, String birthday) {
+    public String createNewMerchantAccount(
+            String phone,
+            String firstName,
+            String lastName,
+            String mail,
+            String birthday,
+            String gender,
+            String countryShortName,
+            String timeZone,
+            String password
+    ) {
         UserAccountEntity userAccount;
         try {
-            userAccount = accountService.createNewMerchantAccount(
-                    mail,
+            userAccount = accountService.createNewAccount(
+                    phone,
                     firstName,
                     lastName,
-                    password,
-                    birthday);
+                    mail,
+                    birthday,
+                    gender,
+                    countryShortName,
+                    timeZone,
+                    password);
             Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getReceiptUserId());
         } catch (RuntimeException exce) {
@@ -129,7 +143,7 @@ public class AccountMobileService {
     ) {
         UserAccountEntity userAccount;
         try {
-            userAccount = accountService.createNewClientAccount(
+            userAccount = accountService.createNewAccount(
                     phone,
                     firstName,
                     lastName,
