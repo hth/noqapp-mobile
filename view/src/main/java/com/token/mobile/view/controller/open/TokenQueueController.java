@@ -67,7 +67,7 @@ public class TokenQueueController {
             value = "/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public JsonQueue getState(
+    public JsonQueue getQueueState(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
