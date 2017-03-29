@@ -83,7 +83,7 @@ public class AccountClientController {
     )
     public String register(
             @RequestBody
-                    String registrationJson,
+            String registrationJson,
 
             HttpServletResponse response
     ) throws IOException {

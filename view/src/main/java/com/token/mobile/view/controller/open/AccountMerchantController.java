@@ -129,7 +129,9 @@ public class AccountMerchantController {
                 lastName = extractFirstLastName.getLastName();
             }
 
+            /* Required. */
             String mail = StringUtils.lowerCase(map.get(ACCOUNT_REGISTRATION.EM.name()).getText());
+
             String birthday = map.get(ACCOUNT_REGISTRATION.BD.name()).getText();
             /* Required. */
             String gender = map.get(ACCOUNT_REGISTRATION.GE.name()).getText();

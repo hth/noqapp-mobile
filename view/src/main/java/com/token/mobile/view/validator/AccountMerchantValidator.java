@@ -34,9 +34,7 @@ public class AccountMerchantValidator extends AccountValidator {
 
         phoneValidation(phone, errors);
         firstNameValidation(firstName, errors);
-        if (StringUtils.isNotBlank(mail)) {
-            mailValidation(mail, errors);
-        }
+        mailValidation(mail, errors);
         if (StringUtils.isNotBlank(birthday)) {
             birthdayValidation(birthday, errors);
         }
