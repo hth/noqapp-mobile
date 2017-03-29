@@ -6,7 +6,8 @@ import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTI
 import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.token.mobile.common.util.MobileSystemErrorCodeEnum.USER_SOCIAL;
-import static com.token.mobile.service.AccountMobileService.*;
+import static com.token.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION;
+import static com.token.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -29,7 +30,6 @@ import com.token.mobile.common.util.ExtractFirstLastName;
 import com.token.mobile.service.AccountMobileService;
 import com.token.mobile.view.validator.AccountMerchantValidator;
 import com.token.service.AccountService;
-import com.token.utils.Constants;
 import com.token.utils.DateUtil;
 import com.token.utils.ParseJsonStringToMap;
 import com.token.utils.ScrubbedInput;
@@ -102,7 +102,15 @@ public class AccountMerchantController {
 
         if (map.isEmpty()) {
             /** Validation failure as there is no data in the map. */
-            return ErrorEncounteredJson.toJson(accountMerchantValidator.validate(null, null, null, null));
+            return ErrorEncounteredJson.toJson(accountMerchantValidator.validate(
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null));
         } else {
             Set<String> unknownKeys = invalidElementsInMapDuringRegistration(map);
             if (!unknownKeys.isEmpty()) {
@@ -110,32 +118,51 @@ public class AccountMerchantController {
                 return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
             }
 
-            String mail = StringUtils.lowerCase(map.get(ACCOUNT_REGISTRATION.EM.name()).getText());
+            /* Required. */
+            String phone = map.get(ACCOUNT_REGISTRATION.PH.name()).getText();
+            /* Required. */
             String firstName = WordUtils.capitalize(map.get(ACCOUNT_REGISTRATION.FN.name()).getText());
             String lastName = null;
             if (StringUtils.isNotBlank(firstName)) {
                 ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName(firstName).invoke();
                 firstName = extractFirstLastName.getFirstName();
                 lastName = extractFirstLastName.getLastName();
-
             }
-            String password = map.get(ACCOUNT_REGISTRATION_MERCHANT.PW.name()).getText();
+
+            /* Required. */
+            String mail = StringUtils.lowerCase(map.get(ACCOUNT_REGISTRATION.EM.name()).getText());
+
             String birthday = map.get(ACCOUNT_REGISTRATION.BD.name()).getText();
+            /* Required. */
+            String gender = map.get(ACCOUNT_REGISTRATION.GE.name()).getText();
+            /* Required. */
+            String countryShortName = map.get(ACCOUNT_REGISTRATION.CS.name()).getText();
+            /* Required. */
+            String timeZone = map.get(ACCOUNT_REGISTRATION.TZ.name()).getText();
+            /* Required. */
+            String password = map.get(ACCOUNT_REGISTRATION_MERCHANT.PW.name()).getText();
 
-            if (StringUtils.isBlank(mail) || accountMerchantValidator.getMailLength() > mail.length() ||
-                    StringUtils.isBlank(firstName) || accountMerchantValidator.getNameLength() > firstName.length() ||
-                    StringUtils.isBlank(password) || accountMerchantValidator.getPasswordLength() > password.length() ||
-                    StringUtils.isNotBlank(birthday) && !Constants.AGE_RANGE.matcher(birthday).matches()) {
+            Map<String, String> errors = accountMerchantValidator.validate(
+                    phone,
+                    firstName,
+                    mail,
+                    birthday,
+                    gender,
+                    countryShortName,
+                    timeZone,
+                    password
+            );
 
-                return ErrorEncounteredJson.toJson(accountMerchantValidator.validate(mail, firstName, password, birthday));
+            if (!errors.isEmpty()) {
+                return ErrorEncounteredJson.toJson(errors);
             }
 
             birthday = DateUtil.parseAgeForBirthday(birthday);
 
-            UserProfileEntity userProfile = accountService.doesUserExists(mail);
+            UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone, countryShortName);
             if (null != userProfile) {
                 LOG.info("Failed user registration as already exists mail={}", mail);
-                Map<String, String> errors = new HashMap<>();
+                errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "User already exists. Did you forget password?");
                 errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
@@ -144,13 +171,23 @@ public class AccountMerchantController {
             }
 
             try {
-                String auth = accountMobileService.createNewMerchantAccount(mail, firstName, lastName, password, birthday);
+                String auth = accountMobileService.createNewMerchantAccount(
+                        phone,
+                        firstName,
+                        lastName,
+                        mail,
+                        birthday,
+                        gender,
+                        countryShortName,
+                        timeZone,
+                        password
+                );
                 response.addHeader("X-R-MAIL", mail);
                 response.addHeader("X-R-AUTH", auth);
             } catch (Exception e) {
                 LOG.error("Failed signup for user={} reason={}", mail, e.getLocalizedMessage(), e);
 
-                Map<String, String> errors = new HashMap<>();
+                errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
                 errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());

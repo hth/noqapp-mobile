@@ -25,7 +25,7 @@ Note: `CS` and `TZ` are computed and not asked to enter
     }'
 
 
-Response
+#### Response
 
 Successful response contains `X-R-MAIL` and `X-R-AUTH`
 
