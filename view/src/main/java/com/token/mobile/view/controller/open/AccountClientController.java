@@ -25,6 +25,7 @@ import com.token.domain.UserProfileEntity;
 import com.token.mobile.common.util.ErrorEncounteredJson;
 import com.token.mobile.common.util.ExtractFirstLastName;
 import com.token.mobile.service.AccountMobileService;
+import com.token.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_CLIENT;
 import com.token.mobile.view.validator.AccountClientValidator;
 import com.token.service.AccountService;
 import com.token.utils.DateUtil;
@@ -133,6 +134,8 @@ public class AccountClientController {
             /* Required. */
             String timeZone = map.get(ACCOUNT_REGISTRATION.TZ.name()).getText();
 
+            String inviteCode = map.get(ACCOUNT_REGISTRATION_CLIENT.IC.name()).getText();
+
             Map<String, String> errors = accountClientValidator.validate(
                     phone,
                     firstName,
@@ -169,7 +172,8 @@ public class AccountClientController {
                         birthday,
                         gender,
                         countryShortName,
-                        timeZone
+                        timeZone,
+                        inviteCode
                 );
                 response.addHeader("X-R-MAIL", userAccount.getUserId());
                 response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
@@ -196,6 +200,11 @@ public class AccountClientController {
         List<ACCOUNT_REGISTRATION> enums = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION.values()));
         for (ACCOUNT_REGISTRATION registration : enums) {
             keys.remove(registration.name());
+        }
+
+        List<ACCOUNT_REGISTRATION_CLIENT> client = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION_CLIENT.values()));
+        for(ACCOUNT_REGISTRATION_CLIENT registration_client : client) {
+            keys.remove(registration_client.name());
         }
 
         return keys;

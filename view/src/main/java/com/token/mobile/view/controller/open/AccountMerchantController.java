@@ -304,7 +304,7 @@ public class AccountMerchantController {
             keys.remove(registration.name());
         }
 
-        List<AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT> merchants = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION_MERCHANT.values()));
+        List<ACCOUNT_REGISTRATION_MERCHANT> merchants = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION_MERCHANT.values()));
         for(ACCOUNT_REGISTRATION_MERCHANT registration_merchant : merchants) {
             keys.remove(registration_merchant.name());
         }

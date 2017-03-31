@@ -42,27 +42,39 @@ public class Profile {
     @JsonProperty ("tz")
     private String timeZone;
 
+    @JsonProperty ("ic")
+    private String inviteCode;
+
+    @JsonProperty ("rs")
+    private int remoteScanAvailable;
+
     private Profile(
             String name,
             String mail,
             String countryShortName,
             String phoneRaw,
-            String timeZone
+            String timeZone,
+            String inviteCode,
+            int remoteScanAvailable
     ) {
         this.name = name;
         this.mail = mail;
         this.countryShortName = countryShortName;
         this.phoneRaw = phoneRaw;
         this.timeZone = timeZone;
+        this.inviteCode = inviteCode;
+        this.remoteScanAvailable = remoteScanAvailable;
     }
 
-    public static Profile newInstance(UserProfileEntity userProfile) {
+    public static Profile newInstance(UserProfileEntity userProfile, int remoteScanAvailable) {
         return new Profile(
                 userProfile.getName(),
                 userProfile.getEmail(),
                 userProfile.getCountryShortName(),
                 userProfile.getPhoneRaw(),
-                userProfile.getTimeZone()
+                userProfile.getTimeZone(),
+                userProfile.getInviteCode(),
+                remoteScanAvailable
         );
     }
 }

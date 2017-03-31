@@ -85,6 +85,7 @@ public class AccountMobileService {
      * @param birthday
      * @return
      */
+    @SuppressWarnings("all")
     public String createNewMerchantAccount(
             String phone,
             String firstName,
@@ -107,7 +108,8 @@ public class AccountMobileService {
                     gender,
                     countryShortName,
                     timeZone,
-                    password);
+                    password,
+                    null);
             Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getReceiptUserId());
         } catch (RuntimeException exce) {
@@ -131,6 +133,7 @@ public class AccountMobileService {
      * @param timeZone
      * @return
      */
+    @SuppressWarnings("all")
     public UserAccountEntity createNewClientAccount(
             String phone,
             String firstName,
@@ -139,7 +142,8 @@ public class AccountMobileService {
             String birthday,
             String gender,
             String countryShortName,
-            String timeZone
+            String timeZone,
+            String inviteCode
     ) {
         UserAccountEntity userAccount;
         try {
@@ -152,7 +156,8 @@ public class AccountMobileService {
                     gender,
                     countryShortName,
                     timeZone,
-                    null);
+                    null,
+                    inviteCode);
             Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getReceiptUserId());
         } catch (RuntimeException exce) {
@@ -276,6 +281,10 @@ public class AccountMobileService {
 
     public enum ACCOUNT_REGISTRATION_MERCHANT {
         PW  //Password
+    }
+
+    public enum ACCOUNT_REGISTRATION_CLIENT {
+        IC  //Invite Code
     }
 
     public enum ACCOUNT_REGISTRATION {
