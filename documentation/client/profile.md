@@ -11,16 +11,20 @@ Response
     
     HTTP/1.1 200 
     Content-Type: application/json;charset=UTF-8
-    
+         
     {
-      "cs": "US",
-      "em": "first.last.1@mail.noqapp.com",
-      "nm": "First Last",
-      "pr": "4083408158",
-      "tz" : "TimeZoneId"
-    }     
+        "cs": "US",
+        "em": "first.1@mail.noqapp.com",
+        "ic": "first001q",
+        "nm": "First",
+        "pr": "4087008000",
+        "rs": 0,
+        "tz": "India"
+    }
          
 
-- pr - Phone Raw as entered by user         
+- pr - Phone Raw as entered by user
+- rs - Remote scan available
+- ic - Invite Code
               
   
