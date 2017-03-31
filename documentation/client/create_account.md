@@ -7,12 +7,13 @@
 - GE - Gender         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`*defaults` Male `M` other gender `F`
 - CS - Country        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`*required`
 - TZ - TimeZone Id    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`*required` computed from phone
+- IC - Invite Code    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;optional
 
 Note: `CS` and `TZ` are computed and not asked to enter
 
 
-    curl -X "POST" "http://localhost:9090/token-mobile/open/client/registration.json" \
-         -H "Content-Type: application/json; charset=utf-8" \
+    curl -X "POST" "http://localhost:9090/token-mobile/open/client/registration.json" 
+         -H "Content-Type: application/json; charset=utf-8" 
          -d $'{
          
       "PH": "4087008000",
@@ -21,7 +22,8 @@ Note: `CS` and `TZ` are computed and not asked to enter
       "BD": "12",
       "GE": "M",
       "CS": "US", 
-      "TZ": "LosAngles/America"      
+      "TZ": "LosAngles/America",
+      "IC": "first001q"
     }'
 
 
