@@ -16,6 +16,7 @@ import com.token.domain.UserProfileEntity;
 import com.token.mobile.domain.Profile;
 import com.token.mobile.service.AuthenticateMobileService;
 import com.token.mobile.view.controller.api.merchant.ManageQueueController;
+import com.token.service.InviteService;
 import com.token.service.UserProfilePreferenceService;
 import com.token.utils.ScrubbedInput;
 
@@ -40,14 +41,17 @@ public class ClientProfileController {
 
     private AuthenticateMobileService authenticateMobileService;
     private UserProfilePreferenceService userProfilePreferenceService;
+    private InviteService inviteService;
 
     @Autowired
     public ClientProfileController(
             AuthenticateMobileService authenticateMobileService,
-            UserProfilePreferenceService userProfilePreferenceService
+            UserProfilePreferenceService userProfilePreferenceService,
+            InviteService inviteService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
+        this.inviteService = inviteService;
     }
 
     @Timed
@@ -73,7 +77,7 @@ public class ClientProfileController {
             return null;
         } else {
             UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(rid);
-            return Profile.newInstance(userProfile);
+            return Profile.newInstance(userProfile, inviteService.getRemoteScanCount(rid));
         }
     }
 }
