@@ -75,9 +75,9 @@ public class ClientProfileController {
         if (null == rid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
             return null;
-        } else {
-            UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(rid);
-            return Profile.newInstance(userProfile, inviteService.getRemoteScanCount(rid));
         }
+
+        UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(rid);
+        return Profile.newInstance(userProfile, inviteService.getRemoteScanCount(rid));
     }
 }
