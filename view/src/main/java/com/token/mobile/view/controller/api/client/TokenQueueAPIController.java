@@ -1,4 +1,4 @@
-package com.token.mobile.view.controller.open;
+package com.token.mobile.view.controller.api.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
-import com.token.domain.json.JsonResponse;
 import com.token.domain.json.JsonQueue;
+import com.token.domain.json.JsonResponse;
 import com.token.domain.json.JsonToken;
 import com.token.domain.json.JsonTokenAndQueue;
+import com.token.mobile.service.AuthenticateMobileService;
 import com.token.mobile.service.QueueMobileService;
 import com.token.mobile.service.TokenQueueMobileService;
+import com.token.mobile.view.controller.api.merchant.ManageQueueController;
+import com.token.service.InviteService;
 import com.token.utils.ScrubbedInput;
 
 import java.io.IOException;
@@ -27,8 +30,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Remote scan of QR code is only available to registered user.
+ *
  * User: hitender
- * Date: 11/17/16 3:12 PM
+ * Date: 3/31/17 7:23 PM
  */
 @SuppressWarnings ({
         "PMD.BeanMembersShouldSerialize",
@@ -37,20 +42,26 @@ import javax.servlet.http.HttpServletResponse;
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/open/token")
-public class TokenQueueController {
-    private static final Logger LOG = LoggerFactory.getLogger(TokenQueueController.class);
+@RequestMapping (value = "/api/c/token")
+public class TokenQueueAPIController {
+    private static final Logger LOG = LoggerFactory.getLogger(com.token.mobile.view.controller.open.TokenQueueController.class);
 
     private TokenQueueMobileService tokenQueueMobileService;
     private QueueMobileService queueMobileService;
+    private InviteService inviteService;
+    private AuthenticateMobileService authenticateMobileService;
 
     @Autowired
-    public TokenQueueController(
+    public TokenQueueAPIController(
             TokenQueueMobileService tokenQueueMobileService,
-            QueueMobileService queueMobileService
+            QueueMobileService queueMobileService,
+            InviteService inviteService,
+            AuthenticateMobileService authenticateMobileService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
+        this.inviteService = inviteService;
+        this.authenticateMobileService = authenticateMobileService;
     }
 
     /**
@@ -77,12 +88,21 @@ public class TokenQueueController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput dt,
 
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
             @PathVariable ("codeQR")
             ScrubbedInput codeQR,
 
             HttpServletResponse response
     ) throws IOException {
         LOG.info("On scan get state did={} dt={} codeQR={}", did, dt, codeQR);
+        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, rid)) return null;
+
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
@@ -114,8 +134,17 @@ public class TokenQueueController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput dt,
 
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
             HttpServletResponse response
-    ) {
+    ) throws IOException {
+        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, rid)) return null;
+
         return queueMobileService.findAllJoinedQueues(did.getText());
     }
 
@@ -143,8 +172,17 @@ public class TokenQueueController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput dt,
 
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
             HttpServletResponse response
-    ) {
+    ) throws IOException {
+        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, rid)) return null;
+
         return queueMobileService.findHistoricalQueue(did.getText());
     }
 
@@ -172,12 +210,21 @@ public class TokenQueueController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput dt,
 
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
             @PathVariable ("codeQR")
             ScrubbedInput codeQR,
 
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Join queue did={} dt={} codeQR={}", did, dt, codeQR);
+        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, rid)) return null;
+
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
@@ -210,17 +257,93 @@ public class TokenQueueController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput dt,
 
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
             @PathVariable ("codeQR")
             ScrubbedInput codeQR,
 
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Abort queue did={} dt={} codeQR={}", did, dt, codeQR);
+        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, rid)) return null;
+
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
 
         return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), null);
+    }
+
+    /**
+     * Remote scan of QR Code. 
+     *
+     * @param did
+     * @param dt
+     * @param codeQR
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @Timed
+    @ExceptionMetered
+    @RequestMapping (
+            method = RequestMethod.POST,
+            value = "/remote/{codeQR}",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public JsonQueue remoteScanQueue(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @PathVariable ("codeQR")
+            ScrubbedInput codeQR,
+
+            HttpServletResponse response
+    ) throws IOException {
+        LOG.info("On remote scan get state did={} dt={} codeQR={}", did, dt, codeQR);
+
+        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, rid)) return null;
+
+        if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+            return null;
+        }
+
+        if (inviteService.getRemoteScanCount(rid) > 0) {
+            JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(codeQR.getText());
+            if (jsonQueue != null) {
+                inviteService.deductRemoteScanCount(rid);
+                return jsonQueue;
+            }
+        } else {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
+            return null;
+        }
+
+        return null;
+    }
+
+    private boolean authorizeRequest(HttpServletResponse response, String rid) throws IOException {
+        if (null == rid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
+            return true;
+        }
+        return false;
     }
 }
