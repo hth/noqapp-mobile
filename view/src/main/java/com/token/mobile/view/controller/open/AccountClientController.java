@@ -24,10 +24,13 @@ import com.token.domain.UserAccountEntity;
 import com.token.domain.UserProfileEntity;
 import com.token.mobile.common.util.ErrorEncounteredJson;
 import com.token.mobile.common.util.ExtractFirstLastName;
+import com.token.mobile.domain.Profile;
 import com.token.mobile.service.AccountMobileService;
 import com.token.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_CLIENT;
 import com.token.mobile.view.validator.AccountClientValidator;
 import com.token.service.AccountService;
+import com.token.service.InviteService;
+import com.token.service.UserProfilePreferenceService;
 import com.token.utils.DateUtil;
 import com.token.utils.ParseJsonStringToMap;
 import com.token.utils.ScrubbedInput;
@@ -60,16 +63,22 @@ public class AccountClientController {
 
     private AccountService accountService;
     private AccountMobileService accountMobileService;
+    private UserProfilePreferenceService userProfilePreferenceService;
+    private InviteService inviteService;
     private AccountClientValidator accountClientValidator;
 
     @Autowired
     public AccountClientController(
             AccountService accountService,
             AccountMobileService accountMobileService,
+            UserProfilePreferenceService userProfilePreferenceService,
+            InviteService inviteService,
             AccountClientValidator accountClientValidator
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
+        this.userProfilePreferenceService = userProfilePreferenceService;
+        this.inviteService = inviteService;
         this.accountClientValidator = accountClientValidator;
     }
 
@@ -88,7 +97,6 @@ public class AccountClientController {
 
             HttpServletResponse response
     ) throws IOException {
-        String credential = "{}";
         Map<String, ScrubbedInput> map;
         try {
             map = ParseJsonStringToMap.jsonStringToMap(registrationJson);
@@ -177,6 +185,9 @@ public class AccountClientController {
                 );
                 response.addHeader("X-R-MAIL", userAccount.getUserId());
                 response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
+
+                userProfile = userProfilePreferenceService.findByReceiptUserId(userAccount.getReceiptUserId());
+                return Profile.newInstance(userProfile, inviteService.getRemoteScanCount(userAccount.getReceiptUserId())).asJson();
             } catch (Exception e) {
                 LOG.error("Failed signup for user={} reason={}", mail, e.getLocalizedMessage(), e);
 
@@ -188,8 +199,6 @@ public class AccountClientController {
                 return ErrorEncounteredJson.toJson(errors);
             }
         }
-
-        return credential;
     }
 
     //TODO recover is based on phone number. When number already exists then ask which of the stores the user visited.
