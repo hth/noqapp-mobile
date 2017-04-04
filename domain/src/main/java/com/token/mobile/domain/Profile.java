@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import com.token.domain.AbstractDomain;
 import com.token.domain.UserProfileEntity;
 
 /**
@@ -26,7 +27,7 @@ import com.token.domain.UserProfileEntity;
 @JsonPropertyOrder (alphabetic = true)
 @JsonIgnoreProperties (ignoreUnknown = true)
 //@JsonInclude (JsonInclude.Include.NON_NULL)
-public class Profile {
+public class Profile extends AbstractDomain {
     @JsonProperty ("nm")
     private String name;
 
