@@ -30,10 +30,10 @@ abstract class AccountValidator {
     public static final String EMPTY = "Empty";
 
     @Value ("${AccountValidator.nameLength:4}")
-    private int mailLength;
+    private int nameLength;
 
     @Value ("${AccountValidator.mailLength:5}")
-    private int nameLength;
+    private int mailLength;
 
     @Value ("${AccountValidator.genderLength:1}")
     private int genderLength;
