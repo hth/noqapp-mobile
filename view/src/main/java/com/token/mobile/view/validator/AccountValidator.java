@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import com.token.domain.types.GenderEnum;
 import com.token.mobile.common.util.ErrorEncounteredJson;
 import com.token.mobile.view.controller.api.merchant.ManageQueueController;
-import com.token.utils.Constants;
+import com.token.utils.DateUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,7 +75,7 @@ abstract class AccountValidator {
     }
 
     void birthdayValidation(String birthday, Map<String, String> errors) {
-        if (StringUtils.isNotBlank(birthday) && !Constants.AGE_RANGE.matcher(birthday).matches()) {
+        if (StringUtils.isNotBlank(birthday) && !DateUtil.DOB_PATTERN.matcher(birthday).matches()) {
             LOG.info("failed validation birthday={}", birthday);
             errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
             errors.put(ACCOUNT_REGISTRATION.BD.name(), StringUtils.isBlank(birthday) ? EMPTY : birthday);

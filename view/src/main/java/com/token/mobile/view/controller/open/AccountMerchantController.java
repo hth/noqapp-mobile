@@ -30,7 +30,6 @@ import com.token.mobile.common.util.ExtractFirstLastName;
 import com.token.mobile.service.AccountMobileService;
 import com.token.mobile.view.validator.AccountMerchantValidator;
 import com.token.service.AccountService;
-import com.token.utils.DateUtil;
 import com.token.utils.ParseJsonStringToMap;
 import com.token.utils.ScrubbedInput;
 
@@ -156,8 +155,6 @@ public class AccountMerchantController {
             if (!errors.isEmpty()) {
                 return ErrorEncounteredJson.toJson(errors);
             }
-
-            birthday = DateUtil.parseAgeForBirthday(birthday);
 
             UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone, countryShortName);
             if (null != userProfile) {

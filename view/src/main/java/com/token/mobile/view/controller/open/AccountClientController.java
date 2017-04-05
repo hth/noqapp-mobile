@@ -31,7 +31,6 @@ import com.token.mobile.view.validator.AccountClientValidator;
 import com.token.service.AccountService;
 import com.token.service.InviteService;
 import com.token.service.UserProfilePreferenceService;
-import com.token.utils.DateUtil;
 import com.token.utils.ParseJsonStringToMap;
 import com.token.utils.ScrubbedInput;
 
@@ -157,8 +156,6 @@ public class AccountClientController {
             if (!errors.isEmpty()) {
                 return ErrorEncounteredJson.toJson(errors);
             }
-
-            birthday = DateUtil.parseAgeForBirthday(birthday);
 
             UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone, countryShortName);
             if (null != userProfile) {
