@@ -47,7 +47,7 @@ abstract class AccountValidator {
     void phoneValidation(String phone, Map<String, String> errors) {
         if (StringUtils.isBlank(phone)) {
             LOG.info("failed validation phone={}", phone);
-            errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
+            errors.put(ErrorEncounteredJson.REASON, "Phone validation failed.");
             errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
@@ -57,7 +57,7 @@ abstract class AccountValidator {
     void firstNameValidation(String firstName, Map<String, String> errors) {
         if (StringUtils.isBlank(firstName) || firstName.length() < nameLength) {
             LOG.info("failed validation firstName={}", firstName);
-            errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
+            errors.put(ErrorEncounteredJson.REASON, "Name validation failed.");
             errors.put(ACCOUNT_REGISTRATION.FN.name(), StringUtils.isBlank(firstName) ? EMPTY : firstName);
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
@@ -67,7 +67,7 @@ abstract class AccountValidator {
     void mailValidation(String mail, Map<String, String> errors) {
         if (StringUtils.isBlank(mail) || mail.length() < mailLength) {
             LOG.info("failed validation mail={}", mail);
-            errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
+            errors.put(ErrorEncounteredJson.REASON, "Mail validation failed.");
             errors.put(ACCOUNT_REGISTRATION.EM.name(), StringUtils.isBlank(mail) ? EMPTY : mail);
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
@@ -77,7 +77,7 @@ abstract class AccountValidator {
     void birthdayValidation(String birthday, Map<String, String> errors) {
         if (StringUtils.isNotBlank(birthday) && !DateUtil.DOB_PATTERN.matcher(birthday).matches()) {
             LOG.info("failed validation birthday={}", birthday);
-            errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
+            errors.put(ErrorEncounteredJson.REASON, "Date of birth validation failed.");
             errors.put(ACCOUNT_REGISTRATION.BD.name(), StringUtils.isBlank(birthday) ? EMPTY : birthday);
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
@@ -88,7 +88,7 @@ abstract class AccountValidator {
         try {
             if (StringUtils.isBlank(gender) || gender.length() != genderLength) {
                 LOG.info("failed validation countryShortName={}", gender);
-                errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
+                errors.put(ErrorEncounteredJson.REASON, "Gender validation failed.");
                 errors.put(ACCOUNT_REGISTRATION.GE.name(), StringUtils.isBlank(gender) ? EMPTY : gender);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
@@ -97,7 +97,7 @@ abstract class AccountValidator {
             }
         } catch (IllegalArgumentException e) {
             LOG.error("Unsupported Gender type gender={} reason={}", gender, e.getLocalizedMessage(), e);
-            errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
+            errors.put(ErrorEncounteredJson.REASON, "Unsupported gender found.");
             errors.put(ACCOUNT_REGISTRATION.GE.name(), StringUtils.isBlank(gender) ? EMPTY : gender);
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
@@ -107,7 +107,7 @@ abstract class AccountValidator {
     void countryShortNameValidation(String countryShortName, Map<String, String> errors) {
         if (StringUtils.isBlank(countryShortName) || countryShortName.length() != countryShortNameLength) {
             LOG.info("failed validation countryShortName={}", countryShortName);
-            errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
+            errors.put(ErrorEncounteredJson.REASON, "Country name validation failed.");
             errors.put(ACCOUNT_REGISTRATION.CS.name(), StringUtils.isBlank(countryShortName) ? EMPTY : countryShortName);
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
@@ -117,7 +117,7 @@ abstract class AccountValidator {
     void timeZoneValidation(String timeZone, Map<String, String> errors) {
         if (StringUtils.isBlank(timeZone)) {
             LOG.info("failed validation timeZone={}", timeZone);
-            errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
+            errors.put(ErrorEncounteredJson.REASON, "Timezone validation failed.");
             errors.put(ACCOUNT_REGISTRATION.TZ.name(), StringUtils.isBlank(timeZone) ? EMPTY : timeZone);
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
@@ -127,7 +127,7 @@ abstract class AccountValidator {
     void passwordValidation(String password, Map<String, String> errors) {
         if (StringUtils.isBlank(password) || password.length() < passwordLength) {
             LOG.info("failed validation password={}", ManageQueueController.AUTH_KEY_HIDDEN);
-            errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
+            errors.put(ErrorEncounteredJson.REASON, "Password validation failed.");
             /* Do not send password back. Hidden for security reason. */
             errors.put(ACCOUNT_REGISTRATION_MERCHANT.PW.name(), StringUtils.isBlank(password) ? EMPTY : "********");
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
