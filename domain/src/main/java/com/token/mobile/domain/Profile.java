@@ -49,6 +49,12 @@ public class Profile extends AbstractDomain {
     @JsonProperty ("rs")
     private int remoteScanAvailable;
 
+    @JsonProperty ("bd")
+    private String birthday;
+
+    @JsonProperty ("ge")
+    private String gender;
+
     private Profile(
             String name,
             String mail,
@@ -56,6 +62,8 @@ public class Profile extends AbstractDomain {
             String phoneRaw,
             String timeZone,
             String inviteCode,
+            String birthday,
+            String gender,
             int remoteScanAvailable
     ) {
         this.name = name;
@@ -64,6 +72,8 @@ public class Profile extends AbstractDomain {
         this.phoneRaw = phoneRaw;
         this.timeZone = timeZone;
         this.inviteCode = inviteCode;
+        this.birthday = birthday;
+        this.gender = gender;
         this.remoteScanAvailable = remoteScanAvailable;
     }
 
@@ -75,6 +85,8 @@ public class Profile extends AbstractDomain {
                 userProfile.getPhoneRaw(),
                 userProfile.getTimeZone(),
                 userProfile.getInviteCode(),
+                userProfile.getBirthday(),
+                userProfile.getGender(),
                 remoteScanAvailable
         );
     }
