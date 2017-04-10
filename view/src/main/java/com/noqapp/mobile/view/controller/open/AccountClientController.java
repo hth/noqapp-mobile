@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.open;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
@@ -142,6 +143,10 @@ public class AccountClientController {
             String timeZone = map.get(ACCOUNT_REGISTRATION.TZ.name()).getText();
 
             String inviteCode = map.get(ACCOUNT_REGISTRATION_CLIENT.IC.name()).getText();
+            UserProfileEntity userProfileOfInvitee = accountService.findProfileByInviteCode(inviteCode);
+            if (null == userProfileOfInvitee) {
+                return ErrorEncounteredJson.toJson("Invalid invite code " + inviteCode, MOBILE);
+            }
 
             Map<String, String> errors = accountClientValidator.validate(
                     phone,
