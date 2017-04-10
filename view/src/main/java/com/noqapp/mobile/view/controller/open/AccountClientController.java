@@ -143,9 +143,11 @@ public class AccountClientController {
             String timeZone = map.get(ACCOUNT_REGISTRATION.TZ.name()).getText();
 
             String inviteCode = map.get(ACCOUNT_REGISTRATION_CLIENT.IC.name()).getText();
-            UserProfileEntity userProfileOfInvitee = accountService.findProfileByInviteCode(inviteCode);
-            if (null == userProfileOfInvitee) {
-                return ErrorEncounteredJson.toJson("Invalid invite code " + inviteCode, MOBILE);
+            if (StringUtils.isNotBlank(inviteCode)) {
+                UserProfileEntity userProfileOfInvitee = accountService.findProfileByInviteCode(inviteCode);
+                if (null == userProfileOfInvitee) {
+                    return ErrorEncounteredJson.toJson("Invalid invite code " + inviteCode, MOBILE);
+                }
             }
 
             Map<String, String> errors = accountClientValidator.validate(
