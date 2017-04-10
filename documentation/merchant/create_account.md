@@ -12,7 +12,7 @@
 Note: `CS` and `TZ` are computed and not asked to enter  
 
     ## Create Merchant Account
-    curl -X "POST" "http://localhost:9090/token-mobile/open/merchant/registration.json" \
+    curl -X "POST" "http://localhost:9090/noqapp-mobile/open/merchant/registration.json" \
          -H "Content-Type: application/json; charset=utf-8" \
          -d $'{
       "PH": "4087008001",

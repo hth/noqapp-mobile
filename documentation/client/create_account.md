@@ -12,7 +12,7 @@
 Note: `CS` and `TZ` are computed and not asked to enter
 
 
-    curl -X "POST" "http://localhost:9090/token-mobile/open/client/registration.json" 
+    curl -X "POST" "http://localhost:9090/noqapp-mobile/open/client/registration.json" 
          -H "Content-Type: application/json; charset=utf-8" 
          -d $'{
          

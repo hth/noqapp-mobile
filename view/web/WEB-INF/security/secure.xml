@@ -47,7 +47,7 @@
     </http>
 
     <beans:bean id="myFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
-    <beans:bean id="onLoginSuccessHandler" class="com.token.mobile.security.OnLoginAuthenticationSuccessHandler" />
+    <beans:bean id="onLoginSuccessHandler" class="com.noqapp.mobile.security.OnLoginAuthenticationSuccessHandler" />
 
     <!-- Declare an authentication-manager to use a custom userDetailsService -->
     <authentication-manager>

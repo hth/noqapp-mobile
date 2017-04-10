@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc
+		  http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		  http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/util
+          http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- Scans the classpath of this application for @Components to deploy as beans -->
+    <context:component-scan base-package="com.noqapp">
+        <!--<context:exclude-filter type="assignable" expression="com.receiptofi.service.MailService" />-->
+        <!--<context:exclude-filter type="assignable" expression="com.receiptofi.service.ReportService" />-->
+    </context:component-scan>
+
+    <!--suppress SpringModelInspection -->
+    <util:properties id="environmentProperty" location="classpath:/build-info.properties" />
+    <!--suppress SpringModelInspection -->
+    <context:property-placeholder location="classpath:/conf/config.properties"                  order="1" ignore-unresolvable="true" />
+    <!--suppress SpringModelInspection -->
+    <context:property-placeholder location="classpath:/conf/prod.properties"                    order="1" ignore-unresolvable="true" />
+    <!--suppress SpringModelInspection -->
+    <context:property-placeholder location="classpath:/conf/pass.properties"                    order="1" ignore-unresolvable="true" />
+    <!--suppress SpringModelInspection -->
+    <context:property-placeholder location="classpath:/conf/application-messages.properties"    order="1" ignore-unresolvable="true" />
+    <!--suppress SpringModelInspection -->
+    <context:property-placeholder properties-ref="environmentProperty" />
+
+    <!-- Configures the @Controller programming model -->
+    <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager" />
+
+    <!-- Swagger Initialization for Rest API Starts -->
+    <bean class="springfox.documentation.swagger.configuration.SwaggerCommonConfiguration" />
+    <bean class="com.noqapp.mobile.view.config.SwaggerConfig"/>
+    <!-- Swagger Initialization for Rest API Ends   -->
+
+    <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes" value="application/json"/>
+    </bean>
+
+    <!-- turn on declarative caching -->
+    <!--<cache:annotation-driven />-->
+
+    <!-- <mvc:resources mapping="/resources/**" location="/resources/" /> -->
+
+    <!-- Forwards requests to the "/" resource to the "welcome" view -->
+    <!--suppress SpringModelInspection -->
+    <!--<mvc:view-controller path="/" view-name="login"/>-->
+
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="favorPathExtension" value="false" />
+        <property name="favorParameter"     value="true" />
+        <!--<property name="defaultContentType" value="application/json" />-->
+        <property name="useJaf"             value="false"/>
+        <property name="ignoreAcceptHeader" value="true"/>
+
+        <property name="mediaTypes">
+            <map>
+                <entry key="json"   value="application/json" />
+                <entry key="html"   value="text/html" />
+            </map>
+        </property>
+    </bean>
+
+    <!-- the application context definition for the receipt DispatcherServlet -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <!--suppress SpringModelInspection -->
+        <property name="basename" value="messages" />
+        <!--<property name="cacheSeconds" value="0" />-->
+    </bean>
+
+    <!--<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+    <!--&lt;!&ndash; one of the properties available; the maximum file size in bytes; supports 10MB &ndash;&gt;-->
+    <!--<property name="maxUploadSize" value="10485760"/>-->
+    <!--</bean>-->
+
+    <bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--https://stackoverflow.com/questions/21397939/spring-security-3-2-csrf-support-for-multipart-requests-->
+        <property name="maxUploadSize" value="10485760" />
+    </bean>
+
+    <bean id="freemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+        <property name="templateLoaderPath" value="/WEB-INF/freemarker/"/>
+    </bean>
+</beans>

@@ -18,7 +18,7 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.m2/repository/com/token/common/1.0/common-1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.m2/repository/com/noqapp/common/1.0/common-1.0.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -27,7 +27,7 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.m2/repository/com/token/domain/1.0/domain-1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.m2/repository/com/noqapp/domain/1.0/domain-1.0.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -36,7 +36,7 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.m2/repository/com/token/service/1.0/service-1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.m2/repository/com/noqapp/service/1.0/service-1.0.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -45,7 +45,7 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.m2/repository/com/token/social/1.0/social-1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.m2/repository/com/noqapp/social/1.0/social-1.0.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -1023,26 +1023,26 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.2/109effd31823149f25e73607d45fb9882642a720/logback-core-1.2.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.3/864344400c3d4d92dfeb0a305dc87d953677c03c/logback-core-1.2.3.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.2/a223400faa9750645f3cad6ef212fddd3825aa22/logback-core-1.2.2-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.3/c978d4afd24d32991c8aa31a9c8a1119f19a1cb4/logback-core-1.2.3-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.2/3063cd9aa1071994d8baf3aa42571d369392373b/logback-core-1.2.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.3/3ebabe69eba0196af9ad3a814f723fb720b9101e/logback-core-1.2.3-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.2/f81d1cb16fc384523de17ba46370d863bc2f691/logback-classic-1.2.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/7c4f3c474fb2c041d8028740440937705ebb473a/logback-classic-1.2.3.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.2/ff7667b897cabd0346f5797f7a1d093bbf9671ae/logback-classic-1.2.2-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/99b0433b7d86044643b7d677f22d2c793d31d416/logback-classic-1.2.3-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.2/5de889f053c01cd1266b094602c810c5988d6381/logback-classic-1.2.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/cfd5385e0c5ed1c8a5dce57d86e79cf357153a64/logback-classic-1.2.3-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -2474,7 +2474,7 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.m2/repository/com/token/common/1.0/common-1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.m2/repository/com/noqapp/common/1.0/common-1.0.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -2483,7 +2483,7 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.m2/repository/com/token/domain/1.0/domain-1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.m2/repository/com/noqapp/domain/1.0/domain-1.0.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -2492,7 +2492,7 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.m2/repository/com/token/service/1.0/service-1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.m2/repository/com/noqapp/service/1.0/service-1.0.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -2501,7 +2501,7 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.m2/repository/com/token/social/1.0/social-1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.m2/repository/com/noqapp/social/1.0/social-1.0.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -3479,26 +3479,26 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.2/109effd31823149f25e73607d45fb9882642a720/logback-core-1.2.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.3/864344400c3d4d92dfeb0a305dc87d953677c03c/logback-core-1.2.3.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.2/a223400faa9750645f3cad6ef212fddd3825aa22/logback-core-1.2.2-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.3/c978d4afd24d32991c8aa31a9c8a1119f19a1cb4/logback-core-1.2.3-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.2/3063cd9aa1071994d8baf3aa42571d369392373b/logback-core-1.2.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.3/3ebabe69eba0196af9ad3a814f723fb720b9101e/logback-core-1.2.3-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.2/f81d1cb16fc384523de17ba46370d863bc2f691/logback-classic-1.2.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/7c4f3c474fb2c041d8028740440937705ebb473a/logback-classic-1.2.3.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.2/ff7667b897cabd0346f5797f7a1d093bbf9671ae/logback-classic-1.2.2-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/99b0433b7d86044643b7d677f22d2c793d31d416/logback-classic-1.2.3-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.2/5de889f053c01cd1266b094602c810c5988d6381/logback-classic-1.2.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/cfd5385e0c5ed1c8a5dce57d86e79cf357153a64/logback-classic-1.2.3-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -4917,7 +4917,7 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.m2/repository/com/token/common/1.0/common-1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.m2/repository/com/noqapp/common/1.0/common-1.0.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -4926,7 +4926,7 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.m2/repository/com/token/domain/1.0/domain-1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.m2/repository/com/noqapp/domain/1.0/domain-1.0.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -4935,7 +4935,7 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.m2/repository/com/token/service/1.0/service-1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.m2/repository/com/noqapp/service/1.0/service-1.0.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -4944,7 +4944,7 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.m2/repository/com/token/social/1.0/social-1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.m2/repository/com/noqapp/social/1.0/social-1.0.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -5922,26 +5922,26 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.2/109effd31823149f25e73607d45fb9882642a720/logback-core-1.2.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.3/864344400c3d4d92dfeb0a305dc87d953677c03c/logback-core-1.2.3.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.2/a223400faa9750645f3cad6ef212fddd3825aa22/logback-core-1.2.2-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.3/c978d4afd24d32991c8aa31a9c8a1119f19a1cb4/logback-core-1.2.3-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.2/3063cd9aa1071994d8baf3aa42571d369392373b/logback-core-1.2.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.3/3ebabe69eba0196af9ad3a814f723fb720b9101e/logback-core-1.2.3-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.2/f81d1cb16fc384523de17ba46370d863bc2f691/logback-classic-1.2.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/7c4f3c474fb2c041d8028740440937705ebb473a/logback-classic-1.2.3.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.2/ff7667b897cabd0346f5797f7a1d093bbf9671ae/logback-classic-1.2.2-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/99b0433b7d86044643b7d677f22d2c793d31d416/logback-classic-1.2.3-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.2/5de889f053c01cd1266b094602c810c5988d6381/logback-classic-1.2.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/cfd5385e0c5ed1c8a5dce57d86e79cf357153a64/logback-classic-1.2.3-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -6013,13 +6013,13 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.mongo/1.50.5/2393e167c3c6ed6b896470fdb813244769ac0d3f/de.flapdoodle.embed.mongo-1.50.5.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.mongo/2.0.0/a2a38b016f42e82ba5842287c71132b328fea60f/de.flapdoodle.embed.mongo-2.0.0.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.mongo/1.50.5/39e0a84dbeaeb76165e2dfd6a757f0328455bf7f/de.flapdoodle.embed.mongo-1.50.5-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.mongo/2.0.0/57bfbb3af20f72de519936491c679026f776cd8/de.flapdoodle.embed.mongo-2.0.0-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.mongo/1.50.5/d84a21631e9b5d4445562ff349988976c6b2c78b/de.flapdoodle.embed.mongo-1.50.5-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.mongo/2.0.0/8cc298548e1770d5f212753360471a3a2d7a3734/de.flapdoodle.embed.mongo-2.0.0-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -6893,13 +6893,13 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.process/1.50.2/7f00ce5e05a6f7d58b2fffd04fbdbb15956bfa8/de.flapdoodle.embed.process-1.50.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.process/2.0.1/116a63e9f0f498b2375f4f6e7cd9e2fd8abe9a5f/de.flapdoodle.embed.process-2.0.1.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.process/1.50.2/9b99b0531408a6e9d2e23326f7aaab1366b7e305/de.flapdoodle.embed.process-1.50.2-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.process/2.0.1/170e5e8c5cfcbba965a19f626ccec43ffb964bf2/de.flapdoodle.embed.process-2.0.1-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.process/1.50.2/a61e56cffdffa1616f5b92c2ee62980ba2e835fa/de.flapdoodle.embed.process-1.50.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.process/2.0.1/629afac5e8a8e7c1035360fa46fc315907b2917c/de.flapdoodle.embed.process-2.0.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>

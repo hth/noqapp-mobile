@@ -1,2 +1,2 @@
 include "common", "domain", "security", "service", "view"
-rootProject.name = 'token-mobile'
+rootProject.name = 'noqapp-mobile'

@@ -2,7 +2,7 @@
 
 Fetch Profile of registered user
 
-    curl "http://localhost:9090/token-mobile/api/c/profile/fetch.json" 
+    curl "http://localhost:9090/noqapp-mobile/api/c/profile/fetch.json" 
          -H "X-R-AUTH: $2a$15$Z6GABmDOrg86gSt3FRq4cO4iMZIh8auz5.TgN5atwQyukh91rjTmm" 
          -H "X-R-MAIL: first.last.1@mail.noqapp.com" 
          -H "Content-Type: application/json; charset=utf-8"
