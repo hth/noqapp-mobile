@@ -112,9 +112,8 @@
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.9" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.65.0" />
             <element id="library" level="project" name="Gradle: junit:junit:4.12" />
-            <element id="archive" name="com.token.mobile-common.jar">
+            <element id="archive" name="common_main">
               <element id="module-output" name="common_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/common/build/resources/main" />
             </element>
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.9" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-messaging:4.3.7.RELEASE" />
@@ -222,19 +221,20 @@
             <element id="library" level="project" name="Gradle: org.codehaus.woodstox:stax2-api:3.1.4" />
             <element id="library" level="project" name="Gradle: org.springframework.social:spring-social-config:1.1.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.json:json:20160810" />
-            <element id="archive" name="com.token.mobile-domain.jar">
+            <element id="archive" name="domain_main">
               <element id="module-output" name="domain_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/domain/build/resources/main" />
             </element>
-            <element id="archive" name="com.token.mobile-security.jar">
+            <element id="archive" name="security_main">
               <element id="module-output" name="security_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/security/build/resources/main" />
             </element>
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="archive" name="com.token.mobile-service.jar">
+            <element id="archive" name="service_main">
               <element id="module-output" name="service_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/service/build/resources/main" />
             </element>
+            <element id="file-copy" path="$PROJECT_DIR$/common/build/libs/token.mobile-common-1.0.jar" />
+            <element id="file-copy" path="$PROJECT_DIR$/domain/build/libs/token.mobile-domain-1.0.jar" />
+            <element id="file-copy" path="$PROJECT_DIR$/security/build/libs/token.mobile-security-1.0.jar" />
+            <element id="file-copy" path="$PROJECT_DIR$/service/build/libs/token.mobile-service-1.0.jar" />
           </element>
         </element>
       </root>
@@ -589,9 +589,8 @@
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.9" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.65.0" />
             <element id="library" level="project" name="Gradle: junit:junit:4.12" />
-            <element id="archive" name="com.token.mobile-domain.jar">
+            <element id="archive" name="domain_main">
               <element id="module-output" name="domain_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/domain/build/resources/main" />
             </element>
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.9" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-messaging:4.3.7.RELEASE" />
@@ -700,6 +699,7 @@
             <element id="library" level="project" name="Gradle: org.springframework.social:spring-social-config:1.1.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.json:json:20160810" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$PROJECT_DIR$/domain/build/libs/token.mobile-domain-1.0.jar" />
           </element>
         </element>
       </root>
@@ -820,7 +820,6 @@
             <option value="$PROJECT_DIR$/view" />
           </set>
         </option>
-        <option name="useAutoImport" value="true" />
       </GradleProjectSettings>
     </option>
   </component>
@@ -1544,32 +1543,14 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/token/domain/1.0/domain-1.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../token/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../token/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.token:service:1.0">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/com/token/service/1.0/service-1.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../token/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../token/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../token/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.token:social:1.0">
       <CLASSES>
