@@ -1,4 +1,4 @@
-token-mobile
+noqapp-mobile
 =======
 
 Token Mobile Web Application

@@ -4,7 +4,7 @@ GET API
 
     /open/token/12345
 
-    curl "https://tp.receiptofi.com/token-mobile/open/token/58b158a922977c1e181b1041.json" \
+    curl "https://tp.receiptofi.com/noqapp-mobile/open/token/58b158a922977c1e181b1041.json" \
          -H "X-R-DID: 670563dc-d0b9-47c9-acf9-72776a7ff3d7" \
          -H "X-R-DT: A"
 
@@ -46,7 +46,7 @@ Response
 
 GET API
 
-    curl "https://tp.receiptofi.com/token-mobile/open/token/queues.json" 
+    curl "https://tp.receiptofi.com/noqapp-mobile/open/token/queues.json" 
         -H "X-R-DID: 670563dc-d0b9-47c9-acf9-72776a7ff3d7" 
         -H "X-R-DT: A"
 
@@ -94,7 +94,7 @@ POST API
 
     /open/token/queue/12345
 
-    curl -X "POST" "https://tp.receiptofi.com/token-mobile/open/token/queue/58b0d19122977c0d4d79f9c1.json" \
+    curl -X "POST" "https://tp.receiptofi.com/noqapp-mobile/open/token/queue/58b0d19122977c0d4d79f9c1.json" \
          -H "X-R-DID: 670563dc-d0b9-47c9-acf9-72776a7ff3d712312" \
          -H "X-R-DT: A"
 
@@ -126,7 +126,7 @@ Response
 
     open/token/abort/58b0d19122977c0d4d79f9c1.json
     
-    curl -X "POST" "https://tp.receiptofi.com/token-mobile/open/token/abort/58b0d19122977c0d4d79f9c1.json" \
+    curl -X "POST" "https://tp.receiptofi.com/noqapp-mobile/open/token/abort/58b0d19122977c0d4d79f9c1.json" \
          -H "X-R-DID: 670563dc-d0b9-47c9-acf9-72776a7ff3d711" 
          -H "X-R-DT: A" 
          -H "Content-Type: application/json; charset=utf-8" 

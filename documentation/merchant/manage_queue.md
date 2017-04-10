@@ -5,7 +5,7 @@
 This API lists all the queues person is assigned. 
 
     ## Queue
-    curl "https://tp.receiptofi.com/token-mobile/api/mq/queues.json" 
+    curl "https://tp.receiptofi.com/noqapp-mobile/api/mq/queues.json" 
          -H "X-R-AUTH: $2a$15$1cDNZB/Pollc/SuSFLs00OKMA/u2AojWIB/dj6CcHlzQSv6q1Snnm" 
          -H "X-R-DT: A" 
          -H "X-R-DID: dfsdfsf" 
@@ -50,7 +50,7 @@ JSONTopic extends JsonToken with additional field Topic
 
 This API helps process person in queue
 
-    curl -X "POST" "http://localhost:9090/token-mobile/api/mq/served.json" \
+    curl -X "POST" "http://localhost:9090/noqapp-mobile/api/mq/served.json" \
          -H "X-R-AUTH: $2a$15$UAWcYzN2wkk89yoWceneZO2RhDqI3Wu8S7fmzBLNSdFtqY.bYxZpm" \
          -H "X-R-MAIL: abc@r.com" \
          -H "X-R-DT: A" \

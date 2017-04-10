@@ -27,7 +27,7 @@ ext {
 }
 
 allprojects {
-    group = 'com.token.mobile'
+    group = 'com.noqapp.mobile'
     apply from: "$rootDir/versioning.gradle"
 }
 
@@ -100,10 +100,10 @@ subprojects {
     jar {
         manifest {
             attributes(
-                    "Implementation-Vendor": "Receiptofi Inc",
+                    "Implementation-Vendor": "NoQApp Inc",
                     "Implementation-Title": rootProject.name,
                     "Implementation-Version": allprojects.version + " $env",
-                    "Copyright" : "2012-2017, Receiptofi Inc"
+                    "Copyright" : "2016-2017, NoQApp Inc"
             )
         }
     }
@@ -140,10 +140,10 @@ subprojects {
     }
 
     dependencies {
-        compile "com.token:common:1.+"
-        compile "com.token:domain:1.+"
-        compile "com.token:service:1.+"
-        compile "com.token:social:1.+"
+        compile "com.noqapp:common:1.+"
+        compile "com.noqapp:domain:1.+"
+        compile "com.noqapp:service:1.+"
+        compile "com.noqapp:social:1.+"
 
         compile 'org.springframework.social:spring-social-core:1.1.4.RELEASE'
         compile 'org.springframework.social:spring-social-google:1.0.0.RELEASE'
@@ -189,9 +189,9 @@ subprojects {
         compile "$springDataGroup:spring-data-redis:$redis"
         compile "redis.clients:jedis:$jedis"
 
-        /** --- Specific to Receipt Mobile Web Application ---- */
-        compile "io.springfox:springfox-swagger2:2.5.0"
-        compile "io.springfox:springfox-swagger-ui:2.5.0"
+        /** --- Specific to NoQApp Mobile Web Application ---- */
+        compile "io.springfox:springfox-swagger2:2.6.1"
+        compile "io.springfox:springfox-swagger-ui:2.6.1"
         /** To prevent URIException not found. */
         compile 'commons-httpclient:commons-httpclient:3.1'
         /** ------- */
@@ -338,16 +338,16 @@ subprojects {
 }
 
 project(':common') {
-    jar.baseName = 'token.mobile-common'
+    jar.baseName = 'noqapp.mobile-common'
 }
 
 project(':domain') {
-    jar.baseName = 'token.mobile-domain'
+    jar.baseName = 'noqapp.mobile-domain'
 }
 
 project(':security') {
     apply plugin: 'war'
-    jar.baseName = 'token.mobile-security'
+    jar.baseName = 'noqapp.mobile-security'
 
     repositories {
         mavenCentral()
@@ -362,7 +362,7 @@ project(':security') {
 }
 
 project(':service') {
-    jar.baseName = 'token.mobile-service'
+    jar.baseName = 'noqapp.mobile-service'
 
     dependencies {
         compile project(':common'), project(':domain')
@@ -371,8 +371,8 @@ project(':service') {
 
 project(':view') {
     apply plugin: 'war'
-    jar.baseName = 'token.mobile-view'
-    war.baseName = 'token.mobile-view'
+    jar.baseName = 'noqapp.mobile-view'
+    war.baseName = 'noqapp.mobile-view'
 
     repositories {
         mavenCentral()
@@ -402,7 +402,7 @@ task copyJars(type: Copy) {
 }
 
 task unzip(type: Copy, dependsOn: [':view:war']) {
-    def zipFile = file("view/build/libs/token.mobile-view-${version}.war")
+    def zipFile = file("view/build/libs/noqapp.mobile-view-${version}.war")
 
     from zipTree(zipFile)
     into unzipDir
@@ -412,13 +412,13 @@ task createBuildInfoFile {
     doLast {
         buildDir.mkdirs()
         def buildInfoFile = new File("$buildDir/build-info.properties")
-        Properties props = new Properties();
-        props.setProperty('owner', 'Receiptofi Inc');
-        props.setProperty('copyright', 'All rights reserved');
-        props.setProperty('build.version', project.version.toString());
-        props.setProperty('build.env', "$env");
+        Properties props = new Properties()
+        props.setProperty('owner', 'NoQApp Inc')
+        props.setProperty('copyright', 'All rights reserved')
+        props.setProperty('build.version', project.version.toString())
+        props.setProperty('build.env', "$env")
 
-        props.store(buildInfoFile.newWriter(), null);
+        props.store(buildInfoFile.newWriter(), null)
     }
 }
 
@@ -481,7 +481,7 @@ task prepWar(dependsOn: [
         }
 
         copy {
-            from "view/environment/$env/token-mobile-servlet.xml"
+            from "view/environment/$env/noqapp-mobile-servlet.xml"
             into warWebInfDir
         }
 
@@ -509,11 +509,11 @@ task clean(type: Delete) {
 task war(type: War, dependsOn: prepWar) {
     doFirst {
         if (env == 'sandbox' || env == 'prod') {
-            baseName = "token-mobile-$env." + project.version.toString()
+            baseName = "noqapp-mobile-$env." + project.version.toString()
         }
 
         if (env == 'dev') {
-            baseName = "token-mobile-$env"
+            baseName = "noqapp-mobile-$env"
         }
     }
 
