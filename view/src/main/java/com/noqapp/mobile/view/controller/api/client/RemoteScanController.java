@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/api/c/scan")
+@RequestMapping (value = "/api/c/remotescan")
 public class RemoteScanController {
     private static final Logger LOG = LoggerFactory.getLogger(ClientProfileController.class);
 
