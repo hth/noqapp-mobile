@@ -25,7 +25,7 @@ import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
-import com.noqapp.mobile.domain.Profile;
+import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_CLIENT;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
@@ -191,7 +191,7 @@ public class AccountClientController {
                 response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
 
                 userProfile = userProfilePreferenceService.findByReceiptUserId(userAccount.getReceiptUserId());
-                return Profile.newInstance(userProfile, inviteService.getRemoteScanCount(userAccount.getReceiptUserId())).asJson();
+                return JsonProfile.newInstance(userProfile, inviteService.getRemoteScanCount(userAccount.getReceiptUserId())).asJson();
             } catch (Exception e) {
                 LOG.error("Failed signup for user={} reason={}", mail, e.getLocalizedMessage(), e);
 

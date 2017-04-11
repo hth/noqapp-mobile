@@ -13,13 +13,15 @@ Response
     Content-Type: application/json;charset=UTF-8
          
     {
-        "cs": "US",
-        "em": "first.1@mail.noqapp.com",
-        "ic": "first001q",
-        "nm": "First",
-        "pr": "4087008000",
-        "rs": 0,
-        "tz": "India"
+      "bd": "12-12-2000",
+      "cs": "US",
+      "em": "first.4@mail.noqapp.com",
+      "ge": "M",
+      "ic": "first0041",
+      "nm": "First",
+      "pr": "4087008081",
+      "rs": 0,
+      "tz": "India"
     }
          
 

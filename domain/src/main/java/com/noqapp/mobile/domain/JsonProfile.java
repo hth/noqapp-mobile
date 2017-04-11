@@ -27,7 +27,7 @@ import com.noqapp.domain.UserProfileEntity;
 @JsonPropertyOrder (alphabetic = true)
 @JsonIgnoreProperties (ignoreUnknown = true)
 //@JsonInclude (JsonInclude.Include.NON_NULL)
-public class Profile extends AbstractDomain {
+public class JsonProfile extends AbstractDomain {
     @JsonProperty ("nm")
     private String name;
 
@@ -55,7 +55,7 @@ public class Profile extends AbstractDomain {
     @JsonProperty ("ge")
     private String gender;
 
-    private Profile(
+    private JsonProfile(
             String name,
             String mail,
             String countryShortName,
@@ -77,8 +77,8 @@ public class Profile extends AbstractDomain {
         this.remoteScanAvailable = remoteScanAvailable;
     }
 
-    public static Profile newInstance(UserProfileEntity userProfile, int remoteScanAvailable) {
-        return new Profile(
+    public static JsonProfile newInstance(UserProfileEntity userProfile, int remoteScanAvailable) {
+        return new JsonProfile(
                 userProfile.getName(),
                 userProfile.getEmail(),
                 userProfile.getCountryShortName(),
