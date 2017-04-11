@@ -197,7 +197,7 @@ public class AccountClientController {
 
                 errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
-                errors.put(ACCOUNT_REGISTRATION.PH.name(), mail);
+                errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
                 return ErrorEncounteredJson.toJson(errors);
@@ -207,6 +207,88 @@ public class AccountClientController {
 
     //TODO recover is based on phone number. When number already exists then ask which of the stores the user visited.
     //on bad answer, reset account data instead of showing old data.
+
+    @Timed
+    @ExceptionMetered
+    @RequestMapping (
+            value = "/login.json",
+            method = RequestMethod.POST,
+            headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String login(
+            @RequestBody
+            String loginJson,
+
+            HttpServletResponse response
+    ) {
+
+        Map<String, ScrubbedInput> map;
+        try {
+            map = ParseJsonStringToMap.jsonStringToMap(loginJson);
+        } catch (IOException e) {
+            LOG.error("Could not parse json={} reason={}", loginJson, e.getLocalizedMessage(), e);
+            return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
+        }
+
+        if (map.isEmpty()) {
+            /** Validation failure as there is no data in the map. */
+            return ErrorEncounteredJson.toJson(accountClientValidator.validate(
+                    null,
+                    null));
+        } else {
+            Set<String> unknownKeys = invalidElementsInMapDuringLogin(map);
+            if (!unknownKeys.isEmpty()) {
+                /** Validation failure as there are unknown keys. */
+                return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
+            }
+
+            /* Required. */
+            String phone = map.get(ACCOUNT_REGISTRATION.PH.name()).getText();
+
+            /* Required. */
+            String countryShortName = map.get(ACCOUNT_REGISTRATION.CS.name()).getText();
+
+            Map<String, String> errors = accountClientValidator.validate(
+                    phone,
+                    countryShortName
+            );
+
+            if (!errors.isEmpty()) {
+                return ErrorEncounteredJson.toJson(errors);
+            }
+
+            try {
+                UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone, countryShortName);
+                if (null == userProfile) {
+                    LOG.info("Failed user login as no user found with phone={} cs={}", phone, countryShortName);
+                    errors = new HashMap<>();
+                    errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
+                    errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
+                    return ErrorEncounteredJson.toJson(errors);
+                }
+
+
+                UserAccountEntity userAccount = accountMobileService.findByRid(userProfile.getReceiptUserId());
+                response.addHeader("X-R-MAIL", userAccount.getUserId());
+                response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
+
+                return JsonProfile.newInstance(userProfile, inviteService.getRemoteScanCount(userAccount.getReceiptUserId())).asJson();
+            } catch (Exception e) {
+                LOG.error("Failed login for phone={} cs={} reason={}", phone, countryShortName, e.getLocalizedMessage(), e);
+
+                errors = new HashMap<>();
+                errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
+                errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
+                return ErrorEncounteredJson.toJson(errors);
+            }
+        }
+    }
 
     private Set<String> invalidElementsInMapDuringRegistration(Map<String, ScrubbedInput> map) {
         Set<String> keys = new HashSet<>(map.keySet());
@@ -218,6 +300,16 @@ public class AccountClientController {
         List<ACCOUNT_REGISTRATION_CLIENT> client = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION_CLIENT.values()));
         for(ACCOUNT_REGISTRATION_CLIENT registration_client : client) {
             keys.remove(registration_client.name());
+        }
+
+        return keys;
+    }
+
+    private Set<String> invalidElementsInMapDuringLogin(Map<String, ScrubbedInput> map) {
+        Set<String> keys = new HashSet<>(map.keySet());
+        List<ACCOUNT_REGISTRATION> enums = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION.PH, ACCOUNT_REGISTRATION.CS));
+        for (ACCOUNT_REGISTRATION registration : enums) {
+            keys.remove(registration.name());
         }
 
         return keys;

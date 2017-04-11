@@ -9,7 +9,9 @@
 - TZ - TimeZone Id    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`*required` computed from phone
 - IC - Invite Code    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;optional
 
-Note: `CS` and `TZ` are computed and not asked to enter
+Note:   
+`CS` can be asked to enter. But this has to be validated during OTP. Should use whats entered.  
+`TZ` is computed and not asked to enter  
     
     curl -X "POST" "http://localhost:9090/noqapp-mobile/open/client/registration.json" 
          -H "Content-Type: application/json; charset=utf-8" 

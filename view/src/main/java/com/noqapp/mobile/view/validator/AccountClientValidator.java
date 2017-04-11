@@ -49,5 +49,18 @@ public class AccountClientValidator extends AccountValidator {
 
         return errors;
     }
-    
+
+    public Map<String, String> validate(
+            String phone,
+            String countryShortName
+    ) {
+        LOG.info("Validating client information phone={} cs={}", phone, countryShortName);
+
+        Map<String, String> errors = new HashMap<>();
+
+        phoneValidation(phone, errors);
+        countryShortNameValidation(countryShortName, errors);
+
+        return errors;
+    }
 }
