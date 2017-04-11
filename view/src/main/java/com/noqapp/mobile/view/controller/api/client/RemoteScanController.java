@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
-import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.mobile.domain.JsonProfile;
+import com.noqapp.mobile.domain.JsonRemoteScan;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.service.InviteService;
-import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.utils.ScrubbedInput;
 
 import java.io.IOException;
@@ -26,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * User: hitender
- * Date: 3/25/17 12:46 AM
+ * Date: 4/11/17 10:13 AM
  */
 @SuppressWarnings ({
         "PMD.BeanMembersShouldSerialize",
@@ -35,22 +33,19 @@ import javax.servlet.http.HttpServletResponse;
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/api/c/profile")
-public class ClientProfileController {
+@RequestMapping (value = "/api/c/scan")
+public class RemoteScanController {
     private static final Logger LOG = LoggerFactory.getLogger(ClientProfileController.class);
 
     private AuthenticateMobileService authenticateMobileService;
-    private UserProfilePreferenceService userProfilePreferenceService;
     private InviteService inviteService;
 
     @Autowired
-    public ClientProfileController(
+    public RemoteScanController(
             AuthenticateMobileService authenticateMobileService,
-            UserProfilePreferenceService userProfilePreferenceService,
             InviteService inviteService
     ) {
         this.authenticateMobileService = authenticateMobileService;
-        this.userProfilePreferenceService = userProfilePreferenceService;
         this.inviteService = inviteService;
     }
 
@@ -58,10 +53,9 @@ public class ClientProfileController {
     @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.GET,
-            value = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public JsonProfile fetch(
+    public JsonRemoteScan remoteScan(
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
 
@@ -77,7 +71,6 @@ public class ClientProfileController {
             return null;
         }
 
-        UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(rid);
-        return JsonProfile.newInstance(userProfile, inviteService.getRemoteScanCount(rid));
+        return JsonRemoteScan.newInstance(inviteService.getRemoteScanCount(rid));
     }
 }
