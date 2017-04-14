@@ -4,6 +4,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION;
 
 import org.apache.commons.lang3.StringUtils;
@@ -266,8 +267,8 @@ public class AccountClientController {
                     errors = new HashMap<>();
                     errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
                     errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
-                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
-                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
                     return ErrorEncounteredJson.toJson(errors);
                 }
 
