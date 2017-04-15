@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.QueueEntity;
@@ -92,6 +94,7 @@ public class QueueMobileService {
         return null;
     }
 
+    @Cacheable (value = "findAllJoinedQueues", keyGenerator = "customKeyGenerator")
     public List<JsonTokenAndQueue> findAllJoinedQueues(String did) {
         List<QueueEntity> queues = queueManager.findAllByDid(did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
@@ -106,12 +109,14 @@ public class QueueMobileService {
         return jsonTokenAndQueues;
     }
 
+    @Cacheable (value = "findHistoricalQueue", keyGenerator = "customKeyGenerator")
     public List<JsonTokenAndQueue> findHistoricalQueue(String did) {
         List<QueueEntity> queues = queueManagerJDBC.findByDid(did);
 
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
             BizStoreEntity bizStore = bizService.findByCodeQR(queue.getCodeQR());
+            Assert.notNull(bizStore, "BizStore is null for CodeQR=" + queue.getCodeQR());
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(queue, bizStore);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
