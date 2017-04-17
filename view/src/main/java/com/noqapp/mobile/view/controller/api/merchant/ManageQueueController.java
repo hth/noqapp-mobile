@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -192,6 +193,7 @@ public class ManageQueueController {
             QueueStatusEnum queueStatus;
             try {
                 queueStatus = map.containsKey("s") ? QueueStatusEnum.valueOf(map.get("s").getText()) : null;
+                Assert.notNull(queueStatus, "Queue Status cannot be null");
             } catch (IllegalArgumentException e) {
                 LOG.error("Failed finding QueueStatus reason={}", e.getLocalizedMessage(), e);
                 Map<String, String> errors = getErrorUserInput("Not a valid queue status.");
