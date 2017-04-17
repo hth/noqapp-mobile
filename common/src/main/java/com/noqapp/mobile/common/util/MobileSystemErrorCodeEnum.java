@@ -14,6 +14,7 @@ public enum MobileSystemErrorCodeEnum {
 
     /** When cannot parse JSON sent to Mobile Server from mobile devices. */
     MOBILE_JSON("210"),
+    MOBILE_UPGRADE("222"),
 
     DOCUMENT_UPLOAD("300"),
 

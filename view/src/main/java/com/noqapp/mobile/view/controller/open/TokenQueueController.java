@@ -1,5 +1,9 @@
 package com.noqapp.mobile.view.controller.open;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,12 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
-import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonQueue;
-import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonTokenAndQueue;
+import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import com.noqapp.utils.ScrubbedInput;
 
 import java.io.IOException;
@@ -165,12 +170,15 @@ public class TokenQueueController {
             value = "/queue/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public JsonToken joinQueue(
+    public String joinQueue(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
             ScrubbedInput dt,
+
+            @RequestHeader (value = "X-R-VR", required = false, defaultValue = "100")
+            ScrubbedInput versionRelease,
 
             @PathVariable ("codeQR")
             ScrubbedInput codeQR,
@@ -183,7 +191,32 @@ public class TokenQueueController {
             return null;
         }
 
-        return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null);
+        DeviceTypeEnum deviceTypeEnum;
+        try {
+            deviceTypeEnum = DeviceTypeEnum.valueOf(dt.getText());
+            LOG.info("Check if API version is supported for {} versionRelease={}",
+                    deviceTypeEnum.getDescription(),
+                    versionRelease.getText());
+            
+            try {
+                int versionNumber = Integer.valueOf(versionRelease.getText());
+                if (LowestSupportedAppEnum.isLessThanLowestSupportedVersion(deviceTypeEnum, versionNumber)) {
+                    LOG.warn("Sent warning to upgrade versionNumber={}", versionNumber);
+                    return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
+                }
+            } catch (NumberFormatException e) {
+                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
+                return getErrorReason("Failed to read API version type.", USER_INPUT);
+            } catch (Exception e) {
+                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
+                return getErrorReason("Incorrect API version type.", USER_INPUT);
+            }
+        } catch (Exception e) {
+            LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
+            return getErrorReason("Incorrect device type.", USER_INPUT);
+        }
+
+        return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null).asJson();
     }
 
     /**
