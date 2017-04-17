@@ -62,7 +62,7 @@ public class TokenQueueController {
      * Get state of queue at the store.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param codeQR
      * @param response
      * @return
@@ -80,14 +80,14 @@ public class TokenQueueController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @PathVariable ("codeQR")
             ScrubbedInput codeQR,
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("On scan get state did={} dt={} codeQR={}", did, dt, codeQR);
+        LOG.info("On scan get state did={} dt={} codeQR={}", did, deviceType, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
@@ -100,7 +100,7 @@ public class TokenQueueController {
      * Get all the queues user has token from. In short all the queues user has joined.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param response
      * @return
      * @throws IOException
@@ -117,7 +117,7 @@ public class TokenQueueController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             HttpServletResponse response
     ) {
@@ -129,7 +129,7 @@ public class TokenQueueController {
      * Get all the historical queues user has token from. In short all the queues user has joined in past.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param response
      * @return
      * @throws IOException
@@ -146,7 +146,7 @@ public class TokenQueueController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             HttpServletResponse response
     ) {
@@ -157,7 +157,7 @@ public class TokenQueueController {
      * Join the queue.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param codeQR
      * @param response
      * @return
@@ -175,7 +175,7 @@ public class TokenQueueController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @RequestHeader (value = "X-R-VR", required = false, defaultValue = "100")
             ScrubbedInput versionRelease,
@@ -185,7 +185,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Join queue did={} dt={} codeQR={}", did, dt, codeQR);
+        LOG.info("Join queue did={} deviceType={} codeQR={}", did, deviceType, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
@@ -193,7 +193,7 @@ public class TokenQueueController {
 
         DeviceTypeEnum deviceTypeEnum;
         try {
-            deviceTypeEnum = DeviceTypeEnum.valueOf(dt.getText());
+            deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
             LOG.info("Check if API version is supported for {} versionRelease={}",
                     deviceTypeEnum.getDescription(),
                     versionRelease.getText());
@@ -223,7 +223,7 @@ public class TokenQueueController {
      * Abort the queue. App should un-subscribe user from topic.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param codeQR
      * @param response
      * @return
@@ -241,14 +241,14 @@ public class TokenQueueController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @PathVariable ("codeQR")
             ScrubbedInput codeQR,
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Abort queue did={} dt={} codeQR={}", did, dt, codeQR);
+        LOG.info("Abort queue did={} deviceType={} codeQR={}", did, deviceType, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
