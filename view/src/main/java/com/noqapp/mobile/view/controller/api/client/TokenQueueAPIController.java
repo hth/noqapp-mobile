@@ -1,11 +1,14 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,20 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
-import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
-import com.noqapp.mobile.view.controller.open.TokenQueueController;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
-import com.noqapp.domain.json.JsonTokenAndQueue;
+import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.mobile.view.common.ParseTokenFCM;
+import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
+import com.noqapp.mobile.view.controller.open.TokenQueueController;
 import com.noqapp.service.InviteService;
 import com.noqapp.utils.ScrubbedInput;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -128,7 +131,7 @@ public class TokenQueueAPIController {
             value = "/queues",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public List<JsonTokenAndQueue> getAllJoinedQueues(
+    public String getAllJoinedQueues(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -146,7 +149,7 @@ public class TokenQueueAPIController {
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, rid)) return null;
 
-        return queueMobileService.findAllJoinedQueues(did.getText());
+        return queueMobileService.findAllJoinedQueues(did.getText()).asJson();
     }
 
 
@@ -154,7 +157,7 @@ public class TokenQueueAPIController {
      * Get all the historical queues user has token from. In short all the queues user has joined in past.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param response
      * @return
      * @throws IOException
@@ -162,16 +165,16 @@ public class TokenQueueAPIController {
     @Timed
     @ExceptionMetered
     @RequestMapping (
-            method = RequestMethod.GET,
+            method = RequestMethod.POST,
             value = "/historical",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public List<JsonTokenAndQueue> getAllHistoricalJoinedQueues(
+    public String getAllHistoricalJoinedQueues(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
@@ -179,19 +182,30 @@ public class TokenQueueAPIController {
             @RequestHeader ("X-R-AUTH")
             ScrubbedInput auth,
 
+            @RequestBody
+            String tokenJson,
+
             HttpServletResponse response
     ) throws IOException {
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, rid)) return null;
 
-        return queueMobileService.findHistoricalQueue(did.getText());
+        ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson);
+        if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
+            return parseTokenFCM.getErrorResponse();
+        }
+
+        return queueMobileService.findHistoricalQueue(
+                did.getText(),
+                DeviceTypeEnum.valueOf(deviceType.getText()),
+                parseTokenFCM.getTokenFCM()).asJson();
     }
 
     /**
      * Join the queue.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param codeQR
      * @param response
      * @return
@@ -209,7 +223,7 @@ public class TokenQueueAPIController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
@@ -222,7 +236,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Join queue did={} dt={} codeQR={}", did, dt, codeQR);
+        LOG.info("Join queue did={} dt={} codeQR={}", did, deviceType, codeQR);
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, rid)) return null;
 
@@ -238,7 +252,7 @@ public class TokenQueueAPIController {
      * Abort the queue. App should un-subscribe user from topic.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param codeQR
      * @param response
      * @return
@@ -256,7 +270,7 @@ public class TokenQueueAPIController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
@@ -269,7 +283,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Abort queue did={} dt={} codeQR={}", did, dt, codeQR);
+        LOG.info("Abort queue did={} dt={} codeQR={}", did, deviceType, codeQR);
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, rid)) return null;
 
@@ -285,7 +299,7 @@ public class TokenQueueAPIController {
      * Remote scan of QR Code. 
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param codeQR
      * @param response
      * @return
@@ -303,7 +317,7 @@ public class TokenQueueAPIController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
@@ -316,7 +330,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("On remote scan get state did={} dt={} codeQR={}", did, dt, codeQR);
+        LOG.info("On remote scan get state did={} dt={} codeQR={}", did, deviceType, codeQR);
 
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, rid)) return null;

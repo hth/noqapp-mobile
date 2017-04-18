@@ -1,6 +1,5 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +22,7 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.domain.DeviceRegistered;
 import com.noqapp.mobile.service.DeviceService;
-import com.noqapp.utils.ParseJsonStringToMap;
+import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.utils.ScrubbedInput;
 
 import java.io.IOException;
@@ -93,33 +92,24 @@ public class DeviceController {
             return getErrorReason("Incorrect device type.", USER_INPUT);
         }
 
-        Map<String, ScrubbedInput> map;
-        String deviceToken;
-        try {
-            map = ParseJsonStringToMap.jsonStringToMap(tokenJson);
-            if (map.isEmpty()) {
-                /** Validation failure as there is not data in the map. */
-                return getErrorReason("Failed data validation.", USER_INPUT);
-            }
-
-            deviceToken = map.get("tk").getText();
-            if (StringUtils.isBlank(deviceToken)) {
-                return getErrorReason("Failed data validation.", USER_INPUT);
-            }
-        } catch (IOException e) {
-            LOG.error("Could not parse json={} reason={}", tokenJson, e.getLocalizedMessage(), e);
-            return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
+        ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson);
+        if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
+            return parseTokenFCM.getErrorResponse();
         }
 
         try {
-            return DeviceRegistered.newInstance(deviceService.registerDevice(null, did.getText(), deviceTypeEnum, deviceToken)).asJson();
+            return DeviceRegistered.newInstance(deviceService.registerDevice(
+                    null,
+                    did.getText(),
+                    deviceTypeEnum,
+                    parseTokenFCM.getTokenFCM())).asJson();
         } catch (Exception e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", USER_INPUT);
         }
     }
 
-    static String getErrorReason(String reason, MobileSystemErrorCodeEnum mobileSystemErrorCode) {
+    public static String getErrorReason(String reason, MobileSystemErrorCodeEnum mobileSystemErrorCode) {
         Map<String, String> errors = new HashMap<>();
         errors.put(ErrorEncounteredJson.REASON, reason);
         errors.put(ErrorEncounteredJson.SYSTEM_ERROR, mobileSystemErrorCode.name());
