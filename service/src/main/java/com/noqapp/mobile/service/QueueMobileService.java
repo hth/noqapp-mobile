@@ -9,10 +9,13 @@ import org.springframework.util.Assert;
 
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.QueueEntity;
+import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueue;
+import com.noqapp.domain.json.JsonTokenAndQueueList;
+import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.repository.QueueManager;
@@ -33,6 +36,7 @@ public class QueueMobileService {
     private QueueManager queueManager;
     private TokenQueueMobileService tokenQueueMobileService;
     private BizService bizService;
+    private DeviceService deviceService;
     private QueueManagerJDBC queueManagerJDBC;
 
     @Autowired
@@ -40,11 +44,13 @@ public class QueueMobileService {
             QueueManager queueManager,
             TokenQueueMobileService tokenQueueMobileService,
             BizService bizService,
+            DeviceService deviceService,
             QueueManagerJDBC queueManagerJDBC
     ) {
         this.queueManager = queueManager;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.bizService = bizService;
+        this.deviceService = deviceService;
         this.queueManagerJDBC = queueManagerJDBC;
     }
 
@@ -93,7 +99,7 @@ public class QueueMobileService {
         return null;
     }
 
-    public List<JsonTokenAndQueue> findAllJoinedQueues(String did) {
+    public JsonTokenAndQueueList findAllJoinedQueues(String did) {
         List<QueueEntity> queues = queueManager.findAllByDid(did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
@@ -104,11 +110,21 @@ public class QueueMobileService {
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
 
-        return jsonTokenAndQueues;
+        JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
+        jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
+
+        return jsonTokenAndQueueList;
     }
 
-    public List<JsonTokenAndQueue> findHistoricalQueue(String did) {
-        List<QueueEntity> queues = queueManagerJDBC.findByDid(did);
+    public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, String token) {
+        RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(null, did, token);
+        List<QueueEntity> queues;
+        if (registeredDevice == null) {
+            queues = queueManagerJDBC.getByDid(did);
+            deviceService.registerDevice(null, did, deviceType, token);
+        } else {
+            queues = queueManagerJDBC.getByDid(did, registeredDevice.getUpdated());
+        }
 
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
@@ -118,6 +134,9 @@ public class QueueMobileService {
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
 
-        return jsonTokenAndQueues;
+        JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
+        jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
+
+        return jsonTokenAndQueueList;
     }
 }

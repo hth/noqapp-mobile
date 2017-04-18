@@ -56,4 +56,16 @@ public class DeviceService {
         }
         return true;
     }
+
+    public boolean isDeviceRegistered(String rid, String did) {
+        return registeredDeviceManager.find(rid, did) != null;
+    }
+
+    public RegisteredDeviceEntity lastAccessed(String rid, String did) {
+        return registeredDeviceManager.lastAccessed(rid, did);
+    }
+
+    public RegisteredDeviceEntity lastAccessed(String rid, String did, String token) {
+        return registeredDeviceManager.lastAccessed(rid, did, token);
+    }
 }

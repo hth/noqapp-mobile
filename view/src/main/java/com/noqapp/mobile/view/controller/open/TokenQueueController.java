@@ -4,12 +4,15 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPG
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,15 +22,14 @@ import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonResponse;
-import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.types.LowestSupportedAppEnum;
+import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.utils.ScrubbedInput;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -112,7 +114,7 @@ public class TokenQueueController {
             value = "/queues",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public List<JsonTokenAndQueue> getAllJoinedQueues(
+    public String getAllJoinedQueues(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -121,7 +123,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) {
-        return queueMobileService.findAllJoinedQueues(did.getText());
+        return queueMobileService.findAllJoinedQueues(did.getText()).asJson();
     }
 
 
@@ -137,20 +139,31 @@ public class TokenQueueController {
     @Timed
     @ExceptionMetered
     @RequestMapping (
-            method = RequestMethod.GET,
+            method = RequestMethod.POST,
             value = "/historical",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public List<JsonTokenAndQueue> getAllHistoricalJoinedQueues(
+    public String getAllHistoricalJoinedQueues(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
             ScrubbedInput deviceType,
 
+            @RequestBody
+            String tokenJson,
+
             HttpServletResponse response
     ) {
-        return queueMobileService.findHistoricalQueue(did.getText());
+        ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson);
+        if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
+            return parseTokenFCM.getErrorResponse();
+        }
+
+        return queueMobileService.findHistoricalQueue(
+                did.getText(),
+                DeviceTypeEnum.valueOf(deviceType.getText()),
+                parseTokenFCM.getTokenFCM()).asJson();
     }
 
     /**
