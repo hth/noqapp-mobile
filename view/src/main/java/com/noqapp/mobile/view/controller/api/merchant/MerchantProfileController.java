@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
+import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.InviteService;
@@ -75,7 +77,13 @@ public class MerchantProfileController {
             return null;
         }
 
-        /* For merchant profile no need to find remote scan. */
-        return JsonProfile.newInstance(userProfilePreferenceService.findByReceiptUserId(rid), 0).asJson();
+        UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(rid);
+        if (userProfile.getLevel() == UserLevelEnum.MER_ADMIN || userProfile.getLevel() == UserLevelEnum.MER_MANAGER) {
+            /* For merchant profile no need to find remote scan. */
+            return JsonProfile.newInstance(userProfile, 0).asJson();
+        }
+
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
+        return null;
     }
 }
