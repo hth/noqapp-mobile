@@ -16,7 +16,6 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.service.InviteService;
 import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.utils.ScrubbedInput;
 
@@ -41,17 +40,14 @@ public class MerchantProfileController {
 
     private AuthenticateMobileService authenticateMobileService;
     private UserProfilePreferenceService userProfilePreferenceService;
-    private InviteService inviteService;
 
     @Autowired
     public MerchantProfileController(
             AuthenticateMobileService authenticateMobileService,
-            UserProfilePreferenceService userProfilePreferenceService,
-            InviteService inviteService
+            UserProfilePreferenceService userProfilePreferenceService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
-        this.inviteService = inviteService;
     }
 
     @Timed
@@ -78,12 +74,12 @@ public class MerchantProfileController {
         }
 
         UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(rid);
-        if (userProfile.getLevel() == UserLevelEnum.MER_ADMIN || userProfile.getLevel() == UserLevelEnum.MER_MANAGER) {
-            /* For merchant profile no need to find remote scan. */
-            return JsonProfile.newInstance(userProfile, 0).asJson();
+        if (UserLevelEnum.MER_ADMIN != userProfile.getLevel() || UserLevelEnum.MER_MANAGER != userProfile.getLevel()) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
+            return null;
         }
 
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
-        return null;
+        /* For merchant profile no need to find remote scan. */
+        return JsonProfile.newInstance(userProfile, 0).asJson();
     }
 }
