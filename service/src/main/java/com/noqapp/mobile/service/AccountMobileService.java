@@ -182,7 +182,7 @@ public class AccountMobileService {
         return userAccount;
     }
 
-    public void sendValidationEmail(UserAccountEntity userAccount) {
+    private void sendValidationEmail(UserAccountEntity userAccount) {
         EmailValidateEntity accountValidate = emailValidateService.saveAccountValidate(
                 userAccount.getReceiptUserId(),
                 userAccount.getUserId());
@@ -207,7 +207,7 @@ public class AccountMobileService {
      * @param auth
      * @return
      */
-    protected boolean sendMailDuringSignup(String userId, String name, String auth, HttpClient httpClient) {
+    private boolean sendMailDuringSignup(String userId, String name, String auth, HttpClient httpClient) {
         LOG.debug("userId={} name={} webApiAccessToken={}", userId, name, "*******");
         HttpPost httpPost = webConnectorService.getHttpPost(accountValidationEndPoint, httpClient);
         if (null == httpPost) {
