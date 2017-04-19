@@ -1,4 +1,4 @@
-package com.noqapp.mobile.view.controller.api.client;
+package com.noqapp.mobile.view.controller.api.merchant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,6 @@ import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.utils.ScrubbedInput;
@@ -25,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * User: hitender
- * Date: 3/25/17 12:46 AM
+ * Date: 4/19/17 10:23 AM
  */
 @SuppressWarnings ({
         "PMD.BeanMembersShouldSerialize",
@@ -34,16 +33,16 @@ import javax.servlet.http.HttpServletResponse;
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/api/c/profile")
-public class ClientProfileController {
-    private static final Logger LOG = LoggerFactory.getLogger(ClientProfileController.class);
+@RequestMapping (value = "/api/m/profile")
+public class MerchantProfileController {
+    private static final Logger LOG = LoggerFactory.getLogger(MerchantProfileController.class);
 
     private AuthenticateMobileService authenticateMobileService;
     private UserProfilePreferenceService userProfilePreferenceService;
     private InviteService inviteService;
 
     @Autowired
-    public ClientProfileController(
+    public MerchantProfileController(
             AuthenticateMobileService authenticateMobileService,
             UserProfilePreferenceService userProfilePreferenceService,
             InviteService inviteService
@@ -76,8 +75,7 @@ public class ClientProfileController {
             return null;
         }
 
-        return JsonProfile.newInstance(
-                userProfilePreferenceService.findByReceiptUserId(rid),
-                inviteService.getRemoteScanCount(rid)).asJson();
+        /* For merchant profile no need to find remote scan. */
+        return JsonProfile.newInstance(userProfilePreferenceService.findByReceiptUserId(rid), 0).asJson();
     }
 }
