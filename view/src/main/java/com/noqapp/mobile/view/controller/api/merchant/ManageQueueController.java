@@ -1,5 +1,8 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.json.JsonToken;
-import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
@@ -31,9 +33,7 @@ import com.noqapp.utils.ParseJsonStringToMap;
 import com.noqapp.utils.ScrubbedInput;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -80,7 +80,7 @@ public class ManageQueueController {
             value = "/queues",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public List<JsonTopic> getQueues(
+    public String getQueues(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -104,10 +104,10 @@ public class ManageQueueController {
         }
 
         try {
-            return businessUserStoreService.getQueues(rid);
+            return businessUserStoreService.getQueues(rid).asJson();
         } catch (Exception e) {
             LOG.error("Getting queues reason={}", e.getLocalizedMessage(), e);
-            return new ArrayList<>();
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
 
@@ -242,8 +242,8 @@ public class ManageQueueController {
     static Map<String, String> getErrorSevere(String reason) {
         Map<String, String> errors = new HashMap<>();
         errors.put(ErrorEncounteredJson.REASON, reason);
-        errors.put(ErrorEncounteredJson.SYSTEM_ERROR, MobileSystemErrorCodeEnum.SEVERE.name());
-        errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, MobileSystemErrorCodeEnum.SEVERE.getCode());
+        errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
+        errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
         return errors;
     }
 }
