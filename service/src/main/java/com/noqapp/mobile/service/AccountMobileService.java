@@ -183,16 +183,16 @@ public class AccountMobileService {
     }
 
     private void sendValidationEmail(UserAccountEntity userAccount) {
-        EmailValidateEntity accountValidate = emailValidateService.saveAccountValidate(
+        EmailValidateEntity emailValidate = emailValidateService.saveAccountValidate(
                 userAccount.getReceiptUserId(),
                 userAccount.getUserId());
-        Assert.notNull(accountValidate);
+        Assert.notNull(emailValidate, "Email Validate cannot be null");
 
         //TODO(hth) mail sending can be done on background. Just store this as a task.
         boolean mailStatus = sendMailDuringSignup(
                 userAccount.getUserId(),
                 userAccount.getName(),
-                accountValidate.getAuthenticationKey(),
+                emailValidate.getAuthenticationKey(),
                 HttpClientBuilder.create().build());
 
         LOG.info("mail sent={} to user={}", mailStatus, userAccount.getUserId());
