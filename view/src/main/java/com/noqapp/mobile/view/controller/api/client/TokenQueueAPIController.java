@@ -149,7 +149,7 @@ public class TokenQueueAPIController {
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, rid)) return null;
 
-        return queueMobileService.findAllJoinedQueues(did.getText()).asJson();
+        return queueMobileService.findAllJoinedQueues(rid, did.getText()).asJson();
     }
 
 
@@ -196,6 +196,7 @@ public class TokenQueueAPIController {
         }
 
         return queueMobileService.findHistoricalQueue(
+                rid,
                 did.getText(),
                 DeviceTypeEnum.valueOf(deviceType.getText()),
                 parseTokenFCM.getTokenFCM()).asJson();
@@ -245,7 +246,7 @@ public class TokenQueueAPIController {
             return null;
         }
 
-        return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null);
+        return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), rid);
     }
 
     /**
@@ -292,7 +293,7 @@ public class TokenQueueAPIController {
             return null;
         }
 
-        return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), null);
+        return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), rid);
     }
 
     /**
@@ -340,13 +341,15 @@ public class TokenQueueAPIController {
             return null;
         }
 
-        if (inviteService.getRemoteScanCount(rid) > 0) {
+        int remoteScanCount = inviteService.getRemoteScanCount(rid);
+        if (remoteScanCount > 0) {
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(codeQR.getText());
             if (jsonQueue != null) {
                 inviteService.deductRemoteScanCount(rid);
                 return jsonQueue;
             }
         } else {
+            LOG.info("Cannot do remote scan as none available remoteScanCount={}", remoteScanCount);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
             return null;
         }

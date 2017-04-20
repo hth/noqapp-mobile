@@ -21,6 +21,7 @@ import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.service.BizService;
+import com.noqapp.utils.Validate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,6 +117,24 @@ public class QueueMobileService {
         return jsonTokenAndQueueList;
     }
 
+    public JsonTokenAndQueueList findAllJoinedQueues(String rid, String did) {
+        Validate.isValidRid(rid);
+        List<QueueEntity> queues = queueManager.findAllByRid(rid);
+        List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
+        for (QueueEntity queue : queues) {
+            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, rid);
+            JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
+
+            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken.getToken(), jsonToken.getQueueStatus(), jsonQueue);
+            jsonTokenAndQueues.add(jsonTokenAndQueue);
+        }
+
+        JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
+        jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
+
+        return jsonTokenAndQueueList;
+    }
+
     public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, String token) {
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(null, did, token);
         List<QueueEntity> queues;
@@ -126,6 +145,24 @@ public class QueueMobileService {
             queues = queueManagerJDBC.getByDid(did, registeredDevice.getUpdated());
         }
 
+        return getJsonTokenAndQueueList(queues);
+    }
+
+    public JsonTokenAndQueueList findHistoricalQueue(String rid, String did, DeviceTypeEnum deviceType, String token) {
+        Validate.isValidRid(rid);
+        RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(rid, did, token);
+        List<QueueEntity> queues;
+        if (registeredDevice == null) {
+            queues = queueManagerJDBC.getByRid(rid);
+            deviceService.registerDevice(rid, did, deviceType, token);
+        } else {
+            queues = queueManagerJDBC.getByRid(rid, registeredDevice.getUpdated());
+        }
+
+        return getJsonTokenAndQueueList(queues);
+    }
+
+    private JsonTokenAndQueueList getJsonTokenAndQueueList(List<QueueEntity> queues) {
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
             BizStoreEntity bizStore = bizService.findByCodeQR(queue.getCodeQR());
