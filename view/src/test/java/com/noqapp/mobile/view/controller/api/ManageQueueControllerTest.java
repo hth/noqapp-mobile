@@ -292,7 +292,7 @@ public class ManageQueueControllerTest {
         JsonObject json = new JsonObject();
         json.addProperty("c", "111");
         json.addProperty("t", "1");
-        json.addProperty("q", "ZZ");
+        json.addProperty("q", QueueUserStateEnum.S.getName());
         json.addProperty("s", "bbbb");
         String jsonRequest = new Gson().toJson(json);
 
