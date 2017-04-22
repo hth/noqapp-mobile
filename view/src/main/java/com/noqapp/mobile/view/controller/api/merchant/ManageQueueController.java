@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -24,8 +25,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.service.BusinessUserStoreService;
@@ -33,7 +32,6 @@ import com.noqapp.utils.ParseJsonStringToMap;
 import com.noqapp.utils.ScrubbedInput;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -163,8 +161,7 @@ public class ManageQueueController {
 
             if (StringUtils.isBlank(codeQR)) {
                 LOG.warn("Not a valid codeQR={} rid={}", codeQR, rid);
-                Map<String, String> errors = getErrorUserInput("Not a valid queue code.");
-                return ErrorEncounteredJson.toJson(errors);
+                return getErrorReason("Not a valid queue code.", MOBILE_JSON);
             } else if (!businessUserStoreService.hasAccess(rid, codeQR)) {
                 LOG.info("Un-authorized store access to /api/mq by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -177,8 +174,7 @@ public class ManageQueueController {
                 servedNumber = Integer.valueOf(serveTokenString);
             } else {
                 LOG.warn("Not a valid number={} codeQR={} rid={}", serveTokenString, codeQR, rid);
-                Map<String, String> errors = getErrorUserInput("Not a valid number.");
-                return ErrorEncounteredJson.toJson(errors);
+                return getErrorReason("Not a valid number.", MOBILE_JSON);
             }
 
             QueueUserStateEnum queueUserState;
@@ -186,8 +182,7 @@ public class ManageQueueController {
                 queueUserState = map.containsKey("q") ? QueueUserStateEnum.valueOf(map.get("q").getText()) : null;
             } catch (IllegalArgumentException e) {
                 LOG.error("Failed finding QueueUserState reason={}", e.getLocalizedMessage(), e);
-                Map<String, String> errors = getErrorUserInput("Not a valid queue user state.");
-                return ErrorEncounteredJson.toJson(errors);
+                return getErrorReason("Not a valid queue user state.", MOBILE_JSON);
             }
             
             QueueStatusEnum queueStatus;
@@ -196,8 +191,7 @@ public class ManageQueueController {
                 Assert.notNull(queueStatus, "Queue Status cannot be null");
             } catch (IllegalArgumentException e) {
                 LOG.error("Failed finding QueueStatus reason={}", e.getLocalizedMessage(), e);
-                Map<String, String> errors = getErrorUserInput("Not a valid queue status.");
-                return ErrorEncounteredJson.toJson(errors);
+                return getErrorReason("Not a valid queue status.", MOBILE_JSON);
             }
 
 
@@ -219,31 +213,13 @@ public class ManageQueueController {
 
             if (null == jsonToken) {
                 LOG.error("Could not find queue codeQR={} servedNumber={} queueUserState={}", codeQR, servedNumber, queueUserState);
-                Map<String, String> errors = getErrorSevere("Something went wrong. Engineers are looking into this.");
-                return ErrorEncounteredJson.toJson(errors);
+                return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
             }
 
             return jsonToken.asJson();
         } catch (JsonMappingException e) {
             LOG.error("Fail parsing json={} rid={} message={}", requestBodyJson, rid, e.getLocalizedMessage(), e);
-            Map<String, String> errors = getErrorSevere("Something went wrong. Engineers are looking into this.");
-            return ErrorEncounteredJson.toJson(errors);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
-    }
-
-    static Map<String, String> getErrorUserInput(String reason) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put(ErrorEncounteredJson.REASON, reason);
-        errors.put(ErrorEncounteredJson.SYSTEM_ERROR, MobileSystemErrorCodeEnum.USER_INPUT.name());
-        errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, MobileSystemErrorCodeEnum.USER_INPUT.getCode());
-        return errors;
-    }
-
-    static Map<String, String> getErrorSevere(String reason) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put(ErrorEncounteredJson.REASON, reason);
-        errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
-        errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
-        return errors;
     }
 }
