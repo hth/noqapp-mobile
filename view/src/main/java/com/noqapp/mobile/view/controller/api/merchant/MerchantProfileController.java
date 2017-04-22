@@ -71,28 +71,35 @@ public class MerchantProfileController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("mail={}, auth={}", mail, ManageQueueController.AUTH_KEY_HIDDEN);
+        LOG.debug("mail={}, auth={}", mail, ManageQueueController.AUTH_KEY_HIDDEN);
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (null == rid) {
-            LOG.info("Could not find RID");
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
             return null;
         }
 
         UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(rid);
-        LOG.info("Found profile rid={}", userProfile.getReceiptUserId());
-//        if (UserLevelEnum.MER_ADMIN != userProfile.getLevel() || UserLevelEnum.MER_MANAGER != userProfile.getLevel()) {
-//            LOG.warn("No access");
-//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
-//            return null;
-//        }
-
+        switch (userProfile.getLevel()) {
+            case MER_ADMIN:
+            case MER_MANAGER:
+                LOG.info("Has access");
+                break;
+            case ADMIN:
+            case CLIENT:
+            case TECHNICIAN:
+            case SUPERVISOR:
+            case ANALYSIS:
+                LOG.info("Has no access");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
+                return null;
+            default:
+                LOG.error("Reached unsupported user level");
+                throw new UnsupportedOperationException("Reached unsupported user level " + userProfile.getLevel().getDescription());
+        }
 
         /* For merchant profile no need to find remote scan. */
         JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, 0);
-        LOG.info("profile={}", jsonProfile);
         List<JsonTopic> jsonTopics = businessUserStoreService.getQueues(rid);
-        LOG.info("Topic={}", jsonTopics.size());
         JsonMerchant jsonMerchant = new JsonMerchant();
         jsonMerchant.setJsonProfile(jsonProfile);
         jsonMerchant.setTopics(jsonTopics);
