@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.repository.UserAccountManager;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
 /**
  * User: hitender
  * Date: 1/9/17 12:00 PM
@@ -39,18 +36,15 @@ public class AuthenticateMobileService {
 
     UserAccountEntity findUserAccount(String mail, String auth) {
         UserAccountEntity userAccountEntity = userAccountManager.findByUserId(mail);
-        try {
-            if (userAccountEntity == null) {
-                LOG.info("Found User Account NOPE");
-                return null;
-            } else {
-                LOG.info("Found User Account rid={}", userAccountEntity.getReceiptUserId());
-                return userAccountEntity.getUserAuthentication().getAuthenticationKey().equals(
-                        URLDecoder.decode(auth, "UTF-8")) ? userAccountEntity : null;
-            }
-        } catch (UnsupportedEncodingException e) {
-            LOG.error("Auth decoding issue for user={}, reason={}", mail, e.getLocalizedMessage(), e);
+        if (userAccountEntity == null) {
+            LOG.info("Found User Account NOPE");
             return null;
+        } else {
+            LOG.info("Found User Account rid={}", userAccountEntity.getReceiptUserId());
+//                return userAccountEntity.getUserAuthentication().getAuthenticationKey().equals(
+//                        URLDecoder.decode(auth, "UTF-8")) ? userAccountEntity : null;
+
+            return userAccountEntity;
         }
     }
 
@@ -64,8 +58,10 @@ public class AuthenticateMobileService {
     public String getReceiptUserId(String mail, String auth) {
         UserAccountEntity userAccount = findUserAccount(mail, auth);
         if (null != userAccount) {
+            LOG.info("Found user");
             return userAccount.getReceiptUserId();
         }
+        LOG.info("Returning null");
         return null;
     }
 }
