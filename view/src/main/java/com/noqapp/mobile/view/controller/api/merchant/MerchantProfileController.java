@@ -14,7 +14,6 @@ import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonTopic;
-import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -80,9 +79,22 @@ public class MerchantProfileController {
         }
 
         UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(rid);
-        if (UserLevelEnum.MER_ADMIN != userProfile.getLevel() || UserLevelEnum.MER_MANAGER != userProfile.getLevel()) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
-            return null;
+        switch (userProfile.getLevel()) {
+            case MER_ADMIN:
+            case MER_MANAGER:
+                LOG.info("Has access");
+                break;
+            case ADMIN:
+            case CLIENT:
+            case TECHNICIAN:
+            case SUPERVISOR:
+            case ANALYSIS:
+                LOG.info("Has no access");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
+                return null;
+            default:
+                LOG.error("Reached unsupported user level");
+                throw new UnsupportedOperationException("Reached unsupported user level " + userProfile.getLevel().getDescription());
         }
 
         /* For merchant profile no need to find remote scan. */
