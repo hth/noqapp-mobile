@@ -81,14 +81,19 @@ public class MerchantProfileController {
         }
 
         UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(rid);
+        LOG.info("Found profile rid={}", userProfile.getReceiptUserId());
         if (UserLevelEnum.MER_ADMIN != userProfile.getLevel() || UserLevelEnum.MER_MANAGER != userProfile.getLevel()) {
+            LOG.warn("No access");
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
             return null;
         }
 
+
         /* For merchant profile no need to find remote scan. */
         JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, 0);
+        LOG.info("profile={}", jsonProfile);
         List<JsonTopic> jsonTopics = businessUserStoreService.getQueues(rid);
+        LOG.info("Topic={}", jsonTopics.size());
         JsonMerchant jsonMerchant = new JsonMerchant();
         jsonMerchant.setJsonProfile(jsonProfile);
         jsonMerchant.setTopics(jsonTopics);
