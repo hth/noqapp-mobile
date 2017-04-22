@@ -11,20 +11,28 @@ import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
+import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.json.JsonTopic;
+import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
+import com.noqapp.mobile.common.util.ErrorJsonList;
+import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
+import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.utils.ScrubbedInput;
 import org.junit.Before;
@@ -53,15 +61,75 @@ public class ManageQueueControllerTest {
     @Mock private HttpServletResponse response;
 
     private ManageQueueController manageQueueController;
+    private ObjectMapper mapper;
+    private JsonTopicList jsonTopicList;
+
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         manageQueueController = new ManageQueueController(authenticateMobileService, queueMobileService, businessUserStoreService);
+        mapper = new ObjectMapper();
+
+        TokenQueueEntity tokenQueue = new TokenQueueEntity("topic", "displayName");
+        tokenQueue.setLastNumber(10);
+        tokenQueue.setCurrentlyServing(5);
+        tokenQueue.setId("codeQR");
+
+        JsonTopic topic = new JsonTopic(tokenQueue);
+
+        jsonTopicList = new JsonTopicList();
+        jsonTopicList.addTopic(topic);
     }
 
     @Test
-    public void getState_fail_authentication() throws Exception {
+    public void queues_fail_authentication() throws Exception {
+        String responseJson = manageQueueController.getQueues(
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                response);
+
+        verify(authenticateMobileService, times(1)).getReceiptUserId(any(String.class), any(String.class));
+        assertSame(null, responseJson);
+    }
+
+    @Test
+    public void queues_exception() throws Exception {
+        when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("rid");
+        doThrow(new RuntimeException()).when(businessUserStoreService).getQueues(anyString());
+
+        String responseJson = manageQueueController.getQueues(
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                response);
+
+        verify(authenticateMobileService, times(1)).getReceiptUserId(any(String.class), any(String.class));
+        ErrorJsonList errorJsonList = mapper.readValue(responseJson, ErrorJsonList.class);
+        assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.SEVERE.name());
+    }
+
+    @Test
+    public void queues_pass() throws Exception {
+        when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("rid");
+        when(businessUserStoreService.getQueues(anyString())).thenReturn(jsonTopicList);
+        String responseJson = manageQueueController.getQueues(
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                response);
+
+        verify(authenticateMobileService, times(1)).getReceiptUserId(any(String.class), any(String.class));
+        JsonTopicList jsonTopicList = mapper.readValue(responseJson, JsonTopicList.class);
+        assertEquals(jsonTopicList.getTopics().size(), 1);
+    }
+
+    @Test
+    public void served_fail_authentication() throws Exception {
         String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),

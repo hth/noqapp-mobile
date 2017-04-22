@@ -98,7 +98,7 @@ public class ManageQueueController {
         LOG.info("All queues associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (null == rid) {
-            LOG.info("Un-authorized access to /api/mq by mail={}", mail);
+            LOG.info("Un-authorized access to /api/m/mq/queues by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -152,7 +152,7 @@ public class ManageQueueController {
         LOG.info("Served mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (null == rid) {
-            LOG.info("Un-authorized access to /api/mq by mail={}", mail);
+            LOG.info("Un-authorized access to /api/m/mq/served by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
