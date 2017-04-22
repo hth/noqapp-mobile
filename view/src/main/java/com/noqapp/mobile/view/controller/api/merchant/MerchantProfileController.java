@@ -14,7 +14,6 @@ import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonTopic;
-import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -82,11 +81,11 @@ public class MerchantProfileController {
 
         UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(rid);
         LOG.info("Found profile rid={}", userProfile.getReceiptUserId());
-        if (UserLevelEnum.MER_ADMIN != userProfile.getLevel() || UserLevelEnum.MER_MANAGER != userProfile.getLevel()) {
-            LOG.warn("No access");
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
-            return null;
-        }
+//        if (UserLevelEnum.MER_ADMIN != userProfile.getLevel() || UserLevelEnum.MER_MANAGER != userProfile.getLevel()) {
+//            LOG.warn("No access");
+//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
+//            return null;
+//        }
 
 
         /* For merchant profile no need to find remote scan. */
