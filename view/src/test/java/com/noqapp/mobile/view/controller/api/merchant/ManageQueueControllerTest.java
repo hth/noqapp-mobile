@@ -1,4 +1,4 @@
-package com.noqapp.mobile.view.controller.api;
+package com.noqapp.mobile.view.controller.api.merchant;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -26,7 +26,6 @@ import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
-import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.utils.ScrubbedInput;
 import org.junit.Before;
@@ -34,6 +33,9 @@ import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -57,6 +59,7 @@ public class ManageQueueControllerTest {
     private ManageQueueController manageQueueController;
     private ObjectMapper mapper;
     private JsonTopicList jsonTopicList;
+    private List<JsonTopic> topics;
 
 
     @Before
@@ -71,6 +74,8 @@ public class ManageQueueControllerTest {
         tokenQueue.setId("codeQR");
 
         JsonTopic topic = new JsonTopic(tokenQueue);
+        topics = new ArrayList<>();
+        topics.add(topic);
 
         jsonTopicList = new JsonTopicList();
         jsonTopicList.addTopic(topic);
@@ -109,7 +114,7 @@ public class ManageQueueControllerTest {
     @Test
     public void queues_pass() throws Exception {
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("rid");
-        when(businessUserStoreService.getQueues(anyString())).thenReturn(jsonTopicList);
+        when(businessUserStoreService.getQueues(anyString())).thenReturn(topics);
         String responseJson = manageQueueController.getQueues(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),

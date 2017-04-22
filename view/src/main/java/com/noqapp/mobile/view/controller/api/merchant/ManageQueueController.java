@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -102,7 +103,9 @@ public class ManageQueueController {
         }
 
         try {
-            return businessUserStoreService.getQueues(rid).asJson();
+            JsonTopicList topics = new JsonTopicList();
+            topics.setTopics(businessUserStoreService.getQueues(rid));
+            return topics.asJson();
         } catch (Exception e) {
             LOG.error("Getting queues reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);

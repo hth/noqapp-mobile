@@ -13,13 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.types.UserLevelEnum;
+import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.utils.ScrubbedInput;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,14 +44,16 @@ public class MerchantProfileController {
 
     private AuthenticateMobileService authenticateMobileService;
     private UserProfilePreferenceService userProfilePreferenceService;
+    private BusinessUserStoreService businessUserStoreService;
 
     @Autowired
     public MerchantProfileController(
             AuthenticateMobileService authenticateMobileService,
-            UserProfilePreferenceService userProfilePreferenceService
-    ) {
+            UserProfilePreferenceService userProfilePreferenceService,
+            BusinessUserStoreService businessUserStoreService) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
+        this.businessUserStoreService = businessUserStoreService;
     }
 
     @Timed
@@ -80,6 +86,11 @@ public class MerchantProfileController {
         }
 
         /* For merchant profile no need to find remote scan. */
-        return JsonProfile.newInstance(userProfile, 0).asJson();
+        JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, 0);
+        List<JsonTopic> jsonTopics = businessUserStoreService.getQueues(rid);
+        JsonMerchant jsonMerchant = new JsonMerchant();
+        jsonMerchant.setJsonProfile(jsonProfile);
+        jsonMerchant.setTopics(jsonTopics);
+        return jsonMerchant.asJson();
     }
 }
