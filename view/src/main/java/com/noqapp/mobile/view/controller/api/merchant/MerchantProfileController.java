@@ -72,7 +72,7 @@ public class MerchantProfileController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.debug("mail={}, auth={}", mail, ManageQueueController.AUTH_KEY_HIDDEN);
+        LOG.info("mail={}, auth={}", mail, ManageQueueController.AUTH_KEY_HIDDEN);
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (null == rid) {
             LOG.info("Could not find RID");
