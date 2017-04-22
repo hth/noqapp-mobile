@@ -41,10 +41,8 @@ public class AuthenticateMobileService {
         UserAccountEntity userAccountEntity = userAccountManager.findByUserId(mail);
         try {
             if (userAccountEntity == null) {
-                LOG.info("Found User Account NOPE");
                 return null;
             } else {
-                LOG.info("Found User Account rid={}", userAccountEntity.getReceiptUserId());
                 return userAccountEntity.getUserAuthentication().getAuthenticationKey().equals(
                         URLDecoder.decode(auth, "UTF-8")) ? userAccountEntity : null;
             }
