@@ -1,11 +1,5 @@
 package com.noqapp.mobile.view.controller.api;
 
-import static com.noqapp.mobile.common.util.ErrorEncounteredJson.ERROR;
-import static com.noqapp.mobile.common.util.ErrorEncounteredJson.REASON;
-import static com.noqapp.mobile.common.util.ErrorEncounteredJson.SYSTEM_ERROR;
-import static com.noqapp.mobile.common.util.ErrorEncounteredJson.SYSTEM_ERROR_CODE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
@@ -154,11 +148,9 @@ public class ManageQueueControllerTest {
                 response);
 
         verify(authenticateMobileService, times(1)).getReceiptUserId(any(String.class), any(String.class));
-
-        JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
-        assertEquals(SEVERE.getCode(), jo.get(ERROR).getAsJsonObject().get(SYSTEM_ERROR_CODE).getAsString());
-        assertEquals(SEVERE.name(), jo.get(ERROR).getAsJsonObject().get(SYSTEM_ERROR).getAsString());
-        assertEquals("Something went wrong. Engineers are looking into this.", jo.get(ERROR).getAsJsonObject().get(REASON).getAsString());
+                
+        ErrorJsonList errorJsonList = mapper.readValue(responseJson, ErrorJsonList.class);
+        assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.SEVERE.name());
     }
 
     @Test
@@ -213,10 +205,8 @@ public class ManageQueueControllerTest {
 
         verify(authenticateMobileService, times(1)).getReceiptUserId(any(String.class), any(String.class));
 
-        JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
-        assertEquals(USER_INPUT.getCode(), jo.get(ERROR).getAsJsonObject().get(SYSTEM_ERROR_CODE).getAsString());
-        assertEquals(USER_INPUT.name(), jo.get(ERROR).getAsJsonObject().get(SYSTEM_ERROR).getAsString());
-        assertEquals("Not a valid queue code.", jo.get(ERROR).getAsJsonObject().get(REASON).getAsString());
+        ErrorJsonList errorJsonList = mapper.readValue(responseJson, ErrorJsonList.class);
+        assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.MOBILE_JSON.name());
     }
 
     @Test
@@ -267,10 +257,8 @@ public class ManageQueueControllerTest {
 
         verify(authenticateMobileService, times(1)).getReceiptUserId(any(String.class), any(String.class));
 
-        JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
-        assertEquals(USER_INPUT.getCode(), jo.get(ERROR).getAsJsonObject().get(SYSTEM_ERROR_CODE).getAsString());
-        assertEquals(USER_INPUT.name(), jo.get(ERROR).getAsJsonObject().get(SYSTEM_ERROR).getAsString());
-        assertEquals("Not a valid number.", jo.get(ERROR).getAsJsonObject().get(REASON).getAsString());
+        ErrorJsonList errorJsonList = mapper.readValue(responseJson, ErrorJsonList.class);
+        assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.MOBILE_JSON.name());
     }
 
     @Test
@@ -295,10 +283,34 @@ public class ManageQueueControllerTest {
 
         verify(authenticateMobileService, times(1)).getReceiptUserId(any(String.class), any(String.class));
 
-        JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
-        assertEquals(USER_INPUT.getCode(), jo.get(ERROR).getAsJsonObject().get(SYSTEM_ERROR_CODE).getAsString());
-        assertEquals(USER_INPUT.name(), jo.get(ERROR).getAsJsonObject().get(SYSTEM_ERROR).getAsString());
-        assertEquals("Not a valid queue user state.", jo.get(ERROR).getAsJsonObject().get(REASON).getAsString());
+        ErrorJsonList errorJsonList = mapper.readValue(responseJson, ErrorJsonList.class);
+        assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.MOBILE_JSON.name());
+    }
+
+    @Test
+    public void served_queue_status_fail() throws Exception {
+        JsonObject json = new JsonObject();
+        json.addProperty("c", "111");
+        json.addProperty("t", "1");
+        json.addProperty("q", "ZZ");
+        json.addProperty("s", "bbbb");
+        String jsonRequest = new Gson().toJson(json);
+
+        when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
+        when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
+
+        String responseJson = manageQueueController.served(
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                jsonRequest,
+                response);
+
+        verify(authenticateMobileService, times(1)).getReceiptUserId(any(String.class), any(String.class));
+
+        ErrorJsonList errorJsonList = mapper.readValue(responseJson, ErrorJsonList.class);
+        assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.MOBILE_JSON.name());
     }
 
     @Test
@@ -326,9 +338,7 @@ public class ManageQueueControllerTest {
         verify(businessUserStoreService, times(1)).hasAccess(any(String.class), any(String.class));
         verify(queueMobileService, times(1)).updateAndGetNextInQueue(any(String.class), any(Integer.class), Matchers.any(QueueUserStateEnum.class));
 
-        JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
-        assertEquals(SEVERE.getCode(), jo.get(ERROR).getAsJsonObject().get(SYSTEM_ERROR_CODE).getAsString());
-        assertEquals(SEVERE.name(), jo.get(ERROR).getAsJsonObject().get(SYSTEM_ERROR).getAsString());
-        assertEquals("Something went wrong. Engineers are looking into this.", jo.get(ERROR).getAsJsonObject().get(REASON).getAsString());
+        ErrorJsonList errorJsonList = mapper.readValue(responseJson, ErrorJsonList.class);
+        assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.SEVERE.name());
     }
 }
