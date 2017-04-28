@@ -357,7 +357,7 @@ public class TokenQueueAPIController {
         return null;
     }
 
-    private boolean authorizeRequest(HttpServletResponse response, String rid) throws IOException {
+    static boolean authorizeRequest(HttpServletResponse response, String rid) throws IOException {
         if (null == rid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
             return true;
