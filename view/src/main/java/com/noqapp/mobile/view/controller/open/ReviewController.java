@@ -17,7 +17,6 @@ import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.utils.ParseJsonStringToMap;
@@ -41,19 +40,16 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping (value = "/open/review")
 public class ReviewController {
-    private static final Logger LOG = LoggerFactory.getLogger(com.noqapp.mobile.view.controller.api.client.ReviewController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ReviewController.class);
 
-    private AuthenticateMobileService authenticateMobileService;
     private TokenQueueMobileService tokenQueueMobileService;
     private QueueMobileService queueMobileService;
 
     @Autowired
     public ReviewController(
-            AuthenticateMobileService authenticateMobileService,
             TokenQueueMobileService tokenQueueMobileService,
             QueueMobileService queueMobileService
     ) {
-        this.authenticateMobileService = authenticateMobileService;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
     }

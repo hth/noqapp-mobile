@@ -41,15 +41,15 @@ import javax.servlet.http.HttpServletResponse;
 })
 @RestController
 @RequestMapping (value = "/api/review")
-public class ReviewController {
-    private static final Logger LOG = LoggerFactory.getLogger(ReviewController.class);
+public class ReviewAPIController {
+    private static final Logger LOG = LoggerFactory.getLogger(ReviewAPIController.class);
 
     private AuthenticateMobileService authenticateMobileService;
     private TokenQueueMobileService tokenQueueMobileService;
     private QueueMobileService queueMobileService;
 
     @Autowired
-    public ReviewController(
+    public ReviewAPIController(
             AuthenticateMobileService authenticateMobileService,
             TokenQueueMobileService tokenQueueMobileService,
             QueueMobileService queueMobileService
