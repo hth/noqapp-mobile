@@ -176,4 +176,8 @@ public class QueueMobileService {
 
         return jsonTokenAndQueueList;
     }
+
+    public boolean reviewService(String codeQR, String did, String rid, int ratingCount, int hoursSaved) {
+        return queueManager.reviewService(codeQR, did, rid, ratingCount, hoursSaved);
+    }
 }
