@@ -386,7 +386,7 @@ project(':view') {
 
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.4.1'
+    gradleVersion = '3.5'
 }
 
 task copyJars(type: Copy) {
@@ -508,10 +508,10 @@ task war(type: War, dependsOn: prepWar) {
     doFirst {
         if (env == 'sandbox' || env == 'prod') {
             baseName = "noqapp-mobile-$env." + project.version.toString()
-        }
-
-        if (env == 'dev') {
+        } else if (env == 'dev') {
             baseName = "noqapp-mobile-$env"
+        } else {
+            throw new Exception("Undefined env: $env")
         }
     }
 
