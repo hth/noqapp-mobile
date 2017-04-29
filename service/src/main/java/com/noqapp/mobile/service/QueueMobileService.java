@@ -180,4 +180,8 @@ public class QueueMobileService {
     public boolean reviewService(String codeQR, String did, String rid, int ratingCount, int hoursSaved) {
         return queueManager.reviewService(codeQR, did, rid, ratingCount, hoursSaved);
     }
+
+    public boolean reviewHistoricalService(String codeQR, String did, String rid, int ratingCount, int hoursSaved) {
+        return queueManagerJDBC.reviewService(codeQR, did, rid, ratingCount, hoursSaved);
+    }
 }
