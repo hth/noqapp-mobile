@@ -1,7 +1,7 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -28,8 +28,8 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.utils.ScrubbedInput;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -49,7 +49,7 @@ import javax.servlet.http.HttpServletResponse;
         "PMD.MethodArgumentCouldBeFinal",
         "PMD.LongVariable"
 })
-public class ManageQueueControllerTest {
+class ManageQueueControllerTest {
 
     @Mock private AuthenticateMobileService authenticateMobileService;
     @Mock private QueueMobileService queueMobileService;
@@ -62,8 +62,8 @@ public class ManageQueueControllerTest {
     private List<JsonTopic> topics;
 
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         manageQueueController = new ManageQueueController(authenticateMobileService, queueMobileService, businessUserStoreService);
         mapper = new ObjectMapper();
@@ -82,7 +82,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void queues_fail_authentication() throws Exception {
+    void queues_fail_authentication() throws Exception {
         String responseJson = manageQueueController.getQueues(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -95,7 +95,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void queues_exception() throws Exception {
+    void queues_exception() throws Exception {
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("rid");
         doThrow(new RuntimeException()).when(businessUserStoreService).getQueues(anyString());
 
@@ -112,7 +112,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void queues_pass() throws Exception {
+    void queues_pass() throws Exception {
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("rid");
         when(businessUserStoreService.getQueues(anyString())).thenReturn(topics);
         String responseJson = manageQueueController.getQueues(
@@ -128,7 +128,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void served_fail_authentication() throws Exception {
+    void served_fail_authentication() throws Exception {
         String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -142,7 +142,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void served_json_parsing_error() throws Exception {
+    void served_json_parsing_error() throws Exception {
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
         String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
@@ -159,7 +159,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void served() throws Exception {
+    void served() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "queuecode");
         json.addProperty("t", "1");
@@ -188,7 +188,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void served_code_queue_fail() throws Exception {
+    void served_code_queue_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "");
         json.addProperty("t", "1");
@@ -215,7 +215,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void served_code_queue_authentication_fail() throws Exception {
+    void served_code_queue_authentication_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "queueCode");
         json.addProperty("t", "1");
@@ -241,7 +241,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void served_serve_number_fail() throws Exception {
+    void served_serve_number_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "111");
         json.addProperty("t", "a");
@@ -267,7 +267,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void served_queue_state_fail() throws Exception {
+    void served_queue_state_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "111");
         json.addProperty("t", "1");
@@ -293,7 +293,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void served_queue_status_fail() throws Exception {
+    void served_queue_status_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "111");
         json.addProperty("t", "1");
@@ -319,7 +319,7 @@ public class ManageQueueControllerTest {
     }
 
     @Test
-    public void served_fail() throws Exception {
+    void served_fail() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("c", "queuecode");
         json.addProperty("t", "1");
