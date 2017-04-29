@@ -71,7 +71,7 @@ public class ReviewController {
             value = "/service",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String getQueueState(
+    public String service(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -106,6 +106,65 @@ public class ReviewController {
             }
 
             reviewSuccess = queueMobileService.reviewService(codeQR, did.getText(), null, ratingCount, hoursSaved);
+            return new JsonResponse(reviewSuccess).asJson();
+        } catch (Exception e) {
+            LOG.error("Error during registering review reason={}", e.getLocalizedMessage(), e);
+            return new JsonResponse(reviewSuccess).asJson();
+        }
+    }
+
+    /**
+     * Add review to service.
+     *
+     * @param did
+     * @param dt
+     * @param bodyJson
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @Timed
+    @ExceptionMetered
+    @RequestMapping (
+            method = RequestMethod.POST,
+            value = "/historical/service",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String serviceHistorical(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            @RequestBody
+            String bodyJson,
+
+            HttpServletResponse response
+    ) throws IOException {
+        LOG.info("On scan get state did={} dt={}", did, dt);
+
+        Map<String, ScrubbedInput> map;
+        try {
+            map = ParseJsonStringToMap.jsonStringToMap(bodyJson);
+        } catch (IOException e) {
+            LOG.error("Could not parse json={} reason={}", bodyJson, e.getLocalizedMessage(), e);
+            return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
+        }
+
+        boolean reviewSuccess = false;
+        try {
+            /* Required. */
+            String codeQR = map.get("codeQR").getText();
+            int ratingCount = Integer.parseInt(map.get("RA").getText());
+            int hoursSaved = Integer.parseInt(map.get("HR").getText());
+
+            if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR)) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+                return null;
+            }
+
+            reviewSuccess = queueMobileService.reviewHistoricalService(codeQR, did.getText(), null, ratingCount, hoursSaved);
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Error during registering review reason={}", e.getLocalizedMessage(), e);
