@@ -101,6 +101,7 @@
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.3" />
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.9" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.65.0" />
+            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.0-M4" />
             <element id="archive" name="com.noqapp.mobile-domain.jar">
               <element id="module-output" name="domain_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/domain/build/resources/main" />
@@ -170,6 +171,8 @@
             <element id="library" level="project" name="Gradle: org.opengis:geoapi:3.0.0" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.4.4" />
             <element id="library" level="project" name="Gradle: org.jrobin:jrobin:1.5.9" />
+            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.0.0-M4" />
+            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.0-M4" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-jdbc:4.3.5.RELEASE" />
             <element id="library" level="project" name="Gradle: io.springfox:springfox-core:2.6.1" />
             <element id="library" level="project" name="Gradle: commons-lang:commons-lang:2.6" />
@@ -201,6 +204,8 @@
             <element id="library" level="project" name="Gradle: org.apache.sis.storage:sis-storage:0.6" />
             <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-referencing:0.6" />
             <element id="library" level="project" name="Gradle: javax.measure:jsr-275:0.9.3" />
+            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.0.0-M4" />
+            <element id="library" level="project" name="Gradle: org.opentest4j:opentest4j:1.0.0-M2" />
             <element id="library" level="project" name="Gradle: org.apache.xmlbeans:xmlbeans:2.6.0" />
             <element id="library" level="project" name="Gradle: org.codehaus.woodstox:woodstox-core-asl:4.4.1" />
             <element id="library" level="project" name="Gradle: org.apache.ws.xmlschema:xmlschema-core:2.1.0" />
@@ -211,11 +216,6 @@
             <element id="library" level="project" name="Gradle: org.springframework.social:spring-social-config:1.1.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.json:json:20160810" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.0.0-M4/10e0dc41a4e9c1817c2b729c3a7c48b1ddfed17/junit-jupiter-engine-5.0.0-M4.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.0.0-M4/5e65bdd2d623dfc6a405911a6449f2c60808b0af/junit-platform-engine-1.0.0-M4.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.0.0-M4/50f95d68c674a30374c5f50e6ad5212d2c1a3cec/junit-jupiter-api-5.0.0-M4.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.0.0-M4/359eb461814bd7356de541d131d45473d394a168/junit-platform-commons-1.0.0-M4.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opentest4j/opentest4j/1.0.0-M2/e2caa64702a83336d3dd32c7f69c1f092156df6d/opentest4j-1.0.0-M2.jar" />
           </element>
         </element>
       </root>
@@ -329,6 +329,7 @@
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.3" />
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.9" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.65.0" />
+            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.0-M4" />
             <element id="archive" name="com.noqapp.mobile-common.jar">
               <element id="module-output" name="common_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/common/build/resources/main" />
@@ -398,6 +399,8 @@
             <element id="library" level="project" name="Gradle: org.opengis:geoapi:3.0.0" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.4.4" />
             <element id="library" level="project" name="Gradle: org.jrobin:jrobin:1.5.9" />
+            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.0.0-M4" />
+            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.0-M4" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-jdbc:4.3.5.RELEASE" />
             <element id="library" level="project" name="Gradle: io.springfox:springfox-core:2.6.1" />
             <element id="library" level="project" name="Gradle: commons-lang:commons-lang:2.6" />
@@ -429,6 +432,8 @@
             <element id="library" level="project" name="Gradle: org.apache.sis.storage:sis-storage:0.6" />
             <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-referencing:0.6" />
             <element id="library" level="project" name="Gradle: javax.measure:jsr-275:0.9.3" />
+            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.0.0-M4" />
+            <element id="library" level="project" name="Gradle: org.opentest4j:opentest4j:1.0.0-M2" />
             <element id="library" level="project" name="Gradle: org.apache.xmlbeans:xmlbeans:2.6.0" />
             <element id="library" level="project" name="Gradle: org.codehaus.woodstox:woodstox-core-asl:4.4.1" />
             <element id="library" level="project" name="Gradle: org.apache.ws.xmlschema:xmlschema-core:2.1.0" />
@@ -451,11 +456,6 @@
               <element id="module-output" name="service_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/service/build/resources/main" />
             </element>
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.0.0-M4/10e0dc41a4e9c1817c2b729c3a7c48b1ddfed17/junit-jupiter-engine-5.0.0-M4.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.0.0-M4/5e65bdd2d623dfc6a405911a6449f2c60808b0af/junit-platform-engine-1.0.0-M4.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.0.0-M4/50f95d68c674a30374c5f50e6ad5212d2c1a3cec/junit-jupiter-api-5.0.0-M4.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.0.0-M4/359eb461814bd7356de541d131d45473d394a168/junit-platform-commons-1.0.0-M4.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opentest4j/opentest4j/1.0.0-M2/e2caa64702a83336d3dd32c7f69c1f092156df6d/opentest4j-1.0.0-M2.jar" />
           </element>
         </element>
       </root>
@@ -718,6 +718,8 @@
       <module name="common_test" target="1.8" />
       <module name="domain_main" target="1.8" />
       <module name="domain_test" target="1.8" />
+      <module name="noqapp-mobile_main" target="1.8" />
+      <module name="noqapp-mobile_test" target="1.8" />
       <module name="security_main" target="1.8" />
       <module name="security_test" target="1.8" />
       <module name="service_main" target="1.8" />
