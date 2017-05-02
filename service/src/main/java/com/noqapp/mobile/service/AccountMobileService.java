@@ -109,7 +109,8 @@ public class AccountMobileService {
                     countryShortName,
                     timeZone,
                     password,
-                    null);
+                    null,
+                    false);
             Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getReceiptUserId());
         } catch (RuntimeException exce) {
@@ -147,6 +148,7 @@ public class AccountMobileService {
     ) {
         UserAccountEntity userAccount;
         try {
+            //TODO before marking client account as validated, make sure you compare FB token with server
             userAccount = accountService.createNewAccount(
                     phone,
                     firstName,
@@ -157,7 +159,8 @@ public class AccountMobileService {
                     countryShortName,
                     timeZone,
                     null,
-                    inviteCode);
+                    inviteCode,
+                    true);
             Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getReceiptUserId());
         } catch (RuntimeException exce) {

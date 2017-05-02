@@ -272,8 +272,12 @@ public class AccountClientController {
                     return ErrorEncounteredJson.toJson(errors);
                 }
 
-
                 UserAccountEntity userAccount = accountMobileService.findByRid(userProfile.getReceiptUserId());
+                if (!userAccount.isPhoneValidated()) {
+                    //TODO mark otp validated after verifying with FB server with token received
+                    userAccount.setPhoneValidated(true);
+                    accountService.save(userAccount);
+                }
                 response.addHeader("X-R-MAIL", userAccount.getUserId());
                 response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
 
