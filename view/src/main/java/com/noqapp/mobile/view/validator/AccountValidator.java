@@ -29,19 +29,19 @@ abstract class AccountValidator {
     private static final Logger LOG = LoggerFactory.getLogger(AccountValidator.class);
     public static final String EMPTY = "Empty";
 
-    @Value ("${AccountValidator.nameLength:4}")
+    @Value ("${AccountValidator.nameLength}")
     private int nameLength;
 
-    @Value ("${AccountValidator.mailLength:5}")
+    @Value ("${AccountValidator.mailLength}")
     private int mailLength;
 
-    @Value ("${AccountValidator.genderLength:1}")
+    @Value ("${AccountValidator.genderLength}")
     private int genderLength;
 
-    @Value ("${AccountValidator.countryShortNameLength:2}")
+    @Value ("${AccountValidator.countryShortNameLength}")
     private int countryShortNameLength;
 
-    @Value ("${AccountValidator.passwordLength:6}")
+    @Value ("${AccountValidator.passwordLength}")
     private int passwordLength;
 
     void phoneValidation(String phone, Map<String, String> errors) {
