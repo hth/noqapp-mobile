@@ -678,6 +678,26 @@
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.0.0-M4" />
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.0.0-M4" />
             <element id="library" level="project" name="Gradle: org.opentest4j:opentest4j:1.0.0-M2" />
+            <element id="library" level="project" name="Gradle: com.google.errorprone:error_prone_annotations:2.0.18" />
+            <element id="library" level="project" name="Gradle: com.google.guava:guava:22.0-rc1" />
+            <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
+            <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-aop:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-aspects:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-beans:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-context-support:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-context:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-core:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-expression:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-instrument-tomcat:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-instrument:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-jms:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-messaging:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-oxm:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-test:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-tx:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-web:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:4.3.8.RELEASE" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
