@@ -100,10 +100,10 @@ subprojects {
     jar {
         manifest {
             attributes(
-                    "Implementation-Vendor": "NoQApp Inc",
+                    "Implementation-Vendor": "NoQueue Inc",
                     "Implementation-Title": rootProject.name,
                     "Implementation-Version": allprojects.version + " $env",
-                    "Copyright" : "2016-2017, NoQApp Inc"
+                    "Copyright" : "2016-2017, NoQueue Inc"
             )
         }
     }
@@ -244,13 +244,13 @@ subprojects {
         compile "net.logstash.logback:logstash-logback-encoder:$logstashlogbackencoder"
         compile 'net.bull.javamelody:javamelody-core:1.+'
         /** Because using org.junit.Assert in code. */
-        compile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.0.0-M4'
+        compile 'org.junit.jupiter:junit-jupiter-engine:5.0.0-M4'
+        compile 'org.hamcrest:hamcrest-all:1.3'
 
-        testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.0.0-M4'
-        testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
-        testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
-        testCompile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: "$flapdoodle"
-        testCompile group: 'org.springframework', name: 'spring-test', version: "$springVersion"
+        testCompile "org.junit.jupiter:junit-jupiter-api:5.0.0-M4"
+        testCompile "org.mockito:mockito-all:1.10.19"
+        testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo$flapdoodle"
+        testCompile "org.springframework:spring-test:$springVersion"
     }
 
     test {
@@ -411,7 +411,7 @@ task createBuildInfoFile {
         buildDir.mkdirs()
         def buildInfoFile = new File("$buildDir/build-info.properties")
         Properties props = new Properties()
-        props.setProperty('owner', 'NoQApp Inc')
+        props.setProperty('owner', 'NoQueue Inc')
         props.setProperty('copyright', 'All rights reserved')
         props.setProperty('build.version', project.version.toString())
         props.setProperty('build.env', "$env")
