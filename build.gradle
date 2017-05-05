@@ -249,7 +249,7 @@ subprojects {
 
         testCompile "org.junit.jupiter:junit-jupiter-api:5.0.0-M4"
         testCompile "org.mockito:mockito-all:1.10.19"
-        testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo$flapdoodle"
+        testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$flapdoodle"
         testCompile "org.springframework:spring-test:$springVersion"
     }
 
