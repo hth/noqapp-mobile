@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.QueueEntity;
@@ -165,10 +164,14 @@ public class QueueMobileService {
     private JsonTokenAndQueueList getJsonTokenAndQueueList(List<QueueEntity> queues) {
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
-            BizStoreEntity bizStore = bizService.findByCodeQR(queue.getCodeQR());
-            Assert.notNull(bizStore, "BizStore is null for CodeQR=" + queue.getCodeQR());
-            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(queue, bizStore);
-            jsonTokenAndQueues.add(jsonTokenAndQueue);
+            try {
+                BizStoreEntity bizStore = bizService.findByCodeQR(queue.getCodeQR());
+                LOG.debug("BizStore codeQR={} bizStoreId={}", queue.getCodeQR(), bizStore.getId());
+                JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(queue, bizStore);
+                jsonTokenAndQueues.add(jsonTokenAndQueue);
+            } catch (Exception e) {
+                LOG.error("Error finding bizStore for codeQR={} reason={}", queue.getCodeQR(), e.getLocalizedMessage(), e);
+            }
         }
 
         JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
