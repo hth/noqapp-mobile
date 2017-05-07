@@ -170,7 +170,7 @@ public class QueueMobileService {
                 JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(queue, bizStore);
                 jsonTokenAndQueues.add(jsonTokenAndQueue);
             } catch (Exception e) {
-                LOG.error("Failed finding bizStore for codeQR={} reason={}", queue.getCodeQR(), e.getLocalizedMessage());
+                LOG.error("Failed finding bizStore for codeQR={} reason={}", queue.getCodeQR(), e.getLocalizedMessage(), e);
             }
         }
 
