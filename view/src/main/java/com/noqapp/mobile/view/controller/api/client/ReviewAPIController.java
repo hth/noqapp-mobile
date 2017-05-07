@@ -112,8 +112,8 @@ public class ReviewAPIController {
         try {
             /* Required. */
             String codeQR = map.get("codeQR").getText();
-            int ratingCount = Integer.parseInt(map.get("RA").getText());
-            int hoursSaved = Integer.parseInt(map.get("HR").getText());
+            int ratingCount = Integer.parseInt(map.get("ra").getText());
+            int hoursSaved = Integer.parseInt(map.get("hr").getText());
 
             if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR)) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
@@ -181,8 +181,8 @@ public class ReviewAPIController {
         try {
             /* Required. */
             String codeQR = map.get("codeQR").getText();
-            int ratingCount = Integer.parseInt(map.get("RA").getText());
-            int hoursSaved = Integer.parseInt(map.get("HR").getText());
+            int ratingCount = Integer.parseInt(map.get("ra").getText());
+            int hoursSaved = Integer.parseInt(map.get("hr").getText());
 
             if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR)) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
