@@ -153,7 +153,7 @@ public class AccountClientController {
 
             Map<String, String> errors = accountClientValidator.validate(
                     phone,
-                    firstName,
+                    map.get(ACCOUNT_REGISTRATION.FN.name()).getText(),
                     mail,
                     birthday,
                     gender,
