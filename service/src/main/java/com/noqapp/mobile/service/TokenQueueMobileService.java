@@ -44,6 +44,7 @@ public class TokenQueueMobileService {
                 .setBusinessName(bizStore.getBizName().getBusinessName())
                 .setDisplayName(bizStore.getDisplayName())
                 .setStoreAddress(bizStore.getAddress())
+                .setCountryShortName(bizStore.getCountryShortName())
                 .setStorePhone(bizStore.getPhoneFormatted())
                 .setTokenAvailableFrom(bizStore.getTokenAvailableFrom())
                 .setStartHour(bizStore.getStartHour())
