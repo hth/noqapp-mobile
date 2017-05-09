@@ -123,6 +123,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) {
+        LOG.info("Queues for did={} dt={}", did.getText(), deviceType.getText());
         return queueMobileService.findAllJoinedQueues(did.getText()).asJson();
     }
 
@@ -155,6 +156,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) {
+        LOG.info("Queues historical for did={} dt={}", did.getText(), deviceType.getText());
         ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson);
         if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
             return parseTokenFCM.getErrorResponse();
