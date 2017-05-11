@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.open;
 
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
-import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.service.QueueMobileService;
@@ -77,7 +77,7 @@ public class TokenQueueController {
             value = "/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public JsonQueue getQueueState(
+    public String getQueueState(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -95,7 +95,12 @@ public class TokenQueueController {
             return null;
         }
 
-        return tokenQueueMobileService.findTokenState(codeQR.getText());
+        try {
+            return tokenQueueMobileService.findTokenState(codeQR.getText()).asJson();
+        } catch (Exception e) {
+            LOG.error("Getting queue state reason={}", e.getLocalizedMessage(), e);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        }
     }
 
     /**
