@@ -97,6 +97,7 @@ public class ReviewController {
         try {
             /* Required. */
             String codeQR = map.get("codeQR").getText();
+            int token = Integer.parseInt(map.get("t").getText());
             int ratingCount = Integer.parseInt(map.get("ra").getText());
             int hoursSaved = Integer.parseInt(map.get("hr").getText());
 
@@ -105,7 +106,7 @@ public class ReviewController {
                 return null;
             }
 
-            reviewSuccess = queueMobileService.reviewService(codeQR, did.getText(), null, ratingCount, hoursSaved);
+            reviewSuccess = queueMobileService.reviewService(codeQR, token, did.getText(), null, ratingCount, hoursSaved);
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
