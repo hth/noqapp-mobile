@@ -103,6 +103,9 @@ public class QueueMobileService {
         List<QueueEntity> queues = queueManager.findAllByDid(did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
+            validateJoinedQueue(queue);
+
+            /* Join Queue will join if user is not joined, hence fetch only queues with status is Queued. */
             JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
@@ -116,11 +119,24 @@ public class QueueMobileService {
         return jsonTokenAndQueueList;
     }
 
+    private void validateJoinedQueue(QueueEntity queue) {
+        switch (queue.getQueueUserState()) {
+            case A:
+            case S:
+            case N:
+                LOG.error("Failed as only Q status is supported");
+                throw new RuntimeException("Reached not supported condition");
+        }
+    }
+
     public JsonTokenAndQueueList findAllJoinedQueues(String rid, String did) {
         Validate.isValidRid(rid);
         List<QueueEntity> queues = queueManager.findAllByRid(rid);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
+            validateJoinedQueue(queue);
+            
+            /* Join Queue will join if user is not joined, hence fetch only queues with status is Queued. */
             JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, rid);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
@@ -180,8 +196,8 @@ public class QueueMobileService {
         return jsonTokenAndQueueList;
     }
 
-    public boolean reviewService(String codeQR, String did, String rid, int ratingCount, int hoursSaved) {
-        return queueManager.reviewService(codeQR, did, rid, ratingCount, hoursSaved);
+    public boolean reviewService(String codeQR, int token, String did, String rid, int ratingCount, int hoursSaved) {
+        return queueManager.reviewService(codeQR, token, did, rid, ratingCount, hoursSaved);
     }
 
     public boolean reviewHistoricalService(String codeQR, String did, String rid, int ratingCount, int hoursSaved) {

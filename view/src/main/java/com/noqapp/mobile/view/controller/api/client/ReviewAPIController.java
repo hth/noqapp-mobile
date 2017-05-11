@@ -112,6 +112,7 @@ public class ReviewAPIController {
         try {
             /* Required. */
             String codeQR = map.get("codeQR").getText();
+            int token = Integer.parseInt(map.get("t").getText());
             int ratingCount = Integer.parseInt(map.get("ra").getText());
             int hoursSaved = Integer.parseInt(map.get("hr").getText());
 
@@ -120,7 +121,7 @@ public class ReviewAPIController {
                 return null;
             }
 
-            reviewSuccess = queueMobileService.reviewService(codeQR, did.getText(), rid, ratingCount, hoursSaved);
+            reviewSuccess = queueMobileService.reviewService(codeQR, token, did.getText(), rid, ratingCount, hoursSaved);
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Error during registering review reason={}", e.getLocalizedMessage(), e);
