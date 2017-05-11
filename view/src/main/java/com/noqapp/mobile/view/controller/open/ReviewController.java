@@ -108,7 +108,7 @@ public class ReviewController {
             reviewSuccess = queueMobileService.reviewService(codeQR, did.getText(), null, ratingCount, hoursSaved);
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
-            LOG.error("Error during registering review reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
             return new JsonResponse(reviewSuccess).asJson();
         }
     }
