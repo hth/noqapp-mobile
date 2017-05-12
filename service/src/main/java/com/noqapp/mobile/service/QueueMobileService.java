@@ -100,13 +100,34 @@ public class QueueMobileService {
     }
 
     public JsonTokenAndQueueList findAllJoinedQueues(String did) {
-        List<QueueEntity> queues = queueManager.findAllByDid(did);
+        List<QueueEntity> queues = queueManager.findAllQueuedByDid(did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
             validateJoinedQueue(queue);
 
             /* Join Queue will join if user is not joined, hence fetch only queues with status is Queued. */
             JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, null);
+            JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
+
+            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken.getToken(), jsonToken.getQueueStatus(), jsonQueue);
+            jsonTokenAndQueues.add(jsonTokenAndQueue);
+        }
+
+        JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
+        jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
+
+        return jsonTokenAndQueueList;
+    }
+
+    public JsonTokenAndQueueList findAllJoinedQueues(String rid, String did) {
+        Validate.isValidRid(rid);
+        List<QueueEntity> queues = queueManager.findAllQueuedByRid(rid);
+        List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
+        for (QueueEntity queue : queues) {
+            validateJoinedQueue(queue);
+            
+            /* Join Queue will join if user is not joined, hence fetch only queues with status is Queued. */
+            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, rid);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken.getToken(), jsonToken.getQueueStatus(), jsonQueue);
@@ -129,25 +150,12 @@ public class QueueMobileService {
         }
     }
 
-    public JsonTokenAndQueueList findAllJoinedQueues(String rid, String did) {
-        Validate.isValidRid(rid);
-        List<QueueEntity> queues = queueManager.findAllByRid(rid);
-        List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
-        for (QueueEntity queue : queues) {
-            validateJoinedQueue(queue);
-            
-            /* Join Queue will join if user is not joined, hence fetch only queues with status is Queued. */
-            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, rid);
-            JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
+    private List<QueueEntity> findAllNotQueuedByDid(String did) {
+        return queueManager.findAllNotQueuedByDid(did);
+    }
 
-            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken.getToken(), jsonToken.getQueueStatus(), jsonQueue);
-            jsonTokenAndQueues.add(jsonTokenAndQueue);
-        }
-
-        JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
-        jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
-
-        return jsonTokenAndQueueList;
+    private List<QueueEntity> findAllNotQueuedByRid(String rid) {
+        return queueManager.findAllNotQueuedByRid(rid);
     }
 
     public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, String token) {
@@ -158,6 +166,14 @@ public class QueueMobileService {
             deviceService.registerDevice(null, did, deviceType, token);
         } else {
             queues = queueManagerJDBC.getByDid(did, registeredDevice.getUpdated());
+        }
+
+        /* Get all the queues that have been serviced for today. */
+        List<QueueEntity> servicedQueues = findAllNotQueuedByDid(did);
+        if (queues != null) {
+            queues.addAll(servicedQueues);
+        } else {
+            queues = servicedQueues;
         }
 
         return getJsonTokenAndQueueList(queues);
@@ -172,6 +188,14 @@ public class QueueMobileService {
             deviceService.registerDevice(rid, did, deviceType, token);
         } else {
             queues = queueManagerJDBC.getByRid(rid, registeredDevice.getUpdated());
+        }
+
+        /* Get all the queues that have been serviced for today. */
+        List<QueueEntity> servicedQueues = findAllNotQueuedByRid(rid);
+        if (queues != null) {
+            queues.addAll(servicedQueues);
+        } else {
+            queues = servicedQueues;
         }
 
         return getJsonTokenAndQueueList(queues);
