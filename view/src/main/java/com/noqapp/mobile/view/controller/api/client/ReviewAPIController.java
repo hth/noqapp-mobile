@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/api/review")
+@RequestMapping (value = "/api/c/review")
 public class ReviewAPIController {
     private static final Logger LOG = LoggerFactory.getLogger(ReviewAPIController.class);
 
