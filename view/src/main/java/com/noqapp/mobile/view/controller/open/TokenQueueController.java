@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
-import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
@@ -98,7 +97,7 @@ public class TokenQueueController {
         try {
             return tokenQueueMobileService.findTokenState(codeQR.getText()).asJson();
         } catch (Exception e) {
-            LOG.error("Getting queue state reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed getting queue state did={} reason={}", did, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
@@ -129,7 +128,12 @@ public class TokenQueueController {
             HttpServletResponse response
     ) {
         LOG.info("Queues for did={} dt={}", did.getText(), deviceType.getText());
-        return queueMobileService.findAllJoinedQueues(did.getText()).asJson();
+        try {
+            return queueMobileService.findAllJoinedQueues(did.getText()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting queues did={}, reason={}", did, e.getLocalizedMessage(), e);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        }
     }
 
 
@@ -167,10 +171,15 @@ public class TokenQueueController {
             return parseTokenFCM.getErrorResponse();
         }
 
-        return queueMobileService.findHistoricalQueue(
-                did.getText(),
-                DeviceTypeEnum.valueOf(deviceType.getText()),
-                parseTokenFCM.getTokenFCM()).asJson();
+        try {
+            return queueMobileService.findHistoricalQueue(
+                    did.getText(),
+                    DeviceTypeEnum.valueOf(deviceType.getText()),
+                    parseTokenFCM.getTokenFCM()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting history did={}, reason={}", did, e.getLocalizedMessage(), e);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        }
     }
 
     /**
@@ -236,7 +245,12 @@ public class TokenQueueController {
             return getErrorReason("Incorrect device type.", USER_INPUT);
         }
 
-        return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null).asJson();
+        try {
+            return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed joining queue did={}, reason={}", did, e.getLocalizedMessage(), e);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        }
     }
 
     /**
@@ -256,7 +270,7 @@ public class TokenQueueController {
             value = "/abort/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public JsonResponse abortQueue(
+    public String abortQueue(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -274,6 +288,11 @@ public class TokenQueueController {
             return null;
         }
 
-        return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), null);
+        try {
+        return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), null).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed aborting queue did={}, reason={}", did, e.getLocalizedMessage(), e);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        }
     }
 }

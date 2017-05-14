@@ -1,5 +1,8 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +58,7 @@ public class RemoteScanController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public JsonRemoteScan remoteScan(
+    public String remoteScan(
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
 
@@ -71,6 +74,11 @@ public class RemoteScanController {
             return null;
         }
 
-        return JsonRemoteScan.newInstance(inviteService.getRemoteScanCount(rid));
+        try {
+            return JsonRemoteScan.newInstance(inviteService.getRemoteScanCount(rid)).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting remote scan rid={}, reason={}", rid, e.getLocalizedMessage(), e);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        }
     }
 }

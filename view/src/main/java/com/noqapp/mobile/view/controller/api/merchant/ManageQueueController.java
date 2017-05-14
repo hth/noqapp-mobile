@@ -107,7 +107,7 @@ public class ManageQueueController {
             topics.setTopics(businessUserStoreService.getQueues(rid));
             return topics.asJson();
         } catch (Exception e) {
-            LOG.error("Getting queues reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
@@ -221,7 +221,7 @@ public class ManageQueueController {
 
             return jsonToken.asJson();
         } catch (JsonMappingException e) {
-            LOG.error("Fail parsing json={} rid={} message={}", requestBodyJson, rid, e.getLocalizedMessage(), e);
+            LOG.error("Failed parsing json={} rid={} message={}", requestBodyJson, rid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
