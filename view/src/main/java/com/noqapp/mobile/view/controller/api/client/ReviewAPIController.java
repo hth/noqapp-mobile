@@ -124,7 +124,7 @@ public class ReviewAPIController {
             reviewSuccess = queueMobileService.reviewService(codeQR, token, did.getText(), rid, ratingCount, hoursSaved);
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
-            LOG.error("Error during registering review reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
             return new JsonResponse(reviewSuccess).asJson();
         }
     }
@@ -193,7 +193,7 @@ public class ReviewAPIController {
             reviewSuccess = queueMobileService.reviewHistoricalService(codeQR, did.getText(), rid, ratingCount, hoursSaved);
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
-            LOG.error("Error during registering review reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed processing review for historical reason={}", e.getLocalizedMessage(), e);
             return new JsonResponse(reviewSuccess).asJson();
         }
     }
