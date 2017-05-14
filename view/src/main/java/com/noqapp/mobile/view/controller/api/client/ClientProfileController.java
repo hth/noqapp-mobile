@@ -1,5 +1,8 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,8 +79,14 @@ public class ClientProfileController {
             return null;
         }
 
-        return JsonProfile.newInstance(
-                userProfilePreferenceService.findByReceiptUserId(rid),
-                inviteService.getRemoteScanCount(rid)).asJson();
+        try {
+            return JsonProfile.newInstance(
+                    userProfilePreferenceService.findByReceiptUserId(rid),
+                    inviteService.getRemoteScanCount(rid)).asJson();
+
+        } catch(Exception e) {
+            LOG.error("Failed getting profile rid={}, reason={}", rid, e.getLocalizedMessage(), e);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        }
     }
 }
