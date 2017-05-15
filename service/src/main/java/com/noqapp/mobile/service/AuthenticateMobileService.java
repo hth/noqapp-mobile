@@ -38,13 +38,13 @@ public class AuthenticateMobileService {
     }
 
     UserAccountEntity findUserAccount(String mail, String auth) {
-        UserAccountEntity userAccountEntity = userAccountManager.findByUserId(mail);
+        UserAccountEntity userAccount = userAccountManager.findByUserId(mail);
         try {
-            if (userAccountEntity == null) {
+            if (userAccount == null) {
                 return null;
             } else {
-                return userAccountEntity.getUserAuthentication().getAuthenticationKey().equals(
-                        URLDecoder.decode(auth, "UTF-8")) ? userAccountEntity : null;
+                return userAccount.getUserAuthentication().getAuthenticationKey().equals(
+                        URLDecoder.decode(auth, "UTF-8")) ? userAccount : null;
             }
         } catch (UnsupportedEncodingException e) {
             LOG.error("Auth decoding issue for user={}, reason={}", mail, e.getLocalizedMessage(), e);
