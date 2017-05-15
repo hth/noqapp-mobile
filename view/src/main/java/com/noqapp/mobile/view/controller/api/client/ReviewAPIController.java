@@ -112,6 +112,7 @@ public class ReviewAPIController {
         try {
             /* Required. */
             String codeQR = map.get("codeQR").getText();
+            /* Required. */
             int token = Integer.parseInt(map.get("t").getText());
             int ratingCount = Integer.parseInt(map.get("ra").getText());
             int hoursSaved = Integer.parseInt(map.get("hr").getText());
