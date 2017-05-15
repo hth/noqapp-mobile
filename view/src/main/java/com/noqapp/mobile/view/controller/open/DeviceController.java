@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.open;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 
 import org.apache.commons.lang3.StringUtils;
@@ -105,7 +106,7 @@ public class DeviceController {
                     parseTokenFCM.getTokenFCM())).asJson();
         } catch (Exception e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
-            return getErrorReason("Something went wrong. Engineers are looking into this.", USER_INPUT);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
 
