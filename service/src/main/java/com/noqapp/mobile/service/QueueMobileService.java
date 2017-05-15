@@ -1,5 +1,7 @@
 package com.noqapp.mobile.service;
 
+import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -187,6 +189,10 @@ public class QueueMobileService {
             queues = queueManagerJDBC.getByRid(rid);
             deviceService.registerDevice(rid, did, deviceType, token);
         } else {
+            if (StringUtils.isBlank(registeredDevice.getReceiptUserId())) {
+                /* Save with RID when missing in registered device. */
+                deviceService.registerDevice(rid, did, deviceType, token);
+            }
             queues = queueManagerJDBC.getByRid(rid, registeredDevice.getUpdated());
         }
 

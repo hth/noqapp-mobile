@@ -61,10 +61,6 @@ public class DeviceService {
         return registeredDeviceManager.find(rid, did) != null;
     }
 
-    public RegisteredDeviceEntity lastAccessed(String rid, String did) {
-        return registeredDeviceManager.lastAccessed(rid, did);
-    }
-
     public RegisteredDeviceEntity lastAccessed(String rid, String did, String token) {
         return registeredDeviceManager.lastAccessed(rid, did, token);
     }
