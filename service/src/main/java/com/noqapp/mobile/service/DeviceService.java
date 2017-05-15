@@ -42,7 +42,7 @@ public class DeviceService {
      * @return
      */
     public boolean registerDevice(String rid, String did, DeviceTypeEnum deviceType, String token) {
-        RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(did, token);
+        RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(rid, did);
         if (registeredDevice == null) {
             registeredDevice = RegisteredDeviceEntity.newInstance(rid, did, deviceType, token);
             registeredDeviceManager.save(registeredDevice);
