@@ -33,6 +33,7 @@ import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.UserProfilePreferenceService;
+import com.noqapp.utils.Formatter;
 import com.noqapp.utils.ParseJsonStringToMap;
 import com.noqapp.utils.ScrubbedInput;
 
@@ -250,6 +251,7 @@ public class AccountClientController {
 
             /* Required. */
             String countryShortName = map.get(ACCOUNT_REGISTRATION.CS.name()).getText();
+            countryShortName = Formatter.getCountryShortNameFromInternationalPhone(phone);
 
             Map<String, String> errors = accountClientValidator.validate(
                     phone,
