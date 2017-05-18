@@ -141,6 +141,7 @@ public class AccountClientController {
             String gender = map.get(ACCOUNT_REGISTRATION.GE.name()).getText();
             /* Required. */
             String countryShortName = map.get(ACCOUNT_REGISTRATION.CS.name()).getText();
+            countryShortName = Formatter.getCountryShortNameFromInternationalPhone(phone);
             /* Required. */
             String timeZone = map.get(ACCOUNT_REGISTRATION.TZ.name()).getText();
 
