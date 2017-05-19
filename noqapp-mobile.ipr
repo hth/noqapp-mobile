@@ -561,7 +561,6 @@
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.3" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.3" />
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.9" />
-            <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.65.0" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.9" />
             <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-acl:4.2.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.slf4j:jcl-over-slf4j:1.7.24" />
@@ -700,6 +699,7 @@
             <element id="library" level="project" name="Gradle: org.springframework:spring-tx:4.3.8.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-web:4.3.8.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:4.3.8.RELEASE" />
+            <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.67.0" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
