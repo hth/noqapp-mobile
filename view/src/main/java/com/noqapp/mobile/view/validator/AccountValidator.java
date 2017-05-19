@@ -45,7 +45,7 @@ abstract class AccountValidator {
     private int passwordLength;
 
     void phoneValidation(String phone, Map<String, String> errors) {
-        if (StringUtils.isBlank(phone)|| !phone.startsWith("+")) {
+        if (StringUtils.isBlank(phone)) {
             LOG.info("failed validation phone={}", phone);
             errors.put(ErrorEncounteredJson.REASON, "Phone validation failed.");
             errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
