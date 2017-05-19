@@ -156,12 +156,12 @@ public class AccountMerchantController {
                 return ErrorEncounteredJson.toJson(errors);
             }
 
-            UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone, countryShortName);
+            UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
             if (null != userProfile) {
-                LOG.info("Failed user registration as already exists mail={}", mail);
+                LOG.info("Failed user registration as already exists phone={}", phone);
                 errors = new HashMap<>();
-                errors.put(ErrorEncounteredJson.REASON, "User already exists. Did you forget password?");
-                errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
+                errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
+                errors.put(ACCOUNT_REGISTRATION.PH.name(), "+" + phone);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
                 return ErrorEncounteredJson.toJson(errors);

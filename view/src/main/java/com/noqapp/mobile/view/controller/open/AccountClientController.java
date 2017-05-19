@@ -140,8 +140,7 @@ public class AccountClientController {
             /* Required. */
             String gender = map.get(ACCOUNT_REGISTRATION.GE.name()).getText();
             /* Required. */
-            String countryShortName = map.get(ACCOUNT_REGISTRATION.CS.name()).getText();
-            countryShortName = Formatter.getCountryShortNameFromInternationalPhone("+" + phone);
+            String countryShortName = Formatter.getCountryShortNameFromInternationalPhone(phone);
             /* Required. */
             String timeZone = map.get(ACCOUNT_REGISTRATION.TZ.name()).getText();
 
@@ -167,12 +166,12 @@ public class AccountClientController {
                 return ErrorEncounteredJson.toJson(errors);
             }
 
-            UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone, countryShortName);
+            UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
             if (null != userProfile) {
-                LOG.info("Failed user registration as already exists mail={}", mail);
+                LOG.info("Failed user registration as already exists phone={}", phone);
                 errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
-                errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
+                errors.put(ACCOUNT_REGISTRATION.PH.name(), "+" + phone);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
                 return ErrorEncounteredJson.toJson(errors);
@@ -251,8 +250,7 @@ public class AccountClientController {
             String phone = map.get(ACCOUNT_REGISTRATION.PH.name()).getText();
 
             /* Required. */
-            String countryShortName = map.get(ACCOUNT_REGISTRATION.CS.name()).getText();
-            countryShortName = Formatter.getCountryShortNameFromInternationalPhone("+" + phone);
+            String countryShortName = Formatter.getCountryShortNameFromInternationalPhone(phone);
 
             Map<String, String> errors = accountClientValidator.validate(
                     phone,
@@ -264,7 +262,7 @@ public class AccountClientController {
             }
 
             try {
-                UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone, countryShortName);
+                UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
                 if (null == userProfile) {
                     LOG.info("Failed user login as no user found with phone={} cs={}", phone, countryShortName);
                     errors = new HashMap<>();
