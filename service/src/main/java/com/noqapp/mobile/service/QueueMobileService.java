@@ -117,6 +117,7 @@ public class QueueMobileService {
 
         JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
         jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
+        LOG.info("Current queue={}", jsonTokenAndQueueList);
 
         return jsonTokenAndQueueList;
     }
@@ -138,6 +139,7 @@ public class QueueMobileService {
 
         JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
         jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
+        LOG.info("Historical queue={}", jsonTokenAndQueueList);
 
         return jsonTokenAndQueueList;
     }
