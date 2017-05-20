@@ -103,6 +103,7 @@ public class QueueMobileService {
 
     public JsonTokenAndQueueList findAllJoinedQueues(String did) {
         List<QueueEntity> queues = queueManager.findAllQueuedByDid(did);
+        LOG.info("Currently joined queue size={}", queues.size());
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
             validateJoinedQueue(queue);
@@ -125,6 +126,7 @@ public class QueueMobileService {
     public JsonTokenAndQueueList findAllJoinedQueues(String rid, String did) {
         Validate.isValidRid(rid);
         List<QueueEntity> queues = queueManager.findAllQueuedByRid(rid);
+        LOG.info("Historical joined queue size={}", queues.size());
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
             validateJoinedQueue(queue);
