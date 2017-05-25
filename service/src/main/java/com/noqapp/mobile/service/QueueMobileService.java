@@ -231,10 +231,14 @@ public class QueueMobileService {
     }
 
     public boolean reviewService(String codeQR, int token, String did, String rid, int ratingCount, int hoursSaved) {
-        return queueManager.reviewService(codeQR, token, did, rid, ratingCount, hoursSaved);
+        boolean success = queueManager.reviewService(codeQR, token, did, rid, ratingCount, hoursSaved);
+        if(!success) {
+          success = reviewHistoricalService(codeQR, token, did, rid, ratingCount, hoursSaved);
+        }
+        return success;
     }
 
-    public boolean reviewHistoricalService(String codeQR, String did, String rid, int ratingCount, int hoursSaved) {
-        return queueManagerJDBC.reviewService(codeQR, did, rid, ratingCount, hoursSaved);
+    public boolean reviewHistoricalService(String codeQR, int token, String did, String rid, int ratingCount, int hoursSaved) {
+        return queueManagerJDBC.reviewService(codeQR, token, did, rid, ratingCount, hoursSaved);
     }
 }
