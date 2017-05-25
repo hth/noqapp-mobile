@@ -74,7 +74,7 @@ public class TokenQueueMobileService {
     }
 
     TokenQueueEntity findByCodeQR(String codeQR) {
-        return tokenQueueService.findByCodeQR(codeQR);
+        return tokenQueueManager.findByCodeQR(codeQR);
     }
 
     void changeQueueStatus(String codeQR, QueueStatusEnum queueStatus) {
