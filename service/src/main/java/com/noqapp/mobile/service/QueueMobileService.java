@@ -68,7 +68,9 @@ public class QueueMobileService {
         LOG.info("Getting queue codeQR={} servedNumber={} queueUserState={}", codeQR, servedNumber, queueUserState);
         QueueEntity queue = queueManager.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState);
         if (null != queue) {
-            LOG.info("Found queue codeQR={} servedNumber={} queueUserState={}", codeQR, servedNumber, queueUserState);
+            LOG.info("Found queue codeQR={} servedNumber={} queueUserState={} nextToken={}",
+                    codeQR, servedNumber, queueUserState, queue.getTokenNumber());
+            
             return tokenQueueMobileService.updateServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber());
         }
 
@@ -92,7 +94,8 @@ public class QueueMobileService {
         LOG.info("Getting queue codeQR={}", codeQR);
         QueueEntity queue = queueManager.getNext(codeQR);
         if (null != queue) {
-            LOG.info("Found queue codeQR={}", codeQR);
+            LOG.info("Found queue codeQR={} token={}", codeQR, queue.getTokenNumber());
+            
             JsonToken jsonToken = tokenQueueMobileService.updateServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber());
             tokenQueueMobileService.changeQueueStatus(codeQR, QueueStatusEnum.N);
             return jsonToken;
