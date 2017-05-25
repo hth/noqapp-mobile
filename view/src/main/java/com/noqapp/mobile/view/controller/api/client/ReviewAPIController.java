@@ -60,7 +60,7 @@ public class ReviewAPIController {
     }
 
     /**
-     * Add review to service.
+     * Add review to service. This includes today's service or historical service.
      *
      * @param did
      * @param dt
@@ -126,75 +126,6 @@ public class ReviewAPIController {
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
-            return new JsonResponse(reviewSuccess).asJson();
-        }
-    }
-
-    /**
-     * Add review to service.
-     *
-     * @param did
-     * @param dt
-     * @param mail
-     * @param auth
-     * @param bodyJson
-     * @param response
-     * @return
-     * @throws IOException
-     */
-    @Timed
-    @ExceptionMetered
-    @RequestMapping (
-            method = RequestMethod.POST,
-            value = "/historical/service",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
-    )
-    public String serviceHistorical(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
-
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
-
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
-
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
-
-            @RequestBody
-            String bodyJson,
-
-            HttpServletResponse response
-    ) throws IOException {
-        LOG.info("On scan get state did={} dt={}", did, dt);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, rid)) return null;
-
-        Map<String, ScrubbedInput> map;
-        try {
-            map = ParseJsonStringToMap.jsonStringToMap(bodyJson);
-        } catch (IOException e) {
-            LOG.error("Could not parse json={} reason={}", bodyJson, e.getLocalizedMessage(), e);
-            return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
-        }
-
-        boolean reviewSuccess = false;
-        try {
-            /* Required. */
-            String codeQR = map.get("codeQR").getText();
-            int ratingCount = Integer.parseInt(map.get("ra").getText());
-            int hoursSaved = Integer.parseInt(map.get("hr").getText());
-
-            if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR)) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
-                return null;
-            }
-
-            reviewSuccess = queueMobileService.reviewHistoricalService(codeQR, did.getText(), rid, ratingCount, hoursSaved);
-            return new JsonResponse(reviewSuccess).asJson();
-        } catch (Exception e) {
-            LOG.error("Failed processing review for historical reason={}", e.getLocalizedMessage(), e);
             return new JsonResponse(reviewSuccess).asJson();
         }
     }
