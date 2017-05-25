@@ -73,7 +73,7 @@ public class QueueMobileService {
         }
 
         LOG.info("Reached condition of not having any more to serve");
-        TokenQueueEntity tokenQueue = tokenQueueMobileService.findByCodeQR(codeQR);
+        TokenQueueEntity tokenQueue = getTokenQueueByCodeQR(codeQR);
         tokenQueueMobileService.changeQueueStatus(codeQR, QueueStatusEnum.D);
         return new JsonToken(codeQR)
                 .setToken(servedNumber)
@@ -240,5 +240,9 @@ public class QueueMobileService {
 
     private boolean reviewHistoricalService(String codeQR, int token, String did, String rid, int ratingCount, int hoursSaved) {
         return queueManagerJDBC.reviewService(codeQR, token, did, rid, ratingCount, hoursSaved);
+    }
+
+    public TokenQueueEntity getTokenQueueByCodeQR(String codeQR) {
+        return tokenQueueMobileService.findByCodeQR(codeQR);
     }
 }
