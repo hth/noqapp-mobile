@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
-import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.QueueStatusEnum;
@@ -198,10 +197,9 @@ public class ManageQueueController {
                 return getErrorReason("Not a valid queue status.", MOBILE_JSON);
             }
 
-            TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(codeQR);
-            LOG.info("sent status={} found={}", queueStatus, tokenQueue.getQueueStatus());
+
             JsonToken jsonToken;
-            switch (tokenQueue.getQueueStatus()) {
+            switch (queueStatus) {
                 case C:
                 case D:
                 case N:
