@@ -222,6 +222,7 @@ public class ManageQueueController {
                 return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
             }
 
+            LOG.info("After serviced jsonToken={}", jsonToken);
             return jsonToken.asJson();
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} rid={} message={}", requestBodyJson, rid, e.getLocalizedMessage(), e);
