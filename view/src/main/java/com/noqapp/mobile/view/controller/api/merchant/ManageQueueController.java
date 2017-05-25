@@ -203,12 +203,10 @@ public class ManageQueueController {
                 case C:
                 case D:
                 case N:
-                    LOG.info("QueueStatus={}", queueStatus);
                     jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState);
                     break;
                 case R:
                 case S:
-                    LOG.info("QueueStatus={}", queueStatus);
                     jsonToken = queueMobileService.getNextInQueue(codeQR);
                     break;
                 default:
