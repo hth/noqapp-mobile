@@ -58,10 +58,12 @@ public class TokenQueueMobileService {
     }
 
     public JsonToken joinQueue(String codeQR, String did, String rid) {
+        LOG.info("joinQueue codeQR={} did={} rid={}", codeQR, did, rid);
         return tokenQueueService.getNextToken(codeQR, did, rid);
     }
 
     public JsonResponse abortQueue(String codeQR, String did, String rid) {
+        LOG.info("abortQueue codeQR={} did={} rid={}", codeQR, did, rid);
         return tokenQueueService.abortQueue(codeQR, did, rid);
     }
 
