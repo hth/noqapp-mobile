@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -26,7 +27,6 @@ import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
-import com.noqapp.mobile.view.controller.open.TokenQueueController;
 import com.noqapp.service.InviteService;
 import com.noqapp.utils.ScrubbedInput;
 
@@ -49,7 +49,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping (value = "/api/c/token")
 public class TokenQueueAPIController {
-    private static final Logger LOG = LoggerFactory.getLogger(TokenQueueController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TokenQueueAPIController.class);
 
     private TokenQueueMobileService tokenQueueMobileService;
     private QueueMobileService queueMobileService;
@@ -422,9 +422,15 @@ public class TokenQueueAPIController {
         }
 
         try {
-            String jsonToken = tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), rid).asJson();
-            inviteService.deductRemoteJoinCount(rid);
-            return jsonToken;
+            if (inviteService.getRemoteJoinCount(rid) > 0) {
+                String jsonToken = tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), rid).asJson();
+                inviteService.deductRemoteJoinCount(rid);
+                return jsonToken;
+            } else {
+                LOG.error("Failed joining queue rid={}, remoteJoin={}", rid, 0);
+                return getErrorReason("Remote Join not available.", MOBILE);
+            }
+
         } catch (Exception e) {
             LOG.error("Failed joining queue rid={}, reason={}", rid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
