@@ -39,7 +39,7 @@ public class TokenQueueMobileService {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
         TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
 
-        LOG.info("bizStore={} tokenQueue={}", bizStore.getBizName(), tokenQueue.getCurrentlyServing());
+        LOG.info("bizStore={} computeCurrentlyServing={}", bizStore.getBizName(), tokenQueue.computeCurrentlyServing());
         return new JsonQueue(bizStore.getCodeQR())
                 .setBusinessName(bizStore.getBizName().getBusinessName())
                 .setDisplayName(bizStore.getDisplayName())
@@ -51,7 +51,7 @@ public class TokenQueueMobileService {
                 .setTokenNotAvailableFrom(bizStore.getTokenNotAvailableFrom())
                 .setEndHour(bizStore.getEndHour())
                 .setTopic(bizStore.getTopic())
-                .setServingNumber(tokenQueue.getCurrentlyServing())
+                .setServingNumber(tokenQueue.computeCurrentlyServing())
                 .setLastNumber(tokenQueue.getLastNumber())
                 .setQueueStatus(tokenQueue.getQueueStatus())
                 .setCreated(tokenQueue.getCreated());
