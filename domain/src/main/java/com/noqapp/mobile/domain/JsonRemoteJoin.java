@@ -28,13 +28,13 @@ import com.noqapp.domain.AbstractDomain;
 //@JsonInclude (JsonInclude.Include.NON_NULL)
 public class JsonRemoteJoin extends AbstractDomain {
     @JsonProperty ("rj")
-    private int remoteJoinAvailable;
+    private int remoteJoin;
 
-    private JsonRemoteJoin(int remoteJoinAvailable) {
-        this.remoteJoinAvailable = remoteJoinAvailable;
+    private JsonRemoteJoin(int remoteJoin) {
+        this.remoteJoin = remoteJoin;
     }
 
-    public static JsonRemoteJoin newInstance(int remoteScanAvailable) {
-        return new JsonRemoteJoin(remoteScanAvailable);
+    public static JsonRemoteJoin newInstance(int remoteJoin) {
+        return new JsonRemoteJoin(remoteJoin);
     }
 }
