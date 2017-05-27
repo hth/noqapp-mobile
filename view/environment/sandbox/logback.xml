@@ -25,7 +25,15 @@
             <!--<pattern>[DateTime=%d{yyyy-MM-dd HH:mm:ss}] [Thread=%thread] [ID=%X{X-REQUEST-ID}] Type=%-5p [LineNumber=%L] [Method=%C{46}.%M] Message=%msg%n</pattern>-->
         <!--</encoder>-->
 
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeCallerData>true</includeCallerData>
+            <fieldNames class="net.logstash.logback.fieldnames.ShortenedFieldNames"/>
+            <fieldNames>
+                <fieldsRequestHeaders>@fields.request_headers</fieldsRequestHeaders>
+                <fieldsResponseHeaders>@fields.response_headers</fieldsResponseHeaders>
+            </fieldNames>
+            <version>2</version>
+        </encoder>
     </appender>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
