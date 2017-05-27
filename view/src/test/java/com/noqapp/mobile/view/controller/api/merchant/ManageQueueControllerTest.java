@@ -55,7 +55,6 @@ class ManageQueueControllerTest {
     @Mock private QueueMobileService queueMobileService;
     @Mock private BusinessUserStoreService businessUserStoreService;
     @Mock private HttpServletResponse response;
-    private TokenQueueEntity tokenQueue;
 
     private ManageQueueController manageQueueController;
     private ObjectMapper mapper;
@@ -69,7 +68,7 @@ class ManageQueueControllerTest {
         manageQueueController = new ManageQueueController(authenticateMobileService, queueMobileService, businessUserStoreService);
         mapper = new ObjectMapper();
 
-        tokenQueue = new TokenQueueEntity("topic", "displayName");
+        TokenQueueEntity tokenQueue = new TokenQueueEntity("topic", "displayName");
         tokenQueue.setLastNumber(10);
         tokenQueue.setCurrentlyServing(5);
         tokenQueue.setId("codeQR");
@@ -166,15 +165,11 @@ class ManageQueueControllerTest {
         json.addProperty("t", "1");
         json.addProperty("q", QueueUserStateEnum.S.getName());
         json.addProperty("s", QueueStatusEnum.N.getName());
-        json.addProperty("g", "GoTo");
         String jsonRequest = new Gson().toJson(json);
-
-        tokenQueue.setQueueStatus(QueueStatusEnum.N);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
-        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueUserStateEnum.class), anyString())).thenReturn(new JsonToken("queuecode"));
-        when(queueMobileService.getTokenQueueByCodeQR(anyString())).thenReturn(tokenQueue);
+        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueUserStateEnum.class))).thenReturn(new JsonToken("queuecode"));
 
         String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
@@ -186,7 +181,7 @@ class ManageQueueControllerTest {
 
         verify(authenticateMobileService, times(1)).getReceiptUserId(any(String.class), any(String.class));
         verify(businessUserStoreService, times(1)).hasAccess(any(String.class), any(String.class));
-        verify(queueMobileService, times(1)).updateAndGetNextInQueue(any(String.class), any(Integer.class), Matchers.any(QueueUserStateEnum.class), anyString());
+        verify(queueMobileService, times(1)).updateAndGetNextInQueue(any(String.class), any(Integer.class), Matchers.any(QueueUserStateEnum.class));
 
         JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
         assertEquals("queuecode", jo.get("c").getAsString());
@@ -203,7 +198,7 @@ class ManageQueueControllerTest {
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
-        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueUserStateEnum.class), anyString())).thenReturn(new JsonToken("queuecode"));
+        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueUserStateEnum.class))).thenReturn(new JsonToken("queuecode"));
 
         String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
@@ -332,12 +327,9 @@ class ManageQueueControllerTest {
         json.addProperty("s", QueueStatusEnum.N.getName());
         String jsonRequest = new Gson().toJson(json);
 
-        tokenQueue.setQueueStatus(QueueStatusEnum.N);
-
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
-        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueUserStateEnum.class), anyString())).thenReturn(null);
-        when(queueMobileService.getTokenQueueByCodeQR(anyString())).thenReturn(tokenQueue);
+        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), Matchers.any(QueueUserStateEnum.class))).thenReturn(null);
 
         String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
@@ -349,7 +341,7 @@ class ManageQueueControllerTest {
 
         verify(authenticateMobileService, times(1)).getReceiptUserId(any(String.class), any(String.class));
         verify(businessUserStoreService, times(1)).hasAccess(any(String.class), any(String.class));
-        verify(queueMobileService, times(1)).updateAndGetNextInQueue(any(String.class), any(Integer.class), Matchers.any(QueueUserStateEnum.class), anyString());
+        verify(queueMobileService, times(1)).updateAndGetNextInQueue(any(String.class), any(Integer.class), Matchers.any(QueueUserStateEnum.class));
 
         ErrorJsonList errorJsonList = mapper.readValue(responseJson, ErrorJsonList.class);
         assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.SEVERE.name());
