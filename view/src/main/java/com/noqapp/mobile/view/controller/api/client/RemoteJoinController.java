@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
-import com.noqapp.mobile.domain.JsonRemoteScan;
+import com.noqapp.mobile.domain.JsonRemoteJoin;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.service.InviteService;
@@ -36,15 +36,15 @@ import javax.servlet.http.HttpServletResponse;
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/api/c/remotescan")
-public class RemoteScanController {
+@RequestMapping (value = "/api/c/remote")
+public class RemoteJoinController {
     private static final Logger LOG = LoggerFactory.getLogger(ClientProfileController.class);
 
     private AuthenticateMobileService authenticateMobileService;
     private InviteService inviteService;
 
     @Autowired
-    public RemoteScanController(
+    public RemoteJoinController(
             AuthenticateMobileService authenticateMobileService,
             InviteService inviteService
     ) {
@@ -56,9 +56,10 @@ public class RemoteScanController {
     @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.GET,
+            value = "/join",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String remoteScan(
+    public String joinAvailable(
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
 
@@ -75,7 +76,7 @@ public class RemoteScanController {
         }
 
         try {
-            return JsonRemoteScan.newInstance(inviteService.getRemoteScanCount(rid)).asJson();
+            return JsonRemoteJoin.newInstance(inviteService.getRemoteJoinCount(rid)).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting remote scan rid={}, reason={}", rid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
