@@ -1,6 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.REMOTE_JOIN_EMPTY;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -427,10 +427,9 @@ public class TokenQueueAPIController {
                 inviteService.deductRemoteJoinCount(rid);
                 return jsonToken;
             } else {
-                LOG.error("Failed joining queue rid={}, remoteJoin={}", rid, 0);
-                return getErrorReason("Remote Join not available.", MOBILE);
+                LOG.warn("Failed joining queue rid={}, remoteJoin={}, means not available", rid, 0);
+                return getErrorReason("Remote Join not available.", REMOTE_JOIN_EMPTY);
             }
-
         } catch (Exception e) {
             LOG.error("Failed joining queue rid={}, reason={}", rid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
