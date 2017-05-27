@@ -193,7 +193,7 @@ public class AccountClientController {
                 response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
 
                 userProfile = userProfilePreferenceService.findByReceiptUserId(userAccount.getReceiptUserId());
-                return JsonProfile.newInstance(userProfile, inviteService.getRemoteScanCount(userAccount.getReceiptUserId())).asJson();
+                return JsonProfile.newInstance(userProfile, inviteService.getRemoteJoinCount(userAccount.getReceiptUserId())).asJson();
             } catch (Exception e) {
                 LOG.error("Failed signup for user={} reason={}", mail, e.getLocalizedMessage(), e);
 
@@ -282,7 +282,7 @@ public class AccountClientController {
                 response.addHeader("X-R-MAIL", userAccount.getUserId());
                 response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
 
-                return JsonProfile.newInstance(userProfile, inviteService.getRemoteScanCount(userAccount.getReceiptUserId())).asJson();
+                return JsonProfile.newInstance(userProfile, inviteService.getRemoteJoinCount(userAccount.getReceiptUserId())).asJson();
             } catch (Exception e) {
                 LOG.error("Failed login for phone={} cs={} reason={}", phone, countryShortName, e.getLocalizedMessage(), e);
 

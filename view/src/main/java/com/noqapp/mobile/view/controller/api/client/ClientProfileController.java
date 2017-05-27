@@ -82,7 +82,7 @@ public class ClientProfileController {
         try {
             return JsonProfile.newInstance(
                     userProfilePreferenceService.findByReceiptUserId(rid),
-                    inviteService.getRemoteScanCount(rid)).asJson();
+                    inviteService.getRemoteJoinCount(rid)).asJson();
 
         } catch(Exception e) {
             LOG.error("Failed getting profile rid={}, reason={}", rid, e.getLocalizedMessage(), e);

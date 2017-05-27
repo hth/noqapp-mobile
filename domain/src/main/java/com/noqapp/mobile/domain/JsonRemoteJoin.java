@@ -26,15 +26,15 @@ import com.noqapp.domain.AbstractDomain;
 @JsonPropertyOrder (alphabetic = true)
 @JsonIgnoreProperties (ignoreUnknown = true)
 //@JsonInclude (JsonInclude.Include.NON_NULL)
-public class JsonRemoteScan extends AbstractDomain {
-    @JsonProperty ("rs")
-    private int remoteScanAvailable;
+public class JsonRemoteJoin extends AbstractDomain {
+    @JsonProperty ("rj")
+    private int remoteJoinAvailable;
 
-    private JsonRemoteScan(int remoteScanAvailable) {
-        this.remoteScanAvailable = remoteScanAvailable;
+    private JsonRemoteJoin(int remoteJoinAvailable) {
+        this.remoteJoinAvailable = remoteJoinAvailable;
     }
 
-    public static JsonRemoteScan newInstance(int remoteScanAvailable) {
-        return new JsonRemoteScan(remoteScanAvailable);
+    public static JsonRemoteJoin newInstance(int remoteScanAvailable) {
+        return new JsonRemoteJoin(remoteScanAvailable);
     }
 }
