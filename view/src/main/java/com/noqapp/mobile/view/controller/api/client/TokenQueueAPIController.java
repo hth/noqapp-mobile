@@ -422,9 +422,9 @@ public class TokenQueueAPIController {
         }
 
         try {
-            String jsonQueue = tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), rid).asJson();
+            String jsonToken = tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), rid).asJson();
             inviteService.deductRemoteJoinCount(rid);
-            return jsonQueue;
+            return jsonToken;
         } catch (Exception e) {
             LOG.error("Failed joining queue rid={}, reason={}", rid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
