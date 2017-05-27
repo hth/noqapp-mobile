@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping (value = "/api/c/remote")
 public class RemoteJoinController {
-    private static final Logger LOG = LoggerFactory.getLogger(ClientProfileController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RemoteJoinController.class);
 
     private AuthenticateMobileService authenticateMobileService;
     private InviteService inviteService;

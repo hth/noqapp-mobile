@@ -198,6 +198,8 @@ public class ManageQueueController {
                 return getErrorReason("Not a valid queue status.", MOBILE_JSON);
             }
 
+            String goTo = map.containsKey("g") ? map.get("g").getText() : null;
+
             TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(codeQR);
             LOG.info("queueStatus received={} found={}", queueStatus, tokenQueue.getQueueStatus());
 
@@ -206,11 +208,11 @@ public class ManageQueueController {
                 case C:
                 case D:
                 case N:
-                    jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState);
+                    jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState, goTo);
                     break;
                 case R:
                 case S:
-                    jsonToken = queueMobileService.getNextInQueue(codeQR);
+                    jsonToken = queueMobileService.getNextInQueue(codeQR, goTo);
                     break;
                 default:
                     LOG.error("Reached unsupported condition queueState={}", map.get("s").getText());

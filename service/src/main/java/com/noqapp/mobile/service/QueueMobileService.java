@@ -64,14 +64,14 @@ public class QueueMobileService {
      * @param queueUserState
      * @return
      */
-    public JsonToken updateAndGetNextInQueue(String codeQR, int servedNumber, QueueUserStateEnum queueUserState) {
+    public JsonToken updateAndGetNextInQueue(String codeQR, int servedNumber, QueueUserStateEnum queueUserState, String goTo) {
         LOG.info("Update and getting next in queue codeQR={} servedNumber={} queueUserState={}", codeQR, servedNumber, queueUserState);
         QueueEntity queue = queueManager.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState);
         if (null != queue) {
             LOG.info("Found queue codeQR={} servedNumber={} queueUserState={} nextToken={}",
                     codeQR, servedNumber, queueUserState, queue.getTokenNumber());
             
-            return tokenQueueMobileService.updateServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber());
+            return tokenQueueMobileService.updateServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber(), goTo);
         }
 
         LOG.info("Reached condition of not having any more to serve");
@@ -91,13 +91,13 @@ public class QueueMobileService {
      * @param codeQR
      * @return
      */
-    public JsonToken getNextInQueue(String codeQR) {
+    public JsonToken getNextInQueue(String codeQR, String goTo) {
         LOG.info("Getting next in queue for codeQR={}", codeQR);
         QueueEntity queue = queueManager.getNext(codeQR);
         if (null != queue) {
             LOG.info("Found queue codeQR={} token={}", codeQR, queue.getTokenNumber());
             
-            JsonToken jsonToken = tokenQueueMobileService.updateServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber());
+            JsonToken jsonToken = tokenQueueMobileService.updateServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber(), goTo);
             tokenQueueMobileService.changeQueueStatus(codeQR, QueueStatusEnum.N);
             return jsonToken;
         }
