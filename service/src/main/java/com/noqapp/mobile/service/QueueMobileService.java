@@ -78,7 +78,8 @@ public class QueueMobileService {
         TokenQueueEntity tokenQueue = getTokenQueueByCodeQR(codeQR);
         tokenQueueMobileService.changeQueueStatus(codeQR, QueueStatusEnum.D);
         return new JsonToken(codeQR)
-                .setToken(servedNumber)
+                /* Better to show last number than served number. This is to maintain consistent state. */
+                .setToken(tokenQueue.getCurrentlyServing())
                 .setServingNumber(tokenQueue.getCurrentlyServing())
                 .setDisplayName(tokenQueue.getDisplayName())
                 .setQueueStatus(QueueStatusEnum.D);
