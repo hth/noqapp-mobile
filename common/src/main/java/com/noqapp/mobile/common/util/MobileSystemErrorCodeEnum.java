@@ -16,7 +16,7 @@ public enum MobileSystemErrorCodeEnum {
     MOBILE_JSON("210"),
     MOBILE_UPGRADE("222"),
 
-    DOCUMENT_UPLOAD("300"),
+    REMOTE_JOIN_EMPTY("300"),
 
     AUTHENTICATION("400"),
     USER_EXISTING("410"),
