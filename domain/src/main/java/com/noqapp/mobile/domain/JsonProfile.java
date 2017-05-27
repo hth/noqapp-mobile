@@ -46,8 +46,8 @@ public class JsonProfile extends AbstractDomain {
     @JsonProperty ("ic")
     private String inviteCode;
 
-    @JsonProperty ("rs")
-    private int remoteScanAvailable;
+    @JsonProperty ("rj")
+    private int remoteJoin;
 
     @JsonProperty ("bd")
     private String birthday;
@@ -64,7 +64,7 @@ public class JsonProfile extends AbstractDomain {
             String inviteCode,
             String birthday,
             String gender,
-            int remoteScanAvailable
+            int remoteJoin
     ) {
         this.name = name;
         this.mail = mail;
@@ -74,10 +74,10 @@ public class JsonProfile extends AbstractDomain {
         this.inviteCode = inviteCode;
         this.birthday = birthday;
         this.gender = gender;
-        this.remoteScanAvailable = remoteScanAvailable;
+        this.remoteJoin = remoteJoin;
     }
 
-    public static JsonProfile newInstance(UserProfileEntity userProfile, int remoteScanAvailable) {
+    public static JsonProfile newInstance(UserProfileEntity userProfile, int remoteJoin) {
         return new JsonProfile(
                 userProfile.getName(),
                 userProfile.getEmail(),
@@ -87,7 +87,7 @@ public class JsonProfile extends AbstractDomain {
                 userProfile.getInviteCode(),
                 userProfile.getBirthday(),
                 userProfile.getGender(),
-                remoteScanAvailable
+                remoteJoin
         );
     }
 }
