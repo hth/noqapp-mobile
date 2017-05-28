@@ -44,10 +44,12 @@ public class DeviceService {
     public boolean registerDevice(String rid, String did, DeviceTypeEnum deviceType, String token) {
         RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(rid, did);
         if (registeredDevice == null) {
+            LOG.info("Registering new deviceType={} did={} rid={}", deviceType, did, rid);
             registeredDevice = RegisteredDeviceEntity.newInstance(rid, did, deviceType, token);
             registeredDeviceManager.save(registeredDevice);
             LOG.info("registered device for did={}", did);
         } else if (StringUtils.isNotBlank(token)) {
+            LOG.info("Updating registered device of deviceType={} did={} rid={}", deviceType, did, rid);
             registeredDevice.setReceiptUserId(rid);
             registeredDevice.setDeviceType(deviceType);
             registeredDevice.setToken(token);
