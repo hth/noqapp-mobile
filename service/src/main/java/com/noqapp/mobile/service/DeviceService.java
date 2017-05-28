@@ -1,5 +1,7 @@
 package com.noqapp.mobile.service;
 
+import com.mongodb.DuplicateKeyException;
+
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
@@ -47,8 +49,20 @@ public class DeviceService {
             if (registeredDevice == null) {
                 LOG.info("Registering new deviceType={} did={} rid={}", deviceType, did, rid);
                 registeredDevice = RegisteredDeviceEntity.newInstance(rid, did, deviceType, token);
-                registeredDeviceManager.save(registeredDevice);
-                LOG.info("registered device for did={}", did);
+                try {
+                    registeredDeviceManager.save(registeredDevice);
+                    LOG.info("registered device for did={}", did);
+                } catch (DuplicateKeyException duplicateKeyException) {
+                    LOG.warn("Already registered device exists, update existing with new details deviceType={} did={} rid={}",
+                            deviceType, did, rid);
+
+                    RegisteredDeviceEntity registeredDeviceExisting = registeredDeviceManager.find(did, null);
+                    registeredDeviceExisting.setReceiptUserId(rid);
+                    registeredDeviceExisting.setDeviceType(deviceType);
+                    registeredDeviceExisting.setToken(token);
+                    registeredDeviceManager.save(registeredDeviceExisting);
+                    LOG.info("existing registered device updated with rid={} token={}", rid, token);
+                }
             } else if (StringUtils.isNotBlank(token)) {
                 LOG.info("Updating registered device of deviceType={} did={} rid={}", deviceType, did, rid);
                 registeredDevice.setReceiptUserId(rid);
@@ -58,7 +72,7 @@ public class DeviceService {
                 LOG.info("updated registered device for did={} token={}", did, token);
             }
             return true;
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOG.error("Failed device registration deviceType={} did={} rid={} reason={}", deviceType, did, rid, e.getLocalizedMessage(), e);
             return false;
         }
