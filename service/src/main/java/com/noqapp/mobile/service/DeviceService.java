@@ -55,13 +55,15 @@ public class DeviceService {
                 } catch (DuplicateKeyException duplicateKeyException) {
                     LOG.warn("Already registered device exists, update existing with new details deviceType={} did={} rid={}",
                             deviceType, did, rid);
-
-                    RegisteredDeviceEntity registeredDeviceExisting = registeredDeviceManager.find(did, null);
-                    registeredDeviceExisting.setReceiptUserId(rid);
-                    registeredDeviceExisting.setDeviceType(deviceType);
-                    registeredDeviceExisting.setToken(token);
-                    registeredDeviceManager.save(registeredDeviceExisting);
-                    LOG.info("existing registered device updated with rid={} token={}", rid, token);
+                    
+                    /* Reset update date with create date to fetch all the possible historical data. */
+                    boolean updateStatus = registeredDeviceManager.resetRegisteredDeviceWithNewDetails(
+                            registeredDevice.getDeviceId(),
+                            rid,
+                            deviceType,
+                            token
+                    );
+                    LOG.info("existing registered device updateStatus={} with rid={} token={}", updateStatus, rid, token);
                 }
             } else if (StringUtils.isNotBlank(token)) {
                 LOG.info("Updating registered device of deviceType={} did={} rid={}", deviceType, did, rid);
