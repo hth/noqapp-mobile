@@ -60,6 +60,7 @@ public class DeviceService {
                     registeredDeviceExisting.setReceiptUserId(rid);
                     registeredDeviceExisting.setDeviceType(deviceType);
                     registeredDeviceExisting.setToken(token);
+                    registeredDeviceExisting.setCreateAndUpdate(registeredDeviceExisting.getCreated());
                     registeredDeviceManager.save(registeredDeviceExisting);
                     LOG.info("existing registered device updated with rid={} token={}", rid, token);
                 }
