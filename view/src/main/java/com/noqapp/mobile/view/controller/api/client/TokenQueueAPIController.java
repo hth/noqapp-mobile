@@ -162,8 +162,7 @@ public class TokenQueueAPIController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
-
-
+    
     /**
      * Get all the historical queues user has token from. In short all the queues user has joined in past.
      *
@@ -180,7 +179,7 @@ public class TokenQueueAPIController {
             value = "/historical",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String getAllHistoricalJoinedQueues(
+    public String allHistoricalJoinedQueues(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
