@@ -88,6 +88,27 @@ public class QueueMobileService {
     }
 
     /**
+     * Merchant when pausing to serve queue.
+     * 
+     * @param codeQR
+     * @param servedNumber
+     * @param queueUserState
+     * @return
+     */
+    public JsonToken pauseServingQueue(String codeQR, int servedNumber, QueueUserStateEnum queueUserState) {
+        LOG.info("Server person is now pausing for queue codeQR={} servedNumber={} queueUserState={}", codeQR, servedNumber, queueUserState);
+
+        boolean status = queueManager.updateServedInQueue(codeQR, servedNumber, queueUserState);
+        LOG.info("Paused status={}", status);
+        TokenQueueEntity tokenQueue = getTokenQueueByCodeQR(codeQR);
+        return new JsonToken(codeQR)
+                .setToken(servedNumber)
+                .setServingNumber(servedNumber)
+                .setDisplayName(tokenQueue.getDisplayName())
+                .setQueueStatus(QueueStatusEnum.R);
+    }
+
+    /**
      * Merchant when starting or re-starting to serve token when QueueState has been either Start or Re-Start.
      *
      * @param codeQR
