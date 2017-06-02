@@ -214,6 +214,9 @@ public class ManageQueueController {
                 case S:
                     jsonToken = queueMobileService.getNextInQueue(codeQR, goTo);
                     break;
+                case P:
+                    jsonToken = queueMobileService.pauseServingQueue(codeQR, servedNumber, queueUserState);
+                    break;
                 default:
                     LOG.error("Reached unsupported condition queueState={}", map.get("s").getText());
                     throw new UnsupportedOperationException("Reached unsupported condition for QueueState " + map.get("s").getText());
