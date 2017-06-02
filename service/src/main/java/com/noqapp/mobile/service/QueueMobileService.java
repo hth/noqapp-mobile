@@ -102,7 +102,7 @@ public class QueueMobileService {
         LOG.info("Paused status={}", status);
         TokenQueueEntity tokenQueue = getTokenQueueByCodeQR(codeQR);
         return new JsonToken(codeQR)
-                .setToken(servedNumber)
+                .setToken(tokenQueue.getLastNumber())
                 .setServingNumber(servedNumber)
                 .setDisplayName(tokenQueue.getDisplayName())
                 .setQueueStatus(QueueStatusEnum.R);
