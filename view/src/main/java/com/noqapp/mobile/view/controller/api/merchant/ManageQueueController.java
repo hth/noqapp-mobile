@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -40,7 +41,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Managed by merchant
- *
  * User: hitender
  * Date: 1/9/17 10:15 AM
  */
@@ -188,7 +188,7 @@ public class ManageQueueController {
                 LOG.error("Failed finding QueueUserState reason={}", e.getLocalizedMessage(), e);
                 return getErrorReason("Not a valid queue user state.", MOBILE_JSON);
             }
-            
+
             QueueStatusEnum queueStatus;
             try {
                 queueStatus = map.containsKey("s") ? QueueStatusEnum.valueOf(map.get("s").getText()) : null;
@@ -208,14 +208,19 @@ public class ManageQueueController {
                 case C:
                 case D:
                 case N:
-                    jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState, goTo);
+                    if (queueStatus == QueueStatusEnum.P) {
+                        if (queueUserState == QueueUserStateEnum.S) {
+                            jsonToken = queueMobileService.pauseServingQueue(codeQR, servedNumber, queueUserState);
+                        } else {
+                            return getErrorReason("Cannot pause until the last person has been served", MOBILE);
+                        }
+                    } else {
+                        jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState, goTo);
+                    }
                     break;
                 case R:
                 case S:
                     jsonToken = queueMobileService.getNextInQueue(codeQR, goTo);
-                    break;
-                case P:
-                    jsonToken = queueMobileService.pauseServingQueue(codeQR, servedNumber, queueUserState);
                     break;
                 default:
                     LOG.error("Reached unsupported condition queueState={}", map.get("s").getText());
