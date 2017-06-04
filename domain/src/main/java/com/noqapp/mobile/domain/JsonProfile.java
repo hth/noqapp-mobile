@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import com.noqapp.domain.AbstractDomain;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.utils.Formatter;
 
 /**
  * User: hitender
@@ -69,7 +70,7 @@ public class JsonProfile extends AbstractDomain {
         this.name = name;
         this.mail = mail;
         this.countryShortName = countryShortName;
-        this.phoneRaw = phoneRaw;
+        this.phoneRaw = Formatter.phoneFormatter(phoneRaw, countryShortName);
         this.timeZone = timeZone;
         this.inviteCode = inviteCode;
         this.birthday = birthday;
