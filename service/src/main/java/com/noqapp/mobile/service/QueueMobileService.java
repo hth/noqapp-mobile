@@ -270,11 +270,11 @@ public class QueueMobileService {
     }
 
     public boolean reviewService(String codeQR, int token, String did, String rid, int ratingCount, int hoursSaved) {
-        boolean success = queueManager.reviewService(codeQR, token, did, rid, ratingCount, hoursSaved);
-        if (!success) {
-            success = reviewHistoricalService(codeQR, token, did, rid, ratingCount, hoursSaved);
+        boolean reviewSubmitStatus = queueManager.reviewService(codeQR, token, did, rid, ratingCount, hoursSaved);
+        if (!reviewSubmitStatus) {
+            reviewSubmitStatus = reviewHistoricalService(codeQR, token, did, rid, ratingCount, hoursSaved);
         }
-        return success;
+        return reviewSubmitStatus;
     }
 
     private boolean reviewHistoricalService(String codeQR, int token, String did, String rid, int ratingCount, int hoursSaved) {
