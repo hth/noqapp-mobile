@@ -166,6 +166,7 @@ public class AccountClientController {
                 return ErrorEncounteredJson.toJson(errors);
             }
 
+            LOG.info("Check by phone={}", phone);
             UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
             if (null != userProfile) {
                 LOG.info("Failed user registration as already exists phone={}", phone);

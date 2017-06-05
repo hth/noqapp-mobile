@@ -1355,7 +1355,16 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/common/1.0/common-1.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
+      </SOURCES>
     </library>
     <library name="Gradle: com.noqapp:domain:1.0">
       <CLASSES>
