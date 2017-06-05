@@ -31,7 +31,7 @@ public class AccountClientValidator extends AccountValidator {
             String countryShortName,
             String timeZone
     ) {
-        LOG.info("Validating client information phone={} cs={}", phone, countryShortName);
+        LOG.debug("Validating client information phone={} cs={}", phone, countryShortName);
 
         Map<String, String> errors = new HashMap<>();
 
