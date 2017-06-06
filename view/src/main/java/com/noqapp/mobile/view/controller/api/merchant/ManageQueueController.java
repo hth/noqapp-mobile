@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,16 +59,21 @@ public class ManageQueueController {
     public static final String AUTH_KEY_HIDDEN = "*********";
     public static final String UNAUTHORIZED = "Unauthorized";
 
+    private int counterNameLength;
     private AuthenticateMobileService authenticateMobileService;
     private QueueMobileService queueMobileService;
     private BusinessUserStoreService businessUserStoreService;
 
     @Autowired
     public ManageQueueController(
+            @Value ("${ManageQueueController.counterNameLength}")
+            int counterNameLength,
+
             AuthenticateMobileService authenticateMobileService,
             QueueMobileService queueMobileService,
             BusinessUserStoreService businessUserStoreService
     ) {
+        this.counterNameLength = counterNameLength;
         this.authenticateMobileService = authenticateMobileService;
         this.queueMobileService = queueMobileService;
         this.businessUserStoreService = businessUserStoreService;
@@ -199,6 +205,13 @@ public class ManageQueueController {
             }
 
             String goTo = map.containsKey("g") ? map.get("g").getText() : null;
+            if (StringUtils.isBlank(goTo)) {
+                return getErrorReason("Counter name cannot be empty.", MOBILE_JSON);
+            } else {
+                if (goTo.length() > counterNameLength) {
+                    return getErrorReason("Counter name cannot exceed character size of 20.", MOBILE_JSON);
+                }
+            }
 
             TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(codeQR);
             LOG.info("queueStatus received={} found={}", queueStatus, tokenQueue.getQueueStatus());
