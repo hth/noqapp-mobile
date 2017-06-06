@@ -51,6 +51,7 @@ public class TokenQueueMobileService {
                 .setTokenNotAvailableFrom(bizStore.getTokenNotAvailableFrom())
                 .setEndHour(bizStore.getEndHour())
                 .setTopic(bizStore.getTopic())
+                .setCoordinate(bizStore.getCoordinate())
                 .setServingNumber(tokenQueue.getCurrentlyServing())
                 .setLastNumber(tokenQueue.getLastNumber())
                 .setQueueStatus(tokenQueue.getQueueStatus())
