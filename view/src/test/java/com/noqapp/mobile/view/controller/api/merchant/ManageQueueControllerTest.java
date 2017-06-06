@@ -66,7 +66,7 @@ class ManageQueueControllerTest {
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        manageQueueController = new ManageQueueController(authenticateMobileService, queueMobileService, businessUserStoreService);
+        manageQueueController = new ManageQueueController(20, authenticateMobileService, queueMobileService, businessUserStoreService);
         mapper = new ObjectMapper();
 
         tokenQueue = new TokenQueueEntity("topic", "displayName");
@@ -199,6 +199,7 @@ class ManageQueueControllerTest {
         json.addProperty("t", "1");
         json.addProperty("q", QueueUserStateEnum.S.getName());
         json.addProperty("s", QueueStatusEnum.N.getName());
+        json.addProperty("g", "some counter");
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
@@ -226,6 +227,7 @@ class ManageQueueControllerTest {
         json.addProperty("t", "1");
         json.addProperty("q", QueueUserStateEnum.S.getName());
         json.addProperty("s", QueueStatusEnum.N.getName());
+        json.addProperty("g", "some counter");
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
@@ -252,6 +254,7 @@ class ManageQueueControllerTest {
         json.addProperty("t", "a");
         json.addProperty("q", QueueUserStateEnum.S.getName());
         json.addProperty("s", QueueStatusEnum.N.getName());
+        json.addProperty("g", "some counter");
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
@@ -278,6 +281,7 @@ class ManageQueueControllerTest {
         json.addProperty("t", "1");
         json.addProperty("q", "ZZ");
         json.addProperty("s", QueueStatusEnum.N.getName());
+        json.addProperty("g", "some counter");
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
@@ -304,6 +308,7 @@ class ManageQueueControllerTest {
         json.addProperty("t", "1");
         json.addProperty("q", QueueUserStateEnum.S.getName());
         json.addProperty("s", "bbbb");
+        json.addProperty("g", "some counter");
         String jsonRequest = new Gson().toJson(json);
 
         when(authenticateMobileService.getReceiptUserId(anyString(), anyString())).thenReturn("1234");
@@ -330,6 +335,7 @@ class ManageQueueControllerTest {
         json.addProperty("t", "1");
         json.addProperty("q", QueueUserStateEnum.S.getName());
         json.addProperty("s", QueueStatusEnum.N.getName());
+        json.addProperty("g", "some counter");
         String jsonRequest = new Gson().toJson(json);
 
         tokenQueue.setQueueStatus(QueueStatusEnum.N);
