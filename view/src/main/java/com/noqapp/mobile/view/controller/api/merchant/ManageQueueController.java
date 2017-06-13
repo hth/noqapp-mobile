@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -173,7 +174,7 @@ public class ManageQueueController {
                 LOG.warn("Not a valid codeQR={} rid={}", codeQR, rid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
             } else if (!businessUserStoreService.hasAccess(rid, codeQR)) {
-                LOG.info("Un-authorized store access to /api/mq by mail={}", mail);
+                LOG.info("Un-authorized store access to /api/m/mq/served by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
@@ -249,6 +250,58 @@ public class ManageQueueController {
             return jsonToken.asJson();
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} rid={} message={}", requestBodyJson, rid, e.getLocalizedMessage(), e);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        }
+    }
+
+    @Timed
+    @ExceptionMetered
+    @RequestMapping (
+            method = RequestMethod.GET,
+            value = "/queue/{codeQR}",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String getQueue(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @PathVariable ("codeQR")
+            ScrubbedInput codeQR,
+
+            HttpServletResponse response
+    ) throws IOException {
+        LOG.info("Single queue associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (null == rid) {
+            LOG.info("Un-authorized access to /api/m/mq/queue by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (StringUtils.isBlank(codeQR.getText())) {
+            LOG.warn("Not a valid codeQR={} rid={}", codeQR, rid);
+            return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+        } else if (!businessUserStoreService.hasAccess(rid, codeQR.getText())) {
+            LOG.info("Un-authorized store access to /api/m/mq/queue by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            JsonTopicList topics = new JsonTopicList();
+            topics.setTopics(businessUserStoreService.getQueues(codeQR.getText()));
+            return topics.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
