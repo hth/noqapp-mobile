@@ -255,6 +255,7 @@ public class QueueMobileService {
         for (QueueEntity queue : queues) {
             try {
                 BizStoreEntity bizStore = bizService.findByCodeQR(queue.getCodeQR());
+                /* Currently gets all hours for the week. Can be replaced with just the specific day. */
                 bizStore.setStoreHours(bizService.finalAllStoreHours(bizStore.getId()));
                 LOG.debug("BizStore codeQR={} bizStoreId={}", queue.getCodeQR(), bizStore.getId());
                 JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(queue, bizStore);
