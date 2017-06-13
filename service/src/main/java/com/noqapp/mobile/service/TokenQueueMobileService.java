@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonResponse;
@@ -15,6 +16,9 @@ import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.TokenQueueService;
+
+import java.time.ZonedDateTime;
+import java.util.TimeZone;
 
 /**
  * User: hitender
@@ -38,6 +42,7 @@ public class TokenQueueMobileService {
     public JsonQueue findTokenState(String codeQR) {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
         TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
+        StoreHourEntity storeHour = bizService.findOne(bizStore.getId(), ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek());
 
         LOG.info("bizStore={} tokenQueue={}", bizStore.getBizName(), tokenQueue.getCurrentlyServing());
         return new JsonQueue(bizStore.getCodeQR())
@@ -46,10 +51,12 @@ public class TokenQueueMobileService {
                 .setStoreAddress(bizStore.getAddress())
                 .setCountryShortName(bizStore.getCountryShortName())
                 .setStorePhone(bizStore.getPhoneFormatted())
-                .setTokenAvailableFrom(bizStore.getTokenAvailableFrom())
-                .setStartHour(bizStore.getStartHour())
-                .setTokenNotAvailableFrom(bizStore.getTokenNotAvailableFrom())
-                .setEndHour(bizStore.getEndHour())
+                .setTokenAvailableFrom(storeHour.getTokenAvailableFrom())
+                .setStartHour(storeHour.getStartHour())
+                .setTokenNotAvailableFrom(storeHour.getTokenNotAvailableFrom())
+                .setEndHour(storeHour.getEndHour())
+                .setPreventJoining(storeHour.isPreventJoining())
+                .setDayClosed(storeHour.isDayClosed())
                 .setTopic(bizStore.getTopic())
                 .setCoordinate(bizStore.getCoordinate())
                 .setServingNumber(tokenQueue.getCurrentlyServing())
