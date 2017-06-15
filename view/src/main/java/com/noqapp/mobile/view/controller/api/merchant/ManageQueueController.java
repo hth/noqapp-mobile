@@ -25,12 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
+import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
+import com.noqapp.mobile.domain.JsonModifyQueue;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.service.BusinessUserStoreService;
@@ -305,6 +307,112 @@ public class ManageQueueController {
             }
 
             return new JsonTopic(tokenQueue).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting queue reason={}", e.getLocalizedMessage(), e);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        }
+    }
+
+    @Timed
+    @ExceptionMetered
+    @RequestMapping (
+            method = RequestMethod.POST,
+            value = "/state",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String queueState(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @RequestBody
+            JsonModifyQueue requestBodyJson,
+
+            HttpServletResponse response
+    ) throws IOException {
+        LOG.info("Single queue associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (null == rid) {
+            LOG.info("Un-authorized access to /api/m/mq/state by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (StringUtils.isBlank(requestBodyJson.getCodeQR())) {
+            LOG.warn("Not a valid codeQR={} rid={}", requestBodyJson.getCodeQR(), rid);
+            return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+        } else if (!businessUserStoreService.hasAccess(rid, requestBodyJson.getCodeQR())) {
+            LOG.info("Un-authorized store access to /api/m/mq/state by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(requestBodyJson.getCodeQR());
+            return new JsonModifyQueue(requestBodyJson.getCodeQR(), storeHour).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        }
+    }
+
+    @Timed
+    @ExceptionMetered
+    @RequestMapping (
+            method = RequestMethod.POST,
+            value = "/modify",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String queueModify(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @RequestBody
+            JsonModifyQueue requestBodyJson,
+
+            HttpServletResponse response
+    ) throws IOException {
+        LOG.info("Single queue associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (null == rid) {
+            LOG.info("Un-authorized access to /api/m/mq/modify by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (StringUtils.isBlank(requestBodyJson.getCodeQR())) {
+            LOG.warn("Not a valid codeQR={} rid={}", requestBodyJson.getCodeQR(), rid);
+            return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+        } else if (!businessUserStoreService.hasAccess(rid, requestBodyJson.getCodeQR())) {
+            LOG.info("Un-authorized store access to /api/m/mq/modify by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(
+                    requestBodyJson.getCodeQR(),
+                    requestBodyJson.isDayClosed(),
+                    requestBodyJson.isPreventJoining());
+
+            return new JsonModifyQueue(requestBodyJson.getCodeQR(), storeHour).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
