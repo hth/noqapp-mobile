@@ -298,7 +298,7 @@ public class ManageQueueController {
 
         try {
             JsonTopicList topics = new JsonTopicList();
-            topics.setTopics(businessUserStoreService.getQueues(codeQR.getText()));
+            topics.setTopics(businessUserStoreService.getQueue(codeQR.getText()));
             return topics.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
