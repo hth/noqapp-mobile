@@ -306,9 +306,7 @@ public class ManageQueueController {
             }
 
             return new JsonTopic(tokenQueue).asJson();
-        } catch (Exception e) {
-            LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } 
         }
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
