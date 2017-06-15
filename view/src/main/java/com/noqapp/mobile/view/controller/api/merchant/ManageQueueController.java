@@ -299,7 +299,7 @@ public class ManageQueueController {
         }
 
         try {
-            TokenQueueEntity tokenQueue = businessUserStoreService.getQueue(codeQR.getText());
+            TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(codeQR.getText());
             if (null == tokenQueue) {
                 LOG.error("Failed finding codeQR={} by mail={}", codeQR.getText(), mail);
                 return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
