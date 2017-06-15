@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
+import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonToken;
@@ -21,11 +22,15 @@ import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
+import com.noqapp.repository.StoreHourManager;
 import com.noqapp.service.BizService;
 import com.noqapp.utils.Validate;
 
+import java.time.DayOfWeek;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * User: hitender
@@ -40,6 +45,7 @@ public class QueueMobileService {
     private BizService bizService;
     private DeviceService deviceService;
     private QueueManagerJDBC queueManagerJDBC;
+    private StoreHourManager storeHourManager;
 
     @Autowired
     public QueueMobileService(
@@ -47,13 +53,15 @@ public class QueueMobileService {
             TokenQueueMobileService tokenQueueMobileService,
             BizService bizService,
             DeviceService deviceService,
-            QueueManagerJDBC queueManagerJDBC
+            QueueManagerJDBC queueManagerJDBC,
+            StoreHourManager storeHourManager
     ) {
         this.queueManager = queueManager;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.bizService = bizService;
         this.deviceService = deviceService;
         this.queueManagerJDBC = queueManagerJDBC;
+        this.storeHourManager = storeHourManager;
     }
 
     /**
@@ -285,5 +293,19 @@ public class QueueMobileService {
 
     public TokenQueueEntity getTokenQueueByCodeQR(String codeQR) {
         return tokenQueueMobileService.findByCodeQR(codeQR);
+    }
+
+    public StoreHourEntity getQueueStateForToday(String codeQR) {
+        BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
+        DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
+        StoreHourEntity storeHour = storeHourManager.findOne(bizStore.getId(), dayOfWeek);
+        return storeHour;
+    }
+
+    public StoreHourEntity updateQueueStateForToday(String codeQR, boolean dayClosed, boolean preventJoining) {
+        BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
+        DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
+        StoreHourEntity storeHour = storeHourManager.modifyOne(bizStore.getId(), dayOfWeek, preventJoining, dayClosed);
+        return storeHour;
     }
 }
