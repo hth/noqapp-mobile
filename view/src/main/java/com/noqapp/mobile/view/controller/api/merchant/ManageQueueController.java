@@ -31,7 +31,6 @@ import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
-import com.noqapp.mobile.domain.JsonModifyQueue;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.service.BusinessUserStoreService;
@@ -306,8 +305,6 @@ public class ManageQueueController {
             }
 
             return new JsonTopic(tokenQueue).asJson();
-        } 
-        }
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
