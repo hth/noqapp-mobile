@@ -27,9 +27,11 @@ import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
+import com.noqapp.mobile.domain.JsonModifyQueue;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.service.BusinessUserStoreService;
@@ -297,9 +299,17 @@ public class ManageQueueController {
         }
 
         try {
-            JsonTopicList topics = new JsonTopicList();
-            topics.setTopics(businessUserStoreService.getQueue(codeQR.getText()));
-            return topics.asJson();
+            TokenQueueEntity tokenQueue = businessUserStoreService.getQueue(codeQR.getText());
+            if (null == tokenQueue) {
+                LOG.error("Failed finding codeQR={} by mail={}", codeQR.getText(), mail);
+                return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+            }
+
+            return new JsonTopic(tokenQueue).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        }
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
