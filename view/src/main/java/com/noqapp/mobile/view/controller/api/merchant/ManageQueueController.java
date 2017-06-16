@@ -316,8 +316,8 @@ public class ManageQueueController {
     @Timed
     @ExceptionMetered
     @RequestMapping (
-            method = RequestMethod.POST,
-            value = "/state",
+            method = RequestMethod.GET,
+            value = "/state/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String queueState(
@@ -333,12 +333,12 @@ public class ManageQueueController {
             @RequestHeader ("X-R-AUTH")
             ScrubbedInput auth,
 
-            @RequestBody
-            JsonModifyQueue requestBodyJson,
+            @PathVariable ("codeQR")
+            ScrubbedInput codeQR,
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Single queue associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("Queue state associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (null == rid) {
             LOG.info("Un-authorized access to /api/m/mq/state by mail={}", mail);
@@ -346,18 +346,18 @@ public class ManageQueueController {
             return null;
         }
 
-        if (StringUtils.isBlank(requestBodyJson.getCodeQR())) {
-            LOG.warn("Not a valid codeQR={} rid={}", requestBodyJson.getCodeQR(), rid);
+        if (StringUtils.isBlank(codeQR.getText())) {
+            LOG.warn("Not a valid codeQR={} rid={}", codeQR.getText(), rid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-        } else if (!businessUserStoreService.hasAccess(rid, requestBodyJson.getCodeQR())) {
+        } else if (!businessUserStoreService.hasAccess(rid, codeQR.getText())) {
             LOG.info("Un-authorized store access to /api/m/mq/state by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
 
         try {
-            StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(requestBodyJson.getCodeQR());
-            return new JsonModifyQueue(requestBodyJson.getCodeQR(), storeHour).asJson();
+            StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
+            return new JsonModifyQueue(codeQR.getText(), storeHour).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
@@ -389,7 +389,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Single queue associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("Modify queue associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
         if (null == rid) {
             LOG.info("Un-authorized access to /api/m/mq/modify by mail={}", mail);

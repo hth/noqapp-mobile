@@ -298,14 +298,12 @@ public class QueueMobileService {
     public StoreHourEntity getQueueStateForToday(String codeQR) {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
         DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
-        StoreHourEntity storeHour = storeHourManager.findOne(bizStore.getId(), dayOfWeek);
-        return storeHour;
+        return storeHourManager.findOne(bizStore.getId(), dayOfWeek);
     }
 
     public StoreHourEntity updateQueueStateForToday(String codeQR, boolean dayClosed, boolean preventJoining) {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
         DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
-        StoreHourEntity storeHour = storeHourManager.modifyOne(bizStore.getId(), dayOfWeek, preventJoining, dayClosed);
-        return storeHour;
+        return storeHourManager.modifyOne(bizStore.getId(), dayOfWeek, preventJoining, dayClosed);
     }
 }
