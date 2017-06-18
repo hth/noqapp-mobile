@@ -367,8 +367,8 @@ public class TokenQueueAPIController {
 
         try {
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(codeQR.getText());
-            int remoteScanCount = inviteService.getRemoteJoinCount(rid);
-            jsonQueue.setRemoteJoin(remoteScanCount);
+            int remoteJoinCount = inviteService.getRemoteJoinCount(rid);
+            jsonQueue.setRemoteJoinCount(remoteJoinCount);
             return jsonQueue.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queue state rid={}, reason={}", rid, e.getLocalizedMessage(), e);
