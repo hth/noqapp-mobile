@@ -257,6 +257,18 @@ public class ManageQueueController {
         }
     }
 
+    /**
+     * Most called during refresh or reload of the app.
+     * 
+     * @param did
+     * @param dt
+     * @param mail
+     * @param auth
+     * @param codeQR
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @Timed
     @ExceptionMetered
     @RequestMapping (
@@ -313,6 +325,18 @@ public class ManageQueueController {
         }
     }
 
+    /**
+     * Get existing state of the queue to change the settings.
+     *
+     * @param did
+     * @param dt
+     * @param mail
+     * @param auth
+     * @param codeQR
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @Timed
     @ExceptionMetered
     @RequestMapping (
@@ -364,6 +388,18 @@ public class ManageQueueController {
         }
     }
 
+    /**
+     * Modifies the state of queue.
+     *
+     * @param did
+     * @param dt
+     * @param mail
+     * @param auth
+     * @param requestBodyJson
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @Timed
     @ExceptionMetered
     @RequestMapping (
