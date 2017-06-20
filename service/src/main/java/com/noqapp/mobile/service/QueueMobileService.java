@@ -72,7 +72,12 @@ public class QueueMobileService {
      * @param queueUserState
      * @return
      */
-    public JsonToken updateAndGetNextInQueue(String codeQR, int servedNumber, QueueUserStateEnum queueUserState, String goTo) {
+    public JsonToken updateAndGetNextInQueue(
+            String codeQR,
+            int servedNumber,
+            QueueUserStateEnum queueUserState,
+            String goTo
+    ) {
         LOG.info("Update and getting next in queue codeQR={} servedNumber={} queueUserState={} goTo={}",
                 codeQR, servedNumber, queueUserState, goTo);
 
