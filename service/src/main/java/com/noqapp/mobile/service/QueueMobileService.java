@@ -70,13 +70,21 @@ public class QueueMobileService {
      * @param codeQR
      * @param servedNumber
      * @param queueUserState
+     * @param goTo - counter name
+     * @param sid - server device id
      * @return
      */
-    public JsonToken updateAndGetNextInQueue(String codeQR, int servedNumber, QueueUserStateEnum queueUserState, String goTo) {
-        LOG.info("Update and getting next in queue codeQR={} servedNumber={} queueUserState={} goTo={}",
-                codeQR, servedNumber, queueUserState, goTo);
+    public JsonToken updateAndGetNextInQueue(
+            String codeQR,
+            int servedNumber,
+            QueueUserStateEnum queueUserState,
+            String goTo,
+            String sid
+    ) {
+        LOG.info("Update and getting next in queue codeQR={} servedNumber={} queueUserState={} goTo={} sid={}",
+                codeQR, servedNumber, queueUserState, goTo, sid);
 
-        QueueEntity queue = queueManager.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState, goTo);
+        QueueEntity queue = queueManager.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState, goTo, sid);
         if (null != queue) {
             LOG.info("Found queue codeQR={} servedNumber={} queueUserState={} nextToken={}",
                     codeQR, servedNumber, queueUserState, queue.getTokenNumber());
@@ -101,12 +109,14 @@ public class QueueMobileService {
      * @param codeQR
      * @param servedNumber
      * @param queueUserState
+     * @param sid
      * @return
      */
-    public JsonToken pauseServingQueue(String codeQR, int servedNumber, QueueUserStateEnum queueUserState) {
-        LOG.info("Server person is now pausing for queue codeQR={} servedNumber={} queueUserState={}", codeQR, servedNumber, queueUserState);
+    public JsonToken pauseServingQueue(String codeQR, int servedNumber, QueueUserStateEnum queueUserState, String sid) {
+        LOG.info("Server person is now pausing for queue codeQR={} servedNumber={} queueUserState={} sid={}",
+                codeQR, servedNumber, queueUserState, sid);
 
-        boolean status = queueManager.updateServedInQueue(codeQR, servedNumber, queueUserState);
+        boolean status = queueManager.updateServedInQueue(codeQR, servedNumber, queueUserState, sid);
         LOG.info("Paused status={}", status);
         TokenQueueEntity tokenQueue = getTokenQueueByCodeQR(codeQR);
         return new JsonToken(codeQR)
@@ -122,10 +132,10 @@ public class QueueMobileService {
      * @param codeQR
      * @return
      */
-    public JsonToken getNextInQueue(String codeQR, String goTo) {
-        LOG.info("Getting next in queue for codeQR={} goTo={}", codeQR, goTo);
+    public JsonToken getNextInQueue(String codeQR, String goTo, String sid) {
+        LOG.info("Getting next in queue for codeQR={} goTo={} sid={}", codeQR, goTo, sid);
 
-        QueueEntity queue = queueManager.getNext(codeQR, goTo);
+        QueueEntity queue = queueManager.getNext(codeQR, goTo, sid);
         if (null != queue) {
             LOG.info("Found queue codeQR={} token={}", codeQR, queue.getTokenNumber());
             

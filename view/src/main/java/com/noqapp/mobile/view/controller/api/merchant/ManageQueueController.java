@@ -227,17 +227,17 @@ public class ManageQueueController {
                 case N:
                     if (queueStatus == QueueStatusEnum.P) {
                         if (queueUserState == QueueUserStateEnum.S) {
-                            jsonToken = queueMobileService.pauseServingQueue(codeQR, servedNumber, queueUserState);
+                            jsonToken = queueMobileService.pauseServingQueue(codeQR, servedNumber, queueUserState, did.getText());
                         } else {
                             return getErrorReason("Cannot pause until the last person has been served", MOBILE);
                         }
                     } else {
-                        jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState, goTo);
+                        jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState, goTo, did.getText());
                     }
                     break;
                 case R:
                 case S:
-                    jsonToken = queueMobileService.getNextInQueue(codeQR, goTo);
+                    jsonToken = queueMobileService.getNextInQueue(codeQR, goTo, did.getText());
                     break;
                 default:
                     LOG.error("Reached unsupported condition queueState={}", map.get("s").getText());
