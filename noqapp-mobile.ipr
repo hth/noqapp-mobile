@@ -75,6 +75,7 @@
             <element id="library" level="project" name="Gradle: joda-time:joda-time:2.9.9" />
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.23" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.0" />
+            <element id="library" level="project" name="Gradle: com.google.maps:google-maps-services:0.1.20" />
             <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.5.0" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.1" />
@@ -219,7 +220,6 @@
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.maps/google-maps-services/0.1.20/1e0937a4dba57b19d8ea542a8da285f2a96035ab/google-maps-services-0.1.20.jar" />
           </element>
         </element>
       </root>
@@ -307,6 +307,7 @@
             <element id="library" level="project" name="Gradle: joda-time:joda-time:2.9.9" />
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.23" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.0" />
+            <element id="library" level="project" name="Gradle: com.google.maps:google-maps-services:0.1.20" />
             <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.5.0" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.1" />
@@ -463,7 +464,6 @@
               <element id="module-output" name="service_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/service/build/resources/main" />
             </element>
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.maps/google-maps-services/0.1.20/1e0937a4dba57b19d8ea542a8da285f2a96035ab/google-maps-services-0.1.20.jar" />
           </element>
         </element>
       </root>
