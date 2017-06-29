@@ -5,7 +5,7 @@
 This API lists all the queues person is assigned. 
 
     ## Queue
-    curl "https://tp.receiptofi.com/noqapp-mobile/api/mq/queues.json" 
+    curl "https://sandbox.noqapp.com/noqapp-mobile/api/mq/queues.json" 
          -H "X-R-AUTH: $2a$15$1cDNZB/Pollc/SuSFLs00OKMA/u2AojWIB/dj6CcHlzQSv6q1Snnm" 
          -H "X-R-DT: A" 
          -H "X-R-DID: dfsdfsf" 
