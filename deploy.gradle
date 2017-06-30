@@ -60,10 +60,10 @@ task deployServer {
         deploy(remotes.sn4, "10.0.0.84", "4ns", "$env-loader", "ROOT-loader-$env.*.war", "noqapp-mobile-$env.*.war")
     }
     if (env == 'prod') {
-        deploy(remotes.sn1, "10.0.0.53", "1n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
-        deploy(remotes.sn2, "10.0.0.63", "2n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
-        deploy(remotes.sn2, "10.0.0.73", "3n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
-        deploy(remotes.sn4, "10.0.0.83", "4n", "$env-loader", "ROOT-loader-$env.*.war", "noqapp-mobile-$env.*.war")
+        deploy(remotes.n1, "10.0.0.53", "1n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
+        deploy(remotes.n2, "10.0.0.63", "2n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
+        deploy(remotes.n3, "10.0.0.73", "3n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
+        deploy(remotes.n4, "10.0.0.83", "4n", "$env-loader", "ROOT-loader-$env.*.war", "noqapp-mobile-$env.*.war")
     }
 }
 
