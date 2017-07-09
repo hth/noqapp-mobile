@@ -23,7 +23,7 @@
                        access="permitAll"/>
 
         <intercept-url pattern="/monitoring/**"
-                       access="hasIpAddress('192.168.1.0/24')" />
+                       access="hasIpAddress('192.168.1.0/24') or hasIpAddress('10.0.0.0/24') or hasIpAddress('127.0.0.1')" />
 
         <form-login authentication-success-handler-ref="onLoginSuccessHandler"
                     authentication-failure-handler-ref="myFailureHandler"
