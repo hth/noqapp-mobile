@@ -243,7 +243,7 @@ subprojects {
         compile "ch.qos.logback:logback-core:$logback"
         compile "ch.qos.logback:logback-classic:$logback"
         compile "net.logstash.logback:logstash-logback-encoder:$logstashlogbackencoder"
-        compile 'net.bull.javamelody:javamelody-core:1.68.0'
+        compile 'net.bull.javamelody:javamelody-core:1.67.0'
         /** Because using org.junit.Assert in code. */
         compile 'org.junit.jupiter:junit-jupiter-engine:5.0.0-M5'
         compile 'org.hamcrest:hamcrest-all:1.3'
