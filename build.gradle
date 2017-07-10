@@ -126,7 +126,7 @@ subprojects {
         reports {
             xml.enabled false
             csv.enabled false
-            html.destination "${buildDir}/reports/jacocoHtml"
+            html.setDestination(file("${buildDir}/reports/jacocoHtml"))
         }
     }
 
