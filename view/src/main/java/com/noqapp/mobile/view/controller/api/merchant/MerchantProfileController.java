@@ -80,8 +80,9 @@ public class MerchantProfileController {
 
         UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(rid);
         switch (userProfile.getLevel()) {
-            case MER_ADMIN:
-            case MER_MANAGER:
+            case M_ADMIN:
+            case S_MANAGER:
+            case Q_SUPERVISOR:
                 LOG.info("Has access");
                 break;
             case ADMIN:
