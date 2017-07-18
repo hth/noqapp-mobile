@@ -83,7 +83,20 @@ public class DeviceService {
         return registeredDeviceManager.find(rid, did) != null;
     }
 
-    public RegisteredDeviceEntity lastAccessed(String rid, String did, String token) {
+    RegisteredDeviceEntity lastAccessed(String rid, String did, String token) {
         return registeredDeviceManager.lastAccessed(rid, did, token);
+    }
+
+    /**
+     * Update Registered Device after register or login.
+     *
+     * @param rid
+     * @param did
+     */
+    public void updateRegisteredDevice(String rid, String did, DeviceTypeEnum deviceType) {
+        RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(null, did);
+        registeredDevice.setReceiptUserId(rid);
+        registeredDevice.setDeviceType(deviceType);
+        registeredDeviceManager.save(registeredDevice);
     }
 }
