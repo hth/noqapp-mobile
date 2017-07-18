@@ -4,6 +4,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION;
 
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,11 +26,13 @@ import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_CLIENT;
+import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.InviteService;
@@ -68,6 +72,7 @@ public class AccountClientController {
     private UserProfilePreferenceService userProfilePreferenceService;
     private InviteService inviteService;
     private AccountClientValidator accountClientValidator;
+    private DeviceService deviceService;
 
     @Autowired
     public AccountClientController(
@@ -75,13 +80,15 @@ public class AccountClientController {
             AccountMobileService accountMobileService,
             UserProfilePreferenceService userProfilePreferenceService,
             InviteService inviteService,
-            AccountClientValidator accountClientValidator
+            AccountClientValidator accountClientValidator,
+            DeviceService deviceService
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
         this.inviteService = inviteService;
         this.accountClientValidator = accountClientValidator;
+        this.deviceService = deviceService;
     }
 
     @Timed
@@ -94,6 +101,12 @@ public class AccountClientController {
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String register(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader (value = "X-R-DT")
+            ScrubbedInput deviceType,
+
             @RequestBody
             String registrationJson,
 
@@ -193,6 +206,15 @@ public class AccountClientController {
                 response.addHeader("X-R-MAIL", userAccount.getUserId());
                 response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
 
+                DeviceTypeEnum deviceTypeEnum;
+                try {
+                    deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
+                } catch (Exception e) {
+                    LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
+                    return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
+                }
+                deviceService.updateRegisteredDevice(userAccount.getReceiptUserId(), did.getText(), deviceTypeEnum);
+
                 userProfile = userProfilePreferenceService.findByReceiptUserId(userAccount.getReceiptUserId());
                 return JsonProfile.newInstance(userProfile, inviteService.getRemoteJoinCount(userAccount.getReceiptUserId())).asJson();
             } catch (Exception e) {
@@ -221,6 +243,12 @@ public class AccountClientController {
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String login(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader (value = "X-R-DT")
+            ScrubbedInput deviceType,
+
             @RequestBody
             String loginJson,
 
@@ -282,6 +310,15 @@ public class AccountClientController {
                 }
                 response.addHeader("X-R-MAIL", userAccount.getUserId());
                 response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
+
+                DeviceTypeEnum deviceTypeEnum;
+                try {
+                    deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
+                } catch (Exception e) {
+                    LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
+                    return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
+                }
+                deviceService.updateRegisteredDevice(userAccount.getReceiptUserId(), did.getText(), deviceTypeEnum);
 
                 return JsonProfile.newInstance(userProfile, inviteService.getRemoteJoinCount(userAccount.getReceiptUserId())).asJson();
             } catch (Exception e) {
