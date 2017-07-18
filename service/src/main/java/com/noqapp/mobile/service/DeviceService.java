@@ -95,6 +95,12 @@ public class DeviceService {
      */
     public void updateRegisteredDevice(String rid, String did, DeviceTypeEnum deviceType) {
         RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(null, did);
+
+        if (null == registeredDevice) {
+            LOG.warn("Failed finding Registered device to update with rid={} did={} deviceType={}", rid, did, deviceType);
+            return;
+        }
+
         registeredDevice.setReceiptUserId(rid);
         registeredDevice.setDeviceType(deviceType);
         registeredDeviceManager.save(registeredDevice);
