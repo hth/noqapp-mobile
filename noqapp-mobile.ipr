@@ -4,7 +4,9 @@
     <artifact type="exploded-war" name="Gradle : com.noqapp.mobile : security-1.0.war (exploded)">
       <output-path>$PROJECT_DIR$/security/build/libs/exploded/security-1.0.war</output-path>
       <properties id="gradle-properties">
-        <options external-project-path="$PROJECT_DIR$" />
+        <options external-project-path="$PROJECT_DIR$">
+          <manifest>TWFuaWZlc3QtVmVyc2lvbjogMS4wDQoNCg==</manifest>
+        </options>
       </properties>
       <root id="root">
         <element id="directory" name="META-INF">
@@ -142,7 +144,6 @@
             <element id="library" level="project" name="Gradle: org.apache.tika:tika-core:1.14" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-collections4:4.1" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.3" />
-            <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.67.0" />
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.0-M5" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-all:1.3" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.9" />
@@ -225,6 +226,8 @@
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.quartz-scheduler/quartz/2.2.0/2eb16fce055d5f3c9d65420f6fc4efd3a079a3d8/quartz-2.2.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.68.1/b553f37e951dd028eda00ea20df5ecec4069b16/javamelody-core-1.68.1.jar" />
           </element>
         </element>
       </root>
@@ -241,7 +244,9 @@
     <artifact type="exploded-war" name="Gradle : com.noqapp.mobile : noqapp.mobile-view-1.0.war (exploded)">
       <output-path>$PROJECT_DIR$/view/build/libs/exploded/noqapp.mobile-view-1.0.war</output-path>
       <properties id="gradle-properties">
-        <options external-project-path="$PROJECT_DIR$" />
+        <options external-project-path="$PROJECT_DIR$">
+          <manifest>TWFuaWZlc3QtVmVyc2lvbjogMS4wDQoNCg==</manifest>
+        </options>
       </properties>
       <root id="root">
         <element id="directory" name="META-INF">
@@ -383,7 +388,6 @@
             <element id="library" level="project" name="Gradle: org.apache.tika:tika-core:1.14" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-collections4:4.1" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.3" />
-            <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.67.0" />
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.0-M5" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-all:1.3" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.9" />
@@ -474,6 +478,8 @@
               <element id="dir-copy" path="$PROJECT_DIR$/security/build/resources/main" />
             </element>
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.quartz-scheduler/quartz/2.2.0/2eb16fce055d5f3c9d65420f6fc4efd3a079a3d8/quartz-2.2.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.68.1/b553f37e951dd028eda00ea20df5ecec4069b16/javamelody-core-1.68.1.jar" />
           </element>
         </element>
       </root>
@@ -717,7 +723,7 @@
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson2:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.oauth-client:google-oauth-client:1.22.0" />
-            <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.67.0" />
+            <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.68.1" />
             <element id="library" level="project" name="Gradle: org.quartz-scheduler:quartz:2.2.0" />
           </element>
           <element id="directory" name="freemarker">
@@ -1469,16 +1475,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/domain/1.0/domain-1.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:service:1.0">
       <CLASSES>
@@ -2030,15 +2027,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/mysql/mysql-connector-java/5.1.31/30ecb102cf41efdcc75da96d7fcd678973f5f89a/mysql-connector-java-5.1.31-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: net.bull.javamelody:javamelody-core:1.67.0">
+    <library name="Gradle: net.bull.javamelody:javamelody-core:1.68.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.67.0/7553233d944dd3096deb3af3d54f8a4d3c237b20/javamelody-core-1.67.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.68.1/b553f37e951dd028eda00ea20df5ecec4069b16/javamelody-core-1.68.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.67.0/7c84edbe8c6725c41e94e5ef002d3da13bd5504e/javamelody-core-1.67.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.68.1/626ef54fcdea56305f445961aa191279f9a399f9/javamelody-core-1.68.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.67.0/4072056055f0d405e9e347f79cb6d99daa7e38d1/javamelody-core-1.67.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.68.1/160353b290d5c34a9070bb2a9cf5726f9076afa/javamelody-core-1.68.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: net.java.dev.jna:jna-platform:4.0.0">
@@ -2854,6 +2851,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/5.0.4/112ff54474f1f04ccf1384c92e39fdc566f0bb5e/asm-5.0.4-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.quartz-scheduler:quartz:2.2.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.quartz-scheduler/quartz/2.2.0/2eb16fce055d5f3c9d65420f6fc4efd3a079a3d8/quartz-2.2.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.quartz-scheduler/quartz/2.2.0/4fd8a43fd4b737c590e205f4c8395df705ea654/quartz-2.2.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.quartz-scheduler/quartz/2.2.0/326762c463fd642d2e99f513c830a7bed17723e7/quartz-2.2.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.slf4j:jcl-over-slf4j:1.7.25">
