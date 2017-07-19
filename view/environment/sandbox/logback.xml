@@ -47,7 +47,7 @@
     </appender>
 
     <logger name="com.noqapp" level="DEBUG" />
-    <logger name="com.noqapp.mobile.web.filter.LogContextFilter" level="ON" />
+    <logger name="com.noqapp.mobile.web.filter.LogContextFilter" level="OFF" />
     <logger name="com.noqapp.mobile.service" level="INFO" />
     <logger name="org.springframework" level="WARN" />
     <logger name="com.mangofactory" level="OFF" />
