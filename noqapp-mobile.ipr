@@ -16,12 +16,12 @@
         <element id="directory" name="WEB-INF">
           <element id="directory" name="classes">
             <element id="module-output" name="security_main" />
-            <element id="dir-copy" path="$PROJECT_DIR$/security/build/resources/main" />
+            <element id="dir-copy" path="$PROJECT_DIR$/security/out/production/resources" />
           </element>
           <element id="directory" name="lib">
             <element id="archive" name="com.noqapp.mobile-domain.jar">
               <element id="module-output" name="domain_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/domain/build/resources/main" />
+              <element id="dir-copy" path="$PROJECT_DIR$/domain/out/production/resources" />
             </element>
             <element id="library" level="project" name="Gradle: com.noqapp:common:1.0" />
             <element id="library" level="project" name="Gradle: com.noqapp:domain:1.0" />
@@ -110,7 +110,6 @@
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.0" />
-            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.6.0" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.3" />
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.11" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.8.9" />
@@ -228,6 +227,7 @@
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/f5c98f3f2b814e2746c8289d108ccd45b5514ced/libphonenumber-8.7.0.jar" />
           </element>
         </element>
       </root>
@@ -256,16 +256,16 @@
         <element id="directory" name="WEB-INF">
           <element id="directory" name="classes">
             <element id="module-output" name="view_main" />
-            <element id="dir-copy" path="$PROJECT_DIR$/view/build/resources/main" />
+            <element id="dir-copy" path="$PROJECT_DIR$/view/out/production/resources" />
           </element>
           <element id="directory" name="lib">
             <element id="archive" name="com.noqapp.mobile-service.jar">
               <element id="module-output" name="service_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/service/build/resources/main" />
+              <element id="dir-copy" path="$PROJECT_DIR$/service/out/production/resources" />
             </element>
             <element id="archive" name="com.noqapp.mobile-common.jar">
               <element id="module-output" name="common_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/common/build/resources/main" />
+              <element id="dir-copy" path="$PROJECT_DIR$/common/out/production/resources" />
             </element>
             <element id="library" level="project" name="Gradle: com.noqapp:common:1.0" />
             <element id="library" level="project" name="Gradle: com.noqapp:domain:1.0" />
@@ -354,7 +354,6 @@
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.0" />
-            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.6.0" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.3" />
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.11" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.8.9" />
@@ -473,13 +472,14 @@
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
             <element id="archive" name="com.noqapp.mobile-domain.jar">
               <element id="module-output" name="domain_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/domain/build/resources/main" />
+              <element id="dir-copy" path="$PROJECT_DIR$/domain/out/production/resources" />
             </element>
             <element id="archive" name="com.noqapp.mobile-security.jar">
               <element id="module-output" name="security_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/security/build/resources/main" />
+              <element id="dir-copy" path="$PROJECT_DIR$/security/out/production/resources" />
             </element>
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/f5c98f3f2b814e2746c8289d108ccd45b5514ced/libphonenumber-8.7.0.jar" />
           </element>
         </element>
       </root>
@@ -707,7 +707,6 @@
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.8.9" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.3" />
             <element id="library" level="project" name="Gradle: com.google.maps:google-maps-services:0.1.21" />
-            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.6.0" />
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.11" />
             <element id="library" level="project" name="Gradle: net.sf.ehcache:ehcache-core:2.6.2" />
             <element id="library" level="project" name="Gradle: org.json:json:20170516" />
@@ -725,6 +724,7 @@
             <element id="library" level="project" name="Gradle: com.google.oauth-client:google-oauth-client:1.22.0" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.68.1" />
             <element id="library" level="project" name="Gradle: org.quartz-scheduler:quartz:2.2.0" />
+            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.7.0" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -1397,15 +1397,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.juniversalchardet/juniversalchardet/1.0.3/77979eaa98f90806f984155f44f63cc1fb60ac25/juniversalchardet-1.0.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.6.0">
+    <library name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.7.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.6.0/6e7f8068388839c5dabc08239dbeec73ad0decd8/libphonenumber-8.6.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/f5c98f3f2b814e2746c8289d108ccd45b5514ced/libphonenumber-8.7.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.6.0/749a8dcdc18361ab6903be8d006635fca59b17ee/libphonenumber-8.6.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/ceabba48c331a38b038ab0a27b47cbdb803a14af/libphonenumber-8.7.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.6.0/21862fab3a7ae5775e1c54ce6d89cec8ff56ab0f/libphonenumber-8.6.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/2707187c19fa9670d64392b3fd0f1fdb18d0325/libphonenumber-8.7.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.googlecode.mp4parser:isoparser:1.1.18">
@@ -1475,16 +1475,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/domain/1.0/domain-1.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:service:1.0">
       <CLASSES>
