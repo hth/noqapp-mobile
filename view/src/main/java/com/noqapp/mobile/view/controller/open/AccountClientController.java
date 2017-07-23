@@ -7,7 +7,6 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXIST
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION;
-import static java.lang.Thread.sleep;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -122,7 +121,7 @@ public class AccountClientController {
         }
 
         if (map.isEmpty()) {
-            /* Validation failure as there is no data in the map. */
+            /** Validation failure as there is no data in the map. */
             return ErrorEncounteredJson.toJson(accountClientValidator.validate(
                     null,
                     null,
@@ -205,16 +204,7 @@ public class AccountClientController {
                         inviteCode
                 );
                 response.addHeader("X-R-MAIL", userAccount.getUserId());
-
-                UserAccountEntity userAccountWithAuth = userAccount;
-                long sleepTime = 10;
-                while (null == userAccountWithAuth.getUserAuthentication()) {
-                    sleep(sleepTime);
-                    userAccountWithAuth = accountService.findByReceiptUserId(userAccount.getReceiptUserId());
-                    sleepTime -= 2;
-                }
-                LOG.debug("Slept time={} ", sleepTime);
-                response.addHeader("X-R-AUTH", userAccountWithAuth.getUserAuthentication().getAuthenticationKey());
+                response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
 
                 DeviceTypeEnum deviceTypeEnum;
                 try {
