@@ -24,20 +24,20 @@ public class SignupUserInfo {
     private String userId;
 
     @SuppressWarnings ({"unused"})
+    @SerializedName ("rid")
+    private String rid;
+
+    @SuppressWarnings ({"unused"})
     @SerializedName ("name")
     private String name;
 
-    @SuppressWarnings ({"unused"})
-    @SerializedName ("auth")
-    private String auth;
-
-    private SignupUserInfo(String userId, String name, String auth) {
+    private SignupUserInfo(String userId, String rid, String name) {
         this.userId = userId;
+        this.rid = rid;
         this.name = name;
-        this.auth = auth;
     }
 
-    public static SignupUserInfo newInstance(String userId, String name, String auth) {
-        return new SignupUserInfo(userId, name, auth);
+    public static SignupUserInfo newInstance(String userId, String rid, String name) {
+        return new SignupUserInfo(userId, rid, name);
     }
 }
