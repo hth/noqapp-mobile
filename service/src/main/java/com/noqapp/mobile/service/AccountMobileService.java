@@ -18,12 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.noqapp.domain.EmailValidateEntity;
 import com.noqapp.domain.UserAccountEntity;
-import com.noqapp.mobile.domain.AccountRecover;
 import com.noqapp.mobile.domain.SignupUserInfo;
 import com.noqapp.service.AccountService;
-import com.noqapp.service.EmailValidateService;
 
 import java.io.IOException;
 
@@ -42,36 +39,21 @@ public class AccountMobileService {
     private static final Logger LOG = LoggerFactory.getLogger(AccountMobileService.class);
 
     private String accountValidationEndPoint;
-    private String accountMerchantRecoverEndPoint;
-    private String inviteUserEndPoint;
 
     private WebConnectorService webConnectorService;
-    private EmailValidateService emailValidateService;
     private AccountService accountService;
 
     @Autowired
     public AccountMobileService(
-            //TODO fix this to register merchant account
-            @Value ("${accountSignupEndPoint:/webapi/mobile/mail/merchant/accountSignup.htm}")
+            @Value ("${accountSignupEndPoint:/webapi/mobile/mail/accountSignup.htm}")
             String accountSignupEndPoint,
 
-            //TODO fix this to recover merchant account
-            @Value ("${accountRecover:/webapi/mobile/mail/merchant/accountRecover.htm}")
-            String accountMerchantRecoverEndPoint,
-
-            @Value ("${inviteUser:/webapi/mobile/mail/invite.htm}")
-            String inviteUserEndPoint,
-
             WebConnectorService webConnectorService,
-            EmailValidateService emailValidateService,
             AccountService accountService
     ) {
         this.accountValidationEndPoint = accountSignupEndPoint;
-        this.accountMerchantRecoverEndPoint = accountMerchantRecoverEndPoint;
-        this.inviteUserEndPoint = inviteUserEndPoint;
 
         this.webConnectorService = webConnectorService;
-        this.emailValidateService = emailValidateService;
         this.accountService = accountService;
     }
 
@@ -168,6 +150,7 @@ public class AccountMobileService {
             throw new RuntimeException("failed creating new account for user " + mail, exce);
         }
 
+        sendValidationEmail(userAccount);
         return userAccount;
     }
 
@@ -186,16 +169,10 @@ public class AccountMobileService {
     }
 
     private void sendValidationEmail(UserAccountEntity userAccount) {
-        EmailValidateEntity emailValidate = emailValidateService.saveAccountValidate(
-                userAccount.getReceiptUserId(),
-                userAccount.getUserId());
-        Assert.notNull(emailValidate, "Email Validate cannot be null");
-
-        //TODO(hth) mail sending can be done on background. Just store this as a task.
         boolean mailStatus = sendMailDuringSignup(
                 userAccount.getUserId(),
+                userAccount.getReceiptUserId(),
                 userAccount.getName(),
-                emailValidate.getAuthenticationKey(),
                 HttpClientBuilder.create().build());
 
         LOG.info("mail sent={} to user={}", mailStatus, userAccount.getUserId());
@@ -206,11 +183,12 @@ public class AccountMobileService {
      * http localhost:9090/receipt-mobile/authenticate.json < ~/Downloads/pid.json
      *
      * @param userId
+     * @param rid
      * @param name
-     * @param auth
+     * @param httpClient
      * @return
      */
-    private boolean sendMailDuringSignup(String userId, String name, String auth, HttpClient httpClient) {
+    private boolean sendMailDuringSignup(String userId, String rid, String name, HttpClient httpClient) {
         LOG.debug("userId={} name={} webApiAccessToken={}", userId, name, "*******");
         HttpPost httpPost = webConnectorService.getHttpPost(accountValidationEndPoint, httpClient);
         if (null == httpPost) {
@@ -218,24 +196,7 @@ public class AccountMobileService {
             return false;
         }
 
-        setEntity(SignupUserInfo.newInstance(userId, name, auth), httpPost);
-        return invokeHttpPost(httpClient, httpPost);
-    }
-
-    /**
-     * @param userId
-     * @return
-     */
-    public boolean recoverMerchantAccount(String userId) {
-        LOG.debug("userId={} webApiAccessToken={}", userId, "*******");
-        HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpPost httpPost = webConnectorService.getHttpPost(accountMerchantRecoverEndPoint, httpClient);
-        if (null == httpPost) {
-            LOG.warn("failed connecting, reason={}", webConnectorService.getNoResponseFromWebServer());
-            return false;
-        }
-
-        setEntity(AccountRecover.newInstance(userId), httpPost);
+        setEntity(SignupUserInfo.newInstance(userId, rid, name), httpPost);
         return invokeHttpPost(httpClient, httpPost);
     }
 
