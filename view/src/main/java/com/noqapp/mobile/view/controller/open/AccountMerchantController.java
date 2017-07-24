@@ -3,9 +3,6 @@ package com.noqapp.mobile.view.controller.open;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_SOCIAL;
 import static com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION;
 import static com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT;
 
@@ -36,7 +33,6 @@ import com.noqapp.utils.ScrubbedInput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -100,7 +96,7 @@ public class AccountMerchantController {
         }
 
         if (map.isEmpty()) {
-            /** Validation failure as there is no data in the map. */
+            /* Validation failure as there is no data in the map. */
             return ErrorEncounteredJson.toJson(accountMerchantValidator.validate(
                     null,
                     null,
@@ -113,7 +109,7 @@ public class AccountMerchantController {
         } else {
             Set<String> unknownKeys = invalidElementsInMapDuringRegistration(map);
             if (!unknownKeys.isEmpty()) {
-                /** Validation failure as there are unknown keys. */
+                /* Validation failure as there are unknown keys. */
                 return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
             }
 
@@ -196,104 +192,6 @@ public class AccountMerchantController {
         return credential;
     }
 
-    @Timed
-    @ExceptionMetered
-    @RequestMapping (
-            value = "/recover.json",
-            method = RequestMethod.POST,
-            headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
-    )
-    public String recover(
-            @RequestBody
-            String recoverJson,
-
-            HttpServletResponse response
-    ) throws IOException {
-        String credential = "{}";
-        Map<String, ScrubbedInput> map;
-        try {
-            map = ParseJsonStringToMap.jsonStringToMap(recoverJson);
-        } catch (IOException e) {
-            LOG.error("Could not parse json={} reason={}", recoverJson, e.getLocalizedMessage(), e);
-            return ErrorEncounteredJson.toJson("Could not parse JSON.", MOBILE_JSON);
-        }
-
-        if (map.isEmpty()) {
-            /** Validation failure as there is not data in the map. */
-            return ErrorEncounteredJson.toJson(accountMerchantValidator.validateFailureWhenEmpty());
-        } else {
-            Set<String> unknownKeys = invalidElementsInMapDuringRecovery(map);
-            if (!unknownKeys.isEmpty()) {
-                /** Validation failure as there are unknown keys. */
-                return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
-            }
-
-            String mail = StringUtils.lowerCase(map.get(ACCOUNT_REGISTRATION.EM.name()).getText());
-            if (StringUtils.isBlank(mail) || accountMerchantValidator.getMailLength() > mail.length()) {
-                LOG.info("Failed data validation={}", mail);
-                Map<String, String> errors = new HashMap<>();
-                errors.put(ErrorEncounteredJson.REASON, "Failed data validation.");
-                errors.put(ACCOUNT_REGISTRATION.EM.name(), StringUtils.isBlank(mail) ? AccountMerchantValidator.EMPTY : mail);
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
-                return ErrorEncounteredJson.toJson(errors);
-            }
-
-            UserProfileEntity userProfile = accountService.doesUserExists(mail);
-            if (null == userProfile) {
-                LOG.info("User does not exists mail={}", mail);
-                Map<String, String> errors = new HashMap<>();
-                errors.put(ErrorEncounteredJson.REASON, "User with this email address is not registered. Would you like to sign up?");
-                errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
-                return ErrorEncounteredJson.toJson(errors);
-            }
-
-            /** Remove this code to allow user from social login to change password. */
-            if (null != userProfile.getProviderId()) {
-                LOG.info("Social account user trying to recover password mail={} pid={}", mail, userProfile.getProviderId());
-                Map<String, String> errors = new HashMap<>();
-                errors.put(
-                        ErrorEncounteredJson.REASON,
-                        "Cannot change password for your account. As you signed up using social login from Facebook or Google+.");
-                errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_SOCIAL.name());
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_SOCIAL.getCode());
-                return ErrorEncounteredJson.toJson(errors);
-            }
-
-            try {
-                if (accountMobileService.recoverMerchantAccount(mail)) {
-                    LOG.info("Sent recovery mail={}", mail);
-                    response.setStatus(HttpServletResponse.SC_OK);
-                } else {
-                    LOG.warn("Failed sending recovery email={}", mail);
-
-                    Map<String, String> errors = new HashMap<>();
-                    errors.put(ErrorEncounteredJson.REASON, "Failed sending recovery email. Please try again soon.");
-                    errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
-                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
-                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
-                    return ErrorEncounteredJson.toJson(errors);
-                }
-            } catch (Exception e) {
-                LOG.error("Failed sending recovery email for user={} reason={}", mail, e.getLocalizedMessage(), e);
-
-                Map<String, String> errors = new HashMap<>();
-                errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
-                errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
-                return ErrorEncounteredJson.toJson(errors);
-            }
-        }
-
-        return credential;
-    }
-
     private Set<String> invalidElementsInMapDuringRegistration(Map<String, ScrubbedInput> map) {
         Set<String> keys = new HashSet<>(map.keySet());
         List<ACCOUNT_REGISTRATION> enums = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION.values()));
@@ -304,16 +202,6 @@ public class AccountMerchantController {
         List<ACCOUNT_REGISTRATION_MERCHANT> merchants = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION_MERCHANT.values()));
         for(ACCOUNT_REGISTRATION_MERCHANT registration_merchant : merchants) {
             keys.remove(registration_merchant.name());
-        }
-
-        return keys;
-    }
-
-    private Set<String> invalidElementsInMapDuringRecovery(Map<String, ScrubbedInput> map) {
-        Set<String> keys = new HashSet<>(map.keySet());
-        List<ACCOUNT_REGISTRATION> enums = new ArrayList<>(Collections.singletonList(ACCOUNT_REGISTRATION.EM));
-        for (ACCOUNT_REGISTRATION registration : enums) {
-            keys.remove(registration.name());
         }
 
         return keys;
