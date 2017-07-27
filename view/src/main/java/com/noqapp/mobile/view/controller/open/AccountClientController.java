@@ -138,7 +138,7 @@ public class AccountClientController {
             }
 
             /* Required. */
-            String phone = map.get(ACCOUNT_REGISTRATION.PH.name()).getText();
+            String phone = StringUtils.deleteWhitespace(map.get(ACCOUNT_REGISTRATION.PH.name()).getText());
             /* Required. */
             String firstName = WordUtils.capitalize(map.get(ACCOUNT_REGISTRATION.FN.name()).getText());
             String lastName = null;
@@ -264,19 +264,19 @@ public class AccountClientController {
         }
 
         if (map.isEmpty()) {
-            /** Validation failure as there is no data in the map. */
+            /* Validation failure as there is no data in the map. */
             return ErrorEncounteredJson.toJson(accountClientValidator.validate(
                     null,
                     null));
         } else {
             Set<String> unknownKeys = invalidElementsInMapDuringLogin(map);
             if (!unknownKeys.isEmpty()) {
-                /** Validation failure as there are unknown keys. */
+                /* Validation failure as there are unknown keys. */
                 return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
             }
 
             /* Required. */
-            String phone = map.get(ACCOUNT_REGISTRATION.PH.name()).getText();
+            String phone = StringUtils.deleteWhitespace(map.get(ACCOUNT_REGISTRATION.PH.name()).getText());
 
             /* Required. */
             String countryShortName = Formatter.getCountryShortNameFromInternationalPhone(phone);
