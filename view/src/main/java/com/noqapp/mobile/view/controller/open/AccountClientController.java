@@ -216,7 +216,10 @@ public class AccountClientController {
                 deviceService.updateRegisteredDevice(userAccount.getReceiptUserId(), did.getText(), deviceTypeEnum);
 
                 userProfile = userProfilePreferenceService.findByReceiptUserId(userAccount.getReceiptUserId());
-                return JsonProfile.newInstance(userProfile, inviteService.getRemoteJoinCount(userAccount.getReceiptUserId())).asJson();
+                int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getReceiptUserId());
+                LOG.info("Remote join available={}", remoteJoin);
+
+                return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
             } catch (Exception e) {
                 LOG.error("Failed signup for user={} reason={}", mail, e.getLocalizedMessage(), e);
 
@@ -319,8 +322,10 @@ public class AccountClientController {
                     return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                 }
                 deviceService.updateRegisteredDevice(userAccount.getReceiptUserId(), did.getText(), deviceTypeEnum);
+                int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getReceiptUserId());
+                LOG.info("Remote join available={}", remoteJoin);
 
-                return JsonProfile.newInstance(userProfile, inviteService.getRemoteJoinCount(userAccount.getReceiptUserId())).asJson();
+                return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
             } catch (Exception e) {
                 LOG.error("Failed login for phone={} cs={} reason={}", phone, countryShortName, e.getLocalizedMessage(), e);
 
