@@ -194,11 +194,11 @@ subprojects {
         compile "io.springfox:springfox-swagger-ui:2.6.1"
         /** ------- */
 
-        compile 'com.squareup.okhttp3:okhttp:3.5.0'
-        compile 'com.google.zxing:core:3.3.0'
+        compile "com.squareup.okhttp3:okhttp:$okhttp"
+        compile "com.google.zxing:core:$zxing"
+        compile "aopalliance:aopalliance:1.0"
         compile "org.apache.commons:commons-vfs2:$vfs2"
         compile "com.jcraft:jsch:$jsch"
-        compile 'aopalliance:aopalliance:1.0'
 
         compile "org.aspectj:aspectjrt:$aspectjrt"
         compile "org.slf4j:slf4j-api:$slf4japi"
@@ -387,7 +387,7 @@ project(':view') {
 
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.4.1'
+    gradleVersion = '4.0.2'
 }
 
 task copyJars(type: Copy) {
