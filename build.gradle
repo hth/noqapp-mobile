@@ -145,12 +145,6 @@ subprojects {
         compile "com.noqapp:service:1.+"
         compile "com.noqapp:social:1.+"
 
-        compile 'org.springframework.social:spring-social-core:1.1.4.RELEASE'
-        compile 'org.springframework.social:spring-social-google:1.0.0.RELEASE'
-        compile 'org.springframework.social:spring-social-web:1.1.4.RELEASE'
-        compile 'org.springframework.social:spring-social-security:1.1.4.RELEASE'
-        compile 'org.springframework.social:spring-social-facebook:2.0.3.RELEASE'
-
         compile 'org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1'
         compile 'org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1'
 
