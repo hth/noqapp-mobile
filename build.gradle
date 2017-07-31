@@ -24,6 +24,10 @@ ext {
     passFileLocal = file('view/resources/conf/pass.properties')
     passFileTest = file(passwordTestFileLocation)
     passFileProd = file(passwordProdFileLocation)
+
+    firebaseFileLocal = file('view/resources/conf/noq-app-inc-firebase-adminsdk.json')
+    firebaseFileTest = file(firebaseAdminTestFileLocation)
+    firebaseFileProd = file(firebaseAdminProdFileLocation)
 }
 
 allprojects {
@@ -445,6 +449,12 @@ task prepWar(dependsOn: [
                 } else {
                     throw new Exception("Required pass file does not exists: $passFileProd.canonicalPath")
                 }
+
+                if (firebaseFileProd.exists()) {
+                    from firebaseAdminProdFileLocation
+                } else {
+                    throw new Exception("Required firebase file does not exists: $firebaseFileProd.canonicalPath")
+                }
             }
 
             if (env == 'sandbox') {
@@ -452,6 +462,12 @@ task prepWar(dependsOn: [
                     from passwordTestFileLocation
                 } else {
                     throw new Exception("Required pass file does not exists: $passFileTest.canonicalPath")
+                }
+
+                if (firebaseFileTest.exists()) {
+                    from firebaseAdminTestFileLocation
+                } else {
+                    throw new Exception("Required firebase file does not exists: $firebaseFileTest.canonicalPath")
                 }
             }
 
@@ -461,6 +477,13 @@ task prepWar(dependsOn: [
                     from 'view/resources/conf/pass.properties'
                 } else {
                     throw new Exception("Required pass file does not exists: $passFileLocal.canonicalPath")
+                }
+
+                println "Development environment, getting local firebase file $firebaseFileLocal.canonicalPath"
+                if (firebaseFileLocal.exists()) {
+                    from 'view/resources/conf/noq-app-inc-firebase-adminsdk.json'
+                } else {
+                    throw new Exception("Required firebase file does not exists: $firebaseFileLocal.canonicalPath")
                 }
             }
 
