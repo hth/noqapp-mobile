@@ -160,7 +160,7 @@ public class QueueMobileService {
 
     public JsonTokenAndQueueList findAllJoinedQueues(String did) {
         List<QueueEntity> queues = queueManager.findAllQueuedByDid(did);
-        LOG.info("Currently joined queue size={}", queues.size());
+        LOG.info("Currently joined queue size={} did={}", queues.size(), did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
             validateJoinedQueue(queue);
@@ -175,7 +175,7 @@ public class QueueMobileService {
 
         JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
         jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
-        LOG.info("Current queue={}", jsonTokenAndQueueList);
+        LOG.info("Current queue={} did={}", jsonTokenAndQueueList, did);
 
         return jsonTokenAndQueueList;
     }
@@ -183,7 +183,7 @@ public class QueueMobileService {
     public JsonTokenAndQueueList findAllJoinedQueues(String rid, String did) {
         Validate.isValidRid(rid);
         List<QueueEntity> queues = queueManager.findAllQueuedByRid(rid);
-        LOG.info("Historical joined queue size={}", queues.size());
+        LOG.info("Currently joined queue size={} rid={} did={}", queues.size(), rid, did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
             validateJoinedQueue(queue);
@@ -198,7 +198,7 @@ public class QueueMobileService {
 
         JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
         jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
-        LOG.info("Historical queue={}", jsonTokenAndQueueList);
+        LOG.info("Current queue={} rid={} did={}", jsonTokenAndQueueList, rid, did);
 
         return jsonTokenAndQueueList;
     }
@@ -239,6 +239,7 @@ public class QueueMobileService {
             queues = servicedQueues;
         }
 
+        LOG.info("Historical queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         return getJsonTokenAndQueueList(queues);
     }
 
@@ -265,6 +266,7 @@ public class QueueMobileService {
             queues = servicedQueues;
         }
 
+        LOG.info("Historical queue size={} rid={} did={} deviceType={}", queues.size(), rid, did, deviceType);
         return getJsonTokenAndQueueList(queues);
     }
 
