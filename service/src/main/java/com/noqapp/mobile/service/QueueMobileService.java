@@ -226,6 +226,8 @@ public class QueueMobileService {
 
     public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, String token) {
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(null, did, token);
+
+        boolean sinceBeginning = false;
         List<QueueEntity> queues;
         if (null == registeredDevice) {
             queues = queueManagerJDBC.getByDid(did);
@@ -237,11 +239,12 @@ public class QueueMobileService {
                 deviceService.unsetRidForDevice(registeredDevice.getId());
             }
 
-            /* When new device registration, or request came with RID then get data until one year old. */
-            Date fetchUntil = registeredDevice.isSinceBeginning() ||
-                    StringUtils.isNotBlank(registeredDevice.getReceiptUserId())
-                    ? DateTime.now().minusYears(1).toDate()
-                    : registeredDevice.getUpdated();
+            /*
+             * When device is marked for getting data since beginning, or request came without
+             * RID but device has RID then get historical data until one year old.
+             */
+            sinceBeginning = registeredDevice.isSinceBeginning() || StringUtils.isNotBlank(registeredDevice.getReceiptUserId());
+            Date fetchUntil = sinceBeginning ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
             queues = queueManagerJDBC.getByDid(did, fetchUntil);
 
             markFetchedSinceBeginningForDevice(registeredDevice);
@@ -253,12 +256,14 @@ public class QueueMobileService {
         queues.addAll(servicedQueues);
 
         LOG.info("Historical queue size={} did={} deviceType={}", queues.size(), did, deviceType);
-        return getJsonTokenAndQueueList(queues);
+        return getJsonTokenAndQueueList(queues, sinceBeginning);
     }
 
     public JsonTokenAndQueueList findHistoricalQueue(String rid, String did, DeviceTypeEnum deviceType, String token) {
         Validate.isValidRid(rid);
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(rid, did, token);
+
+        boolean sinceBeginning = false;
         List<QueueEntity> queues;
         if (null == registeredDevice) {
             queues = queueManagerJDBC.getByRid(rid);
@@ -269,10 +274,13 @@ public class QueueMobileService {
                 /* Save with RID when missing in registered device. */
                 deviceService.registerDevice(rid, did, deviceType, token);
             }
-            /* When new device registration, then get data until one year old. */
-            Date fetchUntil = registeredDevice.isSinceBeginning()
-                    ? DateTime.now().minusYears(1).toDate()
-                    : registeredDevice.getUpdated();
+
+            /*
+             * When device is marked for getting data since beginning,
+             * then get historical data until one year old.
+             */
+            sinceBeginning = registeredDevice.isSinceBeginning();
+            Date fetchUntil = sinceBeginning ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
             queues = queueManagerJDBC.getByRid(rid, fetchUntil);
 
             markFetchedSinceBeginningForDevice(registeredDevice);
@@ -284,7 +292,7 @@ public class QueueMobileService {
         queues.addAll(servicedQueues);
 
         LOG.info("Historical queue size={} rid={} did={} deviceType={}", queues.size(), rid, did, deviceType);
-        return getJsonTokenAndQueueList(queues);
+        return getJsonTokenAndQueueList(queues, sinceBeginning);
     }
 
     private void markFetchedSinceBeginningForDevice(RegisteredDeviceEntity registeredDevice) {
@@ -293,7 +301,7 @@ public class QueueMobileService {
         }
     }
 
-    private JsonTokenAndQueueList getJsonTokenAndQueueList(List<QueueEntity> queues) {
+    private JsonTokenAndQueueList getJsonTokenAndQueueList(List<QueueEntity> queues, boolean sinceBeginning) {
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
             try {
@@ -308,10 +316,9 @@ public class QueueMobileService {
             }
         }
 
-        JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
-        jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
-
-        return jsonTokenAndQueueList;
+        return new JsonTokenAndQueueList()
+                .setTokenAndQueues(jsonTokenAndQueues)
+                .setSinceBeginning(sinceBeginning);
     }
 
     public boolean reviewService(String codeQR, int token, String did, String rid, int ratingCount, int hoursSaved) {
