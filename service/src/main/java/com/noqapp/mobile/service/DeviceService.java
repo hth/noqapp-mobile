@@ -1,5 +1,7 @@
 package com.noqapp.mobile.service;
 
+import static java.util.concurrent.Executors.newCachedThreadPool;
+
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.repository.RegisteredDeviceManager;
+
+import java.util.concurrent.ExecutorService;
 
 /**
  * User: hitender
@@ -29,9 +33,25 @@ public class DeviceService {
 
     private RegisteredDeviceManager registeredDeviceManager;
 
+    private ExecutorService service;
+
     @Autowired
     public DeviceService(RegisteredDeviceManager registeredDeviceManager) {
         this.registeredDeviceManager = registeredDeviceManager;
+
+        this.service = newCachedThreadPool();
+    }
+
+    /**
+     * Since registration can be done in background. Moved logic to thread.
+     *
+     * @param rid
+     * @param did
+     * @param deviceType
+     * @param token
+     */
+    public void registerDevice(String rid, String did, DeviceTypeEnum deviceType, String token) {
+        service.submit(() -> registeringDevice(rid, did, deviceType, token));
     }
 
     /**
@@ -42,7 +62,7 @@ public class DeviceService {
      * @param deviceType iPhone or Android
      * @return
      */
-    public boolean registerDevice(String rid, String did, DeviceTypeEnum deviceType, String token) {
+    private void registeringDevice(String rid, String did, DeviceTypeEnum deviceType, String token) {
         try {
             RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(rid, did);
             if (registeredDevice == null) {
@@ -72,10 +92,8 @@ public class DeviceService {
                 registeredDeviceManager.save(registeredDevice);
                 LOG.info("updated registered device for did={} token={}", did, token);
             }
-            return true;
         } catch (Exception e) {
             LOG.error("Failed device registration deviceType={} did={} rid={} reason={}", deviceType, did, rid, e.getLocalizedMessage(), e);
-            return false;
         }
     }
 

@@ -227,13 +227,15 @@ public class QueueMobileService {
         if (registeredDevice == null) {
             queues = queueManagerJDBC.getByDid(did);
             deviceService.registerDevice(null, did, deviceType, token);
+            LOG.info("Historical new device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         } else {
             queues = queueManagerJDBC.getByDid(did, registeredDevice.getUpdated());
+            LOG.info("Historical existing device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         }
 
         /* Get all the queues that have been serviced for today. */
         List<QueueEntity> servicedQueues = findAllNotQueuedByDid(did);
-        if (queues != null) {
+        if (null != queues) {
             queues.addAll(servicedQueues);
         } else {
             queues = servicedQueues;
@@ -250,17 +252,19 @@ public class QueueMobileService {
         if (registeredDevice == null) {
             queues = queueManagerJDBC.getByRid(rid);
             deviceService.registerDevice(rid, did, deviceType, token);
+            LOG.info("Historical new device queue size={} did={} rid={} deviceType={}", queues.size(), did, rid, deviceType);
         } else {
             if (StringUtils.isBlank(registeredDevice.getReceiptUserId())) {
                 /* Save with RID when missing in registered device. */
                 deviceService.registerDevice(rid, did, deviceType, token);
             }
             queues = queueManagerJDBC.getByRid(rid, registeredDevice.getUpdated());
+            LOG.info("Historical existing device queue size={} did={} rid={} deviceType={}", queues.size(), did, rid, deviceType);
         }
 
         /* Get all the queues that have been serviced for today. */
         List<QueueEntity> servicedQueues = findAllNotQueuedByRid(rid);
-        if (queues != null) {
+        if (null != queues) {
             queues.addAll(servicedQueues);
         } else {
             queues = servicedQueues;

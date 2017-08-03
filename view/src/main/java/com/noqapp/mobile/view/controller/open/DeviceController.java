@@ -99,11 +99,8 @@ public class DeviceController {
         }
 
         try {
-            return DeviceRegistered.newInstance(deviceService.registerDevice(
-                    null,
-                    did.getText(),
-                    deviceTypeEnum,
-                    parseTokenFCM.getTokenFCM())).asJson();
+            deviceService.registerDevice(null, did.getText(), deviceTypeEnum, parseTokenFCM.getTokenFCM());
+            return DeviceRegistered.newInstance(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
