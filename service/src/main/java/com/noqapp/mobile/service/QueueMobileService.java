@@ -239,6 +239,10 @@ public class QueueMobileService {
             if (registeredDevice.isSinceBeginning()) {
                 deviceService.markFetchedSinceBeginningForDevice(registeredDevice.getId());
             }
+
+            if (StringUtils.isNotBlank(registeredDevice.getReceiptUserId())) {
+                deviceService.unsetRidForDevice(registeredDevice.getId());
+            }
             LOG.info("Historical existing device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         }
 

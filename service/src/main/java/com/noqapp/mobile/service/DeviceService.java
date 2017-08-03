@@ -125,7 +125,11 @@ public class DeviceService {
         registeredDeviceManager.save(registeredDevice);
     }
 
-    public void markFetchedSinceBeginningForDevice(String id) {
+    void markFetchedSinceBeginningForDevice(String id) {
         registeredDeviceManager.markFetchedSinceBeginningForDevice(id);
+    }
+
+    void unsetRidForDevice(String id) {
+        registeredDeviceManager.unsetRidForDevice(id);
     }
 }
