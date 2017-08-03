@@ -107,7 +107,7 @@ public class DeviceService {
     }
 
     /**
-     * Update Registered Device after register or login.
+     * Update Registered Device after register or login when token is not available.
      *
      * @param rid
      * @param did

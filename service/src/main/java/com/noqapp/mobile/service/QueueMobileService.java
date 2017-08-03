@@ -232,17 +232,19 @@ public class QueueMobileService {
             deviceService.registerDevice(null, did, deviceType, token);
             LOG.info("Historical new device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         } else {
-            /* When new device registration, then get data until one year old. */
-            Date fetchUntil = registeredDevice.isSinceBeginning() || StringUtils.isNotBlank(registeredDevice.getReceiptUserId()) ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
-            queues = queueManagerJDBC.getByDid(did, fetchUntil);
-
-            if (registeredDevice.isSinceBeginning()) {
-                deviceService.markFetchedSinceBeginningForDevice(registeredDevice.getId());
-            }
-
+            /* Unset RID for DID as user seems to have logged out of the App. */
             if (StringUtils.isNotBlank(registeredDevice.getReceiptUserId())) {
                 deviceService.unsetRidForDevice(registeredDevice.getId());
             }
+
+            /* When new device registration, or request came with RID then get data until one year old. */
+            Date fetchUntil = registeredDevice.isSinceBeginning() ||
+                    StringUtils.isNotBlank(registeredDevice.getReceiptUserId())
+                    ? DateTime.now().minusYears(1).toDate()
+                    : registeredDevice.getUpdated();
+            queues = queueManagerJDBC.getByDid(did, fetchUntil);
+
+            markFetchedSinceBeginningForDevice(registeredDevice);
             LOG.info("Historical existing device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         }
 
@@ -268,12 +270,12 @@ public class QueueMobileService {
                 deviceService.registerDevice(rid, did, deviceType, token);
             }
             /* When new device registration, then get data until one year old. */
-            Date fetchUntil = registeredDevice.isSinceBeginning() ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
+            Date fetchUntil = registeredDevice.isSinceBeginning()
+                    ? DateTime.now().minusYears(1).toDate()
+                    : registeredDevice.getUpdated();
             queues = queueManagerJDBC.getByRid(rid, fetchUntil);
 
-            if (registeredDevice.isSinceBeginning()) {
-                deviceService.markFetchedSinceBeginningForDevice(registeredDevice.getId());
-            }
+            markFetchedSinceBeginningForDevice(registeredDevice);
             LOG.info("Historical existing device queue size={} did={} rid={} deviceType={}", queues.size(), did, rid, deviceType);
         }
 
@@ -283,6 +285,12 @@ public class QueueMobileService {
 
         LOG.info("Historical queue size={} rid={} did={} deviceType={}", queues.size(), rid, did, deviceType);
         return getJsonTokenAndQueueList(queues);
+    }
+
+    private void markFetchedSinceBeginningForDevice(RegisteredDeviceEntity registeredDevice) {
+        if (registeredDevice.isSinceBeginning()) {
+            deviceService.markFetchedSinceBeginningForDevice(registeredDevice.getId());
+        }
     }
 
     private JsonTokenAndQueueList getJsonTokenAndQueueList(List<QueueEntity> queues) {
