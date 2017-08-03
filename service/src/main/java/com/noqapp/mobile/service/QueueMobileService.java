@@ -233,8 +233,12 @@ public class QueueMobileService {
             LOG.info("Historical new device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         } else {
             /* When new device registration, then get data until one year old. */
-            Date fetchUntil = registeredDevice.getVersion() < 2 ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
+            Date fetchUntil = registeredDevice.isSinceBeginning() ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
             queues = queueManagerJDBC.getByDid(did, fetchUntil);
+
+            if (registeredDevice.isSinceBeginning()) {
+                deviceService.markFetchedSinceBeginningForDevice(registeredDevice);
+            }
             LOG.info("Historical existing device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         }
 
@@ -260,8 +264,12 @@ public class QueueMobileService {
                 deviceService.registerDevice(rid, did, deviceType, token);
             }
             /* When new device registration, then get data until one year old. */
-            Date fetchUntil = registeredDevice.getVersion() < 2 ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
+            Date fetchUntil = registeredDevice.isSinceBeginning() ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
             queues = queueManagerJDBC.getByRid(rid, fetchUntil);
+
+            if (registeredDevice.isSinceBeginning()) {
+                deviceService.markFetchedSinceBeginningForDevice(registeredDevice);
+            }
             LOG.info("Historical existing device queue size={} did={} rid={} deviceType={}", queues.size(), did, rid, deviceType);
         }
 
