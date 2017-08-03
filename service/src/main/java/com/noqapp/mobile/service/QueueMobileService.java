@@ -235,11 +235,7 @@ public class QueueMobileService {
 
         /* Get all the queues that have been serviced for today. */
         List<QueueEntity> servicedQueues = findAllNotQueuedByDid(did);
-        if (null != queues) {
-            queues.addAll(servicedQueues);
-        } else {
-            queues = servicedQueues;
-        }
+        queues.addAll(servicedQueues);
 
         LOG.info("Historical queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         return getJsonTokenAndQueueList(queues);
@@ -264,11 +260,7 @@ public class QueueMobileService {
 
         /* Get all the queues that have been serviced for today. */
         List<QueueEntity> servicedQueues = findAllNotQueuedByRid(rid);
-        if (null != queues) {
-            queues.addAll(servicedQueues);
-        } else {
-            queues = servicedQueues;
-        }
+        queues.addAll(servicedQueues);
 
         LOG.info("Historical queue size={} rid={} did={} deviceType={}", queues.size(), rid, did, deviceType);
         return getJsonTokenAndQueueList(queues);
