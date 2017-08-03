@@ -122,6 +122,7 @@ public class DeviceService {
 
         registeredDevice.setReceiptUserId(rid);
         registeredDevice.setDeviceType(deviceType);
+        registeredDevice.setSinceBeginning(true);
         registeredDeviceManager.save(registeredDevice);
     }
 
