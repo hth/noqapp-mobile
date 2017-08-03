@@ -233,7 +233,7 @@ public class QueueMobileService {
             LOG.info("Historical new device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         } else {
             /* When new device registration, then get data until one year old. */
-            Date fetchUntil = registeredDevice.isSinceBeginning() ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
+            Date fetchUntil = registeredDevice.isSinceBeginning() || StringUtils.isNotBlank(registeredDevice.getReceiptUserId()) ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
             queues = queueManagerJDBC.getByDid(did, fetchUntil);
 
             if (registeredDevice.isSinceBeginning()) {
