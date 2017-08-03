@@ -2,6 +2,8 @@ package com.noqapp.mobile.service;
 
 import org.apache.commons.lang3.StringUtils;
 
+import org.joda.time.DateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +31,7 @@ import com.noqapp.utils.Validate;
 import java.time.DayOfWeek;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -229,7 +232,9 @@ public class QueueMobileService {
             deviceService.registerDevice(null, did, deviceType, token);
             LOG.info("Historical new device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         } else {
-            queues = queueManagerJDBC.getByDid(did, registeredDevice.getUpdated());
+            /* When new device registration, then get data until one year old. */
+            Date fetchUntil = registeredDevice.getVersion() < 2 ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
+            queues = queueManagerJDBC.getByDid(did, fetchUntil);
             LOG.info("Historical existing device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         }
 
@@ -254,7 +259,9 @@ public class QueueMobileService {
                 /* Save with RID when missing in registered device. */
                 deviceService.registerDevice(rid, did, deviceType, token);
             }
-            queues = queueManagerJDBC.getByRid(rid, registeredDevice.getUpdated());
+            /* When new device registration, then get data until one year old. */
+            Date fetchUntil = registeredDevice.getVersion() < 2 ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
+            queues = queueManagerJDBC.getByRid(rid, fetchUntil);
             LOG.info("Historical existing device queue size={} did={} rid={} deviceType={}", queues.size(), did, rid, deviceType);
         }
 
