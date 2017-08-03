@@ -224,7 +224,7 @@ public class QueueMobileService {
     public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, String token) {
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(null, did, token);
         List<QueueEntity> queues;
-        if (registeredDevice == null) {
+        if (null == registeredDevice) {
             queues = queueManagerJDBC.getByDid(did);
             deviceService.registerDevice(null, did, deviceType, token);
             LOG.info("Historical new device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
@@ -235,11 +235,7 @@ public class QueueMobileService {
 
         /* Get all the queues that have been serviced for today. */
         List<QueueEntity> servicedQueues = findAllNotQueuedByDid(did);
-        if (null != queues) {
-            queues.addAll(servicedQueues);
-        } else {
-            queues = servicedQueues;
-        }
+        queues.addAll(servicedQueues);
 
         LOG.info("Historical queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         return getJsonTokenAndQueueList(queues);
@@ -249,7 +245,7 @@ public class QueueMobileService {
         Validate.isValidRid(rid);
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(rid, did, token);
         List<QueueEntity> queues;
-        if (registeredDevice == null) {
+        if (null == registeredDevice) {
             queues = queueManagerJDBC.getByRid(rid);
             deviceService.registerDevice(rid, did, deviceType, token);
             LOG.info("Historical new device queue size={} did={} rid={} deviceType={}", queues.size(), did, rid, deviceType);
@@ -264,11 +260,7 @@ public class QueueMobileService {
 
         /* Get all the queues that have been serviced for today. */
         List<QueueEntity> servicedQueues = findAllNotQueuedByRid(rid);
-        if (null != queues) {
-            queues.addAll(servicedQueues);
-        } else {
-            queues = servicedQueues;
-        }
+        queues.addAll(servicedQueues);
 
         LOG.info("Historical queue size={} rid={} did={} deviceType={}", queues.size(), rid, did, deviceType);
         return getJsonTokenAndQueueList(queues);
