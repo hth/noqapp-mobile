@@ -89,6 +89,7 @@ public class DeviceService {
                 registeredDevice.setReceiptUserId(rid);
                 registeredDevice.setDeviceType(deviceType);
                 registeredDevice.setToken(token);
+                registeredDevice.setSinceBeginning(true);
                 registeredDeviceManager.save(registeredDevice);
                 LOG.info("updated registered device for did={} token={}", did, token);
             }
@@ -121,6 +122,11 @@ public class DeviceService {
 
         registeredDevice.setReceiptUserId(rid);
         registeredDevice.setDeviceType(deviceType);
+        registeredDeviceManager.save(registeredDevice);
+    }
+
+    public void markFetchedSinceBeginningForDevice(RegisteredDeviceEntity registeredDevice) {
+        registeredDevice.setSinceBeginning(false);
         registeredDeviceManager.save(registeredDevice);
     }
 }
