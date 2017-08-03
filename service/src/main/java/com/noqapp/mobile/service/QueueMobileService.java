@@ -237,7 +237,7 @@ public class QueueMobileService {
             queues = queueManagerJDBC.getByDid(did, fetchUntil);
 
             if (registeredDevice.isSinceBeginning()) {
-                deviceService.markFetchedSinceBeginningForDevice(registeredDevice);
+                deviceService.markFetchedSinceBeginningForDevice(registeredDevice.getId());
             }
             LOG.info("Historical existing device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         }
@@ -268,7 +268,7 @@ public class QueueMobileService {
             queues = queueManagerJDBC.getByRid(rid, fetchUntil);
 
             if (registeredDevice.isSinceBeginning()) {
-                deviceService.markFetchedSinceBeginningForDevice(registeredDevice);
+                deviceService.markFetchedSinceBeginningForDevice(registeredDevice.getId());
             }
             LOG.info("Historical existing device queue size={} did={} rid={} deviceType={}", queues.size(), did, rid, deviceType);
         }
