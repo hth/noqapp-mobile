@@ -204,7 +204,7 @@ subprojects {
         compile "mysql:mysql-connector-java:$mysqlConnector"
         compile "com.zaxxer:HikariCP:$hikariCP"
         compile "joda-time:joda-time:$joda"
-        compile "org.freemarker:freemarker:2.3.23"
+        compile "org.freemarker:freemarker:$freemarker"
 
         compile "com.google.guava:guava:$guava"
         compile "com.google.code.gson:gson:$gson"
