@@ -31,11 +31,9 @@ import java.io.IOException;
 })
 @Service
 public class WebConnectorService {
-    private static final Logger LOG = LoggerFactory.getLogger(WebConnectorService.class);
-
     public static final int HTTP_STATUS_200 = 200;
     public static final int HTTP_STATUS_300 = 300;
-
+    private static final Logger LOG = LoggerFactory.getLogger(WebConnectorService.class);
     private String apiMobileGetPath;
     private String noResponseFromWebServer;
     private String webApiAccessToken;

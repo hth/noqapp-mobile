@@ -73,8 +73,8 @@ public class QueueMobileService {
      * @param codeQR
      * @param servedNumber
      * @param queueUserState
-     * @param goTo - counter name
-     * @param sid - server device id
+     * @param goTo           - counter name
+     * @param sid            - server device id
      * @return
      */
     public JsonToken updateAndGetNextInQueue(
@@ -91,7 +91,7 @@ public class QueueMobileService {
         if (null != queue) {
             LOG.info("Found queue codeQR={} servedNumber={} queueUserState={} nextToken={}",
                     codeQR, servedNumber, queueUserState, queue.getTokenNumber());
-            
+
             return tokenQueueMobileService.updateServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber(), goTo);
         }
 
@@ -108,7 +108,7 @@ public class QueueMobileService {
 
     /**
      * Merchant when pausing to serve queue.
-     * 
+     *
      * @param codeQR
      * @param servedNumber
      * @param queueUserState
@@ -141,7 +141,7 @@ public class QueueMobileService {
         QueueEntity queue = queueManager.getNext(codeQR, goTo, sid);
         if (null != queue) {
             LOG.info("Found queue codeQR={} token={}", codeQR, queue.getTokenNumber());
-            
+
             JsonToken jsonToken = tokenQueueMobileService.updateServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber(), goTo);
             tokenQueueMobileService.changeQueueStatus(codeQR, QueueStatusEnum.N);
             return jsonToken;

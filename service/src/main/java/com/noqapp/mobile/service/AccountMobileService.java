@@ -67,7 +67,7 @@ public class AccountMobileService {
      * @param birthday
      * @return
      */
-    @SuppressWarnings("all")
+    @SuppressWarnings ("all")
     public String createNewMerchantAccount(
             String phone,
             String firstName,
@@ -105,7 +105,6 @@ public class AccountMobileService {
     }
 
     /**
-     *
      * @param phone
      * @param firstName
      * @param lastName
@@ -116,7 +115,7 @@ public class AccountMobileService {
      * @param timeZone
      * @return
      */
-    @SuppressWarnings("all")
+    @SuppressWarnings ("all")
     public UserAccountEntity createNewClientAccount(
             String phone,
             String firstName,
