@@ -59,7 +59,7 @@
     <logger name="org.apache.http" level="OFF"/>
     <logger name="org.springframework.jms.listener" level="OFF"/>
     <logger name="org.mongodb" level="WARN"/>
-    <!--<logger name="com.zaxxer.hikari" level="DEBUG" />-->
+    <logger name="com.zaxxer.hikari" level="DEBUG" />
 
     <root level="INFO">
         <appender-ref ref="FILE" />
