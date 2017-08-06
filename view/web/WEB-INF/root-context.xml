@@ -10,5 +10,7 @@
         <property name="suffix" value=".jsp" />
         <property name="cache"  value="true" />
         <property name="order"  value="1" />
+        <!-- Prevent redirect to HTTP and force to use HTTPs -->
+        <property name="redirectHttp10Compatible" value="false" />
     </bean>
 </beans>
