@@ -186,6 +186,7 @@ subprojects {
         compile "com.braintreepayments.gateway:braintree-java:$braintree"
         compile "$springDataGroup:spring-data-redis:$redis"
         compile "redis.clients:jedis:$jedis"
+        compile "org.quartz-scheduler:quartz:$quartz"
 
         /** --- Specific to NoQApp Mobile Web Application ---- */
         compile "io.springfox:springfox-swagger2:2.7.0"
