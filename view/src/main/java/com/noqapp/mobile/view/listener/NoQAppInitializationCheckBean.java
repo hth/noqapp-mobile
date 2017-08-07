@@ -52,6 +52,6 @@ public class NoQAppInitializationCheckBean {
             LOG.error("Firebase could not be connected");
             throw new RuntimeException("Firebase could not be connected");
         }
-        LOG.info("Firebase connected db={}", firebaseConfig.getFirebaseApp().getOptions().getDatabaseUrl());
+        LOG.info("Firebase connected");
     }
 }
