@@ -86,7 +86,7 @@ public class DeviceService {
                 }
             } else if (StringUtils.isNotBlank(token)) {
                 LOG.info("Updating registered device of deviceType={} did={} rid={}", deviceType, did, rid);
-                registeredDevice.setReceiptUserId(rid);
+                registeredDevice.setQueueUserId(rid);
                 registeredDevice.setDeviceType(deviceType);
                 registeredDevice.setToken(token);
                 registeredDevice.setSinceBeginning(true);
@@ -120,7 +120,7 @@ public class DeviceService {
             return;
         }
 
-        registeredDevice.setReceiptUserId(rid);
+        registeredDevice.setQueueUserId(rid);
         registeredDevice.setDeviceType(deviceType);
         registeredDevice.setSinceBeginning(true);
         registeredDeviceManager.save(registeredDevice);

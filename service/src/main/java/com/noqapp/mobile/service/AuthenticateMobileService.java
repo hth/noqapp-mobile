@@ -62,7 +62,7 @@ public class AuthenticateMobileService {
     public String getReceiptUserId(String mail, String auth) {
         UserAccountEntity userAccount = findUserAccount(mail, auth);
         if (null != userAccount) {
-            return userAccount.getReceiptUserId();
+            return userAccount.getQueueUserId();
         }
         return null;
     }

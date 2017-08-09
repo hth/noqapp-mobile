@@ -14,7 +14,7 @@ import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.util.StringUtils;
 
-import com.noqapp.domain.site.TokenUser;
+import com.noqapp.domain.site.QueueUser;
 import com.noqapp.domain.types.RoleEnum;
 
 import java.io.IOException;
@@ -58,7 +58,7 @@ public class OnLoginAuthenticationSuccessHandler extends SimpleUrlAuthentication
             handle(request, response, authentication);
             clearAuthenticationAttributes(request);
         } else {
-            String username = ((TokenUser) authentication.getPrincipal()).getUsername();
+            String username = ((QueueUser) authentication.getPrincipal()).getUsername();
             response.addHeader("X-R-MAIL", username);
             response.addHeader("X-R-AUTH", authenticatedToken.getUserAuthenticationKey(username));
         }

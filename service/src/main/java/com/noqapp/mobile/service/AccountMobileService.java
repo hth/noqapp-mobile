@@ -94,7 +94,7 @@ public class AccountMobileService {
                     null,
                     false);
             Assert.notNull(userAccount, "Account creation cannot be null");
-            LOG.info("Registered new user Id={}", userAccount.getReceiptUserId());
+            LOG.info("Registered new user Id={}", userAccount.getQueueUserId());
         } catch (RuntimeException exce) {
             LOG.error("failed creating new account for user={} reason={}", mail, exce.getLocalizedMessage(), exce);
             throw new RuntimeException("failed creating new account for user " + mail, exce);
@@ -143,7 +143,7 @@ public class AccountMobileService {
                     inviteCode,
                     true);
             Assert.notNull(userAccount, "Account creation cannot be null");
-            LOG.info("Registered new user Id={}", userAccount.getReceiptUserId());
+            LOG.info("Registered new user Id={}", userAccount.getQueueUserId());
         } catch (RuntimeException exce) {
             LOG.error("failed creating new account for user={} reason={}", mail, exce.getLocalizedMessage(), exce);
             throw new RuntimeException("failed creating new account for user " + mail, exce);
@@ -170,7 +170,7 @@ public class AccountMobileService {
     private void sendValidationEmail(UserAccountEntity userAccount) {
         boolean mailStatus = sendMailDuringSignup(
                 userAccount.getUserId(),
-                userAccount.getReceiptUserId(),
+                userAccount.getQueueUserId(),
                 userAccount.getName(),
                 HttpClientBuilder.create().build());
 

@@ -235,7 +235,7 @@ public class QueueMobileService {
             LOG.info("Historical new device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         } else {
             /* Unset RID for DID as user seems to have logged out of the App. */
-            if (StringUtils.isNotBlank(registeredDevice.getReceiptUserId())) {
+            if (StringUtils.isNotBlank(registeredDevice.getQueueUserId())) {
                 deviceService.unsetRidForDevice(registeredDevice.getId());
             }
 
@@ -243,7 +243,7 @@ public class QueueMobileService {
              * When device is marked for getting data since beginning, or request came without
              * RID but device has RID then get historical data until one year old.
              */
-            sinceBeginning = registeredDevice.isSinceBeginning() || StringUtils.isNotBlank(registeredDevice.getReceiptUserId());
+            sinceBeginning = registeredDevice.isSinceBeginning() || StringUtils.isNotBlank(registeredDevice.getQueueUserId());
             Date fetchUntil = sinceBeginning ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
             queues = queueManagerJDBC.getByDid(did, fetchUntil);
 
@@ -270,7 +270,7 @@ public class QueueMobileService {
             deviceService.registerDevice(rid, did, deviceType, token);
             LOG.info("Historical new device queue size={} did={} rid={} deviceType={}", queues.size(), did, rid, deviceType);
         } else {
-            if (StringUtils.isBlank(registeredDevice.getReceiptUserId())) {
+            if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
                 /* Save with RID when missing in registered device. */
                 deviceService.registerDevice(rid, did, deviceType, token);
             }
