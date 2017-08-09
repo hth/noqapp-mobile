@@ -105,8 +105,8 @@ public class TokenQueueAPIController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("On scan get state did={} dt={} codeQR={}", did, dt, codeQR);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, rid)) return null;
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
 
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
@@ -116,7 +116,7 @@ public class TokenQueueAPIController {
         try {
             return tokenQueueMobileService.findTokenState(codeQR.getText()).asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting queue state rid={}, reason={}", rid, e.getLocalizedMessage(), e);
+            LOG.error("Failed getting queue state qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
@@ -152,13 +152,13 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, rid)) return null;
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
 
         try {
-            return queueMobileService.findAllJoinedQueues(rid, did.getText()).asJson();
+            return queueMobileService.findAllJoinedQueues(qid, did.getText()).asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting queues rid={}, reason={}", rid, e.getLocalizedMessage(), e);
+            LOG.error("Failed getting queues qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
@@ -197,8 +197,8 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, rid)) return null;
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
 
         ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson);
         if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
@@ -207,12 +207,12 @@ public class TokenQueueAPIController {
 
         try {
             return queueMobileService.findHistoricalQueue(
-                    rid,
+                    qid,
                     did.getText(),
                     DeviceTypeEnum.valueOf(deviceType.getText()),
                     parseTokenFCM.getTokenFCM()).asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting history rid={}, reason={}", rid, e.getLocalizedMessage(), e);
+            LOG.error("Failed getting history qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
@@ -253,8 +253,8 @@ public class TokenQueueAPIController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Join queue did={} dt={} codeQR={}", did, deviceType, codeQR);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, rid)) return null;
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
 
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
@@ -262,9 +262,9 @@ public class TokenQueueAPIController {
         }
 
         try {
-            return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), rid).asJson();
+            return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), qid).asJson();
         } catch (Exception e) {
-            LOG.error("Failed joining queue rid={}, reason={}", rid, e.getLocalizedMessage(), e);
+            LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
@@ -305,8 +305,8 @@ public class TokenQueueAPIController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Abort queue did={} dt={} codeQR={}", did, deviceType, codeQR);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, rid)) return null;
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
 
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
@@ -314,9 +314,9 @@ public class TokenQueueAPIController {
         }
 
         try {
-            return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), rid).asJson();
+            return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), qid).asJson();
         } catch (Exception e) {
-            LOG.error("Failed aborting queue rid={}, reason={}", rid, e.getLocalizedMessage(), e);
+            LOG.error("Failed aborting queue rid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
@@ -357,8 +357,8 @@ public class TokenQueueAPIController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("On remote scan get state did={} dt={} codeQR={}", did, deviceType, codeQR);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, rid)) return null;
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
 
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
@@ -367,11 +367,11 @@ public class TokenQueueAPIController {
 
         try {
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(codeQR.getText());
-            int remoteJoinCount = inviteService.getRemoteJoinCount(rid);
+            int remoteJoinCount = inviteService.getRemoteJoinCount(qid);
             jsonQueue.setRemoteJoinCount(remoteJoinCount);
             return jsonQueue.asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting queue state rid={}, reason={}", rid, e.getLocalizedMessage(), e);
+            LOG.error("Failed getting queue state qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
@@ -412,8 +412,8 @@ public class TokenQueueAPIController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Join queue did={} dt={} codeQR={}", did, deviceType, codeQR);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, rid)) return null;
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
 
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
@@ -421,22 +421,22 @@ public class TokenQueueAPIController {
         }
 
         try {
-            if (inviteService.getRemoteJoinCount(rid) > 0) {
-                String jsonToken = tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), rid).asJson();
-                inviteService.deductRemoteJoinCount(rid);
+            if (inviteService.getRemoteJoinCount(qid) > 0) {
+                String jsonToken = tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), qid).asJson();
+                inviteService.deductRemoteJoinCount(qid);
                 return jsonToken;
             } else {
-                LOG.warn("Failed joining queue rid={}, remoteJoin={}, means not available", rid, 0);
+                LOG.warn("Failed joining queue rid={}, remoteJoin={}, means not available", qid, 0);
                 return getErrorReason("Remote Join not available.", REMOTE_JOIN_EMPTY);
             }
         } catch (Exception e) {
-            LOG.error("Failed joining queue rid={}, reason={}", rid, e.getLocalizedMessage(), e);
+            LOG.error("Failed joining queue rid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
 
-    static boolean authorizeRequest(HttpServletResponse response, String rid) throws IOException {
-        if (null == rid) {
+    static boolean authorizeRequest(HttpServletResponse response, String qid) throws IOException {
+        if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
             return true;
         }

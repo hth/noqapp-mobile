@@ -94,7 +94,7 @@ public class AccountMobileService {
                     null,
                     false);
             Assert.notNull(userAccount, "Account creation cannot be null");
-            LOG.info("Registered new user Id={}", userAccount.getReceiptUserId());
+            LOG.info("Registered new user Id={}", userAccount.getQueueUserId());
         } catch (RuntimeException exce) {
             LOG.error("failed creating new account for user={} reason={}", mail, exce.getLocalizedMessage(), exce);
             throw new RuntimeException("failed creating new account for user " + mail, exce);
@@ -143,7 +143,7 @@ public class AccountMobileService {
                     inviteCode,
                     true);
             Assert.notNull(userAccount, "Account creation cannot be null");
-            LOG.info("Registered new user Id={}", userAccount.getReceiptUserId());
+            LOG.info("Registered new user Id={}", userAccount.getQueueUserId());
         } catch (RuntimeException exce) {
             LOG.error("failed creating new account for user={} reason={}", mail, exce.getLocalizedMessage(), exce);
             throw new RuntimeException("failed creating new account for user " + mail, exce);
@@ -170,7 +170,7 @@ public class AccountMobileService {
     private void sendValidationEmail(UserAccountEntity userAccount) {
         boolean mailStatus = sendMailDuringSignup(
                 userAccount.getUserId(),
-                userAccount.getReceiptUserId(),
+                userAccount.getQueueUserId(),
                 userAccount.getName(),
                 HttpClientBuilder.create().build());
 
@@ -182,12 +182,12 @@ public class AccountMobileService {
      * http localhost:9090/receipt-mobile/authenticate.json < ~/Downloads/pid.json
      *
      * @param userId
-     * @param rid
+     * @param qid
      * @param name
      * @param httpClient
      * @return
      */
-    private boolean sendMailDuringSignup(String userId, String rid, String name, HttpClient httpClient) {
+    private boolean sendMailDuringSignup(String userId, String qid, String name, HttpClient httpClient) {
         LOG.debug("userId={} name={} webApiAccessToken={}", userId, name, "*******");
         HttpPost httpPost = webConnectorService.getHttpPost(accountValidationEndPoint, httpClient);
         if (null == httpPost) {
@@ -195,7 +195,7 @@ public class AccountMobileService {
             return false;
         }
 
-        setEntity(SignupUserInfo.newInstance(userId, rid, name), httpPost);
+        setEntity(SignupUserInfo.newInstance(userId, qid, name), httpPost);
         return invokeHttpPost(httpClient, httpPost);
     }
 
@@ -223,8 +223,8 @@ public class AccountMobileService {
         return false;
     }
 
-    public UserAccountEntity findByRid(String rid) {
-        return accountService.findByReceiptUserId(rid);
+    public UserAccountEntity findByRid(String qid) {
+        return accountService.findByReceiptUserId(qid);
     }
 
     /**

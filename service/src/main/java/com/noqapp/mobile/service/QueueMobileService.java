@@ -183,16 +183,16 @@ public class QueueMobileService {
         return jsonTokenAndQueueList;
     }
 
-    public JsonTokenAndQueueList findAllJoinedQueues(String rid, String did) {
-        Validate.isValidRid(rid);
-        List<QueueEntity> queues = queueManager.findAllQueuedByRid(rid);
-        LOG.info("Currently joined queue size={} rid={} did={}", queues.size(), rid, did);
+    public JsonTokenAndQueueList findAllJoinedQueues(String qid, String did) {
+        Validate.isValidQid(qid);
+        List<QueueEntity> queues = queueManager.findAllQueuedByRid(qid);
+        LOG.info("Currently joined queue size={} rid={} did={}", queues.size(), qid, did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
             validateJoinedQueue(queue);
             
             /* Join Queue will join if user is not joined, hence fetch only queues with status is Queued. */
-            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, rid);
+            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, qid);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken.getToken(), jsonToken.getQueueStatus(), jsonQueue);
@@ -201,7 +201,7 @@ public class QueueMobileService {
 
         JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
         jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
-        LOG.info("Current queue={} rid={} did={}", jsonTokenAndQueueList, rid, did);
+        LOG.info("Current queue={} rid={} did={}", jsonTokenAndQueueList, qid, did);
 
         return jsonTokenAndQueueList;
     }
@@ -220,8 +220,8 @@ public class QueueMobileService {
         return queueManager.findAllNotQueuedByDid(did);
     }
 
-    private List<QueueEntity> findAllNotQueuedByRid(String rid) {
-        return queueManager.findAllNotQueuedByRid(rid);
+    private List<QueueEntity> findAllNotQueuedByRid(String qid) {
+        return queueManager.findAllNotQueuedByRid(qid);
     }
 
     public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, String token) {
@@ -235,7 +235,7 @@ public class QueueMobileService {
             LOG.info("Historical new device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         } else {
             /* Unset RID for DID as user seems to have logged out of the App. */
-            if (StringUtils.isNotBlank(registeredDevice.getReceiptUserId())) {
+            if (StringUtils.isNotBlank(registeredDevice.getQueueUserId())) {
                 deviceService.unsetRidForDevice(registeredDevice.getId());
             }
 
@@ -243,7 +243,7 @@ public class QueueMobileService {
              * When device is marked for getting data since beginning, or request came without
              * RID but device has RID then get historical data until one year old.
              */
-            sinceBeginning = registeredDevice.isSinceBeginning() || StringUtils.isNotBlank(registeredDevice.getReceiptUserId());
+            sinceBeginning = registeredDevice.isSinceBeginning() || StringUtils.isNotBlank(registeredDevice.getQueueUserId());
             Date fetchUntil = sinceBeginning ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
             queues = queueManagerJDBC.getByDid(did, fetchUntil);
 
@@ -259,20 +259,20 @@ public class QueueMobileService {
         return getJsonTokenAndQueueList(queues, sinceBeginning);
     }
 
-    public JsonTokenAndQueueList findHistoricalQueue(String rid, String did, DeviceTypeEnum deviceType, String token) {
-        Validate.isValidRid(rid);
-        RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(rid, did, token);
+    public JsonTokenAndQueueList findHistoricalQueue(String qid, String did, DeviceTypeEnum deviceType, String token) {
+        Validate.isValidQid(qid);
+        RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(qid, did, token);
 
         boolean sinceBeginning = false;
         List<QueueEntity> queues;
         if (null == registeredDevice) {
-            queues = queueManagerJDBC.getByRid(rid);
-            deviceService.registerDevice(rid, did, deviceType, token);
-            LOG.info("Historical new device queue size={} did={} rid={} deviceType={}", queues.size(), did, rid, deviceType);
+            queues = queueManagerJDBC.getByQid(qid);
+            deviceService.registerDevice(qid, did, deviceType, token);
+            LOG.info("Historical new device queue size={} did={} qid={} deviceType={}", queues.size(), did, qid, deviceType);
         } else {
-            if (StringUtils.isBlank(registeredDevice.getReceiptUserId())) {
-                /* Save with RID when missing in registered device. */
-                deviceService.registerDevice(rid, did, deviceType, token);
+            if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
+                /* Save with QID when missing in registered device. */
+                deviceService.registerDevice(qid, did, deviceType, token);
             }
 
             /*
@@ -281,17 +281,17 @@ public class QueueMobileService {
              */
             sinceBeginning = registeredDevice.isSinceBeginning();
             Date fetchUntil = sinceBeginning ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
-            queues = queueManagerJDBC.getByRid(rid, fetchUntil);
+            queues = queueManagerJDBC.getByQid(qid, fetchUntil);
 
             markFetchedSinceBeginningForDevice(registeredDevice);
-            LOG.info("Historical existing device queue size={} did={} rid={} deviceType={}", queues.size(), did, rid, deviceType);
+            LOG.info("Historical existing device queue size={} did={} qid={} deviceType={}", queues.size(), did, qid, deviceType);
         }
 
         /* Get all the queues that have been serviced for today. */
-        List<QueueEntity> servicedQueues = findAllNotQueuedByRid(rid);
+        List<QueueEntity> servicedQueues = findAllNotQueuedByRid(qid);
         queues.addAll(servicedQueues);
 
-        LOG.info("Historical queue size={} rid={} did={} deviceType={}", queues.size(), rid, did, deviceType);
+        LOG.info("Historical queue size={} qid={} did={} deviceType={}", queues.size(), qid, did, deviceType);
         return getJsonTokenAndQueueList(queues, sinceBeginning);
     }
 
@@ -321,16 +321,16 @@ public class QueueMobileService {
                 .setSinceBeginning(sinceBeginning);
     }
 
-    public boolean reviewService(String codeQR, int token, String did, String rid, int ratingCount, int hoursSaved) {
-        boolean reviewSubmitStatus = queueManager.reviewService(codeQR, token, did, rid, ratingCount, hoursSaved);
+    public boolean reviewService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved) {
+        boolean reviewSubmitStatus = queueManager.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved);
         if (!reviewSubmitStatus) {
-            reviewSubmitStatus = reviewHistoricalService(codeQR, token, did, rid, ratingCount, hoursSaved);
+            reviewSubmitStatus = reviewHistoricalService(codeQR, token, did, qid, ratingCount, hoursSaved);
         }
         return reviewSubmitStatus;
     }
 
-    private boolean reviewHistoricalService(String codeQR, int token, String did, String rid, int ratingCount, int hoursSaved) {
-        return queueManagerJDBC.reviewService(codeQR, token, did, rid, ratingCount, hoursSaved);
+    private boolean reviewHistoricalService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved) {
+        return queueManagerJDBC.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved);
     }
 
     public TokenQueueEntity getTokenQueueByCodeQR(String codeQR) {

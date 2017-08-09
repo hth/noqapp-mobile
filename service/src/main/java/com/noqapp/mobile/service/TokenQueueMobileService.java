@@ -68,14 +68,14 @@ public class TokenQueueMobileService {
                 .setAllowLoggedInUser(bizStore.isAllowLoggedInUser());
     }
 
-    public JsonToken joinQueue(String codeQR, String did, String rid) {
-        LOG.info("joinQueue codeQR={} did={} rid={}", codeQR, did, rid);
-        return tokenQueueService.getNextToken(codeQR, did, rid);
+    public JsonToken joinQueue(String codeQR, String did, String qid) {
+        LOG.info("joinQueue codeQR={} did={} rid={}", codeQR, did, qid);
+        return tokenQueueService.getNextToken(codeQR, did, qid);
     }
 
-    public JsonResponse abortQueue(String codeQR, String did, String rid) {
-        LOG.info("abortQueue codeQR={} did={} rid={}", codeQR, did, rid);
-        return tokenQueueService.abortQueue(codeQR, did, rid);
+    public JsonResponse abortQueue(String codeQR, String did, String qid) {
+        LOG.info("abortQueue codeQR={} did={} rid={}", codeQR, did, qid);
+        return tokenQueueService.abortQueue(codeQR, did, qid);
     }
 
     public BizService getBizService() {

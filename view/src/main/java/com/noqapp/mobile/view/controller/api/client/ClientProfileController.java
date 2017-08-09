@@ -73,19 +73,19 @@ public class ClientProfileController {
             HttpServletResponse response
     ) throws IOException {
         LOG.debug("mail={}, auth={}", mail, ManageQueueController.AUTH_KEY_HIDDEN);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (null == rid) {
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
             return null;
         }
 
         try {
             return JsonProfile.newInstance(
-                    userProfilePreferenceService.findByReceiptUserId(rid),
-                    inviteService.getRemoteJoinCount(rid)).asJson();
+                    userProfilePreferenceService.findByReceiptUserId(qid),
+                    inviteService.getRemoteJoinCount(qid)).asJson();
 
         } catch(Exception e) {
-            LOG.error("Failed getting profile rid={}, reason={}", rid, e.getLocalizedMessage(), e);
+            LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }

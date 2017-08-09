@@ -213,10 +213,10 @@ public class AccountClientController {
                     LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
                     return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                 }
-                deviceService.updateRegisteredDevice(userAccount.getReceiptUserId(), did.getText(), deviceTypeEnum);
+                deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
 
-                userProfile = userProfilePreferenceService.findByReceiptUserId(userAccount.getReceiptUserId());
-                int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getReceiptUserId());
+                userProfile = userProfilePreferenceService.findByReceiptUserId(userAccount.getQueueUserId());
+                int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getQueueUserId());
                 LOG.info("Remote join available={}", remoteJoin);
 
                 return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
@@ -305,7 +305,7 @@ public class AccountClientController {
                     return ErrorEncounteredJson.toJson(errors);
                 }
 
-                UserAccountEntity userAccount = accountMobileService.findByRid(userProfile.getReceiptUserId());
+                UserAccountEntity userAccount = accountMobileService.findByRid(userProfile.getQueueUserId());
                 if (!userAccount.isPhoneValidated()) {
                     //TODO mark otp validated after verifying with FB server with token received
                     userAccount.setPhoneValidated(true);
@@ -321,8 +321,8 @@ public class AccountClientController {
                     LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
                     return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                 }
-                deviceService.updateRegisteredDevice(userAccount.getReceiptUserId(), did.getText(), deviceTypeEnum);
-                int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getReceiptUserId());
+                deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
+                int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getQueueUserId());
                 LOG.info("Remote join available={}", remoteJoin);
 
                 return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
