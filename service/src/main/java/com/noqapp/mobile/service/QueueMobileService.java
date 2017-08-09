@@ -266,7 +266,7 @@ public class QueueMobileService {
         boolean sinceBeginning = false;
         List<QueueEntity> queues;
         if (null == registeredDevice) {
-            queues = queueManagerJDBC.getByRid(qid);
+            queues = queueManagerJDBC.getByQid(qid);
             deviceService.registerDevice(qid, did, deviceType, token);
             LOG.info("Historical new device queue size={} did={} qid={} deviceType={}", queues.size(), did, qid, deviceType);
         } else {
@@ -281,7 +281,7 @@ public class QueueMobileService {
              */
             sinceBeginning = registeredDevice.isSinceBeginning();
             Date fetchUntil = sinceBeginning ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
-            queues = queueManagerJDBC.getByRid(qid, fetchUntil);
+            queues = queueManagerJDBC.getByQid(qid, fetchUntil);
 
             markFetchedSinceBeginningForDevice(registeredDevice);
             LOG.info("Historical existing device queue size={} did={} qid={} deviceType={}", queues.size(), did, qid, deviceType);
