@@ -97,8 +97,8 @@ public class ReviewAPIController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("On scan get state did={} dt={}", did, dt);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, rid)) return null;
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
 
         Map<String, ScrubbedInput> map;
         try {
@@ -122,7 +122,7 @@ public class ReviewAPIController {
                 return null;
             }
 
-            reviewSuccess = queueMobileService.reviewService(codeQR, token, did.getText(), rid, ratingCount, hoursSaved);
+            reviewSuccess = queueMobileService.reviewService(codeQR, token, did.getText(), qid, ratingCount, hoursSaved);
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);

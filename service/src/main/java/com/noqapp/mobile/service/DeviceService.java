@@ -45,48 +45,48 @@ public class DeviceService {
     /**
      * Since registration can be done in background. Moved logic to thread.
      *
-     * @param rid
+     * @param qid
      * @param did
      * @param deviceType
      * @param token
      */
-    public void registerDevice(String rid, String did, DeviceTypeEnum deviceType, String token) {
-        service.submit(() -> registeringDevice(rid, did, deviceType, token));
+    public void registerDevice(String qid, String did, DeviceTypeEnum deviceType, String token) {
+        service.submit(() -> registeringDevice(qid, did, deviceType, token));
     }
 
     /**
      * Checks if the device is registered, if not registered then it registers the device.
      *
-     * @param rid
+     * @param qid
      * @param did
      * @param deviceType iPhone or Android
      * @return
      */
-    private void registeringDevice(String rid, String did, DeviceTypeEnum deviceType, String token) {
+    private void registeringDevice(String qid, String did, DeviceTypeEnum deviceType, String token) {
         try {
-            RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(rid, did);
+            RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(qid, did);
             if (registeredDevice == null) {
-                LOG.info("Registering new deviceType={} did={} rid={}", deviceType, did, rid);
-                registeredDevice = RegisteredDeviceEntity.newInstance(rid, did, deviceType, token);
+                LOG.info("Registering new deviceType={} did={} rid={}", deviceType, did, qid);
+                registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, token);
                 try {
                     registeredDeviceManager.save(registeredDevice);
                     LOG.info("registered device for did={}", did);
                 } catch (DuplicateKeyException duplicateKeyException) {
-                    LOG.warn("Already registered device exists, update existing with new details deviceType={} did={} rid={}",
-                            deviceType, did, rid);
+                    LOG.warn("Already registered device exists, update existing with new details deviceType={} did={} qid={}",
+                            deviceType, did, qid);
                     
                     /* Reset update date with create date to fetch all the possible historical data. */
                     boolean updateStatus = registeredDeviceManager.resetRegisteredDeviceWithNewDetails(
                             registeredDevice.getDeviceId(),
-                            rid,
+                            qid,
                             deviceType,
                             token
                     );
-                    LOG.info("existing registered device updateStatus={} with rid={} token={}", updateStatus, rid, token);
+                    LOG.info("existing registered device updateStatus={} with qid={} token={}", updateStatus, qid, token);
                 }
             } else if (StringUtils.isNotBlank(token)) {
-                LOG.info("Updating registered device of deviceType={} did={} rid={}", deviceType, did, rid);
-                registeredDevice.setQueueUserId(rid);
+                LOG.info("Updating registered device of deviceType={} did={} qid={}", deviceType, did, qid);
+                registeredDevice.setQueueUserId(qid);
                 registeredDevice.setDeviceType(deviceType);
                 registeredDevice.setToken(token);
                 registeredDevice.setSinceBeginning(true);
@@ -94,33 +94,33 @@ public class DeviceService {
                 LOG.info("updated registered device for did={} token={}", did, token);
             }
         } catch (Exception e) {
-            LOG.error("Failed device registration deviceType={} did={} rid={} reason={}", deviceType, did, rid, e.getLocalizedMessage(), e);
+            LOG.error("Failed device registration deviceType={} did={} rid={} reason={}", deviceType, did, qid, e.getLocalizedMessage(), e);
         }
     }
 
-    public boolean isDeviceRegistered(String rid, String did) {
-        return registeredDeviceManager.find(rid, did) != null;
+    public boolean isDeviceRegistered(String qid, String did) {
+        return registeredDeviceManager.find(qid, did) != null;
     }
 
-    RegisteredDeviceEntity lastAccessed(String rid, String did, String token) {
-        return registeredDeviceManager.lastAccessed(rid, did, token);
+    RegisteredDeviceEntity lastAccessed(String qid, String did, String token) {
+        return registeredDeviceManager.lastAccessed(qid, did, token);
     }
 
     /**
      * Update Registered Device after register or login when token is not available.
      *
-     * @param rid
+     * @param qid
      * @param did
      */
-    public void updateRegisteredDevice(String rid, String did, DeviceTypeEnum deviceType) {
+    public void updateRegisteredDevice(String qid, String did, DeviceTypeEnum deviceType) {
         RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(null, did);
 
         if (null == registeredDevice) {
-            LOG.warn("Failed finding Registered device to update with rid={} did={} deviceType={}", rid, did, deviceType);
+            LOG.warn("Failed finding Registered device to update with qid={} did={} deviceType={}", qid, did, deviceType);
             return;
         }
 
-        registeredDevice.setQueueUserId(rid);
+        registeredDevice.setQueueUserId(qid);
         registeredDevice.setDeviceType(deviceType);
         registeredDevice.setSinceBeginning(true);
         registeredDeviceManager.save(registeredDevice);

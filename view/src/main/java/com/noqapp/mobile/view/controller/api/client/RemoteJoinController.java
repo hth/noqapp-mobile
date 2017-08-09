@@ -69,16 +69,16 @@ public class RemoteJoinController {
             HttpServletResponse response
     ) throws IOException {
         LOG.debug("mail={}, auth={}", mail, ManageQueueController.AUTH_KEY_HIDDEN);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (null == rid) {
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
             return null;
         }
 
         try {
-            return JsonRemoteJoin.newInstance(inviteService.getRemoteJoinCount(rid)).asJson();
+            return JsonRemoteJoin.newInstance(inviteService.getRemoteJoinCount(qid)).asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting remote scan rid={}, reason={}", rid, e.getLocalizedMessage(), e);
+            LOG.error("Failed getting remote scan qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }

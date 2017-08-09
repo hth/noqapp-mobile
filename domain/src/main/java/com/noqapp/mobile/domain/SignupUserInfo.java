@@ -25,19 +25,19 @@ public class SignupUserInfo {
 
     @SuppressWarnings ({"unused"})
     @SerializedName ("rid")
-    private String rid;
+    private String qid;
 
     @SuppressWarnings ({"unused"})
     @SerializedName ("name")
     private String name;
 
-    private SignupUserInfo(String userId, String rid, String name) {
+    private SignupUserInfo(String userId, String qid, String name) {
         this.userId = userId;
-        this.rid = rid;
+        this.qid = qid;
         this.name = name;
     }
 
-    public static SignupUserInfo newInstance(String userId, String rid, String name) {
-        return new SignupUserInfo(userId, rid, name);
+    public static SignupUserInfo newInstance(String userId, String qid, String name) {
+        return new SignupUserInfo(userId, qid, name);
     }
 }

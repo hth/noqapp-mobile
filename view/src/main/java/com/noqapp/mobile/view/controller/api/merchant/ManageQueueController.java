@@ -106,8 +106,8 @@ public class ManageQueueController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("All queues associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (null == rid) {
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/queues by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
@@ -115,7 +115,7 @@ public class ManageQueueController {
 
         try {
             JsonTopicList topics = new JsonTopicList();
-            topics.setTopics(businessUserStoreService.getQueues(rid));
+            topics.setTopics(businessUserStoreService.getQueues(qid));
             return topics.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
@@ -162,8 +162,8 @@ public class ManageQueueController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Served mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (null == rid) {
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/served by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
@@ -174,9 +174,9 @@ public class ManageQueueController {
             String codeQR = map.containsKey("c") ? map.get("c").getText() : null;
 
             if (StringUtils.isBlank(codeQR)) {
-                LOG.warn("Not a valid codeQR={} rid={}", codeQR, rid);
+                LOG.warn("Not a valid codeQR={} qid={}", codeQR, qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(rid, codeQR)) {
+            } else if (!businessUserStoreService.hasAccess(qid, codeQR)) {
                 LOG.info("Un-authorized store access to /api/m/mq/served by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
@@ -187,7 +187,7 @@ public class ManageQueueController {
             if (StringUtils.isNumeric(serveTokenString)) {
                 servedNumber = Integer.valueOf(serveTokenString);
             } else {
-                LOG.warn("Not a valid number={} codeQR={} rid={}", serveTokenString, codeQR, rid);
+                LOG.warn("Not a valid number={} codeQR={} qid={}", serveTokenString, codeQR, qid);
                 return getErrorReason("Not a valid number.", MOBILE_JSON);
             }
 
@@ -252,7 +252,7 @@ public class ManageQueueController {
             LOG.info("On served response servedNumber={} nowServicing={} jsonToken={}", servedNumber, jsonToken.getServingNumber(), jsonToken);
             return jsonToken.asJson();
         } catch (JsonMappingException e) {
-            LOG.error("Failed parsing json={} rid={} message={}", requestBodyJson, rid, e.getLocalizedMessage(), e);
+            LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
@@ -295,17 +295,17 @@ public class ManageQueueController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Single queue associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (null == rid) {
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/queue by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
 
         if (StringUtils.isBlank(codeQR.getText())) {
-            LOG.warn("Not a valid codeQR={} rid={}", codeQR, rid);
+            LOG.warn("Not a valid codeQR={} qid={}", codeQR, qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-        } else if (!businessUserStoreService.hasAccess(rid, codeQR.getText())) {
+        } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
             LOG.info("Un-authorized store access to /api/m/mq/queue by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
@@ -363,17 +363,17 @@ public class ManageQueueController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Queue state associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (null == rid) {
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/state by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
 
         if (StringUtils.isBlank(codeQR.getText())) {
-            LOG.warn("Not a valid codeQR={} rid={}", codeQR.getText(), rid);
+            LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-        } else if (!businessUserStoreService.hasAccess(rid, codeQR.getText())) {
+        } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
             LOG.info("Un-authorized store access to /api/m/mq/state by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
@@ -426,17 +426,17 @@ public class ManageQueueController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Modify queue associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (null == rid) {
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/modify by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
 
         if (StringUtils.isBlank(requestBodyJson.getCodeQR())) {
-            LOG.warn("Not a valid codeQR={} rid={}", requestBodyJson.getCodeQR(), rid);
+            LOG.warn("Not a valid codeQR={} qid={}", requestBodyJson.getCodeQR(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-        } else if (!businessUserStoreService.hasAccess(rid, requestBodyJson.getCodeQR())) {
+        } else if (!businessUserStoreService.hasAccess(qid, requestBodyJson.getCodeQR())) {
             LOG.info("Un-authorized store access to /api/m/mq/modify by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;

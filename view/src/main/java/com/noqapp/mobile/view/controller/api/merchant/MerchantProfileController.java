@@ -72,13 +72,13 @@ public class MerchantProfileController {
             HttpServletResponse response
     ) throws IOException {
         LOG.debug("mail={}, auth={}", mail, ManageQueueController.AUTH_KEY_HIDDEN);
-        String rid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
-        if (null == rid) {
+        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
             return null;
         }
 
-        UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(rid);
+        UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(qid);
         switch (userProfile.getLevel()) {
             case M_ADMIN:
             case S_MANAGER:
@@ -100,7 +100,7 @@ public class MerchantProfileController {
 
         /* For merchant profile no need to find remote scan. */
         JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, 0);
-        List<JsonTopic> jsonTopics = businessUserStoreService.getQueues(rid);
+        List<JsonTopic> jsonTopics = businessUserStoreService.getQueues(qid);
         JsonMerchant jsonMerchant = new JsonMerchant();
         jsonMerchant.setJsonProfile(jsonProfile);
         jsonMerchant.setTopics(jsonTopics);
