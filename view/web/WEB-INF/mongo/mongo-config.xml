@@ -43,9 +43,6 @@
     </bean>
 
     <bean id="gridfsDb" factory-bean="mongoTemplate" factory-method="getDb" />
-    <!--<bean id="storageManager" class="com.receiptofi.repository.StorageManagerImpl">-->
-        <!--<constructor-arg index="0" name="gridfsDb" ref="gridfsDb" />-->
-    <!--</bean>-->
 
     <!-- Use this post processor to translate any MongoExceptions thrown in @ReceiptUser annotated classes -->
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>

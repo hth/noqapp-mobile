@@ -305,7 +305,7 @@ public class AccountClientController {
                     return ErrorEncounteredJson.toJson(errors);
                 }
 
-                UserAccountEntity userAccount = accountMobileService.findByRid(userProfile.getQueueUserId());
+                UserAccountEntity userAccount = accountMobileService.findByQueueUserId(userProfile.getQueueUserId());
                 if (!userAccount.isPhoneValidated()) {
                     //TODO mark otp validated after verifying with FB server with token received
                     userAccount.setPhoneValidated(true);

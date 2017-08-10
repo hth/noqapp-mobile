@@ -223,8 +223,8 @@ public class AccountMobileService {
         return false;
     }
 
-    public UserAccountEntity findByRid(String qid) {
-        return accountService.findByReceiptUserId(qid);
+    public UserAccountEntity findByQueueUserId(String qid) {
+        return accountService.findByQueueUserId(qid);
     }
 
     /**
