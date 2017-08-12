@@ -130,7 +130,7 @@ public class DeviceService {
         registeredDeviceManager.markFetchedSinceBeginningForDevice(id);
     }
 
-    void unsetRidForDevice(String id) {
+    void unsetQidForDevice(String id) {
         registeredDeviceManager.unsetRidForDevice(id);
     }
 }
