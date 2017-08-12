@@ -131,6 +131,6 @@ public class DeviceService {
     }
 
     void unsetQidForDevice(String id) {
-        registeredDeviceManager.unsetRidForDevice(id);
+        registeredDeviceManager.unsetQidForDevice(id);
     }
 }
