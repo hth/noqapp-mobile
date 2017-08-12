@@ -234,14 +234,14 @@ public class QueueMobileService {
             deviceService.registerDevice(null, did, deviceType, token);
             LOG.info("Historical new device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         } else {
-            /* Unset RID for DID as user seems to have logged out of the App. */
+            /* Unset QID for DID as user seems to have logged out of the App. */
             if (StringUtils.isNotBlank(registeredDevice.getQueueUserId())) {
-                deviceService.unsetRidForDevice(registeredDevice.getId());
+                deviceService.unsetQidForDevice(registeredDevice.getId());
             }
 
             /*
              * When device is marked for getting data since beginning, or request came without
-             * RID but device has RID then get historical data until one year old.
+             * QID but device has QID then get historical data until one year old.
              */
             sinceBeginning = registeredDevice.isSinceBeginning() || StringUtils.isNotBlank(registeredDevice.getQueueUserId());
             Date fetchUntil = sinceBeginning ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();

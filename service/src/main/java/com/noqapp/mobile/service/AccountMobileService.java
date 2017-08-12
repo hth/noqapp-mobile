@@ -161,7 +161,7 @@ public class AccountMobileService {
      * @return
      */
     public UserAccountEntity changeUID(String existingUserId, String newUserId) {
-        /** No RID hence using method without RID. */
+        /* No QID hence using method without QID. */
         UserAccountEntity userAccount = accountService.updateUID(existingUserId, newUserId);
         sendValidationEmail(userAccount);
         return userAccount;
@@ -223,8 +223,8 @@ public class AccountMobileService {
         return false;
     }
 
-    public UserAccountEntity findByRid(String qid) {
-        return accountService.findByReceiptUserId(qid);
+    public UserAccountEntity findByQueueUserId(String qid) {
+        return accountService.findByQueueUserId(qid);
     }
 
     /**
