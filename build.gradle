@@ -445,6 +445,7 @@ task prepWar(dependsOn: [
         copy {
             from 'view/resources/conf/application-messages.properties'
             from 'view/resources/conf/config.properties'
+            from 'view/resources/conf/300x300_overlay_code_qr.png'
 
             if (env == 'prod') {
                 if (passFileProd.exists()) {
