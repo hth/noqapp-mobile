@@ -185,7 +185,7 @@ public class QueueMobileService {
 
     public JsonTokenAndQueueList findAllJoinedQueues(String qid, String did) {
         Validate.isValidQid(qid);
-        List<QueueEntity> queues = queueManager.findAllQueuedByRid(qid);
+        List<QueueEntity> queues = queueManager.findAllQueuedByQid(qid);
         LOG.info("Currently joined queue size={} rid={} did={}", queues.size(), qid, did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
@@ -220,8 +220,8 @@ public class QueueMobileService {
         return queueManager.findAllNotQueuedByDid(did);
     }
 
-    private List<QueueEntity> findAllNotQueuedByRid(String qid) {
-        return queueManager.findAllNotQueuedByRid(qid);
+    private List<QueueEntity> findAllNotQueuedByQid(String qid) {
+        return queueManager.findAllNotQueuedByQid(qid);
     }
 
     public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, String token) {
@@ -288,7 +288,7 @@ public class QueueMobileService {
         }
 
         /* Get all the queues that have been serviced for today. */
-        List<QueueEntity> servicedQueues = findAllNotQueuedByRid(qid);
+        List<QueueEntity> servicedQueues = findAllNotQueuedByQid(qid);
         queues.addAll(servicedQueues);
 
         LOG.info("Historical queue size={} qid={} did={} deviceType={}", queues.size(), qid, did, deviceType);
