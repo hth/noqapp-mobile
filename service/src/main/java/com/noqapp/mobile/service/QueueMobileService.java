@@ -244,7 +244,7 @@ public class QueueMobileService {
              * QID but device has QID then get historical data until one year old.
              */
             sinceBeginning = registeredDevice.isSinceBeginning() || StringUtils.isNotBlank(registeredDevice.getQueueUserId());
-            Date fetchUntil = sinceBeginning ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
+            Date fetchUntil = computeDateToFetchSince(deviceType, registeredDevice, sinceBeginning);
             queues = queueManagerJDBC.getByDid(did, fetchUntil);
 
             markFetchedSinceBeginningForDevice(registeredDevice);
@@ -280,7 +280,7 @@ public class QueueMobileService {
              * then get historical data until one year old.
              */
             sinceBeginning = registeredDevice.isSinceBeginning();
-            Date fetchUntil = sinceBeginning ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
+            Date fetchUntil = computeDateToFetchSince(deviceType, registeredDevice, sinceBeginning);
             queues = queueManagerJDBC.getByQid(qid, fetchUntil);
 
             markFetchedSinceBeginningForDevice(registeredDevice);
@@ -293,6 +293,24 @@ public class QueueMobileService {
 
         LOG.info("Historical queue size={} qid={} did={} deviceType={}", queues.size(), qid, did, deviceType);
         return getJsonTokenAndQueueList(queues, sinceBeginning);
+    }
+
+    private Date computeDateToFetchSince(DeviceTypeEnum deviceType, RegisteredDeviceEntity registeredDevice, boolean sinceBeginning) {
+        Date fetchUntil;
+        switch (deviceType) {
+            case A:
+                fetchUntil = sinceBeginning ? DateTime.now().minusYears(1).toDate() : registeredDevice.getUpdated();
+                break;
+            case I:
+                /* Get until a year old data for iPhone since it does not have database. */
+                fetchUntil = DateTime.now().minusYears(1).toDate();
+                break;
+            default:
+                LOG.error("Reached unsupported deviceType {}", deviceType);
+                throw new UnsupportedOperationException("Reached unsupported deviceType " + deviceType.getDescription());
+        }
+
+        return fetchUntil;
     }
 
     private void markFetchedSinceBeginningForDevice(RegisteredDeviceEntity registeredDevice) {
