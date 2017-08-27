@@ -26,6 +26,7 @@ import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.service.BizService;
+import com.noqapp.service.QueueService;
 import com.noqapp.utils.Validate;
 
 import java.time.DayOfWeek;
@@ -49,6 +50,7 @@ public class QueueMobileService {
     private DeviceService deviceService;
     private QueueManagerJDBC queueManagerJDBC;
     private StoreHourManager storeHourManager;
+    private QueueService queueService;
 
     @Autowired
     public QueueMobileService(
@@ -57,14 +59,15 @@ public class QueueMobileService {
             BizService bizService,
             DeviceService deviceService,
             QueueManagerJDBC queueManagerJDBC,
-            StoreHourManager storeHourManager
-    ) {
+            StoreHourManager storeHourManager,
+            QueueService queueService) {
         this.queueManager = queueManager;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.bizService = bizService;
         this.deviceService = deviceService;
         this.queueManagerJDBC = queueManagerJDBC;
         this.storeHourManager = storeHourManager;
+        this.queueService = queueService;
     }
 
     /**
@@ -185,7 +188,7 @@ public class QueueMobileService {
 
     public JsonTokenAndQueueList findAllJoinedQueues(String qid, String did) {
         Validate.isValidQid(qid);
-        List<QueueEntity> queues = queueManager.findAllQueuedByQid(qid);
+        List<QueueEntity> queues = queueService.findAllQueuedByQid(qid);
         LOG.info("Currently joined queue size={} rid={} did={}", queues.size(), qid, did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
@@ -216,21 +219,13 @@ public class QueueMobileService {
         }
     }
 
-    private List<QueueEntity> findAllNotQueuedByDid(String did) {
-        return queueManager.findAllNotQueuedByDid(did);
-    }
-
-    private List<QueueEntity> findAllNotQueuedByQid(String qid) {
-        return queueManager.findAllNotQueuedByQid(qid);
-    }
-
     public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, String token) {
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(null, did, token);
 
         boolean sinceBeginning = false;
         List<QueueEntity> queues;
         if (null == registeredDevice) {
-            queues = queueManagerJDBC.getByDid(did);
+            queues = queueService.getByDid(did);
             deviceService.registerDevice(null, did, deviceType, token);
             LOG.info("Historical new device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
         } else {
@@ -252,7 +247,7 @@ public class QueueMobileService {
         }
 
         /* Get all the queues that have been serviced for today. */
-        List<QueueEntity> servicedQueues = findAllNotQueuedByDid(did);
+        List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByDid(did);
         queues.addAll(servicedQueues);
 
         LOG.info("Historical queue size={} did={} deviceType={}", queues.size(), did, deviceType);
@@ -266,7 +261,7 @@ public class QueueMobileService {
         boolean sinceBeginning = false;
         List<QueueEntity> queues;
         if (null == registeredDevice) {
-            queues = queueManagerJDBC.getByQid(qid);
+            queues = queueService.getByQid(qid);
             deviceService.registerDevice(qid, did, deviceType, token);
             LOG.info("Historical new device queue size={} did={} qid={} deviceType={}", queues.size(), did, qid, deviceType);
         } else {
@@ -288,7 +283,7 @@ public class QueueMobileService {
         }
 
         /* Get all the queues that have been serviced for today. */
-        List<QueueEntity> servicedQueues = findAllNotQueuedByQid(qid);
+        List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByQid(qid);
         queues.addAll(servicedQueues);
 
         LOG.info("Historical queue size={} qid={} did={} deviceType={}", queues.size(), qid, did, deviceType);
