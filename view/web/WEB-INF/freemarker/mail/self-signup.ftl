@@ -1,64 +1,79 @@
 <#assign ftlDateTime = .now>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-<style type="text/css">
-	@import url('http://fonts.googleapis.com/css?family=Open+Sans');
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Email</title>
 
-	body {
-		margin: 0;
-		mso-line-height-rule: exactly;
-		padding: 10px 30px 30px 30px;
-		min-width: 90%;
-		font-size: 13px;
-		font-family: "Open Sans", sans-serif;
-		letter-spacing: 0.02em;
-		color: black;
-	}
+	<style type="text/css">
+		@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,300i,400,400i,500,700,900');
 
-	.tm {
-		letter-spacing: 0.05em;
-		font-size: 8px !important;
-		color: #4b5157;
-		vertical-align: super;
-	}
-
-	@media only screen and (min-width: 368px) {
-		.tm {
-			font-size: 10px !important;
+		body {
+			background: #f1f1f1;
+			font-size: 14px;
+			font-family: 'Roboto', sans-serif;
+			color: #222;
 		}
-	}
-</style>
+
+		.email-style {
+			background: #f1f1f1;
+			padding: 10px 5px;
+		}
+
+		.content-txt {
+			font-size: 16px;
+		}
+
+		@media only screen and (max-width: 368px) {
+			.content-txt {
+				font-size: 14px;
+			}
+
+			.content-txt p {
+				font-size: 14px;
+			}
+		}
+	</style>
+
+</head>
+
 <body>
-<#include "../ReceiptApp.svg">
-<p style="padding-top: 10px;">
-	Dear ${to},
-</p>
-<p>
-	You've entered ${contact_email} as the contact email address for your ReceiptApp ID. To complete the process, we
-	just need to verify that this email address belongs to you. Simply click the link below and sign in using your
-	ReceiptApp ID and password.
-</p>
-<p>
-	<a href="${https}://${domain}/open/validate.htm?authenticationKey=${link}">Activate Account ></a>
-</p>
-<p>
-	<b>Wondering why you got this email?</b>
-	It's sent when someone sign's up or changes a contact email address for an ReceiptApp account. If you didn't do this,
-	don't worry. Your email address cannot be used as a contact address with Receiptofi's ReceiptApp without your verification.
-</p>
-<p>
-	Thanks,
-	<br/>
-	Receiptofi Customer Support
-</p>
-<br/><br/><br/>
-<hr/>
-<span class="tm">
-    TM &trade; and Copyright &copy; 2017 Receiptofi Inc. Sunnyvale, CA 94085 USA. <br/>
-    All Rights Reserved / <a href="https://www.receiptofi.com/privacypolicy">Privacy Policy</a>
-</span>
-<br/>
-<span class="tm">
-    S:${ftlDateTime?iso("PST")}
-</span>
+
+<div class="email-style" style="background:#f1f1f1;  font-size: 14px; padding:10px 5px; font-family: 'Roboto', sans-serif; color: #222">
+
+	<div class="content-txt" style="font-size:16px; padding:0 15px; font-family: 'Roboto', sans-serif;">
+		<div class="logo" style="width:220px; padding:15px 0 10px 0">
+            <#include "../NoQApp.svg">
+		</div>
+
+		<p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear ${to},</strong></p>
+		<p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
+			You've entered ${contact_email} as the contact email address for your NoQApp ID. To complete the process, we
+			just need to verify that this email address belongs to you. Simply click the link below and sign in using your
+			NoQApp ID and password.
+		</p>
+		<p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
+			<a href="${https}://${domain}/open/validate.htm?authenticationKey=${link}" style="padding:8px 15px; background:#ff1c79; color:#fff; text-decoration: none">Activate Account</a>
+		</p>
+		<p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
+			<strong>Wondering why you got this email?</strong>
+			It's sent when someone sign's up or changes a contact email address for an NoQApp account. If you didn't do this,
+			don't worry. Your email address cannot be used as a contact address with NoQueue's NoQApp without your verification.
+		</p>
+		<p style="font-family: 'Roboto', sans-serif;">
+			Thanks, <br/>
+			<strong>NoQueue Customer Support</strong>
+		</p>
+		<br/><br/><br/>
+	</div>
+
+	<div class="qr-footer" style="font-size:12px; background:#dadada; padding:15px;">
+		TM and Copyright &copy; 2017 NoQueue Inc. Sunnyvale, CA 94089, USA.<br/>
+		All Rights Reserved &nbsp; | &nbsp; <a href="#" style="color:#222; text-decoration:none">Privacy Policy</a><br/>
+		S:${ftlDateTime?iso("PST")}
+	</div>
+</div>
+
+
 </body>
 </html>
