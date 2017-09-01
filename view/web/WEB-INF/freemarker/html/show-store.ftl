@@ -1,68 +1,82 @@
 <#assign ftlDateTime = .now>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-<style type="text/css">
-	@import url('http://fonts.googleapis.com/css?family=Open+Sans');
-	@import url('https://receiptofi.com/css/style.css');
+<head>
+	<meta charset="utf-8">
+	<title>NoQueue</title>
+	<meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/>
+	<meta content='width=device-width, initial-scale=1' name='viewport'/>
 
-	body {
-		margin: 0;
-		mso-line-height-rule: exactly;
-		padding: 10px 30px 30px 30px;
-		min-width: 90%;
-		font-size: 13px;
-		font-family: "Open Sans", sans-serif;
-		letter-spacing: 0.02em;
-		color: black;
-	}
+	<link rel="stylesheet" href="/static2/internal/css/style.css" type='text/css'/>
+	<link rel="stylesheet" href="/static2/internal/css/phone-style.css" type='text/css' media="screen"/>
+</head>
 
-	.tm {
-		letter-spacing: 0.05em;
-		font-size: 8px !important;
-		color: #4b5157;
-		vertical-align: super;
-	}
-
-	@media only screen and (min-width: 368px) {
-		.tm {
-			font-size: 10px !important;
-		}
-	}
-</style>
 <body>
-<#include "../ReceiptApp.svg">
-<p>
-    ${bizName}
-</p>
-<p>
-    ${storeAddress}
-</p>
-<hr>
-<p>
-    ${phone}
-</p>
-<p>
-    ${displayName}
-</p>
-<p>
-    ${startHour}-${endHour}
-</p>
-<br/><br/><br/>
-<p>
-	Download ReceiptApp to ...
-</p>
-<p>
-	<a href="https://itunes.apple.com/us/app/receiptapp/id1044054989?ls=1&mt=8"><img class="app_store"></a>
-	&nbsp;
-	<a itemprop="downloadUrl" href="https://play.google.com/store/apps/details?id=com.receiptofi.receiptapp"><img class="google_play"></a>
-</p>
-<hr/>
-<span class="tm">
-    TM &trade; and Copyright &copy; 2017 Receiptofi Inc. Sunnyvale, CA 94085 USA. <br/>
-    All Rights Reserved / <a href="https://www.receiptofi.com/privacypolicy">Privacy Policy</a>
-</span>
-<br/>
-<span class="tm">
-    S:${ftlDateTime?iso("PST")}
-</span>
+
+
+<div class="main-warp">
+	<!-- header -->
+	<div class="header">
+		<div class="warp-inner">
+			<div class="logo">
+				<a href="/"><img src="/static2/internal/img/logo.png"/></a>
+			</div>
+		</div>
+	</div>
+	<!-- header end -->
+
+	<!-- content -->
+	<div class="content">
+		<div class="warp-inner">
+			<!-- login-box -->
+			<div class="qr-box">
+				<div class="qr-data">
+					<div class="qr-address">
+						<h3>${bizName}</h3>
+						<p>${storeAddress}</p>
+						<p>&nbsp;</p>
+						<p>${phone}</p>
+					</div>
+					<div class="qr-queue">
+						<h3>${displayName} queue at ${bizName}</h3>
+						<p><strong>${dayOfWeek} Hours: </strong> ${startHour} - ${endHour}</p>
+						<p><strong>Rating: </strong>${rating}</p>
+						<p><strong>Reviews: </strong>${ratingCount}</p>
+
+						<p><strong>Queue Status: </strong>${queueStatus}</p>
+						<p><strong>Currently Serving: </strong>${currentlyServing}</p>
+						<p><strong>People in Queue: </strong>${peopleInQueue}</p>
+					</div>
+
+					<div class="download-app-icon">
+						<p>Download NoQApp to</p>
+						<div>
+							<a href="https://itunes.apple.com/us/app/receiptapp/id1044054989?ls=1&mt=8""><img src="/static2/internal/img/apple-store.png"/></a>
+							<a href="https://play.google.com/store/apps/details?id=com.noqapp.android.client"><img src="/static2/internal/img/google-plya.png"/></a>
+						</div>
+					</div>
+
+					<div class="qr-footer">
+						<p>TM and Copyright &copy; 2017 NoQueue Inc.</p>
+						<p>All Rights Reserved &nbsp; | &nbsp; <a href="#">Privacy Policy</a></p>
+						<p class="tm">S:${ftlDateTime?iso("PST")}</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- login-box -->
+
+		</div>
+	</div>
+	<!-- content end -->
+
+
+	<!-- Footer -->
+
+	<!-- Footer End -->
+
+</div>
+
+
 </body>
 </html>

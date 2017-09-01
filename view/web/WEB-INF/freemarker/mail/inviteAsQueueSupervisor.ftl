@@ -48,19 +48,16 @@
 
 		<p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Hey,</strong></p>
 		<p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-			Someone requested an account recovery on NoQueue's NoQApp for ${contact_email}, but we don’t have an account
-			on this site that matches this email address.
-		</p>
-		<p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-			If you would like to create an account on NoQueue just visit our sign-up page:
-			<a href="${https}://${domain}/open/registrationMerchant.htm" style="padding:8px 15px; background:#ff1c79; color:#fff; text-decoration: none">Register</a>
-		</p>
-		<p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-			If you did not request this account recovery, just ignore this email. Your email address is safe.
+			You have been invited to manage queue ${displayName}. Please log in your account and complete the invitation process.
+			This invite will expire after 7 days from now.
 		</p>
 		<p style="font-family: 'Roboto', sans-serif;">
-			Thanks, <br/>
-			<strong>NoQueue Customer Support</strong>
+			Cheers, <br/>
+			<strong>${businessName}</strong>
+		</p>
+		<br/>
+		<p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
+			NoQueue Customer Support would like to hear from you if you would not like to receive emails from us.
 		</p>
 		<br/><br/><br/>
 	</div>
