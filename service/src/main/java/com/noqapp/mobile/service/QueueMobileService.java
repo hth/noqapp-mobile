@@ -16,6 +16,8 @@ import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonQueue;
+import com.noqapp.domain.json.JsonQueuePersonList;
+import com.noqapp.domain.json.JsonQueuedPerson;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
@@ -361,5 +363,26 @@ public class QueueMobileService {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
         DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
         return storeHourManager.modifyOne(bizStore.getId(), dayOfWeek, preventJoining, dayClosed);
+    }
+
+    /**
+     * Finds clients who are yet to be serviced.
+     *
+     * @param codeQR
+     * @return
+     */
+    public JsonQueuePersonList findAllClientToBeServiced(String codeQR) {
+        List<JsonQueuedPerson> queuedPeople = new ArrayList<>();
+
+        List<QueueEntity> queues = queueManager.findAllClientToBeServiced(codeQR);
+        for(QueueEntity queue : queues) {
+            JsonQueuedPerson jsonQueuedPerson = new JsonQueuedPerson()
+                    .setCustomerName(queue.getCustomerName())
+                    .setToken(queue.getTokenNumber());
+
+            queuedPeople.add(jsonQueuedPerson);
+        }
+
+        return new JsonQueuePersonList().setQueuedPeople(queuedPeople);
     }
 }
