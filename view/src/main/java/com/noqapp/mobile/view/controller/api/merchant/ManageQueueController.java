@@ -106,7 +106,7 @@ public class ManageQueueController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("All queues associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/queues by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -162,7 +162,7 @@ public class ManageQueueController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Served mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/served by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -295,7 +295,7 @@ public class ManageQueueController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Single queue associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/queue by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -363,7 +363,7 @@ public class ManageQueueController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Queue state associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/state by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -426,7 +426,7 @@ public class ManageQueueController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Modify queue associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/modify by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);

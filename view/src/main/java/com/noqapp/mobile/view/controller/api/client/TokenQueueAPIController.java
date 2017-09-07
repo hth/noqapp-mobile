@@ -105,7 +105,7 @@ public class TokenQueueAPIController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("On scan get state did={} dt={} codeQR={}", did, dt, codeQR);
-        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
@@ -152,7 +152,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
-        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
         try {
@@ -197,7 +197,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
-        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
         ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson);
@@ -253,7 +253,7 @@ public class TokenQueueAPIController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Join queue did={} dt={} codeQR={}", did, deviceType, codeQR);
-        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
@@ -305,7 +305,7 @@ public class TokenQueueAPIController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Abort queue did={} dt={} codeQR={}", did, deviceType, codeQR);
-        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
@@ -357,7 +357,7 @@ public class TokenQueueAPIController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("On remote scan get state did={} dt={} codeQR={}", did, deviceType, codeQR);
-        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
@@ -412,7 +412,7 @@ public class TokenQueueAPIController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("Join queue did={} dt={} codeQR={}", did, deviceType, codeQR);
-        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {

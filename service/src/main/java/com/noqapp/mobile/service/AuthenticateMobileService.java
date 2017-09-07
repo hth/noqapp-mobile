@@ -53,13 +53,13 @@ public class AuthenticateMobileService {
     }
 
     /**
-     * Finds authenticated receipt user id.
+     * Finds authenticated queue user id.
      *
      * @param mail
      * @param auth
      * @return
      */
-    public String getReceiptUserId(String mail, String auth) {
+    public String getQueueUserId(String mail, String auth) {
         UserAccountEntity userAccount = findUserAccount(mail, auth);
         if (null != userAccount) {
             return userAccount.getQueueUserId();
