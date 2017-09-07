@@ -97,7 +97,7 @@ public class ReviewAPIController {
             HttpServletResponse response
     ) throws IOException {
         LOG.info("On scan get state did={} dt={}", did, dt);
-        String qid = authenticateMobileService.getReceiptUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
         Map<String, ScrubbedInput> map;
