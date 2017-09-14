@@ -459,7 +459,7 @@ public class ManageQueueController {
     @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
-            value = "/showQueuedClients",
+            value = "/showQueuedClients/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String showQueuedClients(
