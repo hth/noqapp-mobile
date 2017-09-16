@@ -353,13 +353,13 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.6.RELEASE/39070085c11450e1dbfb3fa1da2fc12b77d17314/spring-data-mongodb-1.10.6.RELEASE.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.7.RELEASE/ef036c121f13b2b219d635a7e7d9505cabd8c636/spring-data-mongodb-1.10.7.RELEASE.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.6.RELEASE/e48e5657de6e53bee1c3c97f0f46aa820037e8bd/spring-data-mongodb-1.10.6.RELEASE-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.7.RELEASE/5d72ec7f6ecef11d894f441f8c125156fb2937bc/spring-data-mongodb-1.10.7.RELEASE-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.6.RELEASE/5c917b702a5f42b69b30e7fda656787d42403f9f/spring-data-mongodb-1.10.6.RELEASE-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.7.RELEASE/3c17dc264caf9da22005982749f201bb116dba6e/spring-data-mongodb-1.10.7.RELEASE-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -496,13 +496,13 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.6.RELEASE/ed21344ea782672928cee7e6bfad655c399c0b94/spring-data-commons-1.13.6.RELEASE.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.7.RELEASE/cf4538abda1f0a9cf2323d6e4204df0130aeec73/spring-data-commons-1.13.7.RELEASE.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.6.RELEASE/35ca3f4412d8fe88b8416988b529c68ffb91311d/spring-data-commons-1.13.6.RELEASE-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.7.RELEASE/6409cfd82e695ce9f3c03bedf7fd0eccae133d5d/spring-data-commons-1.13.7.RELEASE-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.6.RELEASE/7e02733999787cfdfff59cc3aea353f629c17817/spring-data-commons-1.13.6.RELEASE-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.7.RELEASE/2f57d3f01ebd4667a6e8654e7ff7ec66742729be/spring-data-commons-1.13.7.RELEASE-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -600,26 +600,26 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.4.2/5d0448606f5f7f3974dbae69c4ccfffe214ae60d/mongo-java-driver-3.4.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.5.0/c63e5477ec899f06190b832e1fb173505b8b9d28/mongo-java-driver-3.5.0.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.4.2/8001495ddb9be7bcc219c4d28c2d135f7c4c38e/mongo-java-driver-3.4.2-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.5.0/a7c97c6e9fc5762a00ead833983ba358fb3bf523/mongo-java-driver-3.5.0-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.4.2/b354296d5d0869b84f7ea6850faf7d76c04e8e26/mongo-java-driver-3.4.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.5.0/fadd4f4ffb3e75c2d4b9de71961dddedfa8b295c/mongo-java-driver-3.5.0-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.69.0/50fc41c1a2e161f93e9ead35172b67037d195755/braintree-java-2.69.0.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.73.0/d307574c611ef56b6e33ad732fa160d2918e5257/braintree-java-2.73.0.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.69.0/ad22188d366c4edc43306891c9636af7389f85de/braintree-java-2.69.0-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.73.0/a0db86f84276bcf51a73de77ffa13fb97c4d385f/braintree-java-2.73.0-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.69.0/b77922be5faecf3b33ccae05692f0e75a3dc5a9d/braintree-java-2.69.0-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.73.0/75ca2b5a0ef3b1db43b356579390faf1ef0543c7/braintree-java-2.73.0-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -639,13 +639,13 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.14/d26c10a9e7d116366562aa260013a30a55ff4e8f/tika-parsers-1.14.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.16/bececafbe32c013eae8d3f3cf10d28b136a6f9d7/tika-parsers-1.16.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.14/99981fa4a6c42cf864d83501e39c50d9aa883d44/tika-parsers-1.14-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.16/742808132ccc7c31d8f925d63bea610e243d7565/tika-parsers-1.16-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.14/d3005aa9c33d0cf613070baff4b32452dc8441ed/tika-parsers-1.14-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.16/541369f1db10c1df83d0e26693639b5f3b851c9f/tika-parsers-1.16-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -793,13 +793,13 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.9/87372d9e2323313bec24b09a325bfea8ae0eb867/aspectjrt-1.8.9.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.10/1a14fe9e912f6e8bdbb5429b78b4090d8b47bc1/aspectjrt-1.8.10.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.9/11bd594b10d616d88480dedc46bb00d3e042872f/aspectjrt-1.8.9-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.10/27270d1deccf118dd9ef8c4f5146c38305cdd796/aspectjrt-1.8.10-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.9/3e0a37b6c02c183bdc428e8d6e1293df59ba1c83/aspectjrt-1.8.9-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.10/230c528119f8479c4f130fbaeebc67fc986afb88/aspectjrt-1.8.10-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -865,6 +865,19 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.rometools/rome/1.5.1/9c7ec6088e1850b75d86b07d4b67f7def44ed38c/rome-1.5.1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.24/25a2be668cb2ad1d05d76c0773df73b4b53617fd/jul-to-slf4j-1.7.24.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.24/a80928296a1cf9bd4d0569282b9c7aec29746419/jul-to-slf4j-1.7.24-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.24/a9414b56295d6d9a057d3f1adc288519a8befa9e/jul-to-slf4j-1.7.24-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -1129,13 +1142,13 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/f5c98f3f2b814e2746c8289d108ccd45b5514ced/libphonenumber-8.7.0.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.1/fb430652a93ed77ad0ce53469fcabfbedacf51cc/libphonenumber-8.8.1.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/ceabba48c331a38b038ab0a27b47cbdb803a14af/libphonenumber-8.7.0-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.1/cf0b7f9262f8759877c6e20ec424980bb19dac88/libphonenumber-8.8.1-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/2707187c19fa9670d64392b3fd0f1fdb18d0325/libphonenumber-8.7.0-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.1/7c463ecec9c84da058cc6b14bbdcf27017502607/libphonenumber-8.8.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -1272,13 +1285,13 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.2/5d7491ed6ebd02b6a8d2305f8e6b7fe5dbd95f72/commons-fileupload-1.3.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.3/4ff14d809195b711fd6bcc87e6777f886730ca1/commons-fileupload-1.3.3.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.2/12bbb300a1b61e038defb1dee85e8302d6f1bbaa/commons-fileupload-1.3.2-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.3/d44ff01a7e0217b5c849c5375a3a8ad13a338375/commons-fileupload-1.3.3-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.2/23996750d5a80dc74dad55633c2a0f3db91462cb/commons-fileupload-1.3.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.3/34c8608c461e2c832a364ec1a9e70f360f47d9f7/commons-fileupload-1.3.3-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -1298,52 +1311,52 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.5.1/86d05a46e8f064b300657f751b5a98c62807e2a0/commons-validator-1.5.1.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.6/e989d1e87cdd60575df0765ed5bac65c905d7908/commons-validator-1.6.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.5.1/1c5fbdeb20a211050d91366eb1a33d6b8adb3323/commons-validator-1.5.1-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.6/48f9ff1edd4f5512a366a5b5024ad5a2f8136801/commons-validator-1.6-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.5.1/1779e91e01dc506f388c350a8684f77c43943a08/commons-validator-1.5.1-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.6/a8767cdd63c800f00df9c2fc5604a8f7648fe832/commons-validator-1.6-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.15/f1db76ae4a9389fa4339dc3b7f8208aa82c72b04/poi-scratchpad-3.15.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.17-beta1/d4ad39b023c377ec534ab25205344eb79da4996b/poi-scratchpad-3.17-beta1.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.15/62d6ffeb2261ad12a8f5fddbc2fc2256b81ec644/poi-scratchpad-3.15-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.17-beta1/b43fd864322fb5811c83ffd279020bfcde03aa66/poi-scratchpad-3.17-beta1-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.15/254f936737ea9f88ca6fc50cd9e4afba57699abf/poi-scratchpad-3.15-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.17-beta1/f79dbd704da5338fe0fe8cf05de1edb36bb68c1d/poi-scratchpad-3.17-beta1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.15/e2800856735b07b8edd417aee07685470216a00f/poi-ooxml-3.15.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.17-beta1/96f537614c5f5ec232fb8832313280dcb93c59ab/poi-ooxml-3.17-beta1.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.15/b2c24846b235e5c790b166dd944924177f9d4779/poi-ooxml-3.15-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.17-beta1/aa9ccf6fadbd8ed32af183744ee74d784d006ac0/poi-ooxml-3.17-beta1-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.15/b49e9cf942f8ba4492017a274c6c3480584909d8/poi-ooxml-3.15-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.17-beta1/80807d188be0469936beb2c297714e9fc41a129e/poi-ooxml-3.17-beta1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.15/965bba8899988008bb2341e300347de62aad5391/poi-3.15.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.17/ae92292a2043888b40d418da97dc0b669fde326/poi-3.17.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.15/93f79ff38ad9f1ebd1ffbde06327276316191ff/poi-3.15-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.17/5467a9071ee37c2d7a28802deb1974344f49e71f/poi-3.17-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.15/bd552aa859b560a2ab85694f23771b6ef50698dd/poi-3.15-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.17/9d185f2c484774285585e76f5f1d887208482f93/poi-3.17-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -1441,78 +1454,26 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.3/f07038a406e2b4d7b4b21b306a16ebb04126fa2c/pdfbox-tools-2.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.2/c11d7a42af7070b84d832198558df52032de734c/jackcess-encrypt-2.1.2.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.3/c5c59256f867a92e1064e3f92d8e8825164e539c/pdfbox-tools-2.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.2/d288a487e7b52aa113dca1ce09795d5b70eb605a/jackcess-encrypt-2.1.2-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.3/37cbf36e9104234d35ff7b83ee650c75ffd0f165/pdfbox-tools-2.0.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.2/836fc84ad82ebf96d705773da3fcb6f4dec690c5/jackcess-encrypt-2.1.2-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.3/430d1603e0e97f5bc86102c0f6a43df8c78c7cd0/pdfbox-debugger-2.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.8/dfc7156e11ce33bbcb7f4f6724a87b9d969f2fd6/jackcess-2.1.8.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.3/8a75782f5be30a208308f9868b819d73a0f021fe/pdfbox-debugger-2.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.8/4185aaebdd1e8a01c3b07be11f7d4742f974e7cf/jackcess-2.1.8-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.3/9f722d42474cfdfa32e569610abf37708c421b3b/pdfbox-debugger-2.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="PROVIDED">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.3/be7b09de93f7c7795c57f4fbf14db60ab93806b4/pdfbox-2.0.3.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.3/f4dbeaa2372fec9ee48f949840dc329fc3de03e1/pdfbox-2.0.3-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.3/1ccf40759eadbab5e1cbe441b8c6d284e87d8e1c/pdfbox-2.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="PROVIDED">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.3/448ee588d0136121cf5c4dd397384cccb9db1ad7/fontbox-2.0.3.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.3/df1202a0421665e1a08e22ebe581e7492d08c231/fontbox-2.0.3-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.3/c7903ed03ad41fe3e74de114bcc40a86b6a86b03/fontbox-2.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="PROVIDED">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.1/effacd7133ab76ee54c0488dd952b177bfeb85a3/jackcess-encrypt-2.1.1.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.1/b683edd215af392997a21a557e4ecf800f805551/jackcess-encrypt-2.1.1-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.1/555958b9ecf65524341c08b7fab98cc79416ca60/jackcess-encrypt-2.1.1-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="PROVIDED">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.4/f887f15b62122aa3a4337d4d989eba443995b1cc/jackcess-2.1.4.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.4/71e9afc293b067d64e15dc4030d7eba8f2b3b415/jackcess-2.1.4-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.4/a3ce40c120281b43151ad87dc0e97dcba5290bd1/jackcess-2.1.4-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.8/9e3343fbc439e234ad6026884cb07180d7d7fdd8/jackcess-2.1.8-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -1571,13 +1532,13 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.5/6c6c702c89bfff3cd9e80b04d668c5e190d588c6/commons-lang3-3.5.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.6/9d28a6b23650e8a7e9063c04588ace6cf7012c17/commons-lang3-3.6.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.5/337310e98410d577aca675930bb46405a0a8fb0c/commons-lang3-3.5-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.6/988675c1853c2a4f2cd8e7056eaa5bd6985ccd06/commons-lang3-3.6-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.5/f7d878153e86a1cdddf6b37850e00a9f8bff726f/commons-lang3-3.5-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.6/4765e418c9084c4e01233cb5f09bdd6b5f311ccc/commons-lang3-3.6-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -1597,13 +1558,13 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.14/afff8f1774994aa973ef90bc8d38ddf089b9d6d9/tika-core-1.14.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.16/7b75cb2b65f6d014b6a3e4793835f5759168c34e/tika-core-1.16.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.14/5731d630804c34ce28b9244b59fc1a21f28746c8/tika-core-1.14-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.16/82d18227db0f32113f47534a67779c48a3308f6b/tika-core-1.16-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.14/ea1cb61da56d3bde21e48b22eccaf88bc6196fe6/tika-core-1.14-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.16/9365d9b6a78379c1b6649ab1027519654ca3bc51/tika-core-1.16-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -1894,65 +1855,100 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.7.2/1c289aa264548a0a1f1b43685a9cb2ab23f67287/apache-mime4j-dom-0.7.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.8.1/f2d653c617004193f3350330d907f77b60c88c56/apache-mime4j-dom-0.8.1.jar!/"/>
         </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.7.2/8dee57c7d86ffb9cb78e212109fc5935ea223b34/apache-mime4j-dom-0.7.2-javadoc.jar!/"/>
-        </JAVADOC>
+        <JAVADOC/>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.7.2/3a4e5b4b222268605813d0fd74f45ddbdcb9a21e/apache-mime4j-dom-0.7.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.8.1/1817da34b6384d59de53b3a7d4be34043b684396/apache-mime4j-dom-0.8.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.7.2/a81264fe0265ebe8fd1d8128aad06dc320de6eef/apache-mime4j-core-0.7.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.8.1/c62dfe18a3b827a2c626ade0ffba44562ddf3f61/apache-mime4j-core-0.8.1.jar!/"/>
         </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.7.2/6eef338b572ad9ae1f2b80fa9f45127624aa499c/apache-mime4j-core-0.7.2-javadoc.jar!/"/>
-        </JAVADOC>
+        <JAVADOC/>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.7.2/df2e64024dbe47fa357cbf4f0e15daa28dd7c14b/apache-mime4j-core-0.7.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.8.1/440f21c0174b4df00767aa7ab014933da8d6d37c/apache-mime4j-core-0.8.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.12/84caa68576e345eb5e7ae61a0e5a9229eb100d7b/commons-compress-1.12.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.14/7b18320d668ab080758bf5383d6d8fcf750babce/commons-compress-1.14.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.12/3f11c15206fe1658cb09793f551d4777edc3ac99/commons-compress-1.12-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.14/93dd5215d4a359cb4f48402456f25cc3e078f3cd/commons-compress-1.14-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.12/1fdd1a2fed15cdf08780ed564279c0ddbff46419/commons-compress-1.12-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.14/43a23e357fa7b187c261520914c0b001ea1a62a2/commons-compress-1.14-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.5/9c64274b7dbb65288237216e3fae7877fd3f2bee/xz-1.5.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.6/5b6f921f1810bdf90e25471968f741f87168b64/xz-1.6.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.5/e943933934fd5ffbf46067d564537764308150b4/xz-1.5-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.6/31a2518c1d4e4b73d247513b07916163e6c0984d/xz-1.6-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.5/66cf970ae7a73d9c3eb7d0ad3e901c43591139c3/xz-1.5-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.6/7a6db882d2085b715337ea2108fa168c46a683e3/xz-1.6-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.12/426450c573c19f6f2c751a7a52c11931b712c9f6/jempbox-1.8.12.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.6/3b0c2622015c048a29496291cfe44f235f5c7cdf/pdfbox-tools-2.0.6.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.12/40618840e52fd0bf21e9f4a5c499443fe3795207/jempbox-1.8.12-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.6/91e0fa4775761d9c1890a0a447031ae810fc0988/pdfbox-tools-2.0.6-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.12/2533a3907850cd730367bb0c97e9a026adbb37ca/jempbox-1.8.12-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.6/aa89d2f80d6dcfc118db8fec520060ef6c2426c5/pdfbox-tools-2.0.6-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.6/8691431b419692d58640de8428ce35d03fa1770d/pdfbox-debugger-2.0.6.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.6/cb416498a56ae5faa046f378a49d51205479a7e5/pdfbox-debugger-2.0.6-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.6/965904ea02e090e6c6980aa6ccd07d7175f93a28/pdfbox-debugger-2.0.6-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.6/68616a583c5f9b9ba72140364d15a07cd937ce0e/pdfbox-2.0.6.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.6/67ebdac4334bffb7c6442e9342ab8b1de764ab07/pdfbox-2.0.6-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.6/b246ce5ab8124cdda5d3993ce2ffb91ee3172a43/pdfbox-2.0.6-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.13/a874cef0ed0e2a8c4cc5ed52c23ba3e6d78eca4e/jempbox-1.8.13.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.13/abe739b3215a804bf09f29707742cb65e0a9881a/jempbox-1.8.13-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.13/bc8bb8448ae50c1a42a1f91fbacd44b30e825bbe/jempbox-1.8.13-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -2115,13 +2111,13 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.3/45eabb80eb52ac54111c71e0d6f34c9c93f99b0d/cxf-rt-rs-client-3.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.12/af609cc16e80eb05e20c8bbf60da24416d9a9b9d/cxf-rt-rs-client-3.0.12.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.3/84fddb82b49cedc733ecfb7683c23bb13cc8978a/cxf-rt-rs-client-3.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.12/8546cb345e8d9db2010a7848942947d724fc8f6/cxf-rt-rs-client-3.0.12-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.3/b910d3cefbff3b8d06a4d1dabd24e34dbff3a886/cxf-rt-rs-client-3.0.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.12/e721bc479ade577a5ed2702f80c7b5053136f39d/cxf-rt-rs-client-3.0.12-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -2141,13 +2137,13 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.5.3/826d34168b0e4870c9f599ed7f2b8fee4194ba3b/opennlp-tools-1.5.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.6.0/e89fc5317497ee3ed0e6c48a72e4f280961a02b4/opennlp-tools-1.6.0.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.5.3/94563f73799b919e2ae9f23a9d6b541d8efcfac4/opennlp-tools-1.5.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.6.0/84d9e92a3e5df54c00e25ecac271680be671ab24/opennlp-tools-1.6.0-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.5.3/cb4360825c39c44da764a693b2ce21719072ef09/opennlp-tools-1.5.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.6.0/167e80cadc608b29249931bb03eb39c57bf51800/opennlp-tools-1.6.0-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -2161,6 +2157,19 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.json-simple/json-simple/1.1.1/15bba08e3a239d54b68209c001f9c911559d2fed/json-simple-1.1.1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.tdunning/json/1.8/fa57d5adf557b226738cd42e6c093dd0a76c5fd4/json-1.8.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.tdunning/json/1.8/51bd1444d00e844b80a68a740a9782fcd9ed1766/json-1.8-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.tdunning/json/1.8/e70b7c17eedaea8478d2ae93d91ba3da0bc062f/json-1.8-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -2252,6 +2261,19 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.opengis/geoapi/3.0.0/7fb39af6576e15709189ee50a2496579f508528f/geoapi-3.0.0-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.usc.ir/sentiment-analysis-parser/0.1/20d1524a1270c1d26e3314d2ee71a12e6a29a27d/sentiment-analysis-parser-0.1.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.usc.ir/sentiment-analysis-parser/0.1/622e7d4ab163483640397939cf36cba45320766c/sentiment-analysis-parser-0.1-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.usc.ir/sentiment-analysis-parser/0.1/aec4b4f0344bfff776b6bed33067b75cdf834eb6/sentiment-analysis-parser-0.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -2386,7 +2408,20 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml-schemas/3.15/de4a50ca39de48a19606b35644ecadb2f733c479/poi-ooxml-schemas-3.15.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.6/33f44ea67f1b5ab314e2d5768365b1a3e794fb3b/fontbox-2.0.6.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.6/e461e75b3efe115bde8965741ad4e61e7683def3/fontbox-2.0.6-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.6/db6458bf3a9dba2872a1a192a3e7a00ba9e502c1/fontbox-2.0.6-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml-schemas/3.17-beta1/99811dc063afea4cde813726ba6f45f724bf2c3b/poi-ooxml-schemas-3.17-beta1.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -2434,74 +2469,39 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging-api/1.1/7d4cf5231d46c8524f9b9ed75bb2d1c69ab93322/commons-logging-api-1.1.jar!/"/>
-        </CLASSES>
-        <JAVADOC/>
-        <SOURCES/>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="PROVIDED">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.3/284a35801aef259c0d61edb938865b5b125403ac/cxf-rt-frontend-jaxrs-3.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.12/30a94ced70c56464c8a1f2c409f33c403afa24ec/cxf-rt-frontend-jaxrs-3.0.12.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.3/205caed4aa4386a5c707f1a794e1c5b8a6af528a/cxf-rt-frontend-jaxrs-3.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.12/2e1725932afbe00319c71f7587cb4020d7ba9063/cxf-rt-frontend-jaxrs-3.0.12-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.3/a670e7ba11ad86cb600ec477427f4254a3ccda7/cxf-rt-frontend-jaxrs-3.0.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.12/aeebb537bc42f18cb4c08a0f645be286bb2f75e6/cxf-rt-frontend-jaxrs-3.0.12-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.3/d0fe9957966496bcc9550dddfbe5100d84105d75/cxf-rt-transports-http-3.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.12/e2eedc03de7f1cda7e94e2af2685f9124c668fd5/cxf-rt-transports-http-3.0.12.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.3/28aacf74200295ca3d00354bb5486ecc50b08180/cxf-rt-transports-http-3.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.12/64461a50ac59aea1d1782ef21e8fccce65635841/cxf-rt-transports-http-3.0.12-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.3/feb66503b8b71703e614244af293c37ea01d61c2/cxf-rt-transports-http-3.0.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.12/cbc5ebac4b520392afe5efc50a3a5d81b4ce5ae2/cxf-rt-transports-http-3.0.12-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.3/d1c97f02c6ca0bab8b3c5315237c510523b86310/cxf-core-3.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.12/7c7beb6875fb180cc5813bfa85456f92b5b62505/cxf-core-3.0.12.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.3/7b44376dcd9b61df8f1fc3795cccd997f38fa2ca/cxf-core-3.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.12/377fc7f33889f11f78ba3bc4a9a7feaf420ee8a4/cxf-core-3.0.12-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.3/96ffd17d76f9990d13fcddaf523b4fa8a3782f5f/cxf-core-3.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="PROVIDED">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-maxent/3.0.3/55e39e6b46e71f35229cdd6950e72d8cce3b5fd4/opennlp-maxent-3.0.3.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-maxent/3.0.3/197169de4842423f4bfe489ec1ffcd2d084b9ce3/opennlp-maxent-3.0.3-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-maxent/3.0.3/599de6471c979ed2d754b18a06ce6f529827216a/opennlp-maxent-3.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="PROVIDED">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/net.sf.jwordnet/jwnl/1.3.3/7108e5b6a8875fe0488d942238575407c7ab8649/jwnl-1.3.3.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/net.sf.jwordnet/jwnl/1.3.3/39b82421659642c78942ea5eebbb450b0604b12e/jwnl-1.3.3-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/net.sf.jwordnet/jwnl/1.3.3/66183d789bb167f881b1677ce32147ed383e3458/jwnl-1.3.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.12/48be345a8c0769158aab6939608e2d9eea6dbb87/cxf-core-3.0.12-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -2565,19 +2565,6 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.7.2/833f425e7a40d7fc88922370a072965dda8ee216/jsoup-1.7.2-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="PROVIDED">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.ucar/jj2000/5.2/b857c9bdf12fe17d8ef98218eaa39e6a0c6ff493/jj2000-5.2.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.ucar/jj2000/5.2/3e85257a65e48d30d485d55ac2a3f0b7fb298078/jj2000-5.2-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.ucar/jj2000/5.2/1d30570cbee51b17c22be76a192eed757776cc22/jj2000-5.2-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -2693,13 +2680,13 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.1.0/93415557e2867469c33be98ab330655dd714297d/xmlschema-core-2.1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.2.1/2eff1f3776590d4c51cc735eab2143c497329f2/xmlschema-core-2.2.1.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.1.0/eb354967da2a0166c757ab68191a2a8faf7061d8/xmlschema-core-2.1.0-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.2.1/85aa712959e8578a7c257d30b0658b1de38000bf/xmlschema-core-2.2.1-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.1.0/f0a12ecc07f75352b7f086d7930347901ca258d6/xmlschema-core-2.1.0-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.2.1/7090b46a8943d68124503901469943270f023a37/xmlschema-core-2.2.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -3160,13 +3147,13 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.6.RELEASE/39070085c11450e1dbfb3fa1da2fc12b77d17314/spring-data-mongodb-1.10.6.RELEASE.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.7.RELEASE/ef036c121f13b2b219d635a7e7d9505cabd8c636/spring-data-mongodb-1.10.7.RELEASE.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.6.RELEASE/e48e5657de6e53bee1c3c97f0f46aa820037e8bd/spring-data-mongodb-1.10.6.RELEASE-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.7.RELEASE/5d72ec7f6ecef11d894f441f8c125156fb2937bc/spring-data-mongodb-1.10.7.RELEASE-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.6.RELEASE/5c917b702a5f42b69b30e7fda656787d42403f9f/spring-data-mongodb-1.10.6.RELEASE-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.7.RELEASE/3c17dc264caf9da22005982749f201bb116dba6e/spring-data-mongodb-1.10.7.RELEASE-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -3303,13 +3290,13 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.6.RELEASE/ed21344ea782672928cee7e6bfad655c399c0b94/spring-data-commons-1.13.6.RELEASE.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.7.RELEASE/cf4538abda1f0a9cf2323d6e4204df0130aeec73/spring-data-commons-1.13.7.RELEASE.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.6.RELEASE/35ca3f4412d8fe88b8416988b529c68ffb91311d/spring-data-commons-1.13.6.RELEASE-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.7.RELEASE/6409cfd82e695ce9f3c03bedf7fd0eccae133d5d/spring-data-commons-1.13.7.RELEASE-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.6.RELEASE/7e02733999787cfdfff59cc3aea353f629c17817/spring-data-commons-1.13.6.RELEASE-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.7.RELEASE/2f57d3f01ebd4667a6e8654e7ff7ec66742729be/spring-data-commons-1.13.7.RELEASE-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -3407,26 +3394,26 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.4.2/5d0448606f5f7f3974dbae69c4ccfffe214ae60d/mongo-java-driver-3.4.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.5.0/c63e5477ec899f06190b832e1fb173505b8b9d28/mongo-java-driver-3.5.0.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.4.2/8001495ddb9be7bcc219c4d28c2d135f7c4c38e/mongo-java-driver-3.4.2-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.5.0/a7c97c6e9fc5762a00ead833983ba358fb3bf523/mongo-java-driver-3.5.0-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.4.2/b354296d5d0869b84f7ea6850faf7d76c04e8e26/mongo-java-driver-3.4.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.5.0/fadd4f4ffb3e75c2d4b9de71961dddedfa8b295c/mongo-java-driver-3.5.0-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.69.0/50fc41c1a2e161f93e9ead35172b67037d195755/braintree-java-2.69.0.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.73.0/d307574c611ef56b6e33ad732fa160d2918e5257/braintree-java-2.73.0.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.69.0/ad22188d366c4edc43306891c9636af7389f85de/braintree-java-2.69.0-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.73.0/a0db86f84276bcf51a73de77ffa13fb97c4d385f/braintree-java-2.73.0-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.69.0/b77922be5faecf3b33ccae05692f0e75a3dc5a9d/braintree-java-2.69.0-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.73.0/75ca2b5a0ef3b1db43b356579390faf1ef0543c7/braintree-java-2.73.0-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -3446,13 +3433,13 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.14/d26c10a9e7d116366562aa260013a30a55ff4e8f/tika-parsers-1.14.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.16/bececafbe32c013eae8d3f3cf10d28b136a6f9d7/tika-parsers-1.16.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.14/99981fa4a6c42cf864d83501e39c50d9aa883d44/tika-parsers-1.14-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.16/742808132ccc7c31d8f925d63bea610e243d7565/tika-parsers-1.16-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.14/d3005aa9c33d0cf613070baff4b32452dc8441ed/tika-parsers-1.14-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.16/541369f1db10c1df83d0e26693639b5f3b851c9f/tika-parsers-1.16-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -3600,13 +3587,13 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.9/87372d9e2323313bec24b09a325bfea8ae0eb867/aspectjrt-1.8.9.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.10/1a14fe9e912f6e8bdbb5429b78b4090d8b47bc1/aspectjrt-1.8.10.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.9/11bd594b10d616d88480dedc46bb00d3e042872f/aspectjrt-1.8.9-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.10/27270d1deccf118dd9ef8c4f5146c38305cdd796/aspectjrt-1.8.10-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.9/3e0a37b6c02c183bdc428e8d6e1293df59ba1c83/aspectjrt-1.8.9-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.10/230c528119f8479c4f130fbaeebc67fc986afb88/aspectjrt-1.8.10-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -3672,6 +3659,19 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.rometools/rome/1.5.1/9c7ec6088e1850b75d86b07d4b67f7def44ed38c/rome-1.5.1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.24/25a2be668cb2ad1d05d76c0773df73b4b53617fd/jul-to-slf4j-1.7.24.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.24/a80928296a1cf9bd4d0569282b9c7aec29746419/jul-to-slf4j-1.7.24-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.24/a9414b56295d6d9a057d3f1adc288519a8befa9e/jul-to-slf4j-1.7.24-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -3936,13 +3936,13 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/f5c98f3f2b814e2746c8289d108ccd45b5514ced/libphonenumber-8.7.0.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.1/fb430652a93ed77ad0ce53469fcabfbedacf51cc/libphonenumber-8.8.1.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/ceabba48c331a38b038ab0a27b47cbdb803a14af/libphonenumber-8.7.0-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.1/cf0b7f9262f8759877c6e20ec424980bb19dac88/libphonenumber-8.8.1-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/2707187c19fa9670d64392b3fd0f1fdb18d0325/libphonenumber-8.7.0-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.1/7c463ecec9c84da058cc6b14bbdcf27017502607/libphonenumber-8.8.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -4079,13 +4079,13 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.2/5d7491ed6ebd02b6a8d2305f8e6b7fe5dbd95f72/commons-fileupload-1.3.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.3/4ff14d809195b711fd6bcc87e6777f886730ca1/commons-fileupload-1.3.3.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.2/12bbb300a1b61e038defb1dee85e8302d6f1bbaa/commons-fileupload-1.3.2-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.3/d44ff01a7e0217b5c849c5375a3a8ad13a338375/commons-fileupload-1.3.3-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.2/23996750d5a80dc74dad55633c2a0f3db91462cb/commons-fileupload-1.3.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.3/34c8608c461e2c832a364ec1a9e70f360f47d9f7/commons-fileupload-1.3.3-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -4105,52 +4105,52 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.5.1/86d05a46e8f064b300657f751b5a98c62807e2a0/commons-validator-1.5.1.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.6/e989d1e87cdd60575df0765ed5bac65c905d7908/commons-validator-1.6.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.5.1/1c5fbdeb20a211050d91366eb1a33d6b8adb3323/commons-validator-1.5.1-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.6/48f9ff1edd4f5512a366a5b5024ad5a2f8136801/commons-validator-1.6-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.5.1/1779e91e01dc506f388c350a8684f77c43943a08/commons-validator-1.5.1-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.6/a8767cdd63c800f00df9c2fc5604a8f7648fe832/commons-validator-1.6-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.15/f1db76ae4a9389fa4339dc3b7f8208aa82c72b04/poi-scratchpad-3.15.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.17-beta1/d4ad39b023c377ec534ab25205344eb79da4996b/poi-scratchpad-3.17-beta1.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.15/62d6ffeb2261ad12a8f5fddbc2fc2256b81ec644/poi-scratchpad-3.15-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.17-beta1/b43fd864322fb5811c83ffd279020bfcde03aa66/poi-scratchpad-3.17-beta1-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.15/254f936737ea9f88ca6fc50cd9e4afba57699abf/poi-scratchpad-3.15-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.17-beta1/f79dbd704da5338fe0fe8cf05de1edb36bb68c1d/poi-scratchpad-3.17-beta1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.15/e2800856735b07b8edd417aee07685470216a00f/poi-ooxml-3.15.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.17-beta1/96f537614c5f5ec232fb8832313280dcb93c59ab/poi-ooxml-3.17-beta1.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.15/b2c24846b235e5c790b166dd944924177f9d4779/poi-ooxml-3.15-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.17-beta1/aa9ccf6fadbd8ed32af183744ee74d784d006ac0/poi-ooxml-3.17-beta1-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.15/b49e9cf942f8ba4492017a274c6c3480584909d8/poi-ooxml-3.15-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.17-beta1/80807d188be0469936beb2c297714e9fc41a129e/poi-ooxml-3.17-beta1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.15/965bba8899988008bb2341e300347de62aad5391/poi-3.15.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.17/ae92292a2043888b40d418da97dc0b669fde326/poi-3.17.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.15/93f79ff38ad9f1ebd1ffbde06327276316191ff/poi-3.15-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.17/5467a9071ee37c2d7a28802deb1974344f49e71f/poi-3.17-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.15/bd552aa859b560a2ab85694f23771b6ef50698dd/poi-3.15-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.17/9d185f2c484774285585e76f5f1d887208482f93/poi-3.17-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -4248,78 +4248,26 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.3/f07038a406e2b4d7b4b21b306a16ebb04126fa2c/pdfbox-tools-2.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.2/c11d7a42af7070b84d832198558df52032de734c/jackcess-encrypt-2.1.2.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.3/c5c59256f867a92e1064e3f92d8e8825164e539c/pdfbox-tools-2.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.2/d288a487e7b52aa113dca1ce09795d5b70eb605a/jackcess-encrypt-2.1.2-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.3/37cbf36e9104234d35ff7b83ee650c75ffd0f165/pdfbox-tools-2.0.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.2/836fc84ad82ebf96d705773da3fcb6f4dec690c5/jackcess-encrypt-2.1.2-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.3/430d1603e0e97f5bc86102c0f6a43df8c78c7cd0/pdfbox-debugger-2.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.8/dfc7156e11ce33bbcb7f4f6724a87b9d969f2fd6/jackcess-2.1.8.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.3/8a75782f5be30a208308f9868b819d73a0f021fe/pdfbox-debugger-2.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.8/4185aaebdd1e8a01c3b07be11f7d4742f974e7cf/jackcess-2.1.8-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.3/9f722d42474cfdfa32e569610abf37708c421b3b/pdfbox-debugger-2.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="RUNTIME">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.3/be7b09de93f7c7795c57f4fbf14db60ab93806b4/pdfbox-2.0.3.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.3/f4dbeaa2372fec9ee48f949840dc329fc3de03e1/pdfbox-2.0.3-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.3/1ccf40759eadbab5e1cbe441b8c6d284e87d8e1c/pdfbox-2.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="RUNTIME">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.3/448ee588d0136121cf5c4dd397384cccb9db1ad7/fontbox-2.0.3.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.3/df1202a0421665e1a08e22ebe581e7492d08c231/fontbox-2.0.3-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.3/c7903ed03ad41fe3e74de114bcc40a86b6a86b03/fontbox-2.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="RUNTIME">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.1/effacd7133ab76ee54c0488dd952b177bfeb85a3/jackcess-encrypt-2.1.1.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.1/b683edd215af392997a21a557e4ecf800f805551/jackcess-encrypt-2.1.1-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.1/555958b9ecf65524341c08b7fab98cc79416ca60/jackcess-encrypt-2.1.1-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="RUNTIME">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.4/f887f15b62122aa3a4337d4d989eba443995b1cc/jackcess-2.1.4.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.4/71e9afc293b067d64e15dc4030d7eba8f2b3b415/jackcess-2.1.4-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.4/a3ce40c120281b43151ad87dc0e97dcba5290bd1/jackcess-2.1.4-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.8/9e3343fbc439e234ad6026884cb07180d7d7fdd8/jackcess-2.1.8-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -4378,13 +4326,13 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.5/6c6c702c89bfff3cd9e80b04d668c5e190d588c6/commons-lang3-3.5.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.6/9d28a6b23650e8a7e9063c04588ace6cf7012c17/commons-lang3-3.6.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.5/337310e98410d577aca675930bb46405a0a8fb0c/commons-lang3-3.5-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.6/988675c1853c2a4f2cd8e7056eaa5bd6985ccd06/commons-lang3-3.6-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.5/f7d878153e86a1cdddf6b37850e00a9f8bff726f/commons-lang3-3.5-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.6/4765e418c9084c4e01233cb5f09bdd6b5f311ccc/commons-lang3-3.6-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -4404,13 +4352,13 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.14/afff8f1774994aa973ef90bc8d38ddf089b9d6d9/tika-core-1.14.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.16/7b75cb2b65f6d014b6a3e4793835f5759168c34e/tika-core-1.16.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.14/5731d630804c34ce28b9244b59fc1a21f28746c8/tika-core-1.14-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.16/82d18227db0f32113f47534a67779c48a3308f6b/tika-core-1.16-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.14/ea1cb61da56d3bde21e48b22eccaf88bc6196fe6/tika-core-1.14-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.16/9365d9b6a78379c1b6649ab1027519654ca3bc51/tika-core-1.16-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -4699,65 +4647,100 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.7.2/1c289aa264548a0a1f1b43685a9cb2ab23f67287/apache-mime4j-dom-0.7.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.8.1/f2d653c617004193f3350330d907f77b60c88c56/apache-mime4j-dom-0.8.1.jar!/"/>
         </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.7.2/8dee57c7d86ffb9cb78e212109fc5935ea223b34/apache-mime4j-dom-0.7.2-javadoc.jar!/"/>
-        </JAVADOC>
+        <JAVADOC/>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.7.2/3a4e5b4b222268605813d0fd74f45ddbdcb9a21e/apache-mime4j-dom-0.7.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.8.1/1817da34b6384d59de53b3a7d4be34043b684396/apache-mime4j-dom-0.8.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.7.2/a81264fe0265ebe8fd1d8128aad06dc320de6eef/apache-mime4j-core-0.7.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.8.1/c62dfe18a3b827a2c626ade0ffba44562ddf3f61/apache-mime4j-core-0.8.1.jar!/"/>
         </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.7.2/6eef338b572ad9ae1f2b80fa9f45127624aa499c/apache-mime4j-core-0.7.2-javadoc.jar!/"/>
-        </JAVADOC>
+        <JAVADOC/>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.7.2/df2e64024dbe47fa357cbf4f0e15daa28dd7c14b/apache-mime4j-core-0.7.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.8.1/440f21c0174b4df00767aa7ab014933da8d6d37c/apache-mime4j-core-0.8.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.12/84caa68576e345eb5e7ae61a0e5a9229eb100d7b/commons-compress-1.12.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.14/7b18320d668ab080758bf5383d6d8fcf750babce/commons-compress-1.14.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.12/3f11c15206fe1658cb09793f551d4777edc3ac99/commons-compress-1.12-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.14/93dd5215d4a359cb4f48402456f25cc3e078f3cd/commons-compress-1.14-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.12/1fdd1a2fed15cdf08780ed564279c0ddbff46419/commons-compress-1.12-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.14/43a23e357fa7b187c261520914c0b001ea1a62a2/commons-compress-1.14-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.5/9c64274b7dbb65288237216e3fae7877fd3f2bee/xz-1.5.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.6/5b6f921f1810bdf90e25471968f741f87168b64/xz-1.6.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.5/e943933934fd5ffbf46067d564537764308150b4/xz-1.5-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.6/31a2518c1d4e4b73d247513b07916163e6c0984d/xz-1.6-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.5/66cf970ae7a73d9c3eb7d0ad3e901c43591139c3/xz-1.5-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.6/7a6db882d2085b715337ea2108fa168c46a683e3/xz-1.6-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.12/426450c573c19f6f2c751a7a52c11931b712c9f6/jempbox-1.8.12.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.6/3b0c2622015c048a29496291cfe44f235f5c7cdf/pdfbox-tools-2.0.6.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.12/40618840e52fd0bf21e9f4a5c499443fe3795207/jempbox-1.8.12-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.6/91e0fa4775761d9c1890a0a447031ae810fc0988/pdfbox-tools-2.0.6-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.12/2533a3907850cd730367bb0c97e9a026adbb37ca/jempbox-1.8.12-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.6/aa89d2f80d6dcfc118db8fec520060ef6c2426c5/pdfbox-tools-2.0.6-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.6/8691431b419692d58640de8428ce35d03fa1770d/pdfbox-debugger-2.0.6.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.6/cb416498a56ae5faa046f378a49d51205479a7e5/pdfbox-debugger-2.0.6-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.6/965904ea02e090e6c6980aa6ccd07d7175f93a28/pdfbox-debugger-2.0.6-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.6/68616a583c5f9b9ba72140364d15a07cd937ce0e/pdfbox-2.0.6.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.6/67ebdac4334bffb7c6442e9342ab8b1de764ab07/pdfbox-2.0.6-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.6/b246ce5ab8124cdda5d3993ce2ffb91ee3172a43/pdfbox-2.0.6-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.13/a874cef0ed0e2a8c4cc5ed52c23ba3e6d78eca4e/jempbox-1.8.13.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.13/abe739b3215a804bf09f29707742cb65e0a9881a/jempbox-1.8.13-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.13/bc8bb8448ae50c1a42a1f91fbacd44b30e825bbe/jempbox-1.8.13-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -4920,13 +4903,13 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.3/45eabb80eb52ac54111c71e0d6f34c9c93f99b0d/cxf-rt-rs-client-3.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.12/af609cc16e80eb05e20c8bbf60da24416d9a9b9d/cxf-rt-rs-client-3.0.12.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.3/84fddb82b49cedc733ecfb7683c23bb13cc8978a/cxf-rt-rs-client-3.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.12/8546cb345e8d9db2010a7848942947d724fc8f6/cxf-rt-rs-client-3.0.12-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.3/b910d3cefbff3b8d06a4d1dabd24e34dbff3a886/cxf-rt-rs-client-3.0.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.12/e721bc479ade577a5ed2702f80c7b5053136f39d/cxf-rt-rs-client-3.0.12-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -4946,13 +4929,13 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.5.3/826d34168b0e4870c9f599ed7f2b8fee4194ba3b/opennlp-tools-1.5.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.6.0/e89fc5317497ee3ed0e6c48a72e4f280961a02b4/opennlp-tools-1.6.0.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.5.3/94563f73799b919e2ae9f23a9d6b541d8efcfac4/opennlp-tools-1.5.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.6.0/84d9e92a3e5df54c00e25ecac271680be671ab24/opennlp-tools-1.6.0-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.5.3/cb4360825c39c44da764a693b2ce21719072ef09/opennlp-tools-1.5.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.6.0/167e80cadc608b29249931bb03eb39c57bf51800/opennlp-tools-1.6.0-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -4966,6 +4949,19 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.json-simple/json-simple/1.1.1/15bba08e3a239d54b68209c001f9c911559d2fed/json-simple-1.1.1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.tdunning/json/1.8/fa57d5adf557b226738cd42e6c093dd0a76c5fd4/json-1.8.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.tdunning/json/1.8/51bd1444d00e844b80a68a740a9782fcd9ed1766/json-1.8-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.tdunning/json/1.8/e70b7c17eedaea8478d2ae93d91ba3da0bc062f/json-1.8-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -5057,6 +5053,19 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.opengis/geoapi/3.0.0/7fb39af6576e15709189ee50a2496579f508528f/geoapi-3.0.0-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.usc.ir/sentiment-analysis-parser/0.1/20d1524a1270c1d26e3314d2ee71a12e6a29a27d/sentiment-analysis-parser-0.1.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.usc.ir/sentiment-analysis-parser/0.1/622e7d4ab163483640397939cf36cba45320766c/sentiment-analysis-parser-0.1-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.usc.ir/sentiment-analysis-parser/0.1/aec4b4f0344bfff776b6bed33067b75cdf834eb6/sentiment-analysis-parser-0.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -5180,7 +5189,20 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml-schemas/3.15/de4a50ca39de48a19606b35644ecadb2f733c479/poi-ooxml-schemas-3.15.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.6/33f44ea67f1b5ab314e2d5768365b1a3e794fb3b/fontbox-2.0.6.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.6/e461e75b3efe115bde8965741ad4e61e7683def3/fontbox-2.0.6-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.6/db6458bf3a9dba2872a1a192a3e7a00ba9e502c1/fontbox-2.0.6-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml-schemas/3.17-beta1/99811dc063afea4cde813726ba6f45f724bf2c3b/poi-ooxml-schemas-3.17-beta1.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -5228,74 +5250,39 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging-api/1.1/7d4cf5231d46c8524f9b9ed75bb2d1c69ab93322/commons-logging-api-1.1.jar!/"/>
-        </CLASSES>
-        <JAVADOC/>
-        <SOURCES/>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="RUNTIME">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.3/284a35801aef259c0d61edb938865b5b125403ac/cxf-rt-frontend-jaxrs-3.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.12/30a94ced70c56464c8a1f2c409f33c403afa24ec/cxf-rt-frontend-jaxrs-3.0.12.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.3/205caed4aa4386a5c707f1a794e1c5b8a6af528a/cxf-rt-frontend-jaxrs-3.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.12/2e1725932afbe00319c71f7587cb4020d7ba9063/cxf-rt-frontend-jaxrs-3.0.12-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.3/a670e7ba11ad86cb600ec477427f4254a3ccda7/cxf-rt-frontend-jaxrs-3.0.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.12/aeebb537bc42f18cb4c08a0f645be286bb2f75e6/cxf-rt-frontend-jaxrs-3.0.12-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.3/d0fe9957966496bcc9550dddfbe5100d84105d75/cxf-rt-transports-http-3.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.12/e2eedc03de7f1cda7e94e2af2685f9124c668fd5/cxf-rt-transports-http-3.0.12.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.3/28aacf74200295ca3d00354bb5486ecc50b08180/cxf-rt-transports-http-3.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.12/64461a50ac59aea1d1782ef21e8fccce65635841/cxf-rt-transports-http-3.0.12-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.3/feb66503b8b71703e614244af293c37ea01d61c2/cxf-rt-transports-http-3.0.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.12/cbc5ebac4b520392afe5efc50a3a5d81b4ce5ae2/cxf-rt-transports-http-3.0.12-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.3/d1c97f02c6ca0bab8b3c5315237c510523b86310/cxf-core-3.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.12/7c7beb6875fb180cc5813bfa85456f92b5b62505/cxf-core-3.0.12.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.3/7b44376dcd9b61df8f1fc3795cccd997f38fa2ca/cxf-core-3.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.12/377fc7f33889f11f78ba3bc4a9a7feaf420ee8a4/cxf-core-3.0.12-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.3/96ffd17d76f9990d13fcddaf523b4fa8a3782f5f/cxf-core-3.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="RUNTIME">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-maxent/3.0.3/55e39e6b46e71f35229cdd6950e72d8cce3b5fd4/opennlp-maxent-3.0.3.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-maxent/3.0.3/197169de4842423f4bfe489ec1ffcd2d084b9ce3/opennlp-maxent-3.0.3-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-maxent/3.0.3/599de6471c979ed2d754b18a06ce6f529827216a/opennlp-maxent-3.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="RUNTIME">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/net.sf.jwordnet/jwnl/1.3.3/7108e5b6a8875fe0488d942238575407c7ab8649/jwnl-1.3.3.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/net.sf.jwordnet/jwnl/1.3.3/39b82421659642c78942ea5eebbb450b0604b12e/jwnl-1.3.3-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/net.sf.jwordnet/jwnl/1.3.3/66183d789bb167f881b1677ce32147ed383e3458/jwnl-1.3.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.12/48be345a8c0769158aab6939608e2d9eea6dbb87/cxf-core-3.0.12-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -5359,19 +5346,6 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.7.2/833f425e7a40d7fc88922370a072965dda8ee216/jsoup-1.7.2-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="RUNTIME">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.ucar/jj2000/5.2/b857c9bdf12fe17d8ef98218eaa39e6a0c6ff493/jj2000-5.2.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.ucar/jj2000/5.2/3e85257a65e48d30d485d55ac2a3f0b7fb298078/jj2000-5.2-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.ucar/jj2000/5.2/1d30570cbee51b17c22be76a192eed757776cc22/jj2000-5.2-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -5487,13 +5461,13 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.1.0/93415557e2867469c33be98ab330655dd714297d/xmlschema-core-2.1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.2.1/2eff1f3776590d4c51cc735eab2143c497329f2/xmlschema-core-2.2.1.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.1.0/eb354967da2a0166c757ab68191a2a8faf7061d8/xmlschema-core-2.1.0-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.2.1/85aa712959e8578a7c257d30b0658b1de38000bf/xmlschema-core-2.2.1-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.1.0/f0a12ecc07f75352b7f086d7930347901ca258d6/xmlschema-core-2.1.0-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.2.1/7090b46a8943d68124503901469943270f023a37/xmlschema-core-2.2.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -5954,13 +5928,13 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.6.RELEASE/39070085c11450e1dbfb3fa1da2fc12b77d17314/spring-data-mongodb-1.10.6.RELEASE.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.7.RELEASE/ef036c121f13b2b219d635a7e7d9505cabd8c636/spring-data-mongodb-1.10.7.RELEASE.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.6.RELEASE/e48e5657de6e53bee1c3c97f0f46aa820037e8bd/spring-data-mongodb-1.10.6.RELEASE-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.7.RELEASE/5d72ec7f6ecef11d894f441f8c125156fb2937bc/spring-data-mongodb-1.10.7.RELEASE-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.6.RELEASE/5c917b702a5f42b69b30e7fda656787d42403f9f/spring-data-mongodb-1.10.6.RELEASE-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.7.RELEASE/3c17dc264caf9da22005982749f201bb116dba6e/spring-data-mongodb-1.10.7.RELEASE-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -6097,13 +6071,13 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.6.RELEASE/ed21344ea782672928cee7e6bfad655c399c0b94/spring-data-commons-1.13.6.RELEASE.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.7.RELEASE/cf4538abda1f0a9cf2323d6e4204df0130aeec73/spring-data-commons-1.13.7.RELEASE.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.6.RELEASE/35ca3f4412d8fe88b8416988b529c68ffb91311d/spring-data-commons-1.13.6.RELEASE-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.7.RELEASE/6409cfd82e695ce9f3c03bedf7fd0eccae133d5d/spring-data-commons-1.13.7.RELEASE-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.6.RELEASE/7e02733999787cfdfff59cc3aea353f629c17817/spring-data-commons-1.13.6.RELEASE-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.7.RELEASE/2f57d3f01ebd4667a6e8654e7ff7ec66742729be/spring-data-commons-1.13.7.RELEASE-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -6201,26 +6175,26 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.4.2/5d0448606f5f7f3974dbae69c4ccfffe214ae60d/mongo-java-driver-3.4.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.5.0/c63e5477ec899f06190b832e1fb173505b8b9d28/mongo-java-driver-3.5.0.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.4.2/8001495ddb9be7bcc219c4d28c2d135f7c4c38e/mongo-java-driver-3.4.2-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.5.0/a7c97c6e9fc5762a00ead833983ba358fb3bf523/mongo-java-driver-3.5.0-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.4.2/b354296d5d0869b84f7ea6850faf7d76c04e8e26/mongo-java-driver-3.4.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.5.0/fadd4f4ffb3e75c2d4b9de71961dddedfa8b295c/mongo-java-driver-3.5.0-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.69.0/50fc41c1a2e161f93e9ead35172b67037d195755/braintree-java-2.69.0.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.73.0/d307574c611ef56b6e33ad732fa160d2918e5257/braintree-java-2.73.0.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.69.0/ad22188d366c4edc43306891c9636af7389f85de/braintree-java-2.69.0-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.73.0/a0db86f84276bcf51a73de77ffa13fb97c4d385f/braintree-java-2.73.0-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.69.0/b77922be5faecf3b33ccae05692f0e75a3dc5a9d/braintree-java-2.69.0-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.braintreepayments.gateway/braintree-java/2.73.0/75ca2b5a0ef3b1db43b356579390faf1ef0543c7/braintree-java-2.73.0-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -6240,13 +6214,13 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.14/d26c10a9e7d116366562aa260013a30a55ff4e8f/tika-parsers-1.14.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.16/bececafbe32c013eae8d3f3cf10d28b136a6f9d7/tika-parsers-1.16.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.14/99981fa4a6c42cf864d83501e39c50d9aa883d44/tika-parsers-1.14-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.16/742808132ccc7c31d8f925d63bea610e243d7565/tika-parsers-1.16-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.14/d3005aa9c33d0cf613070baff4b32452dc8441ed/tika-parsers-1.14-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.16/541369f1db10c1df83d0e26693639b5f3b851c9f/tika-parsers-1.16-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -6394,13 +6368,13 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.9/87372d9e2323313bec24b09a325bfea8ae0eb867/aspectjrt-1.8.9.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.10/1a14fe9e912f6e8bdbb5429b78b4090d8b47bc1/aspectjrt-1.8.10.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.9/11bd594b10d616d88480dedc46bb00d3e042872f/aspectjrt-1.8.9-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.10/27270d1deccf118dd9ef8c4f5146c38305cdd796/aspectjrt-1.8.10-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.9/3e0a37b6c02c183bdc428e8d6e1293df59ba1c83/aspectjrt-1.8.9-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.10/230c528119f8479c4f130fbaeebc67fc986afb88/aspectjrt-1.8.10-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -6466,6 +6440,19 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.rometools/rome/1.5.1/9c7ec6088e1850b75d86b07d4b67f7def44ed38c/rome-1.5.1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.24/25a2be668cb2ad1d05d76c0773df73b4b53617fd/jul-to-slf4j-1.7.24.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.24/a80928296a1cf9bd4d0569282b9c7aec29746419/jul-to-slf4j-1.7.24-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.24/a9414b56295d6d9a057d3f1adc288519a8befa9e/jul-to-slf4j-1.7.24-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -6756,13 +6743,13 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/f5c98f3f2b814e2746c8289d108ccd45b5514ced/libphonenumber-8.7.0.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.1/fb430652a93ed77ad0ce53469fcabfbedacf51cc/libphonenumber-8.8.1.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/ceabba48c331a38b038ab0a27b47cbdb803a14af/libphonenumber-8.7.0-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.1/cf0b7f9262f8759877c6e20ec424980bb19dac88/libphonenumber-8.8.1-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.7.0/2707187c19fa9670d64392b3fd0f1fdb18d0325/libphonenumber-8.7.0-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.1/7c463ecec9c84da058cc6b14bbdcf27017502607/libphonenumber-8.8.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -6899,13 +6886,13 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.2/5d7491ed6ebd02b6a8d2305f8e6b7fe5dbd95f72/commons-fileupload-1.3.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.3/4ff14d809195b711fd6bcc87e6777f886730ca1/commons-fileupload-1.3.3.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.2/12bbb300a1b61e038defb1dee85e8302d6f1bbaa/commons-fileupload-1.3.2-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.3/d44ff01a7e0217b5c849c5375a3a8ad13a338375/commons-fileupload-1.3.3-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.2/23996750d5a80dc74dad55633c2a0f3db91462cb/commons-fileupload-1.3.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.3/34c8608c461e2c832a364ec1a9e70f360f47d9f7/commons-fileupload-1.3.3-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -6925,52 +6912,52 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.5.1/86d05a46e8f064b300657f751b5a98c62807e2a0/commons-validator-1.5.1.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.6/e989d1e87cdd60575df0765ed5bac65c905d7908/commons-validator-1.6.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.5.1/1c5fbdeb20a211050d91366eb1a33d6b8adb3323/commons-validator-1.5.1-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.6/48f9ff1edd4f5512a366a5b5024ad5a2f8136801/commons-validator-1.6-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.5.1/1779e91e01dc506f388c350a8684f77c43943a08/commons-validator-1.5.1-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.6/a8767cdd63c800f00df9c2fc5604a8f7648fe832/commons-validator-1.6-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.15/f1db76ae4a9389fa4339dc3b7f8208aa82c72b04/poi-scratchpad-3.15.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.17-beta1/d4ad39b023c377ec534ab25205344eb79da4996b/poi-scratchpad-3.17-beta1.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.15/62d6ffeb2261ad12a8f5fddbc2fc2256b81ec644/poi-scratchpad-3.15-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.17-beta1/b43fd864322fb5811c83ffd279020bfcde03aa66/poi-scratchpad-3.17-beta1-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.15/254f936737ea9f88ca6fc50cd9e4afba57699abf/poi-scratchpad-3.15-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-scratchpad/3.17-beta1/f79dbd704da5338fe0fe8cf05de1edb36bb68c1d/poi-scratchpad-3.17-beta1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.15/e2800856735b07b8edd417aee07685470216a00f/poi-ooxml-3.15.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.17-beta1/96f537614c5f5ec232fb8832313280dcb93c59ab/poi-ooxml-3.17-beta1.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.15/b2c24846b235e5c790b166dd944924177f9d4779/poi-ooxml-3.15-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.17-beta1/aa9ccf6fadbd8ed32af183744ee74d784d006ac0/poi-ooxml-3.17-beta1-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.15/b49e9cf942f8ba4492017a274c6c3480584909d8/poi-ooxml-3.15-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.17-beta1/80807d188be0469936beb2c297714e9fc41a129e/poi-ooxml-3.17-beta1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.15/965bba8899988008bb2341e300347de62aad5391/poi-3.15.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.17/ae92292a2043888b40d418da97dc0b669fde326/poi-3.17.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.15/93f79ff38ad9f1ebd1ffbde06327276316191ff/poi-3.15-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.17/5467a9071ee37c2d7a28802deb1974344f49e71f/poi-3.17-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.15/bd552aa859b560a2ab85694f23771b6ef50698dd/poi-3.15-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.17/9d185f2c484774285585e76f5f1d887208482f93/poi-3.17-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -7068,78 +7055,26 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.3/f07038a406e2b4d7b4b21b306a16ebb04126fa2c/pdfbox-tools-2.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.2/c11d7a42af7070b84d832198558df52032de734c/jackcess-encrypt-2.1.2.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.3/c5c59256f867a92e1064e3f92d8e8825164e539c/pdfbox-tools-2.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.2/d288a487e7b52aa113dca1ce09795d5b70eb605a/jackcess-encrypt-2.1.2-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.3/37cbf36e9104234d35ff7b83ee650c75ffd0f165/pdfbox-tools-2.0.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.2/836fc84ad82ebf96d705773da3fcb6f4dec690c5/jackcess-encrypt-2.1.2-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.3/430d1603e0e97f5bc86102c0f6a43df8c78c7cd0/pdfbox-debugger-2.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.8/dfc7156e11ce33bbcb7f4f6724a87b9d969f2fd6/jackcess-2.1.8.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.3/8a75782f5be30a208308f9868b819d73a0f021fe/pdfbox-debugger-2.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.8/4185aaebdd1e8a01c3b07be11f7d4742f974e7cf/jackcess-2.1.8-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.3/9f722d42474cfdfa32e569610abf37708c421b3b/pdfbox-debugger-2.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.3/be7b09de93f7c7795c57f4fbf14db60ab93806b4/pdfbox-2.0.3.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.3/f4dbeaa2372fec9ee48f949840dc329fc3de03e1/pdfbox-2.0.3-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.3/1ccf40759eadbab5e1cbe441b8c6d284e87d8e1c/pdfbox-2.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.3/448ee588d0136121cf5c4dd397384cccb9db1ad7/fontbox-2.0.3.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.3/df1202a0421665e1a08e22ebe581e7492d08c231/fontbox-2.0.3-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.3/c7903ed03ad41fe3e74de114bcc40a86b6a86b03/fontbox-2.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.1/effacd7133ab76ee54c0488dd952b177bfeb85a3/jackcess-encrypt-2.1.1.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.1/b683edd215af392997a21a557e4ecf800f805551/jackcess-encrypt-2.1.1-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.1/555958b9ecf65524341c08b7fab98cc79416ca60/jackcess-encrypt-2.1.1-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.4/f887f15b62122aa3a4337d4d989eba443995b1cc/jackcess-2.1.4.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.4/71e9afc293b067d64e15dc4030d7eba8f2b3b415/jackcess-2.1.4-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.4/a3ce40c120281b43151ad87dc0e97dcba5290bd1/jackcess-2.1.4-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.8/9e3343fbc439e234ad6026884cb07180d7d7fdd8/jackcess-2.1.8-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -7198,13 +7133,13 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.5/6c6c702c89bfff3cd9e80b04d668c5e190d588c6/commons-lang3-3.5.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.6/9d28a6b23650e8a7e9063c04588ace6cf7012c17/commons-lang3-3.6.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.5/337310e98410d577aca675930bb46405a0a8fb0c/commons-lang3-3.5-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.6/988675c1853c2a4f2cd8e7056eaa5bd6985ccd06/commons-lang3-3.6-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.5/f7d878153e86a1cdddf6b37850e00a9f8bff726f/commons-lang3-3.5-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.6/4765e418c9084c4e01233cb5f09bdd6b5f311ccc/commons-lang3-3.6-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -7224,13 +7159,13 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.14/afff8f1774994aa973ef90bc8d38ddf089b9d6d9/tika-core-1.14.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.16/7b75cb2b65f6d014b6a3e4793835f5759168c34e/tika-core-1.16.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.14/5731d630804c34ce28b9244b59fc1a21f28746c8/tika-core-1.14-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.16/82d18227db0f32113f47534a67779c48a3308f6b/tika-core-1.16-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.14/ea1cb61da56d3bde21e48b22eccaf88bc6196fe6/tika-core-1.14-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.16/9365d9b6a78379c1b6649ab1027519654ca3bc51/tika-core-1.16-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -7534,65 +7469,100 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.7.2/1c289aa264548a0a1f1b43685a9cb2ab23f67287/apache-mime4j-dom-0.7.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.8.1/f2d653c617004193f3350330d907f77b60c88c56/apache-mime4j-dom-0.8.1.jar!/"/>
         </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.7.2/8dee57c7d86ffb9cb78e212109fc5935ea223b34/apache-mime4j-dom-0.7.2-javadoc.jar!/"/>
-        </JAVADOC>
+        <JAVADOC/>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.7.2/3a4e5b4b222268605813d0fd74f45ddbdcb9a21e/apache-mime4j-dom-0.7.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-dom/0.8.1/1817da34b6384d59de53b3a7d4be34043b684396/apache-mime4j-dom-0.8.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.7.2/a81264fe0265ebe8fd1d8128aad06dc320de6eef/apache-mime4j-core-0.7.2.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.8.1/c62dfe18a3b827a2c626ade0ffba44562ddf3f61/apache-mime4j-core-0.8.1.jar!/"/>
         </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.7.2/6eef338b572ad9ae1f2b80fa9f45127624aa499c/apache-mime4j-core-0.7.2-javadoc.jar!/"/>
-        </JAVADOC>
+        <JAVADOC/>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.7.2/df2e64024dbe47fa357cbf4f0e15daa28dd7c14b/apache-mime4j-core-0.7.2-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.james/apache-mime4j-core/0.8.1/440f21c0174b4df00767aa7ab014933da8d6d37c/apache-mime4j-core-0.8.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.12/84caa68576e345eb5e7ae61a0e5a9229eb100d7b/commons-compress-1.12.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.14/7b18320d668ab080758bf5383d6d8fcf750babce/commons-compress-1.14.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.12/3f11c15206fe1658cb09793f551d4777edc3ac99/commons-compress-1.12-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.14/93dd5215d4a359cb4f48402456f25cc3e078f3cd/commons-compress-1.14-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.12/1fdd1a2fed15cdf08780ed564279c0ddbff46419/commons-compress-1.12-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.14/43a23e357fa7b187c261520914c0b001ea1a62a2/commons-compress-1.14-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.5/9c64274b7dbb65288237216e3fae7877fd3f2bee/xz-1.5.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.6/5b6f921f1810bdf90e25471968f741f87168b64/xz-1.6.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.5/e943933934fd5ffbf46067d564537764308150b4/xz-1.5-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.6/31a2518c1d4e4b73d247513b07916163e6c0984d/xz-1.6-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.5/66cf970ae7a73d9c3eb7d0ad3e901c43591139c3/xz-1.5-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.6/7a6db882d2085b715337ea2108fa168c46a683e3/xz-1.6-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.12/426450c573c19f6f2c751a7a52c11931b712c9f6/jempbox-1.8.12.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.6/3b0c2622015c048a29496291cfe44f235f5c7cdf/pdfbox-tools-2.0.6.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.12/40618840e52fd0bf21e9f4a5c499443fe3795207/jempbox-1.8.12-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.6/91e0fa4775761d9c1890a0a447031ae810fc0988/pdfbox-tools-2.0.6-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.12/2533a3907850cd730367bb0c97e9a026adbb37ca/jempbox-1.8.12-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.6/aa89d2f80d6dcfc118db8fec520060ef6c2426c5/pdfbox-tools-2.0.6-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.6/8691431b419692d58640de8428ce35d03fa1770d/pdfbox-debugger-2.0.6.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.6/cb416498a56ae5faa046f378a49d51205479a7e5/pdfbox-debugger-2.0.6-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-debugger/2.0.6/965904ea02e090e6c6980aa6ccd07d7175f93a28/pdfbox-debugger-2.0.6-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.6/68616a583c5f9b9ba72140364d15a07cd937ce0e/pdfbox-2.0.6.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.6/67ebdac4334bffb7c6442e9342ab8b1de764ab07/pdfbox-2.0.6-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.6/b246ce5ab8124cdda5d3993ce2ffb91ee3172a43/pdfbox-2.0.6-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.13/a874cef0ed0e2a8c4cc5ed52c23ba3e6d78eca4e/jempbox-1.8.13.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.13/abe739b3215a804bf09f29707742cb65e0a9881a/jempbox-1.8.13-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.13/bc8bb8448ae50c1a42a1f91fbacd44b30e825bbe/jempbox-1.8.13-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -7755,13 +7725,13 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.3/45eabb80eb52ac54111c71e0d6f34c9c93f99b0d/cxf-rt-rs-client-3.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.12/af609cc16e80eb05e20c8bbf60da24416d9a9b9d/cxf-rt-rs-client-3.0.12.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.3/84fddb82b49cedc733ecfb7683c23bb13cc8978a/cxf-rt-rs-client-3.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.12/8546cb345e8d9db2010a7848942947d724fc8f6/cxf-rt-rs-client-3.0.12-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.3/b910d3cefbff3b8d06a4d1dabd24e34dbff3a886/cxf-rt-rs-client-3.0.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-rs-client/3.0.12/e721bc479ade577a5ed2702f80c7b5053136f39d/cxf-rt-rs-client-3.0.12-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -7781,13 +7751,13 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.5.3/826d34168b0e4870c9f599ed7f2b8fee4194ba3b/opennlp-tools-1.5.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.6.0/e89fc5317497ee3ed0e6c48a72e4f280961a02b4/opennlp-tools-1.6.0.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.5.3/94563f73799b919e2ae9f23a9d6b541d8efcfac4/opennlp-tools-1.5.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.6.0/84d9e92a3e5df54c00e25ecac271680be671ab24/opennlp-tools-1.6.0-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.5.3/cb4360825c39c44da764a693b2ce21719072ef09/opennlp-tools-1.5.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.6.0/167e80cadc608b29249931bb03eb39c57bf51800/opennlp-tools-1.6.0-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -7801,6 +7771,19 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.googlecode.json-simple/json-simple/1.1.1/15bba08e3a239d54b68209c001f9c911559d2fed/json-simple-1.1.1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.tdunning/json/1.8/fa57d5adf557b226738cd42e6c093dd0a76c5fd4/json-1.8.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.tdunning/json/1.8/51bd1444d00e844b80a68a740a9782fcd9ed1766/json-1.8-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/com.tdunning/json/1.8/e70b7c17eedaea8478d2ae93d91ba3da0bc062f/json-1.8-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -7892,6 +7875,19 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.opengis/geoapi/3.0.0/7fb39af6576e15709189ee50a2496579f508528f/geoapi-3.0.0-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.usc.ir/sentiment-analysis-parser/0.1/20d1524a1270c1d26e3314d2ee71a12e6a29a27d/sentiment-analysis-parser-0.1.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.usc.ir/sentiment-analysis-parser/0.1/622e7d4ab163483640397939cf36cba45320766c/sentiment-analysis-parser-0.1-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.usc.ir/sentiment-analysis-parser/0.1/aec4b4f0344bfff776b6bed33067b75cdf834eb6/sentiment-analysis-parser-0.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -8026,7 +8022,20 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml-schemas/3.15/de4a50ca39de48a19606b35644ecadb2f733c479/poi-ooxml-schemas-3.15.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.6/33f44ea67f1b5ab314e2d5768365b1a3e794fb3b/fontbox-2.0.6.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.6/e461e75b3efe115bde8965741ad4e61e7683def3/fontbox-2.0.6-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.6/db6458bf3a9dba2872a1a192a3e7a00ba9e502c1/fontbox-2.0.6-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml-schemas/3.17-beta1/99811dc063afea4cde813726ba6f45f724bf2c3b/poi-ooxml-schemas-3.17-beta1.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>
@@ -8074,74 +8083,39 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging-api/1.1/7d4cf5231d46c8524f9b9ed75bb2d1c69ab93322/commons-logging-api-1.1.jar!/"/>
-        </CLASSES>
-        <JAVADOC/>
-        <SOURCES/>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.3/284a35801aef259c0d61edb938865b5b125403ac/cxf-rt-frontend-jaxrs-3.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.12/30a94ced70c56464c8a1f2c409f33c403afa24ec/cxf-rt-frontend-jaxrs-3.0.12.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.3/205caed4aa4386a5c707f1a794e1c5b8a6af528a/cxf-rt-frontend-jaxrs-3.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.12/2e1725932afbe00319c71f7587cb4020d7ba9063/cxf-rt-frontend-jaxrs-3.0.12-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.3/a670e7ba11ad86cb600ec477427f4254a3ccda7/cxf-rt-frontend-jaxrs-3.0.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-frontend-jaxrs/3.0.12/aeebb537bc42f18cb4c08a0f645be286bb2f75e6/cxf-rt-frontend-jaxrs-3.0.12-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.3/d0fe9957966496bcc9550dddfbe5100d84105d75/cxf-rt-transports-http-3.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.12/e2eedc03de7f1cda7e94e2af2685f9124c668fd5/cxf-rt-transports-http-3.0.12.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.3/28aacf74200295ca3d00354bb5486ecc50b08180/cxf-rt-transports-http-3.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.12/64461a50ac59aea1d1782ef21e8fccce65635841/cxf-rt-transports-http-3.0.12-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.3/feb66503b8b71703e614244af293c37ea01d61c2/cxf-rt-transports-http-3.0.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-rt-transports-http/3.0.12/cbc5ebac4b520392afe5efc50a3a5d81b4ce5ae2/cxf-rt-transports-http-3.0.12-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.3/d1c97f02c6ca0bab8b3c5315237c510523b86310/cxf-core-3.0.3.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.12/7c7beb6875fb180cc5813bfa85456f92b5b62505/cxf-core-3.0.12.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.3/7b44376dcd9b61df8f1fc3795cccd997f38fa2ca/cxf-core-3.0.3-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.12/377fc7f33889f11f78ba3bc4a9a7feaf420ee8a4/cxf-core-3.0.12-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.3/96ffd17d76f9990d13fcddaf523b4fa8a3782f5f/cxf-core-3.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-maxent/3.0.3/55e39e6b46e71f35229cdd6950e72d8cce3b5fd4/opennlp-maxent-3.0.3.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-maxent/3.0.3/197169de4842423f4bfe489ec1ffcd2d084b9ce3/opennlp-maxent-3.0.3-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-maxent/3.0.3/599de6471c979ed2d754b18a06ce6f529827216a/opennlp-maxent-3.0.3-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/net.sf.jwordnet/jwnl/1.3.3/7108e5b6a8875fe0488d942238575407c7ab8649/jwnl-1.3.3.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/net.sf.jwordnet/jwnl/1.3.3/39b82421659642c78942ea5eebbb450b0604b12e/jwnl-1.3.3-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/net.sf.jwordnet/jwnl/1.3.3/66183d789bb167f881b1677ce32147ed383e3458/jwnl-1.3.3-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.cxf/cxf-core/3.0.12/48be345a8c0769158aab6939608e2d9eea6dbb87/cxf-core-3.0.12-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -8218,19 +8192,6 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.7.2/833f425e7a40d7fc88922370a072965dda8ee216/jsoup-1.7.2-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.ucar/jj2000/5.2/b857c9bdf12fe17d8ef98218eaa39e6a0c6ff493/jj2000-5.2.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.ucar/jj2000/5.2/3e85257a65e48d30d485d55ac2a3f0b7fb298078/jj2000-5.2-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/edu.ucar/jj2000/5.2/1d30570cbee51b17c22be76a192eed757776cc22/jj2000-5.2-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -8333,13 +8294,13 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.1.0/93415557e2867469c33be98ab330655dd714297d/xmlschema-core-2.1.0.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.2.1/2eff1f3776590d4c51cc735eab2143c497329f2/xmlschema-core-2.2.1.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.1.0/eb354967da2a0166c757ab68191a2a8faf7061d8/xmlschema-core-2.1.0-javadoc.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.2.1/85aa712959e8578a7c257d30b0658b1de38000bf/xmlschema-core-2.2.1-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.1.0/f0a12ecc07f75352b7f086d7930347901ca258d6/xmlschema-core-2.1.0-sources.jar!/"/>
+          <root url="jar:///Users/hitender/.gradle/caches/modules-2/files-2.1/org.apache.ws.xmlschema/xmlschema-core/2.2.1/7090b46a8943d68124503901469943270f023a37/xmlschema-core-2.2.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
