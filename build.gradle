@@ -237,7 +237,7 @@ subprojects {
         compile "org.apache.poi:poi:$poi"
         compile "org.apache.tika:tika-parsers:$tika"
         compile "org.apache.tika:tika-core:$tika"
-        compile 'org.apache.httpcomponents:httpclient:4.5.2'
+        compile "org.apache.httpcomponents:httpclient:$httpclient"
         compile 'org.apache.commons:commons-collections4:4.1'
         compile 'org.apache.commons:commons-lang3:3.4'
 
