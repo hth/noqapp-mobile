@@ -224,12 +224,15 @@ public class QueueMobileService {
     public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, String token) {
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(null, did, token);
 
+        /* Get all the queues that have been serviced for today. */
+        List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByDid(did);
+
         boolean sinceBeginning = false;
-        List<QueueEntity> queues;
+        List<QueueEntity> historyQueues;
         if (null == registeredDevice) {
-            queues = queueService.getByDid(did);
+            historyQueues = queueService.getByDid(did);
             deviceService.registerDevice(null, did, deviceType, token);
-            LOG.info("Historical new device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
+            LOG.info("Historical new device queue size={} did={} deviceType={}", historyQueues.size(), did, deviceType);
         } else {
             /* Unset QID for DID as user seems to have logged out of the App. */
             if (StringUtils.isNotBlank(registeredDevice.getQueueUserId())) {
@@ -242,18 +245,16 @@ public class QueueMobileService {
              */
             sinceBeginning = registeredDevice.isSinceBeginning() || StringUtils.isNotBlank(registeredDevice.getQueueUserId());
             Date fetchUntil = computeDateToFetchSince(deviceType, registeredDevice, sinceBeginning);
-            queues = queueManagerJDBC.getByDid(did, fetchUntil);
+            historyQueues = queueManagerJDBC.getByDid(did, fetchUntil);
 
             markFetchedSinceBeginningForDevice(registeredDevice);
-            LOG.info("Historical existing device queue size={} did={} deviceType={}", queues.size(), did, deviceType);
+            LOG.info("Historical existing device queue size={} did={} deviceType={}", historyQueues.size(), did, deviceType);
         }
 
-        /* Get all the queues that have been serviced for today. */
-        List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByDid(did);
-        queues.addAll(servicedQueues);
+        servicedQueues.addAll(historyQueues);
 
-        LOG.info("Historical queue size={} did={} deviceType={}", queues.size(), did, deviceType);
-        return getJsonTokenAndQueueList(queues, sinceBeginning);
+        LOG.info("Historical queue size={} did={} deviceType={}", servicedQueues.size(), did, deviceType);
+        return getJsonTokenAndQueueList(servicedQueues, sinceBeginning);
     }
 
     public JsonTokenAndQueueList findHistoricalQueue(String qid, String did, DeviceTypeEnum deviceType, String token) {
@@ -264,11 +265,11 @@ public class QueueMobileService {
         List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByQid(qid);
 
         boolean sinceBeginning = false;
-        List<QueueEntity> queues;
+        List<QueueEntity> historyQueues;
         if (null == registeredDevice) {
-            queues = queueService.getByQid(qid);
+            historyQueues = queueService.getByQid(qid);
             deviceService.registerDevice(qid, did, deviceType, token);
-            LOG.info("Historical new device queue size={} did={} qid={} deviceType={}", queues.size(), did, qid, deviceType);
+            LOG.info("Historical new device queue size={} did={} qid={} deviceType={}", historyQueues.size(), did, qid, deviceType);
         } else {
             if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
                 /* Save with QID when missing in registered device. */
@@ -281,16 +282,16 @@ public class QueueMobileService {
              */
             sinceBeginning = registeredDevice.isSinceBeginning();
             Date fetchUntil = computeDateToFetchSince(deviceType, registeredDevice, sinceBeginning);
-            queues = queueManagerJDBC.getByQid(qid, fetchUntil);
+            historyQueues = queueManagerJDBC.getByQid(qid, fetchUntil);
 
             markFetchedSinceBeginningForDevice(registeredDevice);
-            LOG.info("Historical existing device queue size={} did={} qid={} deviceType={}", queues.size(), did, qid, deviceType);
+            LOG.info("Historical existing device queue size={} did={} qid={} deviceType={}", historyQueues.size(), did, qid, deviceType);
         }
 
-        servicedQueues.addAll(queues);
+        servicedQueues.addAll(historyQueues);
 
-        LOG.info("Historical queue size={} qid={} did={} deviceType={}", queues.size(), qid, did, deviceType);
-        return getJsonTokenAndQueueList(queues, sinceBeginning);
+        LOG.info("Historical queue size={} qid={} did={} deviceType={}", servicedQueues.size(), qid, did, deviceType);
+        return getJsonTokenAndQueueList(servicedQueues, sinceBeginning);
     }
 
     private Date computeDateToFetchSince(DeviceTypeEnum deviceType, RegisteredDeviceEntity registeredDevice, boolean sinceBeginning) {
