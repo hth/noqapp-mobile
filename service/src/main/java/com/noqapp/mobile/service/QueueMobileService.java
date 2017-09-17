@@ -260,6 +260,9 @@ public class QueueMobileService {
         Validate.isValidQid(qid);
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(qid, did, token);
 
+        /* Get all the queues that have been serviced for today. This first for sorting reasons. */
+        List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByQid(qid);
+
         boolean sinceBeginning = false;
         List<QueueEntity> queues;
         if (null == registeredDevice) {
@@ -284,9 +287,7 @@ public class QueueMobileService {
             LOG.info("Historical existing device queue size={} did={} qid={} deviceType={}", queues.size(), did, qid, deviceType);
         }
 
-        /* Get all the queues that have been serviced for today. */
-        List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByQid(qid);
-        queues.addAll(servicedQueues);
+        servicedQueues.addAll(queues);
 
         LOG.info("Historical queue size={} qid={} did={} deviceType={}", queues.size(), qid, did, deviceType);
         return getJsonTokenAndQueueList(queues, sinceBeginning);
