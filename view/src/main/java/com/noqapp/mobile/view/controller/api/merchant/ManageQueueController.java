@@ -516,4 +516,111 @@ public class ManageQueueController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
     }
+
+
+    /**
+     * Acquire specific token not in order. Send message of being served next to the owner of the token.
+     *
+     * @param did
+     * @param dt
+     * @param mail
+     * @param requestBodyJson
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @Timed
+    @ExceptionMetered
+    @RequestMapping (
+            method = RequestMethod.POST,
+            value = "/acquire",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String acquire(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @RequestBody
+            String requestBodyJson,
+
+            HttpServletResponse response
+    ) throws IOException {
+        LOG.info("Served mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.info("Un-authorized access to /api/m/mq/acquire by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(requestBodyJson);
+            String codeQR = map.containsKey("c") ? map.get("c").getText() : null;
+
+            if (StringUtils.isBlank(codeQR)) {
+                LOG.warn("Not a valid codeQR={} qid={}", codeQR, qid);
+                return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+            } else if (!businessUserStoreService.hasAccess(qid, codeQR)) {
+                LOG.info("Un-authorized store access to /api/m/mq/acquire by mail={}", mail);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+                return null;
+            }
+
+            String serveTokenString = map.containsKey("t") ? map.get("t").getText() : null;
+            int servedNumber;
+            if (StringUtils.isNumeric(serveTokenString)) {
+                servedNumber = Integer.valueOf(serveTokenString);
+            } else {
+                LOG.warn("Not a valid number={} codeQR={} qid={}", serveTokenString, codeQR, qid);
+                return getErrorReason("Not a valid number.", MOBILE_JSON);
+            }
+
+            QueueStatusEnum queueStatus;
+            try {
+                queueStatus = map.containsKey("s") ? QueueStatusEnum.valueOf(map.get("s").getText()) : null;
+                Assert.notNull(queueStatus, "Queue Status cannot be null");
+            } catch (IllegalArgumentException e) {
+                LOG.error("Failed finding QueueStatus reason={}", e.getLocalizedMessage(), e);
+                return getErrorReason("Not a valid queue status.", MOBILE_JSON);
+            }
+
+            String goTo = map.containsKey("g") ? map.get("g").getText() : null;
+            if (StringUtils.isBlank(goTo)) {
+                return getErrorReason("Counter name cannot be empty.", MOBILE_JSON);
+            } else {
+                if (goTo.length() > counterNameLength) {
+                    return getErrorReason("Counter name cannot exceed character size of 20.", MOBILE_JSON);
+                }
+            }
+
+            TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(codeQR);
+            LOG.info("queueStatus received={} found={}, supports only queueState=Next", queueStatus, tokenQueue.getQueueStatus());
+
+            JsonToken jsonToken;
+            switch (tokenQueue.getQueueStatus()) {
+                case N:
+                    jsonToken = queueMobileService.getThisAsNextInQueue(codeQR, goTo, did.getText(), servedNumber);
+                    break;
+                default:
+                    //TODO(hth) remind apps to call state of the queue when failure is encountered as state might have changed. Update app with this state.
+                    LOG.warn("Un-supported condition reached for acquiring token={} when queueState={}, supports only queueState=Next", servedNumber, tokenQueue.getQueueStatus());
+                    throw new UnsupportedOperationException("Reached unsupported condition for QueueState " + tokenQueue.getQueueStatus().getDescription());
+            }
+
+            LOG.info("On served response servedNumber={} nowServicing={} jsonToken={}", servedNumber, jsonToken.getServingNumber(), jsonToken);
+            return jsonToken.asJson();
+        } catch (JsonMappingException e) {
+            LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        }
+    }
 }
