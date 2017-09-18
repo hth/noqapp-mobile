@@ -455,6 +455,18 @@ public class ManageQueueController {
         }
     }
 
+    /**
+     * List all the queued clients.
+     * 
+     * @param did
+     * @param dt
+     * @param mail
+     * @param auth
+     * @param codeQR
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @Timed
     @ExceptionMetered
     @RequestMapping (
