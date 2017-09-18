@@ -240,8 +240,8 @@ public class ManageQueueController {
                     jsonToken = queueMobileService.getNextInQueue(codeQR, goTo, did.getText());
                     break;
                 default:
-                    LOG.error("Reached unsupported condition queueState={}", map.get("s").getText());
-                    throw new UnsupportedOperationException("Reached unsupported condition for QueueState " + map.get("s").getText());
+                    LOG.error("Reached unsupported condition queueState={}", tokenQueue.getQueueStatus());
+                    throw new UnsupportedOperationException("Reached unsupported condition for QueueState " + tokenQueue.getQueueStatus().getDescription());
             }
 
             if (null == jsonToken) {
