@@ -150,6 +150,43 @@ public class QueueMobileService {
             LOG.info("Found queue codeQR={} token={}", codeQR, queue.getTokenNumber());
 
             JsonToken jsonToken = tokenQueueMobileService.updateServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber(), goTo);
+            //TODO(hth) call can be put in thread
+            tokenQueueMobileService.changeQueueStatus(codeQR, QueueStatusEnum.N);
+            return jsonToken;
+        }
+
+        /* When nothing is found, return DONE status for the queue. */
+        TokenQueueEntity tokenQueue = getTokenQueueByCodeQR(codeQR);
+        if (null != tokenQueue) {
+            LOG.info("On next, found no one in queue, returning with DONE status");
+            return new JsonToken(codeQR)
+                    .setToken(tokenQueue.getLastNumber())
+                    .setServingNumber(tokenQueue.getLastNumber())
+                    .setDisplayName(tokenQueue.getDisplayName())
+                    .setQueueStatus(QueueStatusEnum.D);
+        }
+
+        return null;
+    }
+
+    /**
+     * Merchant when serving a specific token in queue. This is works for out of order request in queue.
+     *
+     * @param codeQR
+     * @param goTo      counter name
+     * @param sid       server device id
+     * @param token     specific token being requested for next service
+     * @return
+     */
+    public JsonToken getThisAsNextInQueue(String codeQR, String goTo, String sid, int token) {
+        LOG.info("Getting specific token next in queue for codeQR={} goTo={} sid={} token={}", codeQR, goTo, sid, token);
+
+        QueueEntity queue = queueManager.getThisAsNext(codeQR, goTo, sid, token);
+        if (null != queue) {
+            LOG.info("Found queue codeQR={} token={}", codeQR, queue.getTokenNumber());
+
+            JsonToken jsonToken = tokenQueueMobileService.updateThisServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber(), goTo);
+            //TODO(hth) call can be put in thread
             tokenQueueMobileService.changeQueueStatus(codeQR, QueueStatusEnum.N);
             return jsonToken;
         }

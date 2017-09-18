@@ -86,6 +86,10 @@ public class TokenQueueMobileService {
         return tokenQueueService.updateServing(codeQR, queueStatus, serving, goTo);
     }
 
+    JsonToken updateThisServing(String codeQR, QueueStatusEnum queueStatus, int serving, String goTo) {
+        return tokenQueueService.updateThisServing(codeQR, queueStatus, serving, goTo);
+    }
+
     TokenQueueEntity findByCodeQR(String codeQR) {
         return tokenQueueManager.findByCodeQR(codeQR);
     }
