@@ -138,6 +138,8 @@ public class QueueMobileService {
      * Merchant when starting or re-starting to serve token when QueueState has been either Start or Re-Start.
      *
      * @param codeQR
+     * @param goTo      counter name
+     * @param sid       server device id
      * @return
      */
     public JsonToken getNextInQueue(String codeQR, String goTo, String sid) {
