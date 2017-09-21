@@ -147,7 +147,7 @@ public class WebConnectorService {
         if ("443".equals(securePort) && "https".equals(protocol)) {
             return "";
         }
-        return StringUtils.isEmpty(securePort) ? "" : ":" + securePort;
+        return StringUtils.isBlank(securePort) ? "" : ":" + securePort;
     }
 
     public String getNoResponseFromWebServer() {
