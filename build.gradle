@@ -388,7 +388,7 @@ project(':view') {
 
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.1.0'
+    gradleVersion = '4.2.0'
 }
 
 task copyJars(type: Copy) {
