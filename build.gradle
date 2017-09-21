@@ -201,7 +201,7 @@ subprojects {
 
         compile "org.aspectj:aspectjrt:$aspectjrt"
         compile "org.slf4j:slf4j-api:$slf4japi"
-        compile "org.jboss.logging:jboss-logging:3.3.0.Final"
+        compile "org.jboss.logging:jboss-logging:$jbosslogging"
         compile "mysql:mysql-connector-java:$mysqlConnector"
         compile "com.zaxxer:HikariCP:$hikariCP"
         compile "joda-time:joda-time:$joda"
