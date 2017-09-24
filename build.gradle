@@ -234,6 +234,7 @@ subprojects {
         compile 'javax.inject:javax.inject:1'
 
         compile "org.apache.commons:commons-lang3:$commonslang3"
+        compile "org.apache.commons:commons-text:$commonsText"
         compile "org.apache.poi:poi:$poi"
         compile "org.apache.tika:tika-parsers:$tika"
         compile "org.apache.tika:tika-core:$tika"
