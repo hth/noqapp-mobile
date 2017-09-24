@@ -7,7 +7,7 @@ import static com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATIO
 import static com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.text.WordUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
