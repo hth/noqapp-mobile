@@ -53,6 +53,7 @@ public class TokenQueueMobileService {
                 .setStorePhone(bizStore.getPhoneFormatted())
                 .setRating(bizStore.getRating())
                 .setRatingCount(bizStore.getRatingCount())
+                .setAverageServiceTime(bizStore.getAverageServiceTime())
                 .setTokenAvailableFrom(storeHour.getTokenAvailableFrom())
                 .setStartHour(storeHour.getStartHour())
                 .setTokenNotAvailableFrom(storeHour.getTokenNotAvailableFrom())

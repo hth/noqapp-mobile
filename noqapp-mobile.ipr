@@ -373,7 +373,6 @@
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.23" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
             <element id="library" level="project" name="Gradle: org.reflections:reflections:0.9.11" />
-            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.0" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.3.0" />
@@ -408,6 +407,7 @@
             <element id="library" level="project" name="Gradle: javax.mail:mail:1.4.7" />
             <element id="library" level="project" name="Gradle: javax.validation:validation-api:1.1.0.Final" />
             <element id="library" level="project" name="Gradle: javax.inject:javax.inject:1" />
+            <element id="library" level="project" name="Gradle: org.apache.commons:commons-text:1.1" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.6" />
             <element id="library" level="project" name="Gradle: org.gagravarr:vorbis-java-tika:0.8" />
             <element id="library" level="project" name="Gradle: org.apache.tika:tika-core:1.16" />
@@ -507,7 +507,7 @@
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-text/1.1/c336bf600f44b88af356c8a85eef4af822b06a4d/commons-text-1.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.1-jre/23ed5a005f9289062224ddbe0d398e732c5efc36/guava-23.1-jre.jar" />
           </element>
         </element>
       </root>
@@ -630,7 +630,6 @@
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.23" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
             <element id="library" level="project" name="Gradle: org.reflections:reflections:0.9.11" />
-            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.0" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.3.0" />
@@ -665,6 +664,7 @@
             <element id="library" level="project" name="Gradle: javax.mail:mail:1.4.7" />
             <element id="library" level="project" name="Gradle: javax.validation:validation-api:1.1.0.Final" />
             <element id="library" level="project" name="Gradle: javax.inject:javax.inject:1" />
+            <element id="library" level="project" name="Gradle: org.apache.commons:commons-text:1.1" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.6" />
             <element id="library" level="project" name="Gradle: org.gagravarr:vorbis-java-tika:0.8" />
             <element id="library" level="project" name="Gradle: org.apache.tika:tika-core:1.16" />
@@ -772,7 +772,7 @@
               <element id="dir-copy" path="$PROJECT_DIR$/security/out/production/resources" />
             </element>
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-text/1.1/c336bf600f44b88af356c8a85eef4af822b06a4d/commons-text-1.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.1-jre/23ed5a005f9289062224ddbe0d398e732c5efc36/guava-23.1-jre.jar" />
           </element>
         </element>
       </root>
@@ -1047,25 +1047,25 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/common.iml" filepath="$PROJECT_DIR$/.idea/modules/common/common.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/common_main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/common_main.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/common_test.iml" filepath="$PROJECT_DIR$/.idea/modules/common/common_test.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/domain.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/domain.iml" group="domain" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/domain_main.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/domain_main.iml" group="domain" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/domain_test.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/domain_test.iml" group="domain" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/noqapp-mobile.iml" filepath="$PROJECT_DIR$/.idea/modules/noqapp-mobile.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/security/security.iml" filepath="$PROJECT_DIR$/.idea/modules/security/security.iml" group="security" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/security/security_main.iml" filepath="$PROJECT_DIR$/.idea/modules/security/security_main.iml" group="security" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/security/security_test.iml" filepath="$PROJECT_DIR$/.idea/modules/security/security_test.iml" group="security" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/service.iml" filepath="$PROJECT_DIR$/.idea/modules/service/service.iml" group="service" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/service_main.iml" filepath="$PROJECT_DIR$/.idea/modules/service/service_main.iml" group="service" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/service_test.iml" filepath="$PROJECT_DIR$/.idea/modules/service/service_test.iml" group="service" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/view/view.iml" filepath="$PROJECT_DIR$/.idea/modules/view/view.iml" group="view" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/view/view_main.iml" filepath="$PROJECT_DIR$/.idea/modules/view/view_main.iml" group="view" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/view/view_test.iml" filepath="$PROJECT_DIR$/.idea/modules/view/view_test.iml" group="view" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common/common_main.iml" filepath="$PROJECT_DIR$/common/common_main.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common/common_test.iml" filepath="$PROJECT_DIR$/common/common_test.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" group="domain" />
+      <module fileurl="file://$PROJECT_DIR$/domain/domain_main.iml" filepath="$PROJECT_DIR$/domain/domain_main.iml" group="domain" />
+      <module fileurl="file://$PROJECT_DIR$/domain/domain_test.iml" filepath="$PROJECT_DIR$/domain/domain_test.iml" group="domain" />
+      <module fileurl="file://$PROJECT_DIR$/noqapp-mobile.iml" filepath="$PROJECT_DIR$/noqapp-mobile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/security/security.iml" filepath="$PROJECT_DIR$/security/security.iml" group="security" />
+      <module fileurl="file://$PROJECT_DIR$/security/security_main.iml" filepath="$PROJECT_DIR$/security/security_main.iml" group="security" />
+      <module fileurl="file://$PROJECT_DIR$/security/security_test.iml" filepath="$PROJECT_DIR$/security/security_test.iml" group="security" />
+      <module fileurl="file://$PROJECT_DIR$/service/service.iml" filepath="$PROJECT_DIR$/service/service.iml" group="service" />
+      <module fileurl="file://$PROJECT_DIR$/service/service_main.iml" filepath="$PROJECT_DIR$/service/service_main.iml" group="service" />
+      <module fileurl="file://$PROJECT_DIR$/service/service_test.iml" filepath="$PROJECT_DIR$/service/service_test.iml" group="service" />
+      <module fileurl="file://$PROJECT_DIR$/view/view.iml" filepath="$PROJECT_DIR$/view/view.iml" group="view" />
+      <module fileurl="file://$PROJECT_DIR$/view/view_main.iml" filepath="$PROJECT_DIR$/view/view_main.iml" group="view" />
+      <module fileurl="file://$PROJECT_DIR$/view/view_test.iml" filepath="$PROJECT_DIR$/view/view_test.iml" group="view" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="PropertiesComponent">
@@ -1412,15 +1412,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.3.1/6f7bb9fc41f673af564e7b96b9281e480cf77300/firebase-admin-5.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.guava:guava:23.0">
+    <library name="Gradle: com.google.guava:guava:23.1-jre">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.0/c947004bb13d18182be60077ade044099e4f26f1/guava-23.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.1-jre/23ed5a005f9289062224ddbe0d398e732c5efc36/guava-23.1-jre.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.0/2fa613f8f6125a8ad7c395396dc5852265ca70ef/guava-23.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.1-jre/5941b05086ee4cb585d704222e0723e93ec413be/guava-23.1-jre-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.0/ed233607c5c11e1a13a3fd760033ed5d9fe525c2/guava-23.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.1-jre/7eb5129b799d1e8b72ab8ed5adee3390c188e01d/guava-23.1-jre-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.http-client:google-http-client-appengine:1.21.0">
@@ -1666,7 +1666,16 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/domain/1.1/domain-1.1.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
+      </SOURCES>
     </library>
     <library name="Gradle: com.noqapp:service:1.1">
       <CLASSES>
