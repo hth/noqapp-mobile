@@ -66,7 +66,7 @@ public class TokenQueueMobileService {
                 .setLastNumber(tokenQueue.getLastNumber())
                 .setQueueStatus(tokenQueue.getQueueStatus())
                 .setCreated(tokenQueue.getCreated())
-                .setRemoteJoin(bizStore.isRemoteJoin())
+                .setRemoteJoinAvailable(bizStore.isRemoteJoin())
                 .setAllowLoggedInUser(bizStore.isAllowLoggedInUser());
     }
 
