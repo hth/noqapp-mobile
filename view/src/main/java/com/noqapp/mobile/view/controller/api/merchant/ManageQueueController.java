@@ -554,7 +554,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Served mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("Acquired mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/acquire by mail={}", mail);
