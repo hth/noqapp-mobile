@@ -44,7 +44,11 @@ public class TokenQueueMobileService {
         TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
         StoreHourEntity storeHour = bizService.findOne(bizStore.getId(), ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek());
 
-        LOG.info("bizStore={} tokenQueue={}", bizStore.getBizName(), tokenQueue.getCurrentlyServing());
+        LOG.info("bizStore={} averageServiceTime={} tokenQueue={}",
+                bizStore.getBizName(),
+                bizStore.getAverageServiceTime(),
+                tokenQueue.getCurrentlyServing());
+
         return new JsonQueue(bizStore.getCodeQR())
                 .setBusinessName(bizStore.getBizName().getBusinessName())
                 .setDisplayName(bizStore.getDisplayName())
