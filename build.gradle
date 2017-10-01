@@ -229,9 +229,9 @@ subprojects {
         compile 'commons-codec:commons-codec:1.10'
         compile 'commons-logging:commons-logging:1.2'
 
-        compile 'javax.mail:mail:1.4.7'
-        compile 'javax.validation:validation-api:1.1.0.Final'
-        compile 'javax.inject:javax.inject:1'
+        compile "javax.mail:javax.mail-api:$javaxMail"
+        compile "javax.validation:validation-api:$javaxValidation"
+        compile "javax.inject:javax.inject:1"
 
         compile "org.apache.commons:commons-lang3:$commonslang3"
         compile "org.apache.commons:commons-text:$commonsText"
