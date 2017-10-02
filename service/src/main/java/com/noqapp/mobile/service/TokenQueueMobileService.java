@@ -40,38 +40,44 @@ public class TokenQueueMobileService {
     }
 
     public JsonQueue findTokenState(String codeQR) {
-        BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
-        TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
-        StoreHourEntity storeHour = bizService.findOne(bizStore.getId(), ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek());
+        try {
+            BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
+            TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
+            StoreHourEntity storeHour = bizService.findOne(bizStore.getId(), ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek());
 
-        LOG.info("bizStore={} averageServiceTime={} tokenQueue={}",
-                bizStore.getBizName(),
-                bizStore.getAverageServiceTime(),
-                tokenQueue.getCurrentlyServing());
+            LOG.info("TokenState bizStore={} averageServiceTime={} tokenQueue={}",
+                    bizStore.getBizName(),
+                    bizStore.getAverageServiceTime(),
+                    tokenQueue.getCurrentlyServing());
 
-        return new JsonQueue(bizStore.getCodeQR())
-                .setBusinessName(bizStore.getBizName().getBusinessName())
-                .setDisplayName(bizStore.getDisplayName())
-                .setStoreAddress(bizStore.getAddress())
-                .setCountryShortName(bizStore.getCountryShortName())
-                .setStorePhone(bizStore.getPhoneFormatted())
-                .setRating(bizStore.getRating())
-                .setRatingCount(bizStore.getRatingCount())
-                .setAverageServiceTime(bizStore.getAverageServiceTime())
-                .setTokenAvailableFrom(storeHour.getTokenAvailableFrom())
-                .setStartHour(storeHour.getStartHour())
-                .setTokenNotAvailableFrom(storeHour.getTokenNotAvailableFrom())
-                .setEndHour(storeHour.getEndHour())
-                .setPreventJoining(storeHour.isPreventJoining())
-                .setDayClosed(storeHour.isDayClosed())
-                .setTopic(bizStore.getTopic())
-                .setCoordinate(bizStore.getCoordinate())
-                .setServingNumber(tokenQueue.getCurrentlyServing())
-                .setLastNumber(tokenQueue.getLastNumber())
-                .setQueueStatus(tokenQueue.getQueueStatus())
-                .setCreated(tokenQueue.getCreated())
-                .setRemoteJoinAvailable(bizStore.isRemoteJoin())
-                .setAllowLoggedInUser(bizStore.isAllowLoggedInUser());
+            return new JsonQueue(bizStore.getCodeQR())
+                    .setBusinessName(bizStore.getBizName().getBusinessName())
+                    .setDisplayName(bizStore.getDisplayName())
+                    .setStoreAddress(bizStore.getAddress())
+                    .setCountryShortName(bizStore.getCountryShortName())
+                    .setStorePhone(bizStore.getPhoneFormatted())
+                    .setRating(bizStore.getRating())
+                    .setRatingCount(bizStore.getRatingCount())
+                    .setAverageServiceTime(bizStore.getAverageServiceTime())
+                    .setTokenAvailableFrom(storeHour.getTokenAvailableFrom())
+                    .setStartHour(storeHour.getStartHour())
+                    .setTokenNotAvailableFrom(storeHour.getTokenNotAvailableFrom())
+                    .setEndHour(storeHour.getEndHour())
+                    .setPreventJoining(storeHour.isPreventJoining())
+                    .setDayClosed(storeHour.isDayClosed())
+                    .setTopic(bizStore.getTopic())
+                    .setCoordinate(bizStore.getCoordinate())
+                    .setServingNumber(tokenQueue.getCurrentlyServing())
+                    .setLastNumber(tokenQueue.getLastNumber())
+                    .setQueueStatus(tokenQueue.getQueueStatus())
+                    .setCreated(tokenQueue.getCreated())
+                    .setRemoteJoinAvailable(bizStore.isRemoteJoin())
+                    .setAllowLoggedInUser(bizStore.isAllowLoggedInUser());
+        } catch (Exception e) {
+            //TODO remove this catch
+            LOG.error("Failed getting state reason={}", e.getLocalizedMessage(), e);
+            return null;
+        }
     }
 
     public JsonToken joinQueue(String codeQR, String did, String qid) {
