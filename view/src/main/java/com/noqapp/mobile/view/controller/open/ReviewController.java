@@ -113,6 +113,12 @@ public class ReviewController {
                         token,
                         ratingCount,
                         hoursSaved);
+            } else {
+                LOG.error("Updated review for codeQR={} token={} ratingCount={} hoursSaved={}",
+                        codeQR,
+                        token,
+                        ratingCount,
+                        hoursSaved);
             }
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {

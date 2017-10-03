@@ -129,6 +129,12 @@ public class ReviewAPIController {
                         token,
                         ratingCount,
                         hoursSaved);
+            } else {
+                LOG.info("Updated review API for codeQR={} token={} ratingCount={} hoursSaved={}",
+                        codeQR,
+                        token,
+                        ratingCount,
+                        hoursSaved);
             }
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
