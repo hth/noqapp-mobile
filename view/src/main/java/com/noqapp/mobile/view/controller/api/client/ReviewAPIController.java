@@ -124,11 +124,23 @@ public class ReviewAPIController {
 
             reviewSuccess = queueMobileService.reviewService(codeQR, token, did.getText(), qid, ratingCount, hoursSaved);
             if (!reviewSuccess) {
-                LOG.error("Failed to update review API for codeQR={} token={} ratingCount={} hoursSaved={}",
+                LOG.error("Failed to update review API for codeQR={} token={} ratingCount={} hoursSaved={} qid={} did={} dt={}",
                         codeQR,
                         token,
                         ratingCount,
-                        hoursSaved);
+                        hoursSaved,
+                        qid,
+                        did,
+                        dt);
+            } else {
+                LOG.info("Updated review API for codeQR={} token={} ratingCount={} hoursSaved={} qid={} did={} dt={}",
+                        codeQR,
+                        token,
+                        ratingCount,
+                        hoursSaved,
+                        qid,
+                        did,
+                        dt);
             }
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
