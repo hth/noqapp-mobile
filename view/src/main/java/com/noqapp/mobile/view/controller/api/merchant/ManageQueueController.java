@@ -593,11 +593,11 @@ public class ManageQueueController {
                 return getErrorReason("Not a valid queue status.", MOBILE_JSON);
             }
 
-            String goTo = map.containsKey("g") ? map.get("g").getText() : null;
+            String goTo = map.containsKey("g") ? map.get("g").getText() : "";
             if (StringUtils.isBlank(goTo)) {
                 return getErrorReason("Counter name cannot be empty.", MOBILE_JSON);
             } else {
-                if (goTo.length() > counterNameLength) {
+                if (counterNameLength < goTo.length()) {
                     return getErrorReason("Counter name cannot exceed character size of 20.", MOBILE_JSON);
                 }
             }
