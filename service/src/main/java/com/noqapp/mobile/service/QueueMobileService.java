@@ -191,17 +191,6 @@ public class QueueMobileService {
             return jsonToken;
         }
 
-        /* When nothing is found, return DONE status for the queue. */
-        TokenQueueEntity tokenQueue = getTokenQueueByCodeQR(codeQR);
-        if (null != tokenQueue) {
-            LOG.info("On next, found no one in queue, returning with DONE status");
-            return new JsonToken(codeQR)
-                    .setToken(tokenQueue.getLastNumber())
-                    .setServingNumber(tokenQueue.getLastNumber())
-                    .setDisplayName(tokenQueue.getDisplayName())
-                    .setQueueStatus(QueueStatusEnum.D);
-        }
-
         return null;
     }
 

@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
@@ -259,7 +260,7 @@ public class ManageQueueController {
 
     /**
      * Most called during refresh or reload of the app.
-     * 
+     *
      * @param did
      * @param dt
      * @param mail
@@ -457,7 +458,7 @@ public class ManageQueueController {
 
     /**
      * List all the queued clients.
-     * 
+     *
      * @param did
      * @param dt
      * @param mail
@@ -616,6 +617,10 @@ public class ManageQueueController {
                     throw new UnsupportedOperationException("Reached unsupported condition for QueueState " + tokenQueue.getQueueStatus().getDescription());
             }
 
+            if (null == jsonToken) {
+                LOG.warn("Failed to acquire client={} qid={} did={}", serveTokenString, qid, did);
+                return getErrorReason("Could not acquire client " + serveTokenString, MERCHANT_COULD_NOT_ACQUIRE);
+            }
             LOG.info("On served response servedNumber={} nowServicing={} jsonToken={}", servedNumber, jsonToken.getServingNumber(), jsonToken);
             return jsonToken.asJson();
         } catch (JsonMappingException e) {

@@ -17,6 +17,7 @@ public enum MobileSystemErrorCodeEnum {
     MOBILE_UPGRADE("222"),
 
     REMOTE_JOIN_EMPTY("300"),
+    MERCHANT_COULD_NOT_ACQUIRE("350"),
 
     AUTHENTICATION("400"),
     USER_EXISTING("410"),
