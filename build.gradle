@@ -211,7 +211,7 @@ subprojects {
         compile "com.google.code.gson:gson:$gson"
         compile "com.google.maps:google-maps-services:$googleMapsServices"
         compile "com.googlecode.libphonenumber:libphonenumber:$libphonenumber"
-        compile 'com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239'
+        compile "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239"
         compile ("com.google.firebase:firebase-admin:$firebase") {
             exclude group: 'com.google.guava'
         }
