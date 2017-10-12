@@ -17,6 +17,7 @@ import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.TokenQueueService;
 
+import java.time.DayOfWeek;
 import java.time.ZonedDateTime;
 import java.util.TimeZone;
 
@@ -42,9 +43,13 @@ public class TokenQueueMobileService {
     public JsonQueue findTokenState(String codeQR) {
         try {
             BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
-            TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
-            StoreHourEntity storeHour = bizService.findOne(bizStore.getId(), ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek());
+            DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
+            LOG.info("codeQR={} dayOfWeek={}", codeQR, dayOfWeek);
 
+            StoreHourEntity storeHour = bizService.findStoreHour(bizStore.getId(), dayOfWeek);
+            LOG.info("StoreHour={}", storeHour);
+
+            TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
             LOG.info("TokenState bizStore={} averageServiceTime={} tokenQueue={}",
                     bizStore.getBizName(),
                     bizStore.getAverageServiceTime(),
