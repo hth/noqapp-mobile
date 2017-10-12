@@ -492,7 +492,13 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Queue Clients with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("Queued Clients shown for codeQR={} request from mail={} did={} dt={} auth={}",
+                codeQR,
+                mail,
+                did,
+                dt,
+                AUTH_KEY_HIDDEN);
+
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/showQueuedClients by mail={}", mail);
