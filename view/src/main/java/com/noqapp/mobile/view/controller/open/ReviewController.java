@@ -83,7 +83,7 @@ public class ReviewController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("On scan get state did={} dt={}", did, dt);
+        LOG.info("Review for did={} dt={}", did, dt);
 
         Map<String, ScrubbedInput> map;
         try {
@@ -107,23 +107,6 @@ public class ReviewController {
             }
 
             reviewSuccess = queueMobileService.reviewService(codeQR, token, did.getText(), null, ratingCount, hoursSaved);
-            if (!reviewSuccess) {
-                LOG.error("Failed to update review for codeQR={} token={} ratingCount={} hoursSaved={} did={} dt={}",
-                        codeQR, 
-                        token,
-                        ratingCount,
-                        hoursSaved,
-                        did,
-                        dt);
-            } else {
-                LOG.error("Updated review for codeQR={} token={} ratingCount={} hoursSaved={} did={} dt={}",
-                        codeQR,
-                        token,
-                        ratingCount,
-                        hoursSaved,
-                        did,
-                        dt);
-            }
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);

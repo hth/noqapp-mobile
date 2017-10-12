@@ -96,7 +96,7 @@ public class ReviewAPIController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("On scan get state did={} dt={}", did, dt);
+        LOG.info("Review API for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
@@ -123,25 +123,6 @@ public class ReviewAPIController {
             }
 
             reviewSuccess = queueMobileService.reviewService(codeQR, token, did.getText(), qid, ratingCount, hoursSaved);
-            if (!reviewSuccess) {
-                LOG.error("Failed to update review API for codeQR={} token={} ratingCount={} hoursSaved={} qid={} did={} dt={}",
-                        codeQR,
-                        token,
-                        ratingCount,
-                        hoursSaved,
-                        qid,
-                        did,
-                        dt);
-            } else {
-                LOG.info("Updated review API for codeQR={} token={} ratingCount={} hoursSaved={} qid={} did={} dt={}",
-                        codeQR,
-                        token,
-                        ratingCount,
-                        hoursSaved,
-                        qid,
-                        did,
-                        dt);
-            }
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
