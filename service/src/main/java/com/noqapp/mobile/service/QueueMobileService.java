@@ -37,6 +37,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutorService;
+
+import static java.util.concurrent.Executors.newCachedThreadPool;
 
 /**
  * User: hitender
@@ -54,6 +57,8 @@ public class QueueMobileService {
     private StoreHourManager storeHourManager;
     private QueueService queueService;
 
+    private ExecutorService service;
+
     @Autowired
     public QueueMobileService(
             QueueManager queueManager,
@@ -70,6 +75,8 @@ public class QueueMobileService {
         this.queueManagerJDBC = queueManagerJDBC;
         this.storeHourManager = storeHourManager;
         this.queueService = queueService;
+
+        this.service = newCachedThreadPool();
     }
 
     /**
@@ -378,12 +385,38 @@ public class QueueMobileService {
                 .setSinceBeginning(sinceBeginning);
     }
 
+    /**
+     * Since review can be done in background. Moved logic to thread.
+     *
+     * @param codeQR
+     * @param token
+     * @param did
+     * @param qid
+     * @param ratingCount
+     * @param hoursSaved
+     */
     public boolean reviewService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved) {
+        service.submit(() -> reviewingService(codeQR, token, did, qid, ratingCount, hoursSaved));
+        return true;
+    }
+
+    /**
+     * Submitting review.
+     */
+    private void reviewingService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved) {
         boolean reviewSubmitStatus = queueManager.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved);
         if (!reviewSubmitStatus) {
             reviewSubmitStatus = reviewHistoricalService(codeQR, token, did, qid, ratingCount, hoursSaved);
         }
-        return reviewSubmitStatus;
+
+        LOG.info("Review update status={} codeQR={} token={} ratingCount={} hoursSaved={} did={} qid={} ",
+                reviewSubmitStatus,
+                codeQR,
+                token,
+                ratingCount,
+                hoursSaved,
+                did,
+                qid);
     }
 
     private boolean reviewHistoricalService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved) {
