@@ -80,7 +80,7 @@ public class TokenQueueMobileService {
                     .setAllowLoggedInUser(bizStore.isAllowLoggedInUser());
         } catch (Exception e) {
             //TODO remove this catch
-            LOG.error("Failed getting state reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed getting state codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);
             return null;
         }
     }
