@@ -206,7 +206,7 @@ public class TokenQueueController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput deviceType,
 
-            @RequestHeader (value = "X-R-VR", required = false, defaultValue = "100")
+            @RequestHeader (value = "X-R-VR")
             ScrubbedInput versionRelease,
 
             @PathVariable ("codeQR")
