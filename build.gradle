@@ -240,7 +240,6 @@ subprojects {
         compile "org.apache.tika:tika-core:$tika"
         compile "org.apache.httpcomponents:httpclient:$httpclient"
         compile 'org.apache.commons:commons-collections4:4.1'
-        compile 'org.apache.commons:commons-lang3:3.4'
 
         compile "ch.qos.logback:logback-core:$logback"
         compile "ch.qos.logback:logback-classic:$logback"
