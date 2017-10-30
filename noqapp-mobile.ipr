@@ -44,7 +44,6 @@
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: com.google.oauth-client:google-oauth-client:1.22.0" />
-            <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.0" />
             <element id="library" level="project" name="Gradle: com.googlecode.json-simple:json-simple:1.1.1" />
             <element id="library" level="project" name="Gradle: com.googlecode.juniversalchardet:juniversalchardet:1.0.3" />
             <element id="library" level="project" name="Gradle: com.googlecode.mp4parser:isoparser:1.1.18" />
@@ -244,8 +243,9 @@
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-credentials:0.8.0" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-oauth2-http:0.8.0" />
             <element id="library" level="project" name="Gradle: com.google.firebase:firebase-admin:5.4.0" />
-            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.2-jre" />
             <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.8.4" />
+            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.3-jre" />
+            <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.1" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -346,13 +346,13 @@
             <element id="library" level="project" name="Gradle: org.quartz-scheduler:quartz:2.3.0" />
             <element id="library" level="project" name="Gradle: com.google.maps:google-maps-services:0.2.4" />
             <element id="library" level="project" name="Gradle: com.squareup.okhttp3:okhttp:3.9.0" />
-            <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.0" />
             <element id="library" level="project" name="Gradle: aopalliance:aopalliance:1.0" />
             <element id="library" level="project" name="Gradle: com.github.junrar:junrar:0.7" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-vfs2:2.1" />
             <element id="library" level="project" name="Gradle: com.jcraft:jsch:0.1.54" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjrt:1.8.10" />
             <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:2.7.1" />
+            <element id="library" level="project" name="Gradle: com.google.firebase:firebase-admin:5.4.0" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.3" />
             <element id="library" level="project" name="Gradle: io.swagger:swagger-models:1.5.13" />
             <element id="library" level="project" name="Gradle: com.rometools:rome:1.5.1" />
@@ -372,16 +372,17 @@
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.26-incubating" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
             <element id="library" level="project" name="Gradle: org.reflections:reflections:0.9.11" />
-            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.2-jre" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.3.0" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.2" />
+            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.8.4" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.11" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.0" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
             <element id="library" level="project" name="Gradle: com.google.api:gax:1.4.1" />
+            <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-oauth2-http:0.8.0" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson2:1.22.0" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.0" />
@@ -469,6 +470,7 @@
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.0" />
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.0.0" />
             <element id="library" level="project" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" />
+            <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-credentials:0.8.0" />
             <element id="library" level="project" name="Gradle: com.google.apis:google-api-services-storage:v1-rev100-1.22.0" />
             <element id="library" level="project" name="Gradle: commons-lang:commons-lang:2.6" />
             <element id="library" level="project" name="Gradle: org.apache.pdfbox:fontbox:2.0.6" />
@@ -503,10 +505,8 @@
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.4.0/dc068a2615eb426ef24a0e3b53776dc2478b9608/firebase-admin-5.4.0.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.4/1935df1efd2fcdd7c2e7d4f8cc08f245a2798346/libphonenumber-8.8.4.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.auth/google-auth-library-oauth2-http/0.8.0/3b343c91d25d1bdae085f4f491b921a94cea05e/google-auth-library-oauth2-http-0.8.0.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.auth/google-auth-library-credentials/0.8.0/585c4d65c6788ca0414e9a0434482094ac80c5a/google-auth-library-credentials-0.8.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.1/bd5bb06f4ae0fef8e67044131272905eb8895230/core-3.3.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.3-jre/9124c2675a9de3ba953f66d62339cf62f8e1a143/guava-23.3-jre.jar" />
           </element>
         </element>
       </root>
@@ -602,13 +602,13 @@
             <element id="library" level="project" name="Gradle: org.quartz-scheduler:quartz:2.3.0" />
             <element id="library" level="project" name="Gradle: com.google.maps:google-maps-services:0.2.4" />
             <element id="library" level="project" name="Gradle: com.squareup.okhttp3:okhttp:3.9.0" />
-            <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.0" />
             <element id="library" level="project" name="Gradle: aopalliance:aopalliance:1.0" />
             <element id="library" level="project" name="Gradle: com.github.junrar:junrar:0.7" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-vfs2:2.1" />
             <element id="library" level="project" name="Gradle: com.jcraft:jsch:0.1.54" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjrt:1.8.10" />
             <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:2.7.1" />
+            <element id="library" level="project" name="Gradle: com.google.firebase:firebase-admin:5.4.0" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.3" />
             <element id="library" level="project" name="Gradle: io.swagger:swagger-models:1.5.13" />
             <element id="library" level="project" name="Gradle: com.rometools:rome:1.5.1" />
@@ -628,16 +628,17 @@
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.26-incubating" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
             <element id="library" level="project" name="Gradle: org.reflections:reflections:0.9.11" />
-            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.2-jre" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.3.0" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.2" />
+            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.8.4" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.11" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.0" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
             <element id="library" level="project" name="Gradle: com.google.api:gax:1.4.1" />
+            <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-oauth2-http:0.8.0" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson2:1.22.0" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.0" />
@@ -725,6 +726,7 @@
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.0" />
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.0.0" />
             <element id="library" level="project" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" />
+            <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-credentials:0.8.0" />
             <element id="library" level="project" name="Gradle: com.google.apis:google-api-services-storage:v1-rev100-1.22.0" />
             <element id="library" level="project" name="Gradle: commons-lang:commons-lang:2.6" />
             <element id="library" level="project" name="Gradle: org.apache.pdfbox:fontbox:2.0.6" />
@@ -767,10 +769,8 @@
               <element id="dir-copy" path="$PROJECT_DIR$/security/out/production/resources" />
             </element>
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.4.0/dc068a2615eb426ef24a0e3b53776dc2478b9608/firebase-admin-5.4.0.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.4/1935df1efd2fcdd7c2e7d4f8cc08f245a2798346/libphonenumber-8.8.4.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.auth/google-auth-library-oauth2-http/0.8.0/3b343c91d25d1bdae085f4f491b921a94cea05e/google-auth-library-oauth2-http-0.8.0.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.auth/google-auth-library-credentials/0.8.0/585c4d65c6788ca0414e9a0434482094ac80c5a/google-auth-library-credentials-0.8.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.1/bd5bb06f4ae0fef8e67044131272905eb8895230/core-3.3.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.3-jre/9124c2675a9de3ba953f66d62339cf62f8e1a143/guava-23.3-jre.jar" />
           </element>
         </element>
       </root>
@@ -1410,15 +1410,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.4.0/1db084582c0702ebb089ca4dae8a66a685ce569/firebase-admin-5.4.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.guava:guava:23.2-jre">
+    <library name="Gradle: com.google.guava:guava:23.3-jre">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.2-jre/a1a3e54263d357d2ecadcb3f5e7eb6464c66fe93/guava-23.2-jre.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.3-jre/9124c2675a9de3ba953f66d62339cf62f8e1a143/guava-23.3-jre.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.2-jre/7f729a2e4123d6bf9f9a2785f204e27082ce84bb/guava-23.2-jre-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.3-jre/cbf60f015ae889df22cca0c94c0e8050b6880964/guava-23.3-jre-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.2-jre/b63fe66a4b4ded5f67a77cef7ae2b7ba6563a7b3/guava-23.2-jre-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.3-jre/d967e31ead03281f680189194b67748602944627/guava-23.3-jre-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.http-client:google-http-client-appengine:1.21.0">
@@ -1531,15 +1531,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.3.0/90ec3d74dd8acf83ef3b153cc63b3579fcfa199/protobuf-java-3.3.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.zxing:core:3.3.0">
+    <library name="Gradle: com.google.zxing:core:3.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/73c49077166faa4c3c0059c5f583d1d7bd1475fe/core-3.3.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.1/bd5bb06f4ae0fef8e67044131272905eb8895230/core-3.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/bd6dd9d5dc1decf837b9f224ce4ac97637a248c2/core-3.3.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.1/a3f8463a74eca3213ebdf1db1573631c37148220/core-3.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/39d966e052e28fc7d83793b02e0af97ccf955745/core-3.3.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.1/7dd7eb39959256ed2826829c1f996bbbb45befc3/core-3.3.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.googlecode.json-simple:json-simple:1.1.1">
