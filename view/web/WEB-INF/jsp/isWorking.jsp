@@ -11,21 +11,21 @@
     <link rel="stylesheet" href="//receiptofi.com/css/style.css"> <!-- Resource style -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css">
 
-    <title>Receiptofi | Receipt App to park your Receipts</title>
+    <title>NoQueue</title>
 </head>
 <body>
 <section class="cd-fixed-background" style="background-color: #93a748" data-type="slider-item">
     <div class="cd-content">
         <fieldset class="cd-form floating-labels" id="login-title-fieldset">
-            <h2>ReceiptApp for receipts</h2>
-            <p>Mobile ReceiptApp APIs</p>
+            <h2>NoQApp</h2>
+            <p>Mobile NoApp APIs</p>
             <p>All requests need authorization.</p>
         </fieldset>
     </div>
 </section>
 <div class="footer-container">
     <footer class="wrapper fine-print">
-        &#169; 2017 Receiptofi, Inc. <a href="//receiptofi.com/termsofuse">Terms</a> and <a href="//receiptofi.com/privacypolicy">Privacy</a>.<br>
+        &#169; 2017 NoQApp, Inc. <a href="//noqapp.com/termsofuse">Terms</a> and <a href="//noqapp.com/privacypolicy">Privacy</a>.<br>
         All other trademarks and logos belong to their respective owners. (<spring:eval expression="@environmentProperty.getProperty('build.version')" />.<spring:eval expression="@environmentProperty.getProperty('server')" />)<br>
     </footer>
 </div>
