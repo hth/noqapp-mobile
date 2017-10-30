@@ -33,17 +33,21 @@ public enum LowestSupportedAppEnum {
     }
 
     public static boolean isLessThanLowestSupportedVersion(DeviceTypeEnum deviceType, int appVersionNumber) {
-        LOG.info("Version={} device={}", appVersionNumber, deviceType);
         int shortenedAppVersionNumber = Integer.valueOf(String.valueOf(Math.abs((long) appVersionNumber)).substring(0, 3));
-        LOG.info("Computed version={}", shortenedAppVersionNumber);
+        LOG.debug("App Version={} device={} and shortenedAppVersionNumber={}",
+                appVersionNumber,
+                deviceType,
+                shortenedAppVersionNumber);
+
         boolean supported = true;
         for (LowestSupportedAppEnum lowestSupportedAPI : LowestSupportedAppEnum.values()) {
             if (lowestSupportedAPI.deviceType == deviceType && lowestSupportedAPI.appVersionNumber <= shortenedAppVersionNumber) {
                 supported = false;
+                break;
             }
         }
 
-        LOG.info("Is supported API version={}", supported);
+        LOG.debug("Calculated supported API version={}", supported);
         return supported;
     }
 }
