@@ -265,30 +265,8 @@ public class TokenQueueAPIController {
             return null;
         }
 
-        DeviceTypeEnum deviceTypeEnum;
-        try {
-            deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
-            LOG.info("Check if API version is supported for {} versionRelease={}",
-                    deviceTypeEnum.getDescription(),
-                    versionRelease.getText());
-
-            try {
-                int versionNumber = Integer.valueOf(versionRelease.getText());
-                if (LowestSupportedAppEnum.isLessThanLowestSupportedVersion(deviceTypeEnum, versionNumber)) {
-                    LOG.warn("Sent warning to upgrade versionNumber={}", versionNumber);
-                    return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
-                }
-            } catch (NumberFormatException e) {
-                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
-                return getErrorReason("Failed to read API version type.", USER_INPUT);
-            } catch (Exception e) {
-                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
-                return getErrorReason("Incorrect API version type.", USER_INPUT);
-            }
-        } catch (Exception e) {
-            LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
-            return getErrorReason("Incorrect device type.", USER_INPUT);
-        }
+        String message = validatedIfDeviceVersionSupported(deviceType.getText(), versionRelease.getText());
+        if (message != null) return message;
 
         try {
             return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), qid).asJson();
@@ -470,5 +448,40 @@ public class TokenQueueAPIController {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Checks is device version is supported.
+     *
+     * @param deviceType
+     * @param versionRelease
+     * @return
+     */
+    public static String validatedIfDeviceVersionSupported(String deviceType, String versionRelease) {
+        DeviceTypeEnum deviceTypeEnum;
+        try {
+            deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType);
+            LOG.info("Check if API version is supported for {} versionRelease={}",
+                    deviceTypeEnum.getDescription(),
+                    versionRelease);
+
+            try {
+                int versionNumber = Integer.valueOf(versionRelease);
+                if (LowestSupportedAppEnum.isLessThanLowestSupportedVersion(deviceTypeEnum, versionNumber)) {
+                    LOG.warn("Sent warning to upgrade versionNumber={}", versionNumber);
+                    return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
+                }
+            } catch (NumberFormatException e) {
+                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
+                return getErrorReason("Failed to read API version type.", USER_INPUT);
+            } catch (Exception e) {
+                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
+                return getErrorReason("Incorrect API version type.", USER_INPUT);
+            }
+        } catch (Exception e) {
+            LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
+            return getErrorReason("Incorrect device type.", USER_INPUT);
+        }
+        return null;
     }
 }

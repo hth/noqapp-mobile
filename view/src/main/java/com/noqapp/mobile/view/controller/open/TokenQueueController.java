@@ -1,8 +1,7 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
+import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.validatedIfDeviceVersionSupported;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +23,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
-import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.utils.ScrubbedInput;
 
@@ -220,30 +218,8 @@ public class TokenQueueController {
             return null;
         }
 
-        DeviceTypeEnum deviceTypeEnum;
-        try {
-            deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
-            LOG.info("Check if API version is supported for {} versionRelease={}",
-                    deviceTypeEnum.getDescription(),
-                    versionRelease.getText());
-            
-            try {
-                int versionNumber = Integer.valueOf(versionRelease.getText());
-                if (LowestSupportedAppEnum.isLessThanLowestSupportedVersion(deviceTypeEnum, versionNumber)) {
-                    LOG.warn("Sent warning to upgrade versionNumber={}", versionNumber);
-                    return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
-                }
-            } catch (NumberFormatException e) {
-                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
-                return getErrorReason("Failed to read API version type.", USER_INPUT);
-            } catch (Exception e) {
-                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
-                return getErrorReason("Incorrect API version type.", USER_INPUT);
-            }
-        } catch (Exception e) {
-            LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
-            return getErrorReason("Incorrect device type.", USER_INPUT);
-        }
+        String message = validatedIfDeviceVersionSupported(deviceType.getText(), versionRelease.getText());
+        if (message != null) return message;
 
         try {
             return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null).asJson();
