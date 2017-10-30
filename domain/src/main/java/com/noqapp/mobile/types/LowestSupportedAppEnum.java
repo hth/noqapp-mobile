@@ -1,6 +1,8 @@
 package com.noqapp.mobile.types;
 
 import com.noqapp.domain.types.DeviceTypeEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * API's are never old. App installed on device is old.
@@ -13,6 +15,8 @@ public enum LowestSupportedAppEnum {
     /* List lowest supported version of iPhone and Android app. */
     VI("1.0.0", 100, DeviceTypeEnum.I),
     VA("1.0.0", 100, DeviceTypeEnum.A);
+
+    private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
 
     private String appVersion;
     private int appVersionNumber;
@@ -29,7 +33,9 @@ public enum LowestSupportedAppEnum {
     }
 
     public static boolean isLessThanLowestSupportedVersion(DeviceTypeEnum deviceType, int appVersionNumber) {
+        LOG.info("Version={} device={}", appVersionNumber, deviceType);
         int shortenedAppVersionNumber = Integer.valueOf(String.valueOf(Math.abs((long) appVersionNumber)).substring(0, 3));
+        LOG.info("Computed version={}", shortenedAppVersionNumber);
         boolean notSupported = false;
         for (LowestSupportedAppEnum lowestSupportedAPI : LowestSupportedAppEnum.values()) {
             if (lowestSupportedAPI.deviceType == deviceType && lowestSupportedAPI.appVersionNumber >= shortenedAppVersionNumber) {
