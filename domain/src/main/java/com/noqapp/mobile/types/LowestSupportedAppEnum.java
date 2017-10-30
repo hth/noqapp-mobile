@@ -38,11 +38,12 @@ public enum LowestSupportedAppEnum {
         LOG.info("Computed version={}", shortenedAppVersionNumber);
         boolean notSupported = false;
         for (LowestSupportedAppEnum lowestSupportedAPI : LowestSupportedAppEnum.values()) {
-            if (lowestSupportedAPI.deviceType == deviceType && lowestSupportedAPI.appVersionNumber >= shortenedAppVersionNumber) {
+            if (lowestSupportedAPI.deviceType == deviceType && lowestSupportedAPI.appVersionNumber <= shortenedAppVersionNumber) {
                 notSupported = true;
             }
         }
 
+        LOG.info("Is supported API version={}", notSupported);
         return notSupported;
     }
 }
