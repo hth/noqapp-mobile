@@ -43,12 +43,7 @@ public class TokenQueueMobileService {
     public JsonQueue findTokenState(String codeQR) {
         try {
             BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
-            DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
-            LOG.info("codeQR={} dayOfWeek={}", codeQR, dayOfWeek);
-
-            StoreHourEntity storeHour = bizService.findStoreHour(bizStore.getId(), dayOfWeek);
-            LOG.info("StoreHour={}", storeHour);
-
+            StoreHourEntity storeHour = getStoreHours(codeQR, bizStore);
             TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
             LOG.info("TokenState bizStore={} averageServiceTime={} tokenQueue={}",
                     bizStore.getBizName(),
@@ -83,6 +78,16 @@ public class TokenQueueMobileService {
             LOG.error("Failed getting state codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);
             return null;
         }
+    }
+
+    //TODO instead send all the hours of the store and let App figure out which one to show.
+    private StoreHourEntity getStoreHours(String codeQR, BizStoreEntity bizStore) {
+        DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
+        LOG.debug("codeQR={} dayOfWeek={}", codeQR, dayOfWeek);
+
+        StoreHourEntity storeHour = bizService.findStoreHour(bizStore.getId(), dayOfWeek);
+        LOG.debug("StoreHour={}", storeHour);
+        return storeHour;
     }
 
     public JsonToken joinQueue(String codeQR, String did, String qid) {
