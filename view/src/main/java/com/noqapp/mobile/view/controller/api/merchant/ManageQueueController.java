@@ -4,6 +4,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_C
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.validatedIfDeviceVersionSupported;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -96,7 +97,10 @@ public class ManageQueueController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
+
+            @RequestHeader (value = "X-R-VR")
+            ScrubbedInput versionRelease,
 
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
@@ -106,13 +110,16 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("All queues associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("All queues associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/queues by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
+
+        String message = validatedIfDeviceVersionSupported(deviceType.getText(), versionRelease.getText());
+        if (message != null) return message;
 
         try {
             JsonTopicList topics = new JsonTopicList();
@@ -130,7 +137,7 @@ public class ManageQueueController {
      * When client starts to serve for first time or re-start after serving the last in the queue.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param mail
      * @param requestBodyJson
      * @param response
@@ -149,7 +156,7 @@ public class ManageQueueController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
@@ -162,7 +169,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Served mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/served by mail={}", mail);
@@ -262,7 +269,7 @@ public class ManageQueueController {
      * Most called during refresh or reload of the app.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param mail
      * @param auth
      * @param codeQR
@@ -282,7 +289,7 @@ public class ManageQueueController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
@@ -295,7 +302,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Single queue associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("Single queue associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/queue by mail={}", mail);
@@ -330,7 +337,7 @@ public class ManageQueueController {
      * Get existing state of the queue to change the settings.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param mail
      * @param auth
      * @param codeQR
@@ -350,7 +357,7 @@ public class ManageQueueController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
@@ -363,7 +370,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Queue state associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("Queue state associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/state by mail={}", mail);
@@ -393,7 +400,7 @@ public class ManageQueueController {
      * Modifies the state of queue.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param mail
      * @param auth
      * @param requestBodyJson
@@ -413,7 +420,7 @@ public class ManageQueueController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
@@ -426,7 +433,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Modify queue associated with mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("Modify queue associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/modify by mail={}", mail);
@@ -460,7 +467,7 @@ public class ManageQueueController {
      * List all the queued clients.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param mail
      * @param auth
      * @param codeQR
@@ -480,7 +487,7 @@ public class ManageQueueController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
@@ -493,11 +500,11 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Queued Clients shown for codeQR={} request from mail={} did={} dt={} auth={}",
+        LOG.info("Queued Clients shown for codeQR={} request from mail={} did={} deviceType={} auth={}",
                 codeQR,
                 mail,
                 did,
-                dt,
+                deviceType,
                 AUTH_KEY_HIDDEN);
 
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -529,7 +536,7 @@ public class ManageQueueController {
      * Acquire specific token not in order. Send message of being served next to the owner of the token.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param mail
      * @param requestBodyJson
      * @param response
@@ -548,7 +555,7 @@ public class ManageQueueController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
@@ -561,7 +568,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("Acquired mail={} did={} dt={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("Acquired mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.info("Un-authorized access to /api/m/mq/acquire by mail={}", mail);
