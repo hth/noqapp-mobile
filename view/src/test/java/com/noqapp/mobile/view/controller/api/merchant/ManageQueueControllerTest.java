@@ -20,12 +20,14 @@ import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
+import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
+import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.utils.ScrubbedInput;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,7 +88,8 @@ class ManageQueueControllerTest {
     void queues_fail_authentication() throws Exception {
         String responseJson = manageQueueController.getQueues(
                 new ScrubbedInput(""),
-                new ScrubbedInput(""),
+                new ScrubbedInput(DeviceTypeEnum.A.getName()),
+                new ScrubbedInput(LowestSupportedAppEnum.VA.getAppVersionNumber()),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 response);
@@ -102,7 +105,8 @@ class ManageQueueControllerTest {
 
         String responseJson = manageQueueController.getQueues(
                 new ScrubbedInput(""),
-                new ScrubbedInput(""),
+                new ScrubbedInput(DeviceTypeEnum.A.getName()),
+                new ScrubbedInput(LowestSupportedAppEnum.VA.getAppVersionNumber()),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 response);
@@ -118,7 +122,8 @@ class ManageQueueControllerTest {
         when(businessUserStoreService.getQueues(anyString())).thenReturn(topics);
         String responseJson = manageQueueController.getQueues(
                 new ScrubbedInput(""),
-                new ScrubbedInput(""),
+                new ScrubbedInput(DeviceTypeEnum.A.getName()),
+                new ScrubbedInput(LowestSupportedAppEnum.VA.getAppVersionNumber()),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 response);

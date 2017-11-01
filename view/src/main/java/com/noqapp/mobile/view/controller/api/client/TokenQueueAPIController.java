@@ -428,7 +428,7 @@ public class TokenQueueAPIController {
         }
 
         try {
-            if (inviteService.getRemoteJoinCount(qid) > 0) {
+            if (0 < inviteService.getRemoteJoinCount(qid)) {
                 String jsonToken = tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), qid).asJson();
                 inviteService.deductRemoteJoinCount(qid);
                 return jsonToken;
