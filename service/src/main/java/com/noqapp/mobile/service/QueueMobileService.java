@@ -145,8 +145,8 @@ public class QueueMobileService {
      * Merchant when starting or re-starting to serve token when QueueState has been either Start or Re-Start.
      *
      * @param codeQR
-     * @param goTo      counter name
-     * @param sid       server device id
+     * @param goTo   counter name
+     * @param sid    server device id
      * @return
      */
     public JsonToken getNextInQueue(String codeQR, String goTo, String sid) {
@@ -156,7 +156,11 @@ public class QueueMobileService {
         if (null != queue) {
             LOG.info("Found queue codeQR={} token={}", codeQR, queue.getTokenNumber());
 
-            JsonToken jsonToken = tokenQueueMobileService.updateServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber(), goTo);
+            JsonToken jsonToken = tokenQueueMobileService.updateServing(
+                    codeQR,
+                    QueueStatusEnum.N,
+                    queue.getTokenNumber(),
+                    goTo);
             //TODO(hth) call can be put in thread
             tokenQueueMobileService.changeQueueStatus(codeQR, QueueStatusEnum.N);
             return jsonToken;
@@ -180,19 +184,27 @@ public class QueueMobileService {
      * Merchant when serving a specific token in queue. This is works for out of order request in queue.
      *
      * @param codeQR
-     * @param goTo      counter name
-     * @param sid       server device id
-     * @param token     specific token being requested for next service
+     * @param goTo   counter name
+     * @param sid    server device id
+     * @param token  specific token being requested for next service
      * @return
      */
     public JsonToken getThisAsNextInQueue(String codeQR, String goTo, String sid, int token) {
-        LOG.info("Getting specific token next in queue for codeQR={} goTo={} sid={} token={}", codeQR, goTo, sid, token);
+        LOG.info("Getting specific token next in queue for codeQR={} goTo={} sid={} token={}",
+                codeQR,
+                goTo,
+                sid,
+                token);
 
         QueueEntity queue = queueManager.getThisAsNext(codeQR, goTo, sid, token);
         if (null != queue) {
             LOG.info("Found queue codeQR={} token={}", codeQR, queue.getTokenNumber());
 
-            JsonToken jsonToken = tokenQueueMobileService.updateThisServing(codeQR, QueueStatusEnum.N, queue.getTokenNumber(), goTo);
+            JsonToken jsonToken = tokenQueueMobileService.updateThisServing(
+                    codeQR,
+                    QueueStatusEnum.N,
+                    queue.getTokenNumber(),
+                    goTo);
             //TODO(hth) call can be put in thread
             tokenQueueMobileService.changeQueueStatus(codeQR, QueueStatusEnum.N);
             return jsonToken;
@@ -212,7 +224,10 @@ public class QueueMobileService {
             JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
-            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken.getToken(), jsonToken.getQueueStatus(), jsonQueue);
+            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
+                    jsonToken.getToken(),
+                    jsonToken.getQueueStatus(),
+                    jsonQueue);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
 
@@ -235,7 +250,10 @@ public class QueueMobileService {
             JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, qid);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
-            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(jsonToken.getToken(), jsonToken.getQueueStatus(), jsonQueue);
+            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
+                    jsonToken.getToken(),
+                    jsonToken.getQueueStatus(),
+                    jsonQueue);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
 
@@ -283,7 +301,10 @@ public class QueueMobileService {
             historyQueues = queueManagerJDBC.getByDid(did, fetchUntil);
 
             markFetchedSinceBeginningForDevice(registeredDevice);
-            LOG.info("Historical existing device queue size={} did={} deviceType={}", historyQueues.size(), did, deviceType);
+            LOG.info("Historical existing device queue size={} did={} deviceType={}",
+                    historyQueues.size(),
+                    did,
+                    deviceType);
         }
 
         servicedQueues.addAll(historyQueues);
@@ -304,7 +325,12 @@ public class QueueMobileService {
         if (null == registeredDevice) {
             historyQueues = queueService.getByQid(qid);
             deviceService.registerDevice(qid, did, deviceType, token);
-            LOG.info("Historical new device queue size={} did={} qid={} deviceType={}", historyQueues.size(), did, qid, deviceType);
+            LOG.info("Historical new device queue size={} did={} qid={} deviceType={}",
+                    historyQueues.size(),
+                    did,
+                    qid,
+                    deviceType);
+
         } else {
             if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
                 /* Save with QID when missing in registered device. */
@@ -320,7 +346,11 @@ public class QueueMobileService {
             historyQueues = queueManagerJDBC.getByQid(qid, fetchUntil);
 
             markFetchedSinceBeginningForDevice(registeredDevice);
-            LOG.info("Historical existing device queue size={} did={} qid={} deviceType={}", historyQueues.size(), did, qid, deviceType);
+            LOG.info("Historical existing device queue size={} did={} qid={} deviceType={}",
+                    historyQueues.size(),
+                    did,
+                    qid,
+                    deviceType);
         }
 
         servicedQueues.addAll(historyQueues);
@@ -329,7 +359,11 @@ public class QueueMobileService {
         return getJsonTokenAndQueueList(servicedQueues, sinceBeginning);
     }
 
-    private Date computeDateToFetchSince(DeviceTypeEnum deviceType, RegisteredDeviceEntity registeredDevice, boolean sinceBeginning) {
+    private Date computeDateToFetchSince(
+            DeviceTypeEnum deviceType,
+            RegisteredDeviceEntity registeredDevice,
+            boolean sinceBeginning
+    ) {
         Date fetchUntil;
         switch (deviceType) {
             case A:
@@ -408,7 +442,14 @@ public class QueueMobileService {
                 qid);
     }
 
-    private boolean reviewHistoricalService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved) {
+    private boolean reviewHistoricalService(
+            String codeQR,
+            int token,
+            String did,
+            String qid,
+            int ratingCount,
+            int hoursSaved
+    ) {
         return queueManagerJDBC.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved);
     }
 
@@ -438,7 +479,7 @@ public class QueueMobileService {
         List<JsonQueuedPerson> queuedPeople = new ArrayList<>();
 
         List<QueueEntity> queues = queueManager.findAllClientToBeServiced(codeQR);
-        for(QueueEntity queue : queues) {
+        for (QueueEntity queue : queues) {
             JsonQueuedPerson jsonQueuedPerson = new JsonQueuedPerson()
                     .setCustomerName(queue.getCustomerName())
                     .setToken(queue.getTokenNumber())
