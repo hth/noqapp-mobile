@@ -89,7 +89,6 @@ class ManageQueueControllerTest {
         String responseJson = manageQueueController.getQueues(
                 new ScrubbedInput(""),
                 new ScrubbedInput(DeviceTypeEnum.A.getName()),
-                new ScrubbedInput(LowestSupportedAppEnum.VA.getAppVersionNumber()),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 response);
@@ -106,7 +105,6 @@ class ManageQueueControllerTest {
         String responseJson = manageQueueController.getQueues(
                 new ScrubbedInput(""),
                 new ScrubbedInput(DeviceTypeEnum.A.getName()),
-                new ScrubbedInput(LowestSupportedAppEnum.VA.getAppVersionNumber()),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 response);
@@ -123,7 +121,6 @@ class ManageQueueControllerTest {
         String responseJson = manageQueueController.getQueues(
                 new ScrubbedInput(""),
                 new ScrubbedInput(DeviceTypeEnum.A.getName()),
-                new ScrubbedInput(LowestSupportedAppEnum.VA.getAppVersionNumber()),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 response);
