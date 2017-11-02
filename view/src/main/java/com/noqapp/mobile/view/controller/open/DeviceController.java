@@ -125,7 +125,7 @@ public class DeviceController {
             value = "/version",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String joinQueue(
+    public String isSupportedAppVersion(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -137,28 +137,14 @@ public class DeviceController {
     ) {
         LOG.info("Supported device did={} deviceType={} versionRelease={}", did, deviceType, versionRelease);
 
-        String message = validatedIfDeviceVersionSupported(deviceType.getText(), versionRelease.getText());
-        if (message != null) return message;
-        return new JsonResponse(true).asJson();
-    }
-
-    /**
-     * Checks is device version is supported.
-     *
-     * @param deviceType
-     * @param versionRelease
-     * @return
-     */
-    public static String validatedIfDeviceVersionSupported(String deviceType, String versionRelease) {
-        DeviceTypeEnum deviceTypeEnum;
         try {
-            deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType);
+            DeviceTypeEnum deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
             LOG.info("Check if API version is supported for {} versionRelease={}",
                     deviceTypeEnum.getDescription(),
                     versionRelease);
 
             try {
-                int versionNumber = Integer.valueOf(versionRelease);
+                int versionNumber = Integer.valueOf(versionRelease.getText());
                 if (LowestSupportedAppEnum.isLessThanLowestSupportedVersion(deviceTypeEnum, versionNumber)) {
                     LOG.warn("Sent warning to upgrade versionNumber={}", versionNumber);
                     return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
@@ -174,7 +160,8 @@ public class DeviceController {
             LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Incorrect device type.", USER_INPUT);
         }
-        return null;
+
+        return new JsonResponse(true).asJson();
     }
 
     public static String getErrorReason(String reason, MobileSystemErrorCodeEnum mobileSystemErrorCode) {
