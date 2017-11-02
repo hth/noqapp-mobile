@@ -4,7 +4,6 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_C
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.validatedIfDeviceVersionSupported;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -99,9 +98,6 @@ public class ManageQueueController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput deviceType,
 
-            @RequestHeader (value = "X-R-VR")
-            ScrubbedInput versionRelease,
-
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
 
@@ -117,9 +113,6 @@ public class ManageQueueController {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
-
-        String message = validatedIfDeviceVersionSupported(deviceType.getText(), versionRelease.getText());
-        if (message != null) return message;
 
         try {
             JsonTopicList topics = new JsonTopicList();

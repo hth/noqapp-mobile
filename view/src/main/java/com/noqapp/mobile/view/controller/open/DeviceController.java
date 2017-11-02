@@ -1,8 +1,11 @@
 package com.noqapp.mobile.view.controller.open;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 
+import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
@@ -105,6 +108,73 @@ public class DeviceController {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         }
+    }
+
+    /**
+     * Checks is device version is supported.
+     *
+     * @param did
+     * @param deviceType
+     * @param versionRelease
+     * @return
+     */
+    @Timed
+    @ExceptionMetered
+    @RequestMapping (
+            method = RequestMethod.POST,
+            value = "/version",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String joinQueue(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput deviceType,
+
+            @RequestHeader (value = "X-R-VR")
+            ScrubbedInput versionRelease
+    ) {
+        LOG.info("Supported device did={} deviceType={} versionRelease={}", did, deviceType, versionRelease);
+
+        String message = validatedIfDeviceVersionSupported(deviceType.getText(), versionRelease.getText());
+        if (message != null) return message;
+        return new JsonResponse(true).asJson();
+    }
+
+    /**
+     * Checks is device version is supported.
+     *
+     * @param deviceType
+     * @param versionRelease
+     * @return
+     */
+    public static String validatedIfDeviceVersionSupported(String deviceType, String versionRelease) {
+        DeviceTypeEnum deviceTypeEnum;
+        try {
+            deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType);
+            LOG.info("Check if API version is supported for {} versionRelease={}",
+                    deviceTypeEnum.getDescription(),
+                    versionRelease);
+
+            try {
+                int versionNumber = Integer.valueOf(versionRelease);
+                if (LowestSupportedAppEnum.isLessThanLowestSupportedVersion(deviceTypeEnum, versionNumber)) {
+                    LOG.warn("Sent warning to upgrade versionNumber={}", versionNumber);
+                    return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
+                }
+            } catch (NumberFormatException e) {
+                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
+                return getErrorReason("Failed to read API version type.", USER_INPUT);
+            } catch (Exception e) {
+                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
+                return getErrorReason("Incorrect API version type.", USER_INPUT);
+            }
+        } catch (Exception e) {
+            LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
+            return getErrorReason("Incorrect device type.", USER_INPUT);
+        }
+        return null;
     }
 
     public static String getErrorReason(String reason, MobileSystemErrorCodeEnum mobileSystemErrorCode) {

@@ -1,10 +1,8 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.*;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
-import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
@@ -74,7 +72,7 @@ public class TokenQueueAPIController {
      * Get state of queue at the store.
      *
      * @param did
-     * @param dt
+     * @param deviceType
      * @param codeQR
      * @param response
      * @return
@@ -92,7 +90,7 @@ public class TokenQueueAPIController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
@@ -105,7 +103,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
-        LOG.info("On scan get state did={} dt={} codeQR={}", did, dt, codeQR);
+        LOG.info("On scan get state did={} dt={} codeQR={}", did, deviceType, codeQR);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
@@ -242,9 +240,6 @@ public class TokenQueueAPIController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput deviceType,
 
-            @RequestHeader (value = "X-R-VR")
-            ScrubbedInput versionRelease,
-
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
 
@@ -264,9 +259,6 @@ public class TokenQueueAPIController {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
-
-        String message = validatedIfDeviceVersionSupported(deviceType.getText(), versionRelease.getText());
-        if (message != null) return message;
 
         try {
             return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), qid).asJson();
@@ -448,40 +440,5 @@ public class TokenQueueAPIController {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Checks is device version is supported.
-     *
-     * @param deviceType
-     * @param versionRelease
-     * @return
-     */
-    public static String validatedIfDeviceVersionSupported(String deviceType, String versionRelease) {
-        DeviceTypeEnum deviceTypeEnum;
-        try {
-            deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType);
-            LOG.info("Check if API version is supported for {} versionRelease={}",
-                    deviceTypeEnum.getDescription(),
-                    versionRelease);
-
-            try {
-                int versionNumber = Integer.valueOf(versionRelease);
-                if (LowestSupportedAppEnum.isLessThanLowestSupportedVersion(deviceTypeEnum, versionNumber)) {
-                    LOG.warn("Sent warning to upgrade versionNumber={}", versionNumber);
-                    return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
-                }
-            } catch (NumberFormatException e) {
-                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
-                return getErrorReason("Failed to read API version type.", USER_INPUT);
-            } catch (Exception e) {
-                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
-                return getErrorReason("Incorrect API version type.", USER_INPUT);
-            }
-        } catch (Exception e) {
-            LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
-            return getErrorReason("Incorrect device type.", USER_INPUT);
-        }
-        return null;
     }
 }

@@ -1,7 +1,6 @@
 package com.noqapp.mobile.view.controller.open;
 
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.validatedIfDeviceVersionSupported;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import org.apache.commons.lang3.StringUtils;
@@ -204,9 +203,6 @@ public class TokenQueueController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput deviceType,
 
-            @RequestHeader (value = "X-R-VR")
-            ScrubbedInput versionRelease,
-
             @PathVariable ("codeQR")
             ScrubbedInput codeQR,
 
@@ -217,9 +213,6 @@ public class TokenQueueController {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
-
-        String message = validatedIfDeviceVersionSupported(deviceType.getText(), versionRelease.getText());
-        if (message != null) return message;
 
         try {
             return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null).asJson();
