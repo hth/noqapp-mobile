@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Map;
 
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
@@ -76,6 +78,7 @@ public class ReviewController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("Review for did={} dt={}", did, dt);
 
         Map<String, ScrubbedInput> map;
@@ -104,6 +107,8 @@ public class ReviewController {
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
             return new JsonResponse(reviewSuccess).asJson();
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 }

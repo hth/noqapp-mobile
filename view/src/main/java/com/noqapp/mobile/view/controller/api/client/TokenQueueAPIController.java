@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.REMOTE_JOIN_EMPTY;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
@@ -96,6 +98,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("On scan get state did={} dt={} codeQR={}", did, deviceType, codeQR);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
@@ -110,6 +113,8 @@ public class TokenQueueAPIController {
         } catch (Exception e) {
             LOG.error("Failed getting queue state qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -142,6 +147,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
@@ -150,6 +156,8 @@ public class TokenQueueAPIController {
         } catch (Exception e) {
             LOG.error("Failed getting queues qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
     
@@ -185,6 +193,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
@@ -202,6 +211,8 @@ public class TokenQueueAPIController {
         } catch (Exception e) {
             LOG.error("Failed getting history qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -238,6 +249,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("Join queue did={} dt={} codeQR={}", did, deviceType, codeQR);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
@@ -252,6 +264,8 @@ public class TokenQueueAPIController {
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -288,6 +302,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("Abort queue did={} dt={} codeQR={}", did, deviceType, codeQR);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
@@ -302,6 +317,8 @@ public class TokenQueueAPIController {
         } catch (Exception e) {
             LOG.error("Failed aborting queue rid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -338,6 +355,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("On remote scan get state did={} dt={} codeQR={}", did, deviceType, codeQR);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
@@ -355,6 +373,8 @@ public class TokenQueueAPIController {
         } catch (Exception e) {
             LOG.error("Failed getting queue state qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -391,6 +411,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("Join queue did={} dt={} codeQR={}", did, deviceType, codeQR);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
@@ -412,6 +433,8 @@ public class TokenQueueAPIController {
         } catch (Exception e) {
             LOG.error("Failed joining queue rid={}, reason={}", qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 

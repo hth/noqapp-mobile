@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,6 +78,7 @@ public class DeviceController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("Register did={} token={}", did.getText(), tokenJson);
 
         DeviceTypeEnum deviceTypeEnum;
@@ -97,6 +100,8 @@ public class DeviceController {
         } catch (Exception e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -123,6 +128,7 @@ public class DeviceController {
             @RequestHeader (value = "X-R-VR")
             ScrubbedInput versionRelease
     ) {
+        Instant start = Instant.now();
         LOG.info("Supported device did={} deviceType={} versionRelease={}", did, deviceType, versionRelease);
 
         try {
@@ -147,6 +153,8 @@ public class DeviceController {
         } catch (Exception e) {
             LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Incorrect device type.", USER_INPUT);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
 
         return new JsonResponse(true).asJson();

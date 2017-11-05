@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Map;
 
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.*;
@@ -94,6 +96,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("All queues associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
@@ -109,6 +112,8 @@ public class ManageQueueController {
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -148,6 +153,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
@@ -241,6 +247,8 @@ public class ManageQueueController {
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -279,6 +287,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("Single queue associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
@@ -307,6 +316,8 @@ public class ManageQueueController {
         } catch (Exception e) {
             LOG.error("Failed getting queue reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -345,6 +356,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("Queue state associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
@@ -368,6 +380,8 @@ public class ManageQueueController {
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -406,6 +420,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("Modify queue associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
@@ -433,6 +448,8 @@ public class ManageQueueController {
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -471,6 +488,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("Queued Clients shown for codeQR={} request from mail={} did={} deviceType={} auth={}",
                 codeQR,
                 mail,
@@ -499,6 +517,8 @@ public class ManageQueueController {
         } catch (Exception e) {
             LOG.error("Failed getting queued clients reason={}", e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -537,6 +557,7 @@ public class ManageQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("Acquired mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
@@ -608,6 +629,8 @@ public class ManageQueueController {
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 }
