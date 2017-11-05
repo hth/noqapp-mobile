@@ -92,7 +92,7 @@ public class TokenQueueController {
             LOG.error("Failed getting queue state did={} reason={}", did, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution tim={}", Duration.between(start, Instant.now()));
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -127,7 +127,7 @@ public class TokenQueueController {
             LOG.error("Failed getting queues did={}, reason={}", did, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution tim={}", Duration.between(start, Instant.now()));
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -174,7 +174,7 @@ public class TokenQueueController {
             LOG.error("Failed getting history did={}, reason={}", did, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution tim={}", Duration.between(start, Instant.now()));
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -218,7 +218,7 @@ public class TokenQueueController {
             LOG.error("Failed joining queue did={}, reason={}", did, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution tim={}", Duration.between(start, Instant.now()));
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -262,7 +262,7 @@ public class TokenQueueController {
             LOG.error("Failed aborting queue did={}, reason={}", did, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution tim={}", Duration.between(start, Instant.now()));
+            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
         }
     }
 }
