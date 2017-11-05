@@ -1,17 +1,5 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.codahale.metrics.annotation.ExceptionMetered;
-import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.mobile.domain.JsonMerchant;
@@ -20,11 +8,18 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.utils.ScrubbedInput;
-
-import java.io.IOException;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * User: hitender
@@ -55,8 +50,6 @@ public class MerchantProfileController {
         this.businessUserStoreService = businessUserStoreService;
     }
 
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.GET,
             value = "/fetch",

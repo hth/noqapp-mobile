@@ -1,13 +1,13 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
-
+import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.mobile.service.QueueMobileService;
+import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.mobile.view.common.ParseTokenFCM;
+import com.noqapp.utils.ScrubbedInput;
 import org.apache.commons.lang3.StringUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,17 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codahale.metrics.annotation.ExceptionMetered;
-import com.codahale.metrics.annotation.Timed;
-import com.noqapp.domain.types.DeviceTypeEnum;
-import com.noqapp.mobile.service.QueueMobileService;
-import com.noqapp.mobile.service.TokenQueueMobileService;
-import com.noqapp.mobile.view.common.ParseTokenFCM;
-import com.noqapp.utils.ScrubbedInput;
-
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletResponse;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 /**
  * User: hitender
@@ -66,8 +60,6 @@ public class TokenQueueController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.GET,
             value = "/{codeQR}",
@@ -108,8 +100,6 @@ public class TokenQueueController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.GET,
             value = "/queues",
@@ -143,8 +133,6 @@ public class TokenQueueController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
             value = "/historical",
@@ -189,8 +177,6 @@ public class TokenQueueController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
             value = "/queue/{codeQR}",
@@ -232,8 +218,6 @@ public class TokenQueueController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
             value = "/abort/{codeQR}",

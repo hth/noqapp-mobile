@@ -152,10 +152,6 @@ subprojects {
         compile 'org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1'
         compile 'org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1'
 
-        compile 'io.dropwizard.metrics:metrics-core:3.1.2'
-        compile 'io.dropwizard.metrics:metrics-annotation:3.1.2'
-        compile 'io.dropwizard.metrics:metrics-graphite:3.1.2'
-
         compile "$springGroup:spring-aop:$springVersion"
         compile "$springGroup:spring-aspects:$springVersion"
         compile "$springGroup:spring-beans:$springVersion"

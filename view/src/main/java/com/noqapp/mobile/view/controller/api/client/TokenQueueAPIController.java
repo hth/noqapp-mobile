@@ -1,24 +1,5 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.*;
-import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
-
-import org.apache.commons.lang3.StringUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.codahale.metrics.annotation.ExceptionMetered;
-import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -28,10 +9,24 @@ import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.service.InviteService;
 import com.noqapp.utils.ScrubbedInput;
-
-import java.io.IOException;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.REMOTE_JOIN_EMPTY;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 /**
  * Remote scan of QR code is only available to registered user.
@@ -78,8 +73,6 @@ public class TokenQueueAPIController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.GET,
             value = "/{codeQR}",
@@ -129,8 +122,6 @@ public class TokenQueueAPIController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.GET,
             value = "/queues",
@@ -171,8 +162,6 @@ public class TokenQueueAPIController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
             value = "/historical",
@@ -226,8 +215,6 @@ public class TokenQueueAPIController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
             value = "/queue/{codeQR}",
@@ -278,8 +265,6 @@ public class TokenQueueAPIController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
             value = "/abort/{codeQR}",
@@ -330,8 +315,6 @@ public class TokenQueueAPIController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
             value = "/remote/{codeQR}",
@@ -385,8 +368,6 @@ public class TokenQueueAPIController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
             value = "/remote/queue/{codeQR}",

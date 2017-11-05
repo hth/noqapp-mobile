@@ -1,11 +1,14 @@
 package com.noqapp.mobile.view.controller.open;
 
+import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
+import com.noqapp.mobile.service.SocialAuthenticationService;
+import com.noqapp.utils.ParseJsonStringToMap;
+import com.noqapp.utils.ScrubbedInput;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.impl.client.HttpClientBuilder;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,17 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
-import com.noqapp.mobile.service.SocialAuthenticationService;
-import com.noqapp.utils.ParseJsonStringToMap;
-import com.noqapp.utils.ScrubbedInput;
-
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * User: hitender

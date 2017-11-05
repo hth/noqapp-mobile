@@ -1,31 +1,6 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
-
 import com.fasterxml.jackson.databind.JsonMappingException;
-
-import org.apache.commons.lang3.StringUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
-import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.codahale.metrics.annotation.ExceptionMetered;
-import com.codahale.metrics.annotation.Timed;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonToken;
@@ -39,11 +14,26 @@ import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.utils.ParseJsonStringToMap;
 import com.noqapp.utils.ScrubbedInput;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.*;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 /**
  * Managed by merchant
@@ -84,8 +74,6 @@ public class ManageQueueController {
         this.businessUserStoreService = businessUserStoreService;
     }
 
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.GET,
             value = "/queues",
@@ -137,8 +125,6 @@ public class ManageQueueController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
             value = "/served",
@@ -270,8 +256,6 @@ public class ManageQueueController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.GET,
             value = "/queue/{codeQR}",
@@ -338,8 +322,6 @@ public class ManageQueueController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.GET,
             value = "/state/{codeQR}",
@@ -401,8 +383,6 @@ public class ManageQueueController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
             value = "/modify",
@@ -468,8 +448,6 @@ public class ManageQueueController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
             value = "/showQueuedClients/{codeQR}",
@@ -536,8 +514,6 @@ public class ManageQueueController {
      * @return
      * @throws IOException
      */
-    @Timed
-    @ExceptionMetered
     @RequestMapping (
             method = RequestMethod.POST,
             value = "/acquire",
