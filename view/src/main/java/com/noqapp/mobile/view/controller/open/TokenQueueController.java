@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -77,6 +79,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("On scan get state did={} dt={} codeQR={}", did, deviceType, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
@@ -88,6 +91,8 @@ public class TokenQueueController {
         } catch (Exception e) {
             LOG.error("Failed getting queue state did={} reason={}", did, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution tim={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -114,12 +119,15 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) {
+        Instant start = Instant.now();
         LOG.info("Queues for did={} dt={}", did.getText(), deviceType.getText());
         try {
             return queueMobileService.findAllJoinedQueues(did.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues did={}, reason={}", did, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution tim={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -150,6 +158,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) {
+        Instant start = Instant.now();
         LOG.info("Queues historical for did={} dt={}", did.getText(), deviceType.getText());
         ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson);
         if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
@@ -164,6 +173,8 @@ public class TokenQueueController {
         } catch (Exception e) {
             LOG.error("Failed getting history did={}, reason={}", did, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution tim={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -194,6 +205,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("Join queue did={} deviceType={} codeQR={}", did, deviceType, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
@@ -205,6 +217,8 @@ public class TokenQueueController {
         } catch (Exception e) {
             LOG.error("Failed joining queue did={}, reason={}", did, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution tim={}", Duration.between(start, Instant.now()));
         }
     }
 
@@ -235,6 +249,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        Instant start = Instant.now();
         LOG.info("Abort queue did={} deviceType={} codeQR={}", did, deviceType, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
@@ -242,10 +257,12 @@ public class TokenQueueController {
         }
 
         try {
-        return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), null).asJson();
+            return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), null).asJson();
         } catch (Exception e) {
             LOG.error("Failed aborting queue did={}, reason={}", did, e.getLocalizedMessage(), e);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            LOG.info("Execution tim={}", Duration.between(start, Instant.now()));
         }
     }
 }
