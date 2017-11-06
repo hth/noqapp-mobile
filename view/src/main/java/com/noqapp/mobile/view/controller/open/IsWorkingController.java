@@ -1,5 +1,8 @@
 package com.noqapp.mobile.view.controller.open;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.LoadingCache;
 import com.noqapp.domain.json.JsonHealthCheck;
 import com.noqapp.domain.json.JsonHealthServiceCheck;
 import com.noqapp.domain.types.HealthStatusEnum;
@@ -15,20 +18,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * User: hitender
  * Date: 11/19/16 1:47 PM
  */
-@SuppressWarnings ({
+@SuppressWarnings({
         "PMD.BeanMembersShouldSerialize",
         "PMD.LocalVariableCouldBeFinal",
         "PMD.MethodArgumentCouldBeFinal",
         "PMD.LongVariable"
 })
 @Controller
-@RequestMapping (value = "/open")
+@RequestMapping(value = "/open")
 public class IsWorkingController {
     private static final Logger LOG = LoggerFactory.getLogger(IsWorkingController.class);
+
+    private final Cache<String, JsonHealthCheck> cache = CacheBuilder.newBuilder()
+            .maximumSize(1)
+            .expireAfterWrite(15, TimeUnit.MINUTES)
+            .build();
 
     private HealthCheckService healthCheckService;
 
@@ -47,11 +57,11 @@ public class IsWorkingController {
      * reason why filter contains this HEAD request as everything is secure after login and there are no bots or
      * crawlers when a valid user has logged in.
      * <p>
-     * @see <a href="http://axelfontaine.com/blog/http-head.html">http://axelfontaine.com/blog/http-head.html</a>
      *
      * @return
+     * @see <a href="http://axelfontaine.com/blog/http-head.html">http://axelfontaine.com/blog/http-head.html</a>
      */
-    @RequestMapping (
+    @RequestMapping(
             value = "/isWorking",
             method = {RequestMethod.GET, RequestMethod.HEAD},
             produces = {
@@ -68,21 +78,26 @@ public class IsWorkingController {
      *
      * @return
      */
-    @RequestMapping (
+    @RequestMapping(
             value = "/healthCheck",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    @ResponseStatus (HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public String healthCheck() {
         LOG.info("Health check invoked");
-        JsonHealthCheck jsonHealthCheck = new JsonHealthCheck();
-        JsonHealthServiceCheck jsonHealthServiceCheck = new JsonHealthServiceCheck("sw");
-        healthCheckService.doHealthCheck(jsonHealthCheck);
-        jsonHealthServiceCheck.ended().setHealthStatus(HealthStatusEnum.G);
-        jsonHealthCheck.increaseServiceUpCount();
-        jsonHealthCheck.addJsonHealthServiceChecks(jsonHealthServiceCheck);
+        JsonHealthCheck jsonHealthCheck = cache.getIfPresent("healthCheck");
+        if (null == jsonHealthCheck) {
+            jsonHealthCheck = new JsonHealthCheck();
+            JsonHealthServiceCheck jsonHealthServiceCheck = new JsonHealthServiceCheck("sw");
+            healthCheckService.doHealthCheck(jsonHealthCheck);
+            jsonHealthServiceCheck.ended().setHealthStatus(HealthStatusEnum.G);
+            jsonHealthCheck.increaseServiceUpCount();
+            jsonHealthCheck.addJsonHealthServiceChecks(jsonHealthServiceCheck);
+
+            cache.put("healthCheck", jsonHealthCheck);
+        }
         return jsonHealthCheck.asJson();
     }
 }
