@@ -81,7 +81,7 @@ public class IsWorkingController {
         JsonHealthServiceCheck jsonHealthServiceCheck = new JsonHealthServiceCheck("sw");
         healthCheckService.doHealthCheck(jsonHealthCheck);
         jsonHealthServiceCheck.ended().setHealthStatus(HealthStatusEnum.G);
-        jsonHealthCheck.increaseHealth();
+        jsonHealthCheck.increaseServiceUpCount();
         jsonHealthCheck.addJsonHealthServiceChecks(jsonHealthServiceCheck);
         return jsonHealthCheck.asJson();
     }
