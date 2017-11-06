@@ -1,5 +1,8 @@
 package com.noqapp.mobile.view.controller.open;
 
+import com.noqapp.domain.json.JsonHealthCheck;
+import com.noqapp.domain.json.JsonHealthServiceCheck;
+import com.noqapp.domain.types.HealthStatusEnum;
 import com.noqapp.service.HealthCheckService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +76,12 @@ public class IsWorkingController {
     @ResponseStatus (HttpStatus.OK)
     @ResponseBody
     public String healthCheck() {
-        return healthCheckService.doHealthCheck();
+        LOG.info("Health check called");
+        JsonHealthCheck jsonHealthCheck = new JsonHealthCheck();
+        JsonHealthServiceCheck jsonHealthServiceCheck = new JsonHealthServiceCheck("sw");
+        healthCheckService.doHealthCheck(jsonHealthCheck);
+        jsonHealthServiceCheck.ended().setHealthStatus(HealthStatusEnum.G);
+        jsonHealthCheck.increaseHealth();
+        return jsonHealthCheck.asJson();
     }
 }
