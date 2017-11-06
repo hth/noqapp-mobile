@@ -76,7 +76,7 @@ public class IsWorkingController {
     @ResponseStatus (HttpStatus.OK)
     @ResponseBody
     public String healthCheck() {
-        LOG.info("Health check called");
+        LOG.info("Health check invoked");
         JsonHealthCheck jsonHealthCheck = new JsonHealthCheck();
         JsonHealthServiceCheck jsonHealthServiceCheck = new JsonHealthServiceCheck("sw");
         healthCheckService.doHealthCheck(jsonHealthCheck);
