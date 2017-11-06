@@ -1,8 +1,9 @@
 package com.noqapp.mobile.view.controller.open;
 
-import com.noqapp.mobile.domain.MobileApi;
+import com.noqapp.service.HealthCheckService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping (value = "/open")
 public class IsWorkingController {
     private static final Logger LOG = LoggerFactory.getLogger(IsWorkingController.class);
+
+    private HealthCheckService healthCheckService;
+
+    @Autowired
+    public IsWorkingController(HealthCheckService healthCheckService) {
+        this.healthCheckService = healthCheckService;
+    }
 
     /**
      * Supports HTML call.
@@ -64,8 +72,7 @@ public class IsWorkingController {
     )
     @ResponseStatus (HttpStatus.OK)
     @ResponseBody
-    public MobileApi healthCheck() {
-        //TODO(hth) should perform some kind of health check like connecting to mongo
-        return MobileApi.newInstance(true);
+    public String healthCheck() {
+        return healthCheckService.doHealthCheck();
     }
 }
