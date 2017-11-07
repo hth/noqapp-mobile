@@ -2,11 +2,10 @@ package com.noqapp.mobile.view.controller.open;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.LoadingCache;
-import com.noqapp.domain.json.JsonHealthCheck;
-import com.noqapp.domain.json.JsonHealthServiceCheck;
-import com.noqapp.domain.types.HealthStatusEnum;
-import com.noqapp.service.HealthCheckService;
+import com.noqapp.health.domain.json.JsonHealthCheck;
+import com.noqapp.health.domain.json.JsonHealthServiceCheck;
+import com.noqapp.health.domain.types.HealthStatusEnum;
+import com.noqapp.health.services.HealthCheckService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
