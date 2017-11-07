@@ -23,11 +23,11 @@ import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
+import com.noqapp.health.services.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
-import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.utils.ScrubbedInput;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,6 +56,7 @@ class ManageQueueControllerTest {
     @Mock private AuthenticateMobileService authenticateMobileService;
     @Mock private QueueMobileService queueMobileService;
     @Mock private BusinessUserStoreService businessUserStoreService;
+    @Mock private ApiHealthService apiHealthService;
     @Mock private HttpServletResponse response;
     private TokenQueueEntity tokenQueue;
 
@@ -68,7 +69,13 @@ class ManageQueueControllerTest {
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        manageQueueController = new ManageQueueController(20, authenticateMobileService, queueMobileService, businessUserStoreService);
+        manageQueueController = new ManageQueueController(
+                20,
+                authenticateMobileService,
+                queueMobileService,
+                businessUserStoreService,
+                apiHealthService);
+
         mapper = new ObjectMapper();
 
         tokenQueue = new TokenQueueEntity("topic", "displayName");

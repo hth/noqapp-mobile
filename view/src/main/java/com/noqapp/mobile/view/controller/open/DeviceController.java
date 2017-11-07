@@ -2,6 +2,8 @@ package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.health.domain.types.HealthStatusEnum;
+import com.noqapp.health.services.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.domain.DeviceRegistered;
@@ -46,10 +48,12 @@ public class DeviceController {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceController.class);
 
     private DeviceService deviceService;
+    private ApiHealthService apiHealthService;
 
     @Autowired
-    public DeviceController(DeviceService deviceService) {
+    public DeviceController(DeviceService deviceService, ApiHealthService apiHealthService) {
         this.deviceService = deviceService;
+        this.apiHealthService = apiHealthService;
     }
 
     /**
@@ -99,9 +103,20 @@ public class DeviceController {
             return DeviceRegistered.newInstance(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/register",
+                    "registerDevice",
+                    DeviceController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/register",
+                    "registerDevice",
+                    DeviceController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 
@@ -152,9 +167,20 @@ public class DeviceController {
             }
         } catch (Exception e) {
             LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/version",
+                    "version",
+                    DeviceController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Incorrect device type.", USER_INPUT);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/version",
+                    "version",
+                    DeviceController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
 
         return new JsonResponse(true).asJson();

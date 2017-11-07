@@ -1,6 +1,8 @@
 package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.health.domain.types.HealthStatusEnum;
+import com.noqapp.health.services.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
@@ -41,14 +43,17 @@ public class ReviewController {
 
     private TokenQueueMobileService tokenQueueMobileService;
     private QueueMobileService queueMobileService;
+    private ApiHealthService apiHealthService;
 
     @Autowired
     public ReviewController(
             TokenQueueMobileService tokenQueueMobileService,
-            QueueMobileService queueMobileService
+            QueueMobileService queueMobileService,
+            ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
+        this.apiHealthService = apiHealthService;
     }
 
     /**
@@ -106,9 +111,20 @@ public class ReviewController {
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/service",
+                    "service",
+                    ReviewController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return new JsonResponse(reviewSuccess).asJson();
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/service",
+                    "service",
+                    ReviewController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 }

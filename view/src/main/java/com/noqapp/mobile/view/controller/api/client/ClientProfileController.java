@@ -1,8 +1,11 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import com.noqapp.health.domain.types.HealthStatusEnum;
+import com.noqapp.health.services.ApiHealthService;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
+import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.utils.ScrubbedInput;
@@ -41,16 +44,19 @@ public class ClientProfileController {
     private AuthenticateMobileService authenticateMobileService;
     private UserProfilePreferenceService userProfilePreferenceService;
     private InviteService inviteService;
+    private ApiHealthService apiHealthService;
 
     @Autowired
     public ClientProfileController(
             AuthenticateMobileService authenticateMobileService,
             UserProfilePreferenceService userProfilePreferenceService,
-            InviteService inviteService
+            InviteService inviteService,
+            ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
         this.inviteService = inviteService;
+        this.apiHealthService = apiHealthService;
     }
 
     @RequestMapping (
@@ -82,9 +88,20 @@ public class ClientProfileController {
 
         } catch(Exception e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/fetch",
+                    "fetch",
+                    ClientProfileController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/fetch",
+                    "fetch",
+                    ClientProfileController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 }

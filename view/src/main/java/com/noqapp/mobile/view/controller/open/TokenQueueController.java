@@ -1,6 +1,8 @@
 package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.health.domain.types.HealthStatusEnum;
+import com.noqapp.health.services.ApiHealthService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
@@ -42,14 +44,17 @@ public class TokenQueueController {
 
     private TokenQueueMobileService tokenQueueMobileService;
     private QueueMobileService queueMobileService;
+    private ApiHealthService apiHealthService;
 
     @Autowired
     public TokenQueueController(
             TokenQueueMobileService tokenQueueMobileService,
-            QueueMobileService queueMobileService
+            QueueMobileService queueMobileService,
+            ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
+        this.apiHealthService = apiHealthService;
     }
 
     /**
@@ -90,9 +95,21 @@ public class TokenQueueController {
             return tokenQueueMobileService.findTokenState(codeQR.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queue state did={} reason={}", did, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/{codeQR}",
+                    "getQueueState",
+                    TokenQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
+
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/{codeQR}",
+                    "getQueueState",
+                    TokenQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 
@@ -125,9 +142,20 @@ public class TokenQueueController {
             return queueMobileService.findAllJoinedQueues(did.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues did={}, reason={}", did, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/queues",
+                    "getAllJoinedQueues",
+                    TokenQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/queues",
+                    "getAllJoinedQueues",
+                    TokenQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 
@@ -172,9 +200,20 @@ public class TokenQueueController {
                     parseTokenFCM.getTokenFCM()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting history did={}, reason={}", did, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/historical",
+                    "getAllHistoricalJoinedQueues",
+                    TokenQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/historical",
+                    "getAllHistoricalJoinedQueues",
+                    TokenQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 
@@ -216,9 +255,20 @@ public class TokenQueueController {
             return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue did={}, reason={}", did, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/queue/{codeQR}",
+                    "joinQueue",
+                    TokenQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/queue/{codeQR}",
+                    "joinQueue",
+                    TokenQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 
@@ -260,9 +310,20 @@ public class TokenQueueController {
             return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), null).asJson();
         } catch (Exception e) {
             LOG.error("Failed aborting queue did={}, reason={}", did, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/abort/{codeQR}",
+                    "abortQueue",
+                    TokenQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/abort/{codeQR}",
+                    "abortQueue",
+                    TokenQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 }

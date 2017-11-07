@@ -8,9 +8,12 @@ import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
+import com.noqapp.health.domain.types.HealthStatusEnum;
+import com.noqapp.health.services.ApiHealthService;
 import com.noqapp.mobile.domain.JsonModifyQueue;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
+import com.noqapp.mobile.view.controller.open.TokenQueueController;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.utils.ParseJsonStringToMap;
 import com.noqapp.utils.ScrubbedInput;
@@ -60,20 +63,23 @@ public class ManageQueueController {
     private AuthenticateMobileService authenticateMobileService;
     private QueueMobileService queueMobileService;
     private BusinessUserStoreService businessUserStoreService;
+    private ApiHealthService apiHealthService;
 
     @Autowired
     public ManageQueueController(
-            @Value ("${ManageQueueController.counterNameLength}")
+            @Value("${ManageQueueController.counterNameLength}")
             int counterNameLength,
 
             AuthenticateMobileService authenticateMobileService,
             QueueMobileService queueMobileService,
-            BusinessUserStoreService businessUserStoreService
+            BusinessUserStoreService businessUserStoreService,
+            ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
         this.authenticateMobileService = authenticateMobileService;
         this.queueMobileService = queueMobileService;
         this.businessUserStoreService = businessUserStoreService;
+        this.apiHealthService = apiHealthService;
     }
 
     @RequestMapping (
@@ -111,9 +117,20 @@ public class ManageQueueController {
             return topics.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/queues",
+                    "getQueues",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/queues",
+                    "getQueues",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 
@@ -246,9 +263,20 @@ public class ManageQueueController {
             return jsonToken.asJson();
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/served",
+                    "served",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/served",
+                    "served",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 
@@ -315,9 +343,20 @@ public class ManageQueueController {
             return new JsonTopic(tokenQueue).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queue reason={}", e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/queue/{codeQR}",
+                    "getQueue",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/queue/{codeQR}",
+                    "getQueue",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 
@@ -379,9 +418,20 @@ public class ManageQueueController {
             return new JsonModifyQueue(codeQR.getText(), storeHour).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/state/{codeQR}",
+                    "queueState",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/state/{codeQR}",
+                    "queueState",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 
@@ -447,9 +497,20 @@ public class ManageQueueController {
             return new JsonModifyQueue(requestBodyJson.getCodeQR(), storeHour).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/modify",
+                    "queueModify",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/modify",
+                    "queueModify",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 
@@ -516,9 +577,20 @@ public class ManageQueueController {
             return queueMobileService.findAllClientToBeServiced(codeQR.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queued clients reason={}", e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/showQueuedClients/{codeQR}",
+                    "showQueuedClients",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/showQueuedClients/{codeQR}",
+                    "showQueuedClients",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 
@@ -628,9 +700,20 @@ public class ManageQueueController {
             return jsonToken.asJson();
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/acquire",
+                    "acquire",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/acquire",
+                    "acquire",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 }

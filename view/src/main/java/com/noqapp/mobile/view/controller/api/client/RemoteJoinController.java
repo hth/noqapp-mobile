@@ -1,5 +1,7 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import com.noqapp.health.domain.types.HealthStatusEnum;
+import com.noqapp.health.services.ApiHealthService;
 import com.noqapp.mobile.domain.JsonRemoteJoin;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
@@ -39,14 +41,17 @@ public class RemoteJoinController {
 
     private AuthenticateMobileService authenticateMobileService;
     private InviteService inviteService;
+    private ApiHealthService apiHealthService;
 
     @Autowired
     public RemoteJoinController(
             AuthenticateMobileService authenticateMobileService,
-            InviteService inviteService
+            InviteService inviteService,
+            ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.inviteService = inviteService;
+        this.apiHealthService = apiHealthService;
     }
 
     @RequestMapping (
@@ -74,10 +79,21 @@ public class RemoteJoinController {
         try {
             return JsonRemoteJoin.newInstance(inviteService.getRemoteJoinCount(qid)).asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting remote scan qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed getting remote join qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/join",
+                    "joinAvailable",
+                    RemoteJoinController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
-            LOG.info("Execution in nano time={}", Duration.between(start, Instant.now()));
+            apiHealthService.insert(
+                    "/join",
+                    "joinAvailable",
+                    RemoteJoinController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
         }
     }
 }
