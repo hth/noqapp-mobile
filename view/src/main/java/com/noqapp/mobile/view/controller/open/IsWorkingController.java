@@ -2,10 +2,10 @@ package com.noqapp.mobile.view.controller.open;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.noqapp.health.domain.json.JsonHealthCheck;
-import com.noqapp.health.domain.json.JsonHealthServiceCheck;
+import com.noqapp.health.domain.json.JsonSiteHealth;
+import com.noqapp.health.domain.json.JsonSiteHealthService;
 import com.noqapp.health.domain.types.HealthStatusEnum;
-import com.noqapp.health.services.HealthCheckService;
+import com.noqapp.health.services.SiteHealthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +34,16 @@ import java.util.concurrent.TimeUnit;
 public class IsWorkingController {
     private static final Logger LOG = LoggerFactory.getLogger(IsWorkingController.class);
 
-    private final Cache<String, JsonHealthCheck> cache = CacheBuilder.newBuilder()
+    private final Cache<String, JsonSiteHealth> cache = CacheBuilder.newBuilder()
             .maximumSize(1)
             .expireAfterWrite(15, TimeUnit.MINUTES)
             .build();
 
-    private HealthCheckService healthCheckService;
+    private SiteHealthService siteHealthService;
 
     @Autowired
-    public IsWorkingController(HealthCheckService healthCheckService) {
-        this.healthCheckService = healthCheckService;
+    public IsWorkingController(SiteHealthService siteHealthService) {
+        this.siteHealthService = siteHealthService;
     }
 
     /**
@@ -86,17 +86,17 @@ public class IsWorkingController {
     @ResponseBody
     public String healthCheck() {
         LOG.info("Health check invoked");
-        JsonHealthCheck jsonHealthCheck = cache.getIfPresent("healthCheck");
-        if (null == jsonHealthCheck) {
-            jsonHealthCheck = new JsonHealthCheck();
-            JsonHealthServiceCheck jsonHealthServiceCheck = new JsonHealthServiceCheck("sw");
-            healthCheckService.doHealthCheck(jsonHealthCheck);
-            jsonHealthServiceCheck.ended().setHealthStatus(HealthStatusEnum.G);
-            jsonHealthCheck.increaseServiceUpCount();
-            jsonHealthCheck.addJsonHealthServiceChecks(jsonHealthServiceCheck);
+        JsonSiteHealth jsonSiteHealth = cache.getIfPresent("siteHealth");
+        if (null == jsonSiteHealth) {
+            jsonSiteHealth = new JsonSiteHealth();
+            JsonSiteHealthService jsonHealthService = new JsonSiteHealthService("sw");
+            siteHealthService.doSiteHealthCheck(jsonSiteHealth);
+            jsonHealthService.ended().setHealthStatus(HealthStatusEnum.G);
+            jsonSiteHealth.increaseServiceUpCount();
+            jsonSiteHealth.addJsonHealthServiceChecks(jsonHealthService);
 
-            cache.put("healthCheck", jsonHealthCheck);
+            cache.put("siteHealth", jsonSiteHealth);
         }
-        return jsonHealthCheck.asJson();
+        return jsonSiteHealth.asJson();
     }
 }
