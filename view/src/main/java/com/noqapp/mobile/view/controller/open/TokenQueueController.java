@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.open;
 
+import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.services.ApiHealthService;
@@ -246,13 +247,15 @@ public class TokenQueueController {
     ) throws IOException {
         Instant start = Instant.now();
         LOG.info("Join queue did={} deviceType={} codeQR={}", did, deviceType, codeQR);
-        if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
+
+        BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(codeQR.getText());
+        if (null == bizStore) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
 
         try {
-            return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null).asJson();
+            return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null, bizStore.getAverageServiceTime()).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue did={}, reason={}", did, e.getLocalizedMessage(), e);
             apiHealthService.insert(

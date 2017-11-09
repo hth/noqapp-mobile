@@ -90,9 +90,9 @@ public class TokenQueueMobileService {
         return storeHour;
     }
 
-    public JsonToken joinQueue(String codeQR, String did, String qid) {
+    public JsonToken joinQueue(String codeQR, String did, String qid, long averageServiceTime) {
         LOG.info("joinQueue codeQR={} did={} rid={}", codeQR, did, qid);
-        return tokenQueueService.getNextToken(codeQR, did, qid);
+        return tokenQueueService.getNextToken(codeQR, did, qid, averageServiceTime);
     }
 
     public JsonResponse abortQueue(String codeQR, String did, String qid) {

@@ -5,6 +5,7 @@ import com.google.common.cache.CacheBuilder;
 import com.noqapp.health.domain.json.JsonSiteHealth;
 import com.noqapp.health.domain.json.JsonSiteHealthService;
 import com.noqapp.health.domain.types.HealthStatusEnum;
+import com.noqapp.health.services.ApiHealthService;
 import com.noqapp.health.services.SiteHealthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -40,10 +43,12 @@ public class IsWorkingController {
             .build();
 
     private SiteHealthService siteHealthService;
+    private ApiHealthService apiHealthService;
 
     @Autowired
-    public IsWorkingController(SiteHealthService siteHealthService) {
+    public IsWorkingController(SiteHealthService siteHealthService, ApiHealthService apiHealthService) {
         this.siteHealthService = siteHealthService;
+        this.apiHealthService = apiHealthService;
     }
 
     /**
@@ -85,6 +90,7 @@ public class IsWorkingController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public String healthCheck() {
+        Instant start = Instant.now();
         LOG.info("Health check invoked");
         JsonSiteHealth jsonSiteHealth = cache.getIfPresent("siteHealth");
         if (null == jsonSiteHealth) {
@@ -97,6 +103,12 @@ public class IsWorkingController {
 
             cache.put("siteHealth", jsonSiteHealth);
         }
+        apiHealthService.insert(
+                "/healthCheck",
+                "healthCheck",
+                IsWorkingController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
         return jsonSiteHealth.asJson();
     }
 }

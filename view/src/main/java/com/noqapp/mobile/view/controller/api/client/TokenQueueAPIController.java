@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
@@ -292,13 +293,14 @@ public class TokenQueueAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+        BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(codeQR.getText());
+        if (null == bizStore) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
             return null;
         }
 
         try {
-            return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), qid).asJson();
+            return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), qid, bizStore.getAverageServiceTime()).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
@@ -487,14 +489,15 @@ public class TokenQueueAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
+        BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(codeQR.getText());
+        if (null == bizStore) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
 
         try {
             if (0 < inviteService.getRemoteJoinCount(qid)) {
-                String jsonToken = tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), qid).asJson();
+                String jsonToken = tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), qid, bizStore.getAverageServiceTime()).asJson();
                 inviteService.deductRemoteJoinCount(qid);
                 return jsonToken;
             } else {
