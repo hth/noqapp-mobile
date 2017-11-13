@@ -161,7 +161,6 @@ subprojects {
         compile "$springGroup:spring-core:$springVersion"
         compile "$springGroup:spring-expression:$springVersion"
         compile "$springGroup:spring-instrument:$springVersion"
-        compile "$springGroup:spring-instrument-tomcat:$springVersion"
         compile "$springGroup:spring-jms:$springVersion"
         compile "$springGroup:spring-oxm:$springVersion"
         compile "$springGroup:spring-test:$springVersion"
