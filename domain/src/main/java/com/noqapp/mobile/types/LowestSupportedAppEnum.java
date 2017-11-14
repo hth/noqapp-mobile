@@ -13,41 +13,54 @@ import org.slf4j.LoggerFactory;
 public enum LowestSupportedAppEnum {
 
     /* List lowest supported version of iPhone and Android app. */
-    VI("2.0.0", 200, DeviceTypeEnum.I),
-    VA("2.0.0", 200, DeviceTypeEnum.A);
+    VI("2.0.0", 200, DeviceTypeEnum.I, "2.0.37"),
+    VA("2.0.0", 200, DeviceTypeEnum.A, "2.0.57");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
 
-    private String appVersion;
-    private int appVersionNumber;
+    private String oldestAppVersion;
+    private int oldestAppVersionNumber;
     private DeviceTypeEnum deviceType;
+    private String latestAppVersion;
 
-    LowestSupportedAppEnum(String appVersion, int appVersionNumber, DeviceTypeEnum deviceType) {
-        this.appVersion = appVersion;
-        this.appVersionNumber = appVersionNumber;
+    LowestSupportedAppEnum(String oldestAppVersion, int oldestAppVersionNumber, DeviceTypeEnum deviceType, String latestAppVersion) {
+        this.oldestAppVersion = oldestAppVersion;
+        this.oldestAppVersionNumber = oldestAppVersionNumber;
         this.deviceType = deviceType;
+        this.latestAppVersion = latestAppVersion;
     }
 
-    public int getAppVersionNumber() {
-        return appVersionNumber;
+    public int getOldestAppVersionNumber() {
+        return oldestAppVersionNumber;
     }
 
-    public static boolean isLessThanLowestSupportedVersion(DeviceTypeEnum deviceType, int appVersionNumber) {
+    public String getLatestAppVersion() {
+        return latestAppVersion;
+    }
+
+    public static boolean isLessThanLowestSupportedVersion(LowestSupportedAppEnum lowestSupportedApp, int appVersionNumber) {
         int shortenedAppVersionNumber = Integer.valueOf(String.valueOf(Math.abs((long) appVersionNumber)).substring(0, 3));
         LOG.debug("App Version={} device={} and shortenedAppVersionNumber={}",
                 appVersionNumber,
-                deviceType,
+                lowestSupportedApp.deviceType,
                 shortenedAppVersionNumber);
 
         boolean supported = true;
-        for (LowestSupportedAppEnum lowestSupportedAPI : LowestSupportedAppEnum.values()) {
-            if (lowestSupportedAPI.deviceType == deviceType && lowestSupportedAPI.appVersionNumber <= shortenedAppVersionNumber) {
-                supported = false;
-                break;
-            }
+        if (lowestSupportedApp.oldestAppVersionNumber <= shortenedAppVersionNumber) {
+            supported = false;
         }
 
         LOG.debug("Calculated supported API version={}", supported);
         return supported;
+    }
+
+    public static LowestSupportedAppEnum findBasedOnDeviceType(DeviceTypeEnum deviceType) {
+        for (LowestSupportedAppEnum lowestSupportedApp : LowestSupportedAppEnum.values()) {
+            if (lowestSupportedApp.deviceType == deviceType) {
+                return lowestSupportedApp;
+            }
+        }
+
+        return null;
     }
 }

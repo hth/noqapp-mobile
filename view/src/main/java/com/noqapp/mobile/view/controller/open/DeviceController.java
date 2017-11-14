@@ -1,6 +1,6 @@
 package com.noqapp.mobile.view.controller.open;
 
-import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.json.JsonLatestAppVersion;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.services.ApiHealthService;
@@ -154,10 +154,13 @@ public class DeviceController {
 
             try {
                 int versionNumber = Integer.valueOf(versionRelease.getText());
-                if (LowestSupportedAppEnum.isLessThanLowestSupportedVersion(deviceTypeEnum, versionNumber)) {
+                LowestSupportedAppEnum lowestSupportedApp = LowestSupportedAppEnum.findBasedOnDeviceType(deviceTypeEnum);
+                if (LowestSupportedAppEnum.isLessThanLowestSupportedVersion(lowestSupportedApp, versionNumber)) {
                     LOG.warn("Sent warning to upgrade versionNumber={}", versionNumber);
                     return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
                 }
+
+                return new JsonLatestAppVersion(lowestSupportedApp.getLatestAppVersion()).asJson();
             } catch (NumberFormatException e) {
                 LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
                 return getErrorReason("Failed to read API version type.", USER_INPUT);
@@ -182,8 +185,6 @@ public class DeviceController {
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.G);
         }
-
-        return new JsonResponse(true).asJson();
     }
 
     public static String getErrorReason(String reason, MobileSystemErrorCodeEnum mobileSystemErrorCode) {
