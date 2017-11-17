@@ -180,6 +180,10 @@ subprojects {
         compile "$springDataGroup:spring-data-commons:$springDataCommon"
         compile "org.mongodb:mongo-java-driver:$mongoJavaDriver"
 
+        compile "org.elasticsearch.client:elasticsearch-rest-high-level-client:$elastic"
+        /* For elastic. */
+        compile "org.apache.logging.log4j:log4j-to-slf4j:$log4jToSlf4j"
+
         compile "com.braintreepayments.gateway:braintree-java:$braintree"
         compile "$springDataGroup:spring-data-redis:$redis"
         compile "redis.clients:jedis:$jedis"

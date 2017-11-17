@@ -52,6 +52,7 @@
     <logger name="org.springframework" level="WARN" />
     <logger name="com.mangofactory" level="OFF" />
     <logger name="org.springframework.data.mongodb" level="WARN" />
+    <logger name="org.elasticsearch.client" level="WARN" />
 
     <logger name="net.bull.javamelody" level="ON"/>
     <logger name="org.apache.activemq" level="OFF"/>
