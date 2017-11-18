@@ -3,7 +3,7 @@ package com.noqapp.mobile.view.controller.open;
 import com.noqapp.domain.json.JsonLatestAppVersion;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
-import com.noqapp.health.services.ApiHealthService;
+import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.domain.DeviceRegistered;

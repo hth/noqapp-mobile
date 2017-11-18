@@ -3,7 +3,7 @@ package com.noqapp.mobile.view.controller.open;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
-import com.noqapp.health.services.ApiHealthService;
+import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
