@@ -6,7 +6,7 @@ import com.noqapp.health.domain.json.JsonSiteHealth;
 import com.noqapp.health.domain.json.JsonSiteHealthService;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.services.ApiHealthService;
-import com.noqapp.health.services.SiteHealthService;
+import com.noqapp.service.SiteHealthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,12 +103,14 @@ public class IsWorkingController {
 
             cache.put("siteHealth", jsonSiteHealth);
         }
+
         apiHealthService.insert(
                 "/healthCheck",
                 "healthCheck",
                 IsWorkingController.class.getName(),
                 Duration.between(start, Instant.now()),
                 HealthStatusEnum.G);
+
         return jsonSiteHealth.asJson();
     }
 }
