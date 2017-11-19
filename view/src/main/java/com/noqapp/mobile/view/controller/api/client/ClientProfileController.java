@@ -83,7 +83,7 @@ public class ClientProfileController {
 
         try {
             return JsonProfile.newInstance(
-                    userProfilePreferenceService.findByReceiptUserId(qid),
+                    userProfilePreferenceService.findByQueueUserId(qid),
                     inviteService.getRemoteJoinCount(qid)).asJson();
 
         } catch(Exception e) {
