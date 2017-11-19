@@ -227,7 +227,7 @@ subprojects {
         compile "commons-fileupload:commons-fileupload:$commonsfileupload"
         compile "commons-io:commons-io:$commonsio"
         compile "commons-validator:commons-validator:$commonsvalidator"
-        compile 'commons-codec:commons-codec:1.10'
+        compile 'commons-codec:commons-codec:1.11'
         compile 'commons-logging:commons-logging:1.2'
 
         compile "javax.mail:javax.mail-api:$javaxMail"
