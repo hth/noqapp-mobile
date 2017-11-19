@@ -366,7 +366,8 @@ project(':service') {
     jar.baseName = 'noqapp.mobile-service'
 
     dependencies {
-        compile project(':common'), project(':domain')
+        compile project(':common'),
+                project(':domain')
     }
 }
 
@@ -380,7 +381,10 @@ project(':view') {
     }
 
     dependencies {
-        compile project(':common'), project(':domain'), project(':security'), project(':service')
+        compile project(':common'),
+                project(':domain'),
+                project(':security'),
+                project(':service')
 
         providedCompile 'javax.servlet:javax.servlet-api:3.1.+'
         runtime 'javax.servlet:jstl:1.+'
