@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.utils.ParseJsonStringToMap;
-import com.noqapp.utils.ScrubbedInput;
+import com.noqapp.common.utils.ParseJsonStringToMap;
+import com.noqapp.common.utils.ScrubbedInput;
 
 import java.io.IOException;
 import java.util.Map;

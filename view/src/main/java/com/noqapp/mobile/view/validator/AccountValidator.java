@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
-import com.noqapp.utils.DateUtil;
+import com.noqapp.common.utils.DateUtil;
 
 import java.util.HashMap;
 import java.util.Map;

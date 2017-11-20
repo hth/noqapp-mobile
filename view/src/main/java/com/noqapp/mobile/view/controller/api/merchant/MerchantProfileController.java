@@ -7,7 +7,7 @@ import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.UserProfilePreferenceService;
-import com.noqapp.utils.ScrubbedInput;
+import com.noqapp.common.utils.ScrubbedInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
