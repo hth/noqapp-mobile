@@ -57,7 +57,7 @@ public class QueueMobileService {
     private StoreHourManager storeHourManager;
     private QueueService queueService;
 
-    private ExecutorService service;
+    private ExecutorService executorService;
 
     @Autowired
     public QueueMobileService(
@@ -76,7 +76,7 @@ public class QueueMobileService {
         this.storeHourManager = storeHourManager;
         this.queueService = queueService;
 
-        this.service = newCachedThreadPool();
+        this.executorService = newCachedThreadPool();
     }
 
     /**
@@ -186,7 +186,7 @@ public class QueueMobileService {
      * @param codeQR
      * @param goTo   counter name
      * @param sid    server device id
-     * @param token  specific token being requested for next service
+     * @param token  specific token being requested for next executorService
      * @return
      */
     public JsonToken getThisAsNextInQueue(String codeQR, String goTo, String sid, int token) {
@@ -425,7 +425,7 @@ public class QueueMobileService {
      * @param hoursSaved
      */
     public boolean reviewService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved) {
-        service.submit(() -> reviewingService(codeQR, token, did, qid, ratingCount, hoursSaved));
+        executorService.submit(() -> reviewingService(codeQR, token, did, qid, ratingCount, hoursSaved));
         return true;
     }
 
