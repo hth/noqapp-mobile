@@ -222,7 +222,7 @@ subprojects {
         compile "com.fasterxml.jackson.core:jackson-core:$jackson"
         compile "com.fasterxml.jackson.core:jackson-databind:$jackson"
 
-        compile 'org.json:json:20170516'
+        compile 'org.json:json:20171018'
 
         compile "commons-fileupload:commons-fileupload:$commonsfileupload"
         compile "commons-io:commons-io:$commonsio"
