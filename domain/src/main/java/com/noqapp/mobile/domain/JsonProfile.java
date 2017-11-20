@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.noqapp.domain.AbstractDomain;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.UserLevelEnum;
-import com.noqapp.utils.Formatter;
+import com.noqapp.common.utils.Formatter;
 
 /**
  * User: hitender

@@ -29,7 +29,7 @@ import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.utils.ScrubbedInput;
+import com.noqapp.common.utils.ScrubbedInput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Matchers;

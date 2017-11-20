@@ -6,7 +6,7 @@ import com.noqapp.mobile.domain.JsonRemoteJoin;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.service.InviteService;
-import com.noqapp.utils.ScrubbedInput;
+import com.noqapp.common.utils.ScrubbedInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

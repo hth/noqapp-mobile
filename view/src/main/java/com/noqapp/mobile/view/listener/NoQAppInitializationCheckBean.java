@@ -1,6 +1,6 @@
 package com.noqapp.mobile.view.listener;
 
-import com.noqapp.utils.CommonUtil;
+import com.noqapp.common.utils.CommonUtil;
 import org.elasticsearch.action.main.MainResponse;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.slf4j.Logger;

@@ -11,7 +11,7 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.service.InviteService;
-import com.noqapp.utils.ScrubbedInput;
+import com.noqapp.common.utils.ScrubbedInput;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

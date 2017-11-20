@@ -29,7 +29,7 @@ import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.QueueService;
-import com.noqapp.utils.Validate;
+import com.noqapp.common.utils.Validate;
 
 import java.time.DayOfWeek;
 import java.time.ZonedDateTime;
