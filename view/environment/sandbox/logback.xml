@@ -46,9 +46,9 @@
         </encoder>
     </appender>
 
-    <logger name="com.noqapp" level="DEBUG" />
+    <logger name="com.noqapp.*" level="DEBUG" />
     <logger name="com.noqapp.mobile.web.filter.LogContextFilter" level="OFF" />
-    <logger name="com.noqapp.mobile.service" level="DEBUG" />
+    <logger name="com.noqapp.mobile.*" level="DEBUG" />
 
     <logger name="org.springframework" level="WARN" />
     <logger name="org.springframework.data.mongodb" level="WARN" />
