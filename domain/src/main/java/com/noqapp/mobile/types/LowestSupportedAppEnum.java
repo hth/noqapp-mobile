@@ -45,17 +45,17 @@ public enum LowestSupportedAppEnum {
 
     public static boolean isLessThanLowestSupportedVersion(LowestSupportedAppEnum lowestSupportedApp, int appVersionNumber) {
         int shortenedAppVersionNumber = Integer.valueOf(String.valueOf(Math.abs((long) appVersionNumber)).substring(0, 3));
-        LOG.info("App Version={} device={} and shortenedAppVersionNumber={}",
+        LOG.debug("App Version={} device={} and shortenedAppVersionNumber={}",
                 appVersionNumber,
                 lowestSupportedApp.deviceType,
                 shortenedAppVersionNumber);
 
         boolean supported = true;
-        if (lowestSupportedApp.oldestAppVersionNumber <= shortenedAppVersionNumber) {
+        if (lowestSupportedApp.oldestAppVersionNumber > shortenedAppVersionNumber) {
             supported = false;
         }
 
-        LOG.info("Calculated supported app version={}", supported);
+        LOG.debug("Calculated supported app version={}", supported);
         return supported;
     }
 
