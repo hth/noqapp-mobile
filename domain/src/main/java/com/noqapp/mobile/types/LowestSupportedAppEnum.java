@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public enum LowestSupportedAppEnum {
 
     /* List lowest supported version of iPhone and Android app. */
-    VI("1.0.0", 200, DeviceTypeEnum.I, "1.0.1"),
+    VI("1.0.0", 100, DeviceTypeEnum.I, "1.0.0"),
     VA("1.0.0", 100, DeviceTypeEnum.A, "1.0.76");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
