@@ -4,7 +4,7 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
-import com.noqapp.health.services.ApiHealthService;
+import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;

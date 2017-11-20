@@ -2,7 +2,7 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
-import com.noqapp.health.services.ApiHealthService;
+import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;

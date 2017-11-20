@@ -202,7 +202,7 @@ public class AccountClientController {
                 }
                 deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
 
-                userProfile = userProfilePreferenceService.findByReceiptUserId(userAccount.getQueueUserId());
+                userProfile = userProfilePreferenceService.findByQueueUserId(userAccount.getQueueUserId());
                 int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getQueueUserId());
                 LOG.info("Remote join available={}", remoteJoin);
 

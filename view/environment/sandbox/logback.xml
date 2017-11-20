@@ -48,17 +48,19 @@
 
     <logger name="com.noqapp" level="DEBUG" />
     <logger name="com.noqapp.mobile.web.filter.LogContextFilter" level="OFF" />
-    <logger name="com.noqapp.mobile.service" level="INFO" />
+    <logger name="com.noqapp.mobile.service" level="DEBUG" />
+
     <logger name="org.springframework" level="WARN" />
-    <logger name="com.mangofactory" level="OFF" />
     <logger name="org.springframework.data.mongodb" level="WARN" />
 
-    <logger name="net.bull.javamelody" level="ON"/>
-    <logger name="org.apache.activemq" level="OFF"/>
-    <logger name="org.apache" level="OFF"/>
-    <logger name="org.apache.http" level="OFF"/>
-    <logger name="org.springframework.jms.listener" level="OFF"/>
+    <logger name="org.elasticsearch.client" level="WARN" />
+    <logger name="okhttp3" level="WARN" />
+
+    <logger name="org.apache.http" level="INFO"/>
+    <logger name="org.apache" level="WARN"/>
+
     <logger name="org.mongodb" level="WARN"/>
+    <logger name="net.bull.javamelody" level="ON"/>
     <logger name="com.zaxxer.hikari" level="WARN" />
 
     <root level="INFO">

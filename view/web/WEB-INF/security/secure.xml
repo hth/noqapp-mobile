@@ -56,6 +56,6 @@
         </authentication-provider>
     </authentication-manager>
 
-    <!-- Use a BCrypt encoder since the user's passwords are stored as BCrypt in the database -->
-    <beans:bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="passwordEncoder"/>
+    <!-- Use a SCrypt encoder since the user's passwords are stored as SCrypt in the database -->
+    <beans:bean class="org.springframework.security.crypto.scrypt.SCryptPasswordEncoder" id="passwordEncoder"/>
 </beans:beans>

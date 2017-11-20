@@ -71,7 +71,7 @@ public class MerchantProfileController {
             return null;
         }
 
-        UserProfileEntity userProfile = userProfilePreferenceService.findByReceiptUserId(qid);
+        UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
         switch (userProfile.getLevel()) {
             case M_ADMIN:
             case S_MANAGER:

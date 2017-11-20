@@ -23,7 +23,7 @@ import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
-import com.noqapp.health.services.ApiHealthService;
+import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;

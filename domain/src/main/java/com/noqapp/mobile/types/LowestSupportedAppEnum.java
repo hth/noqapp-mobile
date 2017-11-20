@@ -55,7 +55,7 @@ public enum LowestSupportedAppEnum {
             supported = false;
         }
 
-        LOG.debug("Calculated supported API version={}", supported);
+        LOG.debug("Calculated supported app version={}", supported);
         return supported;
     }
 

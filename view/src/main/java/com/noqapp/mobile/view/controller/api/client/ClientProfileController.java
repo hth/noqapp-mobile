@@ -1,7 +1,7 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import com.noqapp.health.domain.types.HealthStatusEnum;
-import com.noqapp.health.services.ApiHealthService;
+import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
@@ -83,7 +83,7 @@ public class ClientProfileController {
 
         try {
             return JsonProfile.newInstance(
-                    userProfilePreferenceService.findByReceiptUserId(qid),
+                    userProfilePreferenceService.findByQueueUserId(qid),
                     inviteService.getRemoteJoinCount(qid)).asJson();
 
         } catch(Exception e) {
