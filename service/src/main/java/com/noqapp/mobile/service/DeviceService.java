@@ -33,13 +33,13 @@ public class DeviceService {
 
     private RegisteredDeviceManager registeredDeviceManager;
 
-    private ExecutorService service;
+    private ExecutorService executorService;
 
     @Autowired
     public DeviceService(RegisteredDeviceManager registeredDeviceManager) {
         this.registeredDeviceManager = registeredDeviceManager;
 
-        this.service = newCachedThreadPool();
+        this.executorService = newCachedThreadPool();
     }
 
     /**
@@ -51,7 +51,7 @@ public class DeviceService {
      * @param token
      */
     public void registerDevice(String qid, String did, DeviceTypeEnum deviceType, String token) {
-        service.submit(() -> registeringDevice(qid, did, deviceType, token));
+        executorService.submit(() -> registeringDevice(qid, did, deviceType, token));
     }
 
     /**
