@@ -155,7 +155,7 @@ public class DeviceController {
             try {
                 int versionNumber = Integer.valueOf(versionRelease.getText());
                 LowestSupportedAppEnum lowestSupportedApp = LowestSupportedAppEnum.findBasedOnDeviceType(deviceTypeEnum);
-                if (!LowestSupportedAppEnum.isLessThanLowestSupportedVersion(lowestSupportedApp, versionNumber)) {
+                if (!LowestSupportedAppEnum.isSupportedVersion(lowestSupportedApp, versionNumber)) {
                     LOG.warn("Sent warning to upgrade versionNumber={}", versionNumber);
                     return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
                 }
