@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import com.noqapp.domain.AbstractDomain;
+import com.noqapp.common.utils.AbstractDomain;
 
 /**
  * User: hitender
