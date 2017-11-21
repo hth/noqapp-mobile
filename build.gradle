@@ -148,6 +148,7 @@ subprojects {
         compile "com.noqapp:domain:1.+"
         compile "com.noqapp:health:1.+"
         compile "com.noqapp:service:1.+"
+        compile "com.noqapp:search:1.+"
         compile "com.noqapp:social:1.+"
 
         compile 'org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1'
