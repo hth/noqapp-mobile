@@ -282,6 +282,7 @@
             <element id="library" level="project" name="Gradle: org.mockito:mockito-core:2.12.0" />
             <element id="library" level="project" name="Gradle: org.mockito:mockito-inline:2.12.0" />
             <element id="library" level="project" name="Gradle: org.objenesis:objenesis:2.6" />
+            <element id="library" level="project" name="Gradle: com.noqapp:search:1.1" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -575,6 +576,7 @@
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/search/1.1/search-1.1.jar" />
           </element>
         </element>
       </root>
@@ -871,6 +873,7 @@
               <element id="dir-copy" path="$PROJECT_DIR$/security/out/production/resources" />
             </element>
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/search/1.1/search-1.1.jar" />
           </element>
         </element>
       </root>
@@ -1813,6 +1816,13 @@
     <library name="Gradle: com.noqapp:health:1.1">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/health/1.1/health-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="Gradle: com.noqapp:search:1.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/search/1.1/search-1.1.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
