@@ -218,7 +218,6 @@
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.70.0" />
             <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:2.7.2" />
             <element id="library" level="project" name="Gradle: com.noqapp:health:1.1" />
-            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.4-jre" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.2" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.2" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.2" />
@@ -283,6 +282,8 @@
             <element id="library" level="project" name="Gradle: org.mockito:mockito-inline:2.12.0" />
             <element id="library" level="project" name="Gradle: org.objenesis:objenesis:2.6" />
             <element id="library" level="project" name="Gradle: com.noqapp:search:1.1" />
+            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.5-jre" />
+            <element id="library" level="project" name="Gradle: org.checkerframework:checker-qual:2.0.0" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -331,6 +332,7 @@
             <element id="library" level="project" name="Gradle: com.noqapp:domain:1.1" />
             <element id="library" level="project" name="Gradle: com.noqapp:health:1.1" />
             <element id="library" level="project" name="Gradle: com.noqapp:service:1.1" />
+            <element id="library" level="project" name="Gradle: com.noqapp:search:1.1" />
             <element id="library" level="project" name="Gradle: com.noqapp:social:1.1" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1" />
@@ -411,7 +413,6 @@
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.26-incubating" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
             <element id="library" level="project" name="Gradle: org.reflections:reflections:0.9.11" />
-            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.4-jre" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.3.0" />
@@ -576,7 +577,8 @@
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/search/1.1/search-1.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.5-jre/e9ce4989adf6092a3dab6152860e93d989e8cf88/guava-23.5-jre.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.0.0/518929596ee3249127502a8573b2e008e2d51ed3/checker-qual-2.0.0.jar" />
           </element>
         </element>
       </root>
@@ -620,6 +622,7 @@
             <element id="library" level="project" name="Gradle: com.noqapp:domain:1.1" />
             <element id="library" level="project" name="Gradle: com.noqapp:health:1.1" />
             <element id="library" level="project" name="Gradle: com.noqapp:service:1.1" />
+            <element id="library" level="project" name="Gradle: com.noqapp:search:1.1" />
             <element id="library" level="project" name="Gradle: com.noqapp:social:1.1" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1" />
@@ -700,7 +703,6 @@
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.26-incubating" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
             <element id="library" level="project" name="Gradle: org.reflections:reflections:0.9.11" />
-            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.4-jre" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.3.0" />
@@ -873,7 +875,8 @@
               <element id="dir-copy" path="$PROJECT_DIR$/security/out/production/resources" />
             </element>
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/search/1.1/search-1.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.5-jre/e9ce4989adf6092a3dab6152860e93d989e8cf88/guava-23.5-jre.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.0.0/518929596ee3249127502a8573b2e008e2d51ed3/checker-qual-2.0.0.jar" />
           </element>
         </element>
       </root>
@@ -1557,15 +1560,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.4.0/1db084582c0702ebb089ca4dae8a66a685ce569/firebase-admin-5.4.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.guava:guava:23.4-jre">
+    <library name="Gradle: com.google.guava:guava:23.5-jre">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.4-jre/dfed5a4d90eb13e47b62ccf735cdce87c9c4e522/guava-23.4-jre.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.5-jre/e9ce4989adf6092a3dab6152860e93d989e8cf88/guava-23.5-jre.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.4-jre/ffd9d1781f3a0cc3efe60dea5508df9b4b04cbc1/guava-23.4-jre-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.5-jre/d92058913f314304f51bd350576eacfa6fbc172a/guava-23.5-jre-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.4-jre/6e746dfbec5a39bc3a03a6c01d09a9756b4471e2/guava-23.4-jre-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.5-jre/15197b545201df091b1170f83d9b2e52ff8932d1/guava-23.5-jre-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.http-client:google-http-client-appengine:1.21.0">
@@ -3135,6 +3138,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ccil.cowan.tagsoup/tagsoup/1.2.1/31cbf81bece906e382034d2b04e2e5c47e864c17/tagsoup-1.2.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.checkerframework:checker-qual:2.0.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.0.0/518929596ee3249127502a8573b2e008e2d51ed3/checker-qual-2.0.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.0.0/74e101e1a06fb4744b298ec4067b73695b6f294e/checker-qual-2.0.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.0.0/eb7f7d588d0aef07a2c89178053c2a9e4613947f/checker-qual-2.0.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11">
