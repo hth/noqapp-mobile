@@ -35,7 +35,6 @@
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" />
-            <element id="library" level="project" name="Gradle: com.google.errorprone:error_prone_annotations:2.0.18" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson2:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client:1.22.0" />
@@ -139,25 +138,9 @@
             <element id="library" level="project" name="Gradle: com.mchange:mchange-commons-java:0.2.11" />
             <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP-java6:2.3.13" />
             <element id="library" level="project" name="Gradle: org.quartz-scheduler:quartz:2.3.0" />
-            <element id="library" level="project" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" />
-            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.0" />
-            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.0" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.0.0" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.0.0" />
             <element id="library" level="project" name="Gradle: org.opentest4j:opentest4j:1.0.0" />
-            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-common-protos:0.1.12" />
-            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.1.12" />
             <element id="library" level="project" name="Gradle: com.google.api:api-common:1.1.0" />
-            <element id="library" level="project" name="Gradle: com.google.api:gax:1.4.1" />
-            <element id="library" level="project" name="Gradle: com.google.apis:google-api-services-storage:v1-rev100-1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.auto.value:auto-value:1.2" />
-            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-core-http:1.2.1" />
-            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-core:1.2.1" />
-            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-storage:1.2.1" />
-            <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-appengine:1.21.0" />
-            <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson:1.21.0" />
-            <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.3.0" />
-            <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java:3.3.0" />
             <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11" />
             <element id="library" level="project" name="Gradle: org.threeten:threetenbp:1.3.3" />
             <element id="library" level="project" name="Gradle: com.squareup.okhttp3:okhttp:3.9.0" />
@@ -209,11 +192,8 @@
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-redis:1.8.7.RELEASE" />
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.26-incubating" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.2" />
-            <element id="library" level="project" name="Gradle: com.google.maps:google-maps-services:0.2.4" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-credentials:0.8.0" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-oauth2-http:0.8.0" />
-            <element id="library" level="project" name="Gradle: com.google.firebase:firebase-admin:5.4.0" />
-            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.8.4" />
             <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.1" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.70.0" />
             <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:2.7.2" />
@@ -284,6 +264,49 @@
             <element id="library" level="project" name="Gradle: com.noqapp:search:1.1" />
             <element id="library" level="project" name="Gradle: com.google.guava:guava:23.5-jre" />
             <element id="library" level="project" name="Gradle: org.checkerframework:checker-qual:2.0.0" />
+            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-cloud-firestore-v1beta1:0.1.20" />
+            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-common-protos:0.1.20" />
+            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.1.20" />
+            <element id="library" level="project" name="Gradle: com.google.api:gax-grpc:0.25.1" />
+            <element id="library" level="project" name="Gradle: com.google.api:gax:1.8.1" />
+            <element id="library" level="project" name="Gradle: com.google.apis:google-api-services-storage:v1-rev108-1.22.0" />
+            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-core-grpc:1.7.0" />
+            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-core-http:1.7.0" />
+            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-core:1.7.0" />
+            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-firestore:0.25.0-beta" />
+            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-storage:1.7.0" />
+            <element id="library" level="project" name="Gradle: com.google.errorprone:error_prone_annotations:2.0.19" />
+            <element id="library" level="project" name="Gradle: com.google.firebase:firebase-admin:5.5.0" />
+            <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-appengine:1.22.0" />
+            <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson:1.22.0" />
+            <element id="library" level="project" name="Gradle: com.google.instrumentation:instrumentation-api:0.4.3" />
+            <element id="library" level="project" name="Gradle: com.google.maps:google-maps-services:0.2.5" />
+            <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.3.1" />
+            <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java:3.3.1" />
+            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.8.6" />
+            <element id="library" level="project" name="Gradle: io.grpc:grpc-auth:1.6.1" />
+            <element id="library" level="project" name="Gradle: io.grpc:grpc-context:1.6.1" />
+            <element id="library" level="project" name="Gradle: io.grpc:grpc-core:1.6.1" />
+            <element id="library" level="project" name="Gradle: io.grpc:grpc-netty:1.6.1" />
+            <element id="library" level="project" name="Gradle: io.grpc:grpc-protobuf-lite:1.6.1" />
+            <element id="library" level="project" name="Gradle: io.grpc:grpc-protobuf:1.6.1" />
+            <element id="library" level="project" name="Gradle: io.grpc:grpc-stub:1.6.1" />
+            <element id="library" level="project" name="Gradle: io.netty:netty-buffer:4.1.14.Final" />
+            <element id="library" level="project" name="Gradle: io.netty:netty-codec-http2:4.1.14.Final" />
+            <element id="library" level="project" name="Gradle: io.netty:netty-codec-http:4.1.14.Final" />
+            <element id="library" level="project" name="Gradle: io.netty:netty-codec-socks:4.1.14.Final" />
+            <element id="library" level="project" name="Gradle: io.netty:netty-codec:4.1.14.Final" />
+            <element id="library" level="project" name="Gradle: io.netty:netty-common:4.1.14.Final" />
+            <element id="library" level="project" name="Gradle: io.netty:netty-handler-proxy:4.1.14.Final" />
+            <element id="library" level="project" name="Gradle: io.netty:netty-handler:4.1.14.Final" />
+            <element id="library" level="project" name="Gradle: io.netty:netty-resolver:4.1.14.Final" />
+            <element id="library" level="project" name="Gradle: io.netty:netty-tcnative-boringssl-static:2.0.3.Final" />
+            <element id="library" level="project" name="Gradle: io.netty:netty-transport:4.1.14.Final" />
+            <element id="library" level="project" name="Gradle: io.opencensus:opencensus-api:0.5.1" />
+            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.2" />
+            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.2" />
+            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.0.2" />
+            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.0.2" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -383,7 +406,6 @@
             <element id="library" level="project" name="Gradle: edu.ucar:grib:4.5.5" />
             <element id="library" level="project" name="Gradle: edu.ucar:cdm:4.5.5" />
             <element id="library" level="project" name="Gradle: org.quartz-scheduler:quartz:2.3.0" />
-            <element id="library" level="project" name="Gradle: com.google.maps:google-maps-services:0.2.4" />
             <element id="library" level="project" name="Gradle: com.squareup.okhttp3:okhttp:3.9.0" />
             <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.1" />
             <element id="library" level="project" name="Gradle: aopalliance:aopalliance:1.0" />
@@ -392,7 +414,6 @@
             <element id="library" level="project" name="Gradle: com.jcraft:jsch:0.1.54" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjrt:1.8.10" />
             <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:2.7.2" />
-            <element id="library" level="project" name="Gradle: com.google.firebase:firebase-admin:5.4.0" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.3" />
             <element id="library" level="project" name="Gradle: io.swagger:swagger-models:1.5.13" />
             <element id="library" level="project" name="Gradle: com.rometools:rome:1.5.1" />
@@ -405,24 +426,19 @@
             <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.3.1.Final" />
             <element id="library" level="project" name="Gradle: mysql:mysql-connector-java:6.0.6" />
             <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:6.0.0" />
-            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-storage:1.2.1" />
-            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-core-http:1.2.1" />
-            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-core:1.2.1" />
             <element id="library" level="project" name="Gradle: edu.ucar:udunits:4.5.5" />
             <element id="library" level="project" name="Gradle: joda-time:joda-time:2.9.9" />
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.26-incubating" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
             <element id="library" level="project" name="Gradle: org.reflections:reflections:0.9.11" />
+            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.5-jre" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-gson:1.22.0" />
-            <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.3.0" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.2" />
-            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.8.4" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.11" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.2" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.2" />
-            <element id="library" level="project" name="Gradle: com.google.api:gax:1.4.1" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-oauth2-http:0.8.0" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson2:1.22.0" />
@@ -435,8 +451,6 @@
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-scratchpad:3.17-beta1" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-ooxml:3.17-beta1" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi:3.17" />
-            <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-appengine:1.21.0" />
-            <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson:1.21.0" />
             <element id="library" level="project" name="Gradle: com.google.oauth-client:google-oauth-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client:1.22.0" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpclient:4.5.3" />
@@ -455,7 +469,6 @@
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-collections4:4.1" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.3" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.70.0" />
-            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.0" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-all:1.3" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.9" />
             <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:parent-join-client:6.0.0" />
@@ -468,8 +481,6 @@
             <element id="library" level="project" name="Gradle: io.swagger:swagger-annotations:1.5.13" />
             <element id="library" level="project" name="Gradle: org.mapstruct:mapstruct:1.1.0.Final" />
             <element id="library" level="project" name="Gradle: com.squareup.okio:okio:1.13.0" />
-            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.1.12" />
-            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-common-protos:0.1.12" />
             <element id="library" level="project" name="Gradle: com.google.api:api-common:1.1.0" />
             <element id="library" level="project" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" />
             <element id="library" level="project" name="Gradle: commons-digester:commons-digester:1.8.1" />
@@ -511,10 +522,6 @@
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpmime:4.2.6" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.4.6" />
             <element id="library" level="project" name="Gradle: org.jrobin:jrobin:1.5.9" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.0.0" />
-            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.0" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.0.0" />
-            <element id="library" level="project" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-core:7.0.1" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-analyzers-common:7.0.1" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-backward-codecs:7.0.1" />
@@ -543,7 +550,6 @@
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpasyncclient:4.1.2" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore-nio:4.4.5" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-credentials:0.8.0" />
-            <element id="library" level="project" name="Gradle: com.google.apis:google-api-services-storage:v1-rev100-1.22.0" />
             <element id="library" level="project" name="Gradle: commons-lang:commons-lang:2.6" />
             <element id="library" level="project" name="Gradle: org.apache.pdfbox:fontbox:2.0.6" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-ooxml-schemas:3.17-beta1" />
@@ -555,7 +561,6 @@
             <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-core:3.0.12" />
             <element id="library" level="project" name="Gradle: net.jcip:jcip-annotations:1.0" />
             <element id="library" level="project" name="Gradle: net.java.dev.jna:jna:4.1.0" />
-            <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java:3.3.0" />
             <element id="library" level="project" name="Gradle: org.jdom:jdom2:2.0.4" />
             <element id="library" level="project" name="Gradle: org.jsoup:jsoup:1.7.2" />
             <element id="library" level="project" name="Gradle: org.itadaki:bzip2:0.9.1" />
@@ -573,12 +578,53 @@
             <element id="library" level="project" name="Gradle: org.threeten:threetenbp:1.3.3" />
             <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11" />
             <element id="library" level="project" name="Gradle: org.codehaus.woodstox:stax2-api:3.1.4" />
-            <element id="library" level="project" name="Gradle: com.google.errorprone:error_prone_annotations:2.0.18" />
+            <element id="library" level="project" name="Gradle: org.checkerframework:checker-qual:2.0.0" />
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.5-jre/e9ce4989adf6092a3dab6152860e93d989e8cf88/guava-23.5-jre.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.0.0/518929596ee3249127502a8573b2e008e2d51ed3/checker-qual-2.0.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.maps/google-maps-services/0.2.5/9b5b69a11175209c5b49a65e782e41a61b3511be/google-maps-services-0.2.5.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.5.0/6c115f2487169e4fb8239b443cc49afd22a0990b/firebase-admin-5.5.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-storage/1.7.0/b03799ad972030ed71228816930126440e0a183e/google-cloud-storage-1.7.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-firestore/0.25.0-beta/7258a705784332ebc9be97f28be93b3e6548073f/google-cloud-firestore-0.25.0-beta.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-http/1.7.0/6fa0b0d67dad73eda297b4ddf0e7f161fc4a372d/google-cloud-core-http-1.7.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-grpc/1.7.0/c1799d18a42959425f8b15291a2e065a38cbf49b/google-cloud-core-grpc-1.7.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core/1.7.0/453cc89cde3f2896825aecfb4d05dc2ba06f9775/google-cloud-core-1.7.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax-grpc/0.25.1/dd3754e2f7854f8cb42b5a6ba76f0ce386295c3c/gax-grpc-0.25.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-protobuf/1.6.1/a309df5d2627422ceb9cb08fb6a240656d75760a/grpc-protobuf-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java-util/3.3.1/35d048270e0b2f29e7e4a45daf21d46d1b121a24/protobuf-java-util-3.3.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.6/15704449e14f67a1c598bc60cc3d138995f2775/libphonenumber-8.8.6.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax/1.8.1/28c3eca26fb2f06764b11602a9c374b3e1f817c5/gax-1.8.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-appengine/1.22.0/37091fdc63f6b496199e4512f0f291d6fffdd697/google-http-client-appengine-1.22.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson/1.22.0/de49da148fed367eaf1fb8851fa4d403f091201/google-http-client-jackson-1.22.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.0.2/e57de973ac81662ec2b9b225df6c882a641fabe6/junit-jupiter-engine-5.0.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-netty/1.6.1/6941e41b5f422da1670d5d01bf476644330b536e/grpc-netty-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-stub/1.6.1/f32b7ad69749ab6c7be5dd21f1e520a315418790/grpc-stub-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-auth/1.6.1/7d92aed4885519987a3965e6ebbb6585a2f6bd59/grpc-auth-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-protobuf-lite/1.6.1/124bca81a50bc76b6a6babcc4bc529e5a93db70f/grpc-protobuf-lite-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-core/1.6.1/871c934f3c7fbb477ccf2dd4c2a47a0bcc1b82a9/grpc-core-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.instrumentation/instrumentation-api/0.4.3/41614af3429573dc02645d541638929d877945a2/instrumentation-api-0.4.3.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.opencensus/opencensus-api/0.5.1/cbd0a716a7d85ac34b83d86b13f0a6655e45c2ba/opencensus-api-0.5.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-cloud-firestore-v1beta1/0.1.20/2712e00c05191a3782ef1579da9e52a9cb1f493b/proto-google-cloud-firestore-v1beta1-0.1.20.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-iam-v1/0.1.20/ef61aad09b3caf65fbe6794ae9a24fd926201ab1/proto-google-iam-v1-0.1.20.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-common-protos/0.1.20/9fc0866e1c523d8cb3f2bbc841d260f81dd90ba/proto-google-common-protos-0.1.20.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.0.2/ae5d9b8c44d78da636e4e1e00a907fe0fb7bcb8f/junit-platform-engine-1.0.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.0.2/4024737a023e98dc6c9cbbd89fe0dd83975df65/junit-jupiter-api-5.0.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-storage/v1-rev108-1.22.0/547a01cd3da00acf7472bacab961a1443af58bf/google-api-services-storage-v1-rev108-1.22.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-tcnative-boringssl-static/2.0.3.Final/28d278ac2ae302ae9bdf19958c75b16fefbfae00/netty-tcnative-boringssl-static-2.0.3.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.3.1/e8964a2667e55d11a4505b329a4c34247663920b/protobuf-java-3.3.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.0.2/e348a3a67940694f0718d04f9b0784b3dfb7819b/junit-platform-commons-1.0.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-context/1.6.1/9c52ae577c2dd4b8c6ac6e49c1154e1dc37d98ee/grpc-context-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http2/4.1.14.Final/d2af27befab8e1abfbf37d1ac2a5185dce1dbe/netty-codec-http2-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler-proxy/4.1.14.Final/9dbedd6cc6ab9299c927d0c73791d3d8fd76ac20/netty-handler-proxy-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.0.19/c3754a0bdd545b00ddc26884f9e7624f8b6a14de/error_prone_annotations-2.0.19.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http/4.1.14.Final/f287b593a37e516f98c9dae7337303e7254e8ea1/netty-codec-http-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler/4.1.14.Final/626a48b846736c944eb35dd9b0fe0435b76ebf93/netty-handler-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-socks/4.1.14.Final/b8d856c686ac960b9e9b9f8f9b4083978c161327/netty-codec-socks-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec/4.1.14.Final/b8573ae401f17e6927f158e4c446311bf0646173/netty-codec-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport/4.1.14.Final/3ed6474f1289635fc0696ec37380e20f258950a2/netty-transport-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-buffer/4.1.14.Final/71f0a707209b1356d924d6f8b2f415f8b8e1cf82/netty-buffer-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver/4.1.14.Final/f91e0197522e7d33fce84b3dfd86ade15edb0006/netty-resolver-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-common/4.1.14.Final/230ff063651295d2695c0b4e9411e22bbbb9c09d/netty-common-4.1.14.Final.jar" />
           </element>
         </element>
       </root>
@@ -673,7 +719,6 @@
             <element id="library" level="project" name="Gradle: edu.ucar:grib:4.5.5" />
             <element id="library" level="project" name="Gradle: edu.ucar:cdm:4.5.5" />
             <element id="library" level="project" name="Gradle: org.quartz-scheduler:quartz:2.3.0" />
-            <element id="library" level="project" name="Gradle: com.google.maps:google-maps-services:0.2.4" />
             <element id="library" level="project" name="Gradle: com.squareup.okhttp3:okhttp:3.9.0" />
             <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.1" />
             <element id="library" level="project" name="Gradle: aopalliance:aopalliance:1.0" />
@@ -682,7 +727,6 @@
             <element id="library" level="project" name="Gradle: com.jcraft:jsch:0.1.54" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjrt:1.8.10" />
             <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:2.7.2" />
-            <element id="library" level="project" name="Gradle: com.google.firebase:firebase-admin:5.4.0" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.3" />
             <element id="library" level="project" name="Gradle: io.swagger:swagger-models:1.5.13" />
             <element id="library" level="project" name="Gradle: com.rometools:rome:1.5.1" />
@@ -695,24 +739,19 @@
             <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.3.1.Final" />
             <element id="library" level="project" name="Gradle: mysql:mysql-connector-java:6.0.6" />
             <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:6.0.0" />
-            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-storage:1.2.1" />
-            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-core-http:1.2.1" />
-            <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-core:1.2.1" />
             <element id="library" level="project" name="Gradle: edu.ucar:udunits:4.5.5" />
             <element id="library" level="project" name="Gradle: joda-time:joda-time:2.9.9" />
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.26-incubating" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
             <element id="library" level="project" name="Gradle: org.reflections:reflections:0.9.11" />
+            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.5-jre" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-gson:1.22.0" />
-            <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.3.0" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.2" />
-            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.8.4" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.11" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.2" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.2" />
-            <element id="library" level="project" name="Gradle: com.google.api:gax:1.4.1" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-oauth2-http:0.8.0" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson2:1.22.0" />
@@ -725,8 +764,6 @@
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-scratchpad:3.17-beta1" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-ooxml:3.17-beta1" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi:3.17" />
-            <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-appengine:1.21.0" />
-            <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson:1.21.0" />
             <element id="library" level="project" name="Gradle: com.google.oauth-client:google-oauth-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client:1.22.0" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpclient:4.5.3" />
@@ -745,7 +782,6 @@
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-collections4:4.1" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.3" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.70.0" />
-            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.0" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-all:1.3" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.9" />
             <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:parent-join-client:6.0.0" />
@@ -758,8 +794,6 @@
             <element id="library" level="project" name="Gradle: io.swagger:swagger-annotations:1.5.13" />
             <element id="library" level="project" name="Gradle: org.mapstruct:mapstruct:1.1.0.Final" />
             <element id="library" level="project" name="Gradle: com.squareup.okio:okio:1.13.0" />
-            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.1.12" />
-            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-common-protos:0.1.12" />
             <element id="library" level="project" name="Gradle: com.google.api:api-common:1.1.0" />
             <element id="library" level="project" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" />
             <element id="library" level="project" name="Gradle: commons-digester:commons-digester:1.8.1" />
@@ -801,10 +835,6 @@
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpmime:4.2.6" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.4.6" />
             <element id="library" level="project" name="Gradle: org.jrobin:jrobin:1.5.9" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.0.0" />
-            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.0" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.0.0" />
-            <element id="library" level="project" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-core:7.0.1" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-analyzers-common:7.0.1" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-backward-codecs:7.0.1" />
@@ -833,7 +863,6 @@
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpasyncclient:4.1.2" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore-nio:4.4.5" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-credentials:0.8.0" />
-            <element id="library" level="project" name="Gradle: com.google.apis:google-api-services-storage:v1-rev100-1.22.0" />
             <element id="library" level="project" name="Gradle: commons-lang:commons-lang:2.6" />
             <element id="library" level="project" name="Gradle: org.apache.pdfbox:fontbox:2.0.6" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-ooxml-schemas:3.17-beta1" />
@@ -845,7 +874,6 @@
             <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-core:3.0.12" />
             <element id="library" level="project" name="Gradle: net.jcip:jcip-annotations:1.0" />
             <element id="library" level="project" name="Gradle: net.java.dev.jna:jna:4.1.0" />
-            <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java:3.3.0" />
             <element id="library" level="project" name="Gradle: org.jdom:jdom2:2.0.4" />
             <element id="library" level="project" name="Gradle: org.jsoup:jsoup:1.7.2" />
             <element id="library" level="project" name="Gradle: org.itadaki:bzip2:0.9.1" />
@@ -863,7 +891,7 @@
             <element id="library" level="project" name="Gradle: org.threeten:threetenbp:1.3.3" />
             <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11" />
             <element id="library" level="project" name="Gradle: org.codehaus.woodstox:stax2-api:3.1.4" />
-            <element id="library" level="project" name="Gradle: com.google.errorprone:error_prone_annotations:2.0.18" />
+            <element id="library" level="project" name="Gradle: org.checkerframework:checker-qual:2.0.0" />
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
             <element id="archive" name="com.noqapp.mobile-domain.jar">
@@ -875,8 +903,49 @@
               <element id="dir-copy" path="$PROJECT_DIR$/security/out/production/resources" />
             </element>
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.5-jre/e9ce4989adf6092a3dab6152860e93d989e8cf88/guava-23.5-jre.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.0.0/518929596ee3249127502a8573b2e008e2d51ed3/checker-qual-2.0.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.maps/google-maps-services/0.2.5/9b5b69a11175209c5b49a65e782e41a61b3511be/google-maps-services-0.2.5.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.5.0/6c115f2487169e4fb8239b443cc49afd22a0990b/firebase-admin-5.5.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-storage/1.7.0/b03799ad972030ed71228816930126440e0a183e/google-cloud-storage-1.7.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-firestore/0.25.0-beta/7258a705784332ebc9be97f28be93b3e6548073f/google-cloud-firestore-0.25.0-beta.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-http/1.7.0/6fa0b0d67dad73eda297b4ddf0e7f161fc4a372d/google-cloud-core-http-1.7.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-grpc/1.7.0/c1799d18a42959425f8b15291a2e065a38cbf49b/google-cloud-core-grpc-1.7.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core/1.7.0/453cc89cde3f2896825aecfb4d05dc2ba06f9775/google-cloud-core-1.7.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax-grpc/0.25.1/dd3754e2f7854f8cb42b5a6ba76f0ce386295c3c/gax-grpc-0.25.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-protobuf/1.6.1/a309df5d2627422ceb9cb08fb6a240656d75760a/grpc-protobuf-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java-util/3.3.1/35d048270e0b2f29e7e4a45daf21d46d1b121a24/protobuf-java-util-3.3.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.6/15704449e14f67a1c598bc60cc3d138995f2775/libphonenumber-8.8.6.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax/1.8.1/28c3eca26fb2f06764b11602a9c374b3e1f817c5/gax-1.8.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-appengine/1.22.0/37091fdc63f6b496199e4512f0f291d6fffdd697/google-http-client-appengine-1.22.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson/1.22.0/de49da148fed367eaf1fb8851fa4d403f091201/google-http-client-jackson-1.22.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.0.2/e57de973ac81662ec2b9b225df6c882a641fabe6/junit-jupiter-engine-5.0.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-netty/1.6.1/6941e41b5f422da1670d5d01bf476644330b536e/grpc-netty-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-stub/1.6.1/f32b7ad69749ab6c7be5dd21f1e520a315418790/grpc-stub-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-auth/1.6.1/7d92aed4885519987a3965e6ebbb6585a2f6bd59/grpc-auth-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-protobuf-lite/1.6.1/124bca81a50bc76b6a6babcc4bc529e5a93db70f/grpc-protobuf-lite-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-core/1.6.1/871c934f3c7fbb477ccf2dd4c2a47a0bcc1b82a9/grpc-core-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.instrumentation/instrumentation-api/0.4.3/41614af3429573dc02645d541638929d877945a2/instrumentation-api-0.4.3.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.opencensus/opencensus-api/0.5.1/cbd0a716a7d85ac34b83d86b13f0a6655e45c2ba/opencensus-api-0.5.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-cloud-firestore-v1beta1/0.1.20/2712e00c05191a3782ef1579da9e52a9cb1f493b/proto-google-cloud-firestore-v1beta1-0.1.20.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-iam-v1/0.1.20/ef61aad09b3caf65fbe6794ae9a24fd926201ab1/proto-google-iam-v1-0.1.20.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-common-protos/0.1.20/9fc0866e1c523d8cb3f2bbc841d260f81dd90ba/proto-google-common-protos-0.1.20.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.0.2/ae5d9b8c44d78da636e4e1e00a907fe0fb7bcb8f/junit-platform-engine-1.0.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.0.2/4024737a023e98dc6c9cbbd89fe0dd83975df65/junit-jupiter-api-5.0.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-storage/v1-rev108-1.22.0/547a01cd3da00acf7472bacab961a1443af58bf/google-api-services-storage-v1-rev108-1.22.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-tcnative-boringssl-static/2.0.3.Final/28d278ac2ae302ae9bdf19958c75b16fefbfae00/netty-tcnative-boringssl-static-2.0.3.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.3.1/e8964a2667e55d11a4505b329a4c34247663920b/protobuf-java-3.3.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.0.2/e348a3a67940694f0718d04f9b0784b3dfb7819b/junit-platform-commons-1.0.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-context/1.6.1/9c52ae577c2dd4b8c6ac6e49c1154e1dc37d98ee/grpc-context-1.6.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http2/4.1.14.Final/d2af27befab8e1abfbf37d1ac2a5185dce1dbe/netty-codec-http2-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler-proxy/4.1.14.Final/9dbedd6cc6ab9299c927d0c73791d3d8fd76ac20/netty-handler-proxy-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.0.19/c3754a0bdd545b00ddc26884f9e7624f8b6a14de/error_prone_annotations-2.0.19.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http/4.1.14.Final/f287b593a37e516f98c9dae7337303e7254e8ea1/netty-codec-http-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler/4.1.14.Final/626a48b846736c944eb35dd9b0fe0435b76ebf93/netty-handler-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-socks/4.1.14.Final/b8d856c686ac960b9e9b9f8f9b4083978c161327/netty-codec-socks-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec/4.1.14.Final/b8573ae401f17e6927f158e4c446311bf0646173/netty-codec-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport/4.1.14.Final/3ed6474f1289635fc0696ec37380e20f258950a2/netty-transport-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-buffer/4.1.14.Final/71f0a707209b1356d924d6f8b2f415f8b8e1cf82/netty-buffer-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver/4.1.14.Final/f91e0197522e7d33fce84b3dfd86ade15edb0006/netty-resolver-4.1.14.Final.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-common/4.1.14.Final/230ff063651295d2695c0b4e9411e22bbbb9c09d/netty-common-4.1.14.Final.jar" />
           </element>
         </element>
       </root>
@@ -1395,26 +1464,37 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client/1.22.0/3cc07afd5540c754663e472c88f4b29c9a31f26e/google-api-client-1.22.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.api.grpc:proto-google-common-protos:0.1.12">
+    <library name="Gradle: com.google.api.grpc:proto-google-cloud-firestore-v1beta1:0.1.20">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-common-protos/0.1.12/698df5a8cfbf5a4fcf0f10aeaf16c0ceb5fe7422/proto-google-common-protos-0.1.12.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-cloud-firestore-v1beta1/0.1.20/2712e00c05191a3782ef1579da9e52a9cb1f493b/proto-google-cloud-firestore-v1beta1-0.1.20.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-common-protos/0.1.12/eb2badcd0342b5975eea2797ebf362e6dd1415c4/proto-google-common-protos-0.1.12-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-cloud-firestore-v1beta1/0.1.20/45e73e491fe75ed1fc949d68097aa1be35c2df83/proto-google-cloud-firestore-v1beta1-0.1.20-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-common-protos/0.1.12/9d8f090b6e3ca583f30c5ea7cf2e28f8f0601453/proto-google-common-protos-0.1.12-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-cloud-firestore-v1beta1/0.1.20/95733ab470a62014653321c9b82a6aa9a596fec8/proto-google-cloud-firestore-v1beta1-0.1.20-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.1.12">
+    <library name="Gradle: com.google.api.grpc:proto-google-common-protos:0.1.20">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-iam-v1/0.1.12/b9b37d02fa71167378e0af97bb1be5dffa818cf0/proto-google-iam-v1-0.1.12.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-common-protos/0.1.20/9fc0866e1c523d8cb3f2bbc841d260f81dd90ba/proto-google-common-protos-0.1.20.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-iam-v1/0.1.12/4e4946d0e99e5babb1504169dd1e78250272870/proto-google-iam-v1-0.1.12-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-common-protos/0.1.20/9cae02e9904d473d4722069ebcc39f827f7df276/proto-google-common-protos-0.1.20-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-iam-v1/0.1.12/fe04202dd7c78964dac1cbc326b9b2db3b531f2d/proto-google-iam-v1-0.1.12-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-common-protos/0.1.20/16236136cfa87b03666e9bba6f9b9fd29516d447/proto-google-common-protos-0.1.20-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.1.20">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-iam-v1/0.1.20/ef61aad09b3caf65fbe6794ae9a24fd926201ab1/proto-google-iam-v1-0.1.20.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-iam-v1/0.1.20/18b76eed39bd0c35dd47a42549365580601c7b81/proto-google-iam-v1-0.1.20-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-iam-v1/0.1.20/b86c13c3365b8889d5686ff03e9ecf3dbe775a96/proto-google-iam-v1-0.1.20-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.api:api-common:1.1.0">
@@ -1428,26 +1508,37 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/api-common/1.1.0/57e15878e040b9893263ecb4b2298cae76533110/api-common-1.1.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.api:gax:1.4.1">
+    <library name="Gradle: com.google.api:gax-grpc:0.25.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax/1.4.1/39c103d46a2b94b86f3dd003ef74fe36e471595c/gax-1.4.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax-grpc/0.25.1/dd3754e2f7854f8cb42b5a6ba76f0ce386295c3c/gax-grpc-0.25.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax/1.4.1/f7129037ec5552064a7d8792f6a3ee45c78bf53/gax-1.4.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax-grpc/0.25.1/c15182d2bdade3766cd4b48149171c8a1c22778b/gax-grpc-0.25.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax/1.4.1/cf3b5b07523acc862991363c50d016d6db62e9e4/gax-1.4.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax-grpc/0.25.1/2501b0ebc9f5ca357755e72d367642bb51c80a4f/gax-grpc-0.25.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.apis:google-api-services-storage:v1-rev100-1.22.0">
+    <library name="Gradle: com.google.api:gax:1.8.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-storage/v1-rev100-1.22.0/deb780618bf92af35eb6bf4e6ea5709b895538de/google-api-services-storage-v1-rev100-1.22.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax/1.8.1/28c3eca26fb2f06764b11602a9c374b3e1f817c5/gax-1.8.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-storage/v1-rev100-1.22.0/a40e385c9fb1efb7cce15f07c7ce349d76e4d299/google-api-services-storage-v1-rev100-1.22.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax/1.8.1/268be2835c66096a644a6770128e159cc4ba17d3/gax-1.8.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-storage/v1-rev100-1.22.0/2bb0acee424e0eed371a3fa2166ab6cc6e6ecc89/google-api-services-storage-v1-rev100-1.22.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax/1.8.1/f54dfee9d917d493ee0f9b0afe6bcda44b5e0eb0/gax-1.8.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.apis:google-api-services-storage:v1-rev108-1.22.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-storage/v1-rev108-1.22.0/547a01cd3da00acf7472bacab961a1443af58bf/google-api-services-storage-v1-rev108-1.22.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-storage/v1-rev108-1.22.0/ef889857fc04590edff026a284b23beedd2c8034/google-api-services-storage-v1-rev108-1.22.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-storage/v1-rev108-1.22.0/8cb2da0cdadafba0c62da40c84483eac978a1b77/google-api-services-storage-v1-rev108-1.22.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.auth:google-auth-library-credentials:0.8.0">
@@ -1483,37 +1574,59 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.auto.value/auto-value/1.2/c63164f3ceae2854089df9c22c61c69708564d3c/auto-value-1.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.cloud:google-cloud-core-http:1.2.1">
+    <library name="Gradle: com.google.cloud:google-cloud-core-grpc:1.7.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-http/1.2.1/7bd84d5b22b929de364b8b17720b5ff6193c25a1/google-cloud-core-http-1.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-grpc/1.7.0/c1799d18a42959425f8b15291a2e065a38cbf49b/google-cloud-core-grpc-1.7.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-http/1.2.1/b779e9c2d2699d775139c6e6045389944a95bddb/google-cloud-core-http-1.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-grpc/1.7.0/b7f9e41b0a44327e16c36a7fdb0dca32fa3da297/google-cloud-core-grpc-1.7.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-http/1.2.1/f71ad287c622fd7a61e93658e1a7bba65e52807c/google-cloud-core-http-1.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-grpc/1.7.0/4e6124bd6a22843234d38f6a44b58d6239b0bd13/google-cloud-core-grpc-1.7.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.cloud:google-cloud-core:1.2.1">
+    <library name="Gradle: com.google.cloud:google-cloud-core-http:1.7.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core/1.2.1/19160044568ccfaf002a78a8c2434744cecbb0d1/google-cloud-core-1.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-http/1.7.0/6fa0b0d67dad73eda297b4ddf0e7f161fc4a372d/google-cloud-core-http-1.7.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core/1.2.1/b80fbd36104799c251d9ad707d825d6cd858ad6d/google-cloud-core-1.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-http/1.7.0/f77b3bd5c1b9769dbb26ae2100f07f9ff187b7b/google-cloud-core-http-1.7.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core/1.2.1/fe07b815950225b8d4ba7890894759cc7637c275/google-cloud-core-1.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-http/1.7.0/276b7c3ff4ecb7a923ea9aab8e7dd7ace0f50136/google-cloud-core-http-1.7.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.cloud:google-cloud-storage:1.2.1">
+    <library name="Gradle: com.google.cloud:google-cloud-core:1.7.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-storage/1.2.1/779f9d8a83f8544c02767508af91c30f00ae8556/google-cloud-storage-1.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core/1.7.0/453cc89cde3f2896825aecfb4d05dc2ba06f9775/google-cloud-core-1.7.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-storage/1.2.1/f6e3214cf24add7b6fecc61f017f348022d8bc09/google-cloud-storage-1.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core/1.7.0/537ce68915cab592c68dd0b01ade303308114c3c/google-cloud-core-1.7.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-storage/1.2.1/2daff6dea720076492aa79acf341f8de8d0114fe/google-cloud-storage-1.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core/1.7.0/16083b2cadcfc4eec7b4b6ac570d664a267567bf/google-cloud-core-1.7.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.cloud:google-cloud-firestore:0.25.0-beta">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-firestore/0.25.0-beta/7258a705784332ebc9be97f28be93b3e6548073f/google-cloud-firestore-0.25.0-beta.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-firestore/0.25.0-beta/32fea9bc377111f2d5b30db2e469d70b648a15f0/google-cloud-firestore-0.25.0-beta-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-firestore/0.25.0-beta/c925910f1b52a7ce8345034dc618cca11c34c064/google-cloud-firestore-0.25.0-beta-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.cloud:google-cloud-storage:1.7.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-storage/1.7.0/b03799ad972030ed71228816930126440e0a183e/google-cloud-storage-1.7.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-storage/1.7.0/2f3c3e94d4ca7cca6d47c187d2d32549a15c440a/google-cloud-storage-1.7.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-storage/1.7.0/89a8ecd7956a55bf3cbaa076b218abeed158c6a/google-cloud-storage-1.7.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.code.findbugs:jsr305:3.0.2">
@@ -1538,26 +1651,26 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.2/b2da9f8444128651758719856de579eacff7f387/gson-2.8.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.errorprone:error_prone_annotations:2.0.18">
+    <library name="Gradle: com.google.errorprone:error_prone_annotations:2.0.19">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.0.18/5f65affce1684999e2f4024983835efc3504012e/error_prone_annotations-2.0.18.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.0.19/c3754a0bdd545b00ddc26884f9e7624f8b6a14de/error_prone_annotations-2.0.19.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.0.18/b83913bf63b4b89001fd5ab82e8167ca33c12e7c/error_prone_annotations-2.0.18-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.0.19/e819fe1a212c6ea7a8ddbeb0286275e1ba1b1edb/error_prone_annotations-2.0.19-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.0.18/220c1232fa6d13b427c10ccc1243a87f5f501d31/error_prone_annotations-2.0.18-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.0.19/86d6c004b152659db486989443f56b6fc23fb4da/error_prone_annotations-2.0.19-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.firebase:firebase-admin:5.4.0">
+    <library name="Gradle: com.google.firebase:firebase-admin:5.5.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.4.0/dc068a2615eb426ef24a0e3b53776dc2478b9608/firebase-admin-5.4.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.5.0/6c115f2487169e4fb8239b443cc49afd22a0990b/firebase-admin-5.5.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.4.0/d7ac6236355090cd0391862f67d7c88b7d92fba/firebase-admin-5.4.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.5.0/40d8255140653710790203f9fc064d07551442bd/firebase-admin-5.5.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.4.0/1db084582c0702ebb089ca4dae8a66a685ce569/firebase-admin-5.4.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.5.0/d0266b2867848e7261e2437835361fde8f450366/firebase-admin-5.5.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.guava:guava:23.5-jre">
@@ -1571,15 +1684,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.5-jre/15197b545201df091b1170f83d9b2e52ff8932d1/guava-23.5-jre-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.http-client:google-http-client-appengine:1.21.0">
+    <library name="Gradle: com.google.http-client:google-http-client-appengine:1.22.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-appengine/1.21.0/7244bd3c110b15066f4288baa61e350d6a14120c/google-http-client-appengine-1.21.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-appengine/1.22.0/37091fdc63f6b496199e4512f0f291d6fffdd697/google-http-client-appengine-1.22.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-appengine/1.21.0/82b441b42fb9f66621747cc5c7633f0987376e1d/google-http-client-appengine-1.21.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-appengine/1.22.0/ebf058726fd0525ea4ecf873d98a760e82b1d98f/google-http-client-appengine-1.22.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-appengine/1.21.0/3e3e5f072a9f911880e14b173ceb91ed4258bcab/google-http-client-appengine-1.21.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-appengine/1.22.0/2b6f6933628af5698aa565c8f56c2b76cc9057f1/google-http-client-appengine-1.22.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.http-client:google-http-client-gson:1.22.0">
@@ -1604,15 +1717,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson2/1.22.0/cc16d3c93fe3062e6ae3aa9b0db91e159dd1c36b/google-http-client-jackson2-1.22.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.http-client:google-http-client-jackson:1.21.0">
+    <library name="Gradle: com.google.http-client:google-http-client-jackson:1.22.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson/1.21.0/5a8b90f8e128d28f88a301a4c5ff7c2336dcc725/google-http-client-jackson-1.21.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson/1.22.0/de49da148fed367eaf1fb8851fa4d403f091201/google-http-client-jackson-1.22.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson/1.21.0/404954d54f8a07de7304371df2a77d7ef6c78c8b/google-http-client-jackson-1.21.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson/1.22.0/cc68359952946333940506f3a753514ac0b6c807/google-http-client-jackson-1.22.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson/1.21.0/d91afb3b7b60e4821ebb2fac6d81fe4dc85380c4/google-http-client-jackson-1.21.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson/1.22.0/2a8f3bfd1a7f01b00b390c9867799b4acdabb785/google-http-client-jackson-1.22.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.http-client:google-http-client:1.22.0">
@@ -1626,6 +1739,17 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.22.0/354d5dd5f75febe40347abfa2d9517bae6281e73/google-http-client-1.22.0-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Gradle: com.google.instrumentation:instrumentation-api:0.4.3">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.instrumentation/instrumentation-api/0.4.3/41614af3429573dc02645d541638929d877945a2/instrumentation-api-0.4.3.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.instrumentation/instrumentation-api/0.4.3/1a827bff4436130c7e2122363aeec7aa29a90712/instrumentation-api-0.4.3-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.instrumentation/instrumentation-api/0.4.3/d194c9f4e334ca64b64c974e3916b11a8f9c874a/instrumentation-api-0.4.3-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Gradle: com.google.j2objc:j2objc-annotations:1.1">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.j2objc/j2objc-annotations/1.1/ed28ded51a8b1c6b112568def5f4b455e6809019/j2objc-annotations-1.1.jar!/" />
@@ -1637,15 +1761,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.j2objc/j2objc-annotations/1.1/1efdf5b737b02f9b72ebdec4f72c37ec411302ff/j2objc-annotations-1.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.maps:google-maps-services:0.2.4">
+    <library name="Gradle: com.google.maps:google-maps-services:0.2.5">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.maps/google-maps-services/0.2.4/ca0cdbf34ca0795dc466b202155e5ca7077fd0b2/google-maps-services-0.2.4.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.maps/google-maps-services/0.2.5/9b5b69a11175209c5b49a65e782e41a61b3511be/google-maps-services-0.2.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.maps/google-maps-services/0.2.4/d492593e1c1967805c27d93390f029a895411c26/google-maps-services-0.2.4-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.maps/google-maps-services/0.2.5/a50d88657fb9a07f5f9aa68094a104d106562b61/google-maps-services-0.2.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.maps/google-maps-services/0.2.4/6c01223d56a53ea59ca7c9c91d4cd000c14080b4/google-maps-services-0.2.4-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.maps/google-maps-services/0.2.5/2e05fae91b70336d10278bcf013b4ff890f9ec78/google-maps-services-0.2.5-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.oauth-client:google-oauth-client:1.22.0">
@@ -1659,26 +1783,26 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client/1.22.0/c6ede026328eec7ca8bbdbf811f412f300566bf2/google-oauth-client-1.22.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.protobuf:protobuf-java-util:3.3.0">
+    <library name="Gradle: com.google.protobuf:protobuf-java-util:3.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java-util/3.3.0/f78f5d3c05053470023b12cbe4a94419d3792274/protobuf-java-util-3.3.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java-util/3.3.1/35d048270e0b2f29e7e4a45daf21d46d1b121a24/protobuf-java-util-3.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java-util/3.3.0/cfbd23620c6e98bf7145b681fae666150011edf0/protobuf-java-util-3.3.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java-util/3.3.1/7eed04e1a685f28ca53428ef7fd4ee79c7eb3b45/protobuf-java-util-3.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java-util/3.3.0/f342aebe6be7854168c3311ead359dedab719436/protobuf-java-util-3.3.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java-util/3.3.1/8837f6eef867947d3f40e5846b5a1e09d434efc7/protobuf-java-util-3.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.protobuf:protobuf-java:3.3.0">
+    <library name="Gradle: com.google.protobuf:protobuf-java:3.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.3.0/9f301d1a27501b1afcb2ed16aad428337dabf9e4/protobuf-java-3.3.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.3.1/e8964a2667e55d11a4505b329a4c34247663920b/protobuf-java-3.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.3.0/147e018d95a988953b6ca8283101e37c732309a4/protobuf-java-3.3.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.3.1/3ecc426d74f781045bc1c63cd551b5b1464e17d9/protobuf-java-3.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.3.0/90ec3d74dd8acf83ef3b153cc63b3579fcfa199/protobuf-java-3.3.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.3.1/733c81a020b1eaf0c09ee8c2cb8fa166bd8a2f2d/protobuf-java-3.3.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.zxing:core:3.3.1">
@@ -1714,15 +1838,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.juniversalchardet/juniversalchardet/1.0.3/77979eaa98f90806f984155f44f63cc1fb60ac25/juniversalchardet-1.0.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.8.4">
+    <library name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.8.6">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.4/1935df1efd2fcdd7c2e7d4f8cc08f245a2798346/libphonenumber-8.8.4.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.6/15704449e14f67a1c598bc60cc3d138995f2775/libphonenumber-8.8.6.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.4/fe7c8cab2f5cdad308c26f70079dee157feb5be4/libphonenumber-8.8.4-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.6/64b035622ddd40cd47217078fca72b5c92d9b84b/libphonenumber-8.8.6-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.4/fbd45f3e9ee1c010f47815ac5d78a3552ddcd921/libphonenumber-8.8.4-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.8.6/4fe1aa14c8b61b5931ba7dd79197ecd8b237d23b/libphonenumber-8.8.6-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.googlecode.mp4parser:isoparser:1.1.18">
@@ -2139,6 +2263,215 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.usc.ir/sentiment-analysis-parser/0.1/aec4b4f0344bfff776b6bed33067b75cdf834eb6/sentiment-analysis-parser-0.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.grpc:grpc-auth:1.6.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-auth/1.6.1/7d92aed4885519987a3965e6ebbb6585a2f6bd59/grpc-auth-1.6.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-auth/1.6.1/7716c356a53acaaec9c419ce2733314f3bcb206/grpc-auth-1.6.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-auth/1.6.1/398fe4e6b30beb45c2aa2e2de2765f2c4ec97d9b/grpc-auth-1.6.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.grpc:grpc-context:1.6.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-context/1.6.1/9c52ae577c2dd4b8c6ac6e49c1154e1dc37d98ee/grpc-context-1.6.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-context/1.6.1/af51a90e054a3694cfcf801fa76f7ed94ff7ad7a/grpc-context-1.6.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-context/1.6.1/fb6aea81038b5a1f422643ac79bdbd16e0f7432e/grpc-context-1.6.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.grpc:grpc-core:1.6.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-core/1.6.1/871c934f3c7fbb477ccf2dd4c2a47a0bcc1b82a9/grpc-core-1.6.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-core/1.6.1/e190e092701bec4350f3dd773ea5ec7d2aec0761/grpc-core-1.6.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-core/1.6.1/175a17ebba2df25f163615ac65c46e228b66d938/grpc-core-1.6.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.grpc:grpc-netty:1.6.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-netty/1.6.1/6941e41b5f422da1670d5d01bf476644330b536e/grpc-netty-1.6.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-netty/1.6.1/fc9b6757576981795e66ee22a887de0a2ec4d659/grpc-netty-1.6.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-netty/1.6.1/526e2dab8a1fb4c72c5b400fb65b859df66921b2/grpc-netty-1.6.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.grpc:grpc-protobuf-lite:1.6.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-protobuf-lite/1.6.1/124bca81a50bc76b6a6babcc4bc529e5a93db70f/grpc-protobuf-lite-1.6.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-protobuf-lite/1.6.1/687f9ec47e0788e375a6704712a3f0f4e811a5ab/grpc-protobuf-lite-1.6.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-protobuf-lite/1.6.1/79659bca7dfb26d275a6d1eb30e244330cfe5f24/grpc-protobuf-lite-1.6.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.grpc:grpc-protobuf:1.6.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-protobuf/1.6.1/a309df5d2627422ceb9cb08fb6a240656d75760a/grpc-protobuf-1.6.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-protobuf/1.6.1/4e2120af486435a041b452878065d8bb242cb609/grpc-protobuf-1.6.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-protobuf/1.6.1/ff66c8306c559ccb36598887e452eb940aadbee/grpc-protobuf-1.6.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.grpc:grpc-stub:1.6.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-stub/1.6.1/f32b7ad69749ab6c7be5dd21f1e520a315418790/grpc-stub-1.6.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-stub/1.6.1/1fef2c2828144b05f9901db24a4b5101b68a2d5b/grpc-stub-1.6.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-stub/1.6.1/69fcec1f1fe2f7f1abe69d5a3e1c0c306daa7d68/grpc-stub-1.6.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.netty:netty-buffer:4.1.14.Final">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-buffer/4.1.14.Final/71f0a707209b1356d924d6f8b2f415f8b8e1cf82/netty-buffer-4.1.14.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-buffer/4.1.14.Final/26719eae64910c055fe3457a2abc6bb99679095/netty-buffer-4.1.14.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-buffer/4.1.14.Final/939206a33457a2bdec4ba88ec33f3e75eabba678/netty-buffer-4.1.14.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.netty:netty-codec-http2:4.1.14.Final">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http2/4.1.14.Final/d2af27befab8e1abfbf37d1ac2a5185dce1dbe/netty-codec-http2-4.1.14.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http2/4.1.14.Final/4e9459d667b658d0055b7dc7c945b0b9209845c4/netty-codec-http2-4.1.14.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http2/4.1.14.Final/812d7b195c588119f69a8502e2fae4f0e58642bb/netty-codec-http2-4.1.14.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.netty:netty-codec-http:4.1.14.Final">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http/4.1.14.Final/f287b593a37e516f98c9dae7337303e7254e8ea1/netty-codec-http-4.1.14.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http/4.1.14.Final/1f6f23f1241990a65cdae81c0615e8a5c1352209/netty-codec-http-4.1.14.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http/4.1.14.Final/477c624a2f80e99f509f54634c2f943a16ba659e/netty-codec-http-4.1.14.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.netty:netty-codec-socks:4.1.14.Final">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-socks/4.1.14.Final/b8d856c686ac960b9e9b9f8f9b4083978c161327/netty-codec-socks-4.1.14.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-socks/4.1.14.Final/88c57c4e29e05aa7f59e39297031b8332695005a/netty-codec-socks-4.1.14.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-socks/4.1.14.Final/f08b3e1aae39399cdb118903bae88ce237318687/netty-codec-socks-4.1.14.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.netty:netty-codec:4.1.14.Final">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec/4.1.14.Final/b8573ae401f17e6927f158e4c446311bf0646173/netty-codec-4.1.14.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec/4.1.14.Final/2afd16be654181396b1037b4142e9a26b19abe9f/netty-codec-4.1.14.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec/4.1.14.Final/f4fc4958a626cca3af25c01e6f5d19bb342d947a/netty-codec-4.1.14.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.netty:netty-common:4.1.14.Final">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-common/4.1.14.Final/230ff063651295d2695c0b4e9411e22bbbb9c09d/netty-common-4.1.14.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-common/4.1.14.Final/b500fac6ab43370cc13b573bae7cda6e25a63b6e/netty-common-4.1.14.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-common/4.1.14.Final/312aacd3f42583029198550207d4776784b6efc3/netty-common-4.1.14.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.netty:netty-handler-proxy:4.1.14.Final">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler-proxy/4.1.14.Final/9dbedd6cc6ab9299c927d0c73791d3d8fd76ac20/netty-handler-proxy-4.1.14.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler-proxy/4.1.14.Final/fcc8fc3b199579fb92da3658ce0daa3f465a7580/netty-handler-proxy-4.1.14.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler-proxy/4.1.14.Final/6589da4d4e75bc1e552a26da12135bedff7f1c89/netty-handler-proxy-4.1.14.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.netty:netty-handler:4.1.14.Final">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler/4.1.14.Final/626a48b846736c944eb35dd9b0fe0435b76ebf93/netty-handler-4.1.14.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler/4.1.14.Final/3ea932e9eca7734fd89b87ecab40c19079fa878e/netty-handler-4.1.14.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler/4.1.14.Final/764b4e21432ab647cc4bb64dba47751792b98aa4/netty-handler-4.1.14.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.netty:netty-resolver:4.1.14.Final">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver/4.1.14.Final/f91e0197522e7d33fce84b3dfd86ade15edb0006/netty-resolver-4.1.14.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver/4.1.14.Final/b867da2f20525c975888256050142b37d543b292/netty-resolver-4.1.14.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver/4.1.14.Final/fd4211f69783be65fe6ad1863fc3ec02a0ffd4b1/netty-resolver-4.1.14.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.netty:netty-tcnative-boringssl-static:2.0.3.Final">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-tcnative-boringssl-static/2.0.3.Final/28d278ac2ae302ae9bdf19958c75b16fefbfae00/netty-tcnative-boringssl-static-2.0.3.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-tcnative-boringssl-static/2.0.3.Final/39642eb422a0a663b40b3b215ff4d85c59346cc6/netty-tcnative-boringssl-static-2.0.3.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-tcnative-boringssl-static/2.0.3.Final/598865de85c314658579cc82ce98794e25e9910a/netty-tcnative-boringssl-static-2.0.3.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.netty:netty-transport:4.1.14.Final">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport/4.1.14.Final/3ed6474f1289635fc0696ec37380e20f258950a2/netty-transport-4.1.14.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport/4.1.14.Final/c983a125d557b434abcc2bb5746cfff612226eed/netty-transport-4.1.14.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport/4.1.14.Final/66e9a4ce1288bfb436c6ab406fcd9db21db83a90/netty-transport-4.1.14.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.opencensus:opencensus-api:0.5.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.opencensus/opencensus-api/0.5.1/cbd0a716a7d85ac34b83d86b13f0a6655e45c2ba/opencensus-api-0.5.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.opencensus/opencensus-api/0.5.1/6ca6e330a9135c20d18566a20db1252fa9b174d7/opencensus-api-0.5.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.opencensus/opencensus-api/0.5.1/c41592b97c9bac755b1a7b75516209da25eccb0a/opencensus-api-0.5.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: io.springfox:springfox-core:2.7.0">
@@ -3063,17 +3396,6 @@
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="Gradle: org.apiguardian:apiguardian-api:1.0.0">
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apiguardian/apiguardian-api/1.0.0/3ef5276905e36f4d8055fe3cb0bdcc7503ffc85d/apiguardian-api-1.0.0.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apiguardian/apiguardian-api/1.0.0/c00d4b62d6f43f718cedf8e3fd9594faf97d922e/apiguardian-api-1.0.0-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apiguardian/apiguardian-api/1.0.0/777508fa9f3e03cafb3c1fb2eba3dca317f4b1ee/apiguardian-api-1.0.0-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Gradle: org.aspectj:aspectjrt:1.8.10">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.10/1a14fe9e912f6e8bdbb5429b78b4090d8b47bc1/aspectjrt-1.8.10.jar!/" />
@@ -3413,48 +3735,48 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.7.2/833f425e7a40d7fc88922370a072965dda8ee216/jsoup-1.7.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.0">
+    <library name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.0.0/f7fe1b74bef74d640493781abecafba191472ad/junit-jupiter-api-5.0.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.0.2/4024737a023e98dc6c9cbbd89fe0dd83975df65/junit-jupiter-api-5.0.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.0.0/c9f988110e3c629d0022b969bcde8424309ebd4c/junit-jupiter-api-5.0.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.0.2/83a3104d49929d2feb5eb7abefef672f8d0a1c08/junit-jupiter-api-5.0.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.0.0/fadbe39cb1fd01b65e5114b0e0d140af0621a8ac/junit-jupiter-api-5.0.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.0.2/9a0cb78f43b455b28b52c9f10ed26584447c916d/junit-jupiter-api-5.0.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.0">
+    <library name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.0.0/811b65ec5a499732868f76c1d2a6f5786774ff82/junit-jupiter-engine-5.0.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.0.2/e57de973ac81662ec2b9b225df6c882a641fabe6/junit-jupiter-engine-5.0.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.0.0/b053eda67775e3ff10ef66b757db9947ac32aefa/junit-jupiter-engine-5.0.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.0.2/e96b73e2016285baee4cc562a0a074b133f61172/junit-jupiter-engine-5.0.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.0.0/4c6857961c360e817cb92c51ca8c35dc84042604/junit-jupiter-engine-5.0.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.0.2/65a20ffe04696eb56109531ea693ba82aa029541/junit-jupiter-engine-5.0.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.junit.platform:junit-platform-commons:1.0.0">
+    <library name="Gradle: org.junit.platform:junit-platform-commons:1.0.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.0.0/d2e03d9b21020746d48fe45834ff7d71fbcbd7b2/junit-platform-commons-1.0.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.0.2/e348a3a67940694f0718d04f9b0784b3dfb7819b/junit-platform-commons-1.0.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.0.0/342e5f9a11fc5d073037c93b3d9cd8bf1286b49b/junit-platform-commons-1.0.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.0.2/43731c943c3f0fbfcc9853eb08ead332860ea282/junit-platform-commons-1.0.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.0.0/f7fd22e27780bed489d6442ec00e8fdee9b03d99/junit-platform-commons-1.0.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.0.2/303a5efe40ebbe0010b9c72f60463ff73ba30a6c/junit-platform-commons-1.0.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.junit.platform:junit-platform-engine:1.0.0">
+    <library name="Gradle: org.junit.platform:junit-platform-engine:1.0.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.0.0/fdc6f63a689b894529ea5e9e218b65422748fd/junit-platform-engine-1.0.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.0.2/ae5d9b8c44d78da636e4e1e00a907fe0fb7bcb8f/junit-platform-engine-1.0.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.0.0/34dd5cbe445934da55b702f63f218ac3b0ebbdca/junit-platform-engine-1.0.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.0.2/575b4eeffb6403cf065b066548ef08e0ae2771b8/junit-platform-engine-1.0.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.0.0/8d52c2241a39a19406c25aa21303c5f7ddc3b018/junit-platform-engine-1.0.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.0.2/bb7170dd0ae7e4060ecb2df201f097238dea82df/junit-platform-engine-1.0.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.mapstruct:mapstruct:1.1.0.Final">
