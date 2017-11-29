@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.validator;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 import static com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION;
 import static com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT;
@@ -126,7 +127,7 @@ abstract class AccountValidator {
 
     void passwordValidation(String password, Map<String, String> errors) {
         if (StringUtils.isBlank(password) || password.length() < passwordLength) {
-            LOG.info("failed validation password={}", ManageQueueController.AUTH_KEY_HIDDEN);
+            LOG.info("failed validation password={}", AUTH_KEY_HIDDEN);
             errors.put(ErrorEncounteredJson.REASON, "Password validation failed.");
             /* Do not send password back. Hidden for security reason. */
             errors.put(ACCOUNT_REGISTRATION_MERCHANT.PW.name(), StringUtils.isBlank(password) ? EMPTY : "********");

@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.REMOTE_JOIN_EMPTY;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -525,7 +526,7 @@ public class TokenQueueAPIController {
 
     static boolean authorizeRequest(HttpServletResponse response, String qid) throws IOException {
         if (null == qid) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ManageQueueController.UNAUTHORIZED);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return true;
         }
         return false;

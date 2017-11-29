@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+
 /**
  * Helper class to create connection to Web Application for provided endpoint.
  * User: hitender
@@ -85,7 +87,7 @@ public class WebConnectorService {
 
         LOG.info("calling external URL={}", protocol + "://" + host + computePort() + endPoint);
         HttpPost httpPost = new HttpPost(protocol + "://" + host + computePort() + endPoint);
-        LOG.info("external call complete URI={} webApiAccessToken={}", httpPost.getURI().toString(), webApiAccessToken);
+        LOG.info("external call complete URI={} webApiAccessToken={}", httpPost.getURI().toString(), AUTH_KEY_HIDDEN);
 
         httpPost.setHeader(HTTP.CONTENT_TYPE, "application/json");
         httpPost.setHeader("X-R-API-MOBILE", webApiAccessToken);
@@ -103,7 +105,7 @@ public class WebConnectorService {
     protected HttpGet getHttpGet(String endPoint, HttpClient httpClient) {
         LOG.info("calling external URL={}", protocol + "://" + host + computePort() + endPoint);
         HttpGet httpGet = new HttpGet(protocol + "://" + host + computePort() + endPoint);
-        LOG.info("external call complete URI={} webApiAccessToken={}", httpGet.getURI().toString(), "*******");
+        LOG.info("external call complete URI={} webApiAccessToken={}", httpGet.getURI().toString(), AUTH_KEY_HIDDEN);
 
         httpGet.setHeader(HTTP.CONTENT_TYPE, "application/json");
         httpGet.setHeader("X-R-API-MOBILE", webApiAccessToken);

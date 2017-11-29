@@ -1,5 +1,6 @@
 package com.noqapp.mobile.service;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_SOCIAL;
 
@@ -61,7 +62,7 @@ public class SocialAuthenticationService {
      * @return
      */
     public String authenticateWeb(String providerId, String accessToken, HttpClient httpClient) {
-        LOG.debug("providerId={} accessToken={} webApiAccessToken={}", providerId, "*******", "*******");
+        LOG.debug("providerId={} accessToken={} webApiAccessToken={}", providerId, AUTH_KEY_HIDDEN, AUTH_KEY_HIDDEN);
         HttpPost httpPost = webConnectorService.getHttpPost(authCreateEndPoint, httpClient);
         if (httpPost == null) {
             return ErrorEncounteredJson.toJson(webConnectorService.getNoResponseFromWebServer(), SEVERE);
