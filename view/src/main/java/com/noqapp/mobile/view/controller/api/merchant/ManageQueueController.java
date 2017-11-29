@@ -37,6 +37,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.*;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -55,9 +57,6 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 @RequestMapping (value = "/api/m/mq")
 public class ManageQueueController {
     private static final Logger LOG = LoggerFactory.getLogger(ManageQueueController.class);
-
-    public static final String AUTH_KEY_HIDDEN = "*********";
-    public static final String UNAUTHORIZED = "Unauthorized";
 
     private int counterNameLength;
     private AuthenticateMobileService authenticateMobileService;

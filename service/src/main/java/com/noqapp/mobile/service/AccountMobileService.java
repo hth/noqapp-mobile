@@ -25,6 +25,8 @@ import com.noqapp.service.AccountService;
 
 import java.io.IOException;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+
 /**
  * User: hitender
  * Date: 1/14/17 10:57 AM
@@ -195,7 +197,7 @@ public class AccountMobileService {
      * @return
      */
     private boolean sendMailDuringSignup(String userId, String qid, String name, HttpClient httpClient) {
-        LOG.debug("userId={} name={} webApiAccessToken={}", userId, name, "*******");
+        LOG.debug("userId={} name={} webApiAccessToken={}", userId, name, AUTH_KEY_HIDDEN);
         HttpPost httpPost = webConnectorService.getHttpPost(accountValidationEndPoint, httpClient);
         if (null == httpPost) {
             LOG.warn("failed connecting, reason={}", webConnectorService.getNoResponseFromWebServer());
