@@ -2,6 +2,7 @@ package com.noqapp.mobile.service;
 
 import com.google.gson.Gson;
 
+import com.noqapp.service.exceptions.DuplicateAccountException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -95,9 +96,12 @@ public class AccountMobileService {
                     false);
             Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getQueueUserId());
+        } catch (DuplicateAccountException e) {
+            LOG.error("Duplicate Account found reason={}", e.getLocalizedMessage(), e);
+            throw e;
         } catch (RuntimeException exce) {
-            LOG.error("failed creating new account for user={} reason={}", mail, exce.getLocalizedMessage(), exce);
-            throw new RuntimeException("failed creating new account for user " + mail, exce);
+            LOG.error("Failed creating new account for user={} reason={}", mail, exce.getLocalizedMessage(), exce);
+            throw new RuntimeException("Failed creating new account for user " + mail, exce);
         }
 
         sendValidationEmail(userAccount);
@@ -144,9 +148,12 @@ public class AccountMobileService {
                     true);
             Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getQueueUserId());
+        } catch (DuplicateAccountException e) {
+            LOG.error("Duplicate Account found reason={}", e.getLocalizedMessage(), e);
+            throw e;
         } catch (RuntimeException exce) {
-            LOG.error("failed creating new account for user={} reason={}", mail, exce.getLocalizedMessage(), exce);
-            throw new RuntimeException("failed creating new account for user " + mail, exce);
+            LOG.error("Failed creating new account for user={} reason={}", mail, exce.getLocalizedMessage(), exce);
+            throw new RuntimeException("Failed creating new account for user " + mail, exce);
         }
 
         sendValidationEmail(userAccount);

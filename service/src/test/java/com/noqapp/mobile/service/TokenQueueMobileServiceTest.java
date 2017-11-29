@@ -1,7 +1,7 @@
 package com.noqapp.mobile.service;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import com.noqapp.repository.TokenQueueManager;

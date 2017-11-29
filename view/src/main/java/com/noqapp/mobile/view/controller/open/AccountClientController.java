@@ -16,6 +16,7 @@ import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.service.exceptions.DuplicateAccountException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
 import org.slf4j.Logger;
@@ -178,6 +179,18 @@ public class AccountClientController {
                 return ErrorEncounteredJson.toJson(errors);
             }
 
+            userProfile = accountService.doesUserExists(mail);
+            if (null != userProfile) {
+                LOG.info("Failed user registration as already exists mail={}", mail);
+                errors = new HashMap<>();
+                errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
+                errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
+                return ErrorEncounteredJson.toJson(errors);
+            }
+            //TODO add account migration support when duplicate
+
             try {
                 UserAccountEntity userAccount = accountMobileService.createNewClientAccount(
                         phone,
@@ -207,6 +220,14 @@ public class AccountClientController {
                 LOG.info("Remote join available={}", remoteJoin);
 
                 return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
+            } catch (DuplicateAccountException e) {
+                LOG.info("Failed user registration as already exists phone={} mail={}", phone, mail);
+                errors = new HashMap<>();
+                errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
+                errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
+                return ErrorEncounteredJson.toJson(errors);
             } catch (Exception e) {
                 LOG.error("Failed signup for user={} reason={}", mail, e.getLocalizedMessage(), e);
 
