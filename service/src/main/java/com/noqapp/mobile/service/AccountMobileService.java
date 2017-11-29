@@ -145,8 +145,8 @@ public class AccountMobileService {
             Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getQueueUserId());
         } catch (RuntimeException exce) {
-            LOG.error("failed creating new account for user={} reason={}", mail, exce.getLocalizedMessage(), exce);
-            throw new RuntimeException("failed creating new account for user " + mail, exce);
+            LOG.error("Failed creating new account for user={} reason={}", mail, exce.getLocalizedMessage(), exce);
+            throw new RuntimeException("Failed creating new account for user " + mail, exce);
         }
 
         sendValidationEmail(userAccount);
