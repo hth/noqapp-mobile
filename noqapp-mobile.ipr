@@ -326,8 +326,8 @@
         </element>
       </root>
     </artifact>
-    <artifact type="exploded-war" name="Gradle : com.noqapp.mobile : security-1.1.war (exploded)">
-      <output-path>$PROJECT_DIR$/security/build/libs/exploded/security-1.1.war</output-path>
+    <artifact type="exploded-war" name="Gradle : com.noqapp.mobile : security-1.2.war (exploded)">
+      <output-path>$PROJECT_DIR$/security/build/libs/exploded/security-1.2.war</output-path>
       <properties id="gradle-properties">
         <options external-project-path="$PROJECT_DIR$">
           <manifest>TWFuaWZlc3QtVmVyc2lvbjogMS4wDQoNCg==</manifest>
@@ -335,9 +335,9 @@
       </properties>
       <root id="root">
         <element id="directory" name="META-INF">
-          <element id="file-copy" path="$PROJECT_DIR$/security/build/libs/exploded/security-1.1.war/META-INF/MANIFEST.MF" />
+          <element id="file-copy" path="$PROJECT_DIR$/security/build/libs/exploded/security-1.2.war/META-INF/MANIFEST.MF" />
         </element>
-        <element id="javaee-facet-resources" facet="security_main/web/Web Gradle : security-1.1.war" />
+        <element id="javaee-facet-resources" facet="security_main/web/Web Gradle : security-1.2.war" />
         <element id="directory" name="WEB-INF">
           <element id="directory" name="classes">
             <element id="module-output" name="security_main" />
@@ -348,12 +348,6 @@
               <element id="module-output" name="domain_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/domain/out/production/resources" />
             </element>
-            <element id="library" level="project" name="Gradle: com.noqapp:common:1.1" />
-            <element id="library" level="project" name="Gradle: com.noqapp:domain:1.1" />
-            <element id="library" level="project" name="Gradle: com.noqapp:health:1.1" />
-            <element id="library" level="project" name="Gradle: com.noqapp:service:1.1" />
-            <element id="library" level="project" name="Gradle: com.noqapp:search:1.1" />
-            <element id="library" level="project" name="Gradle: com.noqapp:social:1.1" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.0.2.RELEASE" />
@@ -622,21 +616,27 @@
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/common/1.2/common-1.2.jar" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/domain/1.2/domain-1.2.jar" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/health/1.2/health-1.2.jar" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/service/1.2/service-1.2.jar" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/search/1.2/search-1.2.jar" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/social/1.2/social-1.2.jar" />
           </element>
         </element>
       </root>
     </artifact>
-    <artifact type="war" name="Gradle : com.noqapp.mobile : security-1.1.war">
+    <artifact type="war" name="Gradle : com.noqapp.mobile : security-1.2.war">
       <output-path>$PROJECT_DIR$/security/build/libs</output-path>
       <properties id="gradle-properties">
         <options external-project-path="$PROJECT_DIR$" />
       </properties>
-      <root id="archive" name="security-1.1.war">
-        <element id="artifact" artifact-name="Gradle : com.noqapp.mobile : security-1.1.war (exploded)" />
+      <root id="archive" name="security-1.2.war">
+        <element id="artifact" artifact-name="Gradle : com.noqapp.mobile : security-1.2.war (exploded)" />
       </root>
     </artifact>
-    <artifact type="exploded-war" name="Gradle : com.noqapp.mobile : noqapp.mobile-view-1.1.war (exploded)">
-      <output-path>$PROJECT_DIR$/view/build/libs/exploded/noqapp.mobile-view-1.1.war</output-path>
+    <artifact type="exploded-war" name="Gradle : com.noqapp.mobile : noqapp.mobile-view-1.2.war (exploded)">
+      <output-path>$PROJECT_DIR$/view/build/libs/exploded/noqapp.mobile-view-1.2.war</output-path>
       <properties id="gradle-properties">
         <options external-project-path="$PROJECT_DIR$">
           <manifest>TWFuaWZlc3QtVmVyc2lvbjogMS4wDQoNCg==</manifest>
@@ -644,9 +644,9 @@
       </properties>
       <root id="root">
         <element id="directory" name="META-INF">
-          <element id="file-copy" path="$PROJECT_DIR$/view/build/libs/exploded/noqapp.mobile-view-1.1.war/META-INF/MANIFEST.MF" />
+          <element id="file-copy" path="$PROJECT_DIR$/view/build/libs/exploded/noqapp.mobile-view-1.2.war/META-INF/MANIFEST.MF" />
         </element>
-        <element id="javaee-facet-resources" facet="view_main/web/Web Gradle : noqapp.mobile-view-1.1.war" />
+        <element id="javaee-facet-resources" facet="view_main/web/Web Gradle : noqapp.mobile-view-1.2.war" />
         <element id="directory" name="WEB-INF">
           <element id="directory" name="classes">
             <element id="module-output" name="view_main" />
@@ -661,12 +661,6 @@
               <element id="module-output" name="common_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/common/out/production/resources" />
             </element>
-            <element id="library" level="project" name="Gradle: com.noqapp:common:1.1" />
-            <element id="library" level="project" name="Gradle: com.noqapp:domain:1.1" />
-            <element id="library" level="project" name="Gradle: com.noqapp:health:1.1" />
-            <element id="library" level="project" name="Gradle: com.noqapp:service:1.1" />
-            <element id="library" level="project" name="Gradle: com.noqapp:search:1.1" />
-            <element id="library" level="project" name="Gradle: com.noqapp:social:1.1" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.0.2.RELEASE" />
@@ -943,17 +937,23 @@
               <element id="dir-copy" path="$PROJECT_DIR$/security/out/production/resources" />
             </element>
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/common/1.2/common-1.2.jar" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/domain/1.2/domain-1.2.jar" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/health/1.2/health-1.2.jar" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/service/1.2/service-1.2.jar" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/search/1.2/search-1.2.jar" />
+            <element id="file-copy" path="$MAVEN_REPOSITORY$/com/noqapp/social/1.2/social-1.2.jar" />
           </element>
         </element>
       </root>
     </artifact>
-    <artifact type="war" name="Gradle : com.noqapp.mobile : noqapp.mobile-view-1.1.war">
+    <artifact type="war" name="Gradle : com.noqapp.mobile : noqapp.mobile-view-1.2.war">
       <output-path>$PROJECT_DIR$/view/build/libs</output-path>
       <properties id="gradle-properties">
         <options external-project-path="$PROJECT_DIR$" />
       </properties>
-      <root id="archive" name="noqapp.mobile-view-1.1.war">
-        <element id="artifact" artifact-name="Gradle : com.noqapp.mobile : noqapp.mobile-view-1.1.war (exploded)" />
+      <root id="archive" name="noqapp.mobile-view-1.2.war">
+        <element id="artifact" artifact-name="Gradle : com.noqapp.mobile : noqapp.mobile-view-1.2.war (exploded)" />
       </root>
     </artifact>
   </component>
@@ -1923,44 +1923,44 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mchange/mchange-commons-java/0.2.11/33a53955501fa830ecfc98d6ae611c6dc451946c/mchange-commons-java-0.2.11-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.noqapp:common:1.1">
+    <library name="Gradle: com.noqapp:common:1.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/common/1.1/common-1.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/common/1.2/common-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="Gradle: com.noqapp:domain:1.1">
+    <library name="Gradle: com.noqapp:domain:1.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/domain/1.1/domain-1.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/domain/1.2/domain-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="Gradle: com.noqapp:health:1.1">
+    <library name="Gradle: com.noqapp:health:1.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/health/1.1/health-1.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/health/1.2/health-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="Gradle: com.noqapp:search:1.1">
+    <library name="Gradle: com.noqapp:search:1.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/search/1.1/search-1.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/search/1.2/search-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="Gradle: com.noqapp:service:1.1">
+    <library name="Gradle: com.noqapp:service:1.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/service/1.1/service-1.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/service/1.2/service-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="Gradle: com.noqapp:social:1.1">
+    <library name="Gradle: com.noqapp:social:1.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/social/1.1/social-1.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/social/1.2/social-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
