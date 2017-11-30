@@ -108,136 +108,147 @@ public class AccountClientController {
             return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
         }
 
-        if (map.isEmpty()) {
-            /* Validation failure as there is no data in the map. */
-            return ErrorEncounteredJson.toJson(accountClientValidator.validate(
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null));
-        } else {
-            Set<String> unknownKeys = invalidElementsInMapDuringRegistration(map);
-            if (!unknownKeys.isEmpty()) {
+        Map<String, String> errors;
+        try {
+            if (map.isEmpty()) {
+                /* Validation failure as there is no data in the map. */
+                return ErrorEncounteredJson.toJson(accountClientValidator.validate(
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null));
+            } else {
+                Set<String> unknownKeys = invalidElementsInMapDuringRegistration(map);
+                if (!unknownKeys.isEmpty()) {
                 /* Validation failure as there are unknown keys. */
-                return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
-            }
-
-            /* Required. */
-            String phone = StringUtils.deleteWhitespace(map.get(ACCOUNT_REGISTRATION.PH.name()).getText());
-            /* Required. */
-            String firstName = WordUtils.capitalize(map.get(ACCOUNT_REGISTRATION.FN.name()).getText());
-            String lastName = null;
-            if (StringUtils.isNotBlank(firstName)) {
-                ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName(firstName).invoke();
-                firstName = extractFirstLastName.getFirstName();
-                lastName = extractFirstLastName.getLastName();
-            }
-
-            String mail = StringUtils.lowerCase(map.get(ACCOUNT_REGISTRATION.EM.name()).getText());
-            String birthday = map.get(ACCOUNT_REGISTRATION.BD.name()).getText();
-            /* Required. */
-            String gender = map.get(ACCOUNT_REGISTRATION.GE.name()).getText();
-            /* Required. */
-            String countryShortName = Formatter.getCountryShortNameFromInternationalPhone(phone);
-            /* Required. */
-            String timeZone = map.get(ACCOUNT_REGISTRATION.TZ.name()).getText();
-
-            String inviteCode = map.get(ACCOUNT_REGISTRATION_CLIENT.IC.name()).getText();
-            if (StringUtils.isNotBlank(inviteCode)) {
-                UserProfileEntity userProfileOfInvitee = accountService.findProfileByInviteCode(inviteCode);
-                if (null == userProfileOfInvitee) {
-                    return ErrorEncounteredJson.toJson("Invalid invite code " + inviteCode, MOBILE);
+                    return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
                 }
-            }
 
-            Map<String, String> errors = accountClientValidator.validate(
-                    phone,
-                    map.get(ACCOUNT_REGISTRATION.FN.name()).getText(),
-                    mail,
-                    birthday,
-                    gender,
-                    countryShortName,
-                    timeZone
-            );
+                /* Required. */
+                String phone = StringUtils.deleteWhitespace(map.get(ACCOUNT_REGISTRATION.PH.name()).getText());
+                /* Required. */
+                String firstName = WordUtils.capitalize(map.get(ACCOUNT_REGISTRATION.FN.name()).getText());
+                String lastName = null;
+                if (StringUtils.isNotBlank(firstName)) {
+                    ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName(firstName).invoke();
+                    firstName = extractFirstLastName.getFirstName();
+                    lastName = extractFirstLastName.getLastName();
+                }
 
-            if (!errors.isEmpty()) {
-                return ErrorEncounteredJson.toJson(errors);
-            }
+                String mail = StringUtils.lowerCase(map.get(ACCOUNT_REGISTRATION.EM.name()).getText());
+                String birthday = map.get(ACCOUNT_REGISTRATION.BD.name()).getText();
+                /* Required. */
+                String gender = map.get(ACCOUNT_REGISTRATION.GE.name()).getText();
+                /* Required. */
+                String countryShortName = Formatter.getCountryShortNameFromInternationalPhone(phone);
+                /* Required. */
+                String timeZone = map.get(ACCOUNT_REGISTRATION.TZ.name()).getText();
 
-            LOG.debug("Check by phone={}", phone);
-            UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
-            if (null != userProfile) {
-                LOG.info("Failed user registration as already exists phone={}", phone);
-                errors = new HashMap<>();
-                errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
-                errors.put(ACCOUNT_REGISTRATION.PH.name(), "+" + phone);
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
-                return ErrorEncounteredJson.toJson(errors);
-            }
+                String inviteCode = map.get(ACCOUNT_REGISTRATION_CLIENT.IC.name()).getText();
+                if (StringUtils.isNotBlank(inviteCode)) {
+                    UserProfileEntity userProfileOfInvitee = accountService.findProfileByInviteCode(inviteCode);
+                    if (null == userProfileOfInvitee) {
+                        return ErrorEncounteredJson.toJson("Invalid invite code " + inviteCode, MOBILE);
+                    }
+                }
 
-            userProfile = accountService.doesUserExists(mail);
-            if (null != userProfile) {
-                LOG.info("Failed user registration as already exists mail={}", mail);
-                errors = new HashMap<>();
-                errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
-                errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
-                return ErrorEncounteredJson.toJson(errors);
-            }
-            //TODO add account migration support when duplicate
-
-            try {
-                UserAccountEntity userAccount = accountMobileService.createNewClientAccount(
+                errors = accountClientValidator.validate(
                         phone,
-                        firstName,
-                        lastName,
+                        map.get(ACCOUNT_REGISTRATION.FN.name()).getText(),
                         mail,
                         birthday,
                         gender,
                         countryShortName,
-                        timeZone,
-                        inviteCode
+                        timeZone
                 );
-                response.addHeader("X-R-MAIL", userAccount.getUserId());
-                response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
 
-                DeviceTypeEnum deviceTypeEnum;
-                try {
-                    deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
-                } catch (Exception e) {
-                    LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
-                    return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
+                if (!errors.isEmpty()) {
+                    return ErrorEncounteredJson.toJson(errors);
                 }
-                deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
 
-                userProfile = userProfilePreferenceService.findByQueueUserId(userAccount.getQueueUserId());
-                int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getQueueUserId());
-                LOG.info("Remote join available={}", remoteJoin);
+                LOG.debug("Check by phone={}", phone);
+                UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
+                if (null != userProfile) {
+                    LOG.info("Failed user registration as already exists phone={}", phone);
+                    errors = new HashMap<>();
+                    errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
+                    errors.put(ACCOUNT_REGISTRATION.PH.name(), "+" + phone);
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
+                    return ErrorEncounteredJson.toJson(errors);
+                }
 
-                return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
-            } catch (DuplicateAccountException e) {
-                LOG.info("Failed user registration as already exists phone={} mail={}", phone, mail);
-                errors = new HashMap<>();
-                errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
-                errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
-                return ErrorEncounteredJson.toJson(errors);
-            } catch (Exception e) {
-                LOG.error("Failed signup for user={} reason={}", mail, e.getLocalizedMessage(), e);
+                userProfile = accountService.doesUserExists(mail);
+                if (null != userProfile) {
+                    LOG.info("Failed user registration as already exists mail={}", mail);
+                    errors = new HashMap<>();
+                    errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
+                    errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
+                    return ErrorEncounteredJson.toJson(errors);
+                }
+                //TODO add account migration support when duplicate
 
-                errors = new HashMap<>();
-                errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
-                errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
-                return ErrorEncounteredJson.toJson(errors);
+                try {
+                    UserAccountEntity userAccount = accountMobileService.createNewClientAccount(
+                            phone,
+                            firstName,
+                            lastName,
+                            mail,
+                            birthday,
+                            gender,
+                            countryShortName,
+                            timeZone,
+                            inviteCode
+                    );
+                    response.addHeader("X-R-MAIL", userAccount.getUserId());
+                    response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
+
+                    DeviceTypeEnum deviceTypeEnum;
+                    try {
+                        deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
+                    } catch (Exception e) {
+                        LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
+                        return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
+                    }
+                    deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
+
+                    userProfile = userProfilePreferenceService.findByQueueUserId(userAccount.getQueueUserId());
+                    int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getQueueUserId());
+                    LOG.info("Remote join available={}", remoteJoin);
+
+                    return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
+                } catch (DuplicateAccountException e) {
+                    LOG.info("Failed user registration as already exists phone={} mail={}", phone, mail);
+                    errors = new HashMap<>();
+                    errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
+                    errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
+                    return ErrorEncounteredJson.toJson(errors);
+                } catch (Exception e) {
+                    LOG.error("Failed signup for user={} reason={}", mail, e.getLocalizedMessage(), e);
+
+                    errors = new HashMap<>();
+                    errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
+                    errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
+                    return ErrorEncounteredJson.toJson(errors);
+                }
             }
+        } catch (Exception e) {
+            LOG.error("Failed signup when parsing for reason={}", e.getLocalizedMessage(), e);
+
+            errors = new HashMap<>();
+            errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
+            errors.put(ErrorEncounteredJson.SYSTEM_ERROR, MOBILE_JSON.name());
+            errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, MOBILE_JSON.getCode());
+            return ErrorEncounteredJson.toJson(errors);
         }
     }
 
@@ -272,76 +283,87 @@ public class AccountClientController {
             return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
         }
 
-        if (map.isEmpty()) {
+        Map<String, String> errors;
+        try {
+            if (map.isEmpty()) {
             /* Validation failure as there is no data in the map. */
-            return ErrorEncounteredJson.toJson(accountClientValidator.validate(
-                    null,
-                    null));
-        } else {
-            Set<String> unknownKeys = invalidElementsInMapDuringLogin(map);
-            if (!unknownKeys.isEmpty()) {
+                return ErrorEncounteredJson.toJson(accountClientValidator.validate(
+                        null,
+                        null));
+            } else {
+                Set<String> unknownKeys = invalidElementsInMapDuringLogin(map);
+                if (!unknownKeys.isEmpty()) {
                 /* Validation failure as there are unknown keys. */
-                return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
-            }
+                    return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
+                }
 
-            /* Required. */
-            String phone = StringUtils.deleteWhitespace(map.get(ACCOUNT_REGISTRATION.PH.name()).getText());
+                /* Required. */
+                String phone = StringUtils.deleteWhitespace(map.get(ACCOUNT_REGISTRATION.PH.name()).getText());
 
-            /* Required. */
-            String countryShortName = Formatter.getCountryShortNameFromInternationalPhone(phone);
+                /* Required. */
+                String countryShortName = Formatter.getCountryShortNameFromInternationalPhone(phone);
 
-            Map<String, String> errors = accountClientValidator.validate(
-                    phone,
-                    countryShortName
-            );
+                errors = accountClientValidator.validate(
+                        phone,
+                        countryShortName
+                );
 
-            if (!errors.isEmpty()) {
-                return ErrorEncounteredJson.toJson(errors);
-            }
-
-            try {
-                UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
-                if (null == userProfile) {
-                    LOG.info("Failed user login as no user found with phone={} cs={}", phone, countryShortName);
-                    errors = new HashMap<>();
-                    errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
-                    errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
-                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
-                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
+                if (!errors.isEmpty()) {
                     return ErrorEncounteredJson.toJson(errors);
                 }
 
-                UserAccountEntity userAccount = accountMobileService.findByQueueUserId(userProfile.getQueueUserId());
-                if (!userAccount.isPhoneValidated()) {
-                    //TODO mark otp validated after verifying with FB server with token received
-                    userAccount.setPhoneValidated(true);
-                    accountService.save(userAccount);
-                }
-                response.addHeader("X-R-MAIL", userAccount.getUserId());
-                response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
-
-                DeviceTypeEnum deviceTypeEnum;
                 try {
-                    deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
+                    UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
+                    if (null == userProfile) {
+                        LOG.info("Failed user login as no user found with phone={} cs={}", phone, countryShortName);
+                        errors = new HashMap<>();
+                        errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
+                        errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
+                        errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
+                        errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
+                        return ErrorEncounteredJson.toJson(errors);
+                    }
+
+                    UserAccountEntity userAccount = accountMobileService.findByQueueUserId(userProfile.getQueueUserId());
+                    if (!userAccount.isPhoneValidated()) {
+                        //TODO mark otp validated after verifying with FB server with token received
+                        userAccount.setPhoneValidated(true);
+                        accountService.save(userAccount);
+                    }
+                    response.addHeader("X-R-MAIL", userAccount.getUserId());
+                    response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
+
+                    DeviceTypeEnum deviceTypeEnum;
+                    try {
+                        deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
+                    } catch (Exception e) {
+                        LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
+                        return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
+                    }
+                    deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
+                    int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getQueueUserId());
+                    LOG.info("Remote join available={}", remoteJoin);
+
+                    return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
                 } catch (Exception e) {
-                    LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
-                    return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
+                    LOG.error("Failed login for phone={} cs={} reason={}", phone, countryShortName, e.getLocalizedMessage(), e);
+
+                    errors = new HashMap<>();
+                    errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
+                    errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
+                    return ErrorEncounteredJson.toJson(errors);
                 }
-                deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
-                int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getQueueUserId());
-                LOG.info("Remote join available={}", remoteJoin);
-
-                return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
-            } catch (Exception e) {
-                LOG.error("Failed login for phone={} cs={} reason={}", phone, countryShortName, e.getLocalizedMessage(), e);
-
-                errors = new HashMap<>();
-                errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
-                errors.put(ACCOUNT_REGISTRATION.PH.name(), phone);
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
-                return ErrorEncounteredJson.toJson(errors);
             }
+        } catch (Exception e) {
+            LOG.error("Failed login when parsing for reason={}", e.getLocalizedMessage(), e);
+
+            errors = new HashMap<>();
+            errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
+            errors.put(ErrorEncounteredJson.SYSTEM_ERROR, MOBILE_JSON.name());
+            errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, MOBILE_JSON.getCode());
+            return ErrorEncounteredJson.toJson(errors);
         }
     }
 
