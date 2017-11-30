@@ -123,7 +123,7 @@ public class AccountClientController {
             } else {
                 Set<String> unknownKeys = invalidElementsInMapDuringRegistration(map);
                 if (!unknownKeys.isEmpty()) {
-                /* Validation failure as there are unknown keys. */
+                    /* Validation failure as there are unknown keys. */
                     return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
                 }
 
@@ -286,14 +286,14 @@ public class AccountClientController {
         Map<String, String> errors;
         try {
             if (map.isEmpty()) {
-            /* Validation failure as there is no data in the map. */
+                /* Validation failure as there is no data in the map. */
                 return ErrorEncounteredJson.toJson(accountClientValidator.validate(
                         null,
                         null));
             } else {
                 Set<String> unknownKeys = invalidElementsInMapDuringLogin(map);
                 if (!unknownKeys.isEmpty()) {
-                /* Validation failure as there are unknown keys. */
+                    /* Validation failure as there are unknown keys. */
                     return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
                 }
 
