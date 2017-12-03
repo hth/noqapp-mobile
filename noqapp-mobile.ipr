@@ -221,8 +221,6 @@
             <element id="library" level="project" name="Gradle: org.hdrhistogram:HdrHistogram:2.1.9" />
             <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.15" />
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.9.1" />
-            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:1.13.8.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:1.10.8.RELEASE" />
             <element id="library" level="project" name="Gradle: commons-codec:commons-codec:1.11" />
             <element id="library" level="project" name="Gradle: net.bytebuddy:byte-buddy-agent:1.7.9" />
             <element id="library" level="project" name="Gradle: net.bytebuddy:byte-buddy:1.7.9" />
@@ -307,6 +305,8 @@
             <element id="library" level="project" name="Gradle: com.noqapp:search:1.2" />
             <element id="library" level="project" name="Gradle: com.noqapp:service:1.2" />
             <element id="library" level="project" name="Gradle: com.noqapp:social:1.2" />
+            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:2.0.2.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:2.0.2.RELEASE" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -370,6 +370,7 @@
             <element id="library" level="project" name="Gradle: io.springfox:springfox-core:2.7.0" />
             <element id="library" level="project" name="Gradle: org.springframework.plugin:spring-plugin-metadata:1.2.0.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:2.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-keyvalue:1.2.7.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-context-support:5.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-context:5.0.2.RELEASE" />
@@ -381,6 +382,7 @@
             <element id="library" level="project" name="Gradle: org.springframework:spring-jdbc:5.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-tx:5.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-oxm:5.0.2.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:2.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-beans:5.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-expression:5.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-test:5.0.2.RELEASE" />
@@ -616,8 +618,6 @@
             <element id="library" level="project" name="Gradle: org.checkerframework:checker-qual:2.0.0" />
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
-            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:1.10.8.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:1.13.8.RELEASE" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
           </element>
         </element>
@@ -683,6 +683,7 @@
             <element id="library" level="project" name="Gradle: io.springfox:springfox-core:2.7.0" />
             <element id="library" level="project" name="Gradle: org.springframework.plugin:spring-plugin-metadata:1.2.0.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:2.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-keyvalue:1.2.7.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-context-support:5.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-context:5.0.2.RELEASE" />
@@ -694,6 +695,7 @@
             <element id="library" level="project" name="Gradle: org.springframework:spring-jdbc:5.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-tx:5.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-oxm:5.0.2.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:2.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-beans:5.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-expression:5.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-test:5.0.2.RELEASE" />
@@ -929,8 +931,6 @@
             <element id="library" level="project" name="Gradle: org.checkerframework:checker-qual:2.0.0" />
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
-            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:1.10.8.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:1.13.8.RELEASE" />
             <element id="archive" name="com.noqapp.mobile-domain.jar">
               <element id="module-output" name="domain_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/domain/out/production/resources" />
@@ -3927,15 +3927,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.25/962153db4a9ea71b79d047dfd1b2a0d80d8f4739/slf4j-api-1.7.25-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.springframework.data:spring-data-commons:1.13.8.RELEASE">
+    <library name="Gradle: org.springframework.data:spring-data-commons:2.0.2.RELEASE">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.8.RELEASE/2853e3c38e02d42529f6c8b247d7bace40c25642/spring-data-commons-1.13.8.RELEASE.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.0.2.RELEASE/1befa3239976b856202b1735531910a0c2f4e17f/spring-data-commons-2.0.2.RELEASE.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.8.RELEASE/fdfb2eaa40d7855aa92e3ce4b472f2528fb5e61c/spring-data-commons-1.13.8.RELEASE-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.0.2.RELEASE/e9bddce5595e6a58d34bbb4f578071d949ddc19d/spring-data-commons-2.0.2.RELEASE-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.13.8.RELEASE/8977efb05a9c6dea150ef43c41bbcc26f7bd1fa1/spring-data-commons-1.13.8.RELEASE-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.0.2.RELEASE/e79c531473e968885d3718e296890310f2d864ed/spring-data-commons-2.0.2.RELEASE-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.springframework.data:spring-data-keyvalue:1.2.7.RELEASE">
@@ -3949,15 +3949,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-keyvalue/1.2.7.RELEASE/6142e28251b2cd71c9122efef5b427e09d19638b/spring-data-keyvalue-1.2.7.RELEASE-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.springframework.data:spring-data-mongodb:1.10.8.RELEASE">
+    <library name="Gradle: org.springframework.data:spring-data-mongodb:2.0.2.RELEASE">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.8.RELEASE/83142e2629ef0db3abc0b13296c6c7f5d2fa9a59/spring-data-mongodb-1.10.8.RELEASE.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/2.0.2.RELEASE/f7d59a840463f8468f317ee59588c38d6e04a2d1/spring-data-mongodb-2.0.2.RELEASE.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.8.RELEASE/bd0644952631e70b4a3743a4230bb3baf8a957c8/spring-data-mongodb-1.10.8.RELEASE-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/2.0.2.RELEASE/fdee36123d7bfb411805e9e2f7e246a9477b5b5b/spring-data-mongodb-2.0.2.RELEASE-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.10.8.RELEASE/eaef71c0264a0c34ef16c27223463e183230a4c2/spring-data-mongodb-1.10.8.RELEASE-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/2.0.2.RELEASE/c82ba16cc9b6e4ec8bb9e77e4f1d48429ed60ec1/spring-data-mongodb-2.0.2.RELEASE-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.springframework.data:spring-data-redis:1.8.7.RELEASE">
