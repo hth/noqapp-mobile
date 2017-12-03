@@ -27,5 +27,8 @@
     <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-mongodb:1.10.8.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.mongodb:mongo-java-driver:3.5.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-tx:4.3.12.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: io.springfox:springfox-swagger-common:2.7.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-web:5.0.2.RELEASE" level="project" />
+    <orderEntry type="module" module-name="view_main" />
   </component>
 </module>
