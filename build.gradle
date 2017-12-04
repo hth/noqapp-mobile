@@ -35,7 +35,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.1'
+        classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatform"
     }
 }
 
@@ -267,7 +267,7 @@ subprojects {
         testCompile "org.springframework:spring-test:$springVersion"
 
         testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit5"
-        testRuntime "org.junit.platform:junit-platform-launcher:1.0.2"
+        testRuntime "org.junit.platform:junit-platform-launcher:$junitPlatform"
     }
 
     test {
