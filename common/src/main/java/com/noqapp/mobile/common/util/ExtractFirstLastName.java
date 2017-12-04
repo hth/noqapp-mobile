@@ -7,11 +7,12 @@ import org.apache.commons.lang3.StringUtils;
  * Date: 3/22/17 8:28 PM
  */
 public final class ExtractFirstLastName {
+
     private String firstName;
     private String lastName;
 
     public ExtractFirstLastName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = firstName.trim();
     }
 
     public String getFirstName() {
@@ -26,7 +27,7 @@ public final class ExtractFirstLastName {
         String[] name = firstName.split(" ");
         if (name.length > 1) {
             lastName = name[name.length - 1];
-            firstName = StringUtils.trim(firstName.substring(0, firstName.indexOf(lastName)));
+            firstName = StringUtils.trim(firstName.substring(0, firstName.lastIndexOf(" " + lastName)));
         }
         return this;
     }
