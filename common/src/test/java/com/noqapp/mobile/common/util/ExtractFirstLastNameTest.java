@@ -13,28 +13,28 @@ class ExtractFirstLastNameTest {
 
     @Test
     void getFirstName() {
-        ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName("Sammy S").invoke();
+        ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName("Sammy S");
         assertEquals("Sammy", extractFirstLastName.getFirstName());
         assertEquals("S", extractFirstLastName.getLastName());
     }
 
     @Test
     void getFirstName_LastName_As_Null() {
-        ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName(" S ").invoke();
+        ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName(" S ");
         assertEquals("S", extractFirstLastName.getFirstName());
         assertNull(extractFirstLastName.getLastName());
     }
 
     @Test
     void getFirstName_With_MiddleName() {
-        ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName("Sammy D S").invoke();
+        ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName("Sammy D S");
         assertEquals("Sammy D", extractFirstLastName.getFirstName());
         assertEquals("S", extractFirstLastName.getLastName());
     }
 
     @Test
     void getFirstName_With_MiddleName_SameAs_LastName() {
-        ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName("Sammy S S").invoke();
+        ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName("Sammy S S");
         assertEquals("Sammy S", extractFirstLastName.getFirstName());
         assertEquals("S", extractFirstLastName.getLastName());
     }

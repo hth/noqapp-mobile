@@ -13,6 +13,8 @@ public final class ExtractFirstLastName {
 
     public ExtractFirstLastName(String firstName) {
         this.firstName = firstName.trim();
+
+        invoke();
     }
 
     public String getFirstName() {
@@ -23,12 +25,11 @@ public final class ExtractFirstLastName {
         return lastName;
     }
 
-    public ExtractFirstLastName invoke() {
+    private void invoke() {
         String[] name = firstName.split(" ");
         if (name.length > 1) {
             lastName = name[name.length - 1];
             firstName = StringUtils.trim(firstName.substring(0, firstName.lastIndexOf(" " + lastName)));
         }
-        return this;
     }
 }

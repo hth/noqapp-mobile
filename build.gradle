@@ -30,6 +30,15 @@ ext {
     firebaseFileProd = file(firebaseAdminProdFileLocation)
 }
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.1'
+    }
+}
+
 allprojects {
     group = 'com.noqapp.mobile'
     apply from: "$rootDir/versioning.gradle"
@@ -43,6 +52,7 @@ subprojects {
     apply plugin: 'findbugs'    //for static code analysis
     apply plugin: 'pmd'
     apply plugin: 'jacoco'      //for code coverage
+    apply plugin: 'org.junit.platform.gradle.plugin'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -255,6 +265,9 @@ subprojects {
         testCompile "org.mockito:mockito-inline:$mockito"
         testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$flapdoodle"
         testCompile "org.springframework:spring-test:$springVersion"
+
+        testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit5"
+        testRuntime "org.junit.platform:junit-platform-launcher:1.0.2"
     }
 
     test {
@@ -273,6 +286,11 @@ subprojects {
         // listen to standard out and standard error of the test JVM(s)
         onOutput { descriptor, event ->
             logger.lifecycle("Test: $descriptor produced standard out/err: $event.message")
+        }
+
+        filter {
+            //specific test class, wildcard for packages
+            includeTestsMatching "*.*Test"
         }
 
         testLogging {

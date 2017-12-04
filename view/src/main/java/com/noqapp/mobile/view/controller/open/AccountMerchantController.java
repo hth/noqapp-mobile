@@ -109,7 +109,7 @@ public class AccountMerchantController {
             String firstName = WordUtils.capitalize(map.get(ACCOUNT_REGISTRATION.FN.name()).getText());
             String lastName = null;
             if (StringUtils.isNotBlank(firstName)) {
-                ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName(firstName).invoke();
+                ExtractFirstLastName extractFirstLastName = new ExtractFirstLastName(firstName);
                 firstName = extractFirstLastName.getFirstName();
                 lastName = extractFirstLastName.getLastName();
             }
