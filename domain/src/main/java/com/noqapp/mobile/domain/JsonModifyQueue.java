@@ -38,13 +38,17 @@ public class JsonModifyQueue extends AbstractDomain {
     @JsonProperty ("dc")
     private boolean dayClosed = false;
 
+    @JsonProperty ("at")
+    private int availableTokenCount;
+
     public JsonModifyQueue() {
     }
 
-    public JsonModifyQueue(String codeQR, StoreHourEntity storeHour) {
+    public JsonModifyQueue(String codeQR, StoreHourEntity storeHour, int availableTokenCount) {
         this.codeQR = codeQR;
         this.preventJoining = storeHour.isPreventJoining();
         this.dayClosed = storeHour.isDayClosed();
+        this.availableTokenCount = availableTokenCount;
     }
 
     public String getCodeQR() {
@@ -69,5 +73,14 @@ public class JsonModifyQueue extends AbstractDomain {
 
     public void setDayClosed(boolean dayClosed) {
         this.dayClosed = dayClosed;
+    }
+
+    public int getAvailableTokenCount() {
+        return availableTokenCount;
+    }
+
+    public JsonModifyQueue setAvailableTokenCount(int availableTokenCount) {
+        this.availableTokenCount = availableTokenCount;
+        return this;
     }
 }
