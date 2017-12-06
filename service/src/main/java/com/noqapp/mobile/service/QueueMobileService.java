@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.noqapp.domain.BizStoreEntity;
@@ -488,6 +489,7 @@ public class QueueMobileService {
         for (QueueEntity queue : queues) {
             JsonQueuedPerson jsonQueuedPerson = new JsonQueuedPerson()
                     .setCustomerName(queue.getCustomerName())
+                    .setCustomerPhone(queue.getCustomerPhone())
                     .setToken(queue.getTokenNumber())
                     .setServerDeviceId(queue.getServerDeviceId());
 
@@ -495,5 +497,14 @@ public class QueueMobileService {
         }
 
         return new JsonQueuePersonList().setQueuedPeople(queuedPeople);
+    }
+
+    public BizStoreEntity findByCodeQR(String codeQR) {
+        return bizService.findByCodeQR(codeQR);
+    }
+
+    @Async
+    public void updateBizStoreAvailableTokenCount(int availableTokenCount, String codeQR) {
+        bizService.updateBizStoreAvailableTokenCount(availableTokenCount, codeQR);
     }
 }

@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonToken;
@@ -413,8 +414,13 @@ public class ManageQueueController {
         }
 
         try {
+            BizStoreEntity bizStore = queueMobileService.findByCodeQR(codeQR.getText());
             StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
-            return new JsonModifyQueue(codeQR.getText(), storeHour).asJson();
+
+            return new JsonModifyQueue(
+                    codeQR.getText(),
+                    storeHour,
+                    bizStore.getAvailableTokenCount()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             apiHealthService.insert(
@@ -451,7 +457,7 @@ public class ManageQueueController {
             value = "/modify",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String queueModify(
+    public String queueStateModify(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -493,12 +499,20 @@ public class ManageQueueController {
                     requestBodyJson.isDayClosed(),
                     requestBodyJson.isPreventJoining());
 
-            return new JsonModifyQueue(requestBodyJson.getCodeQR(), storeHour).asJson();
+            //TODO add missing available token count to iOS and Android.
+            queueMobileService.updateBizStoreAvailableTokenCount(
+                    requestBodyJson.getAvailableTokenCount(),
+                    requestBodyJson.getCodeQR());
+
+            return new JsonModifyQueue(
+                    requestBodyJson.getCodeQR(),
+                    storeHour,
+                    requestBodyJson.getAvailableTokenCount()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             apiHealthService.insert(
                     "/modify",
-                    "queueModify",
+                    "queueStateModify",
                     ManageQueueController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.F);
@@ -506,7 +520,7 @@ public class ManageQueueController {
         } finally {
             apiHealthService.insert(
                     "/modify",
-                    "queueModify",
+                    "queueStateModify",
                     ManageQueueController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.G);
