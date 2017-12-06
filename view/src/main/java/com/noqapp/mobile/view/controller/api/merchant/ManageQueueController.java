@@ -499,7 +499,7 @@ public class ManageQueueController {
                     requestBodyJson.isDayClosed(),
                     requestBodyJson.isPreventJoining());
 
-            //TODO add missing available token count to iOS and Android. 
+            //TODO add missing available token count to iOS and Android.
             queueMobileService.updateBizStoreAvailableTokenCount(
                     requestBodyJson.getAvailableTokenCount(),
                     requestBodyJson.getCodeQR());
