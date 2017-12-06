@@ -72,7 +72,8 @@ public class TokenQueueMobileService {
                     .setQueueStatus(tokenQueue.getQueueStatus())
                     .setCreated(tokenQueue.getCreated())
                     .setRemoteJoinAvailable(bizStore.isRemoteJoin())
-                    .setAllowLoggedInUser(bizStore.isAllowLoggedInUser());
+                    .setAllowLoggedInUser(bizStore.isAllowLoggedInUser())
+                    .setAvailableTokenCount(bizStore.getAvailableTokenCount());
         } catch (Exception e) {
             //TODO remove this catch
             LOG.error("Failed getting state codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);

@@ -489,6 +489,7 @@ public class QueueMobileService {
         for (QueueEntity queue : queues) {
             JsonQueuedPerson jsonQueuedPerson = new JsonQueuedPerson()
                     .setCustomerName(queue.getCustomerName())
+                    .setCustomerPhone(queue.getCustomerPhone())
                     .setToken(queue.getTokenNumber())
                     .setServerDeviceId(queue.getServerDeviceId());
 
