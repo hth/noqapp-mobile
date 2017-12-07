@@ -956,16 +956,21 @@
   </component>
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="common_integration" target="1.8" />
       <module name="common_main" target="1.8" />
       <module name="common_test" target="1.8" />
+      <module name="domain_integration" target="1.8" />
       <module name="domain_main" target="1.8" />
       <module name="domain_test" target="1.8" />
       <module name="noqapp-mobile_main" target="1.8" />
       <module name="noqapp-mobile_test" target="1.8" />
+      <module name="security_integration" target="1.8" />
       <module name="security_main" target="1.8" />
       <module name="security_test" target="1.8" />
+      <module name="service_integration" target="1.8" />
       <module name="service_main" target="1.8" />
       <module name="service_test" target="1.8" />
+      <module name="view_integration" target="1.8" />
       <module name="view_main" target="1.8" />
       <module name="view_test" target="1.8" />
     </bytecodeTargetLevel>
@@ -1215,19 +1220,24 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common/common_integration.iml" filepath="$PROJECT_DIR$/common/common_integration.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common_main.iml" filepath="$PROJECT_DIR$/common/common_main.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common_test.iml" filepath="$PROJECT_DIR$/common/common_test.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" group="domain" />
+      <module fileurl="file://$PROJECT_DIR$/domain/domain_integration.iml" filepath="$PROJECT_DIR$/domain/domain_integration.iml" group="domain" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain_main.iml" filepath="$PROJECT_DIR$/domain/domain_main.iml" group="domain" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain_test.iml" filepath="$PROJECT_DIR$/domain/domain_test.iml" group="domain" />
       <module fileurl="file://$PROJECT_DIR$/noqapp-mobile.iml" filepath="$PROJECT_DIR$/noqapp-mobile.iml" />
       <module fileurl="file://$PROJECT_DIR$/security/security.iml" filepath="$PROJECT_DIR$/security/security.iml" group="security" />
+      <module fileurl="file://$PROJECT_DIR$/security/security_integration.iml" filepath="$PROJECT_DIR$/security/security_integration.iml" group="security" />
       <module fileurl="file://$PROJECT_DIR$/security/security_main.iml" filepath="$PROJECT_DIR$/security/security_main.iml" group="security" />
       <module fileurl="file://$PROJECT_DIR$/security/security_test.iml" filepath="$PROJECT_DIR$/security/security_test.iml" group="security" />
       <module fileurl="file://$PROJECT_DIR$/service/service.iml" filepath="$PROJECT_DIR$/service/service.iml" group="service" />
+      <module fileurl="file://$PROJECT_DIR$/service/service_integration.iml" filepath="$PROJECT_DIR$/service/service_integration.iml" group="service" />
       <module fileurl="file://$PROJECT_DIR$/service/service_main.iml" filepath="$PROJECT_DIR$/service/service_main.iml" group="service" />
       <module fileurl="file://$PROJECT_DIR$/service/service_test.iml" filepath="$PROJECT_DIR$/service/service_test.iml" group="service" />
       <module fileurl="file://$PROJECT_DIR$/view/view.iml" filepath="$PROJECT_DIR$/view/view.iml" group="view" />
+      <module fileurl="file://$PROJECT_DIR$/view/view_integration.iml" filepath="$PROJECT_DIR$/view/view_integration.iml" group="view" />
       <module fileurl="file://$PROJECT_DIR$/view/view_main.iml" filepath="$PROJECT_DIR$/view/view_main.iml" group="view" />
       <module fileurl="file://$PROJECT_DIR$/view/view_test.iml" filepath="$PROJECT_DIR$/view/view_test.iml" group="view" />
     </modules>
