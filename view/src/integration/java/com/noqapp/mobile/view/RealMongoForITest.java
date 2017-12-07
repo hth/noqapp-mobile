@@ -45,9 +45,13 @@ public abstract class RealMongoForITest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
-        mongodProcess.stop();
-        mongodExecutable.stop();
+    public void tearDown() {
+        try {
+            mongodProcess.stop();
+            mongodExecutable.stop();
+        } catch (Exception e) {
+            //Normally it fails to stop. Throws exception. So just catch and do nothing.
+        }
     }
 
     public Mongo getMongo() {

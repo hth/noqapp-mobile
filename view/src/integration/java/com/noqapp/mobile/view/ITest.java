@@ -1,5 +1,8 @@
 package com.noqapp.mobile.view;
 
+import com.noqapp.health.repository.ApiHealthNowManager;
+import com.noqapp.health.repository.ApiHealthNowManagerImpl;
+import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.service.WebConnectorService;
@@ -55,6 +58,9 @@ public class ITest extends RealMongoForITest {
     protected InviteManager inviteManager;
     protected RegisteredDeviceManager registeredDeviceManager;
 
+    protected ApiHealthService apiHealthService;
+    protected ApiHealthNowManager apiHealthNowManager;
+
     protected GenerateUserIdManager generateUserIdManager;
 
     @Mock protected WebConnectorService webConnectorService;
@@ -100,5 +106,8 @@ public class ITest extends RealMongoForITest {
 
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6);
         deviceService = new DeviceService(registeredDeviceManager);
+
+        apiHealthNowManager = new ApiHealthNowManagerImpl(getMongoTemplate());
+        apiHealthService = new ApiHealthService(apiHealthNowManager);
     }
 }

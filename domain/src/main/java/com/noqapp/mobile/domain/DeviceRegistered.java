@@ -25,6 +25,10 @@ public class DeviceRegistered extends AbstractDomain {
     @JsonProperty ("r")
     private int registered;
 
+    private DeviceRegistered() {
+        //Required Default Constructor
+    }
+
     private DeviceRegistered(boolean registered) {
         this.registered = registered ? 1 : 0;
     }
