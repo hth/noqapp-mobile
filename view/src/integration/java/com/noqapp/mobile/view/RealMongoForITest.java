@@ -54,7 +54,7 @@ public abstract class RealMongoForITest {
         return mongoClient;
     }
 
-    public MongoTemplate getMongoTemplate() {
+    MongoTemplate getMongoTemplate() {
         if (null == mongoTemplate) {
             mongoTemplate = new MongoTemplate(mongoClient, DATABASE_NAME);
         }

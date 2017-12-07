@@ -23,6 +23,7 @@ import com.noqapp.service.UserProfilePreferenceService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -38,6 +39,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * 12/6/17 7:07 PM
  */
 @DisplayName("Create User Account and Login User")
+@Tag("api")
 class AccountClientControllerITest extends ITest {
 
     private AccountClientController accountClientController;

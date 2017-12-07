@@ -110,7 +110,7 @@ public class TokenQueueAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
+        if (!tokenQueueMobileService.isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }

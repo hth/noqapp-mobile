@@ -1,6 +1,5 @@
 package com.noqapp.mobile.view;
 
-import com.mongodb.MongoClient;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.service.WebConnectorService;
@@ -28,11 +27,6 @@ import com.noqapp.service.EmailValidateService;
 import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.UserProfilePreferenceService;
-import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
-import de.flapdoodle.embed.mongo.config.Net;
-import de.flapdoodle.embed.mongo.distribution.Version;
-import de.flapdoodle.embed.process.runtime.Network;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -43,27 +37,27 @@ import org.mockito.MockitoAnnotations;
  */
 public class ITest extends RealMongoForITest {
 
-    public AccountService accountService;
-    public AccountMobileService accountMobileService;
-    public UserProfilePreferenceService userProfilePreferenceService;
-    public InviteService inviteService;
-    public AccountClientValidator accountClientValidator;
-    public DeviceService deviceService;
+    protected AccountService accountService;
+    protected AccountMobileService accountMobileService;
+    protected UserProfilePreferenceService userProfilePreferenceService;
+    protected InviteService inviteService;
+    protected AccountClientValidator accountClientValidator;
+    protected DeviceService deviceService;
 
-    public UserAccountManager userAccountManager;
-    public UserAuthenticationManager userAuthenticationManager;
-    public UserPreferenceManager userPreferenceManager;
-    public UserProfileManager userProfileManager;
-    public GenerateUserIdService generateUserIdService;
-    public EmailValidateManager emailValidateManager;
-    public EmailValidateService emailValidateService;
-    public ForgotRecoverManager forgotRecoverManager;
-    public InviteManager inviteManager;
-    public RegisteredDeviceManager registeredDeviceManager;
+    protected UserAccountManager userAccountManager;
+    protected UserAuthenticationManager userAuthenticationManager;
+    protected UserPreferenceManager userPreferenceManager;
+    protected UserProfileManager userProfileManager;
+    protected GenerateUserIdService generateUserIdService;
+    protected EmailValidateManager emailValidateManager;
+    protected EmailValidateService emailValidateService;
+    protected ForgotRecoverManager forgotRecoverManager;
+    protected InviteManager inviteManager;
+    protected RegisteredDeviceManager registeredDeviceManager;
 
-    public GenerateUserIdManager generateUserIdManager;
+    protected GenerateUserIdManager generateUserIdManager;
 
-    @Mock public WebConnectorService webConnectorService;
+    @Mock protected WebConnectorService webConnectorService;
 
     @BeforeEach
     public void globalISetup() {
