@@ -60,6 +60,10 @@ public class JsonProfile extends AbstractDomain {
     @JsonProperty("ul")
     private UserLevelEnum userLevel;
 
+    private JsonProfile() {
+        //Required Default Constructor
+    }
+
     private JsonProfile(
             String name,
             String mail,
@@ -97,5 +101,45 @@ public class JsonProfile extends AbstractDomain {
                 userProfile.getLevel(),
                 remoteJoin
         );
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public String getCountryShortName() {
+        return countryShortName;
+    }
+
+    public String getPhoneRaw() {
+        return phoneRaw;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public int getRemoteJoin() {
+        return remoteJoin;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public UserLevelEnum getUserLevel() {
+        return userLevel;
     }
 }
