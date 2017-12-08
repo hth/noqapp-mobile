@@ -28,12 +28,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
 class ReviewControllerITest extends ITest {
+    private String did;
 
     private ReviewController reviewController;
 
     @Mock private HttpServletResponse httpServletResponse;
-
-    private String did;
 
     @BeforeAll
     void testSetUp() {

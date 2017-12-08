@@ -39,12 +39,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
 class AccountClientControllerITest extends ITest {
+    private String did;
 
     private AccountClientController accountClientController;
 
     @Mock private HttpServletResponse httpServletResponse;
-
-    private String did;
 
     @BeforeAll
     void testSetUp() {

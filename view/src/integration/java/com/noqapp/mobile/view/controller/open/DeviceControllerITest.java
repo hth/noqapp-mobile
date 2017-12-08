@@ -36,11 +36,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
 class DeviceControllerITest extends ITest {
+    private String did;
+
     private DeviceController deviceController;
 
     @Mock private HttpServletResponse httpServletResponse;
-
-    private String did;
 
     @BeforeAll
     void testSetUp() {
