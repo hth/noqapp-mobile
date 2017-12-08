@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -147,9 +148,11 @@ class ReviewControllerITest extends ITest {
 
         /* After starting queue state. */
         JsonToken nextInQueue = queueMobileService.getNextInQueue(bizStore.getCodeQR(), "Go To Counter", sid);
+        assertEquals(jsonToken.getToken(), nextInQueue.getToken());
+        assertNotEquals(jsonToken.getServingNumber(), nextInQueue.getServingNumber());
         assertEquals(QueueStatusEnum.N, nextInQueue.getQueueStatus());
-        tokenQueue = queueMobileService.getTokenQueueByCodeQR(bizStore.getCodeQR());
-        assertEquals(QueueStatusEnum.N, tokenQueue.getQueueStatus());
+        TokenQueueEntity tokenQueueAfterPressingNext = queueMobileService.getTokenQueueByCodeQR(bizStore.getCodeQR());
+        assertEquals(QueueStatusEnum.N, tokenQueueAfterPressingNext.getQueueStatus());
 
         /* When no more to serve, service is done. Queue state is set to Done. */
         nextInQueue = queueMobileService.updateAndGetNextInQueue(
@@ -159,16 +162,16 @@ class ReviewControllerITest extends ITest {
                 "Go To Counter",
                 sid);
         assertEquals(QueueStatusEnum.D, nextInQueue.getQueueStatus());
-        tokenQueue = queueMobileService.getTokenQueueByCodeQR(bizStore.getCodeQR());
-        assertEquals(QueueStatusEnum.D, tokenQueue.getQueueStatus());
+        TokenQueueEntity tokenQueueAfterReachingDoneWhenThereIsNoNext = queueMobileService.getTokenQueueByCodeQR(bizStore.getCodeQR());
+        assertEquals(QueueStatusEnum.D, tokenQueueAfterReachingDoneWhenThereIsNoNext.getQueueStatus());
 
         /* Review after user has been serviced. */
         submitReview(bizStore, jsonToken);
 
         /* Check for submitted review. */
-        queue = queueManager.findOne(bizStore.getCodeQR(), jsonToken.getToken());
-        assertEquals(QueueUserStateEnum.S, queue.getQueueUserState());
-        assertEquals(did, queue.getDid());
+        QueueEntity queueAfterService = queueManager.findOne(bizStore.getCodeQR(), jsonToken.getToken());
+        assertEquals(QueueUserStateEnum.S, queueAfterService.getQueueUserState());
+        assertEquals(did, queueAfterService.getDid());
     }
 
     private void submitReview(BizStoreEntity bizStore, JsonToken jsonToken) throws IOException {
