@@ -1,7 +1,6 @@
 package com.noqapp.mobile.view.controller.open;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserAuthenticationEntity;
@@ -13,14 +12,7 @@ import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.body.Login;
 import com.noqapp.mobile.domain.body.Registration;
-import com.noqapp.mobile.service.AccountMobileService;
-import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.view.ITest;
-import com.noqapp.mobile.view.validator.AccountClientValidator;
-import com.noqapp.service.AccountService;
-import com.noqapp.service.InviteService;
-import com.noqapp.service.UserProfilePreferenceService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -44,7 +36,7 @@ class AccountClientControllerITest extends ITest {
 
     private AccountClientController accountClientController;
 
-    @Mock private HttpServletResponse response;
+    @Mock private HttpServletResponse httpServletResponse;
 
     @BeforeEach
     void setUp() {
@@ -84,7 +76,7 @@ class AccountClientControllerITest extends ITest {
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 registration.asJson(),
-                response);
+                httpServletResponse);
 
         UserProfileEntity userProfile = accountService.checkUserExistsByPhone(registration.getPhone());
         assertEquals("Rocket", userProfile.getFirstName());
@@ -125,7 +117,7 @@ class AccountClientControllerITest extends ITest {
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 login.asJson(),
-                response
+                httpServletResponse
         );
 
         jsonProfile = new ObjectMapper().readValue(profile, JsonProfile.class);

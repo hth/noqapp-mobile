@@ -82,7 +82,7 @@ public class ReviewController {
             String bodyJson,
 
             HttpServletResponse response
-    ) throws IOException {
+    ) {
         Instant start = Instant.now();
         LOG.info("Review for did={} dt={}", did, dt);
 

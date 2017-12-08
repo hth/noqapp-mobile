@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class DeviceControllerTest extends ITest {
     private DeviceController deviceController;
 
-    @Mock private HttpServletResponse response;
+    @Mock private HttpServletResponse httpServletResponse;
 
     @BeforeEach
     void setUp() {
@@ -47,7 +47,7 @@ class DeviceControllerTest extends ITest {
     }
 
     @Test
-    void registerDevice() throws IOException, InterruptedException {
+    void registerDevice() throws IOException {
         String did = UUID.randomUUID().toString();
         String deviceType = DeviceTypeEnum.A.getName();
 
@@ -57,7 +57,7 @@ class DeviceControllerTest extends ITest {
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 deviceToken.asJson(),
-                response
+                httpServletResponse
         );
 
         DeviceRegistered deviceRegistered = new ObjectMapper().readValue(jsonDeviceRegistered, DeviceRegistered.class);
