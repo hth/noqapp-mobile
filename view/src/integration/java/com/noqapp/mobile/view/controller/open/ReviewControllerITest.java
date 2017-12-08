@@ -94,6 +94,7 @@ class ReviewControllerITest extends ITest {
     }
 
     @Test
+    @DisplayName("Service fails when code QR does not exists")
     void service_fails_when_codeQR_DoesNotExists() {
         ReviewRating reviewRating = new ReviewRating()
                 .setCodeQR(did)
@@ -112,6 +113,7 @@ class ReviewControllerITest extends ITest {
     }
 
     @Test
+    @DisplayName("Service when completed")
     void service() throws IOException {
         UserProfileEntity userProfile = registerUser();
         BizStoreEntity bizStore = registerBusiness(userProfile);

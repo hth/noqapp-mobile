@@ -57,6 +57,7 @@ class DeviceControllerITest extends ITest {
     }
 
     @Test
+    @DisplayName("Register Device")
     void registerDevice() throws IOException {
         String deviceType = DeviceTypeEnum.A.getName();
 
@@ -77,6 +78,7 @@ class DeviceControllerITest extends ITest {
     }
 
     @Test
+    @DisplayName("Check mobile version is supported")
     void isSupportedAppVersion() throws IOException {
         String deviceType = DeviceTypeEnum.A.getName();
 
