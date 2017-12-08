@@ -9,7 +9,9 @@ import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -32,7 +34,7 @@ public abstract class RealMongoForITest {
 
     private static final String DATABASE_NAME = "noqapp-i-test";
 
-    @BeforeEach
+    @BeforeAll
     public void globalSetup() throws Exception {
         int port = Network.getFreeServerPort();
 
@@ -44,7 +46,7 @@ public abstract class RealMongoForITest {
         mongoClient = new MongoClient("localhost", port);
     }
 
-    @AfterEach
+    @AfterAll
     public void tearDown() {
         try {
             mongodProcess.stop();

@@ -47,6 +47,7 @@ import com.noqapp.service.InviteService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.UserProfilePreferenceService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -95,7 +96,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected WebConnectorService webConnectorService;
     @Mock protected QueueManagerJDBC queueManagerJDBC;
 
-    @BeforeEach
+    @BeforeAll
     public void globalISetup() {
         MockitoAnnotations.initMocks(this);
 

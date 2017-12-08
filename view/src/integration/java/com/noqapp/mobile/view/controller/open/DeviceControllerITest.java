@@ -8,10 +8,12 @@ import com.noqapp.mobile.domain.DeviceRegistered;
 import com.noqapp.mobile.domain.body.DeviceToken;
 import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import com.noqapp.mobile.view.ITest;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -31,11 +33,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * 12/8/17 12:54 AM
  */
 @DisplayName("Device Registration")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
-class DeviceControllerTest extends ITest {
+class DeviceControllerITest extends ITest {
     private DeviceController deviceController;
 
     @Mock private HttpServletResponse httpServletResponse;
+
+    private String did;
+
+    @BeforeAll
+    void testSetUp() {
+        did = UUID.randomUUID().toString();
+    }
 
     @BeforeEach
     void setUp() {
@@ -48,7 +58,6 @@ class DeviceControllerTest extends ITest {
 
     @Test
     void registerDevice() throws IOException {
-        String did = UUID.randomUUID().toString();
         String deviceType = DeviceTypeEnum.A.getName();
 
         DeviceToken deviceToken = new DeviceToken(did);
@@ -69,8 +78,8 @@ class DeviceControllerTest extends ITest {
 
     @Test
     void isSupportedAppVersion() throws IOException {
-        String did = UUID.randomUUID().toString();
         String deviceType = DeviceTypeEnum.A.getName();
+
         String version = String.valueOf(LowestSupportedAppEnum.VA.getOldestAppVersionNumber());
         String response = deviceController.isSupportedAppVersion(
                 new ScrubbedInput(did),
