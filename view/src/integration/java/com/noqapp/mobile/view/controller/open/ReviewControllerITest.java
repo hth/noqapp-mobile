@@ -8,7 +8,6 @@ import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.flow.BusinessHour;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
@@ -17,8 +16,6 @@ import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
-import com.noqapp.mobile.domain.DeviceRegistered;
-import com.noqapp.mobile.domain.body.Login;
 import com.noqapp.mobile.domain.body.Registration;
 import com.noqapp.mobile.domain.body.ReviewRating;
 import com.noqapp.mobile.view.ITest;
@@ -43,7 +40,6 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * hitender
