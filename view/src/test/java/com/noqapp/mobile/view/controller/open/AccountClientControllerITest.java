@@ -40,16 +40,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
 class AccountClientControllerITest extends ITest {
-    private String did;
-
     private AccountClientController accountClientController;
 
     @Mock private HttpServletResponse httpServletResponse;
-
-    @BeforeAll
-    void testSetUp() {
-        did = UUID.randomUUID().toString();
-    }
 
     @BeforeEach
     void setUp() {
