@@ -70,7 +70,7 @@ class AccountClientControllerITest extends ITest {
         String deviceType = DeviceTypeEnum.A.getName();
 
         Registration registration = new Registration()
-                .setPhone("+9118000000000")
+                .setPhone("+9118000000010")
                 .setFirstName("ROCKET mAniA")
                 .setMail("rocket@r.com")
                 .setBirthday("2000-12-12")
@@ -89,7 +89,7 @@ class AccountClientControllerITest extends ITest {
         assertEquals("Rocket", userProfile.getFirstName());
         assertEquals("Mania", userProfile.getLastName());
         assertEquals(UserLevelEnum.CLIENT, userProfile.getLevel());
-        assertEquals("18000000000", userProfile.getPhoneRaw());
+        assertEquals("18000000010", userProfile.getPhoneRaw());
         assertNotNull(userProfile.getInviteCode());
 
         UserAccountEntity userAccount = accountMobileService.findByQueueUserId(userProfile.getQueueUserId());
@@ -105,7 +105,7 @@ class AccountClientControllerITest extends ITest {
         assertEquals("Rocket Mania", jsonProfile.getName());
         assertEquals("rocket@r.com", jsonProfile.getMail());
         assertEquals("IN", jsonProfile.getCountryShortName());
-        assertEquals("1800 000 0000", jsonProfile.getPhoneRaw());
+        assertEquals("1800 000 0010", jsonProfile.getPhoneRaw());
         assertEquals("Asia/Calcutta", jsonProfile.getTimeZone());
         assertNotNull(jsonProfile.getInviteCode());
         assertEquals(2, jsonProfile.getRemoteJoin());
@@ -120,7 +120,7 @@ class AccountClientControllerITest extends ITest {
         String deviceType = DeviceTypeEnum.A.getName();
 
         Login login = new Login()
-                .setPhone("+9118000000000")
+                .setPhone("+9118000000010")
                 .setCountryShortName("IN");
 
         String profile = accountClientController.login(
@@ -134,7 +134,7 @@ class AccountClientControllerITest extends ITest {
         assertEquals("Rocket Mania", jsonProfile.getName());
         assertEquals("rocket@r.com", jsonProfile.getMail());
         assertEquals("IN", jsonProfile.getCountryShortName());
-        assertEquals("1800 000 0000", jsonProfile.getPhoneRaw());
+        assertEquals("1800 000 0010", jsonProfile.getPhoneRaw());
         assertEquals("Asia/Calcutta", jsonProfile.getTimeZone());
         assertNotNull(jsonProfile.getInviteCode());
         assertEquals(2, jsonProfile.getRemoteJoin());
@@ -149,7 +149,7 @@ class AccountClientControllerITest extends ITest {
         String deviceType = DeviceTypeEnum.A.getName();
 
         Login login = new Login()
-                .setPhone("+9118000000001")
+                .setPhone("+9118000000011")
                 .setCountryShortName("IN");
 
         String profile = accountClientController.login(

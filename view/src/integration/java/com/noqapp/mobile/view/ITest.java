@@ -228,8 +228,8 @@ public class ITest extends RealMongoForITest {
     private void registerUser() throws IOException {
         Registration registrationClient1 = new Registration()
                 .setPhone("+9118000000001")
-                .setFirstName("ROCKET mAniA")
-                .setMail("rocket@r.com")
+                .setFirstName("ROCKET Docket")
+                .setMail("rocketd@r.com")
                 .setBirthday("2000-12-12")
                 .setGender("M")
                 .setCountryShortName("IN")
