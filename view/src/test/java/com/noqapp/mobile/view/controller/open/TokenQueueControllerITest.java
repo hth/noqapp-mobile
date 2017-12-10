@@ -38,7 +38,6 @@ class TokenQueueControllerITest extends ITest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
         this.tokenQueueController = new TokenQueueController(
                 tokenQueueMobileService,
                 queueMobileService,

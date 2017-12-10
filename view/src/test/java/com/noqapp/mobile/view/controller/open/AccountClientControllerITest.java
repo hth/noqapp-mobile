@@ -42,11 +42,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class AccountClientControllerITest extends ITest {
     private AccountClientController accountClientController;
 
-    @Mock private HttpServletResponse httpServletResponse;
-
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
+    void setUp()
         accountClientController = new AccountClientController(
                 accountService,
                 accountMobileService,

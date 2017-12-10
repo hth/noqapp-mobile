@@ -41,7 +41,6 @@ class ReviewControllerITest extends ITest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
         reviewController = new ReviewController(
                 tokenQueueMobileService,
                 queueMobileService,

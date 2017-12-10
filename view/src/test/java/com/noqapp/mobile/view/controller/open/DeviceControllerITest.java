@@ -35,20 +35,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
 class DeviceControllerITest extends ITest {
-    private String did;
-
     private DeviceController deviceController;
-
-    @Mock private HttpServletResponse httpServletResponse;
-
-    @BeforeAll
-    void testSetUp() {
-        did = UUID.randomUUID().toString();
-    }
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
         deviceController = new DeviceController(
                 deviceService,
                 apiHealthService
@@ -58,8 +48,6 @@ class DeviceControllerITest extends ITest {
     @Test
     @DisplayName("Register Device")
     void registerDevice() throws IOException {
-        String deviceType = DeviceTypeEnum.A.getName();
-
         DeviceToken deviceToken = new DeviceToken(did);
 
         String jsonDeviceRegistered = deviceController.registerDevice(
@@ -79,8 +67,6 @@ class DeviceControllerITest extends ITest {
     @Test
     @DisplayName("Check mobile version is supported")
     void isSupportedAppVersion() throws IOException {
-        String deviceType = DeviceTypeEnum.A.getName();
-
         String version = String.valueOf(LowestSupportedAppEnum.VA.getOldestAppVersionNumber());
         String response = deviceController.isSupportedAppVersion(
                 new ScrubbedInput(did),
