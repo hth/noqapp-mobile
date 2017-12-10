@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * hitender
  * 12/6/17 7:07 PM
  */
-@DisplayName("Create User Account and Login User")
+@DisplayName("Create User Account and Login User API")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
 class AccountClientControllerITest extends ITest {

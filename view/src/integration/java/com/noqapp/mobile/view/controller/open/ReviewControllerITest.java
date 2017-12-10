@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * hitender
  * 12/8/17 3:28 AM
  */
-@DisplayName("Review Service")
+@DisplayName("Review API")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
 class ReviewControllerITest extends ITest {

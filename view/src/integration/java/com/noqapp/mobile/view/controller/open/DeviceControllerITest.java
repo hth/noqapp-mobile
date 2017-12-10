@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * hitender
  * 12/8/17 12:54 AM
  */
-@DisplayName("Device Registration")
+@DisplayName("Device Registration API")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
 class DeviceControllerITest extends ITest {
