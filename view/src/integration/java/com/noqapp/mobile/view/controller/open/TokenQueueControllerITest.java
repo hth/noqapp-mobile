@@ -49,6 +49,7 @@ class TokenQueueControllerITest extends ITest {
     }
 
     @Test
+    @DisplayName("Token Queue API executes all APIs")
     void runThroughAllConditions() throws IOException {
         getQueueState();
         getAllJoinedQueues_Before_Join();
