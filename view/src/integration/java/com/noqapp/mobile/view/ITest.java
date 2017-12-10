@@ -77,6 +77,7 @@ import java.util.UUID;
 public class ITest extends RealMongoForITest {
 
     protected String did;
+    protected String fcmToken;
     protected String deviceType;
 
     protected AccountService accountService;
@@ -125,6 +126,7 @@ public class ITest extends RealMongoForITest {
         MockitoAnnotations.initMocks(this);
 
         did = UUID.randomUUID().toString();
+        fcmToken = UUID.randomUUID().toString();
         deviceType = DeviceTypeEnum.A.getName();
 
         userAccountManager = new UserAccountManagerImpl(getMongoTemplate());
