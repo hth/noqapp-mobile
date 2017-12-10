@@ -10,16 +10,13 @@ import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.mobile.domain.body.DeviceToken;
 import com.noqapp.mobile.view.ITest;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -55,14 +52,14 @@ class TokenQueueControllerITest extends ITest {
         getAllJoinedQueues_Before_Join();
         getAllHistoricalJoinedQueues_Before_Join();
         joinQueue();
-        getAllJoinedQueues_When_After_Joined();
+        getAllJoinedQueues_After_Joined();
         abortQueue();
-        getAllJoinedQueues_When_After_Abort();
-        getAllHistoricalJoinedQueues_After_Join();
+        getAllJoinedQueues_After_Abort();
+        getAllHistoricalJoinedQueues_After_Abort();
     }
 
     @DisplayName("Get Queue State")
-    void getQueueState() throws IOException {
+    private void getQueueState() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
@@ -78,7 +75,7 @@ class TokenQueueControllerITest extends ITest {
     }
 
     @DisplayName("Get all joined queues before join")
-    void getAllJoinedQueues_Before_Join() throws IOException {
+    private void getAllJoinedQueues_Before_Join() throws IOException {
         String allJoinedQueues = tokenQueueController.getAllJoinedQueues(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
@@ -90,7 +87,7 @@ class TokenQueueControllerITest extends ITest {
     }
 
     @DisplayName("Get Historical Queues before join")
-    void getAllHistoricalJoinedQueues_Before_Join() throws IOException {
+    private void getAllHistoricalJoinedQueues_Before_Join() throws IOException {
         String allJoinedQueues = tokenQueueController.getAllHistoricalJoinedQueues(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
@@ -103,7 +100,7 @@ class TokenQueueControllerITest extends ITest {
     }
 
     @DisplayName("Join a Queue")
-    void joinQueue() throws IOException {
+    private void joinQueue() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
@@ -118,7 +115,7 @@ class TokenQueueControllerITest extends ITest {
     }
 
     @DisplayName("Get all joined queues after join")
-    void getAllJoinedQueues_When_After_Joined() throws IOException {
+    private void getAllJoinedQueues_After_Joined() throws IOException {
         String allJoinedQueues = tokenQueueController.getAllJoinedQueues(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
@@ -130,7 +127,7 @@ class TokenQueueControllerITest extends ITest {
     }
 
     @DisplayName("Abort Queue")
-    void abortQueue() throws IOException {
+    private void abortQueue() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
@@ -142,8 +139,8 @@ class TokenQueueControllerITest extends ITest {
         );
     }
 
-    @DisplayName("Get all joined queues after join")
-    void getAllJoinedQueues_When_After_Abort() throws IOException {
+    @DisplayName("Get all currently joined queues after join")
+    private void getAllJoinedQueues_After_Abort() throws IOException {
         String allJoinedQueues = tokenQueueController.getAllJoinedQueues(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
@@ -154,8 +151,8 @@ class TokenQueueControllerITest extends ITest {
         assertEquals(0, jsonTokenAndQueueList.getTokenAndQueues().size());
     }
 
-    @DisplayName("Get Historical Queues after join")
-    void getAllHistoricalJoinedQueues_After_Join() throws IOException {
+    @DisplayName("Get Historical Queues any joined")
+    private void getAllHistoricalJoinedQueues_After_Abort() throws IOException {
         /* For the first time fetches from beginning. */
         String allJoinedQueues = tokenQueueController.getAllHistoricalJoinedQueues(
                 new ScrubbedInput(did),
