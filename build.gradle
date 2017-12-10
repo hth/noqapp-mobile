@@ -62,15 +62,6 @@ subprojects {
             resources.srcDirs = ['src/test/resources']
             java.srcDirs = ['src/test/java']
         }
-
-        //Make files under integration compiled
-        integration {
-            resources.srcDirs = ['src/integration/resources']
-            java.srcDirs = ['src/integration/java']
-
-            compileClasspath += main.output + test.output
-            runtimeClasspath += main.output + test.output
-        }
     }
 
     checkstyle {
@@ -132,9 +123,6 @@ subprojects {
         module {
             downloadSources = true
             downloadJavadoc = true
-            //and some extra integration test source and resources dirs
-            testSourceDirs += file('/src/integration/java')
-            testSourceDirs += file('/src/integration/resources')
         }
     }
 
@@ -339,17 +327,6 @@ subprojects {
         }
     }
 
-    //Integration
-    configurations {
-        integrationCompile.extendsFrom testCompile
-        integrationRuntime.extendsFrom testRuntime
-    }
-
-    task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
-        testClassesDir = sourceSets.integration.output.classesDir
-        classpath = sourceSets.integration.runtimeClasspath
-    }
-
 // Sonar run rests here. I could not run this using gradle but standalone is working well
 //    apply plugin: 'sonar'
 //    apply plugin: 'sonar-runner'
@@ -428,11 +405,6 @@ project(':view') {
         providedCompile 'javax.servlet:javax.servlet-api:3.1.+'
         runtime 'javax.servlet:jstl:1.+'
     }
-}
-
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.4'
 }
 
 task copyJars(type: Copy) {
@@ -596,4 +568,4 @@ task testReport(type: TestReport) {
     }
 }
 
-defaultTasks 'clean', 'build', 'jar', 'war', 'test', 'integration', 'testReport', 'jacocoTestReport'
+defaultTasks 'clean', 'build', 'jar', 'war', 'test', 'testReport', 'jacocoTestReport'

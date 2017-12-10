@@ -447,9 +447,9 @@
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.11" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.2" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.2" />
+            <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.api:gax:1.8.1" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-oauth2-http:0.8.0" />
-            <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson2:1.22.0" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.2" />
             <element id="library" level="project" name="Gradle: org.json:json:20171018" />
@@ -494,6 +494,10 @@
             <element id="library" level="project" name="Gradle: io.swagger:swagger-annotations:1.5.13" />
             <element id="library" level="project" name="Gradle: org.mapstruct:mapstruct:1.1.0.Final" />
             <element id="library" level="project" name="Gradle: com.squareup.okio:okio:1.13.0" />
+            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-cloud-firestore-v1beta1:0.1.20" />
+            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.1.20" />
+            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-common-protos:0.1.20" />
+            <element id="library" level="project" name="Gradle: com.google.api:api-common:1.1.0" />
             <element id="library" level="project" name="Gradle: io.grpc:grpc-netty:1.6.1" />
             <element id="library" level="project" name="Gradle: io.grpc:grpc-stub:1.6.1" />
             <element id="library" level="project" name="Gradle: io.grpc:grpc-auth:1.6.1" />
@@ -501,10 +505,6 @@
             <element id="library" level="project" name="Gradle: io.grpc:grpc-core:1.6.1" />
             <element id="library" level="project" name="Gradle: com.google.instrumentation:instrumentation-api:0.4.3" />
             <element id="library" level="project" name="Gradle: io.opencensus:opencensus-api:0.5.1" />
-            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-cloud-firestore-v1beta1:0.1.20" />
-            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.1.20" />
-            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-common-protos:0.1.20" />
-            <element id="library" level="project" name="Gradle: com.google.api:api-common:1.1.0" />
             <element id="library" level="project" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" />
             <element id="library" level="project" name="Gradle: commons-digester:commons-digester:1.8.1" />
             <element id="library" level="project" name="Gradle: commons-collections:commons-collections:3.2.2" />
@@ -760,9 +760,9 @@
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.11" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.2" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.2" />
+            <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.api:gax:1.8.1" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-oauth2-http:0.8.0" />
-            <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson2:1.22.0" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.2" />
             <element id="library" level="project" name="Gradle: org.json:json:20171018" />
@@ -807,6 +807,10 @@
             <element id="library" level="project" name="Gradle: io.swagger:swagger-annotations:1.5.13" />
             <element id="library" level="project" name="Gradle: org.mapstruct:mapstruct:1.1.0.Final" />
             <element id="library" level="project" name="Gradle: com.squareup.okio:okio:1.13.0" />
+            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-cloud-firestore-v1beta1:0.1.20" />
+            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.1.20" />
+            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-common-protos:0.1.20" />
+            <element id="library" level="project" name="Gradle: com.google.api:api-common:1.1.0" />
             <element id="library" level="project" name="Gradle: io.grpc:grpc-netty:1.6.1" />
             <element id="library" level="project" name="Gradle: io.grpc:grpc-stub:1.6.1" />
             <element id="library" level="project" name="Gradle: io.grpc:grpc-auth:1.6.1" />
@@ -814,10 +818,6 @@
             <element id="library" level="project" name="Gradle: io.grpc:grpc-core:1.6.1" />
             <element id="library" level="project" name="Gradle: com.google.instrumentation:instrumentation-api:0.4.3" />
             <element id="library" level="project" name="Gradle: io.opencensus:opencensus-api:0.5.1" />
-            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-cloud-firestore-v1beta1:0.1.20" />
-            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.1.20" />
-            <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-common-protos:0.1.20" />
-            <element id="library" level="project" name="Gradle: com.google.api:api-common:1.1.0" />
             <element id="library" level="project" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" />
             <element id="library" level="project" name="Gradle: commons-digester:commons-digester:1.8.1" />
             <element id="library" level="project" name="Gradle: commons-collections:commons-collections:3.2.2" />
@@ -1224,24 +1224,19 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/common/common_integration.iml" filepath="$PROJECT_DIR$/common/common_integration.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common_main.iml" filepath="$PROJECT_DIR$/common/common_main.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common_test.iml" filepath="$PROJECT_DIR$/common/common_test.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" group="domain" />
-      <module fileurl="file://$PROJECT_DIR$/domain/domain_integration.iml" filepath="$PROJECT_DIR$/domain/domain_integration.iml" group="domain" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain_main.iml" filepath="$PROJECT_DIR$/domain/domain_main.iml" group="domain" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain_test.iml" filepath="$PROJECT_DIR$/domain/domain_test.iml" group="domain" />
       <module fileurl="file://$PROJECT_DIR$/noqapp-mobile.iml" filepath="$PROJECT_DIR$/noqapp-mobile.iml" />
       <module fileurl="file://$PROJECT_DIR$/security/security.iml" filepath="$PROJECT_DIR$/security/security.iml" group="security" />
-      <module fileurl="file://$PROJECT_DIR$/security/security_integration.iml" filepath="$PROJECT_DIR$/security/security_integration.iml" group="security" />
       <module fileurl="file://$PROJECT_DIR$/security/security_main.iml" filepath="$PROJECT_DIR$/security/security_main.iml" group="security" />
       <module fileurl="file://$PROJECT_DIR$/security/security_test.iml" filepath="$PROJECT_DIR$/security/security_test.iml" group="security" />
       <module fileurl="file://$PROJECT_DIR$/service/service.iml" filepath="$PROJECT_DIR$/service/service.iml" group="service" />
-      <module fileurl="file://$PROJECT_DIR$/service/service_integration.iml" filepath="$PROJECT_DIR$/service/service_integration.iml" group="service" />
       <module fileurl="file://$PROJECT_DIR$/service/service_main.iml" filepath="$PROJECT_DIR$/service/service_main.iml" group="service" />
       <module fileurl="file://$PROJECT_DIR$/service/service_test.iml" filepath="$PROJECT_DIR$/service/service_test.iml" group="service" />
       <module fileurl="file://$PROJECT_DIR$/view/view.iml" filepath="$PROJECT_DIR$/view/view.iml" group="view" />
-      <module fileurl="file://$PROJECT_DIR$/view/view_integration.iml" filepath="$PROJECT_DIR$/view/view_integration.iml" group="view" />
       <module fileurl="file://$PROJECT_DIR$/view/view_main.iml" filepath="$PROJECT_DIR$/view/view_main.iml" group="view" />
       <module fileurl="file://$PROJECT_DIR$/view/view_test.iml" filepath="$PROJECT_DIR$/view/view_test.iml" group="view" />
     </modules>
@@ -1946,40 +1941,14 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/domain/1.2/domain-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:health:1.2">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/health/1.2/health-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:search:1.2">
       <CLASSES>
@@ -1993,20 +1962,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/service/1.2/service-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:social:1.2">
       <CLASSES>
