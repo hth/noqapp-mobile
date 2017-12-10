@@ -1,6 +1,8 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.noqapp.common.utils.ParseJsonStringToMap;
+import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
@@ -14,10 +16,7 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.JsonModifyQueue;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
-import com.noqapp.mobile.view.controller.open.TokenQueueController;
 import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.common.utils.ParseJsonStringToMap;
-import com.noqapp.common.utils.ScrubbedInput;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,10 @@ import java.util.Map;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.*;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 /**
