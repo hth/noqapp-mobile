@@ -6,6 +6,7 @@ import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.mobile.domain.body.DeviceToken;
@@ -163,6 +164,10 @@ class TokenQueueControllerITest extends ITest {
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertTrue(jsonTokenAndQueueList.isSinceBeginning());
         assertEquals(1, jsonTokenAndQueueList.getTokenAndQueues().size());
+        JsonTokenAndQueue jsonTokenAndQueue = jsonTokenAndQueueList.getTokenAndQueues().iterator().next();
+        assertEquals("Food", jsonTokenAndQueue.getDisplayName());
+        assertEquals(1, jsonTokenAndQueue.getToken());
+        assertEquals(0, jsonTokenAndQueue.getRatingCount());
 
         /* On second fetch, its not complete history, gets latest. */
         allJoinedQueues = tokenQueueController.getAllHistoricalJoinedQueues(
