@@ -18,15 +18,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * hitender

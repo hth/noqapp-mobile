@@ -1,13 +1,23 @@
 package com.noqapp.mobile.view;
 
+import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BizNameEntity;
+import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.StoreHourEntity;
+import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.types.AddressOriginEnum;
+import com.noqapp.domain.types.BusinessTypeEnum;
+import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.health.repository.ApiHealthNowManager;
 import com.noqapp.health.repository.ApiHealthNowManagerImpl;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.domain.body.Registration;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.WebConnectorService;
+import com.noqapp.mobile.view.controller.open.AccountClientController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.repository.BizNameManager;
 import com.noqapp.repository.BizNameManagerImpl;
@@ -47,16 +57,27 @@ import com.noqapp.service.InviteService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.UserProfilePreferenceService;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.DayOfWeek;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * hitender
  * 12/7/17 11:53 AM
  */
 public class ITest extends RealMongoForITest {
+
+    protected String did;
+    protected String deviceType;
 
     protected AccountService accountService;
     protected AccountMobileService accountMobileService;
@@ -93,12 +114,18 @@ public class ITest extends RealMongoForITest {
 
     protected GenerateUserIdManager generateUserIdManager;
 
+    private AccountClientController accountClientController;
+
     @Mock protected WebConnectorService webConnectorService;
     @Mock protected QueueManagerJDBC queueManagerJDBC;
+    @Mock protected HttpServletResponse httpServletResponse;
 
     @BeforeAll
-    public void globalISetup() {
+    public void globalISetup() throws IOException {
         MockitoAnnotations.initMocks(this);
+
+        did = UUID.randomUUID().toString();
+        deviceType = DeviceTypeEnum.A.getName();
 
         userAccountManager = new UserAccountManagerImpl(getMongoTemplate());
         userAuthenticationManager = new UserAuthenticationManagerImpl(getMongoTemplate());
@@ -182,5 +209,120 @@ public class ITest extends RealMongoForITest {
                 storeHourManager,
                 queueService
         );
+
+        accountClientController = new AccountClientController(
+                accountService,
+                accountMobileService,
+                userProfilePreferenceService,
+                inviteService,
+                accountClientValidator,
+                deviceService
+        );
+
+        registerUser();
+        createBusiness("9118000000003");
+    }
+
+    private void registerUser() throws IOException {
+        Registration registrationClient1 = new Registration()
+                .setPhone("+9118000000001")
+                .setFirstName("ROCKET mAniA")
+                .setMail("rocket@r.com")
+                .setBirthday("2000-12-12")
+                .setGender("M")
+                .setCountryShortName("IN")
+                .setTimeZoneId("Asia/Calcutta")
+                .setInviteCode("");
+
+        Registration registrationClient2 = new Registration()
+                .setPhone("+9118000000002")
+                .setFirstName("Pinto D mAniA")
+                .setMail("pintod@r.com")
+                .setBirthday("2000-12-12")
+                .setGender("M")
+                .setCountryShortName("IN")
+                .setTimeZoneId("Asia/Calcutta")
+                .setInviteCode("");
+
+        accountClientController.register(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                registrationClient1.asJson(),
+                httpServletResponse);
+
+        accountClientController.register(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                registrationClient2.asJson(),
+                httpServletResponse);
+
+        Registration registrationSuperVisor = new Registration()
+                .setPhone("+9118000000003")
+                .setFirstName("Dikta D mAniA")
+                .setMail("diktad@r.com")
+                .setBirthday("2000-12-12")
+                .setGender("M")
+                .setCountryShortName("IN")
+                .setTimeZoneId("Asia/Calcutta")
+                .setInviteCode("");
+
+        accountClientController.register(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                registrationSuperVisor.asJson(),
+                httpServletResponse);
+    }
+
+    private void createBusiness(String phone) {
+        UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
+
+        BizNameEntity bizName = BizNameEntity.newInstance()
+                .setBusinessName("Champ")
+                .setBusinessTypes(Arrays.asList(BusinessTypeEnum.AT, BusinessTypeEnum.BA))
+                .setPhone("9118000000000")
+                .setPhoneRaw("18000000000")
+                .setAddress("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India")
+                .setTimeZone("Asia/Calcutta")
+                .setInviteeCode(userProfile.getInviteCode())
+                .setAddressOrigin(AddressOriginEnum.G)
+                .setCountryShortName("IN")
+                .setCoordinate(new double[] {73.022498, 19.0244723})
+                .setMultiStore(false);
+        bizService.saveName(bizName);
+
+        BizStoreEntity bizStore = BizStoreEntity.newInstance()
+                .setBizName(bizName)
+                .setDisplayName("Food")
+                .setBusinessTypes(Arrays.asList(BusinessTypeEnum.AT, BusinessTypeEnum.BA))
+                .setPhone("9118000000000")
+                .setPhoneRaw("18000000000")
+                .setAddress("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India")
+                .setTimeZone("Asia/Calcutta")
+                .setCodeQR(ObjectId.get().toString())
+                .setAddressOrigin(AddressOriginEnum.G)
+                .setRemoteJoin(true)
+                .setAllowLoggedInUser(false)
+                .setAvailableTokenCount(0)
+                .setAverageServiceTime(50000)
+                .setCountryShortName("IN")
+                .setCoordinate(new double[] {73.022498, 19.0244723});
+        bizService.saveStore(bizStore);
+
+        List<StoreHourEntity> storeHours = new LinkedList<>();
+        for (int i = 1; i <= 7; i++) {
+            StoreHourEntity storeHour = new StoreHourEntity(bizStore.getId(), DayOfWeek.of(i).getValue());
+            storeHour.setStartHour(1)
+                    .setTokenAvailableFrom(1)
+                    .setTokenNotAvailableFrom(2359)
+                    .setEndHour(2359);
+
+            storeHours.add(storeHour);
+        }
+
+        /* Add store hours. */
+        bizService.insertAll(storeHours);
+
+        /* Create Queue. */
+        tokenQueueService.create(bizStore.getCodeQR(), bizStore.getTopic(), bizStore.getDisplayName());
     }
 }
