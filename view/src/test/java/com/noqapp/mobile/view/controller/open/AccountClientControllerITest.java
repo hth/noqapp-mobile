@@ -43,7 +43,7 @@ class AccountClientControllerITest extends ITest {
     private AccountClientController accountClientController;
 
     @BeforeEach
-    void setUp()
+    void setUp() {
         accountClientController = new AccountClientController(
                 accountService,
                 accountMobileService,
