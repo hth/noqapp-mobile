@@ -3,23 +3,17 @@ package com.noqapp.mobile.view.controller.open;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonLatestAppVersion;
-import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.domain.DeviceRegistered;
-import com.noqapp.mobile.domain.body.DeviceToken;
+import com.noqapp.mobile.domain.body.client.DeviceToken;
 import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import com.noqapp.mobile.view.ITest;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.UUID;
 import java.util.concurrent.Callable;
 
 import static java.util.concurrent.TimeUnit.SECONDS;

@@ -16,7 +16,7 @@ import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.repository.ApiHealthNowManager;
 import com.noqapp.health.repository.ApiHealthNowManagerImpl;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.domain.body.Registration;
+import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.DeviceService;
@@ -89,6 +89,9 @@ import java.util.UUID;
 public class ITest extends RealMongoForITest {
 
     protected String did;
+    protected String didClient1;
+    protected String didClient2;
+    protected String didQueueSupervisor;
     protected String fcmToken;
     protected String deviceType;
 
@@ -143,6 +146,10 @@ public class ITest extends RealMongoForITest {
         MockitoAnnotations.initMocks(this);
 
         did = UUID.randomUUID().toString();
+        didClient1 = UUID.randomUUID().toString();
+        didClient2 = UUID.randomUUID().toString();
+        didQueueSupervisor = UUID.randomUUID().toString();
+
         fcmToken = UUID.randomUUID().toString();
         deviceType = DeviceTypeEnum.A.getName();
 

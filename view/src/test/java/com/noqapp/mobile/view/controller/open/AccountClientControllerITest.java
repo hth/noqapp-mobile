@@ -12,21 +12,16 @@ import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.domain.JsonProfile;
-import com.noqapp.mobile.domain.body.Login;
-import com.noqapp.mobile.domain.body.Registration;
+import com.noqapp.mobile.domain.body.client.Login;
+import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.view.ITest;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
