@@ -6,6 +6,7 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.StoreHourEntity;
+import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.AddressOriginEnum;
 import com.noqapp.domain.types.BusinessTypeEnum;
@@ -260,7 +261,7 @@ public class ITest extends RealMongoForITest {
     }
 
     private void registerUser() throws IOException {
-        /* System Users. */
+        /* System Users. Like Admin, Supervisor. */
         addSystemUsers();
 
         /* Clients. */
@@ -287,6 +288,14 @@ public class ITest extends RealMongoForITest {
                 queueAdmin.asJson(),
                 httpServletResponse);
 
+        UserProfileEntity merchantUserProfile = accountService.checkUserExistsByPhone("9118000000030");
+        merchantUserProfile.setLevel(UserLevelEnum.M_ADMIN);
+        accountService.save(merchantUserProfile);
+        UserAccountEntity merchantUserAccount = accountService.changeAccountRolesToMatchUserLevel(
+                merchantUserProfile.getQueueUserId(),
+                merchantUserProfile.getLevel());
+        accountService.save(merchantUserAccount);
+
         Registration queueSupervisor = new Registration()
                 .setPhone("+9118000000031")
                 .setFirstName("Fiktaa D mAn")
@@ -302,6 +311,14 @@ public class ITest extends RealMongoForITest {
                 new ScrubbedInput(deviceType),
                 queueSupervisor.asJson(),
                 httpServletResponse);
+
+        UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
+        queueSupervisorUserProfile.setLevel(UserLevelEnum.Q_SUPERVISOR);
+        accountService.save(queueSupervisorUserProfile);
+        UserAccountEntity queueSupervisorUserAccount = accountService.changeAccountRolesToMatchUserLevel(
+                queueSupervisorUserProfile.getQueueUserId(),
+                queueSupervisorUserProfile.getLevel());
+        accountService.save(queueSupervisorUserAccount);
     }
 
     private void addClients() throws IOException {
@@ -358,7 +375,10 @@ public class ITest extends RealMongoForITest {
         UserProfileEntity adminUserProfile = accountService.checkUserExistsByPhone("9118000000101");
         adminUserProfile.setLevel(UserLevelEnum.ADMIN);
         accountService.save(adminUserProfile);
-        accountService.changeAccountRolesToMatchUserLevel(adminUserProfile.getQueueUserId(), UserLevelEnum.M_ADMIN);
+        UserAccountEntity adminUserAccount = accountService.changeAccountRolesToMatchUserLevel(
+                adminUserProfile.getQueueUserId(),
+                adminUserProfile.getLevel());
+        accountService.save(adminUserAccount);
 
         Registration supervisor = new Registration()
                 .setPhone("+9118000000102")
@@ -379,7 +399,10 @@ public class ITest extends RealMongoForITest {
         UserProfileEntity supervisorUserProfile = accountService.checkUserExistsByPhone("9118000000102");
         supervisorUserProfile.setLevel(UserLevelEnum.SUPERVISOR);
         accountService.save(supervisorUserProfile);
-        accountService.changeAccountRolesToMatchUserLevel(supervisorUserProfile.getQueueUserId(), UserLevelEnum.SUPERVISOR);
+        UserAccountEntity supervisorUserAccount = accountService.changeAccountRolesToMatchUserLevel(
+                supervisorUserProfile.getQueueUserId(),
+                supervisorUserProfile.getLevel());
+        accountService.save(supervisorUserAccount);
     }
 
     private void createBusiness(String phone) {
@@ -440,9 +463,7 @@ public class ITest extends RealMongoForITest {
                 UserLevelEnum.M_ADMIN
         );
         businessUser.setBusinessUserRegistrationStatus(BusinessUserRegistrationStatusEnum.V);
-        UserProfileEntity supervisorUserProfile = accountService.checkUserExistsByPhone("9118000000102");
-        businessUser.setValidateByQid(supervisorUserProfile.getQueueUserId());
-
+        businessUser.setValidateByQid(accountService.checkUserExistsByPhone("9118000000102").getQueueUserId());
         businessUserService.save(businessUser);
 
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
