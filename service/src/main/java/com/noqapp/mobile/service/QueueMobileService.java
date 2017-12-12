@@ -277,7 +277,7 @@ public class QueueMobileService {
             case S:
             case N:
                 LOG.error("Failed as only Q status is supported");
-                throw new RuntimeException("Reached not supported condition");
+                throw new UnsupportedOperationException("Reached not supported condition");
         }
     }
 
