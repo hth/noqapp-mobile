@@ -59,18 +59,8 @@ subprojects {
 
     sourceSets {
         test {
-            //Make files under integration compiled
-            resources { srcDir 'src/test/resources' }
-            java { srcDir 'src/test/java' }
-        }
-
-        //Make files under integration compiled
-        integration {
-            resources.srcDirs = ['src/integration/resources']
-            java.srcDirs = ['src/integration/java']
-
-            compileClasspath += main.output + test.output
-            runtimeClasspath += main.output + test.output
+            resources.srcDirs = ['src/test/resources']
+            java.srcDirs = ['src/test/java']
         }
     }
 
@@ -133,9 +123,6 @@ subprojects {
         module {
             downloadSources = true
             downloadJavadoc = true
-            //and some extra integration test source and resources dirs
-            testSourceDirs += file('/src/integration/java')
-            testSourceDirs += file('/src/integration/resources')
         }
     }
 
@@ -272,12 +259,15 @@ subprojects {
         testCompile "org.mockito:mockito-inline:$mockito"
         testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$flapdoodle"
         testCompile "org.springframework:spring-test:$springVersion"
+        testCompile 'org.awaitility:awaitility:3.0.0'
 
         testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit5"
         testRuntime "org.junit.platform:junit-platform-launcher:$junitPlatform"
     }
 
     test {
+        systemProperty "spring.profiles.active", "$env"
+
         // set heap size for the test JVM(s)
         minHeapSize = "128m"
         maxHeapSize = "512m"
@@ -335,17 +325,6 @@ subprojects {
             xml.enabled = true
             html.enabled = true
         }
-    }
-
-    //Integration
-    configurations {
-        integrationCompile.extendsFrom testCompile
-        integrationRuntime.extendsFrom testRuntime
-    }
-
-    task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
-        testClassesDir = sourceSets.integration.output.classesDir
-        classpath = sourceSets.integration.runtimeClasspath
     }
 
 // Sonar run rests here. I could not run this using gradle but standalone is working well
@@ -426,11 +405,6 @@ project(':view') {
         providedCompile 'javax.servlet:javax.servlet-api:3.1.+'
         runtime 'javax.servlet:jstl:1.+'
     }
-}
-
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.3.1'
 }
 
 task copyJars(type: Copy) {
@@ -594,4 +568,4 @@ task testReport(type: TestReport) {
     }
 }
 
-defaultTasks 'clean', 'build', 'jar', 'war', 'test', 'integration', 'testReport', 'jacocoTestReport'
+defaultTasks 'clean', 'build', 'jar', 'war', 'test', 'testReport', 'jacocoTestReport'

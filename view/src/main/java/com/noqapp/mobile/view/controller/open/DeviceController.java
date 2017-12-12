@@ -81,7 +81,7 @@ public class DeviceController {
             String tokenJson,
 
             HttpServletResponse response
-    ) throws IOException {
+    ) {
         Instant start = Instant.now();
         LOG.info("Register did={} token={}", did.getText(), tokenJson);
 

@@ -55,24 +55,27 @@ public class JsonModifyQueue extends AbstractDomain {
         return codeQR;
     }
 
-    public void setCodeQR(String codeQR) {
+    public JsonModifyQueue setCodeQR(String codeQR) {
         this.codeQR = codeQR;
+        return this;
     }
 
     public boolean isPreventJoining() {
         return preventJoining;
     }
 
-    public void setPreventJoining(boolean preventJoining) {
+    public JsonModifyQueue setPreventJoining(boolean preventJoining) {
         this.preventJoining = preventJoining;
+        return this;
     }
 
     public boolean isDayClosed() {
         return dayClosed;
     }
 
-    public void setDayClosed(boolean dayClosed) {
+    public JsonModifyQueue setDayClosed(boolean dayClosed) {
         this.dayClosed = dayClosed;
+        return this;
     }
 
     public int getAvailableTokenCount() {

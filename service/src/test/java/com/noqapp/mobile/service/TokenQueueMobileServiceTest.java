@@ -30,8 +30,8 @@ class TokenQueueMobileServiceTest {
     }
 
     @Test
-    void isValidCodeQR() throws Exception {
+    void isValidCodeQR() {
         when(bizService.isValidCodeQR(anyString())).thenReturn(true);
-        assertTrue(bizService.isValidCodeQR("code"));
+        assertTrue(tokenQueueMobileService.isValidCodeQR(anyString()));
     }
 }

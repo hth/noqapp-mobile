@@ -1,4 +1,4 @@
-package com.noqapp.mobile.domain.body;
+package com.noqapp.mobile.domain.body.client;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

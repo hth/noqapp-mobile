@@ -120,4 +120,8 @@ public class TokenQueueMobileService {
     void changeQueueStatus(String codeQR, QueueStatusEnum queueStatus) {
         tokenQueueManager.changeQueueStatus(codeQR, queueStatus);
     }
+
+    public boolean isValidCodeQR(String codeQR) {
+        return bizService.isValidCodeQR(codeQR);
+    }
 }
