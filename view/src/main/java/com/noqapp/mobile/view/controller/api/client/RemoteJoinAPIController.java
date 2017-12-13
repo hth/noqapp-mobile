@@ -2,12 +2,9 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.domain.JsonProfile;
+import com.noqapp.mobile.domain.JsonRemoteJoin;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
-import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.service.InviteService;
-import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.common.utils.ScrubbedInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +27,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 /**
  * User: hitender
- * Date: 3/25/17 12:46 AM
+ * Date: 4/11/17 10:13 AM
  */
 @SuppressWarnings ({
         "PMD.BeanMembersShouldSerialize",
@@ -39,34 +36,31 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/api/c/profile")
-public class ClientProfileController {
-    private static final Logger LOG = LoggerFactory.getLogger(ClientProfileController.class);
+@RequestMapping (value = "/api/c/remote")
+public class RemoteJoinAPIController {
+    private static final Logger LOG = LoggerFactory.getLogger(RemoteJoinAPIController.class);
 
     private AuthenticateMobileService authenticateMobileService;
-    private UserProfilePreferenceService userProfilePreferenceService;
     private InviteService inviteService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public ClientProfileController(
+    public RemoteJoinAPIController(
             AuthenticateMobileService authenticateMobileService,
-            UserProfilePreferenceService userProfilePreferenceService,
             InviteService inviteService,
             ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
-        this.userProfilePreferenceService = userProfilePreferenceService;
         this.inviteService = inviteService;
         this.apiHealthService = apiHealthService;
     }
 
     @RequestMapping (
             method = RequestMethod.GET,
-            value = "/fetch",
+            value = "/join",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String fetch(
+    public String joinAvailable(
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
 
@@ -84,24 +78,21 @@ public class ClientProfileController {
         }
 
         try {
-            return JsonProfile.newInstance(
-                    userProfilePreferenceService.findByQueueUserId(qid),
-                    inviteService.getRemoteJoinCount(qid)).asJson();
-
-        } catch(Exception e) {
-            LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            return JsonRemoteJoin.newInstance(inviteService.getRemoteJoinCount(qid)).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting remote join qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
-                    "/fetch",
-                    "fetch",
-                    ClientProfileController.class.getName(),
+                    "/join",
+                    "joinAvailable",
+                    RemoteJoinAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/fetch",
-                    "fetch",
-                    ClientProfileController.class.getName(),
+                    "/join",
+                    "joinAvailable",
+                    RemoteJoinAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.G);
         }

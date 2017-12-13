@@ -2,15 +2,16 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.domain.JsonRemoteJoin;
+import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.service.InviteService;
+import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.common.utils.ScrubbedInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,7 +29,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 /**
  * User: hitender
- * Date: 4/11/17 10:13 AM
+ * Date: 3/25/17 12:46 AM
  */
 @SuppressWarnings ({
         "PMD.BeanMembersShouldSerialize",
@@ -37,31 +38,34 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/api/c/remote")
-public class RemoteJoinController {
-    private static final Logger LOG = LoggerFactory.getLogger(RemoteJoinController.class);
+@RequestMapping (value = "/api/c/profile")
+public class ClientProfileAPIController {
+    private static final Logger LOG = LoggerFactory.getLogger(ClientProfileAPIController.class);
 
     private AuthenticateMobileService authenticateMobileService;
+    private UserProfilePreferenceService userProfilePreferenceService;
     private InviteService inviteService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public RemoteJoinController(
+    public ClientProfileAPIController(
             AuthenticateMobileService authenticateMobileService,
+            UserProfilePreferenceService userProfilePreferenceService,
             InviteService inviteService,
             ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
+        this.userProfilePreferenceService = userProfilePreferenceService;
         this.inviteService = inviteService;
         this.apiHealthService = apiHealthService;
     }
 
     @RequestMapping (
             method = RequestMethod.GET,
-            value = "/join",
+            value = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String joinAvailable(
+    public String fetch(
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
 
@@ -79,21 +83,24 @@ public class RemoteJoinController {
         }
 
         try {
-            return JsonRemoteJoin.newInstance(inviteService.getRemoteJoinCount(qid)).asJson();
-        } catch (Exception e) {
-            LOG.error("Failed getting remote join qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            return JsonProfile.newInstance(
+                    userProfilePreferenceService.findByQueueUserId(qid),
+                    inviteService.getRemoteJoinCount(qid)).asJson();
+
+        } catch(Exception e) {
+            LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
-                    "/join",
-                    "joinAvailable",
-                    RemoteJoinController.class.getName(),
+                    "/fetch",
+                    "fetch",
+                    ClientProfileAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/join",
-                    "joinAvailable",
-                    RemoteJoinController.class.getName(),
+                    "/fetch",
+                    "fetch",
+                    ClientProfileAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.G);
         }

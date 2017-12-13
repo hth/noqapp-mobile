@@ -82,7 +82,7 @@ public class AccountClientController {
     }
 
     @RequestMapping (
-            value = "/registration.json",
+            value = "/registration",
             method = RequestMethod.POST,
             headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -99,7 +99,7 @@ public class AccountClientController {
             String registrationJson,
 
             HttpServletResponse response
-    ) throws IOException {
+    ) {
         Map<String, ScrubbedInput> map;
         try {
             map = ParseJsonStringToMap.jsonStringToMap(registrationJson);
@@ -256,7 +256,7 @@ public class AccountClientController {
     //on bad answer, reset account data instead of showing old data.
 
     @RequestMapping (
-            value = "/login.json",
+            value = "/login",
             method = RequestMethod.POST,
             headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE,
