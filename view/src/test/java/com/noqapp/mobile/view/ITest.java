@@ -251,10 +251,7 @@ public class ITest extends RealMongoForITest {
 
         businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
         businessUserManager = new BusinessUserManagerImpl(getMongoTemplate());
-        businessUserService = new BusinessUserService(
-                businessUserManager,
-            bizStoreManager
-        );
+        businessUserService = new BusinessUserService(businessUserManager);
         businessUserStoreService = new BusinessUserStoreService(
                 10,
                 businessUserStoreManager,
