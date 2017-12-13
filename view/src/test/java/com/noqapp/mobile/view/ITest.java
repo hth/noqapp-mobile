@@ -432,7 +432,7 @@ public class ITest extends RealMongoForITest {
         BizStoreEntity bizStore = BizStoreEntity.newInstance()
                 .setBizName(bizName)
                 .setDisplayName("Food")
-                .setBusinessTypes(Arrays.asList(BusinessTypeEnum.AT, BusinessTypeEnum.BA))
+                .setBusinessType(BusinessTypeEnum.AT)
                 .setPhone("9118000000000")
                 .setPhoneRaw("18000000000")
                 .setAddress("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India")
