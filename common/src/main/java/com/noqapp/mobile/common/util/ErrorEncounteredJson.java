@@ -25,7 +25,7 @@ public class ErrorEncounteredJson {
     public static final String ERROR = "error";
 
     @SuppressWarnings ("unused")
-    private ErrorEncounteredJson() {
+    public ErrorEncounteredJson() {
     }
 
     public static String toJson(Map<String, String> errors) {
