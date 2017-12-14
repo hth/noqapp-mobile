@@ -60,7 +60,7 @@ public class JsonProfile extends AbstractDomain {
     @JsonProperty("ul")
     private UserLevelEnum userLevel;
 
-    private JsonProfile() {
+    public JsonProfile() {
         //Required Default Constructor
     }
 
