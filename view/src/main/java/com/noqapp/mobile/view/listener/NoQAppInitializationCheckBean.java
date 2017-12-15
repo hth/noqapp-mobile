@@ -95,6 +95,6 @@ public class NoQAppInitializationCheckBean {
     @PreDestroy
     public void applicationDestroy() {
         LOG.info("Stopping Mobile Server for environment={}", environment.getProperty("build.env"));
-        LOG.info("*************************************");
+        LOG.info("****************** STOPPED ******************");
     }
 }
