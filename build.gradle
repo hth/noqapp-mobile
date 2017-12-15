@@ -193,11 +193,6 @@ subprojects {
         compile "redis.clients:jedis:$jedis"
         compile "org.quartz-scheduler:quartz:$quartz"
 
-        /** --- Specific to NoQApp Mobile Web Application ---- */
-        compile "io.springfox:springfox-swagger2:2.7.0"
-        compile "io.springfox:springfox-swagger-ui:2.7.0"
-        /** ------- */
-
         compile "com.squareup.okhttp3:okhttp:$okhttp"
         compile "com.google.zxing:core:$zxing"
         compile "aopalliance:aopalliance:1.0"
