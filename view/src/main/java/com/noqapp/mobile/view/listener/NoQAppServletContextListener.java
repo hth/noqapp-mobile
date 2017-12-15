@@ -21,11 +21,11 @@ public class NoQAppServletContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent arg0) {
-        LOG.info("NoQApp mobile context destroyed");
+        LOG.info("NoQApp Mobile context destroyed");
     }
 
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
-        LOG.info("NoQApp context initialized");
+        LOG.info("NoQApp Mobile context initialized");
     }
 }
