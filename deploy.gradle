@@ -96,6 +96,7 @@ def deploy(def server, def ip, def serverName, def path, def rootFile, def mobil
     sshExecute(server, "sudo service tomcat status")
     sshExecute(server, "curl -I http://$ip:8080/open/login.htm")
     sshExecute(server, "wget -qO- http://$ip:8080/open/login.htm > /dev/null 2>&1")
+    sshExecute(server, "wget -qO- http://$ip:8080/noqapp-mobile/open/healthCheck.json > /dev/null 2>&1")
 }
 
 def sshExecute(def server, def cmd) {
