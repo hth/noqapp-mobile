@@ -220,6 +220,7 @@ subprojects {
         compile "com.fasterxml.jackson.core:jackson-annotations:$jackson"
         compile "com.fasterxml.jackson.core:jackson-core:$jackson"
         compile "com.fasterxml.jackson.core:jackson-databind:$jackson"
+        compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson"
 
         compile 'org.json:json:20171018'
 

@@ -595,6 +595,9 @@
             <element id="library" level="project" name="Gradle: io.netty:netty-common:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: org.checkerframework:checker-qual:2.0.0" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.9.2/bb0f0433385c8b3f89e28dbd1b1c982f20f32b69/jackson-dataformat-xml-2.9.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-jaxb-annotations/2.9.2/8abd01f740ef04d05811bbca5612371bf034b05e/jackson-module-jaxb-annotations-2.9.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.woodstox/woodstox-core/5.0.3/10aa199207fda142eff01cd61c69244877d71770/woodstox-core-5.0.3.jar" />
           </element>
         </element>
       </root>
@@ -902,6 +905,9 @@
               <element id="dir-copy" path="$PROJECT_DIR$/security/out/production/resources" />
             </element>
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.9.2/bb0f0433385c8b3f89e28dbd1b1c982f20f32b69/jackson-dataformat-xml-2.9.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-jaxb-annotations/2.9.2/8abd01f740ef04d05811bbca5612371bf034b05e/jackson-module-jaxb-annotations-2.9.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.woodstox/woodstox-core/5.0.3/10aa199207fda142eff01cd61c69244877d71770/woodstox-core-5.0.3.jar" />
           </element>
         </element>
       </root>
@@ -1362,6 +1368,17 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.dataformat/jackson-dataformat-smile/2.8.10/aea8bef90dd0dd737dde92ed05d658870e2c977e/jackson-dataformat-smile-2.8.10-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.2">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.9.2/bb0f0433385c8b3f89e28dbd1b1c982f20f32b69/jackson-dataformat-xml-2.9.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.9.2/237b9a7ab7ccf33d16b9ac69ac6b56d2bee101f1/jackson-dataformat-xml-2.9.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.9.2/110135bffcbb95c109141bd3e92b55077573d0da/jackson-dataformat-xml-2.9.2-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.10">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.8.10/1e08caf1d787c825307d8cc6362452086020d853/jackson-dataformat-yaml-2.8.10.jar!/" />
@@ -1371,6 +1388,28 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.8.10/aca16a8b675bd4abd4a976dd804ae2c585a05c3d/jackson-dataformat-yaml-2.8.10-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.9.2">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-jaxb-annotations/2.9.2/8abd01f740ef04d05811bbca5612371bf034b05e/jackson-module-jaxb-annotations-2.9.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-jaxb-annotations/2.9.2/e708e4010e74086b805fc981729cd92acd64f7d4/jackson-module-jaxb-annotations-2.9.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-jaxb-annotations/2.9.2/57d5e146f77e2585f791ce7d3b4896f8ebb97385/jackson-module-jaxb-annotations-2.9.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.fasterxml.woodstox:woodstox-core:5.0.3">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.woodstox/woodstox-core/5.0.3/10aa199207fda142eff01cd61c69244877d71770/woodstox-core-5.0.3.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.woodstox/woodstox-core/5.0.3/7f5316fa0b4e68daa353bb2df3c546bfd854d54f/woodstox-core-5.0.3-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.woodstox/woodstox-core/5.0.3/f38482e8b060d9e5354c10103f4c4db53c58db7d/woodstox-core-5.0.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.fasterxml:classmate:1.3.4">
