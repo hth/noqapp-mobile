@@ -137,6 +137,70 @@ public class TokenQueueAPIController {
     }
 
     /**
+     * Get all state of queue at a Business when one QR Code is scanned.
+     *
+     * @param did
+     * @param deviceType
+     * @param codeQR
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping (
+            method = RequestMethod.GET,
+            value = "/v1/{codeQR}",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String getAllQueueState(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput deviceType,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @PathVariable ("codeQR")
+            ScrubbedInput codeQR,
+
+            HttpServletResponse response
+    ) throws IOException {
+        Instant start = Instant.now();
+        LOG.info("On scan get all state did={} dt={} codeQR={}", did, deviceType, codeQR);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        if (!tokenQueueMobileService.isValidCodeQR(codeQR.getText())) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+            return null;
+        }
+
+        try {
+            return tokenQueueMobileService.findAllTokenState(codeQR.getText()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting all queue state qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/v1/{codeQR}",
+                    "getAllQueueState",
+                    TokenQueueAPIController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                    "/v1/{codeQR}",
+                    "getAllQueueState",
+                    TokenQueueAPIController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
+        }
+    }
+
+    /**
      * Get all the queues user has token from. In short all the queues user has joined.
      *
      * @param did
