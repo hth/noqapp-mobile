@@ -25,6 +25,8 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.WebConnectorService;
 import com.noqapp.mobile.view.controller.open.AccountClientController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
+import com.noqapp.repository.BizCategoryManager;
+import com.noqapp.repository.BizCategoryManagerImpl;
 import com.noqapp.repository.BizNameManager;
 import com.noqapp.repository.BizNameManagerImpl;
 import com.noqapp.repository.BizStoreManager;
@@ -126,6 +128,7 @@ public class ITest extends RealMongoForITest {
     protected BizNameManager bizNameManager;
     protected BizStoreManager bizStoreManager;
     protected StoreHourManager storeHourManager;
+    protected BizCategoryManager bizCategoryManager;
     protected BusinessUserStoreManager businessUserStoreManager;
     protected BusinessUserService businessUserService;
     protected BusinessUserManager businessUserManager;
@@ -207,12 +210,14 @@ public class ITest extends RealMongoForITest {
         bizNameManager = new BizNameManagerImpl(getMongoTemplate());
         bizStoreManager = new BizStoreManagerImpl(getMongoTemplate());
         storeHourManager = new StoreHourManagerImpl(getMongoTemplate());
+        bizCategoryManager = new BizCategoryManagerImpl(getMongoTemplate());
         bizService = new BizService(
                 69.172,
                 111.321,
                 bizNameManager,
                 bizStoreManager,
-                storeHourManager
+                storeHourManager,
+                bizCategoryManager
         );
 
         tokenQueueMobileService = new TokenQueueMobileService(
