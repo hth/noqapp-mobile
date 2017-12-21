@@ -427,8 +427,7 @@ public class ITest extends RealMongoForITest {
                 .setInviteeCode(userProfile.getInviteCode())
                 .setAddressOrigin(AddressOriginEnum.G)
                 .setCountryShortName("IN")
-                .setCoordinate(new double[] {73.022498, 19.0244723})
-                .setMultiStore(false);
+                .setCoordinate(new double[] {73.022498, 19.0244723});
         bizService.saveName(bizName);
 
         BizStoreEntity bizStore = BizStoreEntity.newInstance()
