@@ -9,7 +9,13 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce4aae21-7da1-43f7-90b2-27a3d8456c49" name="Default" comment="" />
+    <list default="true" id="ce4aae21-7da1-43f7-90b2-27a3d8456c49" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
+      <change beforePath="$PROJECT_DIR$/noqapp-mobile.ipr" afterPath="$PROJECT_DIR$/noqapp-mobile.ipr" />
+      <change beforePath="$PROJECT_DIR$/noqapp-mobile.iws copy" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/view/view.iml" afterPath="$PROJECT_DIR$/view/view.iml" />
+    </list>
     <ignored path="noqapp-mobile.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -122,42 +128,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="noqapp-mobile-servlet.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/environment/prod/noqapp-mobile-servlet.xml">
+      <file leaf-file-name="TokenQueueMobileService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/TokenQueueMobileService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="38" column="22" lean-forward="false" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NoQAppInitializationCheckBean.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/listener/NoQAppInitializationCheckBean.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1170">
-              <caret line="96" column="56" lean-forward="false" selection-start-line="96" selection-start-column="18" selection-end-line="96" selection-end-column="56" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NoQAppServletContextListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/listener/NoQAppServletContextListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="noqapp-mobile-servlet.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/environment/sandbox/noqapp-mobile-servlet.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="810">
+              <caret line="77" column="28" lean-forward="false" selection-start-line="77" selection-start-column="28" selection-end-line="77" selection-end-column="28" />
+              <folding>
+                <element signature="e#6386#6387#0" expanded="true" />
+                <element signature="e#6419#6420#0" expanded="true" />
+                <element signature="e#6861#6862#0" expanded="true" />
+                <element signature="e#6922#6923#0" expanded="true" />
+                <element signature="e#7119#7120#0" expanded="true" />
+                <element signature="e#7174#7175#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -165,58 +148,88 @@
       <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2805">
-              <caret line="187" column="24" lean-forward="false" selection-start-line="187" selection-start-column="24" selection-end-line="187" selection-end-column="24" />
+            <state relative-caret-position="2325">
+              <caret line="155" column="21" lean-forward="false" selection-start-line="155" selection-start-column="21" selection-end-line="155" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="deploy.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deploy.gradle">
+      <file leaf-file-name="gradle-wrapper.properties" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1470">
-              <caret line="98" column="85" lean-forward="false" selection-start-line="98" selection-start-column="85" selection-end-line="98" selection-end-column="85" />
+            <state relative-caret-position="75">
+              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pass.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/resources/conf/pass.properties">
+      <file leaf-file-name="ITest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/ITest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="5205">
+              <caret line="429" column="69" lean-forward="false" selection-start-line="429" selection-start-column="69" selection-end-line="429" selection-end-column="69" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gradle.properties" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/gradle.properties">
+      <file leaf-file-name="messages.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/resources/conf/messages.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="609">
-              <caret line="54" column="28" lean-forward="false" selection-start-line="54" selection-start-column="28" selection-end-line="54" selection-end-column="28" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="logback.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/environment/prod/logback.xml">
+      <file leaf-file-name="config.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/resources/conf/config.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="26" lean-forward="false" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="logback.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/environment/dev/logback.xml">
+      <file leaf-file-name="build-info.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/resources/conf/build-info.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="26" lean-forward="false" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application-messages.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/resources/conf/application-messages.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JsonModifyQueue.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/JsonModifyQueue.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="705">
+              <caret line="53" column="29" lean-forward="false" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BizService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/BizService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="48" column="11" lean-forward="false" selection-start-line="48" selection-start-column="11" selection-end-line="48" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -236,11 +249,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getCountryShortNameFromInternationalPhone</find>
-      <find>ErrorEncounteredJson.REASON</find>
-      <find>Failed finding bizStore for</find>
-      <find>findAllNotQueuedByDid</find>
-      <find>Assert</find>
       <find>test</find>
       <find>moc</find>
       <find>secure.port</find>
@@ -257,7 +265,6 @@
       <find>GradleVersion</find>
       <find>integration</find>
       <find>ManageQueueController.counterNameLength</find>
-      <find>BusinessUserStoreService.queue.limit</find>
       <find>jacoco</find>
       <find>9118000000031</find>
       <find>anyOf</find>
@@ -266,6 +273,12 @@
       <find>getNextInQueue</find>
       <find>spring</find>
       <find>vfs</find>
+      <find>50</find>
+      <find>BusinessUserStoreService.queue.limit</find>
+      <find>clientProfileAPIController</find>
+      <find>AccountS</find>
+      <find>updateBizStoreAvailableTokenCount</find>
+      <find>getAvailableTokenCount</find>
     </findStrings>
     <replaceStrings>
       <replace>served</replace>
@@ -297,12 +310,12 @@
   <component name="GradleLocalSettings">
     <option name="myGradleHomes">
       <map>
-        <entry key="$PROJECT_DIR$" value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4" />
+        <entry key="$PROJECT_DIR$" value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1" />
       </map>
     </option>
     <option name="myGradleVersions">
       <map>
-        <entry key="$PROJECT_DIR$" value="4.4" />
+        <entry key="$PROJECT_DIR$" value="4.4.1" />
       </map>
     </option>
     <option name="availableProjects">
@@ -1450,11 +1463,11 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="9076438420000" />
-        <entry key="$PROJECT_DIR$/build.gradle" value="1538908884" />
+        <entry key="$PROJECT_DIR$" value="9077559926000" />
+        <entry key="$PROJECT_DIR$/build.gradle" value="2451068730" />
         <entry key="$PROJECT_DIR$/build.rest.gradle" value="1805704512" />
         <entry key="$PROJECT_DIR$/deploy.gradle" value="830737493" />
-        <entry key="$PROJECT_DIR$/gradle.properties" value="536771799" />
+        <entry key="$PROJECT_DIR$/gradle.properties" value="3698382575" />
         <entry key="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" value="1741342742" />
         <entry key="$PROJECT_DIR$/settings.gradle" value="242534718" />
         <entry key="$PROJECT_DIR$/versioning.gradle" value="1483740629" />
@@ -1610,80 +1623,80 @@
               <option name="name" value="view" />
               <option name="projectBuildClasspath">
                 <list>
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/ant-1.9.9.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/ant-launcher-1.9.9.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-base-services-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-base-services-groovy-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-build-cache-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-build-option-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-cli-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-core-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-core-api-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-docs-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-installation-beacon-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-jvm-services-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-kotlin-dsl-0.13.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-kotlin-dsl-tooling-builders-0.13.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-kotlin-dsl-tooling-models-0.13.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-launcher-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-logging-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-messaging-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-model-core-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-model-groovy-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-native-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-persistent-cache-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-process-services-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-resources-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-runtime-api-info-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-tooling-api-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/gradle-wrapper-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/groovy-all-2.4.12.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-announce-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-antlr-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-build-cache-http-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-build-comparison-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-build-init-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-code-quality-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-composite-builds-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-dependency-management-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-diagnostics-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-ear-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-ide-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-ide-native-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-ide-play-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-ivy-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-jacoco-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-javascript-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-language-groovy-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-language-java-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-language-jvm-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-language-native-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-language-scala-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-maven-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-osgi-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-platform-base-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-platform-jvm-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-platform-native-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-platform-play-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-plugin-development-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-plugin-use-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-plugins-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-publish-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-reporting-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-resources-gcs-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-resources-http-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-resources-s3-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-resources-sftp-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-scala-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-signing-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-test-kit-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-testing-base-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-testing-jvm-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-testing-native-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-tooling-api-builders-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-version-control-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/gradle-workers-4.4.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4-bin/bgaq7vklkazwgxox0hdadxbvi/gradle-4.4/lib/plugins/ivy-2.2.0.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/ant-1.9.9.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/ant-launcher-1.9.9.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-base-services-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-base-services-groovy-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-build-cache-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-build-option-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-cli-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-core-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-core-api-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-docs-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-installation-beacon-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-jvm-services-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-kotlin-dsl-0.13.2.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-kotlin-dsl-tooling-builders-0.13.2.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-kotlin-dsl-tooling-models-0.13.2.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-launcher-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-logging-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-messaging-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-model-core-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-model-groovy-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-native-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-persistent-cache-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-process-services-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-resources-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-runtime-api-info-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-tooling-api-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/gradle-wrapper-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/groovy-all-2.4.12.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-announce-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-antlr-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-build-cache-http-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-build-comparison-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-build-init-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-code-quality-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-composite-builds-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-dependency-management-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-diagnostics-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-ear-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-ide-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-ide-native-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-ide-play-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-ivy-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-jacoco-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-javascript-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-language-groovy-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-language-java-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-language-jvm-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-language-native-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-language-scala-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-maven-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-osgi-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-platform-base-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-platform-jvm-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-platform-native-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-platform-play-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-plugin-development-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-plugin-use-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-plugins-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-publish-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-reporting-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-resources-gcs-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-resources-http-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-resources-s3-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-resources-sftp-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-scala-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-signing-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-test-kit-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-testing-base-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-testing-jvm-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-testing-native-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-tooling-api-builders-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-version-control-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/gradle-workers-4.4.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.4.1-bin/46gopw3g8i1v3zqqx4q949t2x/gradle-4.4.1/lib/plugins/ivy-2.2.0.jar" />
                   <option value="$PROJECT_DIR$/buildSrc/src/main/java" />
                   <option value="$PROJECT_DIR$/buildSrc/src/main/groovy" />
                 </list>
@@ -1705,13 +1718,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/open/TokenQueueControllerTest.java" />
-        <option value="$PROJECT_DIR$/view/src/integration/java/com/noqapp/mobile/view/controller/open/TokenQueueControllerTest.java" />
-        <option value="$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/TokenQueueMobileService.java" />
-        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/TokenQueueController.java" />
-        <option value="$PROJECT_DIR$/view/src/integration/java/com/noqapp/mobile/view/controller/open/ReviewControllerITest.java" />
-        <option value="$PROJECT_DIR$/view/src/integration/java/com/noqapp/mobile/view/controller/open/DeviceControllerITest.java" />
-        <option value="$PROJECT_DIR$/view/src/integration/java/com/noqapp/mobile/view/RealMongoForITest.java" />
         <option value="$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/body/DeviceToken.java" />
         <option value="$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/body/Registration.java" />
         <option value="$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/body/ReviewRating.java" />
@@ -1739,14 +1745,12 @@
         <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/RemoteJoinAPIController.java" />
         <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/AccountClientController.java" />
         <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/ClientProfileAPIController.java" />
-        <option value="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/ITest.java" />
         <option value="$PROJECT_DIR$/build.rest.gradle" />
         <option value="$PROJECT_DIR$/common/src/main/java/com/noqapp/mobile/common/util/ErrorEncounteredJson.java" />
         <option value="$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/DeviceRegistered.java" />
         <option value="$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/JsonProfile.java" />
         <option value="$PROJECT_DIR$/view/environment/prod/logback.xml" />
         <option value="$PROJECT_DIR$/view/environment/dev/logback.xml" />
-        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/view/environment/dev/noqapp-mobile-servlet.xml" />
         <option value="$PROJECT_DIR$/view/environment/prod/noqapp-mobile-servlet.xml" />
         <option value="$PROJECT_DIR$/view/environment/sandbox/noqapp-mobile-servlet.xml" />
@@ -1756,6 +1760,15 @@
         <option value="$PROJECT_DIR$/deploy.gradle" />
         <option value="$PROJECT_DIR$/view/resources/conf/pass.properties" />
         <option value="$PROJECT_DIR$/gradle.properties" />
+        <option value="$PROJECT_DIR$/view/environment/prod/prod.properties" />
+        <option value="$PROJECT_DIR$/view/environment/sandbox/sandbox.properties" />
+        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/view/environment/dev/dev.properties" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/TokenQueueController.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/TokenQueueAPIController.java" />
+        <option value="$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/AccountService.java" />
+        <option value="$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/TokenQueueMobileService.java" />
+        <option value="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/ITest.java" />
       </list>
     </option>
   </component>
@@ -1779,7 +1792,7 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="56" />
+    <option name="x" value="47" />
     <option name="y" value="23" />
     <option name="width" value="1780" />
     <option name="height" value="977" />
@@ -1800,6 +1813,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -1955,6 +1972,17 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="mobile" type="462c0819:PsiDirectoryNode" />
               <item name="types" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
+              <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="gradle" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
+              <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="gradle" type="462c0819:PsiDirectoryNode" />
+              <item name="wrapper" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
@@ -2133,7 +2161,97 @@
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
+              <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="view" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
+              <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="view" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
+              <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="view" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="merchant" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
+              <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="view" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+              <item name="open" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
+              <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="view" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="filter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
+              <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="view" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
               <item name="listener" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
+              <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="view" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
+              <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="view" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
+              <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="view" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
@@ -2171,187 +2289,60 @@
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.github.virtuald:curvesapi:1.04" type="70bed36:NamedLibraryElementNode" />
+              <item name="Gradle: com.noqapp:health:1.2" type="70bed36:NamedLibraryElementNode" />
             </path>
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.github.virtuald:curvesapi:1.04" type="70bed36:NamedLibraryElementNode" />
-              <item name="curvesapi-1.04.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="Gradle: com.noqapp:health:1.2" type="70bed36:NamedLibraryElementNode" />
+              <item name="health-1.2.jar" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.1.20" type="70bed36:NamedLibraryElementNode" />
+              <item name="Gradle: com.noqapp:health:1.2" type="70bed36:NamedLibraryElementNode" />
+              <item name="health-1.2.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="health" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.1.20" type="70bed36:NamedLibraryElementNode" />
-              <item name="proto-google-iam-v1-0.1.20.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="Gradle: com.noqapp:health:1.2" type="70bed36:NamedLibraryElementNode" />
+              <item name="health-1.2.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="health" type="462c0819:PsiDirectoryNode" />
+              <item name="domain" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.google.api:gax:1.8.1" type="70bed36:NamedLibraryElementNode" />
+              <item name="Gradle: com.noqapp:health:1.2" type="70bed36:NamedLibraryElementNode" />
+              <item name="health-1.2.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="health" type="462c0819:PsiDirectoryNode" />
+              <item name="domain" type="462c0819:PsiDirectoryNode" />
+              <item name="json" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.google.api:gax:1.8.1" type="70bed36:NamedLibraryElementNode" />
-              <item name="gax-1.8.1.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="Gradle: com.noqapp:service:1.2" type="70bed36:NamedLibraryElementNode" />
             </path>
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.google.api:gax-grpc:0.25.1" type="70bed36:NamedLibraryElementNode" />
+              <item name="Gradle: com.noqapp:service:1.2" type="70bed36:NamedLibraryElementNode" />
+              <item name="service-1.2.jar" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.google.api:gax-grpc:0.25.1" type="70bed36:NamedLibraryElementNode" />
-              <item name="gax-grpc-0.25.1.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.google.apis:google-api-services-storage:v1-rev108-1.22.0" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.google.apis:google-api-services-storage:v1-rev108-1.22.0" type="70bed36:NamedLibraryElementNode" />
-              <item name="google-api-services-storage-v1-rev108-1.22.0.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: io.netty:netty-handler:4.1.14.Final" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: io.netty:netty-handler:4.1.14.Final" type="70bed36:NamedLibraryElementNode" />
-              <item name="netty-handler-4.1.14.Final.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: io.netty:netty-resolver:4.1.14.Final" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: io.netty:netty-resolver:4.1.14.Final" type="70bed36:NamedLibraryElementNode" />
-              <item name="netty-resolver-4.1.14.Final.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: io.netty:netty-tcnative-boringssl-static:2.0.3.Final" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: io.netty:netty-tcnative-boringssl-static:2.0.3.Final" type="70bed36:NamedLibraryElementNode" />
-              <item name="netty-tcnative-boringssl-static-2.0.3.Final.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: io.netty:netty-transport:4.1.14.Final" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: io.netty:netty-transport:4.1.14.Final" type="70bed36:NamedLibraryElementNode" />
-              <item name="netty-transport-4.1.14.Final.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: io.opencensus:opencensus-api:0.5.1" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: io.opencensus:opencensus-api:0.5.1" type="70bed36:NamedLibraryElementNode" />
-              <item name="opencensus-api-0.5.1.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: javax.mail:javax.mail-api:1.6.0" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: javax.mail:javax.mail-api:1.6.0" type="70bed36:NamedLibraryElementNode" />
-              <item name="javax.mail-api-1.6.0.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.apache.sis.storage:sis-storage:0.6" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.apache.sis.storage:sis-storage:0.6" type="70bed36:NamedLibraryElementNode" />
-              <item name="sis-storage-0.6.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.bouncycastle:bcmail-jdk15on:1.54" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.bouncycastle:bcmail-jdk15on:1.54" type="70bed36:NamedLibraryElementNode" />
-              <item name="bcmail-jdk15on-1.54.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.bouncycastle:bcpkix-jdk15on:1.54" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.bouncycastle:bcpkix-jdk15on:1.54" type="70bed36:NamedLibraryElementNode" />
-              <item name="bcpkix-jdk15on-1.54.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.bouncycastle:bcprov-jdk15on:1.54" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.bouncycastle:bcprov-jdk15on:1.54" type="70bed36:NamedLibraryElementNode" />
-              <item name="bcprov-jdk15on-1.54.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.ccil.cowan.tagsoup:tagsoup:1.2.1" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.ccil.cowan.tagsoup:tagsoup:1.2.1" type="70bed36:NamedLibraryElementNode" />
-              <item name="tagsoup-1.2.1.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="Gradle: com.noqapp:service:1.2" type="70bed36:NamedLibraryElementNode" />
+              <item name="service-1.2.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3584,7 +3575,13 @@
       <workItem from="1513312363729" duration="2872000" />
       <workItem from="1513322841537" duration="1826000" />
       <workItem from="1513361411746" duration="2368000" />
-      <workItem from="1513420261709" duration="4744000" />
+      <workItem from="1513420261709" duration="6744000" />
+      <workItem from="1513491018984" duration="1227000" />
+      <workItem from="1513523142191" duration="75000" />
+      <workItem from="1513687677574" duration="10866000" />
+      <workItem from="1513757480723" duration="1635000" />
+      <workItem from="1513841847169" duration="4415000" />
+      <workItem from="1513859446972" duration="39000" />
     </task>
     <task id="LOCAL-00001" summary="changed variable name">
       <created>1496559530254</created>
@@ -3692,7 +3689,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1728636000" />
+    <option name="totallyTimeSpent" value="1748893000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -3704,7 +3701,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="56" y="23" width="1780" height="977" extended-state="0" />
+    <frame x="47" y="23" width="1780" height="977" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -3713,14 +3710,12 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975113" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945284" sideWeight="0.64589953" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27180687" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3464717" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5192084" sideWeight="0.8181818" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282887" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33760187" sideWeight="0.49590835" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282887" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -3729,7 +3724,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.338766" sideWeight="0.85433716" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945284" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945284" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26754892" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.278481" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14096662" sideWeight="0.4959255" order="2" side_tool="false" content_ui="tabs" />
@@ -3742,7 +3737,9 @@
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959128" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945284" sideWeight="0.64589953" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282887" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33760187" sideWeight="0.49590835" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39923713" sideWeight="0.5040745" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle View" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -3843,11 +3840,29 @@
           <properties />
           <option name="timeStamp" value="424" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/TokenQueueController.java</url>
+          <line>87</line>
+          <properties />
+          <option name="timeStamp" value="426" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/TokenQueueController.java</url>
+          <line>143</line>
+          <properties />
+          <option name="timeStamp" value="427" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/TokenQueueMobileService.java</url>
+          <line>65</line>
+          <properties />
+          <option name="timeStamp" value="428" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="426" />
+      <option name="time" value="429" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -3856,148 +3871,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/security/src/main/java/com/noqapp/mobile/security/OnLoginAuthenticationSuccessHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="87" column="20" lean-forward="false" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/AuthenticateMobileService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="61" column="18" lean-forward="false" selection-start-line="61" selection-start-column="18" selection-end-line="61" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/noqapp/service/1.2/service-1.2.jar!/com/noqapp/service/BusinessUserStoreService.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="53" column="27" lean-forward="false" selection-start-line="53" selection-start-column="27" selection-end-line="53" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/noqapp/domain/1.2/domain-1.2.jar!/com/noqapp/repository/BusinessUserStoreManager.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="13" column="34" lean-forward="false" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/BusinessUserStoreManagerImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="61" column="41" lean-forward="false" selection-start-line="61" selection-start-column="41" selection-end-line="61" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/BusinessUserStoreManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="14" column="34" lean-forward="false" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/BusinessUserStoreService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
-          <caret line="77" column="89" lean-forward="false" selection-start-line="77" selection-start-column="89" selection-end-line="77" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/ManageQueueController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1110">
-          <caret line="117" column="58" lean-forward="false" selection-start-line="117" selection-start-column="58" selection-end-line="117" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/MerchantProfileController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="79" column="113" lean-forward="false" selection-start-line="79" selection-start-column="113" selection-end-line="79" selection-end-column="113" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/types/QueueUserStateEnum.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="4" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/AccountClientAPIController.java" />
-    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/ManageQueueControllerITest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="511">
-          <caret line="371" column="35" lean-forward="false" selection-start-line="371" selection-start-column="35" selection-end-line="371" selection-end-column="35" />
-          <folding>
-            <element signature="method#getQueues#0;class#ManageQueueControllerITest#0" expanded="false" />
-            <element signature="method#queueState#0;class#ManageQueueControllerITest#0" expanded="false" />
-            <element signature="method#queueStateModify#0;class#ManageQueueControllerITest#0" expanded="false" />
-            <element signature="method#showQueuedClients#0;class#ManageQueueControllerITest#0" expanded="false" />
-            <element signature="method#acquire#0;class#ManageQueueControllerITest#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/RemoteJoinAPIController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="75" column="34" lean-forward="false" selection-start-line="75" selection-start-column="34" selection-end-line="75" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/ReviewAPIController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1050">
-          <caret line="96" column="40" lean-forward="false" selection-start-line="81" selection-start-column="12" selection-end-line="96" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/AccountClientController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3690">
-          <caret line="286" column="8" lean-forward="false" selection-start-line="286" selection-start-column="8" selection-end-line="286" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/ClientProfileAPIController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1575">
-          <caret line="105" column="9" lean-forward="false" selection-start-line="105" selection-start-column="9" selection-end-line="105" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.rest.gradle" />
-    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/ITest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="253" column="73" lean-forward="false" selection-start-line="253" selection-start-column="73" selection-end-line="253" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/noqapp/mobile/common/util/ErrorEncounteredJson.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="27" column="10" lean-forward="false" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/noqapp/mobile/common/util/ErrorJson.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="26" column="13" lean-forward="false" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/noqapp/mobile/common/util/ErrorJsonList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="26" column="13" lean-forward="false" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/common/src/main/java/com/noqapp/mobile/common/util/ExtractFirstLastName.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -4068,13 +3941,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/JsonModifyQueue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="53" column="29" lean-forward="false" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/JsonProfile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="810">
@@ -4110,14 +3976,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/QueueMobileService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5340">
-          <caret line="396" column="58" lean-forward="false" selection-start-line="396" selection-start-column="34" selection-end-line="396" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/config/SwaggerConfig.java" />
     <entry file="file://$PROJECT_DIR$/view/environment/sandbox/logback.xml">
       <provider selected="true" editor-type-id="text-editor">
@@ -4147,7 +4005,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1170">
           <caret line="96" column="56" lean-forward="false" selection-start-line="96" selection-start-column="18" selection-end-line="96" selection-end-column="56" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4155,7 +4012,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4167,19 +4023,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2805">
-          <caret line="187" column="24" lean-forward="false" selection-start-line="187" selection-start-column="24" selection-end-line="187" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/deploy.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1470">
           <caret line="98" column="85" lean-forward="false" selection-start-line="98" selection-start-column="85" selection-end-line="98" selection-end-column="85" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4203,14 +4050,205 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/environment/sandbox/sandbox.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="29" lean-forward="false" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gradle.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="54" column="28" lean-forward="false" selection-start-line="54" selection-start-column="28" selection-end-line="54" selection-end-column="28" />
+        <state relative-caret-position="945">
+          <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/environment/dev/dev.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/environment/prod/prod.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-261">
+          <caret line="6" column="19" lean-forward="false" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/QueueMobileService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="257" column="58" lean-forward="false" selection-start-line="257" selection-start-column="58" selection-end-line="257" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/TokenQueueAPIController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4563">
+          <caret line="371" column="38" lean-forward="false" selection-start-line="371" selection-start-column="38" selection-end-line="371" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/health/src/main/java/com/noqapp/health/domain/json/JsonSiteHealthService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/noqapp/health/1.2/health-1.2.jar!/com/noqapp/health/domain/json/JsonSiteHealthService.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="40" column="11" lean-forward="false" selection-start-line="40" selection-start-column="11" selection-end-line="40" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/SiteHealthService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/noqapp/service/1.2/service-1.2.jar!/com/noqapp/service/SiteHealthService.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="28" column="16" lean-forward="false" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/IsWorkingController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="915">
+          <caret line="81" column="6" lean-forward="false" selection-start-line="81" selection-start-column="6" selection-end-line="81" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/ClientProfileAPIController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="705">
+          <caret line="72" column="31" lean-forward="false" selection-start-line="72" selection-start-column="31" selection-end-line="72" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/TokenQueueController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1755">
+          <caret line="143" column="0" lean-forward="false" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/security/src/main/java/com/noqapp/mobile/security/AuthenticatedToken.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="16" column="17" lean-forward="false" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/AccountService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7560">
+          <caret line="553" column="22" lean-forward="false" selection-start-line="553" selection-start-column="22" selection-end-line="553" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/TokenQueueMobileService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="810">
+          <caret line="77" column="28" lean-forward="false" selection-start-line="77" selection-start-column="28" selection-end-line="77" selection-end-column="28" />
+          <folding>
+            <element signature="e#6386#6387#0" expanded="true" />
+            <element signature="e#6419#6420#0" expanded="true" />
+            <element signature="e#6861#6862#0" expanded="true" />
+            <element signature="e#6922#6923#0" expanded="true" />
+            <element signature="e#7119#7120#0" expanded="true" />
+            <element signature="e#7174#7175#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2325">
+          <caret line="155" column="21" lean-forward="false" selection-start-line="155" selection-start-column="21" selection-end-line="155" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/ITest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5205">
+          <caret line="429" column="69" lean-forward="false" selection-start-line="429" selection-start-column="69" selection-end-line="429" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/resources/conf/messages.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/resources/conf/config.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/resources/conf/build-info.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/resources/conf/application-messages.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/JsonModifyQueue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="705">
+          <caret line="53" column="29" lean-forward="false" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/BizService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="48" column="11" lean-forward="false" selection-start-line="48" selection-start-column="11" selection-end-line="48" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -4275,7 +4313,6 @@
             <option name="proportions">
               <list>
                 <option value="0.24114545" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

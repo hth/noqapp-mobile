@@ -410,7 +410,7 @@
             <element id="library" level="project" name="Gradle: joda-time:joda-time:2.9.9" />
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.26-incubating" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
-            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.5-jre" />
+            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.6-jre" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.api:gax-grpc:0.25.1" />
@@ -419,6 +419,8 @@
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.2" />
             <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.8.8" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
+            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.2" />
+            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.9.2" />
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.11" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.2" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.2" />
@@ -479,9 +481,16 @@
             <element id="library" level="project" name="Gradle: com.google.instrumentation:instrumentation-api:0.4.3" />
             <element id="library" level="project" name="Gradle: io.opencensus:opencensus-api:0.5.1" />
             <element id="library" level="project" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" />
-            <element id="library" level="project" name="Gradle: com.google.errorprone:error_prone_annotations:2.0.19" />
+            <element id="library" level="project" name="Gradle: com.google.errorprone:error_prone_annotations:2.1.3" />
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
+            <element id="library" level="project" name="Gradle: com.fasterxml.woodstox:woodstox-core:5.0.3" />
+            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-rs-client:3.0.12" />
+            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-frontend-jaxrs:3.0.12" />
+            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-transports-http:3.0.12" />
+            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-core:3.0.12" />
+            <element id="library" level="project" name="Gradle: org.codehaus.woodstox:woodstox-core-asl:4.4.1" />
+            <element id="library" level="project" name="Gradle: org.codehaus.woodstox:stax2-api:3.1.4" />
             <element id="library" level="project" name="Gradle: commons-digester:commons-digester:1.8.1" />
             <element id="library" level="project" name="Gradle: commons-collections:commons-collections:3.2.2" />
             <element id="library" level="project" name="Gradle: org.tallison:jmatio:1.2" />
@@ -505,7 +514,6 @@
             <element id="library" level="project" name="Gradle: com.googlecode.juniversalchardet:juniversalchardet:1.0.3" />
             <element id="library" level="project" name="Gradle: org.codelibs:jhighlight:1.0.2" />
             <element id="library" level="project" name="Gradle: com.pff:java-libpst:0.8.1" />
-            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-rs-client:3.0.12" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-exec:1.3" />
             <element id="library" level="project" name="Gradle: org.apache.opennlp:opennlp-tools:1.6.0" />
             <element id="library" level="project" name="Gradle: com.googlecode.json-simple:json-simple:1.1.1" />
@@ -559,9 +567,6 @@
             <element id="library" level="project" name="Gradle: com.github.virtuald:curvesapi:1.04" />
             <element id="library" level="project" name="Gradle: com.adobe.xmp:xmpcore:5.1.2" />
             <element id="library" level="project" name="Gradle: com.rometools:rome-utils:1.5.1" />
-            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-frontend-jaxrs:3.0.12" />
-            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-transports-http:3.0.12" />
-            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-core:3.0.12" />
             <element id="library" level="project" name="Gradle: net.jcip:jcip-annotations:1.0" />
             <element id="library" level="project" name="Gradle: net.java.dev.jna:jna:4.1.0" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java:3.3.1" />
@@ -579,7 +584,6 @@
             <element id="library" level="project" name="Gradle: io.netty:netty-codec-http2:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: io.netty:netty-handler-proxy:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: org.apache.xmlbeans:xmlbeans:2.6.0" />
-            <element id="library" level="project" name="Gradle: org.codehaus.woodstox:woodstox-core-asl:4.4.1" />
             <element id="library" level="project" name="Gradle: org.apache.ws.xmlschema:xmlschema-core:2.2.1" />
             <element id="library" level="project" name="Gradle: javax.ws.rs:javax.ws.rs-api:2.0.1" />
             <element id="library" level="project" name="Gradle: javax.annotation:javax.annotation-api:1.2" />
@@ -589,15 +593,11 @@
             <element id="library" level="project" name="Gradle: io.netty:netty-codec-socks:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: io.netty:netty-codec:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: io.netty:netty-transport:4.1.14.Final" />
-            <element id="library" level="project" name="Gradle: org.codehaus.woodstox:stax2-api:3.1.4" />
             <element id="library" level="project" name="Gradle: io.netty:netty-buffer:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: io.netty:netty-resolver:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: io.netty:netty-common:4.1.14.Final" />
-            <element id="library" level="project" name="Gradle: org.checkerframework:checker-qual:2.0.0" />
+            <element id="library" level="project" name="Gradle: org.checkerframework:checker-compat-qual:2.0.0" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.9.2/bb0f0433385c8b3f89e28dbd1b1c982f20f32b69/jackson-dataformat-xml-2.9.2.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-jaxb-annotations/2.9.2/8abd01f740ef04d05811bbca5612371bf034b05e/jackson-module-jaxb-annotations-2.9.2.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.woodstox/woodstox-core/5.0.3/10aa199207fda142eff01cd61c69244877d71770/woodstox-core-5.0.3.jar" />
           </element>
         </element>
       </root>
@@ -712,7 +712,7 @@
             <element id="library" level="project" name="Gradle: joda-time:joda-time:2.9.9" />
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.26-incubating" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
-            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.5-jre" />
+            <element id="library" level="project" name="Gradle: com.google.guava:guava:23.6-jre" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-gson:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.api:gax-grpc:0.25.1" />
@@ -721,6 +721,8 @@
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.2" />
             <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.8.8" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
+            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.2" />
+            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.9.2" />
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:4.11" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.2" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.2" />
@@ -781,9 +783,16 @@
             <element id="library" level="project" name="Gradle: com.google.instrumentation:instrumentation-api:0.4.3" />
             <element id="library" level="project" name="Gradle: io.opencensus:opencensus-api:0.5.1" />
             <element id="library" level="project" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" />
-            <element id="library" level="project" name="Gradle: com.google.errorprone:error_prone_annotations:2.0.19" />
+            <element id="library" level="project" name="Gradle: com.google.errorprone:error_prone_annotations:2.1.3" />
             <element id="library" level="project" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" />
             <element id="library" level="project" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
+            <element id="library" level="project" name="Gradle: com.fasterxml.woodstox:woodstox-core:5.0.3" />
+            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-rs-client:3.0.12" />
+            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-frontend-jaxrs:3.0.12" />
+            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-transports-http:3.0.12" />
+            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-core:3.0.12" />
+            <element id="library" level="project" name="Gradle: org.codehaus.woodstox:woodstox-core-asl:4.4.1" />
+            <element id="library" level="project" name="Gradle: org.codehaus.woodstox:stax2-api:3.1.4" />
             <element id="library" level="project" name="Gradle: commons-digester:commons-digester:1.8.1" />
             <element id="library" level="project" name="Gradle: commons-collections:commons-collections:3.2.2" />
             <element id="library" level="project" name="Gradle: org.tallison:jmatio:1.2" />
@@ -807,7 +816,6 @@
             <element id="library" level="project" name="Gradle: com.googlecode.juniversalchardet:juniversalchardet:1.0.3" />
             <element id="library" level="project" name="Gradle: org.codelibs:jhighlight:1.0.2" />
             <element id="library" level="project" name="Gradle: com.pff:java-libpst:0.8.1" />
-            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-rs-client:3.0.12" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-exec:1.3" />
             <element id="library" level="project" name="Gradle: org.apache.opennlp:opennlp-tools:1.6.0" />
             <element id="library" level="project" name="Gradle: com.googlecode.json-simple:json-simple:1.1.1" />
@@ -861,9 +869,6 @@
             <element id="library" level="project" name="Gradle: com.github.virtuald:curvesapi:1.04" />
             <element id="library" level="project" name="Gradle: com.adobe.xmp:xmpcore:5.1.2" />
             <element id="library" level="project" name="Gradle: com.rometools:rome-utils:1.5.1" />
-            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-frontend-jaxrs:3.0.12" />
-            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-transports-http:3.0.12" />
-            <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-core:3.0.12" />
             <element id="library" level="project" name="Gradle: net.jcip:jcip-annotations:1.0" />
             <element id="library" level="project" name="Gradle: net.java.dev.jna:jna:4.1.0" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java:3.3.1" />
@@ -881,7 +886,6 @@
             <element id="library" level="project" name="Gradle: io.netty:netty-codec-http2:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: io.netty:netty-handler-proxy:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: org.apache.xmlbeans:xmlbeans:2.6.0" />
-            <element id="library" level="project" name="Gradle: org.codehaus.woodstox:woodstox-core-asl:4.4.1" />
             <element id="library" level="project" name="Gradle: org.apache.ws.xmlschema:xmlschema-core:2.2.1" />
             <element id="library" level="project" name="Gradle: javax.ws.rs:javax.ws.rs-api:2.0.1" />
             <element id="library" level="project" name="Gradle: javax.annotation:javax.annotation-api:1.2" />
@@ -891,11 +895,10 @@
             <element id="library" level="project" name="Gradle: io.netty:netty-codec-socks:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: io.netty:netty-codec:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: io.netty:netty-transport:4.1.14.Final" />
-            <element id="library" level="project" name="Gradle: org.codehaus.woodstox:stax2-api:3.1.4" />
             <element id="library" level="project" name="Gradle: io.netty:netty-buffer:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: io.netty:netty-resolver:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: io.netty:netty-common:4.1.14.Final" />
-            <element id="library" level="project" name="Gradle: org.checkerframework:checker-qual:2.0.0" />
+            <element id="library" level="project" name="Gradle: org.checkerframework:checker-compat-qual:2.0.0" />
             <element id="archive" name="com.noqapp.mobile-domain.jar">
               <element id="module-output" name="domain_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/domain/out/production/resources" />
@@ -905,9 +908,6 @@
               <element id="dir-copy" path="$PROJECT_DIR$/security/out/production/resources" />
             </element>
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.9.2/bb0f0433385c8b3f89e28dbd1b1c982f20f32b69/jackson-dataformat-xml-2.9.2.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-jaxb-annotations/2.9.2/8abd01f740ef04d05811bbca5612371bf034b05e/jackson-module-jaxb-annotations-2.9.2.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.woodstox/woodstox-core/5.0.3/10aa199207fda142eff01cd61c69244877d71770/woodstox-core-5.0.3.jar" />
           </element>
         </element>
       </root>
@@ -1654,15 +1654,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.2/b2da9f8444128651758719856de579eacff7f387/gson-2.8.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.errorprone:error_prone_annotations:2.0.19">
+    <library name="Gradle: com.google.errorprone:error_prone_annotations:2.1.3">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.0.19/c3754a0bdd545b00ddc26884f9e7624f8b6a14de/error_prone_annotations-2.0.19.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.1.3/39b109f2cd352b2d71b52a3b5a1a9850e1dc304b/error_prone_annotations-2.1.3.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.0.19/e819fe1a212c6ea7a8ddbeb0286275e1ba1b1edb/error_prone_annotations-2.0.19-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.1.3/28ea6f81741992c53c5f8030995604345606dd9d/error_prone_annotations-2.1.3-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.0.19/86d6c004b152659db486989443f56b6fc23fb4da/error_prone_annotations-2.0.19-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.1.3/990fe1fd48078a2befecdfcebcad8e6e1bd195a0/error_prone_annotations-2.1.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.firebase:firebase-admin:5.5.0">
@@ -1676,15 +1676,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/5.5.0/d0266b2867848e7261e2437835361fde8f450366/firebase-admin-5.5.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.guava:guava:23.5-jre">
+    <library name="Gradle: com.google.guava:guava:23.6-jre">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.5-jre/e9ce4989adf6092a3dab6152860e93d989e8cf88/guava-23.5-jre.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.6-jre/c0b638df79e7b2e1ed98f8d68ac62538a715ab1d/guava-23.6-jre.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.5-jre/d92058913f314304f51bd350576eacfa6fbc172a/guava-23.5-jre-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.6-jre/ac2563ddb6f741ceebe09eff717ec24dad3ece9b/guava-23.6-jre-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.5-jre/15197b545201df091b1170f83d9b2e52ff8932d1/guava-23.5-jre-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/23.6-jre/e9e7eabe1dd1ad3eddaa633acf01d239ebbfa887/guava-23.6-jre-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.http-client:google-http-client-appengine:1.22.0">
@@ -1948,20 +1948,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/health/1.2/health-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:search:1.2">
       <CLASSES>
@@ -1975,20 +1962,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/service/1.2/service-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:social:1.2">
       <CLASSES>
@@ -3392,15 +3366,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ccil.cowan.tagsoup/tagsoup/1.2.1/31cbf81bece906e382034d2b04e2e5c47e864c17/tagsoup-1.2.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.checkerframework:checker-qual:2.0.0">
+    <library name="Gradle: org.checkerframework:checker-compat-qual:2.0.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.0.0/518929596ee3249127502a8573b2e008e2d51ed3/checker-qual-2.0.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-compat-qual/2.0.0/fc89b03860d11d6213d0154a62bcd1c2f69b9efa/checker-compat-qual-2.0.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.0.0/74e101e1a06fb4744b298ec4067b73695b6f294e/checker-qual-2.0.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-compat-qual/2.0.0/74e101e1a06fb4744b298ec4067b73695b6f294e/checker-compat-qual-2.0.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.0.0/eb7f7d588d0aef07a2c89178053c2a9e4613947f/checker-qual-2.0.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-compat-qual/2.0.0/eb7f7d588d0aef07a2c89178053c2a9e4613947f/checker-compat-qual-2.0.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11">
