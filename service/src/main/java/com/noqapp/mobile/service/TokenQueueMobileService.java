@@ -1,5 +1,7 @@
 package com.noqapp.mobile.service;
 
+import com.noqapp.domain.BizCategoryEntity;
+import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonQueueList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,15 +86,23 @@ public class TokenQueueMobileService {
                 .setCreated(tokenQueue.getCreated())
                 .setRemoteJoinAvailable(bizStore.isRemoteJoin())
                 .setAllowLoggedInUser(bizStore.isAllowLoggedInUser())
-                .setAvailableTokenCount(bizStore.getAvailableTokenCount());
+                .setAvailableTokenCount(bizStore.getAvailableTokenCount())
+                .setBizCategoryId(bizStore.getBizCategoryId());
     }
 
     public JsonQueueList findAllTokenState(String codeQR) {
         try {
             BizStoreEntity bizStoreForCodeQR = bizService.findByCodeQR(codeQR);
-            List<BizStoreEntity> stores = bizService.getAllBizStores(bizStoreForCodeQR.getBizName().getId());
-
+            List<BizCategoryEntity> bizCategories = bizService.getBusinessCategories(bizStoreForCodeQR.getBizName().getId());
             JsonQueueList jsonQueues = new JsonQueueList();
+            for (BizCategoryEntity bizCategory : bizCategories) {
+                JsonCategory jsonCategory = new JsonCategory()
+                        .setBizCategoryId(bizCategory.getId())
+                        .setCategoryName(bizCategory.getCategoryName());
+                jsonQueues.addCategories(jsonCategory);
+            }
+
+            List<BizStoreEntity> stores = bizService.getAllBizStores(bizStoreForCodeQR.getBizName().getId());
             for (BizStoreEntity bizStore : stores) {
                 StoreHourEntity storeHour = getStoreHours(bizStore.getCodeQR(), bizStore);
                 TokenQueueEntity tokenQueue = findByCodeQR(bizStore.getCodeQR());
