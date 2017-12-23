@@ -482,10 +482,10 @@ public class QueueMobileService {
      * @param codeQR
      * @return
      */
-    public JsonQueuePersonList findAllClientToBeServiced(String codeQR) {
+    public JsonQueuePersonList findAllClientQueuedOrAborted(String codeQR) {
         List<JsonQueuedPerson> queuedPeople = new ArrayList<>();
 
-        List<QueueEntity> queues = queueManager.findAllClientToBeServiced(codeQR);
+        List<QueueEntity> queues = queueManager.findAllClientQueuedOrAborted(codeQR);
         for (QueueEntity queue : queues) {
             JsonQueuedPerson jsonQueuedPerson = new JsonQueuedPerson()
                     .setCustomerName(queue.getCustomerName())
