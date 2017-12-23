@@ -589,7 +589,7 @@ public class ManageQueueController {
         }
 
         try {
-            return queueMobileService.findAllClientToBeServiced(codeQR.getText()).asJson();
+            return queueMobileService.findAllClientQueuedOrAborted(codeQR.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queued clients reason={}", e.getLocalizedMessage(), e);
             apiHealthService.insert(
