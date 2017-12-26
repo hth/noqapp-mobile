@@ -463,7 +463,7 @@ public class ITest extends RealMongoForITest {
         bizService.insertAll(storeHours);
 
         /* Create Queue. */
-        tokenQueueService.create(bizStore.getCodeQR(), bizStore.getTopic(), bizStore.getDisplayName());
+        tokenQueueService.createUpdate(bizStore.getCodeQR(), bizStore.getTopic(), bizStore.getDisplayName());
 
         /* Add Queue Admin and Queue Supervisor to Business and Store. */
         BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
