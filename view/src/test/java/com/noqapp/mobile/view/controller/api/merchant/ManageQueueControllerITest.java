@@ -22,6 +22,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
 
@@ -48,6 +50,7 @@ class ManageQueueControllerITest extends ITest {
                 authenticateMobileService,
                 queueMobileService,
                 businessUserStoreService,
+                tokenQueueMobileService,
                 apiHealthService
         );
 
@@ -110,7 +113,7 @@ class ManageQueueControllerITest extends ITest {
         UserProfileEntity client2 = accountService.checkUserExistsByPhone("9118000000002");
         UserAccountEntity userAccount2 = accountService.findByQueueUserId(client2.getQueueUserId());
         tokenQueueAPIController.joinQueue(
-                new ScrubbedInput(didClient1),
+                new ScrubbedInput(didClient2),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
@@ -292,7 +295,7 @@ class ManageQueueControllerITest extends ITest {
         UserProfileEntity client2 = accountService.checkUserExistsByPhone("9118000000002");
         UserAccountEntity userAccount2 = accountService.findByQueueUserId(client2.getQueueUserId());
         tokenQueueAPIController.joinQueue(
-                new ScrubbedInput(didClient1),
+                new ScrubbedInput(didClient2),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
@@ -354,7 +357,7 @@ class ManageQueueControllerITest extends ITest {
         UserProfileEntity client2 = accountService.checkUserExistsByPhone("9118000000002");
         UserAccountEntity userAccount2 = accountService.findByQueueUserId(client2.getQueueUserId());
         tokenQueueAPIController.joinQueue(
-                new ScrubbedInput(didClient1),
+                new ScrubbedInput(didClient2),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
@@ -418,7 +421,7 @@ class ManageQueueControllerITest extends ITest {
         UserProfileEntity client2 = accountService.checkUserExistsByPhone("9118000000002");
         UserAccountEntity userAccount2 = accountService.findByQueueUserId(client2.getQueueUserId());
         tokenQueueAPIController.joinQueue(
-                new ScrubbedInput(didClient1),
+                new ScrubbedInput(didClient2),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
@@ -481,5 +484,74 @@ class ManageQueueControllerITest extends ITest {
         JsonToken jsonToken =  new ObjectMapper().readValue(jsonTokenResponse, JsonToken.class);
         assertEquals(2, jsonToken.getServingNumber());
         assertEquals(client2.getName(), jsonToken.getCustomerName());
+    }
+
+    @Test
+    @DisplayName("Dispense token when user walks-in or has no phone")
+    void dispenseToken() throws IOException {
+        BizNameEntity bizName = bizService.findByPhone("9118000000000");
+        BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
+
+        UserProfileEntity client1 = accountService.checkUserExistsByPhone("9118000000001");
+        UserAccountEntity userAccount1 = accountService.findByQueueUserId(client1.getQueueUserId());
+        tokenQueueAPIController.joinQueue(
+                new ScrubbedInput(didClient1),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(userAccount1.getUserId()),
+                new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
+                new ScrubbedInput(bizStore.getCodeQR()),
+                httpServletResponse
+        );
+
+        UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
+        UserAccountEntity queueUserAccount = accountService.findByQueueUserId(queueSupervisorUserProfile.getQueueUserId());
+        String topics = manageQueueController.getQueues(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(queueUserAccount.getUserId()),
+                new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
+                httpServletResponse
+        );
+        JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
+        assertEquals(1, jsonTopic.getTopics().size());
+        assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
+        assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
+        assertEquals(1, jsonTopic.getTopics().iterator().next().getToken());
+
+        String dispenseToken1 = manageQueueController.dispenseToken(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(queueUserAccount.getUserId()),
+                new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
+                new ScrubbedInput(jsonTopic.getTopics().iterator().next().getCodeQR()),
+                httpServletResponse
+        );
+        JsonToken jsonToken1 = new ObjectMapper().readValue(dispenseToken1, JsonToken.class);
+        assertEquals(QueueStatusEnum.S, jsonToken1.getQueueStatus());
+        assertEquals(2, jsonToken1.getToken());
+
+        UserProfileEntity client2 = accountService.checkUserExistsByPhone("9118000000002");
+        UserAccountEntity userAccount2 = accountService.findByQueueUserId(client2.getQueueUserId());
+        tokenQueueAPIController.joinQueue(
+                new ScrubbedInput(didClient2),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(userAccount2.getUserId()),
+                new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
+                new ScrubbedInput(bizStore.getCodeQR()),
+                httpServletResponse
+        );
+
+        String dispenseToken2 = manageQueueController.dispenseToken(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(queueUserAccount.getUserId()),
+                new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
+                new ScrubbedInput(jsonTopic.getTopics().iterator().next().getCodeQR()),
+                httpServletResponse
+        );
+        JsonToken jsonToken2 = new ObjectMapper().readValue(dispenseToken2, JsonToken.class);
+        assertEquals(QueueStatusEnum.S, jsonToken2.getQueueStatus());
+        assertEquals(4, jsonToken2.getToken());
     }
 }

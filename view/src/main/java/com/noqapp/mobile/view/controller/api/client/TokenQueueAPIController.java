@@ -365,7 +365,11 @@ public class TokenQueueAPIController {
         }
 
         try {
-            return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), qid, bizStore.getAverageServiceTime()).asJson();
+            return tokenQueueMobileService.joinQueue(
+                    codeQR.getText(),
+                    did.getText(),
+                    qid,
+                    bizStore.getAverageServiceTime()).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
