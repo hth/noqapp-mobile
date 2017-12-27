@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
@@ -28,9 +30,15 @@ import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
+import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.repository.TokenQueueManager;
+import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.service.TokenQueueService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
@@ -55,12 +63,17 @@ class ManageQueueControllerTest {
 
     @Mock private AuthenticateMobileService authenticateMobileService;
     @Mock private QueueMobileService queueMobileService;
+    @Mock private TokenQueueService tokenQueueService;
+    @Mock private TokenQueueManager tokenQueueManager;
     @Mock private BusinessUserStoreService businessUserStoreService;
     @Mock private ApiHealthService apiHealthService;
+    @Mock private BizService bizService;
+
     @Mock private HttpServletResponse response;
     private TokenQueueEntity tokenQueue;
 
     private ManageQueueController manageQueueController;
+    private TokenQueueMobileService tokenQueueMobileService;
     private ObjectMapper mapper;
     private JsonTopicList jsonTopicList;
     private List<JsonTopic> topics;
@@ -69,11 +82,18 @@ class ManageQueueControllerTest {
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        tokenQueueMobileService = new TokenQueueMobileService(
+                tokenQueueService,
+                bizService,
+                tokenQueueManager
+        );
+
         manageQueueController = new ManageQueueController(
                 20,
                 authenticateMobileService,
                 queueMobileService,
                 businessUserStoreService,
+                tokenQueueMobileService,
                 apiHealthService);
 
         mapper = new ObjectMapper();
@@ -368,5 +388,32 @@ class ManageQueueControllerTest {
 
         ErrorJsonList errorJsonList = mapper.readValue(responseJson, ErrorJsonList.class);
         assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.SEVERE.name());
+    }
+
+    @Disabled
+    @DisplayName("Dispense Token does not work. Some mockito issue.")
+    void dispenseToken() throws Exception {
+        tokenQueue.setQueueStatus(QueueStatusEnum.N);
+        JsonToken jsonToken = new JsonToken(tokenQueue);
+        jsonToken.setToken(11);
+
+        when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
+        when(tokenQueueMobileService.getBizService().findByCodeQR(anyString())).thenReturn(new BizStoreEntity().setAverageServiceTime(100));
+        when(tokenQueueMobileService.joinQueue(anyString(), anyString(), anyString(), anyLong())).thenReturn(jsonToken);
+
+        String responseJson = manageQueueController.dispenseToken(
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                new ScrubbedInput(""),
+                response);
+
+//        verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
+//        verify(tokenQueueMobileService.getBizService(), times(1)).findByCodeQR(any(String.class));
+//        verify(tokenQueueMobileService, times(1)).joinQueue(anyString(), anyString(), anyString(), anyLong());
+
+        JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
+        assertEquals(11, jo.get("t").getAsInt());
     }
 }
