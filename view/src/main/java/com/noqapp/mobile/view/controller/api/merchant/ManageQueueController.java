@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
@@ -16,6 +17,7 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.JsonModifyQueue;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
+import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.service.BusinessUserStoreService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -65,6 +67,7 @@ public class ManageQueueController {
     private AuthenticateMobileService authenticateMobileService;
     private QueueMobileService queueMobileService;
     private BusinessUserStoreService businessUserStoreService;
+    private TokenQueueMobileService tokenQueueMobileService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -75,12 +78,14 @@ public class ManageQueueController {
             AuthenticateMobileService authenticateMobileService,
             QueueMobileService queueMobileService,
             BusinessUserStoreService businessUserStoreService,
+            TokenQueueMobileService tokenQueueMobileService,
             ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
         this.authenticateMobileService = authenticateMobileService;
         this.queueMobileService = queueMobileService;
         this.businessUserStoreService = businessUserStoreService;
+        this.tokenQueueMobileService = tokenQueueMobileService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -726,6 +731,72 @@ public class ManageQueueController {
             apiHealthService.insert(
                     "/acquire",
                     "acquire",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
+        }
+    }
+
+    /**
+     * When person walks in without phone or app. Merchant is capable of giving out token to walk-ins.
+     */
+    @RequestMapping (
+            method = RequestMethod.POST,
+            value = "/dispenseToken/{codeQR}",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String dispenseToken(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput deviceType,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @PathVariable ("codeQR")
+            ScrubbedInput codeQR,
+
+            HttpServletResponse response
+    ) throws IOException {
+        Instant start = Instant.now();
+        LOG.info("Dispense Token by mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/mq/dispenseToken by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(codeQR.getText());
+        if (null == bizStore) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
+            return null;
+        }
+
+        try {
+            return tokenQueueMobileService.joinQueue(
+                    codeQR.getText(),
+                    CommonUtil.appendRandomToDeviceId(did.getText()),
+                    null,
+                    bizStore.getAverageServiceTime()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/dispenseToken/{codeQR}",
+                    "dispenseToken",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                    "/dispenseToken/{codeQR}",
+                    "dispenseToken",
                     ManageQueueController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.G);
