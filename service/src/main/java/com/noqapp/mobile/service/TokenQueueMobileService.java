@@ -76,6 +76,7 @@ public class TokenQueueMobileService {
                 .setStartHour(storeHour.getStartHour())
                 .setTokenNotAvailableFrom(storeHour.getTokenNotAvailableFrom())
                 .setEndHour(storeHour.getEndHour())
+                .setDelayedInMinutes(storeHour.getDelayedInMinutes())
                 .setPreventJoining(storeHour.isPreventJoining())
                 .setDayClosed(storeHour.isDayClosed())
                 .setTopic(bizStore.getTopic())
