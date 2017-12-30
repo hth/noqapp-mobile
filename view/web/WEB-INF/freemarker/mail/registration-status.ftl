@@ -50,7 +50,6 @@
 
         <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear Team,</strong></p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-        <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             <strong>Yesterdays Status at ${parentHost}</strong> <br/>
             Business Approvals Pending ${awaitingBusinessApproval} <br/>
             Registered New User ${registeredUser} <br/>
