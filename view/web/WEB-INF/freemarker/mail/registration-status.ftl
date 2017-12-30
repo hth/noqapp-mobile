@@ -50,9 +50,9 @@
 
         <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear Team,</strong></p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-            <strong>Yesterdays Status</strong>
-
-            Awaiting Business Approvals ${awaitingBusinessApproval} <br/>
+        <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
+            <strong>Yesterdays Status at ${parentHost}</strong> <br/>
+            Business Approvals Pending ${awaitingBusinessApproval} <br/>
             Registered New User ${registeredUser} <br/>
             Registered New Devices ${deviceRegistered} <br/>
             Registered New Android Devices ${androidDeviceRegistered} <br/>
