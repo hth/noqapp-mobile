@@ -69,6 +69,7 @@ public class TokenQueueMobileService {
                 .setStoreAddress(bizStore.getAddress())
                 .setCountryShortName(bizStore.getCountryShortName())
                 .setStorePhone(bizStore.getPhoneFormatted())
+                .setBusinessType(bizStore.getBusinessType())
                 .setRating(bizStore.getRating())
                 .setRatingCount(bizStore.getRatingCount())
                 .setAverageServiceTime(bizStore.getAverageServiceTime())
