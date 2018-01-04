@@ -211,13 +211,15 @@ public class ITest extends RealMongoForITest {
         bizStoreManager = new BizStoreManagerImpl(getMongoTemplate());
         storeHourManager = new StoreHourManagerImpl(getMongoTemplate());
         bizCategoryManager = new BizCategoryManagerImpl(getMongoTemplate());
+        businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
         bizService = new BizService(
                 69.172,
                 111.321,
                 bizNameManager,
                 bizStoreManager,
                 storeHourManager,
-                bizCategoryManager
+                bizCategoryManager,
+                businessUserStoreManager
         );
 
         tokenQueueMobileService = new TokenQueueMobileService(
@@ -254,7 +256,6 @@ public class ITest extends RealMongoForITest {
                 userAccountManager
         );
 
-        businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
         businessUserManager = new BusinessUserManagerImpl(getMongoTemplate());
         businessUserService = new BusinessUserService(businessUserManager);
         businessUserStoreService = new BusinessUserStoreService(
