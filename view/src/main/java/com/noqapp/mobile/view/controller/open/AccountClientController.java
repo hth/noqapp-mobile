@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,9 +82,8 @@ public class AccountClientController {
         this.deviceService = deviceService;
     }
 
-    @RequestMapping (
+    @PostMapping(
             value = "/registration",
-            method = RequestMethod.POST,
             headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -255,9 +255,8 @@ public class AccountClientController {
     //TODO recover is based on phone number. When number already exists then ask which of the stores the user visited.
     //on bad answer, reset account data instead of showing old data.
 
-    @RequestMapping (
+    @PostMapping (
             value = "/login",
-            method = RequestMethod.POST,
             headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"

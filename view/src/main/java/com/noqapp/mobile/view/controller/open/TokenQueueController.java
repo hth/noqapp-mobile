@@ -13,7 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,8 +70,7 @@ public class TokenQueueController {
      * @return
      * @throws IOException
      */
-    @RequestMapping (
-            method = RequestMethod.GET,
+    @GetMapping (
             value = "/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -124,8 +125,7 @@ public class TokenQueueController {
      * @return
      * @throws IOException
      */
-    @RequestMapping (
-            method = RequestMethod.GET,
+    @GetMapping(
             value = "/v1/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -179,8 +179,7 @@ public class TokenQueueController {
      * @return
      * @throws IOException
      */
-    @RequestMapping (
-            method = RequestMethod.GET,
+    @GetMapping (
             value = "/queues",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -226,12 +225,11 @@ public class TokenQueueController {
      * @return
      * @throws IOException
      */
-    @RequestMapping (
-            method = RequestMethod.POST,
+    @PostMapping(
             value = "/historical",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String getAllHistoricalJoinedQueues(
+    public String allHistoricalJoinedQueues(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -284,8 +282,7 @@ public class TokenQueueController {
      * @return
      * @throws IOException
      */
-    @RequestMapping (
-            method = RequestMethod.POST,
+    @PostMapping (
             value = "/queue/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -341,8 +338,7 @@ public class TokenQueueController {
      * @return
      * @throws IOException
      */
-    @RequestMapping (
-            method = RequestMethod.POST,
+    @PostMapping (
             value = "/abort/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
