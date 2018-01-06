@@ -26,7 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -89,8 +91,7 @@ public class ManageQueueController {
         this.apiHealthService = apiHealthService;
     }
 
-    @RequestMapping (
-            method = RequestMethod.GET,
+    @GetMapping(
             value = "/queues",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -154,8 +155,7 @@ public class ManageQueueController {
      * @return
      * @throws IOException
      */
-    @RequestMapping (
-            method = RequestMethod.POST,
+    @PostMapping(
             value = "/served",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -299,8 +299,7 @@ public class ManageQueueController {
      * @return
      * @throws IOException
      */
-    @RequestMapping (
-            method = RequestMethod.GET,
+    @GetMapping (
             value = "/queue/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -379,8 +378,7 @@ public class ManageQueueController {
      * @return
      * @throws IOException
      */
-    @RequestMapping (
-            method = RequestMethod.GET,
+    @GetMapping (
             value = "/state/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -459,8 +457,7 @@ public class ManageQueueController {
      * @return
      * @throws IOException
      */
-    @RequestMapping (
-            method = RequestMethod.POST,
+    @PostMapping (
             value = "/modify",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -546,8 +543,7 @@ public class ManageQueueController {
      * @return
      * @throws IOException
      */
-    @RequestMapping (
-            method = RequestMethod.POST,
+    @PostMapping (
             value = "/showQueuedClients/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -626,8 +622,7 @@ public class ManageQueueController {
      * @return
      * @throws IOException
      */
-    @RequestMapping (
-            method = RequestMethod.POST,
+    @PostMapping (
             value = "/acquire",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -740,8 +735,7 @@ public class ManageQueueController {
     /**
      * When person walks in without phone or app. Merchant is capable of giving out token to walk-ins.
      */
-    @RequestMapping (
-            method = RequestMethod.POST,
+    @PostMapping (
             value = "/dispenseToken/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )

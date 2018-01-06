@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,8 +66,7 @@ public class DeviceController {
      * @return
      * @throws IOException
      */
-    @RequestMapping (
-            method = RequestMethod.POST,
+    @PostMapping(
             value = "/register",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -128,8 +128,7 @@ public class DeviceController {
      * @param versionRelease
      * @return
      */
-    @RequestMapping (
-            method = RequestMethod.POST,
+    @PostMapping (
             value = "/version",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
