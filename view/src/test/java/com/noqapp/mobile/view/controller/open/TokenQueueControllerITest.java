@@ -54,7 +54,7 @@ class TokenQueueControllerITest extends ITest {
         getAllJoinedQueues_After_Joined();
         abortQueue();
         getAllJoinedQueues_After_Abort();
-        getAllHistoricalJoinedQueues_After_Abort();
+        allHistoricalJoinedQueues_After_Abort();
     }
 
     @DisplayName("Get Queue State")
@@ -87,7 +87,7 @@ class TokenQueueControllerITest extends ITest {
 
     @DisplayName("Get Historical Queues before join")
     private void getAllHistoricalJoinedQueues_Before_Join() throws IOException {
-        String allJoinedQueues = tokenQueueController.getAllHistoricalJoinedQueues(
+        String allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 new DeviceToken(fcmToken).asJson(),
@@ -150,10 +150,10 @@ class TokenQueueControllerITest extends ITest {
         assertEquals(0, jsonTokenAndQueueList.getTokenAndQueues().size());
     }
 
-    @DisplayName("Get Historical Queues any joined")
-    private void getAllHistoricalJoinedQueues_After_Abort() throws IOException {
+    @DisplayName("All Historical Queues any joined")
+    private void allHistoricalJoinedQueues_After_Abort() throws IOException {
         /* For the first time fetches from beginning. */
-        String allJoinedQueues = tokenQueueController.getAllHistoricalJoinedQueues(
+        String allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 new DeviceToken(fcmToken).asJson(),
@@ -168,7 +168,7 @@ class TokenQueueControllerITest extends ITest {
         assertEquals(0, jsonTokenAndQueue.getRatingCount());
 
         /* On second fetch, its not complete history, gets latest. */
-        allJoinedQueues = tokenQueueController.getAllHistoricalJoinedQueues(
+        allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 new DeviceToken(fcmToken).asJson(),
@@ -179,7 +179,7 @@ class TokenQueueControllerITest extends ITest {
         assertEquals(1, jsonTokenAndQueueList.getTokenAndQueues().size());
 
         /* After changing device Id, it is assumed to be a new user. This person has no history. */
-        allJoinedQueues = tokenQueueController.getAllHistoricalJoinedQueues(
+        allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
                 new ScrubbedInput(UUID.randomUUID().toString()),
                 new ScrubbedInput(deviceType),
                 new DeviceToken(fcmToken).asJson(),
