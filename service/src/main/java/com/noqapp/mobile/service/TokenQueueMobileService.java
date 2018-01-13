@@ -128,6 +128,7 @@ public class TokenQueueMobileService {
      */
     public JsonQueueList findAllQueuesByBizNameCodeQR(String codeQR) {
         try {
+            LOG.info("Find BizName with codeQR={}", codeQR);
             BizNameEntity bizName = bizService.findBizNameByCodeQR(codeQR);
             List<BizCategoryEntity> bizCategories = bizService.getBusinessCategories(bizName.getId());
             JsonQueueList jsonQueues = new JsonQueueList();
@@ -145,6 +146,7 @@ public class TokenQueueMobileService {
                 jsonQueues.addQueues(getJsonQueue(bizStore, storeHour, tokenQueue));
             }
 
+            LOG.info("Data from codeQR={} jsonQueues={}", codeQR, jsonQueues.asJson());
             return jsonQueues;
         } catch (Exception e) {
             //TODO remove this catch
