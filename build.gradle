@@ -9,6 +9,7 @@ ext {
     lib = file("$webInf/lib")
     javaClasses = file("$webInf/classes")
     conf = file("$javaClasses/conf")
+    xslfo = file("$javaClasses/xslfo")
     images = file("$javaClasses/images")
 
     warDir = file("$buildDir/explodedWar/$env")
@@ -16,6 +17,7 @@ ext {
     warLibDir = file("$warDir$lib")
     warClassesDir = file("$warDir$javaClasses")
     warConfDir = file("$warDir$conf")
+    warXslfoDir = file("$warDir$xslfo")
     warWebInfClassesImagesDir = file("$warDir$images")
 
     unzipDir = file("${buildDir}/unpacked/dist")
@@ -206,6 +208,7 @@ subprojects {
         compile "com.zaxxer:HikariCP:$hikariCP"
         compile "joda-time:joda-time:$joda"
         compile "org.freemarker:freemarker:$freemarker"
+        compile "org.apache.xmlgraphics:fop:$fop"
 
         compile "com.google.guava:guava:$guava"
         compile "com.google.code.gson:gson:$gson"
@@ -443,6 +446,7 @@ task prepWar(dependsOn: [
     doLast {
         warClassesDir.mkdirs()
         warConfDir.mkdirs()
+        warXslfoDir.mkdirs()
 
         copy {
             from 'view/web'
@@ -453,6 +457,11 @@ task prepWar(dependsOn: [
         copy {
             from file("view/environment/$env/$env" + ".properties")
             into warConfDir
+        }
+
+        copy {
+            from 'view/resources/xslfo'
+            into warXslfoDir
         }
 
         copy {
