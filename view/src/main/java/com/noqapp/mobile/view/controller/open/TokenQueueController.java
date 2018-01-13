@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -149,7 +148,7 @@ public class TokenQueueController {
         }
 
         try {
-            return tokenQueueMobileService.findAllTokenState(codeQR.getText()).asJson();
+            return tokenQueueMobileService.findAllQueuesByBizNameCodeQR(codeQR.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting all queue state did={} reason={}", did, e.getLocalizedMessage(), e);
             apiHealthService.insert(

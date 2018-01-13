@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view;
 
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
@@ -75,6 +76,7 @@ import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.env.MockEnvironment;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -139,6 +141,7 @@ public class ITest extends RealMongoForITest {
     protected GenerateUserIdManager generateUserIdManager;
 
     private AccountClientController accountClientController;
+    private MockEnvironment mockEnvironment;
 
     @Mock protected WebConnectorService webConnectorService;
     @Mock protected QueueManagerJDBC queueManagerJDBC;
@@ -152,6 +155,9 @@ public class ITest extends RealMongoForITest {
         didClient1 = UUID.randomUUID().toString();
         didClient2 = UUID.randomUUID().toString();
         didQueueSupervisor = UUID.randomUUID().toString();
+        mockEnvironment = new MockEnvironment();
+        mockEnvironment.setProperty("build.env", "sandbox");
+
 
         fcmToken = UUID.randomUUID().toString();
         deviceType = DeviceTypeEnum.A.getName();
@@ -421,7 +427,7 @@ public class ITest extends RealMongoForITest {
     private void createBusiness(String phone) {
         UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
 
-        BizNameEntity bizName = BizNameEntity.newInstance()
+        BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")))
                 .setBusinessName("Champ")
                 .setBusinessTypes(Arrays.asList(BusinessTypeEnum.AT, BusinessTypeEnum.BA))
                 .setPhone("9118000000000")

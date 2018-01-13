@@ -9,7 +9,6 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
-import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.service.InviteService;
 import com.noqapp.common.utils.ScrubbedInput;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -180,7 +178,7 @@ public class TokenQueueAPIController {
         }
 
         try {
-            return tokenQueueMobileService.findAllTokenState(codeQR.getText()).asJson();
+            return tokenQueueMobileService.findAllQueuesByBizNameCodeQR(codeQR.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting all queue state qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(

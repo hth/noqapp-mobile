@@ -1,6 +1,7 @@
 package com.noqapp.mobile.service;
 
 import com.noqapp.domain.BizCategoryEntity;
+import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonQueueList;
 import org.slf4j.Logger;
@@ -115,6 +116,39 @@ public class TokenQueueMobileService {
         } catch (Exception e) {
             //TODO remove this catch
             LOG.error("Failed getting state codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);
+            return null;
+        }
+    }
+
+    /**
+     * //TODO(hth) add GPS co-ordinate to this query for limiting data.
+     *
+     * @param codeQR
+     * @return
+     */
+    public JsonQueueList findAllQueuesByBizNameCodeQR(String codeQR) {
+        try {
+            BizNameEntity bizName = bizService.findBizNameByCodeQR(codeQR);
+            List<BizCategoryEntity> bizCategories = bizService.getBusinessCategories(bizName.getId());
+            JsonQueueList jsonQueues = new JsonQueueList();
+            for (BizCategoryEntity bizCategory : bizCategories) {
+                JsonCategory jsonCategory = new JsonCategory()
+                        .setBizCategoryId(bizCategory.getId())
+                        .setCategoryName(bizCategory.getCategoryName());
+                jsonQueues.addCategories(jsonCategory);
+            }
+
+            List<BizStoreEntity> stores = bizService.getAllBizStores(bizName.getId());
+            for (BizStoreEntity bizStore : stores) {
+                StoreHourEntity storeHour = getStoreHours(bizStore.getCodeQR(), bizStore);
+                TokenQueueEntity tokenQueue = findByCodeQR(bizStore.getCodeQR());
+                jsonQueues.addQueues(getJsonQueue(bizStore, storeHour, tokenQueue));
+            }
+
+            return jsonQueues;
+        } catch (Exception e) {
+            //TODO remove this catch
+            LOG.error("Failed getting bizName for codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);
             return null;
         }
     }
