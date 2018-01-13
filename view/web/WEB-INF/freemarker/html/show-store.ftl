@@ -40,7 +40,11 @@
                     </div>
                     <div class="qr-queue">
                         <h3>${displayName} at ${bizName}</h3>
-                        <p><strong>${dayOfWeek} Hours: </strong> ${startHour} - ${endHour}</p>
+                        <#if storeClosed == "Yes">
+                            <p><strong>Closed Today</p>
+                        <#else>
+                            <p><strong>${dayOfWeek} Hours: </strong> ${startHour} - ${endHour}</p>
+                        </#if>
                         <p><strong>Rating: </strong>${rating}</p>
                         <p><strong>Reviews: </strong>${ratingCount}</p>
 
