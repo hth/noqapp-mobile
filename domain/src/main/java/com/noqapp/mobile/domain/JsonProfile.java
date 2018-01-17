@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.common.utils.Formatter;
 
@@ -55,7 +56,7 @@ public class JsonProfile extends AbstractDomain {
     private String birthday;
 
     @JsonProperty ("ge")
-    private String gender;
+    private GenderEnum gender;
 
     @JsonProperty("ul")
     private UserLevelEnum userLevel;
@@ -72,7 +73,7 @@ public class JsonProfile extends AbstractDomain {
             String timeZone,
             String inviteCode,
             String birthday,
-            String gender,
+            GenderEnum gender,
             UserLevelEnum userLevel,
             int remoteJoin
     ) {
@@ -135,7 +136,7 @@ public class JsonProfile extends AbstractDomain {
         return birthday;
     }
 
-    public String getGender() {
+    public GenderEnum getGender() {
         return gender;
     }
 

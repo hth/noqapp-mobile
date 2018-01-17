@@ -2,6 +2,7 @@ package com.noqapp.mobile.service;
 
 import com.google.gson.Gson;
 
+import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -77,7 +78,7 @@ public class AccountMobileService {
             String lastName,
             String mail,
             String birthday,
-            String gender,
+            GenderEnum gender,
             String countryShortName,
             String timeZone,
             String password
@@ -128,7 +129,7 @@ public class AccountMobileService {
             String lastName,
             String mail,
             String birthday,
-            String gender,
+            GenderEnum gender,
             String countryShortName,
             String timeZone,
             String inviteCode

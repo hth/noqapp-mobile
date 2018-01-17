@@ -3,6 +3,7 @@ package com.noqapp.mobile.view.controller.open;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.domain.JsonProfile;
@@ -200,7 +201,7 @@ public class AccountClientController {
                             lastName,
                             mail,
                             birthday,
-                            gender,
+                            GenderEnum.valueOf(gender),
                             countryShortName,
                             timeZone,
                             inviteCode
