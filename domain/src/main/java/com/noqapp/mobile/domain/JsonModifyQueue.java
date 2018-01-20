@@ -32,6 +32,23 @@ public class JsonModifyQueue extends AbstractDomain {
     @JsonProperty ("c")
     private String codeQR;
 
+    @JsonProperty ("f")
+    private int tokenAvailableFrom;
+
+    /* Store business start hour. */
+    @JsonProperty ("b")
+    private int startHour;
+
+    @JsonProperty ("m")
+    private int tokenNotAvailableFrom;
+
+    /* Store business end hour. */
+    @JsonProperty ("e")
+    private int endHour;
+
+    @JsonProperty ("de")
+    private int delayedInMinutes;
+
     @JsonProperty ("pj")
     private boolean preventJoining;
 
@@ -46,6 +63,11 @@ public class JsonModifyQueue extends AbstractDomain {
 
     public JsonModifyQueue(String codeQR, StoreHourEntity storeHour, int availableTokenCount) {
         this.codeQR = codeQR;
+        this.tokenAvailableFrom = storeHour.getTokenAvailableFrom();
+        this.startHour = storeHour.getStartHour();
+        this.tokenNotAvailableFrom = storeHour.getTokenNotAvailableFrom();
+        this.endHour = storeHour.getEndHour();
+        this.delayedInMinutes = storeHour.getDelayedInMinutes();
         this.preventJoining = storeHour.isPreventJoining();
         this.dayClosed = storeHour.isDayClosed();
         this.availableTokenCount = availableTokenCount;
@@ -57,6 +79,51 @@ public class JsonModifyQueue extends AbstractDomain {
 
     public JsonModifyQueue setCodeQR(String codeQR) {
         this.codeQR = codeQR;
+        return this;
+    }
+
+    public int getTokenAvailableFrom() {
+        return tokenAvailableFrom;
+    }
+
+    public JsonModifyQueue setTokenAvailableFrom(int tokenAvailableFrom) {
+        this.tokenAvailableFrom = tokenAvailableFrom;
+        return this;
+    }
+
+    public int getStartHour() {
+        return startHour;
+    }
+
+    public JsonModifyQueue setStartHour(int startHour) {
+        this.startHour = startHour;
+        return this;
+    }
+
+    public int getTokenNotAvailableFrom() {
+        return tokenNotAvailableFrom;
+    }
+
+    public JsonModifyQueue setTokenNotAvailableFrom(int tokenNotAvailableFrom) {
+        this.tokenNotAvailableFrom = tokenNotAvailableFrom;
+        return this;
+    }
+
+    public int getEndHour() {
+        return endHour;
+    }
+
+    public JsonModifyQueue setEndHour(int endHour) {
+        this.endHour = endHour;
+        return this;
+    }
+
+    public int getDelayedInMinutes() {
+        return delayedInMinutes;
+    }
+
+    public JsonModifyQueue setDelayedInMinutes(int delayedInMinutes) {
+        this.delayedInMinutes = delayedInMinutes;
         return this;
     }
 
