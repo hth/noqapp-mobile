@@ -153,4 +153,19 @@ public class JsonModifyQueue extends AbstractDomain {
         this.availableTokenCount = availableTokenCount;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "JsonModifyQueue{" +
+                "codeQR='" + codeQR + '\'' +
+                ", tokenAvailableFrom=" + tokenAvailableFrom +
+                ", startHour=" + startHour +
+                ", tokenNotAvailableFrom=" + tokenNotAvailableFrom +
+                ", endHour=" + endHour +
+                ", delayedInMinutes=" + delayedInMinutes +
+                ", preventJoining=" + preventJoining +
+                ", dayClosed=" + dayClosed +
+                ", availableTokenCount=" + availableTokenCount +
+                '}';
+    }
 }
