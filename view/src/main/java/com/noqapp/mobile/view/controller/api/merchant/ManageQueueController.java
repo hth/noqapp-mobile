@@ -498,6 +498,7 @@ public class ManageQueueController {
         }
 
         try {
+            LOG.info("Received Data for JsonModifyQueue={}", requestBodyJson.toString());
             StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(
                     requestBodyJson.getCodeQR(),
                     requestBodyJson.getTokenAvailableFrom(),
