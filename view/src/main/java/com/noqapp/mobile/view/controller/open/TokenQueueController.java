@@ -142,7 +142,7 @@ public class TokenQueueController {
     ) throws IOException {
         Instant start = Instant.now();
         LOG.info("On scan get all state did={} dt={} codeQR={}", did, deviceType, codeQR);
-        if (!tokenQueueMobileService.getBizService().isValidBizNameCodeQR(codeQR.getText()) || !tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
+        if (!tokenQueueMobileService.getBizService().isValidBizNameCodeQR(codeQR.getText()) && !tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
         }
