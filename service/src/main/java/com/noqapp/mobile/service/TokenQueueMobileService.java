@@ -129,6 +129,10 @@ public class TokenQueueMobileService {
     public JsonQueueList findAllQueuesByBizNameCodeQR(String codeQR) {
         try {
             BizNameEntity bizName = bizService.findBizNameByCodeQR(codeQR);
+            if (null == bizName) {
+                BizStoreEntity bizStoreForCodeQR = bizService.findByCodeQR(codeQR);
+                bizName = bizStoreForCodeQR.getBizName();
+            }
             List<BizCategoryEntity> bizCategories = bizService.getBusinessCategories(bizName.getId());
             JsonQueueList jsonQueues = new JsonQueueList();
             for (BizCategoryEntity bizCategory : bizCategories) {
