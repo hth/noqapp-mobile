@@ -470,10 +470,27 @@ public class QueueMobileService {
         return storeHourManager.findOne(bizStore.getId(), dayOfWeek);
     }
 
-    public StoreHourEntity updateQueueStateForToday(String codeQR, boolean dayClosed, boolean preventJoining) {
+    public StoreHourEntity updateQueueStateForToday(
+            String codeQR,
+            int tokenAvailableFrom,
+            int startHour,
+            int tokenNotAvailableFrom,
+            int endHour,
+            boolean preventJoining,
+            boolean dayClosed,
+            int delayedInMinutes) {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
         DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
-        return storeHourManager.modifyOne(bizStore.getId(), dayOfWeek, preventJoining, dayClosed);
+        return storeHourManager.modifyOne(
+                bizStore.getId(),
+                dayOfWeek,
+                tokenAvailableFrom,
+                startHour,
+                tokenNotAvailableFrom,
+                endHour,
+                preventJoining,
+                dayClosed,
+                delayedInMinutes);
     }
 
     /**

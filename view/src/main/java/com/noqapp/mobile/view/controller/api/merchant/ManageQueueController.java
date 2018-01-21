@@ -500,8 +500,13 @@ public class ManageQueueController {
         try {
             StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(
                     requestBodyJson.getCodeQR(),
+                    requestBodyJson.getTokenAvailableFrom(),
+                    requestBodyJson.getStartHour(),
+                    requestBodyJson.getTokenNotAvailableFrom(),
+                    requestBodyJson.getEndHour(),
+                    requestBodyJson.isPreventJoining(),
                     requestBodyJson.isDayClosed(),
-                    requestBodyJson.isPreventJoining());
+                    requestBodyJson.getDelayedInMinutes());
 
             //TODO add missing available token count to iOS and Android.
             queueMobileService.updateBizStoreAvailableTokenCount(
