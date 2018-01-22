@@ -12,6 +12,7 @@ import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
+import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.JsonModifyQueue;
@@ -783,7 +784,8 @@ public class ManageQueueController {
                     codeQR.getText(),
                     CommonUtil.appendRandomToDeviceId(did.getText()),
                     null,
-                    bizStore.getAverageServiceTime()).asJson();
+                    bizStore.getAverageServiceTime(),
+                    TokenServiceEnum.M).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(

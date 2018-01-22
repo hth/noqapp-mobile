@@ -25,6 +25,7 @@ import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
+import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
@@ -399,7 +400,7 @@ class ManageQueueControllerTest {
 
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
         when(tokenQueueMobileService.getBizService().findByCodeQR(anyString())).thenReturn(new BizStoreEntity().setAverageServiceTime(100));
-        when(tokenQueueMobileService.joinQueue(anyString(), anyString(), anyString(), anyLong())).thenReturn(jsonToken);
+        when(tokenQueueMobileService.joinQueue(anyString(), anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(jsonToken);
 
         String responseJson = manageQueueController.dispenseToken(
                 new ScrubbedInput(""),
