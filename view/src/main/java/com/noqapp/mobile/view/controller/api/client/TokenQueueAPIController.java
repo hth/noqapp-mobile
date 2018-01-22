@@ -3,6 +3,7 @@ package com.noqapp.mobile.view.controller.api.client;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -364,7 +365,8 @@ public class TokenQueueAPIController {
                     codeQR.getText(),
                     did.getText(),
                     qid,
-                    bizStore.getAverageServiceTime()).asJson();
+                    bizStore.getAverageServiceTime(),
+                    TokenServiceEnum.C).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
@@ -558,7 +560,12 @@ public class TokenQueueAPIController {
 
         try {
             if (0 < inviteService.getRemoteJoinCount(qid)) {
-                String jsonToken = tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), qid, bizStore.getAverageServiceTime()).asJson();
+                String jsonToken = tokenQueueMobileService.joinQueue(
+                        codeQR.getText(),
+                        did.getText(),
+                        qid,
+                        bizStore.getAverageServiceTime(),
+                        TokenServiceEnum.C).asJson();
                 inviteService.deductRemoteJoinCount(qid);
                 return jsonToken;
             } else {

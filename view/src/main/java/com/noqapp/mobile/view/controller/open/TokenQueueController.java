@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.QueueMobileService;
@@ -307,7 +308,12 @@ public class TokenQueueController {
         }
 
         try {
-            return tokenQueueMobileService.joinQueue(codeQR.getText(), did.getText(), null, bizStore.getAverageServiceTime()).asJson();
+            return tokenQueueMobileService.joinQueue(
+                    codeQR.getText(),
+                    did.getText(),
+                    null,
+                    bizStore.getAverageServiceTime(),
+                    TokenServiceEnum.C).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue did={}, reason={}", did, e.getLocalizedMessage(), e);
             apiHealthService.insert(
