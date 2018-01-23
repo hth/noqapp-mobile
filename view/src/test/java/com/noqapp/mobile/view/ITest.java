@@ -176,6 +176,7 @@ public class ITest extends RealMongoForITest {
         registeredDeviceManager = new RegisteredDeviceManagerImpl(getMongoTemplate());
 
         accountService = new AccountService(
+                5,
             userAccountManager,
             userAuthenticationManager,
             userPreferenceManager,
