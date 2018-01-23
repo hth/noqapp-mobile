@@ -147,14 +147,6 @@ public class ManageQueueController {
      * When client is served by merchant.
      * And
      * When client starts to serve for first time or re-start after serving the last in the queue.
-     *
-     * @param did
-     * @param deviceType
-     * @param mail
-     * @param requestBodyJson
-     * @param response
-     * @return
-     * @throws IOException
      */
     @PostMapping(
             value = "/served",
@@ -290,15 +282,6 @@ public class ManageQueueController {
 
     /**
      * Most called during refresh or reload of the app.
-     *
-     * @param did
-     * @param deviceType
-     * @param mail
-     * @param auth
-     * @param codeQR
-     * @param response
-     * @return
-     * @throws IOException
      */
     @GetMapping (
             value = "/queue/{codeQR}",
@@ -369,15 +352,6 @@ public class ManageQueueController {
 
     /**
      * Get existing state of the queue to change the settings.
-     *
-     * @param did
-     * @param deviceType
-     * @param mail
-     * @param auth
-     * @param codeQR
-     * @param response
-     * @return
-     * @throws IOException
      */
     @GetMapping (
             value = "/state/{codeQR}",
@@ -448,15 +422,6 @@ public class ManageQueueController {
 
     /**
      * Modifies the state of queue.
-     *
-     * @param did
-     * @param deviceType
-     * @param mail
-     * @param auth
-     * @param requestBodyJson
-     * @param response
-     * @return
-     * @throws IOException
      */
     @PostMapping (
             value = "/modify",
@@ -540,15 +505,6 @@ public class ManageQueueController {
 
     /**
      * List all the queued clients.
-     *
-     * @param did
-     * @param deviceType
-     * @param mail
-     * @param auth
-     * @param codeQR
-     * @param response
-     * @return
-     * @throws IOException
      */
     @PostMapping (
             value = "/showQueuedClients/{codeQR}",
@@ -620,14 +576,6 @@ public class ManageQueueController {
 
     /**
      * Acquire specific token not in order. Send message of being served next to the owner of the token.
-     *
-     * @param did
-     * @param deviceType
-     * @param mail
-     * @param requestBodyJson
-     * @param response
-     * @return
-     * @throws IOException
      */
     @PostMapping (
             value = "/acquire",

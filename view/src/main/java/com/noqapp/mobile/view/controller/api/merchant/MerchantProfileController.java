@@ -77,10 +77,11 @@ public class MerchantProfileController {
         UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
         switch (userProfile.getLevel()) {
             case M_ADMIN:
-                //TODO in App For Merchant Admin show message saying your Roles needs to be Manager or Supervisor
+                LOG.info("Cannot login through Client App");
+                break;
             case S_MANAGER:
             case Q_SUPERVISOR:
-                LOG.info("Has access");
+                LOG.info("Has access in Client App");
                 break;
             case ADMIN:
             case CLIENT:
