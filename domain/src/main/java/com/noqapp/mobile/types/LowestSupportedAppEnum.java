@@ -20,7 +20,7 @@ public enum LowestSupportedAppEnum {
 
 
     VA("1.0.89",                //Oldest App Version in String
-            108,                //Oldest App Version as int
+            1089,               //Oldest App Version as int
             DeviceTypeEnum.A,   //Device Type
             "1.0.89");          //Latest App Version
 
@@ -59,7 +59,15 @@ public enum LowestSupportedAppEnum {
     }
 
     public static boolean isSupportedVersion(LowestSupportedAppEnum lowestSupportedApp, int appVersionNumber) {
-        int shortenedAppVersionNumber = Integer.valueOf(String.valueOf(Math.abs((long) appVersionNumber)).substring(0, 3));
+        int shortenedAppVersionNumber = 0;
+        switch (lowestSupportedApp.deviceType) {
+            case A:
+                shortenedAppVersionNumber = appVersionNumber;
+                break;
+            case I:
+                shortenedAppVersionNumber = Integer.valueOf(String.valueOf(Math.abs((long) appVersionNumber)).substring(0, 3));
+                break;
+        }
         LOG.info("App Version={} device={} and shortenedAppVersionNumber={}",
                 appVersionNumber,
                 lowestSupportedApp.deviceType,
