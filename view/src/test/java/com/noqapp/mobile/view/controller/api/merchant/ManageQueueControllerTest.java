@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -203,7 +204,14 @@ class ManageQueueControllerTest {
 
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
-        when(queueMobileService.updateAndGetNextInQueue(anyString(), anyInt(), ArgumentMatchers.any(QueueUserStateEnum.class), anyString(), anyString())).thenReturn(new JsonToken("queuecode"));
+        when(queueMobileService.updateAndGetNextInQueue(
+                anyString(),
+                anyInt(),
+                ArgumentMatchers.any(QueueUserStateEnum.class),
+                anyString(),
+                anyString())
+        ).thenReturn(new JsonToken("queuecode")
+                .setQueueStatus(QueueStatusEnum.D));
         when(queueMobileService.getTokenQueueByCodeQR(anyString())).thenReturn(tokenQueue);
 
         String responseJson = manageQueueController.served(
@@ -220,6 +228,7 @@ class ManageQueueControllerTest {
 
         JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
         assertEquals("queuecode", jo.get("c").getAsString());
+        assertEquals(QueueStatusEnum.D, QueueStatusEnum.valueOf(jo.get("q").getAsString()));
     }
 
     @Test
