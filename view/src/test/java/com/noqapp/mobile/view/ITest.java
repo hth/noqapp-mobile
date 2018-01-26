@@ -211,7 +211,8 @@ public class ITest extends RealMongoForITest {
             firebaseMessageService,
             queueManager,
             accountService,
-            registeredDeviceManager
+            registeredDeviceManager,
+            queueManagerJDBC
         );
 
         queueService = new QueueService(
