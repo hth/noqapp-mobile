@@ -62,6 +62,11 @@ public enum LowestSupportedAppEnum {
         int shortenedAppVersionNumber = 0;
         switch (lowestSupportedApp.deviceType) {
             case A:
+                if (appVersionNumber < 1000) {
+                    appVersionNumber = appVersionNumber * 100;
+                } else {
+                    appVersionNumber = appVersionNumber * 10;
+                }
                 shortenedAppVersionNumber = appVersionNumber;
                 break;
             case I:
