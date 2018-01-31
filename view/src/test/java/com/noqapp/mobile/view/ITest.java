@@ -206,13 +206,17 @@ public class ITest extends RealMongoForITest {
 
         queueManager = new QueueManagerImpl(getMongoTemplate());
         tokenQueueManager = new TokenQueueManagerImpl(getMongoTemplate());
+        bizStoreManager = new BizStoreManagerImpl(getMongoTemplate());
+        storeHourManager = new StoreHourManagerImpl(getMongoTemplate());
         tokenQueueService = new TokenQueueService(
             tokenQueueManager,
             firebaseMessageService,
             queueManager,
             accountService,
             registeredDeviceManager,
-            queueManagerJDBC
+            queueManagerJDBC,
+            storeHourManager,
+            bizStoreManager
         );
 
         queueService = new QueueService(
@@ -221,8 +225,6 @@ public class ITest extends RealMongoForITest {
         );
 
         bizNameManager = new BizNameManagerImpl(getMongoTemplate());
-        bizStoreManager = new BizStoreManagerImpl(getMongoTemplate());
-        storeHourManager = new StoreHourManagerImpl(getMongoTemplate());
         bizCategoryManager = new BizCategoryManagerImpl(getMongoTemplate());
         businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
 
