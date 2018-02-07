@@ -152,14 +152,23 @@ public class DeviceController {
                     versionRelease);
 
             try {
-                int versionNumber = Integer.valueOf(versionRelease.getText());
                 LowestSupportedAppEnum lowestSupportedApp = LowestSupportedAppEnum.findBasedOnDeviceType(deviceTypeEnum);
-                if (!LowestSupportedAppEnum.isSupportedVersion(lowestSupportedApp, versionNumber)) {
-                    LOG.warn("Sent warning to upgrade versionNumber={}", versionNumber);
-                    return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
-                }
+                if (versionRelease.getText().contains(".")) {
+                    if (!LowestSupportedAppEnum.isSupportedVersion(lowestSupportedApp, versionRelease.getText())) {
+                        LOG.warn("Sent warning to upgrade versionNumber={}", versionRelease.getText());
+                        return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
+                    }
 
-                return new JsonLatestAppVersion(lowestSupportedApp.getLatestAppVersion()).asJson();
+                    return new JsonLatestAppVersion(lowestSupportedApp.getLatestAppVersion()).asJson();
+                } else {
+                    int versionNumber = Integer.valueOf(versionRelease.getText());
+                    if (!LowestSupportedAppEnum.isSupportedVersion(lowestSupportedApp, versionNumber)) {
+                        LOG.warn("Sent warning to upgrade versionNumber={}", versionNumber);
+                        return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
+                    }
+
+                    return new JsonLatestAppVersion(lowestSupportedApp.getLatestAppVersion()).asJson();
+                }
             } catch (NumberFormatException e) {
                 LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
                 return getErrorReason("Failed to read API version type.", USER_INPUT);
