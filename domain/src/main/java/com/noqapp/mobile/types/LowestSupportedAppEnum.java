@@ -14,16 +14,16 @@ import org.slf4j.LoggerFactory;
 public enum LowestSupportedAppEnum {
 
     /* List lowest supported version of iPhone and Android app. */
-    VI("1.0.1",                 //Oldest App Version in String
-            101,                //Oldest App Version as int
+    VI("1.0.1",                 //Oldest Supported App Version in String
+            101,                //Oldest App Version as int //TODO remove this after 1.1.0
             DeviceTypeEnum.I,   //Device Type
-            "1.0.1"),           //Latest App Version
+            "1.0.1"),           //Latest App Version on App Store
 
 
-    VA("1.0.89",                //Oldest App Version in String
-            1089,               //Oldest App Version as int
+    VA("1.0.89",                //Oldest Supported App Version in String
+            1089,               //Oldest App Version as int //TODO remove this after 1.1.0
             DeviceTypeEnum.A,   //Device Type
-            "1.0.89");          //Latest App Version
+            "1.1.3");           //Latest App Version on Play Store
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
 

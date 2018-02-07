@@ -12,8 +12,11 @@ import java.util.regex.Pattern;
 public class AppVersion {
     private static final Logger LOG = LoggerFactory.getLogger(AppVersion.class);
 
+    /* 1.1.10001, example 10001 are five digits. So the combination can be 00000.00000.00000 */
+    private static final int NUMBER_OF_DIGITS = 5;
+
     private static String normalisedVersion(String version) {
-        return normalisedVersion(version, ".", 4);
+        return normalisedVersion(version, ".", NUMBER_OF_DIGITS);
     }
 
     private static String normalisedVersion(String version, String sep, int maxWidth) {
