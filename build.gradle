@@ -360,6 +360,10 @@ project(':common') {
 
 project(':domain') {
     jar.baseName = 'noqapp.mobile-domain'
+
+    dependencies {
+        compile project(':common')
+    }
 }
 
 project(':security') {

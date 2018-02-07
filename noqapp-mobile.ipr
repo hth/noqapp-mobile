@@ -369,6 +369,10 @@
               <element id="module-output" name="domain_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/domain/out/production/resources" />
             </element>
+            <element id="archive" name="com.noqapp.mobile-common.jar">
+              <element id="module-output" name="common_main" />
+              <element id="dir-copy" path="$PROJECT_DIR$/common/out/production/resources" />
+            </element>
             <element id="library" level="project" name="Gradle: com.noqapp:common:1.2" />
             <element id="library" level="project" name="Gradle: com.noqapp:domain:1.2" />
             <element id="library" level="project" name="Gradle: com.noqapp:health:1.2" />
@@ -690,9 +694,13 @@
             <element id="dir-copy" path="$PROJECT_DIR$/view/out/production/resources" />
           </element>
           <element id="directory" name="lib">
-            <element id="archive" name="com.noqapp.mobile-service.jar">
-              <element id="module-output" name="service_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/service/out/production/resources" />
+            <element id="archive" name="com.noqapp.mobile-security.jar">
+              <element id="module-output" name="security_main" />
+              <element id="dir-copy" path="$PROJECT_DIR$/security/out/production/resources" />
+            </element>
+            <element id="archive" name="com.noqapp.mobile-domain.jar">
+              <element id="module-output" name="domain_main" />
+              <element id="dir-copy" path="$PROJECT_DIR$/domain/out/production/resources" />
             </element>
             <element id="archive" name="com.noqapp.mobile-common.jar">
               <element id="module-output" name="common_main" />
@@ -987,15 +995,11 @@
             <element id="library" level="project" name="Gradle: javax.annotation:javax.annotation-api:1.2" />
             <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11" />
             <element id="library" level="project" name="Gradle: org.checkerframework:checker-compat-qual:2.0.0" />
-            <element id="archive" name="com.noqapp.mobile-domain.jar">
-              <element id="module-output" name="domain_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/domain/out/production/resources" />
-            </element>
-            <element id="archive" name="com.noqapp.mobile-security.jar">
-              <element id="module-output" name="security_main" />
-              <element id="dir-copy" path="$PROJECT_DIR$/security/out/production/resources" />
-            </element>
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="archive" name="com.noqapp.mobile-service.jar">
+              <element id="module-output" name="service_main" />
+              <element id="dir-copy" path="$PROJECT_DIR$/service/out/production/resources" />
+            </element>
           </element>
         </element>
       </root>

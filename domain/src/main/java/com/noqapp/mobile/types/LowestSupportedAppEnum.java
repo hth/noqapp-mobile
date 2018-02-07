@@ -1,6 +1,7 @@
 package com.noqapp.mobile.types;
 
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.mobile.common.util.AppVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,6 +59,20 @@ public enum LowestSupportedAppEnum {
         return latestAppVersion;
     }
 
+    public static boolean isSupportedVersion(LowestSupportedAppEnum lowestSupportedApp, String appVersionNumber) {
+        LOG.info("App Version={} device={}",
+                appVersionNumber,
+                lowestSupportedApp.deviceType);
+
+        boolean supported = AppVersion.compare(appVersionNumber, lowestSupportedApp.oldestAppVersion);
+        LOG.info("Calculated supported app version={}", supported);
+        return supported;
+    }
+
+    /**
+     * @since 1.1.0 of Mobile version
+     */
+    @Deprecated
     public static boolean isSupportedVersion(LowestSupportedAppEnum lowestSupportedApp, int appVersionNumber) {
         int shortenedAppVersionNumber = 0;
         switch (lowestSupportedApp.deviceType) {
