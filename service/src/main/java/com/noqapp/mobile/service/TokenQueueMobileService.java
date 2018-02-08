@@ -211,6 +211,7 @@ public class TokenQueueMobileService {
         tokenQueueService.sendMessageToAllOnSpecificTopic(
                 tokenQueue.getDisplayName(),
                 "Is Closed Today. We are informing you to not visit today. Sorry for inconvenience.",
-                tokenQueue.getCorrectTopic(QueueStatusEnum.C));
+                tokenQueue,
+                QueueStatusEnum.C);
     }
 }
