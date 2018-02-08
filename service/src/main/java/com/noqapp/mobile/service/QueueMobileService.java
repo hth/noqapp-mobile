@@ -497,9 +497,6 @@ public class QueueMobileService {
 
     /**
      * Finds clients who are yet to be serviced.
-     *
-     * @param codeQR
-     * @return
      */
     public JsonQueuePersonList findAllClientQueuedOrAborted(String codeQR) {
         List<JsonQueuedPerson> queuedPeople = new ArrayList<>();
