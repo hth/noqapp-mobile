@@ -463,12 +463,13 @@ public class ManageQueueController {
         }
 
         try {
-            LOG.info("Received Data for JsonModifyQueue={}", requestBodyJson.toString());
+            LOG.info("Received Data for qid={} JsonModifyQueue={}", qid, requestBodyJson.toString());
             TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(requestBodyJson.getCodeQR());
             if (tokenQueue.getLastNumber() > 0 && requestBodyJson.isDayClosed()) {
                 /* Notify everyone about day closed. */
-                tokenQueueMobileService.notifyAllInQueueWhenStoreClosesForTheDay(requestBodyJson.getCodeQR());
-                LOG.info("Send message to all when store is marked closed for the day queueName={} lastNumber={} queueStatus={}",
+                long notified = tokenQueueMobileService.notifyAllInQueueWhenStoreClosesForTheDay(requestBodyJson.getCodeQR(), did.getText());
+                LOG.info("Send message to {} when store is marked closed for the day queueName={} lastNumber={} queueStatus={}",
+                        notified,
                         tokenQueue.getDisplayName(),
                         tokenQueue.getLastNumber(),
                         tokenQueue.getQueueStatus());

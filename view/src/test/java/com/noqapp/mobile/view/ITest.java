@@ -243,7 +243,8 @@ public class ITest extends RealMongoForITest {
         tokenQueueMobileService = new TokenQueueMobileService(
                 tokenQueueService,
                 bizService,
-                tokenQueueManager
+                tokenQueueManager,
+                queueManager
         );
 
         queueMobileService = new QueueMobileService(

@@ -5,6 +5,7 @@ import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.types.TokenServiceEnum;
+import com.noqapp.repository.QueueManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,16 +39,19 @@ public class TokenQueueMobileService {
     private TokenQueueService tokenQueueService;
     private BizService bizService;
     private TokenQueueManager tokenQueueManager;
+    private QueueManager queueManager;
 
     @Autowired
     public TokenQueueMobileService(
             TokenQueueService tokenQueueService,
             BizService bizService,
-            TokenQueueManager tokenQueueManager
+            TokenQueueManager tokenQueueManager,
+            QueueManager queueManager
     ) {
         this.tokenQueueService = tokenQueueService;
         this.bizService = bizService;
         this.tokenQueueManager = tokenQueueManager;
+        this.queueManager = queueManager;
     }
 
     public JsonQueue findTokenState(String codeQR) {
@@ -206,12 +210,15 @@ public class TokenQueueMobileService {
         return bizService.isValidCodeQR(codeQR);
     }
 
-    public void notifyAllInQueueWhenStoreClosesForTheDay(String codeQR) {
+    public long notifyAllInQueueWhenStoreClosesForTheDay(String codeQR, String serverDeviceId) {
         TokenQueueEntity tokenQueue = tokenQueueManager.findByCodeQR(codeQR);
         tokenQueueService.sendMessageToAllOnSpecificTopic(
                 tokenQueue.getDisplayName(),
                 "Is Closed Today. We are informing you to not visit today. Sorry for inconvenience.",
                 tokenQueue,
                 QueueStatusEnum.C);
+
+        /* Mark all of the people in queue as skipped. */
+        return queueManager.markAllSkippedWhenQueueClosed(codeQR, serverDeviceId);
     }
 }

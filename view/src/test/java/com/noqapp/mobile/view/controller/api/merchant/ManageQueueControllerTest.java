@@ -33,6 +33,7 @@ import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
@@ -70,6 +71,7 @@ class ManageQueueControllerTest {
     @Mock private BusinessUserStoreService businessUserStoreService;
     @Mock private ApiHealthService apiHealthService;
     @Mock private BizService bizService;
+    @Mock private QueueManager queueManager;
 
     @Mock private HttpServletResponse response;
     private TokenQueueEntity tokenQueue;
@@ -87,7 +89,8 @@ class ManageQueueControllerTest {
         tokenQueueMobileService = new TokenQueueMobileService(
                 tokenQueueService,
                 bizService,
-                tokenQueueManager
+                tokenQueueManager,
+                queueManager
         );
 
         manageQueueController = new ManageQueueController(
