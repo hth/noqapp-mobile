@@ -40,7 +40,11 @@ public class TokenQueueMobileService {
     private TokenQueueManager tokenQueueManager;
 
     @Autowired
-    public TokenQueueMobileService(TokenQueueService tokenQueueService, BizService bizService, TokenQueueManager tokenQueueManager) {
+    public TokenQueueMobileService(
+            TokenQueueService tokenQueueService,
+            BizService bizService,
+            TokenQueueManager tokenQueueManager
+    ) {
         this.tokenQueueService = tokenQueueService;
         this.bizService = bizService;
         this.tokenQueueManager = tokenQueueManager;
@@ -200,5 +204,13 @@ public class TokenQueueMobileService {
 
     public boolean isValidCodeQR(String codeQR) {
         return bizService.isValidCodeQR(codeQR);
+    }
+
+    public void notifyAllInQueueWhenStoreClosesForTheDay(String codeQR) {
+        TokenQueueEntity tokenQueue = tokenQueueManager.findByCodeQR(codeQR);
+        tokenQueueService.sendMessageToAllOnSpecificTopic(
+                tokenQueue.getDisplayName(),
+                "Is Closed Today. We are informing you to not visit today. Sorry for inconvenience.",
+                tokenQueue.getCorrectTopic(QueueStatusEnum.C));
     }
 }
