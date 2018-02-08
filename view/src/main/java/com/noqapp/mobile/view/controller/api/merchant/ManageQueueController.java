@@ -468,6 +468,10 @@ public class ManageQueueController {
             if (tokenQueue.getLastNumber() > 0 && requestBodyJson.isDayClosed()) {
                 /* Notify everyone about day closed. */
                 tokenQueueMobileService.notifyAllInQueueWhenStoreClosesForTheDay(requestBodyJson.getCodeQR());
+                LOG.info("Send message to all when store is marked closed for the day queueName={} lastNumber={} queueStatus={}",
+                        tokenQueue.getDisplayName(),
+                        tokenQueue.getLastNumber(),
+                        tokenQueue.getQueueStatus());
             }
 
             StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(
