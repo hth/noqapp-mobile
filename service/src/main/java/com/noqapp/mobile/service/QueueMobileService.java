@@ -121,12 +121,6 @@ public class QueueMobileService {
 
     /**
      * Merchant when pausing to serve queue.
-     *
-     * @param codeQR
-     * @param servedNumber
-     * @param queueUserState
-     * @param sid
-     * @return
      */
     public JsonToken pauseServingQueue(String codeQR, int servedNumber, QueueUserStateEnum queueUserState, String sid) {
         LOG.info("Server person is now pausing for queue codeQR={} servedNumber={} queueUserState={} sid={}",
