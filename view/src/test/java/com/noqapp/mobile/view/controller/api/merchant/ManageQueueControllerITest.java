@@ -616,7 +616,7 @@ class ManageQueueControllerITest extends ITest {
                 httpServletResponse
         );
         JsonToken jsonToken = new ObjectMapper().readValue(joinQueue, JsonToken.class);
-        assertEquals(QueueStatusEnum.C, jsonToken.getQueueStatus());
+        assertEquals(QueueStatusEnum.S, jsonToken.getQueueStatus());
         assertEquals(0, jsonToken.getToken());
 
         String topics = manageQueueController.getQueues(
