@@ -273,6 +273,28 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(true, jsonModifiedQueue.isPreventJoining());
         assertEquals(true, jsonModifiedQueue.isDayClosed());
         assertEquals(0, jsonModifiedQueue.getAvailableTokenCount());
+
+        /* Reset State of Queue to Day Closed as False and Prevent Joining as False. */
+        resetQueueAsOpen(bizStore, queueUserAccount);
+    }
+
+    private void resetQueueAsOpen(BizStoreEntity bizStore, UserAccountEntity queueUserAccount) throws IOException {
+        JsonModifyQueue jsonModifyQueue;
+        String queueStateResponse;
+        jsonModifyQueue = new JsonModifyQueue()
+                .setCodeQR(bizStore.getCodeQR())
+                .setDayClosed(false)
+                .setPreventJoining(false)
+                .setAvailableTokenCount(0);
+
+        queueStateResponse = manageQueueController.queueStateModify(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(queueUserAccount.getUserId()),
+                new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
+                jsonModifyQueue,
+                httpServletResponse
+        );
     }
 
     @Test
@@ -553,5 +575,89 @@ class ManageQueueControllerITest extends ITest {
         JsonToken jsonToken2 = new ObjectMapper().readValue(dispenseToken2, JsonToken.class);
         assertEquals(QueueStatusEnum.S, jsonToken2.getQueueStatus());
         assertEquals(4, jsonToken2.getToken());
+    }
+
+    @Test
+    @DisplayName("Dispense token fails when queue is closed")
+    void dispenseTokenFailWhenStoreIsClosedOrPreventJoin() throws IOException {
+        BizNameEntity bizName = bizService.findByPhone("9118000000000");
+        BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
+
+        JsonModifyQueue jsonModifyQueue = new JsonModifyQueue()
+                .setCodeQR(bizStore.getCodeQR())
+                .setDayClosed(true)
+                .setPreventJoining(false)
+                .setAvailableTokenCount(0);
+
+        UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
+        UserAccountEntity queueUserAccount = accountService.findByQueueUserId(queueSupervisorUserProfile.getQueueUserId());
+        String queueStateResponse = manageQueueController.queueStateModify(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(queueUserAccount.getUserId()),
+                new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
+                jsonModifyQueue,
+                httpServletResponse
+        );
+        JsonModifyQueue jsonModifiedQueue = new ObjectMapper().readValue(queueStateResponse, JsonModifyQueue.class);
+        assertEquals(false, jsonModifiedQueue.isPreventJoining());
+        assertEquals(true, jsonModifiedQueue.isDayClosed());
+        assertEquals(0, jsonModifiedQueue.getAvailableTokenCount());
+        /* Setup complete for test. */
+
+        UserProfileEntity client1 = accountService.checkUserExistsByPhone("9118000000001");
+        UserAccountEntity userAccount1 = accountService.findByQueueUserId(client1.getQueueUserId());
+        String joinQueue = tokenQueueAPIController.joinQueue(
+                new ScrubbedInput(didClient1),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(userAccount1.getUserId()),
+                new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
+                new ScrubbedInput(bizStore.getCodeQR()),
+                httpServletResponse
+        );
+        JsonToken jsonToken = new ObjectMapper().readValue(joinQueue, JsonToken.class);
+        assertEquals(QueueStatusEnum.C, jsonToken.getQueueStatus());
+        assertEquals(0, jsonToken.getToken());
+
+        String topics = manageQueueController.getQueues(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(queueUserAccount.getUserId()),
+                new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
+                httpServletResponse
+        );
+        JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
+        assertEquals(1, jsonTopic.getTopics().size());
+        assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
+        assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
+        assertEquals(0, jsonTopic.getTopics().iterator().next().getToken());
+
+        String dispenseToken1 = manageQueueController.dispenseToken(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(queueUserAccount.getUserId()),
+                new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
+                new ScrubbedInput(jsonTopic.getTopics().iterator().next().getCodeQR()),
+                httpServletResponse
+        );
+        JsonToken jsonToken1 = new ObjectMapper().readValue(dispenseToken1, JsonToken.class);
+        assertEquals(QueueStatusEnum.C, jsonToken1.getQueueStatus());
+        assertEquals(0, jsonToken1.getToken());
+
+        String dispenseToken2 = manageQueueController.dispenseToken(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(queueUserAccount.getUserId()),
+                new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
+                new ScrubbedInput(jsonTopic.getTopics().iterator().next().getCodeQR()),
+                httpServletResponse
+        );
+        JsonToken jsonToken2 = new ObjectMapper().readValue(dispenseToken2, JsonToken.class);
+        assertEquals(QueueStatusEnum.C, jsonToken2.getQueueStatus());
+        assertEquals(0, jsonToken2.getToken());
+
+        /* Reset State of Queue to Day Closed as False and Prevent Joining as False. */
+        resetQueueAsOpen(bizStore, queueUserAccount);
     }
 }
