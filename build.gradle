@@ -258,7 +258,7 @@ subprojects {
         testCompile "org.mockito:mockito-inline:$mockito"
         testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$flapdoodle"
         testCompile "org.springframework:spring-test:$springVersion"
-        testCompile 'org.awaitility:awaitility:3.0.0'
+        testCompile "org.awaitility:awaitility:$awaitility"
 
         testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit5"
         testRuntime "org.junit.platform:junit-platform-launcher:$junitPlatform"
