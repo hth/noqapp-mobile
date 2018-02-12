@@ -22,13 +22,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -606,8 +602,6 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(true, jsonModifiedQueue.isDayClosed());
         assertEquals(0, jsonModifiedQueue.getAvailableTokenCount());
         /* Setup complete for test. */
-
-        await().atMost(5, SECONDS);
 
         UserProfileEntity client1 = accountService.checkUserExistsByPhone("9118000000001");
         UserAccountEntity userAccount1 = accountService.findByQueueUserId(client1.getQueueUserId());
