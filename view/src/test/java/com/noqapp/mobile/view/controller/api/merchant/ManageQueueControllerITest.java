@@ -18,7 +18,6 @@ import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -74,7 +73,7 @@ class ManageQueueControllerITest extends ITest {
         queueManager.deleteByCodeQR(bizStore.getCodeQR());
     }
 
-    @Disabled
+    @Test
     @DisplayName("Get all the queues assigned")
     void getQueues() throws IOException {
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
@@ -93,7 +92,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
     }
 
-    @Disabled
+    @Test
     @DisplayName("Serve clients")
     void served() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -198,7 +197,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(QueueStatusEnum.D, jsonToken2.getQueueStatus());
     }
 
-    @Disabled
+    @Test
     @DisplayName("Get latest state of a specific queue")
     void getQueue() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -222,7 +221,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(0, jsonTopic.getToken());
     }
 
-    @Disabled
+    @Test
     @DisplayName("Checks the state of a queue and the modify the state of it")
     void queueState_Modify_QueueState() throws IOException {
         queueState();
@@ -279,15 +278,13 @@ class ManageQueueControllerITest extends ITest {
     }
 
     private void resetQueueAsOpen(BizStoreEntity bizStore, UserAccountEntity queueUserAccount) throws IOException {
-        JsonModifyQueue jsonModifyQueue;
-        String queueStateResponse;
-        jsonModifyQueue = new JsonModifyQueue()
+        JsonModifyQueue jsonModifyQueue = new JsonModifyQueue()
                 .setCodeQR(bizStore.getCodeQR())
                 .setDayClosed(false)
                 .setPreventJoining(false)
                 .setAvailableTokenCount(0);
 
-        queueStateResponse = manageQueueController.queueStateModify(
+        manageQueueController.queueStateModify(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(queueUserAccount.getUserId()),
@@ -297,7 +294,7 @@ class ManageQueueControllerITest extends ITest {
         );
     }
 
-    @Disabled
+    @Test
     @DisplayName("Show all the queued clients")
     void showQueuedClients() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -359,7 +356,7 @@ class ManageQueueControllerITest extends ITest {
         assertNull(jsonQueuePersonList.getQueuedPeople().iterator().next().getServerDeviceId());
     }
 
-    @Disabled
+    @Test
     @DisplayName("Cannot acquire client when Queue State is still Start")
     void acquireFails_When_QueueStatus_Is_Start() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -423,7 +420,7 @@ class ManageQueueControllerITest extends ITest {
         });
     }
 
-    @Disabled
+    @Test
     @DisplayName("Acquire Client out of sequence when queue has begun")
     void acquire() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -508,7 +505,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(client2.getName(), jsonToken.getCustomerName());
     }
 
-    @Disabled
+    @Test
     @DisplayName("Dispense token when user walks-in or has no phone")
     void dispenseToken() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -575,6 +572,9 @@ class ManageQueueControllerITest extends ITest {
         JsonToken jsonToken2 = new ObjectMapper().readValue(dispenseToken2, JsonToken.class);
         assertEquals(QueueStatusEnum.S, jsonToken2.getQueueStatus());
         assertEquals(4, jsonToken2.getToken());
+
+        /* Reset State of Queue to Day Closed as False and Prevent Joining as False. */
+        resetQueueAsOpen(bizStore, queueUserAccount);
     }
 
     @Test
