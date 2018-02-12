@@ -18,6 +18,7 @@ import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -575,7 +576,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(4, jsonToken2.getToken());
     }
 
-    @Test
+    @Disabled
     @DisplayName("Dispense token fails when queue is closed")
     void dispenseTokenFailWhenStoreIsClosedOrPreventJoin() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
