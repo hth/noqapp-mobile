@@ -26,6 +26,7 @@ import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
 
+import static com.noqapp.domain.BizStoreEntity.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -73,7 +74,7 @@ class ManageQueueControllerITest extends ITest {
         queueManager.deleteByCodeQR(bizStore.getCodeQR());
     }
 
-    @Test
+    @Disabled
     @DisplayName("Get all the queues assigned")
     void getQueues() throws IOException {
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
@@ -92,7 +93,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
     }
 
-    @Test
+    @Disabled
     @DisplayName("Serve clients")
     void served() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -197,7 +198,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(QueueStatusEnum.D, jsonToken2.getQueueStatus());
     }
 
-    @Test
+    @Disabled
     @DisplayName("Get latest state of a specific queue")
     void getQueue() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -221,7 +222,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(0, jsonTopic.getToken());
     }
 
-    @Test
+    @Disabled
     @DisplayName("Checks the state of a queue and the modify the state of it")
     void queueState_Modify_QueueState() throws IOException {
         queueState();
@@ -296,7 +297,7 @@ class ManageQueueControllerITest extends ITest {
         );
     }
 
-    @Test
+    @Disabled
     @DisplayName("Show all the queued clients")
     void showQueuedClients() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -358,7 +359,7 @@ class ManageQueueControllerITest extends ITest {
         assertNull(jsonQueuePersonList.getQueuedPeople().iterator().next().getServerDeviceId());
     }
 
-    @Test
+    @Disabled
     @DisplayName("Cannot acquire client when Queue State is still Start")
     void acquireFails_When_QueueStatus_Is_Start() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -422,7 +423,7 @@ class ManageQueueControllerITest extends ITest {
         });
     }
 
-    @Test
+    @Disabled
     @DisplayName("Acquire Client out of sequence when queue has begun")
     void acquire() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -507,7 +508,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(client2.getName(), jsonToken.getCustomerName());
     }
 
-    @Test
+    @Disabled
     @DisplayName("Dispense token when user walks-in or has no phone")
     void dispenseToken() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -576,7 +577,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(4, jsonToken2.getToken());
     }
 
-    @Disabled
+    @Test
     @DisplayName("Dispense token fails when queue is closed")
     void dispenseTokenFailWhenStoreIsClosedOrPreventJoin() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -631,6 +632,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getToken());
+        assertEquals(bizStore.getCountryShortName() + UNDER_SCORE + bizStore.getCodeQR(), jsonTopic.getTopics().iterator().next().getTopic());
 
         String dispenseToken1 = manageQueueController.dispenseToken(
                 new ScrubbedInput(did),
