@@ -218,7 +218,7 @@ public class TokenQueueMobileService {
                 tokenQueue,
                 QueueStatusEnum.C);
 
-        /* Mark all of the people in queue as skipped. */
+        /* Mark all of the people in queue as aborted. */
         return queueManager.markAllAbortWhenQueueClosed(codeQR, serverDeviceId);
     }
 }
