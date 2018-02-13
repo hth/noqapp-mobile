@@ -219,6 +219,6 @@ public class TokenQueueMobileService {
                 QueueStatusEnum.C);
 
         /* Mark all of the people in queue as skipped. */
-        return queueManager.markAllSkippedWhenQueueClosed(codeQR, serverDeviceId);
+        return queueManager.markAllAbortWhenQueueClosed(codeQR, serverDeviceId);
     }
 }
