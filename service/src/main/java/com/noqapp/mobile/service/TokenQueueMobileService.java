@@ -24,6 +24,7 @@ import com.noqapp.service.BizService;
 import com.noqapp.service.TokenQueueService;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.TimeZone;
@@ -224,9 +225,20 @@ public class TokenQueueMobileService {
 
     public void notifyAllInQueueAboutDelay(String codeQR, int delayInMinutes) {
         TokenQueueEntity tokenQueue = tokenQueueManager.findByCodeQR(codeQR);
+        String delayed;
+        if (delayInMinutes > 59) {
+            Duration duration = Duration.ofMinutes(delayInMinutes);
+            if (duration.toHours() > 1) {
+                delayed = duration.toHours() + " hours and " + duration.toMinutes() + " minutes";
+            } else {
+                delayed = duration.toHours() + " hour and " + duration.toMinutes() + " minutes";
+            }
+        } else {
+            delayed = delayInMinutes + " minutes";
+        }
         tokenQueueService.sendMessageToAllOnSpecificTopic(
                 tokenQueue.getDisplayName(),
-                "Queue starts " + delayInMinutes +  " minutes late. Sorry for inconvenience.",
+                "Delayed by " + delayed +  ". Sorry for inconvenience.",
                 tokenQueue,
                 tokenQueue.getQueueStatus());
     }
