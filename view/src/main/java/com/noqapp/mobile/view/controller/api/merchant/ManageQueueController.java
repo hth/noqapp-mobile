@@ -475,6 +475,16 @@ public class ManageQueueController {
                         tokenQueue.getQueueStatus());
             }
 
+            if (requestBodyJson.getDelayedInMinutes() > 0) {
+                /* Notify everyone about delay. */
+                tokenQueueMobileService.notifyAllInQueueAboutDelay(requestBodyJson.getCodeQR(), requestBodyJson.getDelayedInMinutes());
+                LOG.info("Send message when queues starts late by minutes={} queueName={} lastNumber={} queueStatus={}",
+                        requestBodyJson.getDelayedInMinutes(),
+                        tokenQueue.getDisplayName(),
+                        tokenQueue.getLastNumber(),
+                        tokenQueue.getQueueStatus());
+            }
+
             StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(
                     requestBodyJson.getCodeQR(),
                     requestBodyJson.getTokenAvailableFrom(),
@@ -485,7 +495,7 @@ public class ManageQueueController {
                     requestBodyJson.isDayClosed(),
                     requestBodyJson.getDelayedInMinutes());
 
-            //TODO add missing available token count to iOS and Android.
+            //TODO add missing available token count to iOS.
             queueMobileService.updateBizStoreAvailableTokenCount(
                     requestBodyJson.getAvailableTokenCount(),
                     requestBodyJson.getCodeQR());
