@@ -229,9 +229,9 @@ public class TokenQueueMobileService {
         if (delayInMinutes > 59) {
             Duration duration = Duration.ofMinutes(delayInMinutes);
             if (duration.toHours() > 1) {
-                delayed = duration.toHours() + " hours and " + duration.toMinutes() + " minutes";
+                delayed = duration.toHours() + " hours and " + (duration.toHours() * 60 - duration.toMinutes()) + " minutes";
             } else {
-                delayed = duration.toHours() + " hour and " + duration.toMinutes() + " minutes";
+                delayed = duration.toHours() + " hour and " + (duration.toHours() * 60 - duration.toMinutes()) + " minutes";
             }
         } else {
             delayed = delayInMinutes + " minutes";
