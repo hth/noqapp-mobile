@@ -473,9 +473,8 @@ public class ManageQueueController {
                         tokenQueue.getDisplayName(),
                         tokenQueue.getLastNumber(),
                         tokenQueue.getQueueStatus());
-            }
 
-            if (requestBodyJson.getDelayedInMinutes() > 0) {
+            } else if (requestBodyJson.getDelayedInMinutes() > 0) {
                 /* Notify everyone about delay. */
                 tokenQueueMobileService.notifyAllInQueueAboutDelay(requestBodyJson.getCodeQR(), requestBodyJson.getDelayedInMinutes());
                 LOG.info("Send message when queues starts late by minutes={} queueName={} lastNumber={} queueStatus={}",
