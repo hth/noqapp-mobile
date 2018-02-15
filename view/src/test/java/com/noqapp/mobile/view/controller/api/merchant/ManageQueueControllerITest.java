@@ -578,7 +578,7 @@ class ManageQueueControllerITest extends ITest {
         resetQueueAsOpen(bizStore, queueUserAccount);
     }
 
-    @Test
+    @Disabled
     @DisplayName("Dispense token fails when queue is closed")
     void dispenseTokenFailWhenStoreIsClosedOrPreventJoin() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");

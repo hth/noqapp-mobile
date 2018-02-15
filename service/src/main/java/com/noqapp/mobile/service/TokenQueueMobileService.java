@@ -221,4 +221,13 @@ public class TokenQueueMobileService {
         /* Mark all of the people in queue as aborted. */
         return queueManager.markAllAbortWhenQueueClosed(codeQR, serverDeviceId);
     }
+
+    public void notifyAllInQueueAboutDelay(String codeQR, int delayInMinutes) {
+        TokenQueueEntity tokenQueue = tokenQueueManager.findByCodeQR(codeQR);
+        tokenQueueService.sendMessageToAllOnSpecificTopic(
+                tokenQueue.getDisplayName(),
+                "Queue starts " + delayInMinutes +  " minutes late. Sorry for inconvenience.",
+                tokenQueue,
+                tokenQueue.getQueueStatus());
+    }
 }
