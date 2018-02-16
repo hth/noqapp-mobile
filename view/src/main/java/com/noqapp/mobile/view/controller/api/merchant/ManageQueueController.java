@@ -467,7 +467,10 @@ public class ManageQueueController {
             TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(requestBodyJson.getCodeQR());
             if (tokenQueue.getLastNumber() > 0 && requestBodyJson.isDayClosed()) {
                 /* Notify everyone about day closed. */
-                long notified = tokenQueueMobileService.notifyAllInQueueWhenStoreClosesForTheDay(requestBodyJson.getCodeQR(), did.getText());
+                long notified = tokenQueueMobileService.notifyAllInQueueWhenStoreClosesForTheDay(
+                        requestBodyJson.getCodeQR(),
+                        did.getText());
+
                 LOG.info("Send message to {} when store is marked closed for the day queueName={} lastNumber={} queueStatus={}",
                         notified,
                         tokenQueue.getDisplayName(),
@@ -476,7 +479,10 @@ public class ManageQueueController {
 
             } else if (requestBodyJson.getDelayedInMinutes() > 0) {
                 /* Notify everyone about delay. */
-                tokenQueueMobileService.notifyAllInQueueAboutDelay(requestBodyJson.getCodeQR(), requestBodyJson.getDelayedInMinutes());
+                tokenQueueMobileService.notifyAllInQueueAboutDelay(
+                        requestBodyJson.getCodeQR(),
+                        requestBodyJson.getDelayedInMinutes());
+
                 LOG.info("Send message when queues starts late by minutes={} queueName={} lastNumber={} queueStatus={}",
                         requestBodyJson.getDelayedInMinutes(),
                         tokenQueue.getDisplayName(),
