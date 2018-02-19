@@ -324,14 +324,16 @@
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.4.9" />
             <element id="library" level="project" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjrt:1.8.13" />
-            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.3" />
-            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.3" />
-            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-params:5.0.3" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.0.3" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.0.3" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-launcher:1.0.3" />
             <element id="library" level="project" name="Gradle: org.mockito:mockito-core:2.15.0" />
             <element id="library" level="project" name="Gradle: org.mockito:mockito-inline:2.15.0" />
+            <element id="library" level="project" name="Gradle: de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.0" />
+            <element id="library" level="project" name="Gradle: de.flapdoodle.embed:de.flapdoodle.embed.process:2.0.1" />
+            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.1.0" />
+            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.1.0" />
+            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-params:5.1.0" />
+            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.1.0" />
+            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.1.0" />
+            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-launcher:1.1.0" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -511,7 +513,6 @@
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-collections4:4.1" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.3" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.71.0" />
-            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.3" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-all:1.3" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.13" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-jcl:5.0.2.RELEASE" />
@@ -593,9 +594,6 @@
             <element id="library" level="project" name="Gradle: org.opengis:geoapi:3.0.0" />
             <element id="library" level="project" name="Gradle: edu.usc.ir:sentiment-analysis-parser:0.1" />
             <element id="library" level="project" name="Gradle: org.jrobin:jrobin:1.5.9" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.0.3" />
-            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.3" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.0.3" />
             <element id="library" level="project" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-core:7.2.1" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-analyzers-common:7.2.1" />
@@ -667,6 +665,10 @@
             <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11" />
             <element id="library" level="project" name="Gradle: org.checkerframework:checker-compat-qual:2.0.0" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.1.0/c54b96b465bb5b49c7708d734a4180dd95422754/junit-jupiter-engine-5.1.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.1.0/2596bd4d909e7ea8d029272db4338075445d731b/junit-platform-engine-1.1.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.1.0/370218fbc7ce9cf0600c4b5db400bccdf0c01a48/junit-jupiter-api-5.1.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.1.0/d6aa21029f9cedfb4cc8a9e9efc0bd97987205b8/junit-platform-commons-1.1.0.jar" />
           </element>
         </element>
       </root>
@@ -847,7 +849,6 @@
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-collections4:4.1" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.3" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.71.0" />
-            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.3" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-all:1.3" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.13" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-jcl:5.0.2.RELEASE" />
@@ -929,9 +930,6 @@
             <element id="library" level="project" name="Gradle: org.opengis:geoapi:3.0.0" />
             <element id="library" level="project" name="Gradle: edu.usc.ir:sentiment-analysis-parser:0.1" />
             <element id="library" level="project" name="Gradle: org.jrobin:jrobin:1.5.9" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.0.3" />
-            <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.3" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.0.3" />
             <element id="library" level="project" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-core:7.2.1" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-analyzers-common:7.2.1" />
@@ -1007,6 +1005,10 @@
               <element id="module-output" name="service_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/service/out/production/resources" />
             </element>
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.1.0/c54b96b465bb5b49c7708d734a4180dd95422754/junit-jupiter-engine-5.1.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.1.0/2596bd4d909e7ea8d029272db4338075445d731b/junit-platform-engine-1.1.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.1.0/370218fbc7ce9cf0600c4b5db400bccdf0c01a48/junit-jupiter-api-5.1.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.1.0/d6aa21029f9cedfb4cc8a9e9efc0bd97987205b8/junit-platform-commons-1.1.0.jar" />
           </element>
         </element>
       </root>
@@ -2040,20 +2042,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/domain/1.2/domain-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:health:1.2">
       <CLASSES>
@@ -2074,20 +2063,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/service/1.2/service-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:social:1.2">
       <CLASSES>
@@ -4061,70 +4037,70 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.7.2/833f425e7a40d7fc88922370a072965dda8ee216/jsoup-1.7.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.3">
+    <library name="Gradle: org.junit.jupiter:junit-jupiter-api:5.1.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.0.3/43872be66bab0172073ac698062419755e563353/junit-jupiter-api-5.0.3.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.1.0/370218fbc7ce9cf0600c4b5db400bccdf0c01a48/junit-jupiter-api-5.1.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.0.3/b25f4a785490fcce51a3ee80f6817436d683e876/junit-jupiter-api-5.0.3-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.1.0/8a4811d4a53916d32a8f5a331ebb760cbd2cae6e/junit-jupiter-api-5.1.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.0.3/61fbfdfc77ddcd708fe1a740d292fed04aec5527/junit-jupiter-api-5.0.3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.1.0/d4b2cf00c46ec46c2d59a3ab571a00b742dda0b0/junit-jupiter-api-5.1.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.3">
+    <library name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.1.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.0.3/52fcc461185c48178608f687e962de6484dfb69e/junit-jupiter-engine-5.0.3.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.1.0/c54b96b465bb5b49c7708d734a4180dd95422754/junit-jupiter-engine-5.1.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.0.3/bcea6e473e53c7f49140de7d4e7bbe1d9cce2742/junit-jupiter-engine-5.0.3-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.1.0/be575ea16f5f3d675a8bccda48c9fb54cc8741df/junit-jupiter-engine-5.1.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.0.3/e6352b8b5e96031caa21f0d6f799d559a13960f5/junit-jupiter-engine-5.0.3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.1.0/6ee32e577850a9004e80a5685ff1afe5af781837/junit-jupiter-engine-5.1.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.junit.jupiter:junit-jupiter-params:5.0.3">
+    <library name="Gradle: org.junit.jupiter:junit-jupiter-params:5.1.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-params/5.0.3/2040154af126813745d61af0496f579ff688d20e/junit-jupiter-params-5.0.3.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-params/5.1.0/80a2ce4c1aed8a58eaca9ef019eef1d1f33fd334/junit-jupiter-params-5.1.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-params/5.0.3/be59495f4546cca06aa1814b047a26410d01700a/junit-jupiter-params-5.0.3-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-params/5.1.0/82556e303328c65c8ed2488fa19c2445c0f4cd73/junit-jupiter-params-5.1.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-params/5.0.3/a9b1202ae91d4fbe80c589a99efab8c3a0ef84b6/junit-jupiter-params-5.0.3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-params/5.1.0/ec235300af48b07832e5efa2ce2e571f747fb8ca/junit-jupiter-params-5.1.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.junit.platform:junit-platform-commons:1.0.3">
+    <library name="Gradle: org.junit.platform:junit-platform-commons:1.1.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.0.3/3663f3ddfe47df2a7bf363d5c0196f0c7a09820f/junit-platform-commons-1.0.3.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.1.0/d6aa21029f9cedfb4cc8a9e9efc0bd97987205b8/junit-platform-commons-1.1.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.0.3/4df4a75c9f6aa450fe90bdb624a658876ded2fd9/junit-platform-commons-1.0.3-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.1.0/61676aab12f79b5c087fcbc438bcad5e174613d2/junit-platform-commons-1.1.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.0.3/112d0f72ac2aa049c9004e1f76d05ec49a83e283/junit-platform-commons-1.0.3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.1.0/39d7c2eec7178ba6e53445a2851e66a966a7472f/junit-platform-commons-1.1.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.junit.platform:junit-platform-engine:1.0.3">
+    <library name="Gradle: org.junit.platform:junit-platform-engine:1.1.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.0.3/7028a17adabd876b6d7530e43523a7f4fd109e18/junit-platform-engine-1.0.3.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.1.0/2596bd4d909e7ea8d029272db4338075445d731b/junit-platform-engine-1.1.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.0.3/561475801463771e7123952c5da93d49bfeecd9c/junit-platform-engine-1.0.3-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.1.0/2c80dceae2027cfcc1f89b5a6f01eb415eaa0ab9/junit-platform-engine-1.1.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.0.3/b250bf811bb2bd2160bc6a6d9804453c389f502a/junit-platform-engine-1.0.3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.1.0/ec15fab8c638286957da5f1916088c8031c19a2/junit-platform-engine-1.1.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.junit.platform:junit-platform-launcher:1.0.3">
+    <library name="Gradle: org.junit.platform:junit-platform-launcher:1.1.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-launcher/1.0.3/91d799c70c3a597631883b77117046e09d6a4419/junit-platform-launcher-1.0.3.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-launcher/1.1.0/ba098edde4e59cacd9225e238ea3ad9c946684ab/junit-platform-launcher-1.1.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-launcher/1.0.3/21d8b8a3606b1e12be0d7078e0f2fcb623cb53cb/junit-platform-launcher-1.0.3-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-launcher/1.1.0/e5821d55dd59476ab4c10d59d68e4874356c4797/junit-platform-launcher-1.1.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-launcher/1.0.3/7f959672fed0b3bfd949930749ea5331e9fa881e/junit-platform-launcher-1.0.3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-launcher/1.1.0/e2ebb954d6c1ea5cda1d2d09bb5f645e8e219f94/junit-platform-launcher-1.1.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.locationtech.spatial4j:spatial4j:0.6">

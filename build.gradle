@@ -71,7 +71,7 @@ subprojects {
     }
 
     findbugs {
-        toolVersion = "3.0.1"
+        toolVersion = "3.0.2"
         ignoreFailures = true
         reportsDir = file("$project.buildDir/reports/findbugs")
         effort = "max"
@@ -84,7 +84,7 @@ subprojects {
 
     pmd {
         ignoreFailures = true
-        toolVersion = '5.5.0'
+        toolVersion = '6.0.1'
 
         ruleSets = [
                 "java-basic",
@@ -129,7 +129,7 @@ subprojects {
     }
 
     jacoco {
-        toolVersion = "0.7.9"
+        toolVersion = "0.8.0"
     }
 
     jacocoTestReport {
@@ -225,13 +225,13 @@ subprojects {
         compile "com.fasterxml.jackson.core:jackson-databind:$jackson"
         compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson"
 
-        compile 'org.json:json:20171018'
+        compile "org.json:json:20171018"
 
         compile "commons-fileupload:commons-fileupload:$commonsfileupload"
         compile "commons-io:commons-io:$commonsio"
         compile "commons-validator:commons-validator:$commonsvalidator"
-        compile 'commons-codec:commons-codec:1.11'
-        compile 'commons-logging:commons-logging:1.2'
+        compile "commons-codec:commons-codec:1.11"
+        compile "commons-logging:commons-logging:1.2"
 
         compile "javax.mail:javax.mail-api:$javaxMail"
         compile "javax.validation:validation-api:$javaxValidation"
@@ -243,7 +243,7 @@ subprojects {
         compile "org.apache.tika:tika-parsers:$tika"
         compile "org.apache.tika:tika-core:$tika"
         compile "org.apache.httpcomponents:httpclient:$httpclient"
-        compile 'org.apache.commons:commons-collections4:4.1'
+        compile "org.apache.commons:commons-collections4:4.1"
 
         compile "ch.qos.logback:logback-core:$logback"
         compile "ch.qos.logback:logback-classic:$logback"
@@ -251,7 +251,7 @@ subprojects {
         compile "net.bull.javamelody:javamelody-core:$javamelody"
         /** Because using org.junit.Assert in code. */
         compile "org.junit.jupiter:junit-jupiter-engine:$junit5"
-        compile 'org.hamcrest:hamcrest-all:1.3'
+        compile "org.hamcrest:hamcrest-all:1.3"
 
         testCompile "org.junit.jupiter:junit-jupiter-api:$junit5"
         testCompile "org.mockito:mockito-core:$mockito"
