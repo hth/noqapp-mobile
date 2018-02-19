@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.listener;
 
+import com.maxmind.geoip2.DatabaseReader;
 import com.noqapp.common.utils.CommonUtil;
 import org.elasticsearch.action.main.MainResponse;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -39,18 +40,21 @@ public class NoQAppInitializationCheckBean {
     private DataSource dataSource;
     private FirebaseConfig firebaseConfig;
     private RestHighLevelClient restHighLevelClient;
+    private DatabaseReader databaseReader;
 
     @Autowired
     public NoQAppInitializationCheckBean(
             Environment environment,
             DataSource dataSource,
             FirebaseConfig firebaseConfig,
-            RestHighLevelClient restHighLevelClient
+            RestHighLevelClient restHighLevelClient,
+            DatabaseReader databaseReader
     ) {
         this.environment = environment;
         this.dataSource = dataSource;
         this.firebaseConfig = firebaseConfig;
         this.restHighLevelClient = restHighLevelClient;
+        this.databaseReader = databaseReader;
     }
 
     @PostConstruct
@@ -90,6 +94,16 @@ public class NoQAppInitializationCheckBean {
             LOG.error("Elastic on Mobile could not be connected");
             throw new RuntimeException("Elastic on Mobile could not be connected");
         }
+    }
+
+    @PostConstruct
+    public void checkGeoLite() {
+        LOG.info("{} major={} minor={}\n  buildDate={}\n  ipVersion={}\n ",
+                databaseReader.getMetadata().getDatabaseType(),
+                databaseReader.getMetadata().getBinaryFormatMajorVersion(),
+                databaseReader.getMetadata().getBinaryFormatMinorVersion(),
+                databaseReader.getMetadata().getBuildDate(),
+                databaseReader.getMetadata().getIpVersion());
     }
 
     @PreDestroy
