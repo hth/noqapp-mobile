@@ -1,5 +1,6 @@
 package com.noqapp.mobile.security;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +13,6 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.util.StringUtils;
 
 import com.noqapp.domain.site.QueueUser;
 import com.noqapp.domain.types.RoleEnum;
@@ -20,7 +20,6 @@ import com.noqapp.domain.types.RoleEnum;
 import java.io.IOException;
 import java.util.Collection;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -53,8 +52,8 @@ public class OnLoginAuthenticationSuccessHandler extends SimpleUrlAuthentication
             final HttpServletRequest request,
             final HttpServletResponse response,
             final Authentication authentication
-    ) throws ServletException, IOException {
-        if (null != request.getHeader("cookie")) {
+    ) throws IOException {
+        if (StringUtils.isBlank(request.getHeader("cookie"))) {
             handle(request, response, authentication);
             clearAuthenticationAttributes(request);
         } else {
@@ -78,8 +77,9 @@ public class OnLoginAuthenticationSuccessHandler extends SimpleUrlAuthentication
         }
 
         final String targetUrlParameter = getTargetUrlParameter();
-        if (isAlwaysUseDefaultTargetUrl() || targetUrlParameter != null &&
-                StringUtils.hasText(request.getParameter(targetUrlParameter))) {
+        if (isAlwaysUseDefaultTargetUrl()
+                || targetUrlParameter != null
+                && StringUtils.isNotBlank(request.getParameter(targetUrlParameter))) {
             requestCache.removeRequest(request, response);
             clearAuthenticationAttributes(request);
             return;
