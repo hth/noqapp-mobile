@@ -10,6 +10,7 @@ ext {
     javaClasses = file("$webInf/classes")
     conf = file("$javaClasses/conf")
     xslfo = file("$javaClasses/xslfo")
+    geo_db = file("$javaClasses/geo_db")
     images = file("$javaClasses/images")
 
     warDir = file("$buildDir/explodedWar/$env")
@@ -18,6 +19,7 @@ ext {
     warClassesDir = file("$warDir$javaClasses")
     warConfDir = file("$warDir$conf")
     warXslfoDir = file("$warDir$xslfo")
+    warGeoDBDir = file("$warDir$geo_db")
     warWebInfClassesImagesDir = file("$warDir$images")
 
     unzipDir = file("${buildDir}/unpacked/dist")
@@ -30,6 +32,10 @@ ext {
     firebaseFileLocal = file('view/resources/conf/noq-app-inc-firebase-adminsdk.json')
     firebaseFileTest = file(firebaseAdminTestFileLocation)
     firebaseFileProd = file(firebaseAdminProdFileLocation)
+
+    geoDBLocal = file('view/resources/geo_db/GeoLite2-City.mmdb')
+    geoDBTest = file(geoDBTestFileLocation)
+    geoDBProd = file(geoDBProdFileLocation)
 }
 
 buildscript {
@@ -226,6 +232,7 @@ subprojects {
         compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson"
 
         compile "org.json:json:20171018"
+        compile "com.maxmind.geoip2:geoip2:$geoip2"
 
         compile "commons-fileupload:commons-fileupload:$commonsfileupload"
         compile "commons-io:commons-io:$commonsio"
@@ -519,6 +526,36 @@ task prepWar(dependsOn: [
 
             into warConfDir
         }
+
+        copy {
+            if (env == 'prod') {
+                if (geoDBProd.exists()) {
+                    from geoDBProdFileLocation;
+                } else {
+                    throw new Exception("Required GeoLite file does not exists: $geoDBProdFileLocation.canonicalPath")
+                }
+            }
+
+            if (env == 'sandbox') {
+                if (geoDBTest.exists()) {
+                    from geoDBTestFileLocation;
+                } else {
+                    throw new Exception("Required GeoLite file does not exists: $geoDBTestFileLocation.canonicalPath")
+                }
+            }
+
+            if (env == 'dev') {
+                println "Development environment, getting local GeoLite file $geoDBLocal.canonicalPath"
+                if (geoDBLocal.exists()) {
+                    from 'view/resources/geo_db/GeoLite2-City.mmdb'
+                } else {
+                    throw new Exception("Required GeoLite file does not exists: $geoDBProdFileLocation.canonicalPath")
+                }
+            }
+
+            into warGeoDBDir
+        }
+
 
         copy {
             from "view/environment/$env/logback.xml"
