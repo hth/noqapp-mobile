@@ -71,7 +71,7 @@ subprojects {
     }
 
     findbugs {
-        toolVersion = "3.0.2"
+        toolVersion = "3.0.1"
         ignoreFailures = true
         reportsDir = file("$project.buildDir/reports/findbugs")
         effort = "max"
