@@ -288,14 +288,6 @@
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial3d:7.2.1" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial:7.2.1" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-suggest:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:parent-join-client:6.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-cli:6.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-core:6.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:6.2.1" />
             <element id="library" level="project" name="Gradle: org.elasticsearch:jna:4.5.1" />
             <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.8.11" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.71.0" />
@@ -339,6 +331,14 @@
             <element id="library" level="project" name="Gradle: org.springframework:spring-tx:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-web:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.2.2" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.2" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.2.2" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:parent-join-client:6.2.2" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.2.2" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-cli:6.2.2" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-core:6.2.2" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:6.2.2" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -389,12 +389,26 @@
             <element id="library" level="project" name="Gradle: com.noqapp:social:1.2" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-redis:2.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:2.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-keyvalue:2.0.2.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-context-support:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-context:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-aop:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-aspects:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-jms:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-web:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:2.0.2.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-messaging:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-tx:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-oxm:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-beans:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-test:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-expression:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-core:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-instrument:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.5.0" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.1" />
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.10.0" />
             <element id="library" level="project" name="Gradle: com.braintreepayments.gateway:braintree-java:2.74.1" />
             <element id="library" level="project" name="Gradle: redis.clients:jedis:2.9.0" />
@@ -422,10 +436,6 @@
             <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.25" />
             <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.3.1.Final" />
             <element id="library" level="project" name="Gradle: mysql:mysql-connector-java:6.0.6" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:parent-join-client:6.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:6.2.1" />
             <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-storage:1.7.0" />
             <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-firestore:0.25.0-beta" />
             <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-core-http:1.7.0" />
@@ -473,7 +483,6 @@
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-scratchpad:3.17" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-ooxml:3.17" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi:3.17" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.2.1" />
             <element id="library" level="project" name="Gradle: com.google.oauth-client:google-oauth-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-appengine:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson:1.22.0" />
@@ -500,7 +509,7 @@
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.1.0" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-all:1.3" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.13" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-core:6.2.1" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-jcl:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-api:2.10.0" />
             <element id="library" level="project" name="Gradle: org.osgi:org.osgi.core:4.2.0" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-pool2:2.4.2" />
@@ -598,7 +607,6 @@
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial3d:7.2.1" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-suggest:7.2.1" />
             <element id="library" level="project" name="Gradle: org.elasticsearch:securesm:1.2" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-cli:6.2.1" />
             <element id="library" level="project" name="Gradle: com.carrotsearch:hppc:0.7.1" />
             <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.17" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.8.10" />
@@ -651,31 +659,23 @@
             <element id="library" level="project" name="Gradle: javax.annotation:javax.annotation-api:1.2" />
             <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11" />
             <element id="library" level="project" name="Gradle: org.checkerframework:checker-compat-qual:2.0.0" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-aspects:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-config:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-crypto:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-taglibs:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-core:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-acl:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-web:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-jdbc:5.0.3.RELEASE" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/5.0.4.RELEASE/addcf1caa22613c474bd6dde8c7134fef940b1f0/spring-webmvc-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-config/5.0.1.RELEASE/28390bde73094e23c8cef1b87d25a0bf7c02398a/spring-security-config-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-aspects/5.0.1.RELEASE/97eee12fcc1ba493935e3614d0114161cdd31cef/spring-security-aspects-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-taglibs/5.0.1.RELEASE/dbff52a256f14309e41da252682ab6f59aa260cd/spring-security-taglibs-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-web/5.0.1.RELEASE/55ee649a551a23f1efa528b8c9884624dc3a085/spring-security-web-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-acl/5.0.1.RELEASE/9250959d8c107f4b71a93b08bc06b57629112809/spring-security-acl-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-core/5.0.1.RELEASE/87b04110bfd85745c84afba3d7cb1ff82b2bae65/spring-security-core-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context-support/5.0.4.RELEASE/b40b6c00f8725a31dc968bc33fe8959f14898c9d/spring-context-support-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/5.0.4.RELEASE/3e76d08c851113077642c5704f0f94d5ce58e905/spring-context-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/5.0.4.RELEASE/f8e029e54c0267dadb6b9f713f3feb54ec4f3a0e/spring-aop-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aspects/5.0.4.RELEASE/454ee13fc4f439065572dd526e81c699d1d61e3e/spring-aspects-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jms/5.0.4.RELEASE/da53c07028cbc5011540a21ef1391fb97c89b4c/spring-jms-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-messaging/5.0.4.RELEASE/21c0ee684684c50a6b13eaa894b2ceb3860dff12/spring-messaging-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jdbc/5.0.3.RELEASE/3d9683a2e23a693579ebe762eb7a0a468908603d/spring-jdbc-5.0.3.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/5.0.4.RELEASE/9565bbc67bf1a850a6505deaa5103931712a7b80/spring-web-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-tx/5.0.4.RELEASE/7afc193c5d2b812ee6d2ccaf6fcc81fb83bfb4a7/spring-tx-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-oxm/5.0.4.RELEASE/f1a6225817e1ed21d2f76ac190e46d16f4374b42/spring-oxm-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/5.0.4.RELEASE/7a8c3d48d4c33621e64d1399721d8e067450fcbd/spring-beans-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-test/5.0.4.RELEASE/3fc10b6535a113593fa8780951465012a7677e21/spring-test-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/5.0.4.RELEASE/4bda161f2e34c1486f2527a23eb47293567f473c/spring-expression-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/5.0.4.RELEASE/2221a957b5561a34f044350ba4e30ef5870254a3/spring-core-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-instrument/5.0.4.RELEASE/557029d86c94550a8c13cc3eceb5cb3e08474d69/spring-instrument-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-crypto/5.0.1.RELEASE/bb9a11d19a049f932179dde483211dac8262b58f/spring-security-crypto-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jcl/5.0.4.RELEASE/3053e2bad0a18571bdbb9596ce51f9d458f5934f/spring-jcl-5.0.4.RELEASE.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.2.2/9332f4785d2b92219bc4bca50ead15068fae5df1/elasticsearch-rest-high-level-client-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.2.2/a4bbe5dff615448a053724ffb82d05652e5076c0/parent-join-client-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.2.2/20a6d34387658924b069bd760c0bba683a9e5f9a/aggs-matrix-stats-client-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.2.2/2b5324074398312aed3472649d2b645f4e8a5bd8/rank-eval-client-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.2.2/16b3f7a7a31b89144723eb85c0583234842f684/elasticsearch-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.2.2/d2d12847f08179263d880f329ad8eee748e090e1/elasticsearch-rest-client-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.2.2/9c4df6cf94410bec51e1abe1343be9051358eda/elasticsearch-core-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.2.2/b37d7ace8c360f6f244bd654a9271a44e77a8d82/elasticsearch-cli-6.2.2.jar" />
           </element>
         </element>
       </root>
@@ -727,12 +727,26 @@
             <element id="library" level="project" name="Gradle: com.noqapp:social:1.2" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-redis:2.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:2.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-keyvalue:2.0.2.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-context-support:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-context:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-aop:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-aspects:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-jms:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-web:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:2.0.2.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-messaging:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-tx:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-oxm:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-beans:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-test:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-expression:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-core:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-instrument:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.5.0" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.1" />
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.10.0" />
             <element id="library" level="project" name="Gradle: com.braintreepayments.gateway:braintree-java:2.74.1" />
             <element id="library" level="project" name="Gradle: redis.clients:jedis:2.9.0" />
@@ -760,10 +774,6 @@
             <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.25" />
             <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.3.1.Final" />
             <element id="library" level="project" name="Gradle: mysql:mysql-connector-java:6.0.6" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:parent-join-client:6.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:6.2.1" />
             <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-storage:1.7.0" />
             <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-firestore:0.25.0-beta" />
             <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-core-http:1.7.0" />
@@ -811,7 +821,6 @@
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-scratchpad:3.17" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-ooxml:3.17" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi:3.17" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.2.1" />
             <element id="library" level="project" name="Gradle: com.google.oauth-client:google-oauth-client:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-appengine:1.22.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson:1.22.0" />
@@ -838,7 +847,7 @@
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.1.0" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-all:1.3" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.13" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-core:6.2.1" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-jcl:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-api:2.10.0" />
             <element id="library" level="project" name="Gradle: org.osgi:org.osgi.core:4.2.0" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-pool2:2.4.2" />
@@ -936,7 +945,6 @@
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial3d:7.2.1" />
             <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-suggest:7.2.1" />
             <element id="library" level="project" name="Gradle: org.elasticsearch:securesm:1.2" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-cli:6.2.1" />
             <element id="library" level="project" name="Gradle: com.carrotsearch:hppc:0.7.1" />
             <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.17" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.8.10" />
@@ -989,35 +997,27 @@
             <element id="library" level="project" name="Gradle: javax.annotation:javax.annotation-api:1.2" />
             <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11" />
             <element id="library" level="project" name="Gradle: org.checkerframework:checker-compat-qual:2.0.0" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-aspects:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-config:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-crypto:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-taglibs:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-core:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-acl:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-web:5.0.1.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework:spring-jdbc:5.0.3.RELEASE" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
             <element id="archive" name="com.noqapp.mobile-service.jar">
               <element id="module-output" name="service_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/service/out/production/resources" />
             </element>
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/5.0.4.RELEASE/addcf1caa22613c474bd6dde8c7134fef940b1f0/spring-webmvc-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-config/5.0.1.RELEASE/28390bde73094e23c8cef1b87d25a0bf7c02398a/spring-security-config-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-aspects/5.0.1.RELEASE/97eee12fcc1ba493935e3614d0114161cdd31cef/spring-security-aspects-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-taglibs/5.0.1.RELEASE/dbff52a256f14309e41da252682ab6f59aa260cd/spring-security-taglibs-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-web/5.0.1.RELEASE/55ee649a551a23f1efa528b8c9884624dc3a085/spring-security-web-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-acl/5.0.1.RELEASE/9250959d8c107f4b71a93b08bc06b57629112809/spring-security-acl-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-core/5.0.1.RELEASE/87b04110bfd85745c84afba3d7cb1ff82b2bae65/spring-security-core-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context-support/5.0.4.RELEASE/b40b6c00f8725a31dc968bc33fe8959f14898c9d/spring-context-support-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/5.0.4.RELEASE/3e76d08c851113077642c5704f0f94d5ce58e905/spring-context-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/5.0.4.RELEASE/f8e029e54c0267dadb6b9f713f3feb54ec4f3a0e/spring-aop-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aspects/5.0.4.RELEASE/454ee13fc4f439065572dd526e81c699d1d61e3e/spring-aspects-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jms/5.0.4.RELEASE/da53c07028cbc5011540a21ef1391fb97c89b4c/spring-jms-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-messaging/5.0.4.RELEASE/21c0ee684684c50a6b13eaa894b2ceb3860dff12/spring-messaging-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jdbc/5.0.3.RELEASE/3d9683a2e23a693579ebe762eb7a0a468908603d/spring-jdbc-5.0.3.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/5.0.4.RELEASE/9565bbc67bf1a850a6505deaa5103931712a7b80/spring-web-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-tx/5.0.4.RELEASE/7afc193c5d2b812ee6d2ccaf6fcc81fb83bfb4a7/spring-tx-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-oxm/5.0.4.RELEASE/f1a6225817e1ed21d2f76ac190e46d16f4374b42/spring-oxm-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/5.0.4.RELEASE/7a8c3d48d4c33621e64d1399721d8e067450fcbd/spring-beans-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-test/5.0.4.RELEASE/3fc10b6535a113593fa8780951465012a7677e21/spring-test-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/5.0.4.RELEASE/4bda161f2e34c1486f2527a23eb47293567f473c/spring-expression-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/5.0.4.RELEASE/2221a957b5561a34f044350ba4e30ef5870254a3/spring-core-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-instrument/5.0.4.RELEASE/557029d86c94550a8c13cc3eceb5cb3e08474d69/spring-instrument-5.0.4.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-crypto/5.0.1.RELEASE/bb9a11d19a049f932179dde483211dac8262b58f/spring-security-crypto-5.0.1.RELEASE.jar" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jcl/5.0.4.RELEASE/3053e2bad0a18571bdbb9596ce51f9d458f5934f/spring-jcl-5.0.4.RELEASE.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.2.2/9332f4785d2b92219bc4bca50ead15068fae5df1/elasticsearch-rest-high-level-client-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.2.2/a4bbe5dff615448a053724ffb82d05652e5076c0/parent-join-client-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.2.2/20a6d34387658924b069bd760c0bba683a9e5f9a/aggs-matrix-stats-client-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.2.2/2b5324074398312aed3472649d2b645f4e8a5bd8/rank-eval-client-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.2.2/16b3f7a7a31b89144723eb85c0583234842f684/elasticsearch-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.2.2/d2d12847f08179263d880f329ad8eee748e090e1/elasticsearch-rest-client-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.2.2/9c4df6cf94410bec51e1abe1343be9051358eda/elasticsearch-core-6.2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.2.2/b37d7ace8c360f6f244bd654a9271a44e77a8d82/elasticsearch-cli-6.2.2.jar" />
           </element>
         </element>
       </root>
@@ -3815,92 +3815,92 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.codelibs/jhighlight/1.0.2/b721e136ac6ff410a5ebca2755d7d8c25e6adf7f/jhighlight-1.0.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.2.1">
+    <library name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.2.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.2.1/7a85acc9c2cd0bb91b389968e51bed8a20f99c2d/elasticsearch-rest-client-6.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.2.2/d2d12847f08179263d880f329ad8eee748e090e1/elasticsearch-rest-client-6.2.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.2.1/6af1b6f2a0f491ecf78f735acef9acf25f6023c0/elasticsearch-rest-client-6.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.2.2/f10c74546b57b1d16bf387f90c1a04616f3b301a/elasticsearch-rest-client-6.2.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.2.1/8fe0cb6c33df561b26367441527a82d0e5d70e5/elasticsearch-rest-client-6.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.2.2/2653daa776da0dca637b0f126149f3b2ac747411/elasticsearch-rest-client-6.2.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.1">
+    <library name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.2.1/3cbdde05753320b74a85a3a3a59787146d30c16e/elasticsearch-rest-high-level-client-6.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.2.2/9332f4785d2b92219bc4bca50ead15068fae5df1/elasticsearch-rest-high-level-client-6.2.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.2.1/ee3b573c3721a9d265c3544f0f548277db17dd03/elasticsearch-rest-high-level-client-6.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.2.2/e95ffad55cfb411738c99d7fdb2a1f5c7b0db86a/elasticsearch-rest-high-level-client-6.2.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.2.1/6aefa58d9587afe1a95aa3690bc68b5d3cc2d085/elasticsearch-rest-high-level-client-6.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.2.2/b14ce519b8a463f54b16bc6022235e276938039b/elasticsearch-rest-high-level-client-6.2.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.2.1">
+    <library name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.2.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.2.1/92345ce38647a1819971cdb2a390c7df247da3aa/aggs-matrix-stats-client-6.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.2.2/20a6d34387658924b069bd760c0bba683a9e5f9a/aggs-matrix-stats-client-6.2.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.2.1/dab4bcbac213850ca82d018986a8aa8872152af8/aggs-matrix-stats-client-6.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.2.2/cbf5c7a08c8997b226a0dce0d89dd0ebafed9f4d/aggs-matrix-stats-client-6.2.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.2.1/2ccdcd3cf6a15dd88aa7182f775cf8c9cff36718/aggs-matrix-stats-client-6.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.2.2/429329159393d80a17011d18f9917a9b36382bed/aggs-matrix-stats-client-6.2.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch.plugin:parent-join-client:6.2.1">
+    <library name="Gradle: org.elasticsearch.plugin:parent-join-client:6.2.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.2.1/6a96ac23429e47848ccc616df0df0be612aad598/parent-join-client-6.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.2.2/a4bbe5dff615448a053724ffb82d05652e5076c0/parent-join-client-6.2.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.2.1/ae92d8b3cc4187d047a8b3c77a50e79446e46749/parent-join-client-6.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.2.2/abfc801ab68c7cda1b8486ffa8168fcfafee144b/parent-join-client-6.2.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.2.1/4fd04d26ddfacc396405ff7dcddafad1e0193e33/parent-join-client-6.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.2.2/6716025193ff85f23fd4bddd757b22e471c0a1ca/parent-join-client-6.2.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.2.1">
+    <library name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.2.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.2.1/7457db0b7dac890c453d6651f3beb5c061e23c7e/rank-eval-client-6.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.2.2/2b5324074398312aed3472649d2b645f4e8a5bd8/rank-eval-client-6.2.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.2.1/49c013f462b4105ee3a05beb0c248f932a8fe38b/rank-eval-client-6.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.2.2/e331e82dca190dbdcc39fee2b0aa4848b6123c88/rank-eval-client-6.2.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.2.1/16a658fae4e5a4bb6a397e007267db932ead35a2/rank-eval-client-6.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.2.2/c0bf77777aa750decb754c0093f4e0483d8ef45c/rank-eval-client-6.2.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch:elasticsearch-cli:6.2.1">
+    <library name="Gradle: org.elasticsearch:elasticsearch-cli:6.2.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.2.1/e3b6d041cd2686f8b2164db199c1f8e8fc876526/elasticsearch-cli-6.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.2.2/b37d7ace8c360f6f244bd654a9271a44e77a8d82/elasticsearch-cli-6.2.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.2.1/fe00bcd78690e7e2fafd1658fa32f42f113d69ee/elasticsearch-cli-6.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.2.2/d71b998e876b91a3074b4815919867709c58a693/elasticsearch-cli-6.2.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.2.1/74768092e2ea8ef31a1f57abf982435ee46a8b23/elasticsearch-cli-6.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.2.2/6057e95d1171a3513c14bad720ec8b2d95ec4227/elasticsearch-cli-6.2.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch:elasticsearch-core:6.2.1">
+    <library name="Gradle: org.elasticsearch:elasticsearch-core:6.2.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.2.1/e3a2cd926976b0d372d5d6db6614236c96bfcd39/elasticsearch-core-6.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.2.2/9c4df6cf94410bec51e1abe1343be9051358eda/elasticsearch-core-6.2.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.2.1/b95522fce79f7c431a4d12246a1dd8ed323cbcc9/elasticsearch-core-6.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.2.2/4d83405acd2e5ee0ee4ff9e73e608ed2af1c537/elasticsearch-core-6.2.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.2.1/d6ed8beabe3897645cbbbdd950f86c5434a2c4d0/elasticsearch-core-6.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.2.2/e4bbc0e7eb371e21c661a0a0d70aa2f0945317dc/elasticsearch-core-6.2.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch:elasticsearch:6.2.1">
+    <library name="Gradle: org.elasticsearch:elasticsearch:6.2.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.2.1/8091597796d15cc7f7a59030ddd28efa2395fdab/elasticsearch-6.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.2.2/16b3f7a7a31b89144723eb85c0583234842f684/elasticsearch-6.2.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.2.1/2e9fb8dcc27a5cc44b2f91fec800ad00684ba7c0/elasticsearch-6.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.2.2/27428d2b49dba67e29ea2c6fdb0806b264bcc2f2/elasticsearch-6.2.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.2.1/d679e6174b9241a78104a0b45a07d69892b6a511/elasticsearch-6.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.2.2/440144fc6cd39080333fb4c33f75f37847161eaf/elasticsearch-6.2.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.elasticsearch:jna:4.5.1">
