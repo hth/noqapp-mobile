@@ -47,7 +47,13 @@ public class ParseTokenFCM {
         try {
             map = ParseJsonStringToMap.jsonStringToMap(tokenJson);
             if (map.isEmpty()) {
-                /** Validation failure as there is not data in the map. */
+                /* Validation failure as there is not data in the map. */
+                errorResponse = getErrorReason("Failed data validation.", USER_INPUT);
+            }
+
+            if (null == map.get("tk")) {
+                LOG.error("Found empty firebase token contains={} but value={}", map.containsKey("tk"), map.get("tk"));
+                /* Validation failure as there is not data in the map. */
                 errorResponse = getErrorReason("Failed data validation.", USER_INPUT);
             }
 
@@ -55,7 +61,7 @@ public class ParseTokenFCM {
             if (StringUtils.isBlank(tokenFCM)) {
                 errorResponse = getErrorReason("Failed data validation.", USER_INPUT);
             }
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             LOG.error("Could not parse json={} errorResponse={}", tokenJson, e.getLocalizedMessage(), e);
             errorResponse = ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
         }
