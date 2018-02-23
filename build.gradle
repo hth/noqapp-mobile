@@ -62,8 +62,8 @@ subprojects {
     apply plugin: 'jacoco'      //for code coverage
     apply plugin: 'org.junit.platform.gradle.plugin'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 9
+    targetCompatibility = 9
 
     sourceSets {
         test {
