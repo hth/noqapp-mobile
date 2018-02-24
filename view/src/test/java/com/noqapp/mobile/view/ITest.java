@@ -143,7 +143,7 @@ public class ITest extends RealMongoForITest {
     private AccountClientController accountClientController;
     private MockEnvironment mockEnvironment;
 
-    @Mock protected WebConnectorService webConnectorService;
+    private WebConnectorService webConnectorService;
     @Mock protected QueueManagerJDBC queueManagerJDBC;
     @Mock protected HttpServletResponse httpServletResponse;
 
@@ -185,6 +185,15 @@ public class ITest extends RealMongoForITest {
             emailValidateService,
             inviteService,
             forgotRecoverManager
+        );
+
+        webConnectorService = new WebConnectorService(
+                "/webapi/mobile/get.htm",
+                "could not connect to server",
+                "webApiAccessToken",
+                "8080",
+                "http",
+                "localhost"
         );
 
         accountMobileService = new AccountMobileService(
