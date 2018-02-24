@@ -7,6 +7,7 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonQueuePersonList;
+import com.noqapp.domain.json.JsonQueuedPerson;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
@@ -351,10 +352,15 @@ class ManageQueueControllerITest extends ITest {
 
         JsonQueuePersonList jsonQueuePersonList = new ObjectMapper().readValue(jsonQueuePerson, JsonQueuePersonList.class);
         assertEquals(2, jsonQueuePersonList.getQueuedPeople().size());
-        assertEquals(client2.getName(), jsonQueuePersonList.getQueuedPeople().iterator().next().getCustomerName());
-        assertEquals(client2.getPhone(), jsonQueuePersonList.getQueuedPeople().iterator().next().getCustomerPhone());
-        assertEquals(2, jsonQueuePersonList.getQueuedPeople().iterator().next().getToken());
-        assertNull(jsonQueuePersonList.getQueuedPeople().iterator().next().getServerDeviceId());
+
+        JsonQueuedPerson jsonQueuedPerson = jsonQueuePersonList.getQueuedPeople().get(0);
+        if (jsonQueuedPerson.getToken() != 2) {
+            jsonQueuedPerson = jsonQueuePersonList.getQueuedPeople().get(1);
+        }
+        assertEquals(client2.getName(), jsonQueuedPerson.getCustomerName());
+        assertEquals(client2.getPhone(), jsonQueuedPerson.getCustomerPhone());
+        assertEquals(2, jsonQueuedPerson.getToken());
+        assertNull(jsonQueuedPerson.getServerDeviceId());
     }
 
     @Test
