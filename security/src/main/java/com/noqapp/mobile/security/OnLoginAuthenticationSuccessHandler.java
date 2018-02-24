@@ -53,7 +53,7 @@ public class OnLoginAuthenticationSuccessHandler extends SimpleUrlAuthentication
             final HttpServletResponse response,
             final Authentication authentication
     ) throws IOException {
-        if (StringUtils.isBlank(request.getHeader("cookie"))) {
+        if (StringUtils.isNotBlank(request.getHeader("cookie"))) {
             handle(request, response, authentication);
             clearAuthenticationAttributes(request);
         } else {
