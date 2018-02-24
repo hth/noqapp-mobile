@@ -130,7 +130,6 @@
             <element id="library" level="project" name="Gradle: org.apache.james:apache-mime4j-dom:0.8.1" />
             <element id="library" level="project" name="Gradle: org.apache.pdfbox:jempbox:1.8.13" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi:3.17" />
-            <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.5.0" />
             <element id="library" level="project" name="Gradle: org.slf4j:jul-to-slf4j:1.7.24" />
             <element id="library" level="project" name="Gradle: org.tukaani:xz:1.6" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
@@ -189,12 +188,6 @@
             <element id="library" level="project" name="Gradle: io.opencensus:opencensus-api:0.5.1" />
             <element id="library" level="project" name="Gradle: com.squareup.okhttp3:okhttp:3.9.1" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.13" />
-            <element id="library" level="project" name="Gradle: com.noqapp:common:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:domain:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:health:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:search:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:service:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:social:1.2" />
             <element id="library" level="project" name="Gradle: org.awaitility:awaitility:3.0.0" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-core:1.3" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-library:1.3" />
@@ -293,8 +286,6 @@
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjrt:1.8.13" />
             <element id="library" level="project" name="Gradle: org.mockito:mockito-core:2.15.0" />
             <element id="library" level="project" name="Gradle: org.mockito:mockito-inline:2.15.0" />
-            <element id="library" level="project" name="Gradle: de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.0" />
-            <element id="library" level="project" name="Gradle: de.flapdoodle.embed:de.flapdoodle.embed.process:2.0.1" />
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.1.0" />
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.1.0" />
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-params:5.1.0" />
@@ -319,9 +310,7 @@
             <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-taglibs:5.0.0.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-web:5.0.0.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-jdbc:5.0.2.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:2.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-keyvalue:2.0.4.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:2.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-redis:2.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-aop:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-aspects:5.0.4.RELEASE" />
@@ -339,6 +328,17 @@
             <element id="library" level="project" name="Gradle: org.springframework:spring-tx:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-web:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: com.noqapp:common:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:domain:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:health:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:search:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:service:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:social:1.3" />
+            <element id="library" level="project" name="Gradle: de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.3" />
+            <element id="library" level="project" name="Gradle: de.flapdoodle.embed:de.flapdoodle.embed.process:2.0.2" />
+            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:2.1.0.M1" />
+            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:2.1.0.M1" />
+            <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.6.3" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -381,12 +381,12 @@
               <element id="module-output" name="common_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/common/out/production/resources" />
             </element>
-            <element id="library" level="project" name="Gradle: com.noqapp:common:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:domain:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:health:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:service:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:search:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:social:1.2" />
+            <element id="library" level="project" name="Gradle: com.noqapp:common:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:domain:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:health:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:service:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:search:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:social:1.3" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.0.4.RELEASE" />
@@ -398,25 +398,25 @@
             <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-core:5.0.0.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-redis:2.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-context-support:5.0.4.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:2.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:2.1.0.M1" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-keyvalue:2.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-context:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-aop:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-aspects:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-jms:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-oxm:5.0.4.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:2.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-messaging:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-jdbc:5.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-web:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-tx:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:2.1.0.M1" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-beans:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-test:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-expression:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-core:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-instrument:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-crypto:5.0.0.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.5.0" />
+            <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.6.3" />
             <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.2" />
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.10.0" />
             <element id="library" level="project" name="Gradle: com.braintreepayments.gateway:braintree-java:2.74.1" />
@@ -719,12 +719,12 @@
               <element id="module-output" name="common_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/common/out/production/resources" />
             </element>
-            <element id="library" level="project" name="Gradle: com.noqapp:common:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:domain:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:health:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:service:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:search:1.2" />
-            <element id="library" level="project" name="Gradle: com.noqapp:social:1.2" />
+            <element id="library" level="project" name="Gradle: com.noqapp:common:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:domain:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:health:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:service:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:search:1.3" />
+            <element id="library" level="project" name="Gradle: com.noqapp:social:1.3" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.0.4.RELEASE" />
@@ -736,25 +736,25 @@
             <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-core:5.0.0.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-redis:2.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-context-support:5.0.4.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:2.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:2.1.0.M1" />
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-keyvalue:2.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-context:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-aop:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-aspects:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-jms:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-oxm:5.0.4.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:2.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-messaging:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-jdbc:5.0.2.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-web:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-tx:5.0.4.RELEASE" />
+            <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-commons:2.1.0.M1" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-beans:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-test:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-expression:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-core:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-instrument:5.0.4.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-crypto:5.0.0.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.5.0" />
+            <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.6.3" />
             <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.2" />
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.10.0" />
             <element id="library" level="project" name="Gradle: com.braintreepayments.gateway:braintree-java:2.74.1" />
@@ -2061,44 +2061,57 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mchange/mchange-commons-java/0.2.11/33a53955501fa830ecfc98d6ae611c6dc451946c/mchange-commons-java-0.2.11-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.noqapp:common:1.2">
+    <library name="Gradle: com.noqapp:common:1.3">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/common/1.2/common-1.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/common/1.3/common-1.3.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="Gradle: com.noqapp:domain:1.2">
+    <library name="Gradle: com.noqapp:domain:1.3">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/domain/1.2/domain-1.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/domain/1.3/domain-1.3.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.noqapp:health:1.3">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/health/1.3/health-1.3.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="Gradle: com.noqapp:health:1.2">
+    <library name="Gradle: com.noqapp:search:1.3">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/health/1.2/health-1.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/search/1.3/search-1.3.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="Gradle: com.noqapp:search:1.2">
+    <library name="Gradle: com.noqapp:service:1.3">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/search/1.2/search-1.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/service/1.3/service-1.3.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="Gradle: com.noqapp:service:1.2">
+    <library name="Gradle: com.noqapp:social:1.3">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/service/1.2/service-1.2.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
-    </library>
-    <library name="Gradle: com.noqapp:social:1.2">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/social/1.2/social-1.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/social/1.3/social-1.3.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
@@ -2312,26 +2325,26 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.6/a8767cdd63c800f00df9c2fc5604a8f7648fe832/commons-validator-1.6-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.0">
+    <library name="Gradle: de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.3">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.mongo/2.0.0/a2a38b016f42e82ba5842287c71132b328fea60f/de.flapdoodle.embed.mongo-2.0.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.mongo/2.0.3/ebd8f3f05a4095877b4ca73a1fbd5ac2e9efb853/de.flapdoodle.embed.mongo-2.0.3.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.mongo/2.0.0/57bfbb3af20f72de519936491c679026f776cd8/de.flapdoodle.embed.mongo-2.0.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.mongo/2.0.3/c40fc715e186ead9b2eb59aeef82f4e196b3a61d/de.flapdoodle.embed.mongo-2.0.3-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.mongo/2.0.0/8cc298548e1770d5f212753360471a3a2d7a3734/de.flapdoodle.embed.mongo-2.0.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.mongo/2.0.3/18807c4637a2378cab71b509a8de19ab191d14f5/de.flapdoodle.embed.mongo-2.0.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: de.flapdoodle.embed:de.flapdoodle.embed.process:2.0.1">
+    <library name="Gradle: de.flapdoodle.embed:de.flapdoodle.embed.process:2.0.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.process/2.0.1/116a63e9f0f498b2375f4f6e7cd9e2fd8abe9a5f/de.flapdoodle.embed.process-2.0.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.process/2.0.2/7fe480f5a233ca5a485d8f5f48616f749adf1807/de.flapdoodle.embed.process-2.0.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.process/2.0.1/170e5e8c5cfcbba965a19f626ccec43ffb964bf2/de.flapdoodle.embed.process-2.0.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.process/2.0.2/2133b83e1194c9757f125b0f1cda9246d64fda68/de.flapdoodle.embed.process-2.0.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.process/2.0.1/629afac5e8a8e7c1035360fa46fc315907b2917c/de.flapdoodle.embed.process-2.0.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.flapdoodle.embed/de.flapdoodle.embed.process/2.0.2/b80f836aa984360e1878adcdbdd13cccd9e3f683/de.flapdoodle.embed.process-2.0.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: de.l3s.boilerpipe:boilerpipe:1.1.0">
@@ -4167,15 +4180,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-inline/2.15.0/46f7b0b02636af3cee322c3358a7e7712be60ac9/mockito-inline-2.15.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.mongodb:mongo-java-driver:3.5.0">
+    <library name="Gradle: org.mongodb:mongo-java-driver:3.6.3">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.5.0/c63e5477ec899f06190b832e1fb173505b8b9d28/mongo-java-driver-3.5.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.6.3/237cbf74df3441c172e80ca676dc967166625ff9/mongo-java-driver-3.6.3.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.5.0/a7c97c6e9fc5762a00ead833983ba358fb3bf523/mongo-java-driver-3.5.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.6.3/fe91960dec46a077eac0508b17dc2c7dc6cbe141/mongo-java-driver-3.6.3-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.5.0/fadd4f4ffb3e75c2d4b9de71961dddedfa8b295c/mongo-java-driver-3.5.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.6.3/de08a16276a9445999584a6b85757c9a2877a79c/mongo-java-driver-3.6.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.objenesis:objenesis:2.6">
@@ -4273,15 +4286,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.25/962153db4a9ea71b79d047dfd1b2a0d80d8f4739/slf4j-api-1.7.25-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.springframework.data:spring-data-commons:2.0.4.RELEASE">
+    <library name="Gradle: org.springframework.data:spring-data-commons:2.1.0.M1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.0.4.RELEASE/4fb687fd3f7b285a33643fe0e136a74b29f47d5f/spring-data-commons-2.0.4.RELEASE.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.1.0.M1/dbbd772ff15f75d19322a31c601d77154eb8ecb0/spring-data-commons-2.1.0.M1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.0.4.RELEASE/e5bf3291c7aa2f37098d7051d6b925a008195987/spring-data-commons-2.0.4.RELEASE-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.1.0.M1/18a0d0e53688a15460555e9ee78fb9f7d10a5d9a/spring-data-commons-2.1.0.M1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.0.4.RELEASE/86ec42a967077791c40d9b7568f96a00b520e415/spring-data-commons-2.0.4.RELEASE-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.1.0.M1/76f0affa2fa65005c7143dc622f5161618d60ede/spring-data-commons-2.1.0.M1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.springframework.data:spring-data-keyvalue:2.0.4.RELEASE">
@@ -4295,15 +4308,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-keyvalue/2.0.4.RELEASE/cd49becdeac6c90aa06af0629206cc5e4a13d427/spring-data-keyvalue-2.0.4.RELEASE-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.springframework.data:spring-data-mongodb:2.0.4.RELEASE">
+    <library name="Gradle: org.springframework.data:spring-data-mongodb:2.1.0.M1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/2.0.4.RELEASE/2f45fc0b93a2c143dd36b6c9bd38c46ece9ff8b0/spring-data-mongodb-2.0.4.RELEASE.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/2.1.0.M1/70e2c324523fec57e5a00ab5fec51aaddb03633b/spring-data-mongodb-2.1.0.M1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/2.0.4.RELEASE/45bd7c1b6dd997a405635bbb96ca2e098bd3a780/spring-data-mongodb-2.0.4.RELEASE-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/2.1.0.M1/96ad65dd0a50b2e981cf439810682a1913051ed4/spring-data-mongodb-2.1.0.M1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/2.0.4.RELEASE/aa3d9e96f7bac33cbfd59945d86ae676fbd9cc6c/spring-data-mongodb-2.0.4.RELEASE-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/2.1.0.M1/667dc6c4afba2971dfe5d47d550b99afc693afc3/spring-data-mongodb-2.1.0.M1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.springframework.data:spring-data-redis:2.0.4.RELEASE">
