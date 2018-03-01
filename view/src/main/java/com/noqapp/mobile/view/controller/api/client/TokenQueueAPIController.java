@@ -494,6 +494,7 @@ public class TokenQueueAPIController {
         try {
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(codeQR.getText());
             int remoteJoinCount = inviteService.getRemoteJoinCount(qid);
+            LOG.info("Found available remote join for qid={} is remoteJoinCount={}", qid, remoteJoinCount);
             jsonQueue.setRemoteJoinCount(remoteJoinCount);
             return jsonQueue.asJson();
         } catch (Exception e) {
