@@ -11,6 +11,7 @@ import com.noqapp.domain.json.JsonQueuedPerson;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
+import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.mobile.domain.JsonModifyQueue;
@@ -134,6 +135,7 @@ class ManageQueueControllerITest extends ITest {
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
         assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals(BusinessTypeEnum.AT, jsonTopic.getTopics().iterator().next().getBusinessType());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(2, jsonTopic.getTopics().iterator().next().getToken());
@@ -336,6 +338,7 @@ class ManageQueueControllerITest extends ITest {
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
         assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals(BusinessTypeEnum.AT, jsonTopic.getTopics().iterator().next().getBusinessType());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(2, jsonTopic.getTopics().iterator().next().getToken());
@@ -403,6 +406,7 @@ class ManageQueueControllerITest extends ITest {
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
         assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals(BusinessTypeEnum.AT, jsonTopic.getTopics().iterator().next().getBusinessType());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(2, jsonTopic.getTopics().iterator().next().getToken());
@@ -467,6 +471,7 @@ class ManageQueueControllerITest extends ITest {
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
         assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals(BusinessTypeEnum.AT, jsonTopic.getTopics().iterator().next().getBusinessType());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(2, jsonTopic.getTopics().iterator().next().getToken());
@@ -541,6 +546,7 @@ class ManageQueueControllerITest extends ITest {
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
         assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals(BusinessTypeEnum.AT, jsonTopic.getTopics().iterator().next().getBusinessType());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(1, jsonTopic.getTopics().iterator().next().getToken());
@@ -636,6 +642,7 @@ class ManageQueueControllerITest extends ITest {
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
         assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals(BusinessTypeEnum.AT, jsonTopic.getTopics().iterator().next().getBusinessType());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getToken());

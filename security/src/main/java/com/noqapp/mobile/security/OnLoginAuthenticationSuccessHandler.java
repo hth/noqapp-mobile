@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 })
 public class OnLoginAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private static final Logger LOG = LoggerFactory.getLogger(OnLoginAuthenticationSuccessHandler.class);
+
     private final RequestCache requestCache = new HttpSessionRequestCache();
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     private AuthenticatedToken authenticatedToken;
@@ -56,10 +57,12 @@ public class OnLoginAuthenticationSuccessHandler extends SimpleUrlAuthentication
         if (StringUtils.isNotBlank(request.getHeader("cookie"))) {
             handle(request, response, authentication);
             clearAuthenticationAttributes(request);
+            LOG.info("Failed mobile auth userId={}", "((QueueUser) authentication.getPrincipal()).getUsername()");
         } else {
             String username = ((QueueUser) authentication.getPrincipal()).getUsername();
             response.addHeader("X-R-MAIL", username);
             response.addHeader("X-R-AUTH", authenticatedToken.getUserAuthenticationKey(username));
+            LOG.info("Success mobile auth qid={}", ((QueueUser) authentication.getPrincipal()).getQueueUserId());
         }
 
         /**
