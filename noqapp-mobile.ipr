@@ -52,7 +52,6 @@
             <element id="library" level="project" name="Gradle: com.pff:java-libpst:0.8.1" />
             <element id="library" level="project" name="Gradle: com.rometools:rome-utils:1.5.1" />
             <element id="library" level="project" name="Gradle: com.rometools:rome:1.5.1" />
-            <element id="library" level="project" name="Gradle: com.squareup.okio:okio:1.13.0" />
             <element id="library" level="project" name="Gradle: commons-beanutils:commons-beanutils:1.9.2" />
             <element id="library" level="project" name="Gradle: commons-collections:commons-collections:3.2.2" />
             <element id="library" level="project" name="Gradle: commons-digester:commons-digester:1.8.1" />
@@ -125,7 +124,6 @@
             <element id="library" level="project" name="Gradle: commons-validator:commons-validator:1.6" />
             <element id="library" level="project" name="Gradle: edu.usc.ir:sentiment-analysis-parser:0.1" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-compress:1.14" />
-            <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.6" />
             <element id="library" level="project" name="Gradle: org.apache.james:apache-mime4j-core:0.8.1" />
             <element id="library" level="project" name="Gradle: org.apache.james:apache-mime4j-dom:0.8.1" />
             <element id="library" level="project" name="Gradle: org.apache.pdfbox:jempbox:1.8.13" />
@@ -134,13 +132,11 @@
             <element id="library" level="project" name="Gradle: org.tukaani:xz:1.6" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
             <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.3.1.Final" />
-            <element id="library" level="project" name="Gradle: org.apache.commons:commons-text:1.1" />
             <element id="library" level="project" name="Gradle: javax.mail:javax.mail-api:1.6.0" />
             <element id="library" level="project" name="Gradle: javax.validation:validation-api:2.0.0.Final" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.2" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-credentials:0.8.0" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-oauth2-http:0.8.0" />
-            <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.1" />
             <element id="library" level="project" name="Gradle: com.carrotsearch:hppc:0.7.1" />
             <element id="library" level="project" name="Gradle: com.tdunning:t-digest:3.0" />
             <element id="library" level="project" name="Gradle: net.sf.jopt-simple:jopt-simple:5.0.2" />
@@ -150,7 +146,6 @@
             <element id="library" level="project" name="Gradle: commons-codec:commons-codec:1.11" />
             <element id="library" level="project" name="Gradle: net.bytebuddy:byte-buddy-agent:1.7.9" />
             <element id="library" level="project" name="Gradle: net.bytebuddy:byte-buddy:1.7.9" />
-            <element id="library" level="project" name="Gradle: org.json:json:20171018" />
             <element id="library" level="project" name="Gradle: org.objenesis:objenesis:2.6" />
             <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-cloud-firestore-v1beta1:0.1.20" />
             <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-common-protos:0.1.20" />
@@ -186,7 +181,6 @@
             <element id="library" level="project" name="Gradle: io.netty:netty-tcnative-boringssl-static:2.0.3.Final" />
             <element id="library" level="project" name="Gradle: io.netty:netty-transport:4.1.14.Final" />
             <element id="library" level="project" name="Gradle: io.opencensus:opencensus-api:0.5.1" />
-            <element id="library" level="project" name="Gradle: com.squareup.okhttp3:okhttp:3.9.1" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.13" />
             <element id="library" level="project" name="Gradle: org.awaitility:awaitility:3.0.0" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-core:1.3" />
@@ -231,7 +225,6 @@
             <element id="library" level="project" name="Gradle: com.google.api:api-common:1.2.0" />
             <element id="library" level="project" name="Gradle: com.google.firebase:firebase-admin:5.8.0" />
             <element id="library" level="project" name="Gradle: com.google.maps:google-maps-services:0.2.6" />
-            <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:2.7.6" />
             <element id="library" level="project" name="Gradle: commons-io:commons-io:2.6" />
             <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-core:3.0.16" />
             <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-frontend-jaxrs:3.0.16" />
@@ -339,6 +332,13 @@
             <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-mongodb:2.1.0.M1" />
             <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.6.3" />
             <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.0" />
+            <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.2" />
+            <element id="library" level="project" name="Gradle: com.squareup.okhttp3:okhttp:3.10.0" />
+            <element id="library" level="project" name="Gradle: com.squareup.okio:okio:1.14.0" />
+            <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:2.7.8" />
+            <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.7" />
+            <element id="library" level="project" name="Gradle: org.apache.commons:commons-text:1.2" />
+            <element id="library" level="project" name="Gradle: org.json:json:20180130" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -449,13 +449,13 @@
             <element id="library" level="project" name="Gradle: edu.ucar:cdm:4.5.5" />
             <element id="library" level="project" name="Gradle: org.quartz-scheduler:quartz:2.3.0" />
             <element id="library" level="project" name="Gradle: com.google.maps:google-maps-services:0.2.6" />
-            <element id="library" level="project" name="Gradle: com.squareup.okhttp3:okhttp:3.9.1" />
-            <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.1" />
+            <element id="library" level="project" name="Gradle: com.squareup.okhttp3:okhttp:3.10.0" />
+            <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.2" />
             <element id="library" level="project" name="Gradle: aopalliance:aopalliance:1.0" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-vfs2:2.2" />
             <element id="library" level="project" name="Gradle: com.jcraft:jsch:0.1.54" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjrt:1.8.13" />
-            <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:2.7.6" />
+            <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:2.7.8" />
             <element id="library" level="project" name="Gradle: com.google.firebase:firebase-admin:5.8.0" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.3" />
             <element id="library" level="project" name="Gradle: com.rometools:rome:1.5.1" />
@@ -488,6 +488,7 @@
             <element id="library" level="project" name="Gradle: io.grpc:grpc-protobuf:1.6.1" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.3.1" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.2" />
+            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.0" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.4" />
             <element id="library" level="project" name="Gradle: com.maxmind.geoip2:geoip2:2.11.0" />
@@ -501,7 +502,6 @@
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-oauth2-http:0.8.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson2:1.22.0" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.4" />
-            <element id="library" level="project" name="Gradle: org.json:json:20171018" />
             <element id="library" level="project" name="Gradle: commons-fileupload:commons-fileupload:1.3.3" />
             <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-transcoder:1.9" />
             <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-extension:1.9" />
@@ -534,8 +534,8 @@
             <element id="library" level="project" name="Gradle: javax.mail:javax.mail-api:1.6.0" />
             <element id="library" level="project" name="Gradle: javax.validation:validation-api:2.0.0.Final" />
             <element id="library" level="project" name="Gradle: javax.inject:javax.inject:1" />
-            <element id="library" level="project" name="Gradle: org.apache.commons:commons-text:1.1" />
-            <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.6" />
+            <element id="library" level="project" name="Gradle: org.apache.commons:commons-text:1.2" />
+            <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.7" />
             <element id="library" level="project" name="Gradle: org.gagravarr:vorbis-java-tika:0.8" />
             <element id="library" level="project" name="Gradle: org.apache.tika:tika-core:1.17" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-collections4:4.1" />
@@ -551,7 +551,7 @@
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-pool2:2.4.2" />
             <element id="library" level="project" name="Gradle: com.mchange:c3p0:0.9.5.2" />
             <element id="library" level="project" name="Gradle: com.mchange:mchange-commons-java:0.2.11" />
-            <element id="library" level="project" name="Gradle: com.squareup.okio:okio:1.13.0" />
+            <element id="library" level="project" name="Gradle: com.squareup.okio:okio:1.14.0" />
             <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-gvt:1.9" />
             <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-parser:1.9" />
             <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svggen:1.9" />
@@ -697,7 +697,7 @@
             <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11" />
             <element id="library" level="project" name="Gradle: org.checkerframework:checker-compat-qual:2.0.0" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.0/8f1cb52fdaa23ddf57835299a02af0f00d438f98/libphonenumber-8.9.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.json/json/20180130/26ba2ec0e791a32ea5dfbedfcebf36447ee5b12c/json-20180130.jar" />
           </element>
         </element>
       </root>
@@ -809,13 +809,13 @@
             <element id="library" level="project" name="Gradle: edu.ucar:cdm:4.5.5" />
             <element id="library" level="project" name="Gradle: org.quartz-scheduler:quartz:2.3.0" />
             <element id="library" level="project" name="Gradle: com.google.maps:google-maps-services:0.2.6" />
-            <element id="library" level="project" name="Gradle: com.squareup.okhttp3:okhttp:3.9.1" />
-            <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.1" />
+            <element id="library" level="project" name="Gradle: com.squareup.okhttp3:okhttp:3.10.0" />
+            <element id="library" level="project" name="Gradle: com.google.zxing:core:3.3.2" />
             <element id="library" level="project" name="Gradle: aopalliance:aopalliance:1.0" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-vfs2:2.2" />
             <element id="library" level="project" name="Gradle: com.jcraft:jsch:0.1.54" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjrt:1.8.13" />
-            <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:2.7.6" />
+            <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:2.7.8" />
             <element id="library" level="project" name="Gradle: com.google.firebase:firebase-admin:5.8.0" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.3" />
             <element id="library" level="project" name="Gradle: com.rometools:rome:1.5.1" />
@@ -848,6 +848,7 @@
             <element id="library" level="project" name="Gradle: io.grpc:grpc-protobuf:1.6.1" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.3.1" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.2" />
+            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.0" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.4" />
             <element id="library" level="project" name="Gradle: com.maxmind.geoip2:geoip2:2.11.0" />
@@ -861,7 +862,6 @@
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-oauth2-http:0.8.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson2:1.22.0" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.4" />
-            <element id="library" level="project" name="Gradle: org.json:json:20171018" />
             <element id="library" level="project" name="Gradle: commons-fileupload:commons-fileupload:1.3.3" />
             <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-transcoder:1.9" />
             <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-extension:1.9" />
@@ -894,8 +894,8 @@
             <element id="library" level="project" name="Gradle: javax.mail:javax.mail-api:1.6.0" />
             <element id="library" level="project" name="Gradle: javax.validation:validation-api:2.0.0.Final" />
             <element id="library" level="project" name="Gradle: javax.inject:javax.inject:1" />
-            <element id="library" level="project" name="Gradle: org.apache.commons:commons-text:1.1" />
-            <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.6" />
+            <element id="library" level="project" name="Gradle: org.apache.commons:commons-text:1.2" />
+            <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.7" />
             <element id="library" level="project" name="Gradle: org.gagravarr:vorbis-java-tika:0.8" />
             <element id="library" level="project" name="Gradle: org.apache.tika:tika-core:1.17" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-collections4:4.1" />
@@ -911,7 +911,7 @@
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-pool2:2.4.2" />
             <element id="library" level="project" name="Gradle: com.mchange:c3p0:0.9.5.2" />
             <element id="library" level="project" name="Gradle: com.mchange:mchange-commons-java:0.2.11" />
-            <element id="library" level="project" name="Gradle: com.squareup.okio:okio:1.13.0" />
+            <element id="library" level="project" name="Gradle: com.squareup.okio:okio:1.14.0" />
             <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-gvt:1.9" />
             <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-parser:1.9" />
             <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svggen:1.9" />
@@ -1061,7 +1061,7 @@
               <element id="module-output" name="service_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/service/out/production/resources" />
             </element>
-            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.0/8f1cb52fdaa23ddf57835299a02af0f00d438f98/libphonenumber-8.9.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.json/json/20180130/26ba2ec0e791a32ea5dfbedfcebf36447ee5b12c/json-20180130.jar" />
           </element>
         </element>
       </root>
@@ -1962,15 +1962,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.3.1/733c81a020b1eaf0c09ee8c2cb8fa166bd8a2f2d/protobuf-java-3.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.google.zxing:core:3.3.1">
+    <library name="Gradle: com.google.zxing:core:3.3.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.1/bd5bb06f4ae0fef8e67044131272905eb8895230/core-3.3.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.2/f47e3fc99fb2755b8a354d60efa021a0b88f4180/core-3.3.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.1/a3f8463a74eca3213ebdf1db1573631c37148220/core-3.3.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.2/7f423e9e0a16cef564ff71bd98de72a433269a22/core-3.3.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.1/7dd7eb39959256ed2826829c1f996bbbb45befc3/core-3.3.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.2/9c2814d02789ab9229eb2e411421aff7278cde51/core-3.3.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.googlecode.json-simple:json-simple:1.1.1">
@@ -2180,26 +2180,26 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rometools/rome/1.5.1/9c7ec6088e1850b75d86b07d4b67f7def44ed38c/rome-1.5.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.squareup.okhttp3:okhttp:3.9.1">
+    <library name="Gradle: com.squareup.okhttp3:okhttp:3.10.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.9.1/84b4b7d1c4a238e7899972b7446c250691e65f1f/okhttp-3.9.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.10.0/7ef0f1d95bf4c0b3ba30bbae25e0e562b05cf75e/okhttp-3.10.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.9.1/31453499039f72c050539542486d3fca2f6472d1/okhttp-3.9.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.10.0/340395260efeade793140f10c82fb1ecc6ce160c/okhttp-3.10.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.9.1/7539531ecf9b6e082fcab195f0835d4f69ead95e/okhttp-3.9.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.10.0/e99b7b608968f16b07104b93e62cb90701174d0/okhttp-3.10.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.squareup.okio:okio:1.13.0">
+    <library name="Gradle: com.squareup.okio:okio:1.14.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/a9283170b7305c8d92d25aff02a6ab7e45d06cbe/okio-1.13.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.14.0/102d7be47241d781ef95f1581d414b0943053130/okio-1.14.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/d4275e004f2d6e405f3ad866cc64131a17e3b60e/okio-1.13.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.14.0/d224a05c7368dc02ffefc74a8b628c86f0bea501/okio-1.14.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/f4c91e12121af963e3ef76e81c82aa75ba6e8533/okio-1.13.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.14.0/e7c96b4fe5651490d8f3c022042940d743a3bdd9/okio-1.14.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.tdunning:json:1.8">
@@ -2246,15 +2246,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP-java6/2.3.13/2bf20fa35c3b5fa099fe2ab5eede4e437a6e1063/HikariCP-java6-2.3.13-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.zaxxer:HikariCP:2.7.6">
+    <library name="Gradle: com.zaxxer:HikariCP:2.7.8">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP/2.7.6/7930c6554acb1adcc7865ec86a27e49337c6e161/HikariCP-2.7.6.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP/2.7.8/4a3a604fa2efa89621aa498d04e000b2bed90c39/HikariCP-2.7.8.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP/2.7.6/fb131073082833e0ab104b88bb39d8de3ca855e7/HikariCP-2.7.6-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP/2.7.8/5bd6e5c31053d42978737d1660b50cc685029b04/HikariCP-2.7.8-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP/2.7.6/8d87dbe191ce5e381c3de4d48d060caad8fa7873/HikariCP-2.7.6-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP/2.7.8/3af026022f2793a8362a9379aa0d79337dd07bc0/HikariCP-2.7.8-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: commons-beanutils:commons-beanutils:1.9.2">
@@ -2929,15 +2929,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-exec/1.3/efd2543e352e55ce5a685eed6db8af028b737905/commons-exec-1.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.commons:commons-lang3:3.6">
+    <library name="Gradle: org.apache.commons:commons-lang3:3.7">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.6/9d28a6b23650e8a7e9063c04588ace6cf7012c17/commons-lang3-3.6.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.7/557edd918fd41f9260963583ebf5a61a43a6b423/commons-lang3-3.7.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.6/988675c1853c2a4f2cd8e7056eaa5bd6985ccd06/commons-lang3-3.6-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.7/8d6fb4d39bedef08da171550c73b5d84e8c1125/commons-lang3-3.7-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.6/4765e418c9084c4e01233cb5f09bdd6b5f311ccc/commons-lang3-3.6-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.7/e7e36219edde1c66c93495a75490d8f526c377cb/commons-lang3-3.7-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.apache.commons:commons-pool2:2.4.2">
@@ -2951,15 +2951,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-pool2/2.4.2/2c9dcae4975caff05a627b99fae76e6fef2a3a0e/commons-pool2-2.4.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.commons:commons-text:1.1">
+    <library name="Gradle: org.apache.commons:commons-text:1.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-text/1.1/c336bf600f44b88af356c8a85eef4af822b06a4d/commons-text-1.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-text/1.2/74acdec7237f576c4803fff0c1008ab8a3808b2b/commons-text-1.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-text/1.1/e8b832ffd888e01dccfaaa22ffff90aa4f8a77dd/commons-text-1.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-text/1.2/e089747659cca1d18dfd7afe7fece4a1b1ffa6f5/commons-text-1.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-text/1.1/f0770f7f0472bf120ada47beecadce4056fbd20a/commons-text-1.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-text/1.2/679282ee0f6f2b236f58a7a1dc8395861ad9fd97/commons-text-1.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.apache.commons:commons-vfs2:2.2">
@@ -4090,15 +4090,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jrobin/jrobin/1.5.9/c0252c3fda6e1a7236a5e0dd9cae6b34d051a5e4/jrobin-1.5.9-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.json:json:20171018">
+    <library name="Gradle: org.json:json:20180130">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.json/json/20171018/36ced462c97f0845b4a7b266a25cebe95d18baa3/json-20171018.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.json/json/20180130/26ba2ec0e791a32ea5dfbedfcebf36447ee5b12c/json-20180130.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.json/json/20171018/5ebafa6d9eace1ec57e012e6dc0f66fa5306233b/json-20171018-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.json/json/20180130/97e1d1912bd60257b1f364a8e16d5ab7d8529ce2/json-20180130-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.json/json/20171018/b4a63d74bc32f012342173c1a1da6fbe90065d69/json-20171018-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.json/json/20180130/66ab57acbb9086d16201c2eafa2145d2b914bb26/json-20180130-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.jsoup:jsoup:1.7.2">
