@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import org.joda.time.DateTime;
 
-import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -210,7 +209,10 @@ public class QueueMobileService {
     }
 
     public JsonTokenAndQueueList findAllJoinedQueues(String did) {
-        Assertions.assertTrue(StringUtils.isNotBlank(did), "DID should not be blank");
+        if (StringUtils.isBlank(did)) {
+           throw new RuntimeException("DID should not be blank");
+        }
+
         List<QueueEntity> queues = queueManager.findAllQueuedByDid(did);
         LOG.info("Currently joined queue size={} did={}", queues.size(), did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
