@@ -60,7 +60,16 @@ public class TokenQueueController {
         this.apiHealthService = apiHealthService;
     }
 
-    /** Get state of queue at the store. */
+    /**
+     * Get state of queue at the store.
+     *
+     * @param did
+     * @param deviceType
+     * @param codeQR
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @GetMapping (
             value = "/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -106,7 +115,16 @@ public class TokenQueueController {
         }
     }
 
-    /** Get all state of queue at a Business when one QR Code is scanned. */
+    /**
+     * Get all state of queue at a Business when one QR Code is scanned.
+     *
+     * @param did
+     * @param deviceType
+     * @param codeQR
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @GetMapping(
             value = "/v1/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -152,7 +170,15 @@ public class TokenQueueController {
         }
     }
 
-    /** Get all the queues user has token from. In short all the queues user has joined. */
+    /**
+     * Get all the queues user has token from. In short all the queues user has joined.
+     *
+     * @param did
+     * @param deviceType
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @GetMapping (
             value = "/queues",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -178,7 +204,6 @@ public class TokenQueueController {
                     TokenQueueController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.F);
-
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -191,7 +216,15 @@ public class TokenQueueController {
     }
 
 
-    /** Get all the historical queues user has token from. In short all the queues user has joined in past. */
+    /**
+     * Get all the historical queues user has token from. In short all the queues user has joined in past.
+     *
+     * @param did
+     * @param deviceType
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @PostMapping(
             value = "/historical",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -228,7 +261,6 @@ public class TokenQueueController {
                     TokenQueueController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.F);
-
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -240,7 +272,16 @@ public class TokenQueueController {
         }
     }
 
-    /** Join the queue. */
+    /**
+     * Join the queue.
+     *
+     * @param did
+     * @param deviceType
+     * @param codeQR
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @PostMapping (
             value = "/queue/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -281,7 +322,6 @@ public class TokenQueueController {
                     TokenQueueController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.F);
-
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -293,7 +333,16 @@ public class TokenQueueController {
         }
     }
 
-    /** Abort the queue. App should un-subscribe user from topic. */
+    /**
+     * Abort the queue. App should un-subscribe user from topic.
+     *
+     * @param did
+     * @param deviceType
+     * @param codeQR
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @PostMapping (
             value = "/abort/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -327,7 +376,6 @@ public class TokenQueueController {
                     TokenQueueController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.F);
-
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(

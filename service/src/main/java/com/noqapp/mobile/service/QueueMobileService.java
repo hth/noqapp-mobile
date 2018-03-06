@@ -493,8 +493,25 @@ public class QueueMobileService {
                 delayedInMinutes);
     }
 
+    /**
+     * Finds clients who are yet to be serviced.
+     */
     public JsonQueuePersonList findAllClientQueuedOrAborted(String codeQR) {
-        return queueService.findAllClientQueuedOrAborted(codeQR);
+        List<JsonQueuedPerson> queuedPeople = new ArrayList<>();
+
+        List<QueueEntity> queues = queueManager.findAllClientQueuedOrAborted(codeQR);
+        for (QueueEntity queue : queues) {
+            JsonQueuedPerson jsonQueuedPerson = new JsonQueuedPerson()
+                    .setCustomerName(queue.getCustomerName())
+                    .setCustomerPhone(queue.getCustomerPhone())
+                    .setQueueUserState(queue.getQueueUserState())
+                    .setToken(queue.getTokenNumber())
+                    .setServerDeviceId(queue.getServerDeviceId());
+
+            queuedPeople.add(jsonQueuedPerson);
+        }
+
+        return new JsonQueuePersonList().setQueuedPeople(queuedPeople);
     }
 
     public BizStoreEntity findByCodeQR(String codeQR) {
