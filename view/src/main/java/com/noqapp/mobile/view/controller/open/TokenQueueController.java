@@ -171,7 +171,7 @@ public class TokenQueueController {
         try {
             return queueMobileService.findAllJoinedQueues(did.getText()).asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting queues did={}, reason={}", did, e.getLocalizedMessage(), e);
+            LOG.error("Failed getting queues did={}, reason={}", did, e.getLocalizedMessage());
             apiHealthService.insert(
                     "/queues",
                     "getAllJoinedQueues",
