@@ -219,6 +219,8 @@ public class TokenQueueMobileService {
                 tokenQueue,
                 QueueStatusEnum.C);
 
+        /* Reset queue when marked as closed for the day. */
+        tokenQueueManager.resetForNewDay(codeQR);
         /* Mark all of the people in queue as aborted. */
         return queueManager.markAllAbortWhenQueueClosed(codeQR, serverDeviceId);
     }
