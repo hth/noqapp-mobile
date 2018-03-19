@@ -23,7 +23,7 @@ public enum LowestSupportedAppEnum {
     VA("1.1.37",                //Oldest Supported App Version in String
             1089,               //Oldest App Version as int //TODO remove this after 1.1.0
             DeviceTypeEnum.A,   //Device Type
-            "1.1.37");          //Latest App Version on Play Store
+            "1.1.40");          //Latest App Version on Play Store
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
 
