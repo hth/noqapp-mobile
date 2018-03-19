@@ -220,6 +220,7 @@ public class TokenQueueMobileService {
                 QueueStatusEnum.C);
 
         /* Mark all of the people in queue as aborted. */
+        tokenQueueManager.resetForNewDay(codeQR);
         return queueManager.markAllAbortWhenQueueClosed(codeQR, serverDeviceId);
     }
 
