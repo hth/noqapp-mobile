@@ -236,10 +236,12 @@ public class TokenQueueMobileService {
         } else {
             delayed = delayInMinutes + " minutes";
         }
+
         tokenQueueService.sendMessageToAllOnSpecificTopic(
                 tokenQueue.getDisplayName(),
                 "Delayed by " + delayed +  ". Sorry for inconvenience.",
                 tokenQueue,
-                tokenQueue.getQueueStatus());
+                /* Using queue state C so that message goes to Client and Merchant. This setting if for broadcast. */
+                QueueStatusEnum.C);
     }
 }
