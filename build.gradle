@@ -62,8 +62,8 @@ subprojects {
     apply plugin: 'jacoco'      //for code coverage
     apply plugin: 'org.junit.platform.gradle.plugin'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 9
+    targetCompatibility = 9
 
     sourceSets {
         test {
@@ -231,7 +231,7 @@ subprojects {
         compile "com.fasterxml.jackson.core:jackson-databind:$jackson"
         compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson"
 
-        compile "org.json:json:20171018"
+        compile "org.json:json:20180130"
         compile "com.maxmind.geoip2:geoip2:$geoip2"
 
         compile "commons-fileupload:commons-fileupload:$commonsfileupload"

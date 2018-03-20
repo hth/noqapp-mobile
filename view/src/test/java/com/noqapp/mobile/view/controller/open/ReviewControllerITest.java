@@ -11,6 +11,7 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
+import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.mobile.domain.body.client.ReviewRating;
 import com.noqapp.mobile.view.ITest;
 import org.junit.jupiter.api.BeforeEach;
@@ -109,7 +110,7 @@ class ReviewControllerITest extends ITest {
         String sid = UUID.randomUUID().toString();
 
         /* After starting queue state. */
-        JsonToken nextInQueue = queueMobileService.getNextInQueue(bizStore.getCodeQR(), "Go To Counter", sid);
+        JsonToken nextInQueue = queueService.getNextInQueue(bizStore.getCodeQR(), "Go To Counter", sid);
         assertEquals(jsonToken.getToken(), nextInQueue.getToken());
         assertNotEquals(jsonToken.getServingNumber(), nextInQueue.getServingNumber());
         assertEquals(QueueStatusEnum.N, nextInQueue.getQueueStatus());
@@ -117,12 +118,13 @@ class ReviewControllerITest extends ITest {
         assertEquals(QueueStatusEnum.N, tokenQueueAfterPressingNext.getQueueStatus());
 
         /* When no more to serve, service is done. Queue state is set to Done. */
-        nextInQueue = queueMobileService.updateAndGetNextInQueue(
+        nextInQueue = queueService.updateAndGetNextInQueue(
                 bizStore.getCodeQR(),
                 queue.getTokenNumber(),
                 QueueUserStateEnum.S,
                 "Go To Counter",
-                sid);
+                sid,
+                TokenServiceEnum.M);
         assertEquals(QueueStatusEnum.D, nextInQueue.getQueueStatus());
         TokenQueueEntity tokenQueueAfterReachingDoneWhenThereIsNoNext = queueMobileService.getTokenQueueByCodeQR(bizStore.getCodeQR());
         assertEquals(QueueStatusEnum.D, tokenQueueAfterReachingDoneWhenThereIsNoNext.getQueueStatus());

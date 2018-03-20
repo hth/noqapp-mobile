@@ -96,7 +96,8 @@ public class AccountMobileService {
                     timeZone,
                     password,
                     null,
-                    false);
+                    false,
+                    true);
             Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getQueueUserId());
         } catch (DuplicateAccountException e) {
@@ -148,7 +149,8 @@ public class AccountMobileService {
                     timeZone,
                     null,
                     inviteCode,
-                    true);
+                    true,
+                    false);
             Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getQueueUserId());
         } catch (DuplicateAccountException e) {

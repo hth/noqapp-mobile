@@ -229,8 +229,10 @@ public class ITest extends RealMongoForITest {
         );
 
         queueService = new QueueService(
+                accountService,
                 queueManager,
-                queueManagerJDBC
+                queueManagerJDBC,
+                tokenQueueService
         );
 
         bizNameManager = new BizNameManagerImpl(getMongoTemplate());
@@ -443,7 +445,7 @@ public class ITest extends RealMongoForITest {
 
         BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")))
                 .setBusinessName("Champ")
-                .setBusinessTypes(Arrays.asList(BusinessTypeEnum.AT, BusinessTypeEnum.BA))
+                .setBusinessTypes(List.of(BusinessTypeEnum.AT, BusinessTypeEnum.BA))
                 .setPhone("9118000000000")
                 .setPhoneRaw("18000000000")
                 .setAddress("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India")
@@ -487,7 +489,7 @@ public class ITest extends RealMongoForITest {
         bizService.insertAll(storeHours);
 
         /* Create Queue. */
-        tokenQueueService.createUpdate(bizStore.getCodeQR(), bizStore.getTopic(), bizStore.getDisplayName());
+        tokenQueueService.createUpdate(bizStore.getCodeQR(), bizStore.getTopic(), bizStore.getDisplayName(), bizStore.getBusinessType());
 
         /* Add Queue Admin and Queue Supervisor to Business and Store. */
         BusinessUserEntity businessUser = BusinessUserEntity.newInstance(

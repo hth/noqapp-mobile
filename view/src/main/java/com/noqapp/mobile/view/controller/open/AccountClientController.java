@@ -369,12 +369,12 @@ public class AccountClientController {
 
     private Set<String> invalidElementsInMapDuringRegistration(Map<String, ScrubbedInput> map) {
         Set<String> keys = new HashSet<>(map.keySet());
-        List<ACCOUNT_REGISTRATION> enums = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION.values()));
+        List<ACCOUNT_REGISTRATION> enums = new ArrayList<>(List.of(ACCOUNT_REGISTRATION.values()));
         for (ACCOUNT_REGISTRATION registration : enums) {
             keys.remove(registration.name());
         }
 
-        List<ACCOUNT_REGISTRATION_CLIENT> client = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION_CLIENT.values()));
+        List<ACCOUNT_REGISTRATION_CLIENT> client = new ArrayList<>(List.of(ACCOUNT_REGISTRATION_CLIENT.values()));
         for(ACCOUNT_REGISTRATION_CLIENT registration_client : client) {
             keys.remove(registration_client.name());
         }
@@ -384,7 +384,7 @@ public class AccountClientController {
 
     private Set<String> invalidElementsInMapDuringLogin(Map<String, ScrubbedInput> map) {
         Set<String> keys = new HashSet<>(map.keySet());
-        List<ACCOUNT_REGISTRATION> enums = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION.PH, ACCOUNT_REGISTRATION.CS));
+        List<ACCOUNT_REGISTRATION> enums = new ArrayList<>(List.of(ACCOUNT_REGISTRATION.PH, ACCOUNT_REGISTRATION.CS));
         for (ACCOUNT_REGISTRATION registration : enums) {
             keys.remove(registration.name());
         }
