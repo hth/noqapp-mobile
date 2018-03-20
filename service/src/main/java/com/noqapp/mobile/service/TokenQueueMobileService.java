@@ -218,9 +218,7 @@ public class TokenQueueMobileService {
                 "Is Closed Today. We are informing you to not visit today. Sorry for inconvenience.",
                 tokenQueue,
                 QueueStatusEnum.C);
-
-        /* Reset queue when marked as closed for the day. */
-        tokenQueueManager.resetForNewDay(codeQR);
+        
         /* Mark all of the people in queue as aborted. */
         return queueManager.markAllAbortWhenQueueClosed(codeQR, serverDeviceId);
     }
@@ -238,10 +236,12 @@ public class TokenQueueMobileService {
         } else {
             delayed = delayInMinutes + " minutes";
         }
+
         tokenQueueService.sendMessageToAllOnSpecificTopic(
                 tokenQueue.getDisplayName(),
                 "Delayed by " + delayed +  ". Sorry for inconvenience.",
                 tokenQueue,
-                tokenQueue.getQueueStatus());
+                /* Using queue state C so that message goes to Client and Merchant. This setting if for broadcast. */
+                QueueStatusEnum.C);
     }
 }
