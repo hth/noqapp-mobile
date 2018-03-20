@@ -218,9 +218,7 @@ public class TokenQueueMobileService {
                 "Is Closed Today. We are informing you to not visit today. Sorry for inconvenience.",
                 tokenQueue,
                 QueueStatusEnum.C);
-
-        /* Reset queue when marked as closed for the day. */
-        tokenQueueManager.resetForNewDay(codeQR);
+        
         /* Mark all of the people in queue as aborted. */
         return queueManager.markAllAbortWhenQueueClosed(codeQR, serverDeviceId);
     }
