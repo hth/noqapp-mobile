@@ -191,20 +191,8 @@ public class TokenQueueMobileService {
         return bizService;
     }
 
-    JsonToken updateServing(String codeQR, QueueStatusEnum queueStatus, int serving, String goTo) {
-        return tokenQueueService.updateServing(codeQR, queueStatus, serving, goTo);
-    }
-
-    JsonToken updateThisServing(String codeQR, QueueStatusEnum queueStatus, int serving, String goTo) {
-        return tokenQueueService.updateThisServing(codeQR, queueStatus, serving, goTo);
-    }
-
     TokenQueueEntity findByCodeQR(String codeQR) {
-        return tokenQueueManager.findByCodeQR(codeQR);
-    }
-
-    void changeQueueStatus(String codeQR, QueueStatusEnum queueStatus) {
-        tokenQueueManager.changeQueueStatus(codeQR, queueStatus);
+        return tokenQueueService.findByCodeQR(codeQR);
     }
 
     public boolean isValidCodeQR(String codeQR) {

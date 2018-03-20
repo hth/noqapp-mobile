@@ -50,8 +50,10 @@ class ManageQueueControllerITest extends ITest {
         manageQueueController = new ManageQueueController(
                 20,
                 authenticateMobileService,
+                queueService,
                 queueMobileService,
                 businessUserStoreService,
+                tokenQueueService,
                 tokenQueueMobileService,
                 apiHealthService
         );

@@ -20,6 +20,8 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.QueueService;
+import com.noqapp.service.TokenQueueService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,8 +69,10 @@ public class ManageQueueController {
 
     private int counterNameLength;
     private AuthenticateMobileService authenticateMobileService;
+    private QueueService queueService;
     private QueueMobileService queueMobileService;
     private BusinessUserStoreService businessUserStoreService;
+    private TokenQueueService tokenQueueService;
     private TokenQueueMobileService tokenQueueMobileService;
     private ApiHealthService apiHealthService;
 
@@ -78,15 +82,19 @@ public class ManageQueueController {
             int counterNameLength,
 
             AuthenticateMobileService authenticateMobileService,
+            QueueService queueService,
             QueueMobileService queueMobileService,
             BusinessUserStoreService businessUserStoreService,
+            TokenQueueService tokenQueueService,
             TokenQueueMobileService tokenQueueMobileService,
             ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
         this.authenticateMobileService = authenticateMobileService;
+        this.queueService = queueService;
         this.queueMobileService = queueMobileService;
         this.businessUserStoreService = businessUserStoreService;
+        this.tokenQueueService = tokenQueueService;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.apiHealthService = apiHealthService;
     }
@@ -226,7 +234,7 @@ public class ManageQueueController {
                 }
             }
 
-            TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(codeQR);
+            TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(codeQR);
             LOG.info("queueStatus received={} found={}", queueStatus, tokenQueue.getQueueStatus());
 
             JsonToken jsonToken;
@@ -236,17 +244,17 @@ public class ManageQueueController {
                 case N:
                     if (queueStatus == QueueStatusEnum.P) {
                         if (queueUserState == QueueUserStateEnum.S) {
-                            jsonToken = queueMobileService.pauseServingQueue(codeQR, servedNumber, queueUserState, did.getText());
+                            jsonToken = queueService.pauseServingQueue(codeQR, servedNumber, queueUserState, did.getText(), TokenServiceEnum.M);
                         } else {
                             return getErrorReason("Cannot pause until the last person has been served", MOBILE);
                         }
                     } else {
-                        jsonToken = queueMobileService.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState, goTo, did.getText());
+                        jsonToken = queueService.updateAndGetNextInQueue(codeQR, servedNumber, queueUserState, goTo, did.getText(), TokenServiceEnum.M);
                     }
                     break;
                 case R:
                 case S:
-                    jsonToken = queueMobileService.getNextInQueue(codeQR, goTo, did.getText());
+                    jsonToken = queueService.getNextInQueue(codeQR, goTo, did.getText());
                     break;
                 default:
                     LOG.error("Reached unsupported condition queueState={}", tokenQueue.getQueueStatus());
@@ -323,7 +331,7 @@ public class ManageQueueController {
         }
 
         try {
-            TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(codeQR.getText());
+            TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(codeQR.getText());
             if (null == tokenQueue) {
                 LOG.error("Failed finding codeQR={} by mail={}", codeQR.getText(), mail);
                 return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
@@ -679,7 +687,7 @@ public class ManageQueueController {
             JsonToken jsonToken;
             switch (tokenQueue.getQueueStatus()) {
                 case N:
-                    jsonToken = queueMobileService.getThisAsNextInQueue(codeQR, goTo, did.getText(), servedNumber);
+                    jsonToken = queueService.getThisAsNextInQueue(codeQR, goTo, did.getText(), servedNumber);
                     break;
                 default:
                     //TODO(hth) remind apps to call state of the queue when failure is encountered as state might have changed. Update app with this state.
