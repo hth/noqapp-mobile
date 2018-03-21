@@ -7,11 +7,13 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
+import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.GeoIP;
 import com.noqapp.search.elastic.json.ElasticBizStoreSource;
 import com.noqapp.search.elastic.service.BizStoreElasticService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +44,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSO
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping(value = "/open/review")
+@RequestMapping(value = "/open/search")
 public class SearchBusinessStoreController {
     private static final Logger LOG = LoggerFactory.getLogger(SearchBusinessStoreController.class);
 
@@ -75,7 +77,7 @@ public class SearchBusinessStoreController {
             HttpServletRequest request
     ) {
         Instant start = Instant.now();
-        LOG.info("Review for did={} dt={}", did, dt);
+        LOG.info("Searching for for did={} dt={}", did, dt);
 
         try {
             Map<String, ScrubbedInput> map;
@@ -87,15 +89,52 @@ public class SearchBusinessStoreController {
             }
 
             String search = map.get("search").getText();
-            String filters = map.get("filters").getText();
+            String cityName = null;
+            if (map.containsKey("cityName")) {
+                cityName = map.get("cityName").getText();
+            }
+            String lat = null;
+            if (map.containsKey("lat")) {
+                lat = map.get("lat").getText();
+            }
+
+            String lng  = null;
+            if (map.containsKey("lng")) {
+                lng = map.get("lng").getText();
+            }
+
+            String filters = null;
+            if (map.containsKey("filters")) {
+                filters = map.get("filters").getText();
+            }
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            GeoIP geoIp = geoIPLocationService.getLocation(ipAddress);
+            LOG.info("Searching term={} cityName={} lat={} lng={} filters={} ipAddress={}", search, cityName, lat, lng, filters, ipAddress);
+
+            GeoIP geoIp;
+            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
+            if (StringUtils.isNotBlank(cityName)) {
+                //TODO search based on city when lat lng is disabled
+                geoIp = new GeoIP(ipAddress, "", Double.valueOf(lat), Double.valueOf(lng));
+                bizStoreElasticList.setCityName(cityName);
+            } else if (StringUtils.isNotBlank(lng) && StringUtils.isNotBlank(lat)) {
+                geoIp = new GeoIP(ipAddress, "", Double.valueOf(lat), Double.valueOf(lng));
+                bizStoreElasticList.setCityName(geoIp.getCityName());
+            } else {
+                geoIp = geoIPLocationService.getLocation(ipAddress);
+                bizStoreElasticList.setCityName(geoIp.getCityName());
+            }
+
+            String geoHash = geoIp.getGeoHash();
+            if (StringUtils.isBlank(geoHash)) {
+                /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
+                geoHash = "te7ut71tgd9n";
+            }
 
             List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
                     search,
-                    geoIp.getGeoHash());
+                    geoHash);
 
-            return new BizStoreElasticList().populateBizStoreElasticList(elasticBizStoreSources).asJson();
+            return bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
             apiHealthService.insert(
