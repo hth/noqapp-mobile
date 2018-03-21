@@ -136,7 +136,7 @@ public class SearchBusinessStoreController {
 
             return bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).asJson();
         } catch (Exception e) {
-            LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
             apiHealthService.insert(
                     "/search",
                     "search",
