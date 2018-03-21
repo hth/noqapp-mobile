@@ -88,7 +88,7 @@ public class SearchBusinessStoreController {
                 return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
             }
 
-            String search = map.get("search").getText();
+            String query = map.get("q").getText();
             String cityName = null;
             if (map.containsKey("cityName")) {
                 cityName = map.get("cityName").getText();
@@ -108,7 +108,7 @@ public class SearchBusinessStoreController {
                 filters = map.get("filters").getText();
             }
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.info("Searching term={} cityName={} lat={} lng={} filters={} ipAddress={}", search, cityName, lat, lng, filters, ipAddress);
+            LOG.info("Searching query={} cityName={} lat={} lng={} filters={} ipAddress={}", query, cityName, lat, lng, filters, ipAddress);
 
             GeoIP geoIp;
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
@@ -131,7 +131,7 @@ public class SearchBusinessStoreController {
             }
 
             List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
-                    search,
+                    query,
                     geoHash);
 
             return bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).asJson();
