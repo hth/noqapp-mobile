@@ -110,20 +110,8 @@ public class SearchBusinessStoreController {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.info("Searching query={} cityName={} lat={} lng={} filters={} ipAddress={}", query, cityName, lat, lng, filters, ipAddress);
 
-            GeoIP geoIp;
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
-            if (StringUtils.isNotBlank(cityName)) {
-                //TODO search based on city when lat lng is disabled
-                geoIp = new GeoIP(ipAddress, "", Double.valueOf(lat), Double.valueOf(lng));
-                bizStoreElasticList.setCityName(cityName);
-            } else if (StringUtils.isNotBlank(lng) && StringUtils.isNotBlank(lat)) {
-                geoIp = new GeoIP(ipAddress, "", Double.valueOf(lat), Double.valueOf(lng));
-                bizStoreElasticList.setCityName(geoIp.getCityName());
-            } else {
-                geoIp = geoIPLocationService.getLocation(ipAddress);
-                bizStoreElasticList.setCityName(geoIp.getCityName());
-            }
-
+            GeoIP geoIp = getGeoIP(cityName, lat, lng, ipAddress, bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
             if (StringUtils.isBlank(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
@@ -152,5 +140,101 @@ public class SearchBusinessStoreController {
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.G);
         }
+    }
+
+    @PostMapping(
+            value = "/nearMe",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    public String nearMe(
+            @RequestHeader("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            @RequestBody
+            String bodyJson,
+
+            HttpServletRequest request
+    ) {
+        Instant start = Instant.now();
+        LOG.info("Searching for for did={} dt={}", did, dt);
+
+        try {
+            Map<String, ScrubbedInput> map;
+            try {
+                map = ParseJsonStringToMap.jsonStringToMap(bodyJson);
+            } catch (IOException e) {
+                LOG.error("Could not parse json={} reason={}", bodyJson, e.getLocalizedMessage(), e);
+                return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
+            }
+
+            String cityName = null;
+            if (map.containsKey("cityName")) {
+                cityName = map.get("cityName").getText();
+            }
+            String lat = null;
+            if (map.containsKey("lat")) {
+                lat = map.get("lat").getText();
+            }
+
+            String lng  = null;
+            if (map.containsKey("lng")) {
+                lng = map.get("lng").getText();
+            }
+
+            String filters = null;
+            if (map.containsKey("filters")) {
+                filters = map.get("filters").getText();
+            }
+            String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
+            LOG.info("Searching cityName={} lat={} lng={} filters={} ipAddress={}", cityName, lat, lng, filters, ipAddress);
+
+            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
+            GeoIP geoIp = getGeoIP(cityName, lat, lng, ipAddress, bizStoreElasticList);
+            String geoHash = geoIp.getGeoHash();
+            if (StringUtils.isBlank(geoHash)) {
+                /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
+                geoHash = "te7ut71tgd9n";
+            }
+
+            List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
+                    "Jai Ambe General Store",
+                    geoHash);
+
+            return bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/nearMe",
+                    "nearMe",
+                    SearchBusinessStoreController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
+            return new BizStoreElasticList().asJson();
+        } finally {
+            apiHealthService.insert(
+                    "/nearMe",
+                    "nearMe",
+                    SearchBusinessStoreController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
+        }
+    }
+
+    private GeoIP getGeoIP(String cityName, String lat, String lng, String ipAddress, BizStoreElasticList bizStoreElasticList) {
+        GeoIP geoIp;
+        if (StringUtils.isNotBlank(cityName)) {
+            //TODO search based on city when lat lng is disabled
+            geoIp = new GeoIP(ipAddress, "", Double.valueOf(lat), Double.valueOf(lng));
+            bizStoreElasticList.setCityName(cityName);
+        } else if (StringUtils.isNotBlank(lng) && StringUtils.isNotBlank(lat)) {
+            geoIp = new GeoIP(ipAddress, "", Double.valueOf(lat), Double.valueOf(lng));
+            bizStoreElasticList.setCityName(geoIp.getCityName());
+        } else {
+            geoIp = geoIPLocationService.getLocation(ipAddress);
+            bizStoreElasticList.setCityName(geoIp.getCityName());
+        }
+        return geoIp;
     }
 }
