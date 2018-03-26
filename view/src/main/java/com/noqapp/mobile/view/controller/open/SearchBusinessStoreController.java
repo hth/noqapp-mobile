@@ -199,7 +199,7 @@ public class SearchBusinessStoreController {
             }
 
             List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
-                    "Uno Vashi",
+                    "Store",
                     geoHash);
 
             return bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).asJson();
