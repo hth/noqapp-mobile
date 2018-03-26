@@ -197,9 +197,10 @@ public class SearchBusinessStoreController {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
+            LOG.debug("GeoIP={} geoHash={}", geoIp, geoHash);
 
             List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
-                    "Store",
+                    null,
                     geoHash);
 
             return bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).asJson();
