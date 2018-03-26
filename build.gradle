@@ -159,6 +159,7 @@ subprojects {
         compile "com.noqapp:common:1.+"
         compile "com.noqapp:domain:1.+"
         compile "com.noqapp:health:1.+"
+        compile "com.noqapp:medical:1.+"
         compile "com.noqapp:service:1.+"
         compile "com.noqapp:search:1.+"
         compile "com.noqapp:social:1.+"
