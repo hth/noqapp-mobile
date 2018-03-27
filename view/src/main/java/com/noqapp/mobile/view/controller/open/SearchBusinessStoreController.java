@@ -173,6 +173,7 @@ public class SearchBusinessStoreController {
             if (map.containsKey("cityName")) {
                 cityName = map.get("cityName").getText();
             }
+
             String lat = null;
             if (map.containsKey("lat")) {
                 lat = map.get("lat").getText();
