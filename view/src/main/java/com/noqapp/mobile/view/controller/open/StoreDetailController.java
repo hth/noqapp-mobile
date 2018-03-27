@@ -3,7 +3,9 @@ package com.noqapp.mobile.view.controller.open;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StoreCategoryEntity;
+import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.StoreProductEntity;
+import com.noqapp.domain.json.JsonHour;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonStore;
 import com.noqapp.domain.json.JsonStoreCategory;
@@ -108,6 +110,17 @@ public class StoreDetailController {
                         .setCategoryId(storeCategory.getId())
                         .setCategoryName(storeCategory.getCategoryName());
                 jsonStore.addJsonStoreCategory(jsonStoreCategory);
+            }
+
+            List<StoreHourEntity> storeHours = bizService.findAllStoreHours(bizStore.getId());
+            for (StoreHourEntity storeHour : storeHours) {
+                JsonHour jsonHour = new JsonHour()
+                        .setDayOfWeek(storeHour.getDayOfWeek())
+                        .setTokenAvailableFrom(storeHour.getTokenAvailableFrom())
+                        .setTokenNotAvailableFrom(storeHour.getTokenNotAvailableFrom())
+                        .setStartHour(storeHour.getStartHour())
+                        .setEndHour(storeHour.getEndHour());
+                jsonStore.addJsonHour(jsonHour);
             }
 
             return jsonStore.asJson();
