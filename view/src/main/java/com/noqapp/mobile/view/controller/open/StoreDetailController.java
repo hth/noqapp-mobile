@@ -96,6 +96,7 @@ public class StoreDetailController {
             jsonStore.setJsonQueue(jsonQueue);
             for (StoreProductEntity storeProduct : storeProducts) {
                 JsonStoreProduct jsonStoreProduct = new JsonStoreProduct()
+                        .setProductId(storeProduct.getId())
                         .setProductName(storeProduct.getProductName())
                         .setProductPrice(storeProduct.getProductPrice())
                         .setProductDiscount(storeProduct.getProductDiscount())
