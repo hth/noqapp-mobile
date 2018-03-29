@@ -98,7 +98,8 @@ public class StoreDetailController {
                 JsonStoreProduct jsonStoreProduct = new JsonStoreProduct()
                         .setProductName(storeProduct.getProductName())
                         .setProductPrice(storeProduct.getProductPrice())
-                        .setProductDescription(storeProduct.getProductDescription())
+                        .setProductDiscount(storeProduct.getProductDiscount())
+                        .setProductInfo(storeProduct.getProductInfo())
                         .setStoreCategoryId(storeProduct.getStoreCategoryId())
                         .setProductFresh(storeProduct.isProductFresh())
                         .setProductReference(storeProduct.getProductReference());
