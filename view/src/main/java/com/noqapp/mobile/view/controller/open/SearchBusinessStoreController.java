@@ -2,12 +2,10 @@ package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
-import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.GeoIP;
 import com.noqapp.search.elastic.json.ElasticBizStoreSource;
@@ -77,7 +75,7 @@ public class SearchBusinessStoreController {
             HttpServletRequest request
     ) {
         Instant start = Instant.now();
-        LOG.info("Searching for for did={} dt={}", did, dt);
+        LOG.info("Searching for did={} dt={}", did, dt);
 
         try {
             Map<String, ScrubbedInput> map;
@@ -152,47 +150,17 @@ public class SearchBusinessStoreController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput dt,
 
-            @RequestBody
-            String bodyJson,
-
             HttpServletRequest request
     ) {
         Instant start = Instant.now();
-        LOG.info("Searching for for did={} dt={}", did, dt);
+        LOG.info("NearMe invoked did={} dt={}", did, dt);
 
         try {
-            Map<String, ScrubbedInput> map;
-            try {
-                map = ParseJsonStringToMap.jsonStringToMap(bodyJson);
-            } catch (IOException e) {
-                LOG.error("Could not parse json={} reason={}", bodyJson, e.getLocalizedMessage(), e);
-                return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
-            }
-
-            String cityName = null;
-            if (map.containsKey("cityName")) {
-                cityName = map.get("cityName").getText();
-            }
-
-            String lat = null;
-            if (map.containsKey("lat")) {
-                lat = map.get("lat").getText();
-            }
-
-            String lng  = null;
-            if (map.containsKey("lng")) {
-                lng = map.get("lng").getText();
-            }
-
-            String filters = null;
-            if (map.containsKey("filters")) {
-                filters = map.get("filters").getText();
-            }
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.info("Searching cityName={} lat={} lng={} filters={} ipAddress={}", cityName, lat, lng, filters, ipAddress);
+            LOG.info("Searching ipAddress={}", ipAddress);
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
-            GeoIP geoIp = getGeoIP(cityName, lat, lng, ipAddress, bizStoreElasticList);
+            GeoIP geoIp = getGeoIP(null, null, null, ipAddress, bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
             if (StringUtils.isBlank(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
@@ -201,7 +169,7 @@ public class SearchBusinessStoreController {
             LOG.debug("GeoIP={} geoHash={}", geoIp, geoHash);
 
             List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
-                    "Store",
+                    null,
                     geoHash);
 
             return bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).asJson();
