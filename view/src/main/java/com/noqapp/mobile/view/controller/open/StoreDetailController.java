@@ -102,7 +102,8 @@ public class StoreDetailController {
                         .setProductDiscount(storeProduct.getProductDiscount())
                         .setProductInfo(storeProduct.getProductInfo())
                         .setStoreCategoryId(storeProduct.getStoreCategoryId())
-                        .setProductFresh(storeProduct.isProductFresh())
+                        .setProductType(storeProduct.getProductType())
+                        .setUnitOfMeasurement(storeProduct.getUnitOfMeasurement())
                         .setProductReference(storeProduct.getProductReference());
                 jsonStore.addJsonStoreProduct(jsonStoreProduct);
             }
