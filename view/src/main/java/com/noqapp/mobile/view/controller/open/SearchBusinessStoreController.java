@@ -140,6 +140,7 @@ public class SearchBusinessStoreController {
         }
     }
 
+    /** Populated with lat and lng at the minimum, when missing uses IP address. */
     @PostMapping(
             value = "/nearMe",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
@@ -150,17 +151,47 @@ public class SearchBusinessStoreController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput dt,
 
+            @RequestBody
+            String bodyJson,
+
             HttpServletRequest request
     ) {
         Instant start = Instant.now();
         LOG.info("NearMe invoked did={} dt={}", did, dt);
 
         try {
+            Map<String, ScrubbedInput> map;
+            try {
+                map = ParseJsonStringToMap.jsonStringToMap(bodyJson);
+            } catch (IOException e) {
+                LOG.error("Could not parse json={} reason={}", bodyJson, e.getLocalizedMessage(), e);
+                return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
+            }
+
+            String cityName = null;
+            if (map.containsKey("cityName")) {
+                cityName = map.get("cityName").getText();
+            }
+
+            String lat = null;
+            if (map.containsKey("lat")) {
+                lat = map.get("lat").getText();
+            }
+
+            String lng  = null;
+            if (map.containsKey("lng")) {
+                lng = map.get("lng").getText();
+            }
+
+            String filters = null;
+            if (map.containsKey("filters")) {
+                filters = map.get("filters").getText();
+            }
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.info("Searching ipAddress={}", ipAddress);
+            LOG.info("Searching cityName={} lat={} lng={} filters={} ipAddress={}", cityName, lat, lng, filters, ipAddress);
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
-            GeoIP geoIp = getGeoIP(null, null, null, ipAddress, bizStoreElasticList);
+            GeoIP geoIp = getGeoIP(cityName, lat, lng, ipAddress, bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
             if (StringUtils.isBlank(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
