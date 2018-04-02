@@ -60,18 +60,7 @@ public class PurchaseOrderAPIController {
         this.authenticateMobileService = authenticateMobileService;
     }
 
-    /**
-     * Add purchase when user presses confirm.
-     *
-     * @param did
-     * @param dt
-     * @param mail
-     * @param auth
-     * @param bodyJson
-     * @param response
-     * @return
-     * @throws IOException
-     */
+    /** Add purchase when user presses confirm. */
     @PostMapping(
             value = "/purchase",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -95,7 +84,7 @@ public class PurchaseOrderAPIController {
             HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
-        LOG.info("Purchase Order API for did={} dt={}", did, dt);
+        LOG.info("Purchase Order API for did={} dt={} order={}", did, dt, bodyJson);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
@@ -115,7 +104,11 @@ public class PurchaseOrderAPIController {
             /* Required. */
 
             if (qid.equals(jsonPurchaseOrder.getQueueUserId())) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid Purchase Order");
+                LOG.warn("Un-Authorized, order submitted does not match queueUserId in the order qid={} orderQid={}",
+                        qid,
+                        jsonPurchaseOrder.getQueueUserId());
+
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Purchase Order");
                 return null;
             }
 
