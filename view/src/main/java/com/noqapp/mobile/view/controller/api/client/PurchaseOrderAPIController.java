@@ -97,7 +97,7 @@ public class PurchaseOrderAPIController {
 
         boolean orderPlacedSuccess = false;
         try {
-            if (StringUtils.equals(qid, jsonPurchaseOrder.getQueueUserId())) {
+            if (!StringUtils.equals(qid, jsonPurchaseOrder.getQueueUserId())) {
                 LOG.warn("Un-Authorized, order submitted does not match queueUserId in the order qid={} orderQid={}",
                         qid,
                         jsonPurchaseOrder.getQueueUserId());
