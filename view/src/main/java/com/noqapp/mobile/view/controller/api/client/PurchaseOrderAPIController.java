@@ -1,8 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.noqapp.common.utils.ParseJsonStringToMap;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonResponse;
@@ -25,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Map;
 
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
@@ -88,9 +85,10 @@ public class PurchaseOrderAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        Map<String, ScrubbedInput> map;
+        JsonPurchaseOrder jsonPurchaseOrder;
         try {
-            map = ParseJsonStringToMap.jsonStringToMap(bodyJson);
+            ObjectMapper mapper = new ObjectMapper();
+            jsonPurchaseOrder = mapper.readValue(bodyJson, JsonPurchaseOrder.class);
         } catch (IOException e) {
             LOG.error("Could not parse json={} reason={}", bodyJson, e.getLocalizedMessage(), e);
             return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
@@ -98,11 +96,6 @@ public class PurchaseOrderAPIController {
 
         boolean orderPlacedSuccess = false;
         try {
-            /* Required. */
-            String po = map.get("po").getText();
-            JsonPurchaseOrder jsonPurchaseOrder = new Gson().fromJson(po, JsonPurchaseOrder.class);
-            /* Required. */
-
             if (qid.equals(jsonPurchaseOrder.getQueueUserId())) {
                 LOG.warn("Un-Authorized, order submitted does not match queueUserId in the order qid={} orderQid={}",
                         qid,
