@@ -9,6 +9,7 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.PurchaseOrderService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +97,7 @@ public class PurchaseOrderAPIController {
 
         boolean orderPlacedSuccess = false;
         try {
-            if (qid.compareTo(jsonPurchaseOrder.getQueueUserId()) == 0) {
+            if (StringUtils.equals(qid, jsonPurchaseOrder.getQueueUserId())) {
                 LOG.warn("Un-Authorized, order submitted does not match queueUserId in the order qid={} orderQid={}",
                         qid,
                         jsonPurchaseOrder.getQueueUserId());
