@@ -188,7 +188,7 @@ public class SearchBusinessStoreController {
                 filters = map.get("filters").getText();
             }
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.info("Searching cityName={} lat={} lng={} filters={} ipAddress={}", cityName, lat, lng, filters, ipAddress);
+            LOG.info("NearMe cityName={} lat={} lng={} filters={} ipAddress={}", cityName, lat, lng, filters, ipAddress);
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(cityName, lat, lng, ipAddress, bizStoreElasticList);
