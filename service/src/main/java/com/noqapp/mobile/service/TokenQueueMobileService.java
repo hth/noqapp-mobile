@@ -74,7 +74,7 @@ public class TokenQueueMobileService {
     }
 
     private JsonQueue getJsonQueue(BizStoreEntity bizStore, StoreHourEntity storeHour, TokenQueueEntity tokenQueue) {
-        return new JsonQueue(bizStore.getCodeQR())
+        return new JsonQueue(bizStore.getId(), bizStore.getCodeQR())
                 .setBusinessName(bizStore.getBizName().getBusinessName())
                 .setDisplayName(bizStore.getDisplayName())
                 .setBusinessType(bizStore.getBusinessType())
