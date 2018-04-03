@@ -161,13 +161,8 @@ public class DeviceController {
 
                     return new JsonLatestAppVersion(lowestSupportedApp.getLatestAppVersion()).asJson();
                 } else {
-                    int versionNumber = Integer.valueOf(versionRelease.getText());
-                    if (!LowestSupportedAppEnum.isSupportedVersion(lowestSupportedApp, versionNumber)) {
-                        LOG.warn("Sent warning to upgrade versionNumber={}", versionNumber);
-                        return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
-                    }
-
-                    return new JsonLatestAppVersion(lowestSupportedApp.getLatestAppVersion()).asJson();
+                    LOG.warn("Sent warning to upgrade versionNumber={}", versionRelease.getText());
+                    return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
                 }
             } catch (NumberFormatException e) {
                 LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
