@@ -82,7 +82,7 @@ public class PurchaseOrderAPIController {
             HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
-        LOG.info("Purchase Order API for did={} dt={} order={}", did, dt, bodyJson);
+        LOG.info("Purchase Order API for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
@@ -107,6 +107,7 @@ public class PurchaseOrderAPIController {
             }
 
             orderPlacedSuccess = purchaseOrderService.createOrder(jsonPurchaseOrder);
+            LOG.info("Order Placed Successfully={}", orderPlacedSuccess);
             return new JsonResponse(orderPlacedSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
