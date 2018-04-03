@@ -19,7 +19,7 @@ public enum LowestSupportedAppEnum {
             "1.0.1"),           //Latest App Version on App Store
 
 
-    VA("1.1.40",                //Oldest Supported App Version in String
+    VA("1.1.47",                //Oldest Supported App Version in String
             DeviceTypeEnum.A,   //Device Type
             "1.1.47");          //Latest App Version on Play Store
 
@@ -43,6 +43,10 @@ public enum LowestSupportedAppEnum {
         this.oldestAppVersion = oldestAppVersion;
         this.deviceType = deviceType;
         this.latestAppVersion = latestAppVersion;
+    }
+
+    public String getOldestAppVersion() {
+        return oldestAppVersion;
     }
 
     public String getLatestAppVersion() {
