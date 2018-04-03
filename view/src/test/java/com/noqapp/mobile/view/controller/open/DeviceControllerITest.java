@@ -3,8 +3,6 @@ package com.noqapp.mobile.view.controller.open;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonLatestAppVersion;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.common.util.ErrorJson;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.domain.DeviceRegistered;
 import com.noqapp.mobile.domain.body.client.DeviceToken;
