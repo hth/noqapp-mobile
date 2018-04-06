@@ -8,6 +8,7 @@ import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
+import com.noqapp.search.elastic.helper.DomainConversion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -195,6 +196,10 @@ public class TokenQueueMobileService {
             List<BizStoreEntity> stores = bizService.getAllBizStores(bizName.getId());
             for (BizStoreEntity bizStore : stores) {
                 BizStoreElastic bizStoreElastic = BizStoreElastic.getThisFromBizStore(bizStore);
+                BizCategoryEntity bizCategory = bizService.findByBizCategoryId(bizStore.getBizCategoryId());
+                bizStoreElastic.setCategory(bizCategory.getCategoryName());
+                List<StoreHourEntity> storeHours = bizService.findAllStoreHours(bizStore.getId());
+                bizStoreElastic.setStoreHourElasticList(DomainConversion.getStoreHourElastics(storeHours));
                 bizStoreElasticList.addBizStoreElastic(bizStoreElastic);
             }
 
