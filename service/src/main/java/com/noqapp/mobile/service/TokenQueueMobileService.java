@@ -134,7 +134,7 @@ public class TokenQueueMobileService {
 
     /**
      * //TODO(hth) add GPS co-ordinate to this query for limiting data.
-     *
+     * Refer findAllBizStoreByBizNameCodeQR as simplified for using BizStoreElastic.
      * @param codeQR
      * @return
      * @deprecated
@@ -182,8 +182,9 @@ public class TokenQueueMobileService {
                 BizStoreEntity bizStoreForCodeQR = bizService.findByCodeQR(codeQR);
                 bizName = bizStoreForCodeQR.getBizName();
             }
+            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList()
+                    .setCityName(bizName.getArea());
             List<BizCategoryEntity> bizCategories = bizService.getBusinessCategories(bizName.getId());
-            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             for (BizCategoryEntity bizCategory : bizCategories) {
                 JsonCategory jsonCategory = new JsonCategory()
                         .setBizCategoryId(bizCategory.getId())
@@ -195,7 +196,6 @@ public class TokenQueueMobileService {
             for (BizStoreEntity bizStore : stores) {
                 BizStoreElastic bizStoreElastic = BizStoreElastic.getThisFromBizStore(bizStore);
                 bizStoreElasticList.addBizStoreElastic(bizStoreElastic);
-
             }
 
             return bizStoreElasticList;
