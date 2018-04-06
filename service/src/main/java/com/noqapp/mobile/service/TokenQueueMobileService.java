@@ -6,6 +6,8 @@ import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.repository.QueueManager;
+import com.noqapp.search.elastic.domain.BizStoreElastic;
+import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -135,6 +137,7 @@ public class TokenQueueMobileService {
      *
      * @param codeQR
      * @return
+     * @deprecated
      */
     public JsonQueueList findAllQueuesByBizNameCodeQR(String codeQR) {
         try {
@@ -160,6 +163,42 @@ public class TokenQueueMobileService {
             }
 
             return jsonQueues;
+        } catch (Exception e) {
+            //TODO remove this catch
+            LOG.error("Failed getting bizName for codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param codeQR
+     * @return
+     */
+    public BizStoreElasticList findAllBizStoreByBizNameCodeQR(String codeQR) {
+        try {
+            BizNameEntity bizName = bizService.findBizNameByCodeQR(codeQR);
+            if (null == bizName) {
+                BizStoreEntity bizStoreForCodeQR = bizService.findByCodeQR(codeQR);
+                bizName = bizStoreForCodeQR.getBizName();
+            }
+            List<BizCategoryEntity> bizCategories = bizService.getBusinessCategories(bizName.getId());
+            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
+            for (BizCategoryEntity bizCategory : bizCategories) {
+                JsonCategory jsonCategory = new JsonCategory()
+                        .setBizCategoryId(bizCategory.getId())
+                        .setCategoryName(bizCategory.getCategoryName());
+                bizStoreElasticList.addJsonCategory(jsonCategory);
+            }
+
+            List<BizStoreEntity> stores = bizService.getAllBizStores(bizName.getId());
+            for (BizStoreEntity bizStore : stores) {
+                BizStoreElastic bizStoreElastic = BizStoreElastic.getThisFromBizStore(bizStore);
+                bizStoreElasticList.addBizStoreElastic(bizStoreElastic);
+
+            }
+
+            return bizStoreElasticList;
         } catch (Exception e) {
             //TODO remove this catch
             LOG.error("Failed getting bizName for codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);

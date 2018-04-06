@@ -131,7 +131,7 @@ public class TokenQueueController {
         }
 
         try {
-            return tokenQueueMobileService.findAllQueuesByBizNameCodeQR(codeQR.getText()).asJson();
+            return tokenQueueMobileService.findAllBizStoreByBizNameCodeQR(codeQR.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting all queue state did={} reason={}", did, e.getLocalizedMessage(), e);
             apiHealthService.insert(
