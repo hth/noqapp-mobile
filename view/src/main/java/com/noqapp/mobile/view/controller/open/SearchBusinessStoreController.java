@@ -74,6 +74,7 @@ public class SearchBusinessStoreController {
 
             HttpServletRequest request
     ) {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Searching for did={} dt={}", did, dt);
 
@@ -123,12 +124,7 @@ public class SearchBusinessStoreController {
             return bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/search",
-                    "search",
-                    SearchBusinessStoreController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return new BizStoreElasticList().asJson();
         } finally {
             apiHealthService.insert(
@@ -136,7 +132,7 @@ public class SearchBusinessStoreController {
                     "search",
                     SearchBusinessStoreController.class.getName(),
                     Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -156,6 +152,7 @@ public class SearchBusinessStoreController {
 
             HttpServletRequest request
     ) {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("NearMe invoked did={} dt={}", did, dt);
 
@@ -206,12 +203,7 @@ public class SearchBusinessStoreController {
             return bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/nearMe",
-                    "nearMe",
-                    SearchBusinessStoreController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return new BizStoreElasticList().asJson();
         } finally {
             apiHealthService.insert(
@@ -219,7 +211,7 @@ public class SearchBusinessStoreController {
                     "nearMe",
                     SearchBusinessStoreController.class.getName(),
                     Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 

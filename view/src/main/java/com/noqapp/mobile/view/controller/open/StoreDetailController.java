@@ -83,6 +83,7 @@ public class StoreDetailController {
 
             HttpServletResponse response
     ) {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Store Detail for codeQR={} did={} dt={}", codeQR, did, dt);
 
@@ -129,12 +130,7 @@ public class StoreDetailController {
             return jsonStore.asJson();
         } catch (Exception e) {
             LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/search",
-                    "search",
-                    SearchBusinessStoreController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return new BizStoreElasticList().asJson();
         } finally {
             apiHealthService.insert(
@@ -142,7 +138,7 @@ public class StoreDetailController {
                     "search",
                     SearchBusinessStoreController.class.getName(),
                     Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }

@@ -81,6 +81,7 @@ public class PurchaseOrderAPIController {
 
             HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Purchase Order API for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -111,12 +112,7 @@ public class PurchaseOrderAPIController {
             return new JsonResponse(orderPlacedSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/purchase",
-                    "purchase",
-                    PurchaseOrderAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return new JsonResponse(orderPlacedSuccess).asJson();
         } finally {
             apiHealthService.insert(
@@ -124,7 +120,7 @@ public class PurchaseOrderAPIController {
                     "purchase",
                     PurchaseOrderAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }
