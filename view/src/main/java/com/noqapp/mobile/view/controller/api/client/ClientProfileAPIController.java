@@ -74,6 +74,7 @@ public class ClientProfileAPIController {
 
             HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -89,12 +90,7 @@ public class ClientProfileAPIController {
 
         } catch(Exception e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/fetch",
-                    "fetch",
-                    ClientProfileAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -102,7 +98,7 @@ public class ClientProfileAPIController {
                     "fetch",
                     ClientProfileAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }

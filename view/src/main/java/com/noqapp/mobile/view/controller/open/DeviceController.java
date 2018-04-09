@@ -82,6 +82,7 @@ public class DeviceController {
 
             HttpServletResponse response
     ) {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Register did={} token={}", did.getText(), tokenJson);
 
@@ -103,12 +104,7 @@ public class DeviceController {
             return DeviceRegistered.newInstance(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/register",
-                    "registerDevice",
-                    DeviceController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -116,7 +112,7 @@ public class DeviceController {
                     "registerDevice",
                     DeviceController.class.getName(),
                     Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -142,6 +138,7 @@ public class DeviceController {
             @RequestHeader (value = "X-R-VR")
             ScrubbedInput versionRelease
     ) {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Supported device did={} deviceType={} versionRelease={}", did, deviceType, versionRelease);
 
@@ -173,12 +170,7 @@ public class DeviceController {
             }
         } catch (Exception e) {
             LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/version",
-                    "version",
-                    DeviceController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return getErrorReason("Incorrect device type.", USER_INPUT);
         } finally {
             apiHealthService.insert(
@@ -186,7 +178,7 @@ public class DeviceController {
                     "version",
                     DeviceController.class.getName(),
                     Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
