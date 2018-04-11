@@ -1,6 +1,9 @@
 package com.noqapp.mobile.view.controller.open;
 
+import com.noqapp.common.utils.HashText;
+import com.noqapp.common.utils.RandomString;
 import com.noqapp.domain.UserAccountEntity;
+import com.noqapp.domain.UserAuthenticationEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.GenderEnum;
@@ -330,8 +333,12 @@ public class AccountClientController {
                         userAccount.setPhoneValidated(true);
                         accountService.save(userAccount);
                     }
+
+                    //update authentication key after login
+                    String authenticationAfterLogin = HashText.computeBCrypt(RandomString.newInstance().nextString());
+                    accountService.updateAuthenticationKey(userAccount.getUserAuthentication().getId(), authenticationAfterLogin);
                     response.addHeader("X-R-MAIL", userAccount.getUserId());
-                    response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
+                    response.addHeader("X-R-AUTH", authenticationAfterLogin);
 
                     DeviceTypeEnum deviceTypeEnum;
                     try {
