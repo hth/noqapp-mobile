@@ -335,10 +335,9 @@ public class AccountClientController {
                     }
 
                     //update authentication key after login
-                    String authenticationAfterLogin = HashText.computeBCrypt(RandomString.newInstance().nextString());
-                    accountService.updateAuthenticationKey(userAccount.getUserAuthentication().getId(), authenticationAfterLogin);
+                    String updatedAuthenticationKey = accountService.updateAuthenticationKey(userAccount.getUserAuthentication().getId());
                     response.addHeader("X-R-MAIL", userAccount.getUserId());
-                    response.addHeader("X-R-AUTH", authenticationAfterLogin);
+                    response.addHeader("X-R-AUTH", updatedAuthenticationKey);
 
                     DeviceTypeEnum deviceTypeEnum;
                     try {
