@@ -166,22 +166,22 @@ public class SearchBusinessStoreController {
             }
 
             String cityName = null;
-            if (map.containsKey("cityName")) {
+            if (map.containsKey("cityName") && map.get("cityName") != null) {
                 cityName = map.get("cityName").getText();
             }
 
             String lat = null;
-            if (map.containsKey("lat")) {
+            if (map.containsKey("lat") && map.get("lng") != null) {
                 lat = map.get("lat").getText();
             }
 
             String lng  = null;
-            if (map.containsKey("lng")) {
+            if (map.containsKey("lng") && map.get("lng") != null) {
                 lng = map.get("lng").getText();
             }
 
             String filters = null;
-            if (map.containsKey("filters")) {
+            if (map.containsKey("filters") && map.get("filters") != null) {
                 filters = map.get("filters").getText();
             }
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);

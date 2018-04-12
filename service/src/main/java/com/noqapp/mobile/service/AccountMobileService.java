@@ -275,6 +275,6 @@ public class AccountMobileService {
     public enum ACCOUNT_MIGRATE {
         PH, //Phone
         CS, //CountryShortName
-        TZ, //TimeZone          
+        TZ, //TimeZone
     }
 }
