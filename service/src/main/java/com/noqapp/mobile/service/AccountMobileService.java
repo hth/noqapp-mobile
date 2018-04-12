@@ -271,4 +271,10 @@ public class AccountMobileService {
         CS, //CountryShortName  //TODO add this to token merchant registration
         TZ, //TimeZone          //TODO add this to token merchant registration
     }
+
+    public enum ACCOUNT_MIGRATE {
+        PH, //Phone
+        CS, //CountryShortName
+        TZ, //TimeZone          
+    }
 }
