@@ -178,11 +178,11 @@ public class ClientProfileAPIController {
                 }
 
                 /* Required. */
-                String phone = StringUtils.deleteWhitespace(map.get(AccountMobileService.ACCOUNT_REGISTRATION.PH.name()).getText());
+                String phone = StringUtils.deleteWhitespace(map.get(AccountMobileService.ACCOUNT_MIGRATE.PH.name()).getText());
                 /* Required. */
                 String countryShortName = Formatter.getCountryShortNameFromInternationalPhone(phone);
                 /* Required. */
-                String timeZone = map.get(AccountMobileService.ACCOUNT_REGISTRATION.TZ.name()).getText();
+                String timeZone = map.get(AccountMobileService.ACCOUNT_MIGRATE.TZ.name()).getText();
 
                 errors = accountClientValidator.validate(
                         phone,
@@ -199,7 +199,7 @@ public class ClientProfileAPIController {
                     LOG.info("Failed user login as user found with phone={} cs={}", phone, countryShortName);
                     errors = new HashMap<>();
                     errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
-                    errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), phone);
+                    errors.put(AccountMobileService.ACCOUNT_MIGRATE.PH.name(), phone);
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
                     return ErrorEncounteredJson.toJson(errors);
