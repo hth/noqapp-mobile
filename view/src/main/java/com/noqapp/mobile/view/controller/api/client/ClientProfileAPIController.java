@@ -217,7 +217,7 @@ public class ClientProfileAPIController {
 
                     errors = new HashMap<>();
                     errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
-                    errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), phone);
+                    errors.put(AccountMobileService.ACCOUNT_MIGRATE.PH.name(), phone);
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
                     return ErrorEncounteredJson.toJson(errors);
