@@ -63,8 +63,9 @@ public class TokenQueueMobileService {
             BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
             StoreHourEntity storeHour = getStoreHours(codeQR, bizStore);
             TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
-            LOG.info("TokenState bizStore={} averageServiceTime={} tokenQueue={}",
+            LOG.info("TokenState bizStore={} businessType={} averageServiceTime={} tokenQueue={}",
                     bizStore.getBizName(),
+                    bizStore.getBusinessType().getDescription(),
                     bizStore.getAverageServiceTime(),
                     tokenQueue.getCurrentlyServing());
 
