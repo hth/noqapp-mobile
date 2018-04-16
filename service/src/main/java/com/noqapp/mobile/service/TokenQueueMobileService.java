@@ -177,23 +177,6 @@ public class TokenQueueMobileService {
      * @param codeQR
      * @return
      */
-    public BizStoreElasticList findAllBizStoreByBizNameCodeQRUnique(String codeQR) {
-        try {
-            BizStoreElasticList bizStoreElasticList = findAllBizStoreByBizNameCodeQR(codeQR);
-            bizStoreElasticList.uniqueSet();
-            return bizStoreElasticList;
-        } catch (Exception e) {
-            //TODO remove this catch
-            LOG.error("Failed getting bizName for codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);
-            return null;
-        }
-    }
-
-    /**
-     *
-     * @param codeQR
-     * @return
-     */
     public BizStoreElasticList findAllBizStoreByBizNameCodeQR(String codeQR) {
         try {
             BizNameEntity bizName = bizService.findBizNameByCodeQR(codeQR);
