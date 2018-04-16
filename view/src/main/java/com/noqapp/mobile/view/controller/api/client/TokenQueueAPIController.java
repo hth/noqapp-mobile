@@ -179,7 +179,7 @@ public class TokenQueueAPIController {
         }
 
         try {
-            return tokenQueueMobileService.findAllBizStoreByBizNameCodeQRSet(codeQR.getText()).asJson();
+            return tokenQueueMobileService.findAllBizStoreByBizNameCodeQRUnique(codeQR.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting all queue state qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
