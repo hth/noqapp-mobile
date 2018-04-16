@@ -8,6 +8,7 @@ import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
+import com.noqapp.search.elastic.domain.BizStoreElasticSet;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -177,7 +178,47 @@ public class TokenQueueMobileService {
      * @param codeQR
      * @return
      */
-    public BizStoreElasticList findAllBizStoreByBizNameCodeQR(String codeQR) {
+    public BizStoreElasticSet findAllBizStoreByBizNameCodeQRSet(String codeQR) {
+        try {
+            BizNameEntity bizName = bizService.findBizNameByCodeQR(codeQR);
+            if (null == bizName) {
+                BizStoreEntity bizStoreForCodeQR = bizService.findByCodeQR(codeQR);
+                bizName = bizStoreForCodeQR.getBizName();
+            }
+            BizStoreElasticSet bizStoreElasticSet = new BizStoreElasticSet()
+                    .setCityName(bizName.getArea());
+            List<BizCategoryEntity> bizCategories = bizService.getBusinessCategories(bizName.getId());
+            for (BizCategoryEntity bizCategory : bizCategories) {
+                JsonCategory jsonCategory = new JsonCategory()
+                        .setBizCategoryId(bizCategory.getId())
+                        .setCategoryName(bizCategory.getCategoryName());
+                bizStoreElasticSet.addJsonCategory(jsonCategory);
+            }
+
+            List<BizStoreEntity> stores = bizService.getAllBizStores(bizName.getId());
+            for (BizStoreEntity bizStore : stores) {
+                BizStoreElastic bizStoreElastic = BizStoreElastic.getThisFromBizStore(bizStore);
+                BizCategoryEntity bizCategory = bizService.findByBizCategoryId(bizStore.getBizCategoryId());
+                bizStoreElastic.setCategory(bizCategory.getCategoryName());
+                List<StoreHourEntity> storeHours = bizService.findAllStoreHours(bizStore.getId());
+                bizStoreElastic.setStoreHourElasticList(DomainConversion.getStoreHourElastics(storeHours));
+                bizStoreElasticSet.addBizStoreElastic(bizStoreElastic);
+            }
+
+            return bizStoreElasticSet;
+        } catch (Exception e) {
+            //TODO remove this catch
+            LOG.error("Failed getting bizName for codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param codeQR
+     * @return
+     */
+    public BizStoreElasticList findAllBizStoreByBizNameCodeQRList(String codeQR) {
         try {
             BizNameEntity bizName = bizService.findBizNameByCodeQR(codeQR);
             if (null == bizName) {
