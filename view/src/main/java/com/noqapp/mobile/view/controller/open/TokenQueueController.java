@@ -152,6 +152,53 @@ public class TokenQueueController {
         }
     }
 
+    /** Get all state of queue at a Business when one QR Code is scanned. */
+    @GetMapping(
+            value = "/levelUp/{codeQR}",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String levelUp(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput deviceType,
+
+            @PathVariable ("codeQR")
+            ScrubbedInput codeQR,
+
+            HttpServletResponse response
+    ) throws IOException {
+        Instant start = Instant.now();
+        LOG.info("On scan get all state did={} dt={} codeQR={}", did, deviceType, codeQR);
+        if (!tokenQueueMobileService.getBizService().isValidBizNameCodeQR(codeQR.getText()) && !tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+            return null;
+        }
+
+        try {
+            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(codeQR.getText());
+            return tokenQueueMobileService.findAllBizStoreByBizNameCodeQR(bizStore.getBizName().getCodeQR()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting all queue state did={} reason={}", did, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                    "/v1/{codeQR}",
+                    "getAllQueueState",
+                    TokenQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.F);
+
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                    "/v1/{codeQR}",
+                    "getAllQueueState",
+                    TokenQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    HealthStatusEnum.G);
+        }
+    }
+
     /** Get all the queues user has token from. In short all the queues user has joined. */
     @GetMapping (
             value = "/queues",
