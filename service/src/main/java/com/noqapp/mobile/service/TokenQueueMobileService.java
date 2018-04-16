@@ -197,10 +197,14 @@ public class TokenQueueMobileService {
             List<BizStoreEntity> stores = bizService.getAllBizStores(bizName.getId());
             for (BizStoreEntity bizStore : stores) {
                 BizStoreElastic bizStoreElastic = BizStoreElastic.getThisFromBizStore(bizStore);
-                BizCategoryEntity bizCategory = bizService.findByBizCategoryId(bizStore.getBizCategoryId());
-                bizStoreElastic.setCategory(bizCategory.getCategoryName());
                 List<StoreHourEntity> storeHours = bizService.findAllStoreHours(bizStore.getId());
-                bizStoreElastic.setStoreHourElasticList(DomainConversion.getStoreHourElastics(storeHours));
+                BizCategoryEntity bizCategory = bizService.findByBizCategoryId(bizStore.getBizCategoryId());
+
+                bizStoreElastic.setCategory(bizCategory.getCategoryName())
+                        .setStoreHourElasticList(DomainConversion.getStoreHourElastics(storeHours));
+
+                //TODO(hth) remove this call, currently it populates the images
+                bizStoreElastic.getDisplayImage();
                 bizStoreElasticList.addBizStoreElastic(bizStoreElastic);
             }
 
