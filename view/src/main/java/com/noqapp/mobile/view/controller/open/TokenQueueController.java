@@ -152,7 +152,7 @@ public class TokenQueueController {
         }
     }
 
-    /** Get all state of queue at a Business when one QR Code is scanned. */
+    /** Get all state of queue at a Business when one QR Code of store is scanned. */
     @GetMapping(
             value = "/levelUp/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -182,8 +182,8 @@ public class TokenQueueController {
         } catch (Exception e) {
             LOG.error("Failed getting all queue state did={} reason={}", did, e.getLocalizedMessage(), e);
             apiHealthService.insert(
-                    "/v1/{codeQR}",
-                    "getAllQueueState",
+                    "/levelUp/{codeQR}",
+                    "levelUp",
                     TokenQueueController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.F);
@@ -191,8 +191,8 @@ public class TokenQueueController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/v1/{codeQR}",
-                    "getAllQueueState",
+                    "/levelUp/{codeQR}",
+                    "levelUp",
                     TokenQueueController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.G);
