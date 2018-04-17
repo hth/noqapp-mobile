@@ -98,15 +98,7 @@ public class PurchaseOrderAPIController {
 
         boolean orderPlacedSuccess = false;
         try {
-            if (!StringUtils.equals(qid, jsonPurchaseOrder.getQueueUserId())) {
-                LOG.warn("Un-Authorized, order submitted does not match queueUserId in the order qid={} orderQid={}",
-                        qid,
-                        jsonPurchaseOrder.getQueueUserId());
-
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Purchase Order");
-                return null;
-            }
-
+            jsonPurchaseOrder.setQueueUserId(qid);
             orderPlacedSuccess = purchaseOrderService.createOrder(jsonPurchaseOrder);
             LOG.info("Order Placed Successfully={}", orderPlacedSuccess);
             return new JsonResponse(orderPlacedSuccess).asJson();
