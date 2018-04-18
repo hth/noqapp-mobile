@@ -23,6 +23,7 @@ import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
+import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
@@ -218,7 +219,7 @@ class ManageQueueControllerTest {
                 anyString(),
                 anyString(),
                 ArgumentMatchers.any(TokenServiceEnum.class))
-        ).thenReturn(new JsonToken("queuecode")
+        ).thenReturn(new JsonToken("queuecode", BusinessTypeEnum.AT)
                 .setQueueStatus(QueueStatusEnum.D));
         when(tokenQueueService.findByCodeQR(anyString())).thenReturn(tokenQueue);
 
@@ -251,7 +252,7 @@ class ManageQueueControllerTest {
 
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
-        when(queueService.updateAndGetNextInQueue(anyString(), anyInt(), ArgumentMatchers.any(QueueUserStateEnum.class), anyString(), anyString(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(new JsonToken("queuecode"));
+        when(queueService.updateAndGetNextInQueue(anyString(), anyInt(), ArgumentMatchers.any(QueueUserStateEnum.class), anyString(), anyString(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(new JsonToken("queuecode", BusinessTypeEnum.AT));
 
         String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
