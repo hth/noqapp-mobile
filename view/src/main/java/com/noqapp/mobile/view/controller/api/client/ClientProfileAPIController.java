@@ -138,18 +138,32 @@ public class ClientProfileAPIController {
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String register(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
 
-            @RequestHeader (value = "X-R-DT")
-            ScrubbedInput deviceType,
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
 
             @RequestBody
             String registrationJson,
 
             HttpServletResponse response
-    ) {
-        return new JsonResponse(true).asJson();
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        UserAccountEntity userAccount = accountService.findByQueueUserId(qid);
+        UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(userAccount.getQueueUserId());
+        int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getQueueUserId());
+        LOG.info("Remote join available={}", remoteJoin);
+
+        return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
     }
 
     @PostMapping(
