@@ -96,7 +96,7 @@ public class TokenQueueMobileService {
                 .setPreventJoining(storeHour.isPreventJoining())
                 .setDayClosed(storeHour.isDayClosed())
                 .setTopic(bizStore.getTopic())
-                .setCoordinate(bizStore.getCoordinate())
+                .setGeoHash(bizStore.getGeoPoint().getGeohash())
                 .setServingNumber(tokenQueue.getCurrentlyServing())
                 .setLastNumber(tokenQueue.getLastNumber())
                 .setQueueStatus(tokenQueue.getQueueStatus())
