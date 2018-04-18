@@ -83,6 +83,8 @@ public class TokenQueueMobileService {
                 .setDisplayName(bizStore.getDisplayName())
                 .setBusinessType(bizStore.getBusinessType())
                 .setStoreAddress(bizStore.getAddress())
+                .setArea(bizStore.getArea())
+                .setTown(bizStore.getTown())
                 .setCountryShortName(bizStore.getCountryShortName())
                 .setStorePhone(bizStore.getPhoneFormatted())
                 .setRating(bizStore.getRating())
