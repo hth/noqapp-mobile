@@ -77,7 +77,7 @@ public class MedicalRecordAPIController {
             HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
-        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        LOG.debug("Medical Record Fetch mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
