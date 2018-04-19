@@ -9,6 +9,7 @@ import com.noqapp.repository.QueueManager;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.DomainConversion;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -199,11 +200,14 @@ public class TokenQueueMobileService {
             List<BizStoreEntity> stores = bizService.getAllBizStores(bizName.getId());
             for (BizStoreEntity bizStore : stores) {
                 BizStoreElastic bizStoreElastic = BizStoreElastic.getThisFromBizStore(bizStore);
-                List<StoreHourEntity> storeHours = bizService.findAllStoreHours(bizStore.getId());
-                BizCategoryEntity bizCategory = bizService.findByBizCategoryId(bizStore.getBizCategoryId());
+                bizStoreElastic.setStoreHourElasticList(DomainConversion.getStoreHourElastics(bizService.findAllStoreHours(bizStore.getId())));
 
-                bizStoreElastic.setCategory(bizCategory.getCategoryName())
-                        .setStoreHourElasticList(DomainConversion.getStoreHourElastics(storeHours));
+                if (StringUtils.isNotBlank(bizStore.getBizCategoryId())) {
+                    BizCategoryEntity bizCategory = bizService.findByBizCategoryId(bizStore.getBizCategoryId());
+                    bizStoreElastic.setCategory(bizCategory.getCategoryName());
+                } else {
+                    LOG.warn("No Category defined for bizStore name={} id={}", bizStore.getBizName(), bizStore.getId());
+                }
 
                 //TODO(hth) remove this call, currently it populates the images
                 bizStoreElastic.getDisplayImage();
