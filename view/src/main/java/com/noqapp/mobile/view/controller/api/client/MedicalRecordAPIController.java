@@ -7,6 +7,7 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.MedicalRecordEntity;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.domain.json.JsonMedicalRecordList;
+import com.noqapp.medical.domain.json.JsonRecordAccess;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.AccountService;
@@ -23,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -107,6 +110,16 @@ public class MedicalRecordAPIController {
                     //TODO something
                 }
 
+                List<JsonRecordAccess> jsonRecordAccesses = new ArrayList<>();
+                for(Long date : medicalRecord.getRecordAccessed().keySet()) {
+                    String accessedBy = medicalRecord.getRecordAccessed().get(date);
+                    JsonRecordAccess jsonRecordAccess = new JsonRecordAccess()
+                            .setRecordAccessedDate(DateUtil.dateToString(new Date(date)))
+                            .setRecordAccessedQid("#######");
+
+                    jsonRecordAccesses.add(jsonRecordAccess);
+                }
+                jsonMedicalRecord.setRecordAccess(jsonRecordAccesses);
                 jsonMedicalRecordList.addJsonMedicalRecords(jsonMedicalRecord);
             }
 
