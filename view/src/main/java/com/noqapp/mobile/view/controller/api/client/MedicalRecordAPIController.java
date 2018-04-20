@@ -105,13 +105,15 @@ public class MedicalRecordAPIController {
                         .setDiagnosedBy(accountService.findProfileByQueueUserId(medicalRecord.getDiagnosedById()).getName())
                         .setCreated(DateUtil.dateToString(medicalRecord.getCreated()));
 
-                Set<String> medicalPhysicalExaminationIds = medicalRecord.getMedicalPhysical().getMedicalPhysicalExaminationIds();
-                for (String id : medicalPhysicalExaminationIds) {
-                    //TODO something
+                if (null != medicalRecord.getMedicalPhysical()) {
+                    Set<String> medicalPhysicalExaminationIds = medicalRecord.getMedicalPhysical().getMedicalPhysicalExaminationIds();
+                    for (String id : medicalPhysicalExaminationIds) {
+                        //TODO something
+                    }
                 }
 
                 List<JsonRecordAccess> jsonRecordAccesses = new ArrayList<>();
-                for(Long date : medicalRecord.getRecordAccessed().keySet()) {
+                for (Long date : medicalRecord.getRecordAccessed().keySet()) {
                     String accessedBy = medicalRecord.getRecordAccessed().get(date);
                     JsonRecordAccess jsonRecordAccess = new JsonRecordAccess()
                             .setRecordAccessedDate(DateUtil.dateToString(new Date(date)))
