@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -98,7 +99,8 @@ public class MedicalRecordAPIController {
                         .setKnownAllergies(medicalRecord.getKnownAllergies())
                         .setClinicalFinding(medicalRecord.getClinicalFinding())
                         .setProvisionalDifferentialDiagnosis(medicalRecord.getProvisionalDifferentialDiagnosis())
-                        .setDiagnosedBy(accountService.findProfileByQueueUserId(medicalRecord.getDiagnosedById()).getName());
+                        .setDiagnosedBy(accountService.findProfileByQueueUserId(medicalRecord.getDiagnosedById()).getName())
+                        .setCreated(DateUtil.dateToString(medicalRecord.getCreated()));
 
                 Set<String> medicalPhysicalExaminationIds = medicalRecord.getMedicalPhysical().getMedicalPhysicalExaminationIds();
                 for (String id : medicalPhysicalExaminationIds) {
