@@ -227,7 +227,7 @@ public class ClientProfileAPIController {
                 }
 
                 RegisterUser registerUser = new RegisterUser()
-                        .setQueueUserId(mail.getText())
+                        .setQueueUserId(qid)
                         .setFirstName(new ScrubbedInput(firstName))
                         .setLastName(new ScrubbedInput(lastName))
                         .setAddress(address)
