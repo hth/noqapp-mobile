@@ -143,7 +143,7 @@ public class ClientProfileAPIController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String register(
+    public String update(
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
 
@@ -227,7 +227,7 @@ public class ClientProfileAPIController {
                 }
 
                 RegisterUser registerUser = new RegisterUser()
-                        .setQueueUserId(mail.getText())
+                        .setQueueUserId(qid)
                         .setFirstName(new ScrubbedInput(firstName))
                         .setLastName(new ScrubbedInput(lastName))
                         .setAddress(address)
@@ -247,7 +247,7 @@ public class ClientProfileAPIController {
 
             return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
         } catch(Exception e) {
-            LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed updating profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
