@@ -283,7 +283,6 @@ public class AccountMobileService {
         FN, //FirstName
         BD, //Birthday
         GE, //Gender            //TODO add this to token merchant registration
-        CS, //CountryShortName  //TODO add this to token merchant registration
         TZ, //TimeZone          //TODO add this to token merchant registration
     }
 }
