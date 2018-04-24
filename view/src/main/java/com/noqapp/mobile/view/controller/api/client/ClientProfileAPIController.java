@@ -354,6 +354,7 @@ public class ClientProfileAPIController {
                     return ErrorEncounteredJson.toJson(errors);
                 }
 
+                userProfile = userProfilePreferenceService.findByQueueUserId(userAccount.getQueueUserId());
                 int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getQueueUserId());
                 LOG.info("Remote join available={}", remoteJoin);
 
