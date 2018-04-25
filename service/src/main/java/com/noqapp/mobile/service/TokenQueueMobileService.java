@@ -118,7 +118,8 @@ public class TokenQueueMobileService {
             for (BizCategoryEntity bizCategory : bizCategories) {
                 JsonCategory jsonCategory = new JsonCategory()
                         .setBizCategoryId(bizCategory.getId())
-                        .setCategoryName(bizCategory.getCategoryName());
+                        .setCategoryName(bizCategory.getCategoryName())
+                        .setDisplayImage(bizCategory.getDisplayImage());
                 jsonQueues.addCategories(jsonCategory);
             }
 
@@ -156,7 +157,8 @@ public class TokenQueueMobileService {
             for (BizCategoryEntity bizCategory : bizCategories) {
                 JsonCategory jsonCategory = new JsonCategory()
                         .setBizCategoryId(bizCategory.getId())
-                        .setCategoryName(bizCategory.getCategoryName());
+                        .setCategoryName(bizCategory.getCategoryName())
+                        .setDisplayImage(bizCategory.getDisplayImage());
                 jsonQueues.addCategories(jsonCategory);
             }
 
@@ -193,7 +195,8 @@ public class TokenQueueMobileService {
             for (BizCategoryEntity bizCategory : bizCategories) {
                 JsonCategory jsonCategory = new JsonCategory()
                         .setBizCategoryId(bizCategory.getId())
-                        .setCategoryName(bizCategory.getCategoryName());
+                        .setCategoryName(bizCategory.getCategoryName())
+                        .setDisplayImage(bizCategory.getDisplayImage());
                 bizStoreElasticList.addJsonCategory(jsonCategory);
             }
 
