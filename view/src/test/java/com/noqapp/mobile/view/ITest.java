@@ -177,14 +177,14 @@ public class ITest extends RealMongoForITest {
 
         accountService = new AccountService(
                 5,
-            userAccountManager,
-            userAuthenticationManager,
-            userPreferenceManager,
-            userProfileManager,
-            generateUserIdService,
-            emailValidateService,
-            inviteService,
-            forgotRecoverManager
+                userAccountManager,
+                userAuthenticationManager,
+                userPreferenceManager,
+                userProfileManager,
+                generateUserIdService,
+                emailValidateService,
+                inviteService,
+                forgotRecoverManager
         );
 
         webConnectorService = new WebConnectorService(
@@ -197,9 +197,9 @@ public class ITest extends RealMongoForITest {
         );
 
         accountMobileService = new AccountMobileService(
-            "/webapi/mobile/mail/accountSignup.htm",
-              webConnectorService,
-              accountService
+                "/webapi/mobile/mail/accountSignup.htm",
+                webConnectorService,
+                accountService
         );
 
         userProfilePreferenceService = new UserProfilePreferenceService(
@@ -218,14 +218,15 @@ public class ITest extends RealMongoForITest {
         bizStoreManager = new BizStoreManagerImpl(getMongoTemplate());
         storeHourManager = new StoreHourManagerImpl(getMongoTemplate());
         tokenQueueService = new TokenQueueService(
-            tokenQueueManager,
-            firebaseMessageService,
-            queueManager,
-            accountService,
-            registeredDeviceManager,
-            queueManagerJDBC,
-            storeHourManager,
-            bizStoreManager
+                tokenQueueManager,
+                firebaseMessageService,
+                queueManager,
+                accountService,
+                registeredDeviceManager,
+                queueManagerJDBC,
+                storeHourManager,
+                bizStoreManager,
+                apiHealthService
         );
 
         queueService = new QueueService(
@@ -453,7 +454,7 @@ public class ITest extends RealMongoForITest {
                 .setInviteeCode(userProfile.getInviteCode())
                 .setAddressOrigin(AddressOriginEnum.G)
                 .setCountryShortName("IN")
-                .setCoordinate(new double[] {73.022498, 19.0244723});
+                .setCoordinate(new double[]{73.022498, 19.0244723});
         bizService.saveName(bizName);
 
         BizStoreEntity bizStore = BizStoreEntity.newInstance()
@@ -471,7 +472,7 @@ public class ITest extends RealMongoForITest {
                 .setAvailableTokenCount(0)
                 .setAverageServiceTime(50000)
                 .setCountryShortName("IN")
-                .setCoordinate(new double[] {73.022498, 19.0244723});
+                .setCoordinate(new double[]{73.022498, 19.0244723});
         bizService.saveStore(bizStore);
 
         List<StoreHourEntity> storeHours = new LinkedList<>();
