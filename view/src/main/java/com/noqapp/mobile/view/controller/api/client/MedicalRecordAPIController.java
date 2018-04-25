@@ -110,7 +110,7 @@ public class MedicalRecordAPIController {
                         .setDiagnosedBy(accountService.findProfileByQueueUserId(medicalRecord.getDiagnosedById()).getName())
                         .setCreated(DateUtil.dateToString(medicalRecord.getCreated()))
                         .setBusinessName(medicalRecord.getBusinessName())
-                        .setBizCategory(bizCategoryManager.findById(medicalRecord.getBizCategoryId()).getCategoryName());
+                        .setBizCategoryName(bizCategoryManager.findById(medicalRecord.getBizCategoryId()).getCategoryName());
 
                 if (null != medicalRecord.getMedicalPhysical()) {
                     Set<String> medicalPhysicalExaminationIds = medicalRecord.getMedicalPhysical().getMedicalPhysicalExaminationIds();
