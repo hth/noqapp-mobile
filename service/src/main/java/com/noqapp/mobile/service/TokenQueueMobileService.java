@@ -207,7 +207,7 @@ public class TokenQueueMobileService {
 
                 if (StringUtils.isNotBlank(bizStore.getBizCategoryId())) {
                     BizCategoryEntity bizCategory = bizService.findByBizCategoryId(bizStore.getBizCategoryId());
-                    bizStoreElastic.setCategory(bizCategory.getCategoryName());
+                    bizStoreElastic.setBizCategoryName(bizCategory.getCategoryName());
                 } else {
                     LOG.warn("No Category defined for bizStore name={} id={}", bizStore.getBizName(), bizStore.getId());
                 }
