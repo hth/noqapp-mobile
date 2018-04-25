@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BizCategoryEntity;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.MedicalRecordEntity;
@@ -10,6 +11,7 @@ import com.noqapp.medical.domain.json.JsonMedicalRecordList;
 import com.noqapp.medical.domain.json.JsonRecordAccess;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.repository.BizCategoryManager;
 import com.noqapp.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,18 +55,21 @@ public class MedicalRecordAPIController {
     private MedicalRecordService medicalRecordService;
     private ApiHealthService apiHealthService;
     private AccountService accountService;
+    private BizCategoryManager bizCategoryManager;
 
     @Autowired
     public MedicalRecordAPIController(
             AuthenticateMobileService authenticateMobileService,
             MedicalRecordService medicalRecordService,
             ApiHealthService apiHealthService,
-            AccountService accountService
+            AccountService accountService,
+            BizCategoryManager bizCategoryManager
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.medicalRecordService = medicalRecordService;
         this.apiHealthService = apiHealthService;
         this.accountService = accountService;
+        this.bizCategoryManager = bizCategoryManager;
     }
 
     @GetMapping(
@@ -103,7 +108,9 @@ public class MedicalRecordAPIController {
                         .setClinicalFinding(medicalRecord.getClinicalFinding())
                         .setProvisionalDifferentialDiagnosis(medicalRecord.getProvisionalDifferentialDiagnosis())
                         .setDiagnosedBy(accountService.findProfileByQueueUserId(medicalRecord.getDiagnosedById()).getName())
-                        .setCreated(DateUtil.dateToString(medicalRecord.getCreated()));
+                        .setCreated(DateUtil.dateToString(medicalRecord.getCreated()))
+                        .setBusinessName(medicalRecord.getBusinessName())
+                        .setBizCategory(bizCategoryManager.findById(medicalRecord.getBizCategoryId()).getCategoryName());
 
                 if (null != medicalRecord.getMedicalPhysical()) {
                     Set<String> medicalPhysicalExaminationIds = medicalRecord.getMedicalPhysical().getMedicalPhysicalExaminationIds();
