@@ -8,6 +8,34 @@ X-R-AUTH: 12
 
 {   "q": "",   "cityName": "Mumbai",   "lat": "19.004550",   "lng": "73.014529",   "filters" : "xyz" }
 
+<> 2018-04-29T033737.200.json
+
+###
+
+POST https://sandbox.noqapp.com/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: CC
+X-R-AUTH: 12
+
+{   "q": "",   "cityName": "Mumbai",   "lat": "19.004550",   "lng": "73.014529",   "filters" : "xyz" }
+
+<> 2018-04-29T033713.200.json
+
+###
+
+POST https://sandbox.noqapp.com/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: CC
+X-R-AUTH: 12
+
+{   "q": "",   "cityName": "Mumbai",   "lat": "19.004550",   "lng": "73.014529",   "filters" : "xyz" }
+
 <> 2018-04-29T023155.200.json
 
 ###
@@ -541,27 +569,5 @@ Accept: */*
 Cache-Control: no-cache
 X-R-DID: ABC
 X-R-DT: A
-
-###
-
-GET http://localhost:9090/noqapp-mobile/open/store/SN_5ab1e59e70b59e0341a2012d.json
-Accept: */*
-Cache-Control: no-cache
-X-R-DID: ABC
-X-R-DT: A
-
-<> 2018-03-23T105927.200.json
-
-###
-
-POST http://localhost:9090/noqapp-mobile/open/search.json
-Accept: */*
-Cache-Control: no-cache
-X-R-DID: ABC
-X-R-DT: A
-
-{ "q" : "Jai Ambe General Store"}
-
-<> 2018-03-23T105742.200.json
 
 ###
