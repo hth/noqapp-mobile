@@ -200,6 +200,7 @@ public class SearchBusinessStoreController {
                     null,
                     geoHash);
 
+            LOG.info("Found nearMe count={} data={}", elasticBizStoreSources.size(), elasticBizStoreSources);
             return bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
