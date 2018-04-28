@@ -200,6 +200,16 @@ public class SearchBusinessStoreController {
                     null,
                     geoHash);
 
+            for (ElasticBizStoreSource e : elasticBizStoreSources) {
+                LOG.info("{} {} {} {} {} {}",
+                        e.getBizStoreElastic().getBusinessName(),
+                        e.getBizStoreElastic().getBizNameId(),
+                        e.getBizStoreElastic().getPlaceId(),
+                        e.getBizStoreElastic().getBizCategoryId(),
+                        e.getBizStoreElastic().getAddress(),
+                        e.getBizStoreElastic().hashCode()
+                );
+            }
             LOG.info("Found nearMe count={} data={}", elasticBizStoreSources.size(), elasticBizStoreSources);
             return bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).asJson();
         } catch (Exception e) {
