@@ -1,0 +1,567 @@
+POST https://sandbox.noqapp.com/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: CC
+X-R-AUTH: 12
+
+{   "q": "",   "cityName": "Mumbai",   "lat": "19.004550",   "lng": "73.014529",   "filters" : "xyz" }
+
+<> 2018-04-29T023155.200.json
+
+###
+
+GET https://sandbox.noqapp.com/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: CC
+X-R-AUTH: 12
+
+{   "q": "",   "cityName": "Mumbai",   "lat": "19.004550",   "lng": "73.014529",   "filters" : "xyz" }
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+###
+
+POST http://localhost:9090/noqapp-mobile/api/c/purchaseOrder/purchase.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: CC
+X-R-AUTH: 12
+
+{   "po": {     "bs": "5a4094b662575d15507dff5f",     "bt": "ST",     "da": "",     "dt": "HD",     "n": "",     "op": "100",     "p": "",     "pop": [       {         "pd": 0,         "pi": "5ac1c36cb85cb7763e9ea9fc",         "pp": 10000,         "pq": 5       }     ],     "pt": "AP",     "qid": "1000002",     "sd": 0   } }
+
+<> 2018-04-02T113713.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/api/c/purchaseOrder/purchase.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: CC
+X-R-AUTH: 12
+
+{   "po": {     "bs": "5a4094b662575d15507dff5f",     "bt": "ST",     "da": "",     "dt": "HD",     "n": "",     "op": "100",     "p": "",     "pop": [       {         "pd": 0,         "pi": "5ac1c36cb85cb7763e9ea9fc",         "pp": 10000,         "pq": 5       }     ],     "pt": "AP",     "qid": "1000002",     "sd": 0   } }
+
+<> 2018-04-02T113540.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/api/c/purchaseOrder/purchase.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: CC
+X-R-AUTH: 12
+
+{   "po": {     "bs": "5a4094b662575d15507dff5f",     "bt": "ST",     "da": "",     "dt": "HD",     "n": "",     "op": "100",     "p": "",     "pop": [       {         "pd": 0,         "pi": "5ac1c36cb85cb7763e9ea9fc",         "pp": 10000,         "pq": 5       }     ],     "pt": "AP",     "qid": "1000002",     "sd": 0   } }
+
+###
+
+POST http://localhost:9090/noqapp-mobile/api/c/purchaseOrder/purchase.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: CC
+X-R-AUTH: 12
+
+{   "po": {     "bs": "5a4094b662575d15507dff5f",     "bt": "ST",     "da": "",     "dt": "HD",     "n": "",     "op": "100",     "p": "",     "pop": [       {         "pd": 0,         "pi": "5ac1c36cb85cb7763e9ea9fc",         "pp": 10000,         "pq": 5       }     ],     "pt": "AP",     "qid": "1000002",     "sd": 0   } }
+
+<> 2018-04-02T055143.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/api/c/purchaseOrder/purchase.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: CC
+X-R-AUTH: 12
+
+{   "po": {     "bs": "5a4094b662575d15507dff5f",     "bt": "ST",     "da": "",     "dt": "HD",     "n": "",     "op": "100",     "p": "",     "pop": [       {         "pd": 0,         "pi": "5ac1c36cb85cb7763e9ea9fc",         "pp": 10000,         "pq": 5       }     ],     "pt": "AP",     "qid": "1000002",     "sd": 0   } }
+
+###
+
+POST http://localhost:9090/noqapp-mobile/api/c/purchaseOrder/purchase.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: CC
+X-R-AUTH: 12
+
+{   "po": {     "bs": "5a4094b662575d15507dff5f",     "bt": "ST",     "da": "",     "dt": "HD",     "n": "",     "op": "100",     "p": "",     "pop": [       {         "pd": 0,         "pi": "5ac1c36cb85cb7763e9ea9fc",         "pp": 10000,         "pq": 5       }     ],     "pt": "AP",     "qid": "1000002",     "sd": 0   } }
+
+###
+
+POST http://localhost:9090/noqapp-mobile/api/c/purchaseOrder/purchase.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: CC
+X-R-AUTH: 12
+
+{   "po": {     "bs": "5a4094b662575d15507dff5f",     "bt": "ST",     "da": "",     "dt": "HD",     "n": "",     "op": "100",     "p": "",     "pop": [       {         "pd": 0,         "pi": "5ac1c36cb85cb7763e9ea9fc",         "pp": 10000,         "pq": 5       }     ],     "pt": "AP",     "qid": "1000002",     "sd": 0   } }
+
+<> 2018-04-02T042556.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/api/c/purchaseOrder/purchase.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: CC
+X-R-AUTH: 12
+
+{   "po": {     "bs": "5a4094b662575d15507dff5f",     "bt": "ST",     "da": null,     "dt": "HD",     "n": null,     "op": "100",     "p": null,     "pop": [       {         "pd": 0,         "pi": "5ac1c36cb85cb7763e9ea9fc",         "pp": 10000,         "pq": 5       }     ],     "pt": "AP",     "qid": null,     "sd": 0   } }
+
+<> 2018-04-02T042307.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-02T120959.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-02T120919.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T115319.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T115153.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T114733.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T112629.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T105633.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T102811.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T084359.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T082648.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T082242.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T082158.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T082028.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T080427.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T080308.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T080302.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T073129.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T072307.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T072155.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T065824.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T065738.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-04-01T065634.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-03-26T072509.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-03-26T063652.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-03-26T055454.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/searh/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/searh/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{'' : ''}
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/searh/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+###
+
+POST https://localhost:9090/noqapp-mobile/open/searh/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+###
+
+POST https://localhost:9090/noqapp-mobile/open/searh/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+###
+
+GET http://localhost:9090/noqapp-mobile/open/searh/nearMe.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+###
+
+GET http://localhost:9090/noqapp-mobile/open/store/SN_5ab1e59e70b59e0341a2012d.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+###
+
+GET http://localhost:9090/noqapp-mobile/open/store/SN_5ab1e59e70b59e0341a2012d.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+###
+
+GET http://localhost:9090/noqapp-mobile/open/store/SN_5ab1e59e70b59e0341a2012d.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+<> 2018-03-23T105927.200.json
+
+###
+
+POST http://localhost:9090/noqapp-mobile/open/search.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+
+{ "q" : "Jai Ambe General Store"}
+
+<> 2018-03-23T105742.200.json
+
+###
