@@ -6,6 +6,7 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
+import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.GeoIP;
 import com.noqapp.search.elastic.json.ElasticBizStoreSource;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -200,18 +202,17 @@ public class SearchBusinessStoreController {
                     null,
                     geoHash);
 
-            for (ElasticBizStoreSource e : elasticBizStoreSources) {
-                LOG.info("{} {} {} {} {} {}",
-                        e.getBizStoreElastic().getBusinessName(),
-                        e.getBizStoreElastic().getBizNameId(),
-                        e.getBizStoreElastic().getPlaceId(),
-                        e.getBizStoreElastic().getBizCategoryId(),
-                        e.getBizStoreElastic().getAddress(),
-                        e.getBizStoreElastic().hashCode()
-                );
+            BizStoreElasticList bizStoreElastics = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources);
+            while (bizStoreElastics.getBizStoreElastics().size() < 10) {
+                elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
+                        null,
+                        geoHash);
+
+                Collection<BizStoreElastic> additional = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).getBizStoreElastics();
+                bizStoreElastics.getBizStoreElastics().addAll(additional);
             }
-            LOG.info("Found nearMe count={} data={}", elasticBizStoreSources.size(), elasticBizStoreSources);
-            return bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).asJson();
+            
+            return bizStoreElastics.asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
