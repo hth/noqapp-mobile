@@ -204,7 +204,7 @@ public class SearchBusinessStoreController {
 
             BizStoreElasticList bizStoreElastics = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources);
             int hits = 0;
-            while (bizStoreElastics.getBizStoreElastics().size() < 10 || hits < 3) {
+            while (bizStoreElastics.getBizStoreElastics().size() < 10 && hits < 3) {
                 LOG.info("NearMe found size={}", bizStoreElastics.getBizStoreElastics().size());
                 elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
                         null,
