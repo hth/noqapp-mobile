@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -198,20 +199,31 @@ public class SearchBusinessStoreController {
             }
             LOG.debug("GeoIP={} geoHash={}", geoIp, geoHash);
 
-            List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
-                    null,
-                    geoHash);
+//            List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
+//                    null,
+//                    geoHash);
+//
+//            BizStoreElasticList bizStoreElastics = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources);
+//            int hits = 0;
+//            while (bizStoreElastics.getBizStoreElastics().size() < 10 && hits < 3) {
+//                LOG.info("NearMe found size={}", bizStoreElastics.getBizStoreElastics().size());
+//                elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
+//                        null,
+//                        geoHash);
+//
+//                Collection<BizStoreElastic> additional = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).getBizStoreElastics();
+//                bizStoreElastics.getBizStoreElastics().addAll(additional);
+//                hits ++;
+//            }
 
-            BizStoreElasticList bizStoreElastics = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources);
+            BizStoreElasticList bizStoreElastics = bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(geoHash, null);
             int hits = 0;
             while (bizStoreElastics.getBizStoreElastics().size() < 10 && hits < 3) {
                 LOG.info("NearMe found size={}", bizStoreElastics.getBizStoreElastics().size());
-                elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
-                        null,
-                        geoHash);
+                BizStoreElasticList bizStoreElasticsFetched = bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(geoHash, bizStoreElastics.getScrollId());
+                bizStoreElastics.setScrollId(bizStoreElasticsFetched.getScrollId());
+                bizStoreElastics.getBizStoreElastics().addAll(bizStoreElasticsFetched.getBizStoreElastics());
 
-                Collection<BizStoreElastic> additional = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).getBizStoreElastics();
-                bizStoreElastics.getBizStoreElastics().addAll(additional);
                 hits ++;
             }
 
