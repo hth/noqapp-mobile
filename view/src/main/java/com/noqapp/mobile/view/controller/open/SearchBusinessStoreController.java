@@ -203,15 +203,18 @@ public class SearchBusinessStoreController {
                     geoHash);
 
             BizStoreElasticList bizStoreElastics = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources);
-            while (bizStoreElastics.getBizStoreElastics().size() < 10) {
+            int hits = 0;
+            while (bizStoreElastics.getBizStoreElastics().size() < 10 || hits < 3) {
+                LOG.info("NearMe found size={}", bizStoreElastics.getBizStoreElastics().size());
                 elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
                         null,
                         geoHash);
 
                 Collection<BizStoreElastic> additional = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).getBizStoreElastics();
                 bizStoreElastics.getBizStoreElastics().addAll(additional);
+                hits ++;
             }
-            
+
             return bizStoreElastics.asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
