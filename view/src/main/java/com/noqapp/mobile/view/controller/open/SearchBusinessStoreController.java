@@ -199,33 +199,35 @@ public class SearchBusinessStoreController {
             }
             LOG.debug("GeoIP={} geoHash={}", geoIp, geoHash);
 
-            List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
-                    null,
-                    geoHash);
-
-            BizStoreElasticList bizStoreElastics = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources);
-            int hits = 0;
-            while (bizStoreElastics.getBizStoreElastics().size() < 10 && hits < 3) {
-                LOG.info("NearMe found size={}", bizStoreElastics.getBizStoreElastics().size());
-                elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
-                        null,
-                        geoHash);
-
-                Collection<BizStoreElastic> additional = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).getBizStoreElastics();
-                bizStoreElastics.getBizStoreElastics().addAll(additional);
-                hits ++;
-            }
-
-//            BizStoreElasticList bizStoreElastics = bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(geoHash, null);
+            /* Start of DSL query. */
+//            List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
+//                    null,
+//                    geoHash);
+//
+//            BizStoreElasticList bizStoreElastics = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources);
 //            int hits = 0;
 //            while (bizStoreElastics.getBizStoreElastics().size() < 10 && hits < 3) {
 //                LOG.info("NearMe found size={}", bizStoreElastics.getBizStoreElastics().size());
-//                BizStoreElasticList bizStoreElasticsFetched = bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(geoHash, bizStoreElastics.getScrollId());
-//                bizStoreElastics.setScrollId(bizStoreElasticsFetched.getScrollId());
-//                bizStoreElastics.getBizStoreElastics().addAll(bizStoreElasticsFetched.getBizStoreElastics());
+//                elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
+//                        null,
+//                        geoHash);
 //
+//                Collection<BizStoreElastic> additional = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).getBizStoreElastics();
+//                bizStoreElastics.getBizStoreElastics().addAll(additional);
 //                hits ++;
 //            }
+            /* End of DSL query. */
+
+            BizStoreElasticList bizStoreElastics = bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(geoHash, null);
+            int hits = 0;
+            while (bizStoreElastics.getBizStoreElastics().size() < 10 && hits < 3) {
+                LOG.info("NearMe found size={} scrollId={}", bizStoreElastics.getBizStoreElastics().size(), bizStoreElastics.getScrollId());
+                BizStoreElasticList bizStoreElasticsFetched = bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(geoHash, bizStoreElastics.getScrollId());
+                bizStoreElastics.setScrollId(bizStoreElasticsFetched.getScrollId());
+                bizStoreElastics.getBizStoreElastics().addAll(bizStoreElasticsFetched.getBizStoreElastics());
+
+                hits ++;
+            }
 
             return bizStoreElastics.asJson();
         } catch (Exception e) {
