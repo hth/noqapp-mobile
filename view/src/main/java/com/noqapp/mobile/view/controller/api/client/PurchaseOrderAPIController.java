@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
@@ -96,16 +97,15 @@ public class PurchaseOrderAPIController {
             return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
         }
 
-        boolean orderPlacedSuccess = false;
         try {
             jsonPurchaseOrder.setQueueUserId(qid);
-            orderPlacedSuccess = purchaseOrderService.createOrder(jsonPurchaseOrder);
-            LOG.info("Order Placed Successfully={}", orderPlacedSuccess);
-            return new JsonResponse(orderPlacedSuccess).asJson();
+            purchaseOrderService.createOrder(jsonPurchaseOrder, did.getText(), TokenServiceEnum.C);
+            LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPurchaseOrderState());
+            return jsonPurchaseOrder.asJson();
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return new JsonResponse(orderPlacedSuccess).asJson();
+            return jsonPurchaseOrder.asJson();
         } finally {
             apiHealthService.insert(
                     "/purchase",
