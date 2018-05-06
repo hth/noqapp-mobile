@@ -107,7 +107,8 @@ public class TokenQueueMobileService {
                 .setRemoteJoinAvailable(bizStore.isRemoteJoin())
                 .setAllowLoggedInUser(bizStore.isAllowLoggedInUser())
                 .setAvailableTokenCount(bizStore.getAvailableTokenCount())
-                .setBizCategoryId(bizStore.getBizCategoryId());
+                .setBizCategoryId(bizStore.getBizCategoryId())
+                .setFamousFor(bizStore.getFamousFor());
     }
 
     public JsonQueueList findAllTokenState(String codeQR) {
