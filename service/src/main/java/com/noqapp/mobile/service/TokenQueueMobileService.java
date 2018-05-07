@@ -108,7 +108,9 @@ public class TokenQueueMobileService {
                 .setAllowLoggedInUser(bizStore.isAllowLoggedInUser())
                 .setAvailableTokenCount(bizStore.getAvailableTokenCount())
                 .setBizCategoryId(bizStore.getBizCategoryId())
-                .setFamousFor(bizStore.getFamousFor());
+                .setFamousFor(bizStore.getFamousFor())
+                .setStoreServiceImages(bizStore.getStoreServiceImages())
+                .setStoreInteriorImages(bizStore.getStoreInteriorImages());
     }
 
     public JsonQueueList findAllTokenState(String codeQR) {
