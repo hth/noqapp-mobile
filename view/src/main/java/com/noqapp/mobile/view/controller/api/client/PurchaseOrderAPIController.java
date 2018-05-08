@@ -98,8 +98,7 @@ public class PurchaseOrderAPIController {
         }
 
         try {
-            jsonPurchaseOrder.setQueueUserId(qid);
-            purchaseOrderService.createOrder(jsonPurchaseOrder, did.getText(), TokenServiceEnum.C);
+            purchaseOrderService.createOrder(jsonPurchaseOrder, qid, did.getText(), TokenServiceEnum.C);
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPurchaseOrderState());
             return jsonPurchaseOrder.asJson();
         } catch (Exception e) {
