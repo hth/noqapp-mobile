@@ -4,6 +4,7 @@ import com.noqapp.domain.BizCategoryEntity;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonQueueList;
+import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
@@ -219,8 +220,17 @@ public class TokenQueueMobileService {
                     LOG.warn("No Category defined for bizStore name={} id={}", bizStore.getBizName(), bizStore.getId());
                 }
 
-                bizStoreElastic.setAmenities(bizName.getAmenities());
-                bizStoreElastic.setFacilities(bizName.getFacilities());
+                for (BusinessTypeEnum businessType : bizName.getBusinessTypes()) {
+                    switch (businessType) {
+                        case DO:
+                            bizStoreElastic.setDisplayImage(bizName.getBusinessServiceImages().iterator().next());
+                            bizStoreElastic.setAmenities(bizName.getAmenities());
+                            bizStoreElastic.setFacilities(bizName.getFacilities());
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 bizStoreElasticList.addBizStoreElastic(bizStoreElastic);
             }
 
