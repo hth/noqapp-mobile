@@ -90,7 +90,7 @@ subprojects {
 
     pmd {
         ignoreFailures = true
-        toolVersion = '6.0.1'
+        toolVersion = '6.3.0'
 
         ruleSets = [
                 "java-basic",

@@ -4,6 +4,7 @@ import com.noqapp.domain.BizCategoryEntity;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonQueueList;
+import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
@@ -107,7 +108,12 @@ public class TokenQueueMobileService {
                 .setRemoteJoinAvailable(bizStore.isRemoteJoin())
                 .setAllowLoggedInUser(bizStore.isAllowLoggedInUser())
                 .setAvailableTokenCount(bizStore.getAvailableTokenCount())
-                .setBizCategoryId(bizStore.getBizCategoryId());
+                .setBizCategoryId(bizStore.getBizCategoryId())
+                .setFamousFor(bizStore.getFamousFor())
+                .setStoreServiceImages(bizStore.getStoreServiceImages())
+                .setStoreInteriorImages(bizStore.getStoreInteriorImages())
+                .setAmenities(bizStore.getAmenities())
+                .setFacilities(bizStore.getFacilities());
     }
 
     public JsonQueueList findAllTokenState(String codeQR) {
@@ -178,6 +184,9 @@ public class TokenQueueMobileService {
     }
 
     /**
+     * It populates all the stores with BizName amenities and facilities.
+     * Note: Store level facilities and amenities are ignored. When business is Hospital/Doctor, then it gets
+     * BizName amenities and facilities.
      *
      * @param codeQR
      * @return
@@ -189,8 +198,7 @@ public class TokenQueueMobileService {
                 BizStoreEntity bizStoreForCodeQR = bizService.findByCodeQR(codeQR);
                 bizName = bizStoreForCodeQR.getBizName();
             }
-            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList()
-                    .setCityName(bizName.getArea());
+            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList().setCityName(bizName.getArea());
             List<BizCategoryEntity> bizCategories = bizService.getBusinessCategories(bizName.getId());
             for (BizCategoryEntity bizCategory : bizCategories) {
                 JsonCategory jsonCategory = new JsonCategory()
@@ -212,8 +220,17 @@ public class TokenQueueMobileService {
                     LOG.warn("No Category defined for bizStore name={} id={}", bizStore.getBizName(), bizStore.getId());
                 }
 
-                //TODO(hth) remove this call, currently it populates the images
-                bizStoreElastic.getDisplayImage();
+                for (BusinessTypeEnum businessType : bizName.getBusinessTypes()) {
+                    switch (businessType) {
+                        case DO:
+                            bizStoreElastic.setDisplayImage(bizName.getBusinessServiceImages().iterator().next());
+                            bizStoreElastic.setAmenities(bizName.getAmenities());
+                            bizStoreElastic.setFacilities(bizName.getFacilities());
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 bizStoreElasticList.addBizStoreElastic(bizStoreElastic);
             }
 

@@ -29,8 +29,10 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 
@@ -124,7 +126,7 @@ public class SearchBusinessStoreController {
                     query,
                     geoHash);
 
-            return bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).asJson();
+            return bizStoreElasticList.populateBizStoreElasticSet(elasticBizStoreSources).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -217,19 +219,7 @@ public class SearchBusinessStoreController {
 //                hits ++;
 //            }
             /* End of DSL query. */
-
-            BizStoreElasticList bizStoreElastics = bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(geoHash, null);
-            int hits = 0;
-            while (bizStoreElastics.getBizStoreElastics().size() < 10 && hits < 3) {
-                LOG.info("NearMe found size={} scrollId={}", bizStoreElastics.getBizStoreElastics().size(), bizStoreElastics.getScrollId());
-                BizStoreElasticList bizStoreElasticsFetched = bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(geoHash, bizStoreElastics.getScrollId());
-                bizStoreElastics.setScrollId(bizStoreElasticsFetched.getScrollId());
-                bizStoreElastics.getBizStoreElastics().addAll(bizStoreElasticsFetched.getBizStoreElastics());
-
-                hits ++;
-            }
-
-            return bizStoreElastics.asJson();
+            return bizStoreElasticService.nearMeSearch(geoHash).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
