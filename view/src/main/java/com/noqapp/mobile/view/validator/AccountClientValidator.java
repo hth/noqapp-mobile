@@ -86,6 +86,23 @@ public class AccountClientValidator {
 
     public Map<String, String> validate(
             String phone,
+            String firstName,
+            String mail,
+            String birthday,
+            String gender,
+            String countryShortName,
+            String timeZone,
+            String password
+    ) {
+        LOG.debug("Validating client information phone={} cs={}", phone, countryShortName);
+
+        Map<String, String> errors = validate(phone, firstName, mail, birthday, gender, countryShortName, timeZone);
+        passwordValidation(password, errors);
+        return errors;
+    }
+
+    public Map<String, String> validate(
+            String phone,
             String countryShortName
     ) {
         LOG.info("Validating client information phone={} cs={}", phone, countryShortName);

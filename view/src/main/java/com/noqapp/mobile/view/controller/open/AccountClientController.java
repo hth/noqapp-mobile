@@ -12,6 +12,7 @@ import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_CLIENT;
+import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT;
 import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
@@ -123,6 +124,7 @@ public class AccountClientController {
                         null,
                         null,
                         null,
+                        null,
                         null));
             } else {
                 Set<String> unknownKeys = invalidElementsInMapDuringRegistration(map);
@@ -143,6 +145,7 @@ public class AccountClientController {
                 }
 
                 String mail = StringUtils.lowerCase(map.get(ACCOUNT_REGISTRATION.EM.name()).getText());
+                String password = StringUtils.lowerCase(map.get(ACCOUNT_REGISTRATION_MERCHANT.PW.name()).getText());
                 String birthday = map.get(ACCOUNT_REGISTRATION.BD.name()).getText();
                 /* Required. */
                 String gender = map.get(ACCOUNT_REGISTRATION.GE.name()).getText();
@@ -166,7 +169,8 @@ public class AccountClientController {
                         birthday,
                         gender,
                         countryShortName,
-                        timeZone
+                        timeZone,
+                        password
                 );
 
                 if (!errors.isEmpty()) {
@@ -207,6 +211,7 @@ public class AccountClientController {
                             GenderEnum.valueOf(gender),
                             countryShortName,
                             timeZone,
+                            password,
                             inviteCode
                     );
                     response.addHeader("X-R-MAIL", userAccount.getUserId());
