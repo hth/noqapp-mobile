@@ -133,6 +133,7 @@ public class AccountMobileService {
             GenderEnum gender,
             String countryShortName,
             String timeZone,
+            String password,
             String inviteCode
     ) {
         UserAccountEntity userAccount;
@@ -147,7 +148,7 @@ public class AccountMobileService {
                     gender,
                     countryShortName,
                     timeZone,
-                    null,
+                    password,
                     inviteCode,
                     true,
                     false);

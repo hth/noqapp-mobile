@@ -34,6 +34,9 @@ public class Registration extends AbstractDomain {
     @JsonProperty("EM")
     private String mail;
 
+    @JsonProperty("PW")
+    private String password;
+
     @JsonProperty("BD")
     private String birthday;
 
@@ -73,6 +76,15 @@ public class Registration extends AbstractDomain {
 
     public Registration setMail(String mail) {
         this.mail = mail;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Registration setPassword(String password) {
+        this.password = password;
         return this;
     }
 
