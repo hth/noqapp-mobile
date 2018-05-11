@@ -171,24 +171,30 @@ public class SearchBusinessStoreController {
             }
 
             String cityName = null;
-            if (map.containsKey("cityName") && map.get("cityName") != null) {
+            if (map.containsKey("cityName") && StringUtils.isNotBlank(map.get("cityName").getText())) {
                 cityName = map.get("cityName").getText();
             }
 
             String lat = null;
-            if (map.containsKey("lat") && map.get("lng") != null) {
+            if (map.containsKey("lat") && StringUtils.isNotBlank(map.get("lng").getText())) {
                 lat = map.get("lat").getText();
             }
 
             String lng  = null;
-            if (map.containsKey("lng") && map.get("lng") != null) {
+            if (map.containsKey("lng") && StringUtils.isNotBlank(map.get("lng").getText())) {
                 lng = map.get("lng").getText();
             }
 
             String filters = null;
-            if (map.containsKey("filters") && map.get("filters") != null) {
+            if (map.containsKey("filters") && StringUtils.isNotBlank(map.get("filters").getText())) {
                 filters = map.get("filters").getText();
             }
+
+            String scrollId = null;
+            if (map.containsKey("scrollId") && StringUtils.isNotBlank(map.get("scrollId").getText())) {
+                scrollId = map.get("scrollId").getText();
+            }
+
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.info("NearMe cityName={} lat={} lng={} filters={} ipAddress={}", cityName, lat, lng, filters, ipAddress);
 
@@ -219,7 +225,7 @@ public class SearchBusinessStoreController {
 //                hits ++;
 //            }
             /* End of DSL query. */
-            return bizStoreElasticService.nearMeSearch(geoHash).asJson();
+            return bizStoreElasticService.nearMeSearch(geoHash, scrollId).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
