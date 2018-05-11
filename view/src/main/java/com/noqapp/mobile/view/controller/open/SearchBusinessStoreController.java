@@ -6,7 +6,6 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
-import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.GeoIP;
 import com.noqapp.search.elastic.json.ElasticBizStoreSource;
@@ -27,12 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 
@@ -94,21 +89,21 @@ public class SearchBusinessStoreController {
 
             String query = map.get("q").getText();
             String cityName = null;
-            if (map.containsKey("cityName")) {
+            if (map.containsKey("cityName") && StringUtils.isNotBlank(map.get("cityName").getText())) {
                 cityName = map.get("cityName").getText();
             }
             String lat = null;
-            if (map.containsKey("lat")) {
+            if (map.containsKey("lat") && StringUtils.isNotBlank(map.get("lng").getText())) {
                 lat = map.get("lat").getText();
             }
 
             String lng  = null;
-            if (map.containsKey("lng")) {
+            if (map.containsKey("lng") && StringUtils.isNotBlank(map.get("lng").getText())) {
                 lng = map.get("lng").getText();
             }
 
             String filters = null;
-            if (map.containsKey("filters")) {
+            if (map.containsKey("filters") && StringUtils.isNotBlank(map.get("filters").getText())) {
                 filters = map.get("filters").getText();
             }
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
