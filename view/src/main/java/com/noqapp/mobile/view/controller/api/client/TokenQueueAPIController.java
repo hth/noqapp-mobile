@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.json.JsonQueue;
+import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
@@ -12,6 +13,7 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.service.InviteService;
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.service.PurchaseOrderService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +58,7 @@ public class TokenQueueAPIController {
     private QueueMobileService queueMobileService;
     private InviteService inviteService;
     private AuthenticateMobileService authenticateMobileService;
+    private PurchaseOrderService purchaseOrderService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -64,12 +67,14 @@ public class TokenQueueAPIController {
             QueueMobileService queueMobileService,
             InviteService inviteService,
             AuthenticateMobileService authenticateMobileService,
+            PurchaseOrderService purchaseOrderService,
             ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
         this.inviteService = inviteService;
         this.authenticateMobileService = authenticateMobileService;
+        this.purchaseOrderService = purchaseOrderService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -232,7 +237,9 @@ public class TokenQueueAPIController {
         if (authorizeRequest(response, qid)) return null;
 
         try {
-            return queueMobileService.findAllJoinedQueues(qid, did.getText()).asJson();
+            JsonTokenAndQueueList jsonTokenAndQueues = queueMobileService.findAllJoinedQueues(qid, did.getText());
+            jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllByQidAsJson(qid));
+            return jsonTokenAndQueues.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(

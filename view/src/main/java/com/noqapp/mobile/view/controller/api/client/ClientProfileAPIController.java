@@ -164,7 +164,6 @@ public class ClientProfileAPIController {
             return null;
         }
 
-        UserProfileEntity userProfileUpdated = null;
         Map<String, ScrubbedInput> map;
         try {
             map = ParseJsonStringToMap.jsonStringToMap(registrationJson);
@@ -239,13 +238,14 @@ public class ClientProfileAPIController {
                         .setCountryShortName(new ScrubbedInput(countryShortName))
                         .setTimeZone(timeZone)
                         .setPhone(new ScrubbedInput(phone));
-                userProfileUpdated = accountService.updateUserProfile(registerUser, mail.getText());
+                accountService.updateUserProfile(registerUser, mail.getText());
             }
 
+            UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
             int remoteJoin = inviteService.getRemoteJoinCount(qid);
             LOG.info("Remote join available={}", remoteJoin);
 
-            return JsonProfile.newInstance(userProfileUpdated, remoteJoin).asJson();
+            return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
         } catch(Exception e) {
             LOG.error("Failed updating profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
