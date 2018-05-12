@@ -238,7 +238,7 @@ public class TokenQueueAPIController {
 
         try {
             JsonTokenAndQueueList jsonTokenAndQueues = queueMobileService.findAllJoinedQueues(qid, did.getText());
-            jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllByQidAsJson(qid));
+            jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllOpenOrderAsJson(qid));
             return jsonTokenAndQueues.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues qid={}, reason={}", qid, e.getLocalizedMessage(), e);
