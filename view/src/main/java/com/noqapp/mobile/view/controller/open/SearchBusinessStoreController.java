@@ -106,6 +106,12 @@ public class SearchBusinessStoreController {
             if (map.containsKey("filters") && StringUtils.isNotBlank(map.get("filters").getText())) {
                 filters = map.get("filters").getText();
             }
+
+            String scrollId = null;
+            if (map.containsKey("scrollId") && StringUtils.isNotBlank(map.get("scrollId").getText())) {
+                scrollId = map.get("scrollId").getText();
+            }
+
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.info("Searching query={} cityName={} lat={} lng={} filters={} ipAddress={}", query, cityName, lat, lng, filters, ipAddress);
 
@@ -117,11 +123,13 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
 
-            List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
+            return bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(
                     query,
-                    geoHash);
-
-            return bizStoreElasticList.populateBizStoreElasticSet(elasticBizStoreSources).asJson();
+                    cityName,
+                    geoHash,
+                    filters,
+                    scrollId).asJson();
+            //return bizStoreElasticList.populateBizStoreElasticSet(elasticBizStoreSources).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

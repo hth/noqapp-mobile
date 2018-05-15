@@ -44,6 +44,10 @@ import com.noqapp.repository.GenerateUserIdManager;
 import com.noqapp.repository.GenerateUserIdManagerImpl;
 import com.noqapp.repository.InviteManager;
 import com.noqapp.repository.InviteManagerImpl;
+import com.noqapp.repository.PurchaseOrderManager;
+import com.noqapp.repository.PurchaseOrderManagerImpl;
+import com.noqapp.repository.PurchaseProductOrderManager;
+import com.noqapp.repository.PurchaseProductOrderManagerImpl;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerImpl;
 import com.noqapp.repository.QueueManagerJDBC;
@@ -51,6 +55,8 @@ import com.noqapp.repository.RegisteredDeviceManager;
 import com.noqapp.repository.RegisteredDeviceManagerImpl;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.repository.StoreHourManagerImpl;
+import com.noqapp.repository.StoreProductManager;
+import com.noqapp.repository.StoreProductManagerImpl;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.TokenQueueManagerImpl;
 import com.noqapp.repository.UserAccountManager;
@@ -69,7 +75,9 @@ import com.noqapp.service.EmailValidateService;
 import com.noqapp.service.FirebaseMessageService;
 import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
+import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
+import com.noqapp.service.StoreProductService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.UserProfilePreferenceService;
 import org.bson.types.ObjectId;
@@ -112,6 +120,12 @@ public class ITest extends RealMongoForITest {
     protected QueueService queueService;
     protected AuthenticateMobileService authenticateMobileService;
     protected BusinessUserStoreService businessUserStoreService;
+
+    protected StoreProductManager storeProductManager;
+    protected StoreProductService storeProductService;
+    protected PurchaseOrderManager purchaseOrderManager;
+    protected PurchaseProductOrderManager purchaseProductOrderManager;
+    protected PurchaseOrderService purchaseOrderService;
 
     protected TokenQueueManager tokenQueueManager;
     protected FirebaseMessageService firebaseMessageService;
@@ -227,6 +241,20 @@ public class ITest extends RealMongoForITest {
                 storeHourManager,
                 bizStoreManager,
                 apiHealthService
+        );
+
+        storeProductManager = new StoreProductManagerImpl(getMongoTemplate());
+        storeProductService = new StoreProductService(storeProductManager);
+        purchaseOrderManager = new PurchaseOrderManagerImpl(getMongoTemplate());
+        purchaseProductOrderManager = new PurchaseProductOrderManagerImpl(getMongoTemplate());
+
+        purchaseOrderService = new PurchaseOrderService(
+                bizService,
+                tokenQueueService,
+                storeHourManager,
+                storeProductService,
+                purchaseOrderManager,
+                purchaseProductOrderManager
         );
 
         queueService = new QueueService(

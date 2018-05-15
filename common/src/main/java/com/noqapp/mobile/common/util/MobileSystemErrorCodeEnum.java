@@ -19,11 +19,9 @@ public enum MobileSystemErrorCodeEnum {
     REMOTE_JOIN_EMPTY("300"),
     MERCHANT_COULD_NOT_ACQUIRE("350"),
 
-    AUTHENTICATION("400"),
     USER_EXISTING("410"),
     USER_NOT_FOUND("412"),
     USER_SOCIAL("416"),
-    REGISTRATION_TURNED_OFF("430"),
 
     /** Mobile application related issue. */
     SEVERE("500"),
