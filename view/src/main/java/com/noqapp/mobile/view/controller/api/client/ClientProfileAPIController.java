@@ -1,13 +1,15 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.ParseJsonStringToMap;
+import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.flow.RegisterUser;
-import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.json.JsonUserAddress;
+import com.noqapp.domain.json.JsonUserAddressList;
 import com.noqapp.domain.types.AddressOriginEnum;
-import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -16,12 +18,11 @@ import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.InviteService;
+import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
-import com.noqapp.common.utils.ScrubbedInput;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
 import org.slf4j.Logger;
@@ -49,12 +50,9 @@ import java.util.Set;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 /**
@@ -78,6 +76,7 @@ public class ClientProfileAPIController {
     private ApiHealthService apiHealthService;
     private AccountClientValidator accountClientValidator;
     private AccountService accountService;
+    private UserAddressService userAddressService;
 
     @Autowired
     public ClientProfileAPIController(
@@ -86,7 +85,8 @@ public class ClientProfileAPIController {
             InviteService inviteService,
             ApiHealthService apiHealthService,
             AccountClientValidator accountClientValidator,
-            AccountService accountService
+            AccountService accountService,
+            UserAddressService userAddressService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
@@ -94,6 +94,7 @@ public class ClientProfileAPIController {
         this.apiHealthService = apiHealthService;
         this.accountClientValidator = accountClientValidator;
         this.accountService = accountService;
+        this.userAddressService = userAddressService;
     }
 
     @GetMapping(
@@ -367,6 +368,163 @@ public class ClientProfileAPIController {
             apiHealthService.insert(
                     "/migrate",
                     "migrate",
+                    ClientProfileAPIController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Get all user addresses. */
+    @GetMapping(
+            value = "/address",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String address(
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            return userAddressService.getAllAsJson(qid).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed fetching address reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonUserAddressList().asJson();
+        } finally {
+            apiHealthService.insert(
+                    "/address",
+                    "address",
+                    ClientProfileAPIController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Add user address. */
+    @PostMapping(
+            value = "/address/add",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String addressAdd(
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @RequestBody
+            String jsonUserAddressBody,
+
+            HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            Map<String, ScrubbedInput> map;
+            try {
+                map = ParseJsonStringToMap.jsonStringToMap(jsonUserAddressBody);
+            } catch (IOException e) {
+                LOG.error("Could not parse json={} reason={}", jsonUserAddressBody, e.getLocalizedMessage(), e);
+                return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
+            }
+
+            JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
+
+            String id = map.get("id").getText();
+            String address = map.get("ad").getText();
+
+            if (StringUtils.isBlank(id)) {
+                id = CommonUtil.generateHexFromObjectId();
+                userAddressService.saveAddress(id, qid, address);
+            }
+
+            return jsonUserAddressList.addJsonUserAddresses(new JsonUserAddress().setId(id).setAddress(address)).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonUserAddressList().asJson();
+        } finally {
+            apiHealthService.insert(
+                    "/address/add",
+                    "addressAdd",
+                    ClientProfileAPIController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Delete user address. */
+    @PostMapping(
+            value = "/address/delete",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String addressDelete(
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @RequestBody
+            String jsonUserAddressBody,
+
+            HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            Map<String, ScrubbedInput> map;
+            try {
+                map = ParseJsonStringToMap.jsonStringToMap(jsonUserAddressBody);
+            } catch (IOException e) {
+                LOG.error("Could not parse json={} reason={}", jsonUserAddressBody, e.getLocalizedMessage(), e);
+                return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
+            }
+
+            JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
+
+            String id = map.get("id").getText();
+            if (StringUtils.isNotBlank(id)) {
+                userAddressService.deleteAddress(id, qid);
+                jsonUserAddressList.removeJsonUserAddresses(id);
+            }
+
+            return jsonUserAddressList.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonUserAddressList().asJson();
+        } finally {
+            apiHealthService.insert(
+                    "/address/delete",
+                    "addressDelete",
                     ClientProfileAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
