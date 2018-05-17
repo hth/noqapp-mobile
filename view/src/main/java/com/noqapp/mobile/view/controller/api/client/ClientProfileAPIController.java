@@ -451,7 +451,7 @@ public class ClientProfileAPIController {
             JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
 
             String id = map.get("id").getText();
-            String address = map.get("ad").getText();
+            String address = StringUtils.capitalize(map.get("ad").getText());
 
             if (StringUtils.isBlank(id)) {
                 id = CommonUtil.generateHexFromObjectId();
