@@ -455,6 +455,7 @@ public class ClientProfileAPIController {
 
             if (StringUtils.isBlank(id)) {
                 id = CommonUtil.generateHexFromObjectId();
+                address = StringUtils.capitalize(address);
                 userAddressService.saveAddress(id, qid, address);
             }
 
