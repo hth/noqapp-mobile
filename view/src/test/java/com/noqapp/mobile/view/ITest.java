@@ -351,6 +351,7 @@ public class ITest extends RealMongoForITest {
                 .setPhone("+9118000000030")
                 .setFirstName("Diktaa D mA")
                 .setMail("diktad@r.com")
+                .setPassword("password")
                 .setBirthday("2000-12-12")
                 .setGender("M")
                 .setCountryShortName("IN")
@@ -375,6 +376,7 @@ public class ITest extends RealMongoForITest {
                 .setPhone("+9118000000031")
                 .setFirstName("Fiktaa D mAn")
                 .setMail("fiktad@r.com")
+                .setPassword("password")
                 .setBirthday("2000-12-12")
                 .setGender("M")
                 .setCountryShortName("IN")
@@ -401,6 +403,7 @@ public class ITest extends RealMongoForITest {
                 .setPhone("+9118000000001")
                 .setFirstName("ROCKET Docket")
                 .setMail("rocketd@r.com")
+                .setPassword("password")
                 .setBirthday("2000-12-12")
                 .setGender("M")
                 .setCountryShortName("IN")
@@ -411,6 +414,7 @@ public class ITest extends RealMongoForITest {
                 .setPhone("+9118000000002")
                 .setFirstName("Pintoa D mAni")
                 .setMail("pintod@r.com")
+                .setPassword("password")
                 .setBirthday("2000-12-12")
                 .setGender("M")
                 .setCountryShortName("IN")
@@ -430,11 +434,12 @@ public class ITest extends RealMongoForITest {
                 httpServletResponse);
     }
 
-    private void addSystemUsers() throws IOException {
+    private void addSystemUsers() {
         Registration admin = new Registration()
                 .setPhone("+9118000000101")
                 .setFirstName("Admin Admin")
                 .setMail("admin@r.com")
+                .setPassword("password")
                 .setBirthday("2000-12-12")
                 .setGender("M")
                 .setCountryShortName("IN")
@@ -459,6 +464,7 @@ public class ITest extends RealMongoForITest {
                 .setPhone("+9118000000102")
                 .setFirstName("Supervisor Supervisor")
                 .setMail("super@r.com")
+                .setPassword("password")
                 .setBirthday("2000-12-12")
                 .setGender("M")
                 .setCountryShortName("IN")

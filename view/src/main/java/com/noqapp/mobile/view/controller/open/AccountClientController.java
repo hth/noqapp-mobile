@@ -53,14 +53,14 @@ import static com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATIO
  * User: hitender
  * Date: 3/22/17 12:29 PM
  */
-@SuppressWarnings ({
+@SuppressWarnings({
         "PMD.BeanMembersShouldSerialize",
         "PMD.LocalVariableCouldBeFinal",
         "PMD.MethodArgumentCouldBeFinal",
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/open/client")
+@RequestMapping(value = "/open/client")
 public class AccountClientController {
     private static final Logger LOG = LoggerFactory.getLogger(AccountClientController.class);
 
@@ -265,7 +265,7 @@ public class AccountClientController {
     //TODO recover is based on phone number. When number already exists then ask which of the stores the user visited.
     //on bad answer, reset account data instead of showing old data.
 
-    @PostMapping (
+    @PostMapping(
             value = "/login",
             headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -387,8 +387,13 @@ public class AccountClientController {
         }
 
         List<ACCOUNT_REGISTRATION_CLIENT> client = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION_CLIENT.values()));
-        for(ACCOUNT_REGISTRATION_CLIENT registration_client : client) {
+        for (ACCOUNT_REGISTRATION_CLIENT registration_client : client) {
             keys.remove(registration_client.name());
+        }
+
+        List<ACCOUNT_REGISTRATION_MERCHANT> merchant = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION_MERCHANT.values()));
+        for (ACCOUNT_REGISTRATION_MERCHANT account_registration_merchant : merchant) {
+            keys.remove(account_registration_merchant.name());
         }
 
         return keys;
