@@ -246,7 +246,6 @@
             <element id="library" level="project" name="Gradle: com.google.oauth-client:google-oauth-client:1.23.0" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.5.1" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java:3.5.1" />
-            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.2" />
             <element id="library" level="project" name="Gradle: net.logstash.logback:logstash-logback-encoder:5.0" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.5" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.5" />
@@ -338,6 +337,7 @@
             <element id="library" level="project" name="Gradle: org.springframework:spring-tx:5.0.6.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-web:5.0.6.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.0.6.RELEASE" />
+            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.6" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -472,7 +472,6 @@
             <element id="library" level="project" name="Gradle: io.grpc:grpc-core:1.10.1" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.5.1" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.4" />
-            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.2" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.5" />
             <element id="library" level="project" name="Gradle: com.maxmind.geoip2:geoip2:2.12.0" />
@@ -602,7 +601,6 @@
             <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-utility:0.6" />
             <element id="library" level="project" name="Gradle: org.opengis:geoapi:3.0.0" />
             <element id="library" level="project" name="Gradle: edu.usc.ir:sentiment-analysis-parser:0.1" />
-            <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.4.9" />
             <element id="library" level="project" name="Gradle: org.jrobin:jrobin:1.5.9" />
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.2.0" />
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.2.0" />
@@ -633,6 +631,7 @@
             <element id="library" level="project" name="Gradle: com.tdunning:t-digest:3.0" />
             <element id="library" level="project" name="Gradle: org.hdrhistogram:HdrHistogram:2.1.9" />
             <element id="library" level="project" name="Gradle: org.elasticsearch:jna:4.5.1" />
+            <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.4.9" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpasyncclient:4.1.2" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore-nio:4.4.5" />
             <element id="library" level="project" name="Gradle: org.locationtech.spatial4j:spatial4j:0.6" />
@@ -674,6 +673,7 @@
             <element id="library" level="project" name="Gradle: javax.annotation:javax.annotation-api:1.2" />
             <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.6/c8effe874c713e39dcb1bae4fa14b0b3e0ff8757/libphonenumber-8.9.6.jar" />
           </element>
         </element>
       </root>
@@ -809,7 +809,6 @@
             <element id="library" level="project" name="Gradle: io.grpc:grpc-core:1.10.1" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.5.1" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.4" />
-            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.2" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.5" />
             <element id="library" level="project" name="Gradle: com.maxmind.geoip2:geoip2:2.12.0" />
@@ -939,7 +938,6 @@
             <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-utility:0.6" />
             <element id="library" level="project" name="Gradle: org.opengis:geoapi:3.0.0" />
             <element id="library" level="project" name="Gradle: edu.usc.ir:sentiment-analysis-parser:0.1" />
-            <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.4.9" />
             <element id="library" level="project" name="Gradle: org.jrobin:jrobin:1.5.9" />
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.2.0" />
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.2.0" />
@@ -970,6 +968,7 @@
             <element id="library" level="project" name="Gradle: com.tdunning:t-digest:3.0" />
             <element id="library" level="project" name="Gradle: org.hdrhistogram:HdrHistogram:2.1.9" />
             <element id="library" level="project" name="Gradle: org.elasticsearch:jna:4.5.1" />
+            <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.4.9" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpasyncclient:4.1.2" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore-nio:4.4.5" />
             <element id="library" level="project" name="Gradle: org.locationtech.spatial4j:spatial4j:0.6" />
@@ -1015,6 +1014,7 @@
               <element id="module-output" name="service_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/service/out/production/resources" />
             </element>
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.6/c8effe874c713e39dcb1bae4fa14b0b3e0ff8757/libphonenumber-8.9.6.jar" />
           </element>
         </element>
       </root>
@@ -1948,15 +1948,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.juniversalchardet/juniversalchardet/1.0.3/77979eaa98f90806f984155f44f63cc1fb60ac25/juniversalchardet-1.0.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.2">
+    <library name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.6">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.2/383ae6701bc943a786bb60e1d8b2c47f2e687d15/libphonenumber-8.9.2.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.6/c8effe874c713e39dcb1bae4fa14b0b3e0ff8757/libphonenumber-8.9.6.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.2/b007e99c3e84dadca1686451efd5cd89896801ec/libphonenumber-8.9.2-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.6/fe593dfde7891290255a8cd316d4b8e5d1e6b90e/libphonenumber-8.9.6-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.2/a90c77496875fe78ad57152b5defdd4704cf859b/libphonenumber-8.9.2-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.6/ca2d038481ffe9494bc2917ba399925d0b15412d/libphonenumber-8.9.6-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.googlecode.mp4parser:isoparser:1.1.18">
@@ -2091,21 +2091,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/search/1.3.0/search-1.3.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/medical/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:service:1.3.0">
       <CLASSES>
