@@ -61,6 +61,8 @@ import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.TokenQueueManagerImpl;
 import com.noqapp.repository.UserAccountManager;
 import com.noqapp.repository.UserAccountManagerImpl;
+import com.noqapp.repository.UserAddressManager;
+import com.noqapp.repository.UserAddressManagerImpl;
 import com.noqapp.repository.UserAuthenticationManager;
 import com.noqapp.repository.UserAuthenticationManagerImpl;
 import com.noqapp.repository.UserPreferenceManager;
@@ -72,6 +74,7 @@ import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.EmailValidateService;
+import com.noqapp.service.ExternalService;
 import com.noqapp.service.FirebaseMessageService;
 import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
@@ -79,6 +82,7 @@ import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.StoreProductService;
 import com.noqapp.service.TokenQueueService;
+import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeAll;
@@ -121,6 +125,8 @@ public class ITest extends RealMongoForITest {
     protected AuthenticateMobileService authenticateMobileService;
     protected BusinessUserStoreService businessUserStoreService;
 
+    protected UserAddressManager userAddressManager;
+    protected UserAddressService userAddressService;
     protected StoreProductManager storeProductManager;
     protected StoreProductService storeProductService;
     protected PurchaseOrderManager purchaseOrderManager;
@@ -158,6 +164,7 @@ public class ITest extends RealMongoForITest {
     private MockEnvironment mockEnvironment;
 
     private WebConnectorService webConnectorService;
+    @Mock protected ExternalService externalService;
     @Mock protected QueueManagerJDBC queueManagerJDBC;
     @Mock protected HttpServletResponse httpServletResponse;
 
@@ -248,13 +255,17 @@ public class ITest extends RealMongoForITest {
         purchaseOrderManager = new PurchaseOrderManagerImpl(getMongoTemplate());
         purchaseProductOrderManager = new PurchaseProductOrderManagerImpl(getMongoTemplate());
 
+        userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
+        userAddressService = new UserAddressService(userAddressManager, externalService);
+
         purchaseOrderService = new PurchaseOrderService(
                 bizService,
                 tokenQueueService,
                 storeHourManager,
                 storeProductService,
                 purchaseOrderManager,
-                purchaseProductOrderManager
+                purchaseProductOrderManager,
+                userAddressService
         );
 
         queueService = new QueueService(

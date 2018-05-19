@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.open;
 
+import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonLatestAppVersion;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
@@ -10,7 +11,6 @@ import com.noqapp.mobile.domain.DeviceRegistered;
 import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
-import com.noqapp.common.utils.ScrubbedInput;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +29,9 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.*;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 
 /**
  * User: hitender

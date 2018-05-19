@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
+import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.mobile.domain.JsonMerchant;
@@ -7,7 +8,6 @@ import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.UserProfilePreferenceService;
-import com.noqapp.common.utils.ScrubbedInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

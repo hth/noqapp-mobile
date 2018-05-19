@@ -1,9 +1,9 @@
 package com.noqapp.mobile.view.controller.open;
 
-import com.noqapp.common.utils.HashText;
-import com.noqapp.common.utils.RandomString;
+import com.noqapp.common.utils.Formatter;
+import com.noqapp.common.utils.ParseJsonStringToMap;
+import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
-import com.noqapp.domain.UserAuthenticationEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.GenderEnum;
@@ -18,9 +18,6 @@ import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.UserProfilePreferenceService;
-import com.noqapp.common.utils.Formatter;
-import com.noqapp.common.utils.ParseJsonStringToMap;
-import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
@@ -32,7 +29,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -45,7 +41,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.*;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION;
 
 /**
