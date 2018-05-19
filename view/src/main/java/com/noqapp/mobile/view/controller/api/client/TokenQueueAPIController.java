@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
@@ -12,7 +13,6 @@ import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.service.InviteService;
-import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.service.PurchaseOrderService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

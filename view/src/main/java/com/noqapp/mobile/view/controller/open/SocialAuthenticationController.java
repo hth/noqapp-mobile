@@ -1,10 +1,10 @@
 package com.noqapp.mobile.view.controller.open;
 
+import com.noqapp.common.utils.ParseJsonStringToMap;
+import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.SocialAuthenticationService;
-import com.noqapp.common.utils.ParseJsonStringToMap;
-import com.noqapp.common.utils.ScrubbedInput;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;

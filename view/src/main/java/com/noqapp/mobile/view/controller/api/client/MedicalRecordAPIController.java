@@ -2,7 +2,6 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.domain.BizCategoryEntity;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.MedicalRecordEntity;
