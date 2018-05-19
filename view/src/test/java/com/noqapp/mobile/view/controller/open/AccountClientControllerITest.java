@@ -58,6 +58,7 @@ class AccountClientControllerITest extends ITest {
                 .setPhone("+9118000000010")
                 .setFirstName("ROCKET mAniA")
                 .setMail("rocket@r.com")
+                .setPassword("password")
                 .setBirthday("2000-12-12")
                 .setGender("M")
                 .setCountryShortName("IN")
