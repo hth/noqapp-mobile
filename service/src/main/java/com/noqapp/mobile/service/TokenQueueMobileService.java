@@ -245,6 +245,67 @@ public class TokenQueueMobileService {
         }
     }
 
+    /**
+     * It populates all the stores for business type bank.
+     * Note: Store level facilities and amenities are NOT ignored, when business is Bank.
+     *
+     * @param matchedStore
+     * @return
+     */
+    public BizStoreElasticList findAllBizStoreByAddress(BizStoreEntity matchedStore) {
+        try {
+            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList().setCityName(matchedStore.getArea());
+            List<BizCategoryEntity> bizCategories = bizService.getBusinessCategories(matchedStore.getBizName().getId());
+            for (BizCategoryEntity bizCategory : bizCategories) {
+                JsonCategory jsonCategory = new JsonCategory()
+                        .setBizCategoryId(bizCategory.getId())
+                        .setCategoryName(bizCategory.getCategoryName())
+                        .setDisplayImage(bizCategory.getDisplayImage());
+                bizStoreElasticList.addJsonCategory(jsonCategory);
+            }
+
+            List<BizStoreEntity> stores = bizService.getAllBizStoresMatchingAddress(matchedStore.getAddress(), matchedStore.getBizName().getId());
+            for (BizStoreEntity bizStore : stores) {
+                BizStoreElastic bizStoreElastic = BizStoreElastic.getThisFromBizStore(bizStore);
+                bizStoreElastic.setStoreHourElasticList(DomainConversion.getStoreHourElastics(bizService.findAllStoreHours(bizStore.getId())));
+
+                if (StringUtils.isNotBlank(bizStore.getBizCategoryId())) {
+                    BizCategoryEntity bizCategory = bizService.findByBizCategoryId(bizStore.getBizCategoryId());
+                    bizStoreElastic.setBizCategoryName(bizCategory.getCategoryName());
+                } else {
+                    LOG.warn("No Category defined for bizStore name={} id={}", bizStore.getBizName(), bizStore.getId());
+                }
+
+                switch (bizStore.getBusinessType()) {
+                    case BK:
+                        String bannerImage = bizStore.getStoreServiceImages().isEmpty() ? null : bizStore.getStoreServiceImages().iterator().next();
+                        if (StringUtils.isBlank(bannerImage)) {
+                            bannerImage = bizStore.getBizName().getBusinessServiceImages().isEmpty() ? null : bizStore.getBizName().getBusinessServiceImages().iterator().next();
+                        }
+
+                        bizStoreElastic.setDisplayImage(bannerImage);
+                        bizStoreElastic.setBizServiceImages(bizStore.getStoreServiceImages());
+                        bizStoreElastic.setAmenities(bizStore.getAmenities());
+                        bizStoreElastic.setFacilities(bizStore.getFacilities());
+                        break;
+                    default:
+                        break;
+                }
+                bizStoreElasticList.addBizStoreElastic(bizStoreElastic);
+            }
+
+            return bizStoreElasticList;
+        } catch (Exception e) {
+            //TODO remove this catch
+            LOG.error("Failed populating bizElastic for store codeQR={} reason={}",
+                    matchedStore.getCodeQR(),
+                    e.getLocalizedMessage(),
+                    e);
+
+            return null;
+        }
+    }
+
     //TODO instead send all the hours of the store and let App figure out which one to show.
     private StoreHourEntity getStoreHours(String codeQR, BizStoreEntity bizStore) {
         DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
