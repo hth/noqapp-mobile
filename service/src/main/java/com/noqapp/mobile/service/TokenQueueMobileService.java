@@ -297,7 +297,7 @@ public class TokenQueueMobileService {
             return bizStoreElasticList;
         } catch (Exception e) {
             //TODO remove this catch
-            LOG.error("Failed populating bizElastic for store codeQR={} reason={}",
+            LOG.error("Failed populating bizStoreElastic for store codeQR={} reason={}",
                     matchedStore.getCodeQR(),
                     e.getLocalizedMessage(),
                     e);
