@@ -120,13 +120,16 @@ class ManageQueueControllerTest {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        
+
         JsonHour jsonHour = new JsonHour()
                 .setEndHour(2359)
                 .setStartHour(1)
                 .setDayOfWeek(dayOfWeek)
                 .setTokenAvailableFrom(1)
-                .setTokenNotAvailableFrom(2359);
+                .setTokenNotAvailableFrom(2359)
+                .setDayClosed(false)
+                .setPreventJoining(false)
+                .setDelayedInMinutes(1);
 
         JsonTopic topic = new JsonTopic(tokenQueue).setHour(jsonHour);
         topics = new ArrayList<>();

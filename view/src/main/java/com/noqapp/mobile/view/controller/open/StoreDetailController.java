@@ -123,7 +123,10 @@ public class StoreDetailController {
                         .setTokenAvailableFrom(storeHour.getTokenAvailableFrom())
                         .setTokenNotAvailableFrom(storeHour.getTokenNotAvailableFrom())
                         .setStartHour(storeHour.getStartHour())
-                        .setEndHour(storeHour.getEndHour());
+                        .setEndHour(storeHour.getEndHour())
+                        .setPreventJoining(storeHour.isPreventJoining())
+                        .setDayClosed(storeHour.isDayClosed())
+                        .setDelayedInMinutes(storeHour.getDelayedInMinutes());
                 jsonStore.addJsonHour(jsonHour);
             }
 
