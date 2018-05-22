@@ -328,7 +328,8 @@ public class ITest extends RealMongoForITest {
                 businessUserStoreManager,
                 businessUserService,
                 tokenQueueService,
-                accountService
+                accountService,
+                bizService
         );
 
         registerUser();
