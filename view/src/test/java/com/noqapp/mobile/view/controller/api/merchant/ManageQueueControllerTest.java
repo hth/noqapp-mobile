@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.TokenQueueEntity;
+import com.noqapp.domain.json.JsonHour;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
@@ -49,7 +50,10 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -113,7 +117,18 @@ class ManageQueueControllerTest {
         tokenQueue.setCurrentlyServing(5);
         tokenQueue.setId("codeQR");
 
-        JsonTopic topic = new JsonTopic(tokenQueue);
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        
+        JsonHour jsonHour = new JsonHour()
+                .setEndHour(2359)
+                .setStartHour(1)
+                .setDayOfWeek(dayOfWeek)
+                .setTokenAvailableFrom(1)
+                .setTokenNotAvailableFrom(2359);
+
+        JsonTopic topic = new JsonTopic(tokenQueue).setHour(jsonHour);
         topics = new ArrayList<>();
         topics.add(topic);
 
