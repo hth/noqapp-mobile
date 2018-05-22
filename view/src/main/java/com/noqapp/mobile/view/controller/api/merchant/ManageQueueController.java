@@ -330,7 +330,7 @@ public class ManageQueueController {
                 return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
             }
 
-            return new (tokenQueue).setHour(businessUserStoreService.getJsonHour(tokenQueue.getId())).asJson();
+            return new JsonTopic(tokenQueue).setHour(businessUserStoreService.getJsonHour(tokenQueue.getId())).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queue reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
