@@ -329,11 +329,13 @@ public class ClientProfileAPIController {
                 if (null != userProfile) {
                     LOG.info("Failed user login as user found with phone={} cs={}", phone, countryShortName);
                     errors = new HashMap<>();
-                    errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
+                    errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
                     errors.put(AccountMobileService.ACCOUNT_MIGRATE.PH.name(), phone);
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
-                    return ErrorEncounteredJson.toJson(errors);
+                    String a = ErrorEncounteredJson.toJson(errors);
+                    LOG.warn("a={}", a);
+                    return  a;
                 }
 
                 UserAccountEntity userAccount;
