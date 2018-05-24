@@ -333,9 +333,7 @@ public class ClientProfileAPIController {
                     errors.put(AccountMobileService.ACCOUNT_MIGRATE.PH.name(), phone);
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
-                    String a = ErrorEncounteredJson.toJson(errors);
-                    LOG.warn("a={}", a);
-                    return  a;
+                    return ErrorEncounteredJson.toJson(errors);
                 }
 
                 UserAccountEntity userAccount;
