@@ -31,6 +31,9 @@ import com.noqapp.common.utils.Formatter;
 @JsonIgnoreProperties (ignoreUnknown = true)
 //@JsonInclude (JsonInclude.Include.NON_NULL)
 public class JsonProfile extends AbstractDomain {
+    @JsonProperty ("pi")
+    private String profileImage;
+
     @JsonProperty ("nm")
     private String name;
 
@@ -69,6 +72,7 @@ public class JsonProfile extends AbstractDomain {
     }
 
     private JsonProfile(
+            String profileImage,
             String name,
             String mail,
             String countryShortName,
@@ -81,6 +85,7 @@ public class JsonProfile extends AbstractDomain {
             UserLevelEnum userLevel,
             int remoteJoin
     ) {
+        this.profileImage = profileImage;
         this.name = name;
         this.mail = mail;
         this.countryShortName = countryShortName;
@@ -96,6 +101,7 @@ public class JsonProfile extends AbstractDomain {
 
     public static JsonProfile newInstance(UserProfileEntity userProfile, int remoteJoin) {
         return new JsonProfile(
+                userProfile.getProfileImage(),
                 userProfile.getName(),
                 userProfile.getEmail(),
                 userProfile.getCountryShortName(),
@@ -108,6 +114,10 @@ public class JsonProfile extends AbstractDomain {
                 userProfile.getLevel(),
                 remoteJoin
         );
+    }
+
+    public String getProfileImage() {
+        return profileImage;
     }
 
     public String getName() {
