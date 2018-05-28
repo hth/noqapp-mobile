@@ -58,7 +58,6 @@
             <element id="library" level="project" name="Gradle: edu.ucar:udunits:4.5.5" />
             <element id="library" level="project" name="Gradle: javax.annotation:javax.annotation-api:1.2" />
             <element id="library" level="project" name="Gradle: javax.inject:javax.inject:1" />
-            <element id="library" level="project" name="Gradle: javax.measure:jsr-275:0.9.3" />
             <element id="library" level="project" name="Gradle: javax.servlet:javax.servlet-api:3.1.0" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
             <element id="library" level="project" name="Gradle: javax.ws.rs:javax.ws.rs-api:2.0.1" />
@@ -73,11 +72,6 @@
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-pool2:2.4.2" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1" />
             <element id="library" level="project" name="Gradle: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-metadata:0.6" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-referencing:0.6" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-utility:0.6" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.storage:sis-netcdf:0.6" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.storage:sis-storage:0.6" />
             <element id="library" level="project" name="Gradle: org.apache.xmlbeans:xmlbeans:2.6.0" />
             <element id="library" level="project" name="Gradle: org.bouncycastle:bcmail-jdk15on:1.54" />
             <element id="library" level="project" name="Gradle: org.bouncycastle:bcpkix-jdk15on:1.54" />
@@ -91,10 +85,7 @@
             <element id="library" level="project" name="Gradle: org.gagravarr:vorbis-java-tika:0.8" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-all:1.3" />
             <element id="library" level="project" name="Gradle: org.itadaki:bzip2:0.9.1" />
-            <element id="library" level="project" name="Gradle: org.jdom:jdom2:2.0.4" />
             <element id="library" level="project" name="Gradle: org.jrobin:jrobin:1.5.9" />
-            <element id="library" level="project" name="Gradle: org.jsoup:jsoup:1.7.2" />
-            <element id="library" level="project" name="Gradle: org.opengis:geoapi:3.0.0" />
             <element id="library" level="project" name="Gradle: org.osgi:org.osgi.core:4.2.0" />
             <element id="library" level="project" name="Gradle: org.ow2.asm:asm:5.0.4" />
             <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.25" />
@@ -106,19 +97,14 @@
             <element id="library" level="project" name="Gradle: org.quartz-scheduler:quartz:2.3.0" />
             <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11" />
             <element id="library" level="project" name="Gradle: org.threeten:threetenbp:1.3.3" />
-            <element id="library" level="project" name="Gradle: com.healthmarketscience.jackcess:jackcess-encrypt:2.1.2" />
-            <element id="library" level="project" name="Gradle: com.healthmarketscience.jackcess:jackcess:2.1.8" />
-            <element id="library" level="project" name="Gradle: com.tdunning:json:1.8" />
             <element id="library" level="project" name="Gradle: commons-fileupload:commons-fileupload:1.3.3" />
             <element id="library" level="project" name="Gradle: commons-validator:commons-validator:1.6" />
             <element id="library" level="project" name="Gradle: edu.usc.ir:sentiment-analysis-parser:0.1" />
-            <element id="library" level="project" name="Gradle: org.apache.commons:commons-compress:1.14" />
             <element id="library" level="project" name="Gradle: org.apache.james:apache-mime4j-core:0.8.1" />
             <element id="library" level="project" name="Gradle: org.apache.james:apache-mime4j-dom:0.8.1" />
             <element id="library" level="project" name="Gradle: org.apache.pdfbox:jempbox:1.8.13" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi:3.17" />
             <element id="library" level="project" name="Gradle: org.slf4j:jul-to-slf4j:1.7.24" />
-            <element id="library" level="project" name="Gradle: org.tukaani:xz:1.6" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
             <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.3.1.Final" />
             <element id="library" level="project" name="Gradle: javax.mail:javax.mail-api:1.6.0" />
@@ -177,15 +163,9 @@
             <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-rs-client:3.0.16" />
             <element id="library" level="project" name="Gradle: org.apache.cxf:cxf-rt-transports-http:3.0.16" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpmime:4.5.4" />
-            <element id="library" level="project" name="Gradle: org.apache.opennlp:opennlp-tools:1.8.3" />
-            <element id="library" level="project" name="Gradle: org.apache.pdfbox:fontbox:2.0.8" />
-            <element id="library" level="project" name="Gradle: org.apache.pdfbox:pdfbox-tools:2.0.8" />
-            <element id="library" level="project" name="Gradle: org.apache.pdfbox:pdfbox:2.0.8" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-ooxml-schemas:3.17" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-ooxml:3.17" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-scratchpad:3.17" />
-            <element id="library" level="project" name="Gradle: org.apache.tika:tika-core:1.17" />
-            <element id="library" level="project" name="Gradle: org.apache.tika:tika-parsers:1.17" />
             <element id="library" level="project" name="Gradle: org.apache.ws.xmlschema:xmlschema-core:2.2.2" />
             <element id="library" level="project" name="Gradle: com.braintreepayments.gateway:braintree-java:2.74.1" />
             <element id="library" level="project" name="Gradle: com.vividsolutions:jts:1.13" />
@@ -338,6 +318,33 @@
             <element id="library" level="project" name="Gradle: org.springframework:spring-web:5.0.6.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.0.6.RELEASE" />
             <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.6" />
+            <element id="library" level="project" name="Gradle: com.github.jai-imageio:jai-imageio-core:1.3.1" />
+            <element id="library" level="project" name="Gradle: com.github.openjson:openjson:1.0.10" />
+            <element id="library" level="project" name="Gradle: com.healthmarketscience.jackcess:jackcess-encrypt:2.1.4" />
+            <element id="library" level="project" name="Gradle: com.healthmarketscience.jackcess:jackcess:2.1.10" />
+            <element id="library" level="project" name="Gradle: commons-logging:commons-logging-api:1.1" />
+            <element id="library" level="project" name="Gradle: javax.measure:unit-api:1.0" />
+            <element id="library" level="project" name="Gradle: org.apache.commons:commons-compress:1.16.1" />
+            <element id="library" level="project" name="Gradle: org.apache.opennlp:opennlp-tools:1.8.4" />
+            <element id="library" level="project" name="Gradle: org.apache.pdfbox:fontbox:2.0.9" />
+            <element id="library" level="project" name="Gradle: org.apache.pdfbox:jbig2-imageio:3.0.0" />
+            <element id="library" level="project" name="Gradle: org.apache.pdfbox:pdfbox-tools:2.0.9" />
+            <element id="library" level="project" name="Gradle: org.apache.pdfbox:pdfbox:2.0.9" />
+            <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-feature:0.8" />
+            <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-metadata:0.8" />
+            <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-referencing:0.8" />
+            <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-utility:0.8" />
+            <element id="library" level="project" name="Gradle: org.apache.sis.storage:sis-netcdf:0.8" />
+            <element id="library" level="project" name="Gradle: org.apache.sis.storage:sis-storage:0.8" />
+            <element id="library" level="project" name="Gradle: org.apache.tika:tika-core:1.18" />
+            <element id="library" level="project" name="Gradle: org.apache.tika:tika-parsers:1.18" />
+            <element id="library" level="project" name="Gradle: org.apache.uima:uimafit-core:2.2.0" />
+            <element id="library" level="project" name="Gradle: org.apache.uima:uimaj-core:2.9.0" />
+            <element id="library" level="project" name="Gradle: org.brotli:dec:0.1.2" />
+            <element id="library" level="project" name="Gradle: org.jdom:jdom2:2.0.6" />
+            <element id="library" level="project" name="Gradle: org.jsoup:jsoup:1.11.2" />
+            <element id="library" level="project" name="Gradle: org.opengis:geoapi:3.0.1" />
+            <element id="library" level="project" name="Gradle: org.tukaani:xz:1.8" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -421,7 +428,6 @@
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.11.0" />
             <element id="library" level="project" name="Gradle: com.braintreepayments.gateway:braintree-java:2.74.1" />
             <element id="library" level="project" name="Gradle: redis.clients:jedis:2.9.0" />
-            <element id="library" level="project" name="Gradle: org.apache.tika:tika-parsers:1.17" />
             <element id="library" level="project" name="Gradle: edu.ucar:netcdf4:4.5.5" />
             <element id="library" level="project" name="Gradle: edu.ucar:grib:4.5.5" />
             <element id="library" level="project" name="Gradle: edu.ucar:cdm:4.5.5" />
@@ -511,10 +517,6 @@
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpclient:4.5.5" />
             <element id="library" level="project" name="Gradle: commons-codec:commons-codec:1.11" />
             <element id="library" level="project" name="Gradle: commons-beanutils:commons-beanutils:1.9.2" />
-            <element id="library" level="project" name="Gradle: com.healthmarketscience.jackcess:jackcess-encrypt:2.1.2" />
-            <element id="library" level="project" name="Gradle: com.healthmarketscience.jackcess:jackcess:2.1.8" />
-            <element id="library" level="project" name="Gradle: org.apache.pdfbox:pdfbox:2.0.8" />
-            <element id="library" level="project" name="Gradle: org.apache.pdfbox:fontbox:2.0.8" />
             <element id="library" level="project" name="Gradle: commons-logging:commons-logging:1.2" />
             <element id="library" level="project" name="Gradle: javax.mail:javax.mail-api:1.6.0" />
             <element id="library" level="project" name="Gradle: javax.validation:validation-api:2.0.0.Final" />
@@ -522,7 +524,6 @@
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-text:1.3" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.7" />
             <element id="library" level="project" name="Gradle: org.gagravarr:vorbis-java-tika:0.8" />
-            <element id="library" level="project" name="Gradle: org.apache.tika:tika-core:1.17" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-collections4:4.1" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.3" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.71.0" />
@@ -573,9 +574,6 @@
             <element id="library" level="project" name="Gradle: org.tallison:jmatio:1.2" />
             <element id="library" level="project" name="Gradle: org.apache.james:apache-mime4j-dom:0.8.1" />
             <element id="library" level="project" name="Gradle: org.apache.james:apache-mime4j-core:0.8.1" />
-            <element id="library" level="project" name="Gradle: org.apache.commons:commons-compress:1.14" />
-            <element id="library" level="project" name="Gradle: org.tukaani:xz:1.6" />
-            <element id="library" level="project" name="Gradle: org.apache.pdfbox:pdfbox-tools:2.0.8" />
             <element id="library" level="project" name="Gradle: org.apache.pdfbox:jempbox:1.8.13" />
             <element id="library" level="project" name="Gradle: org.bouncycastle:bcmail-jdk15on:1.54" />
             <element id="library" level="project" name="Gradle: org.bouncycastle:bcpkix-jdk15on:1.54" />
@@ -591,16 +589,8 @@
             <element id="library" level="project" name="Gradle: com.pff:java-libpst:0.8.1" />
             <element id="library" level="project" name="Gradle: com.github.junrar:junrar:0.7" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-exec:1.3" />
-            <element id="library" level="project" name="Gradle: org.apache.opennlp:opennlp-tools:1.8.3" />
             <element id="library" level="project" name="Gradle: com.googlecode.json-simple:json-simple:1.1.1" />
-            <element id="library" level="project" name="Gradle: com.tdunning:json:1.8" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-csv:1.0" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.storage:sis-netcdf:0.6" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.storage:sis-storage:0.6" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-referencing:0.6" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-metadata:0.6" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-utility:0.6" />
-            <element id="library" level="project" name="Gradle: org.opengis:geoapi:3.0.0" />
             <element id="library" level="project" name="Gradle: edu.usc.ir:sentiment-analysis-parser:0.1" />
             <element id="library" level="project" name="Gradle: org.jrobin:jrobin:1.5.9" />
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.2.0" />
@@ -656,11 +646,8 @@
             <element id="library" level="project" name="Gradle: com.rometools:rome-utils:1.5.1" />
             <element id="library" level="project" name="Gradle: net.jcip:jcip-annotations:1.0" />
             <element id="library" level="project" name="Gradle: net.java.dev.jna:jna:4.1.0" />
-            <element id="library" level="project" name="Gradle: org.jdom:jdom2:2.0.4" />
-            <element id="library" level="project" name="Gradle: org.jsoup:jsoup:1.7.2" />
             <element id="library" level="project" name="Gradle: org.itadaki:bzip2:0.9.1" />
             <element id="library" level="project" name="Gradle: com.beust:jcommander:1.35" />
-            <element id="library" level="project" name="Gradle: javax.measure:jsr-275:0.9.3" />
             <element id="library" level="project" name="Gradle: org.opentest4j:opentest4j:1.1.0" />
             <element id="library" level="project" name="Gradle: net.sf.jopt-simple:jopt-simple:5.0.2" />
             <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-constants:1.9" />
@@ -673,7 +660,35 @@
             <element id="library" level="project" name="Gradle: javax.ws.rs:javax.ws.rs-api:2.0.1" />
             <element id="library" level="project" name="Gradle: javax.annotation:javax.annotation-api:1.2" />
             <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11" />
+            <element id="library" level="project" name="Gradle: org.objenesis:objenesis:2.6" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.18/7d9b6dea91d783165f3313d320d3aaaa9a4dfc13/tika-parsers-1.18.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.uima/uimafit-core/2.2.0/db69a6b733d2ada643f46060e130eda47edd6e5a/uimafit-core-2.2.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.9/d0425578218624388f2ec84a0b3a11efd55df0f5/pdfbox-2.0.9.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.9/f961f17ebdbc307e9055e3cf7c0e207f0895ae55/fontbox-2.0.9.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.18/69556697de96cf0b22df846e970dafd29866eee0/tika-core-1.18.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.10/4a10b9316831c2fc1f87853bb6745909dab5a8a5/jackcess-2.1.10.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.4/dfe7134b759597276ff87b7acf662bef1c1c4fd8/jackcess-encrypt-2.1.4.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.16.1/7b5cdabadb4cf12f5ee0f801399e70635583193f/commons-compress-1.16.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.8/c4f7d054303948eb6a4066194253886c8af07128/xz-1.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.brotli/dec/0.1.2/c26a897ae0d524809eef1c786cc6183b4ddcc3b/dec-0.1.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.9/90a58b4daf37697488339845e0a3e0d3609eb781/pdfbox-tools-2.0.9.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.8.4/dc1dd0bfdee4a4bc98924180da5a8e61b3a50bdd/opennlp-tools-1.8.4.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.openjson/openjson/1.0.10/8dcccbcc8bbfa15162cd7ca77bcf2b9daa90e70a/openjson-1.0.10.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.11.2/e3eeb8a0b4ce1db246059a41e353cd7413dad226/jsoup-1.11.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-netcdf/0.8/aa44675239c11eeb598ef054efdf2673cd4953a/sis-netcdf-0.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-storage/0.8/53b323f55881b4cd6fe1ecf9464a7066a3ae2eb6/sis-storage-0.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-feature/0.8/65ea6ab21713dee99a0d2fd7196b80dd631a7e02/sis-feature-0.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-referencing/0.8/8c9eb6766665eea110f47c53787b7a9bc1310400/sis-referencing-0.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-metadata/0.8/b5d309428e78ebdaf1ea04aec8747a2093689e20/sis-metadata-0.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-utility/0.8/4ad2d0805780c5a2cebc0dadbfb8307f94c91c4f/sis-utility-0.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opengis/geoapi/3.0.1/a69b261841b0794b82b8d42fcd6e9a370eb62809/geoapi-3.0.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.uima/uimaj-core/2.9.0/314390218c2f2d11089007719a5d4f39510d32f5/uimaj-core-2.9.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jdom/jdom2/2.0.6/6f14738ec2e9dd0011e343717fa624a10f8aab64/jdom2-2.0.6.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jbig2-imageio/3.0.0/59cba3c1e9d11c790c27be31b311cd3d729ca900/jbig2-imageio-3.0.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.jai-imageio/jai-imageio-core/1.3.1/300f3f0dedfca37b3278991f9397354971b37156/jai-imageio-core-1.3.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.measure/unit-api/1.0/6b960260278588d7ff02fe376e5aad39a9c7440b/unit-api-1.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging-api/1.1/7d4cf5231d46c8524f9b9ed75bb2d1c69ab93322/commons-logging-api-1.1.jar" />
           </element>
         </element>
       </root>
@@ -758,7 +773,6 @@
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.11.0" />
             <element id="library" level="project" name="Gradle: com.braintreepayments.gateway:braintree-java:2.74.1" />
             <element id="library" level="project" name="Gradle: redis.clients:jedis:2.9.0" />
-            <element id="library" level="project" name="Gradle: org.apache.tika:tika-parsers:1.17" />
             <element id="library" level="project" name="Gradle: edu.ucar:netcdf4:4.5.5" />
             <element id="library" level="project" name="Gradle: edu.ucar:grib:4.5.5" />
             <element id="library" level="project" name="Gradle: edu.ucar:cdm:4.5.5" />
@@ -848,10 +862,6 @@
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpclient:4.5.5" />
             <element id="library" level="project" name="Gradle: commons-codec:commons-codec:1.11" />
             <element id="library" level="project" name="Gradle: commons-beanutils:commons-beanutils:1.9.2" />
-            <element id="library" level="project" name="Gradle: com.healthmarketscience.jackcess:jackcess-encrypt:2.1.2" />
-            <element id="library" level="project" name="Gradle: com.healthmarketscience.jackcess:jackcess:2.1.8" />
-            <element id="library" level="project" name="Gradle: org.apache.pdfbox:pdfbox:2.0.8" />
-            <element id="library" level="project" name="Gradle: org.apache.pdfbox:fontbox:2.0.8" />
             <element id="library" level="project" name="Gradle: commons-logging:commons-logging:1.2" />
             <element id="library" level="project" name="Gradle: javax.mail:javax.mail-api:1.6.0" />
             <element id="library" level="project" name="Gradle: javax.validation:validation-api:2.0.0.Final" />
@@ -859,7 +869,6 @@
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-text:1.3" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.7" />
             <element id="library" level="project" name="Gradle: org.gagravarr:vorbis-java-tika:0.8" />
-            <element id="library" level="project" name="Gradle: org.apache.tika:tika-core:1.17" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-collections4:4.1" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.3" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.71.0" />
@@ -910,9 +919,6 @@
             <element id="library" level="project" name="Gradle: org.tallison:jmatio:1.2" />
             <element id="library" level="project" name="Gradle: org.apache.james:apache-mime4j-dom:0.8.1" />
             <element id="library" level="project" name="Gradle: org.apache.james:apache-mime4j-core:0.8.1" />
-            <element id="library" level="project" name="Gradle: org.apache.commons:commons-compress:1.14" />
-            <element id="library" level="project" name="Gradle: org.tukaani:xz:1.6" />
-            <element id="library" level="project" name="Gradle: org.apache.pdfbox:pdfbox-tools:2.0.8" />
             <element id="library" level="project" name="Gradle: org.apache.pdfbox:jempbox:1.8.13" />
             <element id="library" level="project" name="Gradle: org.bouncycastle:bcmail-jdk15on:1.54" />
             <element id="library" level="project" name="Gradle: org.bouncycastle:bcpkix-jdk15on:1.54" />
@@ -928,16 +934,8 @@
             <element id="library" level="project" name="Gradle: com.pff:java-libpst:0.8.1" />
             <element id="library" level="project" name="Gradle: com.github.junrar:junrar:0.7" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-exec:1.3" />
-            <element id="library" level="project" name="Gradle: org.apache.opennlp:opennlp-tools:1.8.3" />
             <element id="library" level="project" name="Gradle: com.googlecode.json-simple:json-simple:1.1.1" />
-            <element id="library" level="project" name="Gradle: com.tdunning:json:1.8" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-csv:1.0" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.storage:sis-netcdf:0.6" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.storage:sis-storage:0.6" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-referencing:0.6" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-metadata:0.6" />
-            <element id="library" level="project" name="Gradle: org.apache.sis.core:sis-utility:0.6" />
-            <element id="library" level="project" name="Gradle: org.opengis:geoapi:3.0.0" />
             <element id="library" level="project" name="Gradle: edu.usc.ir:sentiment-analysis-parser:0.1" />
             <element id="library" level="project" name="Gradle: org.jrobin:jrobin:1.5.9" />
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.2.0" />
@@ -993,11 +991,8 @@
             <element id="library" level="project" name="Gradle: com.rometools:rome-utils:1.5.1" />
             <element id="library" level="project" name="Gradle: net.jcip:jcip-annotations:1.0" />
             <element id="library" level="project" name="Gradle: net.java.dev.jna:jna:4.1.0" />
-            <element id="library" level="project" name="Gradle: org.jdom:jdom2:2.0.4" />
-            <element id="library" level="project" name="Gradle: org.jsoup:jsoup:1.7.2" />
             <element id="library" level="project" name="Gradle: org.itadaki:bzip2:0.9.1" />
             <element id="library" level="project" name="Gradle: com.beust:jcommander:1.35" />
-            <element id="library" level="project" name="Gradle: javax.measure:jsr-275:0.9.3" />
             <element id="library" level="project" name="Gradle: org.opentest4j:opentest4j:1.1.0" />
             <element id="library" level="project" name="Gradle: net.sf.jopt-simple:jopt-simple:5.0.2" />
             <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-constants:1.9" />
@@ -1010,11 +1005,39 @@
             <element id="library" level="project" name="Gradle: javax.ws.rs:javax.ws.rs-api:2.0.1" />
             <element id="library" level="project" name="Gradle: javax.annotation:javax.annotation-api:1.2" />
             <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11" />
+            <element id="library" level="project" name="Gradle: org.objenesis:objenesis:2.6" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
             <element id="archive" name="com.noqapp.mobile-service.jar">
               <element id="module-output" name="service_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/service/out/production/resources" />
             </element>
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.18/7d9b6dea91d783165f3313d320d3aaaa9a4dfc13/tika-parsers-1.18.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.uima/uimafit-core/2.2.0/db69a6b733d2ada643f46060e130eda47edd6e5a/uimafit-core-2.2.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.9/d0425578218624388f2ec84a0b3a11efd55df0f5/pdfbox-2.0.9.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.9/f961f17ebdbc307e9055e3cf7c0e207f0895ae55/fontbox-2.0.9.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.18/69556697de96cf0b22df846e970dafd29866eee0/tika-core-1.18.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.10/4a10b9316831c2fc1f87853bb6745909dab5a8a5/jackcess-2.1.10.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.4/dfe7134b759597276ff87b7acf662bef1c1c4fd8/jackcess-encrypt-2.1.4.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.16.1/7b5cdabadb4cf12f5ee0f801399e70635583193f/commons-compress-1.16.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.8/c4f7d054303948eb6a4066194253886c8af07128/xz-1.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.brotli/dec/0.1.2/c26a897ae0d524809eef1c786cc6183b4ddcc3b/dec-0.1.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.9/90a58b4daf37697488339845e0a3e0d3609eb781/pdfbox-tools-2.0.9.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.8.4/dc1dd0bfdee4a4bc98924180da5a8e61b3a50bdd/opennlp-tools-1.8.4.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.openjson/openjson/1.0.10/8dcccbcc8bbfa15162cd7ca77bcf2b9daa90e70a/openjson-1.0.10.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.11.2/e3eeb8a0b4ce1db246059a41e353cd7413dad226/jsoup-1.11.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-netcdf/0.8/aa44675239c11eeb598ef054efdf2673cd4953a/sis-netcdf-0.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-storage/0.8/53b323f55881b4cd6fe1ecf9464a7066a3ae2eb6/sis-storage-0.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-feature/0.8/65ea6ab21713dee99a0d2fd7196b80dd631a7e02/sis-feature-0.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-referencing/0.8/8c9eb6766665eea110f47c53787b7a9bc1310400/sis-referencing-0.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-metadata/0.8/b5d309428e78ebdaf1ea04aec8747a2093689e20/sis-metadata-0.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-utility/0.8/4ad2d0805780c5a2cebc0dadbfb8307f94c91c4f/sis-utility-0.8.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opengis/geoapi/3.0.1/a69b261841b0794b82b8d42fcd6e9a370eb62809/geoapi-3.0.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.uima/uimaj-core/2.9.0/314390218c2f2d11089007719a5d4f39510d32f5/uimaj-core-2.9.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jdom/jdom2/2.0.6/6f14738ec2e9dd0011e343717fa624a10f8aab64/jdom2-2.0.6.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jbig2-imageio/3.0.0/59cba3c1e9d11c790c27be31b311cd3d729ca900/jbig2-imageio-3.0.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.jai-imageio/jai-imageio-core/1.3.1/300f3f0dedfca37b3278991f9397354971b37156/jai-imageio-core-1.3.1.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.measure/unit-api/1.0/6b960260278588d7ff02fe376e5aad39a9c7440b/unit-api-1.0.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging-api/1.1/7d4cf5231d46c8524f9b9ed75bb2d1c69ab93322/commons-logging-api-1.1.jar" />
           </element>
         </element>
       </root>
@@ -1530,6 +1553,17 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml/classmate/1.3.4/d5aa53c93626884209c1e82fdf44d2ccdaf8e9c2/classmate-1.3.4-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Gradle: com.github.jai-imageio:jai-imageio-core:1.3.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.jai-imageio/jai-imageio-core/1.3.1/300f3f0dedfca37b3278991f9397354971b37156/jai-imageio-core-1.3.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.jai-imageio/jai-imageio-core/1.3.1/72ea70dac1c269595c558368e4e74568c8b84813/jai-imageio-core-1.3.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.jai-imageio/jai-imageio-core/1.3.1/8b3dbf7510367013dc5790a7d6e14dd7aa60e4e4/jai-imageio-core-1.3.1-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Gradle: com.github.junrar:junrar:0.7">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/0.7/18cc717b85af0b12ba922abf415c2ff4716f8219/junrar-0.7.jar!/" />
@@ -1539,6 +1573,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/0.7/a2a861c38317e54e85798c83c9652d23f72e95aa/junrar-0.7-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.github.openjson:openjson:1.0.10">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.openjson/openjson/1.0.10/8dcccbcc8bbfa15162cd7ca77bcf2b9daa90e70a/openjson-1.0.10.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.openjson/openjson/1.0.10/290fbf88314abbda062c5737e707abf04c18fa3a/openjson-1.0.10-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.openjson/openjson/1.0.10/c91cae729fa4f541529ff3c3803f6e684f15fcbf/openjson-1.0.10-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.github.virtuald:curvesapi:1.04">
@@ -1981,26 +2026,26 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.owasp-java-html-sanitizer/owasp-java-html-sanitizer/r239/1f7aed063cd72f011ca339034f155853d2743b07/owasp-java-html-sanitizer-r239-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.healthmarketscience.jackcess:jackcess-encrypt:2.1.2">
+    <library name="Gradle: com.healthmarketscience.jackcess:jackcess-encrypt:2.1.4">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.2/c11d7a42af7070b84d832198558df52032de734c/jackcess-encrypt-2.1.2.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.4/dfe7134b759597276ff87b7acf662bef1c1c4fd8/jackcess-encrypt-2.1.4.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.2/d288a487e7b52aa113dca1ce09795d5b70eb605a/jackcess-encrypt-2.1.2-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.4/f22279e4ebfab0df5231111c9e9425aca102e4d3/jackcess-encrypt-2.1.4-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.2/836fc84ad82ebf96d705773da3fcb6f4dec690c5/jackcess-encrypt-2.1.2-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess-encrypt/2.1.4/fd9964d53fbb4425f6b484c7109a98cd36e58c5b/jackcess-encrypt-2.1.4-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.healthmarketscience.jackcess:jackcess:2.1.8">
+    <library name="Gradle: com.healthmarketscience.jackcess:jackcess:2.1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.8/dfc7156e11ce33bbcb7f4f6724a87b9d969f2fd6/jackcess-2.1.8.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.10/4a10b9316831c2fc1f87853bb6745909dab5a8a5/jackcess-2.1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.8/4185aaebdd1e8a01c3b07be11f7d4742f974e7cf/jackcess-2.1.8-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.10/39fd1a0522cde3fda90b6a803af8b8ac18a2db4e/jackcess-2.1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.8/9e3343fbc439e234ad6026884cb07180d7d7fdd8/jackcess-2.1.8-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.healthmarketscience.jackcess/jackcess/2.1.10/3bff6c0f203e86587e4763916ef13d805d0bf0e2/jackcess-2.1.10-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.jcraft:jsch:0.1.54">
@@ -2070,21 +2115,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/domain/1.3.0/domain-1.3.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/medical/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:health:1.3.0">
       <CLASSES>
@@ -2112,21 +2143,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/service/1.3.0/service-1.3.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/medical/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:social:1.3.0">
       <CLASSES>
@@ -2188,17 +2205,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.14.0/e7c96b4fe5651490d8f3c022042940d743a3bdd9/okio-1.14.0-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: com.tdunning:json:1.8">
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tdunning/json/1.8/fa57d5adf557b226738cd42e6c093dd0a76c5fd4/json-1.8.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tdunning/json/1.8/51bd1444d00e844b80a68a740a9782fcd9ed1766/json-1.8-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tdunning/json/1.8/e70b7c17eedaea8478d2ae93d91ba3da0bc062f/json-1.8-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.tdunning:t-digest:3.0">
@@ -2321,6 +2327,13 @@
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-lang/commons-lang/2.6/67313d715fbf0ea4fd0bdb69217fb77f807a8ce5/commons-lang-2.6-sources.jar!/" />
       </SOURCES>
+    </library>
+    <library name="Gradle: commons-logging:commons-logging-api:1.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging-api/1.1/7d4cf5231d46c8524f9b9ed75bb2d1c69ab93322/commons-logging-api-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
     </library>
     <library name="Gradle: commons-logging:commons-logging:1.2">
       <CLASSES>
@@ -2663,12 +2676,16 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.mail/javax.mail-api/1.6.0/552a5e5ac0065e971d81da096565d52ba6fbe85/javax.mail-api-1.6.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: javax.measure:jsr-275:0.9.3">
+    <library name="Gradle: javax.measure:unit-api:1.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.measure/jsr-275/0.9.3/ab2fb094fc5297ae5636ef6ed0d6051d5a656588/jsr-275-0.9.3.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.measure/unit-api/1.0/6b960260278588d7ff02fe376e5aad39a9c7440b/unit-api-1.0.jar!/" />
       </CLASSES>
-      <JAVADOC />
-      <SOURCES />
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.measure/unit-api/1.0/bdee9b315f4252e6abcd335e894d1a15d3a0d3a2/unit-api-1.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.measure/unit-api/1.0/8d60af295fc95714c210c795ce63b48b9d183213/unit-api-1.0-sources.jar!/" />
+      </SOURCES>
     </library>
     <library name="Gradle: javax.servlet:javax.servlet-api:3.1.0">
       <CLASSES>
@@ -2862,15 +2879,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-collections4/4.1/f305f3aa45a3b208c013ef92328f8f230329f20e/commons-collections4-4.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.commons:commons-compress:1.14">
+    <library name="Gradle: org.apache.commons:commons-compress:1.16.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.14/7b18320d668ab080758bf5383d6d8fcf750babce/commons-compress-1.14.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.16.1/7b5cdabadb4cf12f5ee0f801399e70635583193f/commons-compress-1.16.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.14/93dd5215d4a359cb4f48402456f25cc3e078f3cd/commons-compress-1.14-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.16.1/78a929afa216299bb47b9021909bb70f6c260bb2/commons-compress-1.16.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.14/43a23e357fa7b187c261520914c0b001ea1a62a2/commons-compress-1.14-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.16.1/f7dde5c5163ac128750fc2d6ec00ae6a7ff624ab/commons-compress-1.16.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.apache.commons:commons-csv:1.0">
@@ -3274,26 +3291,35 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-suggest/7.2.1/271241f67f93ee06b1d5bd9b90b597f1ca3971f5/lucene-suggest-7.2.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.opennlp:opennlp-tools:1.8.3">
+    <library name="Gradle: org.apache.opennlp:opennlp-tools:1.8.4">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.8.3/3ce7c9056048f55478d983248cf18c7e02b1d072/opennlp-tools-1.8.3.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.8.4/dc1dd0bfdee4a4bc98924180da5a8e61b3a50bdd/opennlp-tools-1.8.4.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.8.3/6728a90999e71e4d70ed4c82ba0f7142d1d61850/opennlp-tools-1.8.3-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.8.4/cc9d0a9847417aa507fbe733af9ae0db46868875/opennlp-tools-1.8.4-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.8.3/2c14e641e69271be54dee30e9b308d1e0b9d303f/opennlp-tools-1.8.3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.8.4/9db419a1cd3b8394126ce7a27ad23d7f7caa691c/opennlp-tools-1.8.4-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.pdfbox:fontbox:2.0.8">
+    <library name="Gradle: org.apache.pdfbox:fontbox:2.0.9">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.8/52f852fcfc7481d45efdffd224eb78b85981b17b/fontbox-2.0.8.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.9/f961f17ebdbc307e9055e3cf7c0e207f0895ae55/fontbox-2.0.9.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.9/c456a6b3f23a3fada6b5209784c6b1240cd4b848/fontbox-2.0.9-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.apache.pdfbox:jbig2-imageio:3.0.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jbig2-imageio/3.0.0/59cba3c1e9d11c790c27be31b311cd3d729ca900/jbig2-imageio-3.0.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.8/38baf02350c8296bd7fa97bf48328ba4fc0d412/fontbox-2.0.8-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jbig2-imageio/3.0.0/695ca1f2f3b2e17f853d836c20452d4c9c3148b2/jbig2-imageio-3.0.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/2.0.8/7dccbe4f8b03221e8fe36ceebb17387642c610cb/fontbox-2.0.8-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jbig2-imageio/3.0.0/f1ae11f9c9dc1d6d12347ec89f25d3a7dc3f7327/jbig2-imageio-3.0.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.apache.pdfbox:jempbox:1.8.13">
@@ -3307,26 +3333,22 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/jempbox/1.8.13/bc8bb8448ae50c1a42a1f91fbacd44b30e825bbe/jempbox-1.8.13-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.pdfbox:pdfbox-tools:2.0.8">
+    <library name="Gradle: org.apache.pdfbox:pdfbox-tools:2.0.9">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.8/1c0ba702f74b2d1baca1f0d5e172738b3c122fac/pdfbox-tools-2.0.8.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.9/90a58b4daf37697488339845e0a3e0d3609eb781/pdfbox-tools-2.0.9.jar!/" />
       </CLASSES>
-      <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.8/ae0a982d57a488f6dead7eb4d5a9ae3589be39aa/pdfbox-tools-2.0.8-javadoc.jar!/" />
-      </JAVADOC>
+      <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.8/bd0f9aee57f698145219adeab37cd031a495a3ad/pdfbox-tools-2.0.8-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-tools/2.0.9/c462a79dcab72a13ff3f049d37691a49bbc787a2/pdfbox-tools-2.0.9-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.pdfbox:pdfbox:2.0.8">
+    <library name="Gradle: org.apache.pdfbox:pdfbox:2.0.9">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.8/17bdf273d66f3afe41eedb9d3ab6a7b819c44a0c/pdfbox-2.0.8.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.9/d0425578218624388f2ec84a0b3a11efd55df0f5/pdfbox-2.0.9.jar!/" />
       </CLASSES>
-      <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.8/31fb81a2007df0b61a2c07d2074444605a3f172e/pdfbox-2.0.8-javadoc.jar!/" />
-      </JAVADOC>
+      <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.8/ae22cfb61035ff494f99dec00144286c20e5c1f2/pdfbox-2.0.8-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/2.0.9/c789ea35f37601a8200bee9c9b49c6874308d72c/pdfbox-2.0.9-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.apache.poi:poi-ooxml-schemas:3.17">
@@ -3369,81 +3391,114 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.17/9d185f2c484774285585e76f5f1d887208482f93/poi-3.17-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.sis.core:sis-metadata:0.6">
+    <library name="Gradle: org.apache.sis.core:sis-feature:0.8">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-metadata/0.6/97cde9b02f2548567a06f3ecd42caa39a94ffaf4/sis-metadata-0.6.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-feature/0.8/65ea6ab21713dee99a0d2fd7196b80dd631a7e02/sis-feature-0.8.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-metadata/0.6/e289e1ea7e14a2b1950017dc127c16f95468de45/sis-metadata-0.6-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-feature/0.8/7c660206b81c8ed1540155d4bf3ab9ad53f716c8/sis-feature-0.8-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-metadata/0.6/59ee6b94d9f99a745a26d842d5a805a36f54d6f0/sis-metadata-0.6-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-feature/0.8/b4d46e7aa00f31203b2b3e8898259152484a02c9/sis-feature-0.8-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.sis.core:sis-referencing:0.6">
+    <library name="Gradle: org.apache.sis.core:sis-metadata:0.8">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-referencing/0.6/ca59408047b7c3685661959b5858297e047a4046/sis-referencing-0.6.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-metadata/0.8/b5d309428e78ebdaf1ea04aec8747a2093689e20/sis-metadata-0.8.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-referencing/0.6/a3398fe92a188ee0790455a8b049d3cdb64e3f7f/sis-referencing-0.6-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-metadata/0.8/7f80b4f10464cc32040f9578c2d0b09a92f53a86/sis-metadata-0.8-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-referencing/0.6/69aaa83e498336aa3b5dc219ca1995a9db44233e/sis-referencing-0.6-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-metadata/0.8/f66abf0128df3d96d53f9bdd1d7be0620a24384/sis-metadata-0.8-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.sis.core:sis-utility:0.6">
+    <library name="Gradle: org.apache.sis.core:sis-referencing:0.8">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-utility/0.6/e049cdb56758f3a92b48af0f7741d102a90152/sis-utility-0.6.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-referencing/0.8/8c9eb6766665eea110f47c53787b7a9bc1310400/sis-referencing-0.8.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-utility/0.6/9c61acd37e63c8d27dd27a0c5836929309408c1/sis-utility-0.6-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-referencing/0.8/f214f016d0ce0961c9b6901bd49f89dab038f122/sis-referencing-0.8-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-utility/0.6/7358d4fc883b4cc5ad28c3775d9dcf2ce0d26724/sis-utility-0.6-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-referencing/0.8/40c8b9937291b6df24ec5b18a6a6b86b1c9139ab/sis-referencing-0.8-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.sis.storage:sis-netcdf:0.6">
+    <library name="Gradle: org.apache.sis.core:sis-utility:0.8">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-netcdf/0.6/c847a664eb707b0663dec4a9257419842a33e903/sis-netcdf-0.6.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-utility/0.8/4ad2d0805780c5a2cebc0dadbfb8307f94c91c4f/sis-utility-0.8.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-netcdf/0.6/3408670a9235e78db36d5769f5cd456ae1a4f145/sis-netcdf-0.6-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-utility/0.8/34387d3639ee7acdd4bd232b9bc216280307d7ab/sis-utility-0.8-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-netcdf/0.6/123725c1b0a0f6dc61f925d447c53e55baa3b1a5/sis-netcdf-0.6-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.core/sis-utility/0.8/97a0947fb604b9989b8838af7d7ccba4baa28a0a/sis-utility-0.8-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.sis.storage:sis-storage:0.6">
+    <library name="Gradle: org.apache.sis.storage:sis-netcdf:0.8">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-storage/0.6/1996e6209d309380cd191d4483ca19cc25c30fe3/sis-storage-0.6.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-netcdf/0.8/aa44675239c11eeb598ef054efdf2673cd4953a/sis-netcdf-0.8.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-storage/0.6/1d1e262b84f622c340d6eeab5989881c3bbada46/sis-storage-0.6-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-netcdf/0.8/c17238d13b551eeee720f298a80c40dd47bbcd4/sis-netcdf-0.8-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-storage/0.6/9b85fa39c1008bb7f8f82b5c55944c0bb3b55041/sis-storage-0.6-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-netcdf/0.8/ded83ad0c19a643b005dd65d79ecf6cd9c8da3f8/sis-netcdf-0.8-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.tika:tika-core:1.17">
+    <library name="Gradle: org.apache.sis.storage:sis-storage:0.8">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.17/b450102c2aee98107474d2f92661d947b9cef183/tika-core-1.17.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-storage/0.8/53b323f55881b4cd6fe1ecf9464a7066a3ae2eb6/sis-storage-0.8.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.17/927c1a54347ed8a969d5ccefa5ff794f26d487b6/tika-core-1.17-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-storage/0.8/2542afefbe9ffbfe4131ac1a8cb166314b055530/sis-storage-0.8-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.17/5118dd620ec546cd919d58446f94bb9e3879adc4/tika-core-1.17-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.sis.storage/sis-storage/0.8/7bc6ef3c4a76f56d84251a6eda59690bbad82f29/sis-storage-0.8-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.tika:tika-parsers:1.17">
+    <library name="Gradle: org.apache.tika:tika-core:1.18">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.17/4277c54fcaed542fbc8a0001fdb4c23baccc0132/tika-parsers-1.17.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.18/69556697de96cf0b22df846e970dafd29866eee0/tika-core-1.18.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.17/40c89841c765321ddbf00cd34739ee199c270a1e/tika-parsers-1.17-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.18/7973bf9307dfe0c8cd5cc89183b29cb2f8eaa74f/tika-core-1.18-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.17/2251d8fe9563129d1b482b5467af7e09a41c80ec/tika-parsers-1.17-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-core/1.18/d52e325aa65e44d91a468d5eafbdab6c3034ebcd/tika-core-1.18-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.apache.tika:tika-parsers:1.18">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.18/7d9b6dea91d783165f3313d320d3aaaa9a4dfc13/tika-parsers-1.18.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.18/88f945989da14b86b081a60dff99e174eb239b63/tika-parsers-1.18-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tika/tika-parsers/1.18/38cae13f445e0e18184b6f00a85cb779b258e876/tika-parsers-1.18-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.apache.uima:uimafit-core:2.2.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.uima/uimafit-core/2.2.0/db69a6b733d2ada643f46060e130eda47edd6e5a/uimafit-core-2.2.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.uima/uimafit-core/2.2.0/e81268d7d56c87117812ada1ad946c35c2826293/uimafit-core-2.2.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.uima/uimafit-core/2.2.0/5567abf0d1ce744541c43306a04b64c151d62d41/uimafit-core-2.2.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.apache.uima:uimaj-core:2.9.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.uima/uimaj-core/2.9.0/314390218c2f2d11089007719a5d4f39510d32f5/uimaj-core-2.9.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.uima/uimaj-core/2.9.0/169c3ba682bcc74c3a7aa185b2b8e39ed4a421a7/uimaj-core-2.9.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.uima/uimaj-core/2.9.0/8956dd43a8b7d1a33bae6d5f3ae31d9b02dfe443/uimaj-core-2.9.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.apache.ws.xmlschema:xmlschema-core:2.2.2">
@@ -3750,6 +3805,17 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.54/27cf7631a904e6b98d9842db13e09a22e524eee4/bcprov-jdk15on-1.54-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Gradle: org.brotli:dec:0.1.2">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.brotli/dec/0.1.2/c26a897ae0d524809eef1c786cc6183b4ddcc3b/dec-0.1.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.brotli/dec/0.1.2/6909ec84853945f446eb272ebff9cfa71ac76655/dec-0.1.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.brotli/dec/0.1.2/c04c22a0f5a84e985bd04d2129638e590c1e5edc/dec-0.1.2-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Gradle: org.ccil.cowan.tagsoup:tagsoup:1.2.1">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ccil.cowan.tagsoup/tagsoup/1.2.1/5584627487e984c03456266d3f8802eb85a9ce97/tagsoup-1.2.1.jar!/" />
@@ -4034,15 +4100,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jboss.logging/jboss-logging/3.3.1.Final/9d32b33527abb934fb12035d8849f7b9c4804049/jboss-logging-3.3.1.Final-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jdom:jdom2:2.0.4">
+    <library name="Gradle: org.jdom:jdom2:2.0.6">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jdom/jdom2/2.0.4/4b65e55cc61b34bc634b25f0359d1242e4c519de/jdom2-2.0.4.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jdom/jdom2/2.0.6/6f14738ec2e9dd0011e343717fa624a10f8aab64/jdom2-2.0.6.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jdom/jdom2/2.0.4/bbc0bed63cce1de2bf18e0b4aa2e7d12bc7f3cd8/jdom2-2.0.4-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jdom/jdom2/2.0.6/3d4534f78bd10a20ee0c71cffa9afaccc9a93303/jdom2-2.0.6-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jdom/jdom2/2.0.4/4c83993a65f25aeaa433d3591fbc3cf34edccfbe/jdom2-2.0.4-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jdom/jdom2/2.0.6/3dcf8ba7582eeac3b67ed5155ee3659e16c8dadc/jdom2-2.0.6-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.jrobin:jrobin:1.5.9">
@@ -4067,15 +4133,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.json/json/20180130/66ab57acbb9086d16201c2eafa2145d2b914bb26/json-20180130-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jsoup:jsoup:1.7.2">
+    <library name="Gradle: org.jsoup:jsoup:1.11.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.7.2/d7e275ba05aa380ca254f72d0c0ffebaedc3adcf/jsoup-1.7.2.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.11.2/e3eeb8a0b4ce1db246059a41e353cd7413dad226/jsoup-1.11.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.7.2/66b8ab3d500d59acf60ab2b4f97a27f5b08b9e25/jsoup-1.7.2-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.11.2/9e45626ac45b526b58ce55012cd1442a3e410fae/jsoup-1.11.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.7.2/833f425e7a40d7fc88922370a072965dda8ee216/jsoup-1.7.2-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.11.2/f0f1f0d1ceb2cd515c98649d9ad6b8b9814899b2/jsoup-1.11.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.junit.jupiter:junit-jupiter-api:5.2.0">
@@ -4199,15 +4265,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.objenesis/objenesis/2.6/96614f514a1031296657bf0dde452dc15e42fcb8/objenesis-2.6-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.opengis:geoapi:3.0.0">
+    <library name="Gradle: org.opengis:geoapi:3.0.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opengis/geoapi/3.0.0/a04e0f361627fb33a140b5aa4c019741f905577/geoapi-3.0.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opengis/geoapi/3.0.1/a69b261841b0794b82b8d42fcd6e9a370eb62809/geoapi-3.0.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opengis/geoapi/3.0.0/d9cc16d2f1110e7039b701cd17a693c2f8b46b3d/geoapi-3.0.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opengis/geoapi/3.0.1/9b1373b4badd3748267fe97d158d23a6bc928747/geoapi-3.0.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opengis/geoapi/3.0.0/7fb39af6576e15709189ee50a2496579f508528f/geoapi-3.0.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opengis/geoapi/3.0.1/8c56e525fe648bf5027320e0e67430b1836f4c40/geoapi-3.0.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.opentest4j:opentest4j:1.1.0">
@@ -4617,15 +4683,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.threeten/threetenbp/1.3.3/dbca917b92624cc219df74ef5da110f451903511/threetenbp-1.3.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.tukaani:xz:1.6">
+    <library name="Gradle: org.tukaani:xz:1.8">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.6/5b6f921f1810bdf90e25471968f741f87168b64/xz-1.6.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.8/c4f7d054303948eb6a4066194253886c8af07128/xz-1.8.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.6/31a2518c1d4e4b73d247513b07916163e6c0984d/xz-1.6-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.8/9354393aa96682804ccc2ffdf5aa066fa23efc41/xz-1.8-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.6/7a6db882d2085b715337ea2108fa168c46a683e3/xz-1.6-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.8/38c6cb5218afd414465ab6458fbcfeb1c947e808/xz-1.8-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.yaml:snakeyaml:1.17">

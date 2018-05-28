@@ -9,9 +9,6 @@
         <webroots>
           <root url="file://$MODULE_DIR$/web" relative="/" />
         </webroots>
-        <sourceRoots>
-          <root url="file://$MODULE_DIR$/src/main/java" />
-        </sourceRoots>
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
@@ -27,14 +24,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-web:5.0.6.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: net.bull.javamelody:javamelody-core:1.71.0" level="project" />
-    <orderEntry type="module" module-name="view_main" />
-    <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-web:5.0.0.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-webmvc:5.0.6.RELEASE" level="project" />
-    <orderEntry type="module" module-name="security_main" />
-    <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-core:5.0.0.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-context:5.0.6.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-context-support:5.0.6.RELEASE" level="project" />
   </component>
 </module>
