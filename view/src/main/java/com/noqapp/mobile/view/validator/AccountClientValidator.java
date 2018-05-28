@@ -132,7 +132,7 @@ public class AccountClientValidator {
     }
 
     void firstNameValidation(String firstName, Map<String, String> errors) {
-        if (StringUtils.isBlank(firstName) || firstName.length() <= nameLength) {
+        if (StringUtils.isBlank(firstName) || firstName.length() < nameLength) {
             LOG.info("failed validation firstName={}", firstName);
             errors.put(ErrorEncounteredJson.REASON, "Name validation failed. Minimum length '" + nameLength + "' characters");
             errors.put(AccountMobileService.ACCOUNT_REGISTRATION.FN.name(), StringUtils.isBlank(firstName) ? EMPTY : firstName);
@@ -142,7 +142,7 @@ public class AccountClientValidator {
     }
 
     void mailValidation(String mail, Map<String, String> errors) {
-        if (StringUtils.isBlank(mail) || mail.length() <= mailLength) {
+        if (StringUtils.isBlank(mail) || mail.length() < mailLength) {
             LOG.info("failed validation mail={}", mail);
             errors.put(ErrorEncounteredJson.REASON, "Mail validation failed. Minimum length '" + mailLength + "' characters");
             errors.put(AccountMobileService.ACCOUNT_REGISTRATION.EM.name(), StringUtils.isBlank(mail) ? EMPTY : mail);
