@@ -101,7 +101,7 @@ public class JsonProfile extends AbstractDomain {
 
     public static JsonProfile newInstance(UserProfileEntity userProfile, int remoteJoin) {
         return new JsonProfile(
-                userProfile.getProfileImage(),
+                "",
                 userProfile.getName(),
                 userProfile.getEmail(),
                 userProfile.getCountryShortName(),
