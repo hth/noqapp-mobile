@@ -97,7 +97,7 @@ public class AccountClientValidator {
         LOG.debug("Validating client information phone={} cs={}", phone, countryShortName);
 
         Map<String, String> errors = validate(phone, firstName, mail, birthday, gender, countryShortName, timeZone);
-        passwordValidation(password, errors);
+        passwordValidation(mail, password, errors);
         return errors;
     }
 
@@ -115,6 +115,12 @@ public class AccountClientValidator {
         return errors;
     }
 
+    /**
+     * Validate password when email exists.
+     *
+     * @param phone
+     * @param errors
+     */
     void phoneValidation(String phone, Map<String, String> errors) {
         if (StringUtils.isBlank(phone)) {
             LOG.info("failed validation phone={}", phone);
@@ -195,14 +201,16 @@ public class AccountClientValidator {
         }
     }
 
-    void passwordValidation(String password, Map<String, String> errors) {
-        if (StringUtils.isBlank(password) || password.length() < passwordLength) {
-            LOG.info("failed validation password={}", AUTH_KEY_HIDDEN);
-            errors.put(ErrorEncounteredJson.REASON, "Password validation failed.");
-            /* Do not send password back. Hidden for security reason. */
-            errors.put(AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT.PW.name(), StringUtils.isBlank(password) ? EMPTY : "********");
-            errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
-            errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
+    void passwordValidation(String mail, String password, Map<String, String> errors) {
+        if (StringUtils.isNotBlank(mail)) {
+            if (StringUtils.isBlank(password) || password.length() < passwordLength) {
+                LOG.info("failed validation password={}", AUTH_KEY_HIDDEN);
+                errors.put(ErrorEncounteredJson.REASON, "Password validation failed.");
+                /* Do not send password back. Hidden for security reason. */
+                errors.put(AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT.PW.name(), StringUtils.isBlank(password) ? EMPTY : "********");
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
+            }
         }
     }
 
