@@ -1,12 +1,14 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import com.noqapp.common.utils.CommonUtil;
+import com.noqapp.common.utils.FileUtil;
 import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.flow.RegisterUser;
+import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonUserAddress;
 import com.noqapp.domain.json.JsonUserAddressList;
 import com.noqapp.domain.types.AddressOriginEnum;
@@ -20,6 +22,7 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
+import com.noqapp.service.FileService;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
@@ -34,9 +37,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
@@ -50,7 +57,9 @@ import java.util.Set;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.common.utils.FileUtil.getFileExtensionWithDot;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -77,6 +86,7 @@ public class ClientProfileAPIController {
     private AccountClientValidator accountClientValidator;
     private AccountService accountService;
     private UserAddressService userAddressService;
+    private FileService fileService;
 
     @Autowired
     public ClientProfileAPIController(
@@ -86,7 +96,8 @@ public class ClientProfileAPIController {
             ApiHealthService apiHealthService,
             AccountClientValidator accountClientValidator,
             AccountService accountService,
-            UserAddressService userAddressService
+            UserAddressService userAddressService,
+            FileService fileService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
@@ -95,6 +106,7 @@ public class ClientProfileAPIController {
         this.accountClientValidator = accountClientValidator;
         this.accountService = accountService;
         this.userAddressService = userAddressService;
+        this.fileService = fileService;
     }
 
     @GetMapping(
@@ -528,6 +540,69 @@ public class ClientProfileAPIController {
                     ClientProfileAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @RequestMapping (
+            method = RequestMethod.POST,
+            value = "/upload",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String upload(
+            @RequestHeader("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @RequestPart("file")
+            MultipartFile multipartFile,
+
+            HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Profile upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (multipartFile.isEmpty()) {
+            LOG.error("File name missing in request or no file uploaded");
+            return ErrorEncounteredJson.toJson("File missing in request or no file uploaded.", MOBILE_UPLOAD);
+        }
+
+        try {
+            processProfileImage(qid, multipartFile);
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonResponse(false).asJson();
+        } finally {
+            apiHealthService.insert(
+                    "/upload",
+                    "upload",
+                    ClientProfileAPIController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    private void processProfileImage(String qid, MultipartFile multipartFile) throws IOException {
+        BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
+        String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
+        if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
+            String filename = FileUtil.createRandomFilenameOf16Chars() + getFileExtensionWithDot(multipartFile.getOriginalFilename());
+            fileService.addProfileImage(qid, filename, bufferedImage);
         }
     }
 
