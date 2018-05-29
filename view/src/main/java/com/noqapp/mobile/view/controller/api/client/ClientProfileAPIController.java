@@ -601,8 +601,8 @@ public class ClientProfileAPIController {
         BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
         String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
         if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
-            String filename = FileUtil.createRandomFilenameOf16Chars() + getFileExtensionWithDot(multipartFile.getOriginalFilename());
-            fileService.addProfileImage(qid, filename, bufferedImage);
+            String profileFilename = FileUtil.createRandomFilenameOf24Chars() + getFileExtensionWithDot(multipartFile.getOriginalFilename());
+            fileService.addProfileImage(qid, profileFilename, bufferedImage);
         }
     }
 
