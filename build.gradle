@@ -334,6 +334,10 @@ subprojects {
         }
     }
 
+    tasks.withType(JavaCompile) {
+        options.incremental = true
+    }
+
 // Sonar run rests here. I could not run this using gradle but standalone is working well
 //    apply plugin: 'sonar'
 //    apply plugin: 'sonar-runner'
