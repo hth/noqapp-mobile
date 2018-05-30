@@ -577,9 +577,9 @@ public class ClientProfileAPIController {
 
             HttpServletResponse response
     ) throws IOException {
-        boolean methodStatusSuccess = true;
+        boolean methodStatusSuccess = false;
         Instant start = Instant.now();
-        LOG.info("Profile upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
+        LOG.info("Profile Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -593,6 +593,7 @@ public class ClientProfileAPIController {
 
         try {
             processProfileImage(qid, multipartFile);
+            methodStatusSuccess = true;
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
@@ -614,6 +615,9 @@ public class ClientProfileAPIController {
         if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
             String profileFilename = FileUtil.createRandomFilenameOf24Chars() + getFileExtensionWithDot(multipartFile.getOriginalFilename());
             fileService.addProfileImage(qid, profileFilename, bufferedImage);
+        } else {
+            LOG.error("Failed mime mismatch found={} sentMime={}", mimeType, multipartFile.getContentType());
+            throw new RuntimeException("Mime type mismatch");
         }
     }
 
