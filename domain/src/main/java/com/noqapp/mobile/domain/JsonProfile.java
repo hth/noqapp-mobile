@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.medical.JsonUserMedicalProfile;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.common.utils.Formatter;
@@ -66,6 +67,9 @@ public class JsonProfile extends AbstractDomain {
 
     @JsonProperty("ul")
     private UserLevelEnum userLevel;
+
+    @JsonProperty ("mp")
+    private JsonUserMedicalProfile jsonUserMedicalProfile;
 
     public JsonProfile() {
         //Required Default Constructor
@@ -162,5 +166,14 @@ public class JsonProfile extends AbstractDomain {
 
     public UserLevelEnum getUserLevel() {
         return userLevel;
+    }
+
+    public JsonUserMedicalProfile getJsonUserMedicalProfile() {
+        return jsonUserMedicalProfile;
+    }
+
+    public JsonProfile setJsonUserMedicalProfile(JsonUserMedicalProfile jsonUserMedicalProfile) {
+        this.jsonUserMedicalProfile = jsonUserMedicalProfile;
+        return this;
     }
 }
