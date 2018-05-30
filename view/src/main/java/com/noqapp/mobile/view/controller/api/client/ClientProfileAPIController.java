@@ -156,6 +156,8 @@ public class ClientProfileAPIController {
         }
     }
 
+    //TODO(hth) missing medical update; example update of blood group
+
     @PostMapping(
             value = "/update",
             headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
