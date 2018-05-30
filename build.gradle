@@ -428,6 +428,10 @@ task copyJars(type: Copy) {
     include '**/*.jar'
 }
 
+tasks.withType(JavaCompile) {
+    options.incremental = true
+}
+
 task unzip(type: Copy, dependsOn: [':view:war']) {
     def zipFile = file("view/build/libs/noqapp.mobile-view-${version}.war")
 
