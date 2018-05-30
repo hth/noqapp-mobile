@@ -15,6 +15,7 @@ import com.noqapp.domain.types.AddressOriginEnum;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.domain.JsonProfile;
@@ -87,6 +88,7 @@ public class ClientProfileAPIController {
     private AccountService accountService;
     private UserAddressService userAddressService;
     private FileService fileService;
+    private UserMedicalProfileService userMedicalProfileService;
 
     @Autowired
     public ClientProfileAPIController(
@@ -97,7 +99,8 @@ public class ClientProfileAPIController {
             AccountClientValidator accountClientValidator,
             AccountService accountService,
             UserAddressService userAddressService,
-            FileService fileService
+            FileService fileService,
+            UserMedicalProfileService userMedicalProfileService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
@@ -107,6 +110,7 @@ public class ClientProfileAPIController {
         this.accountService = accountService;
         this.userAddressService = userAddressService;
         this.fileService = fileService;
+        this.userMedicalProfileService = userMedicalProfileService;
     }
 
     @GetMapping(
@@ -132,10 +136,12 @@ public class ClientProfileAPIController {
         }
 
         try {
-            return JsonProfile.newInstance(
+            JsonProfile jsonProfile = JsonProfile.newInstance(
                     userProfilePreferenceService.findByQueueUserId(qid),
-                    inviteService.getRemoteJoinCount(qid)).asJson();
+                    inviteService.getRemoteJoinCount(qid));
+            jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
 
+            return jsonProfile.asJson();
         } catch(Exception e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -149,6 +155,8 @@ public class ClientProfileAPIController {
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
+
+    //TODO(hth) missing medical update; example update of blood group
 
     @PostMapping(
             value = "/update",
@@ -370,7 +378,10 @@ public class ClientProfileAPIController {
                 int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getQueueUserId());
                 LOG.info("Remote join available={}", remoteJoin);
 
-                return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
+                JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, remoteJoin);
+                jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
+
+                return jsonProfile.asJson();
             }
         } catch(Exception e) {
             LOG.error("Failed migrating qid={}, reason={}", qid, e.getLocalizedMessage(), e);
