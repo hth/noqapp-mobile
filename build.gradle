@@ -334,6 +334,10 @@ subprojects {
         }
     }
 
+    tasks.withType(JavaCompile) {
+        options.incremental = true
+    }
+
 // Sonar run rests here. I could not run this using gradle but standalone is working well
 //    apply plugin: 'sonar'
 //    apply plugin: 'sonar-runner'
@@ -426,10 +430,6 @@ task copyJars(type: Copy) {
     from 'view/build/libs'
     into warLibDir
     include '**/*.jar'
-}
-
-tasks.withType(JavaCompile) {
-    options.incremental = true
 }
 
 task unzip(type: Copy, dependsOn: [':view:war']) {
