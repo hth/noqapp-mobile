@@ -1,3 +1,73 @@
+GET http://localhost:9090/noqapp-mobile/open/token/levelUp/SN_5ad2022db85cb75a156d65b2.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: ﻿amit@r.com
+X-R-AUTH: ﻿$2a$15$kJl/EBt6BUJNf.GzUKc5Uevp5OLVhzLnlOXJtmLtiRcr1jLSK/i4O
+
+{   "bs": "5ab1e59f70b59e0341a2012e",   "bt": "ST",   "da": "",   "dt": "HD",   "n": "",   "op": "100",   "p": "",   "pop": [     {       "pd": 0,       "pi": "5abfc75a12c113616e07d259",       "pp": 10000,       "pq": 5     }   ],   "pt": "AP",   "qid": "1000002",   "sd": 0 }
+
+<> 2018-06-02T074131.200.json
+
+###
+
+GET http://localhost:9090/noqapp-mobile/open/token/levelUp/SN_5ad2022db85cb75a156d65b2.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: ﻿amit@r.com
+X-R-AUTH: ﻿$2a$15$kJl/EBt6BUJNf.GzUKc5Uevp5OLVhzLnlOXJtmLtiRcr1jLSK/i4O
+
+{   "bs": "5ab1e59f70b59e0341a2012e",   "bt": "ST",   "da": "",   "dt": "HD",   "n": "",   "op": "100",   "p": "",   "pop": [     {       "pd": 0,       "pi": "5abfc75a12c113616e07d259",       "pp": 10000,       "pq": 5     }   ],   "pt": "AP",   "qid": "1000002",   "sd": 0 }
+
+<> 2018-06-02T074043.200.json
+
+###
+
+GET http://localhost:9090/noqapp-mobile/open/token/levelUp/SN_5ad2022db85cb75a156d65b2.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: ﻿amit@r.com
+X-R-AUTH: ﻿$2a$15$kJl/EBt6BUJNf.GzUKc5Uevp5OLVhzLnlOXJtmLtiRcr1jLSK/i4O
+
+{   "bs": "5ab1e59f70b59e0341a2012e",   "bt": "ST",   "da": "",   "dt": "HD",   "n": "",   "op": "100",   "p": "",   "pop": [     {       "pd": 0,       "pi": "5abfc75a12c113616e07d259",       "pp": 10000,       "pq": 5     }   ],   "pt": "AP",   "qid": "1000002",   "sd": 0 }
+
+<> 2018-06-02T072507.200.json
+
+###
+
+GET http://localhost:9090/noqapp-mobile/open/token/levelUp/SN_5ad2022db85cb75a156d65b2.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: ﻿amit@r.com
+X-R-AUTH: ﻿$2a$15$kJl/EBt6BUJNf.GzUKc5Uevp5OLVhzLnlOXJtmLtiRcr1jLSK/i4O
+
+{   "bs": "5ab1e59f70b59e0341a2012e",   "bt": "ST",   "da": "",   "dt": "HD",   "n": "",   "op": "100",   "p": "",   "pop": [     {       "pd": 0,       "pi": "5abfc75a12c113616e07d259",       "pp": 10000,       "pq": 5     }   ],   "pt": "AP",   "qid": "1000002",   "sd": 0 }
+
+<> 2018-06-02T072324.200.json
+
+###
+
+GET http://localhost:9090/noqapp-mobile/open/token/levelUp/SN_5ad2022db85cb75a156d65b2.json
+Accept: */*
+Cache-Control: no-cache
+X-R-DID: ABC
+X-R-DT: A
+X-R-MAIL: ﻿amit@r.com
+X-R-AUTH: ﻿$2a$15$kJl/EBt6BUJNf.GzUKc5Uevp5OLVhzLnlOXJtmLtiRcr1jLSK/i4O
+
+{   "bs": "5ab1e59f70b59e0341a2012e",   "bt": "ST",   "da": "",   "dt": "HD",   "n": "",   "op": "100",   "p": "",   "pop": [     {       "pd": 0,       "pi": "5abfc75a12c113616e07d259",       "pp": 10000,       "pq": 5     }   ],   "pt": "AP",   "qid": "1000002",   "sd": 0 }
+
+<> 2018-06-02T071824.200.json
+
+###
+
 POST http://localhost:9090/noqapp-mobile/api/c/purchaseOrder/purchase.json
 Accept: */*
 Cache-Control: no-cache
@@ -589,75 +659,5 @@ X-R-AUTH: 12
 {   "q": "",   "cityName": "Mumbai",   "lat": "19.004550",   "lng": "73.014529",   "filters" : "xyz" }
 
 <> 2018-04-29T085146.200.json
-
-###
-
-POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
-Accept: */*
-Cache-Control: no-cache
-X-R-DID: ABC
-X-R-DT: A
-X-R-MAIL: CC
-X-R-AUTH: 12
-
-{   "q": "",   "cityName": "Mumbai",   "lat": "19.004550",   "lng": "73.014529",   "filters" : "xyz" }
-
-<> 2018-04-29T085020.200.json
-
-###
-
-POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
-Accept: */*
-Cache-Control: no-cache
-X-R-DID: ABC
-X-R-DT: A
-X-R-MAIL: CC
-X-R-AUTH: 12
-
-{   "q": "",   "cityName": "Mumbai",   "lat": "19.004550",   "lng": "73.014529",   "filters" : "xyz" }
-
-<> 2018-04-29T084619.200.json
-
-###
-
-POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
-Accept: */*
-Cache-Control: no-cache
-X-R-DID: ABC
-X-R-DT: A
-X-R-MAIL: CC
-X-R-AUTH: 12
-
-{   "q": "",   "cityName": "Mumbai",   "lat": "19.004550",   "lng": "73.014529",   "filters" : "xyz" }
-
-<> 2018-04-29T084359.200.json
-
-###
-
-POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
-Accept: */*
-Cache-Control: no-cache
-X-R-DID: ABC
-X-R-DT: A
-X-R-MAIL: CC
-X-R-AUTH: 12
-
-{   "q": "",   "cityName": "Mumbai",   "lat": "19.004550",   "lng": "73.014529",   "filters" : "xyz" }
-
-<> 2018-04-29T084250.200.json
-
-###
-
-POST http://localhost:9090/noqapp-mobile/open/search/nearMe.json
-Accept: */*
-Cache-Control: no-cache
-X-R-DID: ABC
-X-R-DT: A
-X-R-MAIL: CC
-X-R-AUTH: 12
-
-{   "q": "",   "cityName": "Mumbai",   "lat": "19.004550",   "lng": "73.014529",   "filters" : "xyz" }
-
-<> 2018-04-29T083307.200.json
 
 ###
