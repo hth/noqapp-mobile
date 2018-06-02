@@ -30,6 +30,7 @@ import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.service.HealthCareProfileService;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -79,6 +80,7 @@ class ManageQueueControllerTest {
     @Mock private ApiHealthService apiHealthService;
     @Mock private BizService bizService;
     @Mock private QueueManager queueManager;
+    @Mock private HealthCareProfileService healthCareProfileService;
 
     @Mock private HttpServletResponse response;
     private TokenQueueEntity tokenQueue;
@@ -97,7 +99,8 @@ class ManageQueueControllerTest {
                 tokenQueueService,
                 bizService,
                 tokenQueueManager,
-                queueManager
+                queueManager,
+                healthCareProfileService
         );
 
         manageQueueController = new ManageQueueController(

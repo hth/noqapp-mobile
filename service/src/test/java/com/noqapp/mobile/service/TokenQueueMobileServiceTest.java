@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import com.noqapp.medical.service.HealthCareProfileService;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.service.BizService;
@@ -22,13 +23,14 @@ class TokenQueueMobileServiceTest {
     @Mock private TokenQueueService tokenQueueService;
     @Mock private TokenQueueManager tokenQueueManager;
     @Mock private QueueManager queueManager;
+    @Mock private HealthCareProfileService healthCareProfileService;
 
     private TokenQueueMobileService tokenQueueMobileService;
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.initMocks(this);
-        this.tokenQueueMobileService = new TokenQueueMobileService(tokenQueueService, bizService, tokenQueueManager, queueManager);
+        this.tokenQueueMobileService = new TokenQueueMobileService(tokenQueueService, bizService, tokenQueueManager, queueManager, healthCareProfileService);
     }
 
     @Test
