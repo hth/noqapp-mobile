@@ -2,10 +2,13 @@ package com.noqapp.mobile.service;
 
 import com.noqapp.domain.BizCategoryEntity;
 import com.noqapp.domain.BizNameEntity;
+import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
+import com.noqapp.domain.types.UserLevelEnum;
+import com.noqapp.medical.service.HealthCareProfileService;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
@@ -46,18 +49,21 @@ public class TokenQueueMobileService {
     private BizService bizService;
     private TokenQueueManager tokenQueueManager;
     private QueueManager queueManager;
+    private HealthCareProfileService healthCareProfileService;
 
     @Autowired
     public TokenQueueMobileService(
             TokenQueueService tokenQueueService,
             BizService bizService,
             TokenQueueManager tokenQueueManager,
-            QueueManager queueManager
+            QueueManager queueManager,
+            HealthCareProfileService healthCareProfileService
     ) {
         this.tokenQueueService = tokenQueueService;
         this.bizService = bizService;
         this.tokenQueueManager = tokenQueueManager;
         this.queueManager = queueManager;
+        this.healthCareProfileService = healthCareProfileService;
     }
 
     public JsonQueue findTokenState(String codeQR) {
@@ -229,6 +235,15 @@ public class TokenQueueMobileService {
                             bizStoreElastic.setDisplayImage(bizName.getBusinessServiceImages().iterator().next());
                             bizStoreElastic.setAmenities(bizName.getAmenities());
                             bizStoreElastic.setFacilities(bizName.getFacilities());
+
+                            List<BusinessUserStoreEntity> businessUsers = bizService.getAllManagingStoreWithUserLevel(
+                                    bizStore.getId(),
+                                    UserLevelEnum.S_MANAGER);
+
+                            if (!businessUsers.isEmpty()) {
+                                BusinessUserStoreEntity businessUserStore = businessUsers.get(0);
+                                bizStoreElastic.setManagerCodeQR(healthCareProfileService.findByQid(businessUserStore.getQueueUserId()).getCodeQR());
+                            }
                             break;
                         default:
                             break;
