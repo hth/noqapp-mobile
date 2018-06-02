@@ -17,6 +17,9 @@ import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.repository.ApiHealthNowManager;
 import com.noqapp.health.repository.ApiHealthNowManagerImpl;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.repository.HealthCareProfileManager;
+import com.noqapp.medical.repository.HealthCareProfileManagerImpl;
+import com.noqapp.medical.service.HealthCareProfileService;
 import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -124,6 +127,7 @@ public class ITest extends RealMongoForITest {
     protected QueueService queueService;
     protected AuthenticateMobileService authenticateMobileService;
     protected BusinessUserStoreService businessUserStoreService;
+    protected HealthCareProfileService healthCareProfileService;
 
     protected UserAddressManager userAddressManager;
     protected UserAddressService userAddressService;
@@ -154,6 +158,7 @@ public class ITest extends RealMongoForITest {
     protected BusinessUserStoreManager businessUserStoreManager;
     protected BusinessUserService businessUserService;
     protected BusinessUserManager businessUserManager;
+    protected HealthCareProfileManager healthCareProfileManager;
 
     protected ApiHealthService apiHealthService;
     protected ApiHealthNowManager apiHealthNowManager;
@@ -291,11 +296,19 @@ public class ITest extends RealMongoForITest {
                 businessUserStoreManager
         );
 
+        healthCareProfileManager = new HealthCareProfileManagerImpl(getMongoTemplate());
+
+        healthCareProfileService = new HealthCareProfileService(
+                mockEnvironment,
+                healthCareProfileManager
+        );
+
         tokenQueueMobileService = new TokenQueueMobileService(
                 tokenQueueService,
                 bizService,
                 tokenQueueManager,
-                queueManager
+                queueManager,
+                healthCareProfileService
         );
 
         queueMobileService = new QueueMobileService(
@@ -552,7 +565,8 @@ public class ITest extends RealMongoForITest {
                 queueSupervisorUserProfile.getQueueUserId(),
                 bizStore.getId(),
                 bizName.getId(),
-                bizStore.getCodeQR());
+                bizStore.getCodeQR(),
+                queueSupervisorUserProfile.getLevel());
         businessUserStoreService.save(businessUserStore);
     }
 }
