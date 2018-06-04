@@ -12,6 +12,7 @@ import com.noqapp.domain.json.JsonStoreCategory;
 import com.noqapp.domain.json.JsonStoreProduct;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.service.StoreDetailService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.service.BizService;
@@ -47,24 +48,15 @@ import java.util.List;
 public class StoreDetailController {
     private static final Logger LOG = LoggerFactory.getLogger(StoreDetailController.class);
 
-    private BizService bizService;
-    private TokenQueueMobileService tokenQueueMobileService;
-    private StoreProductService storeProductService;
-    private StoreCategoryService storeCategoryService;
+    private StoreDetailService storeDetailService;
     private ApiHealthService apiHealthService;
 
     @Autowired
     public StoreDetailController(
-            BizService bizService,
-            TokenQueueMobileService tokenQueueMobileService,
-            StoreProductService storeProductService,
-            StoreCategoryService storeCategoryService,
+            StoreDetailService storeDetailService,
             ApiHealthService apiHealthService
     ) {
-        this.bizService = bizService;
-        this.tokenQueueMobileService = tokenQueueMobileService;
-        this.storeProductService = storeProductService;
-        this.storeCategoryService = storeCategoryService;
+        this.storeDetailService = storeDetailService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -88,49 +80,7 @@ public class StoreDetailController {
         LOG.info("Store Detail for codeQR={} did={} dt={}", codeQR, did, dt);
 
         try {
-            BizStoreEntity bizStore = bizService.findByCodeQR(codeQR.getText());
-            JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(codeQR.getText());
-            List<StoreProductEntity> storeProducts = storeProductService.findAll(bizStore.getId());
-            List<StoreCategoryEntity> storeCategories = storeCategoryService.findAll(bizStore.getId());
-
-            JsonStore jsonStore = new JsonStore();
-            jsonStore.setJsonQueue(jsonQueue);
-            for (StoreProductEntity storeProduct : storeProducts) {
-                JsonStoreProduct jsonStoreProduct = new JsonStoreProduct()
-                        .setProductId(storeProduct.getId())
-                        .setProductName(storeProduct.getProductName())
-                        .setProductPrice(storeProduct.getProductPrice())
-                        .setProductDiscount(storeProduct.getProductDiscount())
-                        .setProductInfo(storeProduct.getProductInfo())
-                        .setStoreCategoryId(storeProduct.getStoreCategoryId())
-                        .setProductType(storeProduct.getProductType())
-                        .setUnitOfMeasurement(storeProduct.getUnitOfMeasurement())
-                        .setProductReference(storeProduct.getProductReference());
-                jsonStore.addJsonStoreProduct(jsonStoreProduct);
-            }
-
-            for (StoreCategoryEntity storeCategory : storeCategories) {
-                JsonStoreCategory jsonStoreCategory = new JsonStoreCategory()
-                        .setCategoryId(storeCategory.getId())
-                        .setCategoryName(storeCategory.getCategoryName());
-                jsonStore.addJsonStoreCategory(jsonStoreCategory);
-            }
-
-            List<StoreHourEntity> storeHours = bizService.findAllStoreHours(bizStore.getId());
-            for (StoreHourEntity storeHour : storeHours) {
-                JsonHour jsonHour = new JsonHour()
-                        .setDayOfWeek(storeHour.getDayOfWeek())
-                        .setTokenAvailableFrom(storeHour.getTokenAvailableFrom())
-                        .setTokenNotAvailableFrom(storeHour.getTokenNotAvailableFrom())
-                        .setStartHour(storeHour.getStartHour())
-                        .setEndHour(storeHour.getEndHour())
-                        .setPreventJoining(storeHour.isPreventJoining())
-                        .setDayClosed(storeHour.isDayClosed())
-                        .setDelayedInMinutes(storeHour.getDelayedInMinutes());
-                jsonStore.addJsonHour(jsonHour);
-            }
-
-            return jsonStore.asJson();
+            return storeDetailService.populateStoreDetail(codeQR.getText());
         } catch (Exception e) {
             LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

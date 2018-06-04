@@ -2,9 +2,11 @@ package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.json.medical.JsonHealthCareProfile;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.service.HealthCareProfileService;
+import com.noqapp.mobile.service.StoreDetailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +33,20 @@ import java.time.Instant;
 @RestController
 @RequestMapping(value = "/open/healthCare")
 public class HealthCareProfileController {
-
     private static final Logger LOG = LoggerFactory.getLogger(HealthCareProfileController.class);
 
     private HealthCareProfileService healthCareProfileService;
+    private StoreDetailService storeDetailService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public HealthCareProfileController(HealthCareProfileService healthCareProfileService, ApiHealthService apiHealthService) {
+    public HealthCareProfileController(
+            HealthCareProfileService healthCareProfileService,
+            StoreDetailService storeDetailService,
+            ApiHealthService apiHealthService
+    ) {
         this.healthCareProfileService = healthCareProfileService;
+        this.storeDetailService = storeDetailService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -61,7 +68,12 @@ public class HealthCareProfileController {
         LOG.info("Get profile {} did={} dt={}", codeQR.getText(), did, dt);
 
         try {
-            return healthCareProfileService.findByCodeQRAsJson(codeQR.getText()).asJson();
+            JsonHealthCareProfile jsonHealthCareProfile = healthCareProfileService.findByCodeQRAsJson(codeQR.getText());
+            for (String storeCodeQR : jsonHealthCareProfile.getManagerAtStoreCodeQRs()) {
+                jsonHealthCareProfile.addStore(storeDetailService.storeDetail(storeCodeQR));
+            }
+
+            return jsonHealthCareProfile.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting profile {} reason={}", codeQR.getText(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
