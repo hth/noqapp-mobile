@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import com.noqapp.medical.service.HealthCareProfileService;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
+import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.TokenQueueService;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,13 +25,14 @@ class TokenQueueMobileServiceTest {
     @Mock private TokenQueueManager tokenQueueManager;
     @Mock private QueueManager queueManager;
     @Mock private HealthCareProfileService healthCareProfileService;
+    @Mock private UserProfileManager userProfileManager;
 
     private TokenQueueMobileService tokenQueueMobileService;
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.initMocks(this);
-        this.tokenQueueMobileService = new TokenQueueMobileService(tokenQueueService, bizService, tokenQueueManager, queueManager, healthCareProfileService);
+        this.tokenQueueMobileService = new TokenQueueMobileService(tokenQueueService, bizService, tokenQueueManager, queueManager, healthCareProfileService, userProfileManager);
     }
 
     @Test
