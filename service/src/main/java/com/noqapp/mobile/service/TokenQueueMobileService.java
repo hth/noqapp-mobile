@@ -3,6 +3,7 @@ package com.noqapp.mobile.service;
 import com.noqapp.domain.BizCategoryEntity;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.types.BusinessTypeEnum;
@@ -10,6 +11,7 @@ import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.medical.service.HealthCareProfileService;
 import com.noqapp.repository.QueueManager;
+import com.noqapp.repository.UserProfileManager;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.DomainConversion;
@@ -50,6 +52,7 @@ public class TokenQueueMobileService {
     private TokenQueueManager tokenQueueManager;
     private QueueManager queueManager;
     private HealthCareProfileService healthCareProfileService;
+    private UserProfileManager userProfileManager;
 
     @Autowired
     public TokenQueueMobileService(
@@ -57,13 +60,15 @@ public class TokenQueueMobileService {
             BizService bizService,
             TokenQueueManager tokenQueueManager,
             QueueManager queueManager,
-            HealthCareProfileService healthCareProfileService
+            HealthCareProfileService healthCareProfileService,
+            UserProfileManager userProfileManager
     ) {
         this.tokenQueueService = tokenQueueService;
         this.bizService = bizService;
         this.tokenQueueManager = tokenQueueManager;
         this.queueManager = queueManager;
         this.healthCareProfileService = healthCareProfileService;
+        this.userProfileManager = userProfileManager;
     }
 
     public JsonQueue findTokenState(String codeQR) {
@@ -232,7 +237,6 @@ public class TokenQueueMobileService {
                 for (BusinessTypeEnum businessType : bizName.getBusinessTypes()) {
                     switch (businessType) {
                         case DO:
-                            bizStoreElastic.setDisplayImage(bizName.getBusinessServiceImages().iterator().next());
                             bizStoreElastic.setAmenities(bizName.getAmenities());
                             bizStoreElastic.setFacilities(bizName.getFacilities());
 
@@ -243,6 +247,9 @@ public class TokenQueueMobileService {
                             if (!businessUsers.isEmpty()) {
                                 BusinessUserStoreEntity businessUserStore = businessUsers.get(0);
                                 bizStoreElastic.setManagerCodeQR(healthCareProfileService.findByQid(businessUserStore.getQueueUserId()).getCodeQR());
+
+                                UserProfileEntity userProfile = userProfileManager.findByQueueUserId(businessUserStore.getQueueUserId());
+                                bizStoreElastic.setDisplayImage(userProfile.getProfileImage());
                             }
                             break;
                         default:

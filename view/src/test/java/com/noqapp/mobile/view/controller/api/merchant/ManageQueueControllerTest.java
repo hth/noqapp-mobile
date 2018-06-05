@@ -38,6 +38,7 @@ import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
+import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.common.utils.ScrubbedInput;
@@ -81,6 +82,7 @@ class ManageQueueControllerTest {
     @Mock private BizService bizService;
     @Mock private QueueManager queueManager;
     @Mock private HealthCareProfileService healthCareProfileService;
+    @Mock private UserProfileManager userProfileManager;
 
     @Mock private HttpServletResponse response;
     private TokenQueueEntity tokenQueue;
@@ -100,7 +102,8 @@ class ManageQueueControllerTest {
                 bizService,
                 tokenQueueManager,
                 queueManager,
-                healthCareProfileService
+                healthCareProfileService,
+                userProfileManager
         );
 
         manageQueueController = new ManageQueueController(
