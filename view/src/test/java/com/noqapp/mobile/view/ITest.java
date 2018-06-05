@@ -297,11 +297,7 @@ public class ITest extends RealMongoForITest {
         );
 
         healthCareProfileManager = new HealthCareProfileManagerImpl(getMongoTemplate());
-
-        healthCareProfileService = new HealthCareProfileService(
-                mockEnvironment,
-                healthCareProfileManager
-        );
+        healthCareProfileService = new HealthCareProfileService(healthCareProfileManager);
 
         tokenQueueMobileService = new TokenQueueMobileService(
                 tokenQueueService,
