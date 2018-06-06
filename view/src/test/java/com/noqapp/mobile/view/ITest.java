@@ -277,7 +277,8 @@ public class ITest extends RealMongoForITest {
                 accountService,
                 queueManager,
                 queueManagerJDBC,
-                tokenQueueService
+                tokenQueueService,
+                businessUserStoreManager
         );
 
         bizNameManager = new BizNameManagerImpl(getMongoTemplate());
