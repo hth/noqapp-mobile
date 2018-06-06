@@ -10,6 +10,7 @@ import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.medical.service.HealthCareProfileService;
+import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
@@ -53,6 +54,7 @@ public class TokenQueueMobileService {
     private QueueManager queueManager;
     private HealthCareProfileService healthCareProfileService;
     private UserProfileManager userProfileManager;
+    private BusinessUserStoreManager businessUserStoreManager;
 
     @Autowired
     public TokenQueueMobileService(
@@ -61,7 +63,8 @@ public class TokenQueueMobileService {
             TokenQueueManager tokenQueueManager,
             QueueManager queueManager,
             HealthCareProfileService healthCareProfileService,
-            UserProfileManager userProfileManager
+            UserProfileManager userProfileManager,
+            BusinessUserStoreManager businessUserStoreManager
     ) {
         this.tokenQueueService = tokenQueueService;
         this.bizService = bizService;
@@ -69,6 +72,7 @@ public class TokenQueueMobileService {
         this.queueManager = queueManager;
         this.healthCareProfileService = healthCareProfileService;
         this.userProfileManager = userProfileManager;
+        this.businessUserStoreManager = businessUserStoreManager;
     }
 
     public JsonQueue findTokenState(String codeQR) {
@@ -240,7 +244,7 @@ public class TokenQueueMobileService {
                             bizStoreElastic.setAmenities(bizName.getAmenities());
                             bizStoreElastic.setFacilities(bizName.getFacilities());
 
-                            List<BusinessUserStoreEntity> businessUsers = bizService.getAllManagingStoreWithUserLevel(
+                            List<BusinessUserStoreEntity> businessUsers = businessUserStoreManager.getAllManagingStoreWithUserLevel(
                                     bizStore.getId(),
                                     UserLevelEnum.S_MANAGER);
 
