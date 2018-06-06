@@ -273,6 +273,10 @@ public class ITest extends RealMongoForITest {
                 userAddressService
         );
 
+        bizNameManager = new BizNameManagerImpl(getMongoTemplate());
+        bizCategoryManager = new BizCategoryManagerImpl(getMongoTemplate());
+        businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
+
         queueService = new QueueService(
                 accountService,
                 queueManager,
@@ -280,10 +284,6 @@ public class ITest extends RealMongoForITest {
                 tokenQueueService,
                 businessUserStoreManager
         );
-
-        bizNameManager = new BizNameManagerImpl(getMongoTemplate());
-        bizCategoryManager = new BizCategoryManagerImpl(getMongoTemplate());
-        businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
 
         bizService = new BizService(
                 69.172,
@@ -306,8 +306,8 @@ public class ITest extends RealMongoForITest {
                 tokenQueueManager,
                 queueManager,
                 healthCareProfileService,
-                userProfileManager
-        );
+                userProfileManager,
+                businessUserStoreManager);
 
         queueMobileService = new QueueMobileService(
                 queueManager,
