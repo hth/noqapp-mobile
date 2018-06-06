@@ -36,6 +36,7 @@ import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
@@ -52,7 +53,6 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -83,6 +83,7 @@ class ManageQueueControllerTest {
     @Mock private QueueManager queueManager;
     @Mock private HealthCareProfileService healthCareProfileService;
     @Mock private UserProfileManager userProfileManager;
+    @Mock private BusinessUserStoreManager businessUserStoreManager;
 
     @Mock private HttpServletResponse response;
     private TokenQueueEntity tokenQueue;
@@ -103,8 +104,8 @@ class ManageQueueControllerTest {
                 tokenQueueManager,
                 queueManager,
                 healthCareProfileService,
-                userProfileManager
-        );
+                userProfileManager,
+                businessUserStoreManager);
 
         manageQueueController = new ManageQueueController(
                 20,
