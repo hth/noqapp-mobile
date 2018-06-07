@@ -244,7 +244,7 @@ public class TokenQueueMobileService {
                             bizStoreElastic.setAmenities(bizName.getAmenities());
                             bizStoreElastic.setFacilities(bizName.getFacilities());
 
-                            List<BusinessUserStoreEntity> businessUsers = businessUserStoreManager.getAllManagingStoreWithUserLevel(
+                            List<BusinessUserStoreEntity> businessUsers = businessUserStoreManager.findAllManagingStoreWithUserLevel(
                                     bizStore.getId(),
                                     UserLevelEnum.S_MANAGER);
 
