@@ -369,6 +369,10 @@ public class QueueMobileService {
         return queueService.findAllClientQueuedOrAborted(codeQR);
     }
 
+    public JsonQueuePersonList findAllClient(String codeQR) {
+        return queueService.findAllClient(codeQR);
+    }
+
     public BizStoreEntity findByCodeQR(String codeQR) {
         return bizService.findByCodeQR(codeQR);
     }
