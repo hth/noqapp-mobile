@@ -519,6 +519,7 @@ public class ManageQueueController {
     /**
      * List all the queued clients.
      */
+    @Deprecated
     @PostMapping (
             value = "/showQueuedClients/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -583,7 +584,7 @@ public class ManageQueueController {
     }
 
     /**
-     * List all the queued clients.
+     * List all clients.
      */
     @PostMapping (
             value = "/showClients/{codeQR}",
