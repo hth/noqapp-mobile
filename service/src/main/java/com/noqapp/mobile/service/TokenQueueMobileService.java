@@ -250,7 +250,7 @@ public class TokenQueueMobileService {
 
                             if (!businessUsers.isEmpty()) {
                                 BusinessUserStoreEntity businessUserStore = businessUsers.get(0);
-                                bizStoreElastic.setManagerCodeQR(healthCareProfileService.findByQid(businessUserStore.getQueueUserId()).getCodeQR());
+                                bizStoreElastic.setWebProfileId(healthCareProfileService.findByQid(businessUserStore.getQueueUserId()).getWebProfileId());
 
                                 UserProfileEntity userProfile = userProfileManager.findByQueueUserId(businessUserStore.getQueueUserId());
                                 bizStoreElastic.setDisplayImage(userProfile.getProfileImage());

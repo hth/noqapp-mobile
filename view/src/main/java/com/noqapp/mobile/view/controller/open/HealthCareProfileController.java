@@ -51,7 +51,7 @@ public class HealthCareProfileController {
     }
 
     @GetMapping(
-            value = "/profile/{codeQR}",
+            value = "/profile/{webProfileId}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     public String profile(
             @RequestHeader("X-R-DID")
@@ -60,27 +60,27 @@ public class HealthCareProfileController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput dt,
 
-            @PathVariable("codeQR")
-            ScrubbedInput codeQR
+            @PathVariable("webProfileId")
+            ScrubbedInput webProfileId
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Get profile {} did={} dt={}", codeQR.getText(), did, dt);
+        LOG.info("Get profile {} did={} dt={}", webProfileId.getText(), did, dt);
 
         try {
-            JsonHealthCareProfile jsonHealthCareProfile = healthCareProfileService.findByCodeQRAsJson(codeQR.getText());
+            JsonHealthCareProfile jsonHealthCareProfile = healthCareProfileService.findByWebProfileIdAsJson(webProfileId.getText());
             for (String storeCodeQR : jsonHealthCareProfile.getManagerAtStoreCodeQRs()) {
                 jsonHealthCareProfile.addStore(storeDetailService.storeDetail(storeCodeQR));
             }
 
             return jsonHealthCareProfile.asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting profile {} reason={}", codeQR.getText(), e.getLocalizedMessage(), e);
+            LOG.error("Failed getting profile {} reason={}", webProfileId.getText(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new JsonResponse(false).asJson();
         } finally {
             apiHealthService.insert(
-                    "/profile/{codeQR}",
+                    "/profile/{webProfileId}",
                     "profile",
                     HealthCareProfileController.class.getName(),
                     Duration.between(start, Instant.now()),
