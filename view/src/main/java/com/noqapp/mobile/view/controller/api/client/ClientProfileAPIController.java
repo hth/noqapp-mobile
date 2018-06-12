@@ -474,48 +474,7 @@ public class ClientProfileAPIController {
 
             HttpServletResponse response
     ) throws IOException {
-        boolean methodStatusSuccess = false;
-        Instant start = Instant.now();
-        LOG.info("Profile Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        if (multipartFile.isEmpty()) {
-            LOG.error("File name missing in request or no file uploaded");
-            return ErrorEncounteredJson.toJson("File missing in request or no file uploaded.", MOBILE_UPLOAD);
-        }
-
-        try {
-            processProfileImage(qid, multipartFile);
-            methodStatusSuccess = true;
-            return new JsonResponse(true).asJson();
-        } catch (Exception e) {
-            LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return new JsonResponse(false).asJson();
-        } finally {
-            apiHealthService.insert(
-                    "/upload",
-                    "upload",
-                    ClientProfileAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
-    private void processProfileImage(String qid, MultipartFile multipartFile) throws IOException {
-        BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
-        String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
-        if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
-            String profileFilename = FileUtil.createRandomFilenameOf24Chars() + getFileExtensionWithDot(multipartFile.getOriginalFilename());
-            fileService.addProfileImage(qid, profileFilename, bufferedImage);
-        } else {
-            LOG.error("Failed mime mismatch found={} sentMime={}", mimeType, multipartFile.getContentType());
-            throw new RuntimeException("Mime type mismatch");
-        }
+        return profileCommonHelper.uploadProfileImage(did, dt, mail, auth, multipartFile, response);
     }
 
     private Set<String> invalidElementsInMapDuringMigration(Map<String, ScrubbedInput> map) {

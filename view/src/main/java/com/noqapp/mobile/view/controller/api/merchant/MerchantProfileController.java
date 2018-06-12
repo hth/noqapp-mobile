@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -130,5 +133,52 @@ public class MerchantProfileController {
             HttpServletResponse response
     ) throws IOException {
         return profileCommonHelper.updateProfile(mail, auth, registrationJson, response);
+    }
+
+    @PostMapping(
+            value = "/updateHealthCareProfile",
+            headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String updateHealthCareProfile(
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @RequestBody
+            String registrationJson,
+
+            HttpServletResponse response
+    ) throws IOException {
+        return profileCommonHelper.updateProfile(mail, auth, registrationJson, response);
+    }
+
+    @RequestMapping (
+            method = RequestMethod.POST,
+            value = "/upload",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String upload(
+            @RequestHeader("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @RequestPart("file")
+            MultipartFile multipartFile,
+
+            HttpServletResponse response
+    ) throws IOException {
+        return profileCommonHelper.uploadProfileImage(did, dt, mail, auth, multipartFile, response);
     }
 }

@@ -1,9 +1,11 @@
 package com.noqapp.mobile.view.controller.api;
 
+import com.noqapp.common.utils.FileUtil;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.flow.RegisterUser;
+import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.AddressOriginEnum;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
@@ -13,8 +15,10 @@ import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.view.controller.api.client.ClientProfileAPIController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
+import com.noqapp.service.FileService;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.UserProfilePreferenceService;
 import org.apache.commons.lang3.StringUtils;
@@ -23,8 +27,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
@@ -37,7 +43,9 @@ import java.util.Set;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.common.utils.FileUtil.getFileExtensionWithDot;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -55,6 +63,7 @@ public class ProfileCommonHelper {
     private AccountService accountService;
     private UserProfilePreferenceService userProfilePreferenceService;
     private InviteService inviteService;
+    private FileService fileService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -64,6 +73,7 @@ public class ProfileCommonHelper {
             AccountService accountService,
             UserProfilePreferenceService userProfilePreferenceService,
             InviteService inviteService,
+            FileService fileService,
             ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
@@ -71,6 +81,7 @@ public class ProfileCommonHelper {
         this.accountService = accountService;
         this.userProfilePreferenceService = userProfilePreferenceService;
         this.inviteService = inviteService;
+        this.fileService = fileService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -186,6 +197,46 @@ public class ProfileCommonHelper {
         }
     }
 
+    public String uploadProfileImage(
+            ScrubbedInput did,
+            ScrubbedInput dt,
+            ScrubbedInput mail,
+            ScrubbedInput auth,
+            MultipartFile multipartFile,
+            HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = false;
+        Instant start = Instant.now();
+        LOG.info("Profile Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (multipartFile.isEmpty()) {
+            LOG.error("File name missing in request or no file uploaded");
+            return ErrorEncounteredJson.toJson("File missing in request or no file uploaded.", MOBILE_UPLOAD);
+        }
+
+        try {
+            processProfileImage(qid, multipartFile);
+            methodStatusSuccess = true;
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonResponse(false).asJson();
+        } finally {
+            apiHealthService.insert(
+                    "/upload",
+                    "upload",
+                    ClientProfileAPIController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
     private Set<String> invalidElementsInMapDuringUpdate(Map<String, ScrubbedInput> map) {
         Set<String> keys = new HashSet<>(map.keySet());
         List<AccountMobileService.ACCOUNT_UPDATE> enums = new ArrayList<>(Arrays.asList(AccountMobileService.ACCOUNT_UPDATE.values()));
@@ -194,5 +245,17 @@ public class ProfileCommonHelper {
         }
 
         return keys;
+    }
+
+    private void processProfileImage(String qid, MultipartFile multipartFile) throws IOException {
+        BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
+        String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
+        if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
+            String profileFilename = FileUtil.createRandomFilenameOf24Chars() + getFileExtensionWithDot(multipartFile.getOriginalFilename());
+            fileService.addProfileImage(qid, profileFilename, bufferedImage);
+        } else {
+            LOG.error("Failed mime mismatch found={} sentMime={}", mimeType, multipartFile.getContentType());
+            throw new RuntimeException("Mime type mismatch");
+        }
     }
 }
