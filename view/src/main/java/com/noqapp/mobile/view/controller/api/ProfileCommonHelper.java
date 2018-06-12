@@ -128,7 +128,7 @@ public class ProfileCommonHelper {
                     return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
                 }
 
-                /* Required. But not changing the phone number. For that we have migrate API. */
+                /* Required. But not changing the phone number. For that we have phone migrate API. */
                 UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
                 String phone = userProfile.getPhone();
                 /* Required. */
