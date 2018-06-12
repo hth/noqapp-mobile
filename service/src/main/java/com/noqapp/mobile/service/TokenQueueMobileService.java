@@ -9,7 +9,7 @@ import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.domain.types.UserLevelEnum;
-import com.noqapp.medical.service.HealthCareProfileService;
+import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.UserProfileManager;
@@ -52,7 +52,7 @@ public class TokenQueueMobileService {
     private BizService bizService;
     private TokenQueueManager tokenQueueManager;
     private QueueManager queueManager;
-    private HealthCareProfileService healthCareProfileService;
+    private ProfessionalProfileService professionalProfileService;
     private UserProfileManager userProfileManager;
     private BusinessUserStoreManager businessUserStoreManager;
 
@@ -62,7 +62,7 @@ public class TokenQueueMobileService {
             BizService bizService,
             TokenQueueManager tokenQueueManager,
             QueueManager queueManager,
-            HealthCareProfileService healthCareProfileService,
+            ProfessionalProfileService professionalProfileService,
             UserProfileManager userProfileManager,
             BusinessUserStoreManager businessUserStoreManager
     ) {
@@ -70,7 +70,7 @@ public class TokenQueueMobileService {
         this.bizService = bizService;
         this.tokenQueueManager = tokenQueueManager;
         this.queueManager = queueManager;
-        this.healthCareProfileService = healthCareProfileService;
+        this.professionalProfileService = professionalProfileService;
         this.userProfileManager = userProfileManager;
         this.businessUserStoreManager = businessUserStoreManager;
     }
@@ -250,7 +250,7 @@ public class TokenQueueMobileService {
 
                             if (!businessUsers.isEmpty()) {
                                 BusinessUserStoreEntity businessUserStore = businessUsers.get(0);
-                                bizStoreElastic.setWebProfileId(healthCareProfileService.findByQid(businessUserStore.getQueueUserId()).getWebProfileId());
+                                bizStoreElastic.setWebProfileId(professionalProfileService.findByQid(businessUserStore.getQueueUserId()).getWebProfileId());
 
                                 UserProfileEntity userProfile = userProfileManager.findByQueueUserId(businessUserStore.getQueueUserId());
                                 bizStoreElastic.setDisplayImage(userProfile.getProfileImage());

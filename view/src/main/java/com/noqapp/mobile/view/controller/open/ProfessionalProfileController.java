@@ -5,7 +5,7 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.medical.JsonHealthCareProfile;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.medical.service.HealthCareProfileService;
+import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.mobile.service.StoreDetailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,21 +31,21 @@ import java.time.Instant;
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping(value = "/open/healthCare")
-public class HealthCareProfileController {
-    private static final Logger LOG = LoggerFactory.getLogger(HealthCareProfileController.class);
+@RequestMapping(value = "/open/professional")
+public class ProfessionalProfileController {
+    private static final Logger LOG = LoggerFactory.getLogger(ProfessionalProfileController.class);
 
-    private HealthCareProfileService healthCareProfileService;
+    private ProfessionalProfileService professionalProfileService;
     private StoreDetailService storeDetailService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public HealthCareProfileController(
-            HealthCareProfileService healthCareProfileService,
+    public ProfessionalProfileController(
+            ProfessionalProfileService professionalProfileService,
             StoreDetailService storeDetailService,
             ApiHealthService apiHealthService
     ) {
-        this.healthCareProfileService = healthCareProfileService;
+        this.professionalProfileService = professionalProfileService;
         this.storeDetailService = storeDetailService;
         this.apiHealthService = apiHealthService;
     }
@@ -68,7 +68,7 @@ public class HealthCareProfileController {
         LOG.info("Get profile {} did={} dt={}", webProfileId.getText(), did, dt);
 
         try {
-            JsonHealthCareProfile jsonHealthCareProfile = healthCareProfileService.findByWebProfileIdAsJson(webProfileId.getText());
+            JsonHealthCareProfile jsonHealthCareProfile = professionalProfileService.findByWebProfileIdAsJson(webProfileId.getText());
             for (String storeCodeQR : jsonHealthCareProfile.getManagerAtStoreCodeQRs()) {
                 jsonHealthCareProfile.addStore(storeDetailService.storeDetail(storeCodeQR));
             }
@@ -82,7 +82,7 @@ public class HealthCareProfileController {
             apiHealthService.insert(
                     "/profile/{webProfileId}",
                     "profile",
-                    HealthCareProfileController.class.getName(),
+                    ProfessionalProfileController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
