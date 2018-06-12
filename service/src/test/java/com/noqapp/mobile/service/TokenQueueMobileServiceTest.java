@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import com.noqapp.medical.service.HealthCareProfileService;
+import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
@@ -25,7 +25,7 @@ class TokenQueueMobileServiceTest {
     @Mock private TokenQueueService tokenQueueService;
     @Mock private TokenQueueManager tokenQueueManager;
     @Mock private QueueManager queueManager;
-    @Mock private HealthCareProfileService healthCareProfileService;
+    @Mock private ProfessionalProfileService professionalProfileService;
     @Mock private UserProfileManager userProfileManager;
     @Mock private BusinessUserStoreManager businessUserStoreManager;
 
@@ -39,7 +39,7 @@ class TokenQueueMobileServiceTest {
                 bizService,
                 tokenQueueManager,
                 queueManager,
-                healthCareProfileService,
+                professionalProfileService,
                 userProfileManager,
                 businessUserStoreManager);
     }

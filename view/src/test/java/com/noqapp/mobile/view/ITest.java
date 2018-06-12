@@ -17,9 +17,9 @@ import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.repository.ApiHealthNowManager;
 import com.noqapp.health.repository.ApiHealthNowManagerImpl;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.medical.repository.HealthCareProfileManager;
-import com.noqapp.medical.repository.HealthCareProfileManagerImpl;
-import com.noqapp.medical.service.HealthCareProfileService;
+import com.noqapp.repository.ProfessionalProfileManager;
+import com.noqapp.repository.ProfessionalProfileManagerImpl;
+import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -127,7 +127,7 @@ public class ITest extends RealMongoForITest {
     protected QueueService queueService;
     protected AuthenticateMobileService authenticateMobileService;
     protected BusinessUserStoreService businessUserStoreService;
-    protected HealthCareProfileService healthCareProfileService;
+    protected ProfessionalProfileService professionalProfileService;
 
     protected UserAddressManager userAddressManager;
     protected UserAddressService userAddressService;
@@ -158,7 +158,7 @@ public class ITest extends RealMongoForITest {
     protected BusinessUserStoreManager businessUserStoreManager;
     protected BusinessUserService businessUserService;
     protected BusinessUserManager businessUserManager;
-    protected HealthCareProfileManager healthCareProfileManager;
+    protected ProfessionalProfileManager professionalProfileManager;
 
     protected ApiHealthService apiHealthService;
     protected ApiHealthNowManager apiHealthNowManager;
@@ -297,15 +297,15 @@ public class ITest extends RealMongoForITest {
                 businessUserStoreManager
         );
 
-        healthCareProfileManager = new HealthCareProfileManagerImpl(getMongoTemplate());
-        healthCareProfileService = new HealthCareProfileService(healthCareProfileManager);
+        professionalProfileManager = new ProfessionalProfileManagerImpl(getMongoTemplate());
+        professionalProfileService = new ProfessionalProfileService(professionalProfileManager);
 
         tokenQueueMobileService = new TokenQueueMobileService(
                 tokenQueueService,
                 bizService,
                 tokenQueueManager,
                 queueManager,
-                healthCareProfileService,
+                professionalProfileService,
                 userProfileManager,
                 businessUserStoreManager);
 
