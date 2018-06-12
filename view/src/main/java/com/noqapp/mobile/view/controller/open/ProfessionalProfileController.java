@@ -1,8 +1,8 @@
 package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
-import com.noqapp.domain.json.medical.JsonHealthCareProfile;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.service.ProfessionalProfileService;
@@ -68,12 +68,12 @@ public class ProfessionalProfileController {
         LOG.info("Get profile {} did={} dt={}", webProfileId.getText(), did, dt);
 
         try {
-            JsonHealthCareProfile jsonHealthCareProfile = professionalProfileService.findByWebProfileIdAsJson(webProfileId.getText());
-            for (String storeCodeQR : jsonHealthCareProfile.getManagerAtStoreCodeQRs()) {
-                jsonHealthCareProfile.addStore(storeDetailService.storeDetail(storeCodeQR));
+            JsonProfessionalProfile jsonProfessionalProfile = professionalProfileService.findByWebProfileIdAsJson(webProfileId.getText());
+            for (String storeCodeQR : jsonProfessionalProfile.getManagerAtStoreCodeQRs()) {
+                jsonProfessionalProfile.addStore(storeDetailService.storeDetail(storeCodeQR));
             }
 
-            return jsonHealthCareProfile.asJson();
+            return jsonProfessionalProfile.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting profile {} reason={}", webProfileId.getText(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
