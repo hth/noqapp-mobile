@@ -6,6 +6,7 @@ import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.UserProfilePreferenceService;
 import org.slf4j.Logger;
@@ -13,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,15 +45,19 @@ public class MerchantProfileController {
     private AuthenticateMobileService authenticateMobileService;
     private UserProfilePreferenceService userProfilePreferenceService;
     private BusinessUserStoreService businessUserStoreService;
+    private ProfileCommonHelper profileCommonHelper;
 
     @Autowired
     public MerchantProfileController(
             AuthenticateMobileService authenticateMobileService,
             UserProfilePreferenceService userProfilePreferenceService,
-            BusinessUserStoreService businessUserStoreService) {
+            BusinessUserStoreService businessUserStoreService,
+            ProfileCommonHelper profileCommonHelper
+    ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
         this.businessUserStoreService = businessUserStoreService;
+        this.profileCommonHelper = profileCommonHelper;
     }
 
     @GetMapping(
@@ -102,5 +109,26 @@ public class MerchantProfileController {
         jsonMerchant.setJsonProfile(jsonProfile);
         jsonMerchant.setTopics(jsonTopics);
         return jsonMerchant.asJson();
+    }
+
+    @PostMapping(
+            value = "/update",
+            headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String update(
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @RequestBody
+            String registrationJson,
+
+            HttpServletResponse response
+    ) throws IOException {
+        return profileCommonHelper.updateProfile(mail, auth, registrationJson, response);
     }
 }
