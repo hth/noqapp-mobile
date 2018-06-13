@@ -1,11 +1,14 @@
 package com.noqapp.mobile.view.controller.api.merchant.health;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.domain.json.JsonMedicalRecord;
+import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,11 +48,17 @@ public class MedicalRecordController {
 
     private AuthenticateMobileService authenticateMobileService;
     private ApiHealthService apiHealthService;
+    private MedicalRecordService medicalRecordService;
 
     @Autowired
-    public MedicalRecordController(AuthenticateMobileService authenticateMobileService, ApiHealthService apiHealthService) {
+    public MedicalRecordController(
+            AuthenticateMobileService authenticateMobileService,
+            ApiHealthService apiHealthService,
+            MedicalRecordService medicalRecordService
+    ) {
         this.authenticateMobileService = authenticateMobileService;
         this.apiHealthService = apiHealthService;
+        this.medicalRecordService = medicalRecordService;
     }
 
     /**
@@ -94,6 +103,9 @@ public class MedicalRecordController {
             String chiefComplain = map.containsKey("cc") ? map.get("cc").getText() : null;
             LOG.info("Chief Complain={}", chiefComplain);
 
+            ObjectMapper mapper = new ObjectMapper();
+            JsonMedicalRecord jsonMedicalRecord = mapper.readValue(requestBodyJson , JsonMedicalRecord.class);
+            medicalRecordService.addMedicalRecord(jsonMedicalRecord);
             return new JsonResponse(true).asJson();
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
