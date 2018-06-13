@@ -106,7 +106,7 @@ public class MedicalRecordController {
             JsonMedicalRecord jsonMedicalRecord = new ObjectMapper().readValue(requestBodyJson, JsonMedicalRecord.class);
             jsonMedicalRecord.setDiagnosedBy(qid);
             medicalRecordService.addMedicalRecord(jsonMedicalRecord);
-            
+
             return new JsonResponse(true).asJson();
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
