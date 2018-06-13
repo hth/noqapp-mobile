@@ -103,10 +103,10 @@ public class MedicalRecordController {
             String chiefComplain = map.containsKey("cc") ? map.get("cc").getText() : null;
             LOG.info("Chief Complain={}", chiefComplain);
 
-            ObjectMapper mapper = new ObjectMapper();
-            JsonMedicalRecord jsonMedicalRecord = mapper.readValue(requestBodyJson , JsonMedicalRecord.class);
+            JsonMedicalRecord jsonMedicalRecord = new ObjectMapper().readValue(requestBodyJson, JsonMedicalRecord.class);
             jsonMedicalRecord.setDiagnosedBy(qid);
             medicalRecordService.addMedicalRecord(jsonMedicalRecord);
+            
             return new JsonResponse(true).asJson();
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
