@@ -7,7 +7,6 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +39,15 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping(value = "/api/m/h/caseHistory")
-public class CaseHistoryController {
-    private static final Logger LOG = LoggerFactory.getLogger(CaseHistoryController.class);
+@RequestMapping(value = "/api/m/h/medicalRecord")
+public class MedicalRecordController {
+    private static final Logger LOG = LoggerFactory.getLogger(MedicalRecordController.class);
 
     private AuthenticateMobileService authenticateMobileService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public CaseHistoryController(AuthenticateMobileService authenticateMobileService, ApiHealthService apiHealthService) {
+    public MedicalRecordController(AuthenticateMobileService authenticateMobileService, ApiHealthService apiHealthService) {
         this.authenticateMobileService = authenticateMobileService;
         this.apiHealthService = apiHealthService;
     }
@@ -85,7 +84,7 @@ public class CaseHistoryController {
         LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/h/caseHistory/add by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/h/medicalRecord/add by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -104,7 +103,7 @@ public class CaseHistoryController {
             apiHealthService.insert(
                     "/add",
                     "add",
-                    CaseHistoryController.class.getName(),
+                    MedicalRecordController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
