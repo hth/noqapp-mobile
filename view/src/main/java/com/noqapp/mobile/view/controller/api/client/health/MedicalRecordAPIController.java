@@ -1,4 +1,4 @@
-package com.noqapp.mobile.view.controller.api.client;
+package com.noqapp.mobile.view.controller.api.client.health;
 
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ScrubbedInput;
@@ -46,7 +46,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
         "PMD.LongVariable"
 })
 @RestController
-@RequestMapping(value = "/api/c/medicalRecord")
+@RequestMapping(value = "/api/c/h/medicalRecord")
 public class MedicalRecordAPIController {
     private static final Logger LOG = LoggerFactory.getLogger(MedicalRecordAPIController.class);
 

@@ -105,6 +105,7 @@ public class MedicalRecordController {
 
             ObjectMapper mapper = new ObjectMapper();
             JsonMedicalRecord jsonMedicalRecord = mapper.readValue(requestBodyJson , JsonMedicalRecord.class);
+            jsonMedicalRecord.setDiagnosedBy(qid);
             medicalRecordService.addMedicalRecord(jsonMedicalRecord);
             return new JsonResponse(true).asJson();
         } catch (JsonMappingException e) {
