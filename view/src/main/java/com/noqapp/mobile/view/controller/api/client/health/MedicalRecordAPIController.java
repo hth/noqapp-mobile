@@ -4,9 +4,11 @@ import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.domain.MedicalMedicineEntity;
 import com.noqapp.medical.domain.MedicalRecordEntity;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.domain.json.JsonMedicalRecordList;
+import com.noqapp.medical.domain.json.JsonMedicine;
 import com.noqapp.medical.domain.json.JsonRecordAccess;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -39,7 +41,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
  * hitender
  * 3/26/18 3:48 PM
  */
-@SuppressWarnings ({
+@SuppressWarnings({
         "PMD.BeanMembersShouldSerialize",
         "PMD.LocalVariableCouldBeFinal",
         "PMD.MethodArgumentCouldBeFinal",
@@ -79,7 +81,7 @@ public class MedicalRecordAPIController {
             @RequestHeader("X-R-MAIL")
             ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
+            @RequestHeader("X-R-AUTH")
             ScrubbedInput auth,
 
             HttpServletResponse response
@@ -120,6 +122,13 @@ public class MedicalRecordAPIController {
                     }
                 }
 
+                if (null != medicalRecord.getMedicalMedication()) {
+                    List<MedicalMedicineEntity> medicalMedicines = medicalRecordService.findByIds(String.join(",", medicalRecord.getMedicalMedication().getMedicineIds()));
+                    for (MedicalMedicineEntity medicalMedicine : medicalMedicines) {
+                        jsonMedicalRecord.addMedicine(JsonMedicine.fromMedicalMedicine(medicalMedicine));
+                    }
+                }
+
                 List<JsonRecordAccess> jsonRecordAccesses = new ArrayList<>();
                 for (Long date : medicalRecord.getRecordAccessed().keySet()) {
                     String accessedBy = medicalRecord.getRecordAccessed().get(date);
@@ -134,7 +143,7 @@ public class MedicalRecordAPIController {
             }
 
             return jsonMedicalRecordList.asJson();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOG.error("Failed getting medical record qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
                     "/fetch",
