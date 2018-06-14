@@ -99,12 +99,8 @@ public class MedicalRecordController {
         }
 
         try {
-            Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(requestBodyJson);
-            String chiefComplain = map.containsKey("cc") ? map.get("cc").getText() : null;
-            LOG.info("Chief Complain={}", chiefComplain);
-
             JsonMedicalRecord jsonMedicalRecord = new ObjectMapper().readValue(requestBodyJson, JsonMedicalRecord.class);
-            jsonMedicalRecord.setDiagnosedBy(qid);
+            jsonMedicalRecord.setDiagnosedById(qid);
             medicalRecordService.addMedicalRecord(jsonMedicalRecord);
 
             return new JsonResponse(true).asJson();

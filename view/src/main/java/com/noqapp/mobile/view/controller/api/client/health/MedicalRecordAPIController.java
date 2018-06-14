@@ -106,7 +106,7 @@ public class MedicalRecordAPIController {
                         .setKnownAllergies(medicalRecord.getKnownAllergies())
                         .setClinicalFinding(medicalRecord.getClinicalFinding())
                         .setProvisionalDifferentialDiagnosis(medicalRecord.getProvisionalDifferentialDiagnosis())
-                        .setDiagnosedBy(accountService.findProfileByQueueUserId(medicalRecord.getDiagnosedById()).getName())
+                        .setDiagnosedById(accountService.findProfileByQueueUserId(medicalRecord.getDiagnosedById()).getName())
                         .setCreateDate(DateUtil.dateToString(medicalRecord.getCreated()))
                         .setBusinessName(medicalRecord.getBusinessName())
                         .setBizCategoryName(medicalRecord.getBizCategoryId() == null
