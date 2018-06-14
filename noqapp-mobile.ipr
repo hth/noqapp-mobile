@@ -110,19 +110,15 @@
             <element id="library" level="project" name="Gradle: javax.mail:javax.mail-api:1.6.0" />
             <element id="library" level="project" name="Gradle: javax.validation:validation-api:2.0.0.Final" />
             <element id="library" level="project" name="Gradle: com.carrotsearch:hppc:0.7.1" />
-            <element id="library" level="project" name="Gradle: com.tdunning:t-digest:3.0" />
             <element id="library" level="project" name="Gradle: net.sf.jopt-simple:jopt-simple:5.0.2" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpasyncclient:4.1.2" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore-nio:4.4.5" />
             <element id="library" level="project" name="Gradle: org.hdrhistogram:HdrHistogram:2.1.9" />
             <element id="library" level="project" name="Gradle: commons-codec:commons-codec:1.11" />
-            <element id="library" level="project" name="Gradle: net.bytebuddy:byte-buddy-agent:1.7.9" />
-            <element id="library" level="project" name="Gradle: net.bytebuddy:byte-buddy:1.7.9" />
             <element id="library" level="project" name="Gradle: org.objenesis:objenesis:2.6" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.13" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-core:1.3" />
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-library:1.3" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:securesm:1.2" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.8.10" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.8.10" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.10" />
@@ -132,25 +128,6 @@
             <element id="library" level="project" name="Gradle: org.checkerframework:checker-compat-qual:2.0.0" />
             <element id="library" level="project" name="Gradle: org.apache.avalon.framework:avalon-framework-api:4.3.1" />
             <element id="library" level="project" name="Gradle: org.apache.avalon.framework:avalon-framework-impl:4.3.1" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-anim:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-awt-util:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-bridge:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-constants:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-css:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-dom:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-ext:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-extension:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-gvt:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-i18n:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-parser:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-script:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svg-dom:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svggen:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-transcoder:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-util:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-xml:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:fop:2.2" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:xmlgraphics-commons:2.2" />
             <element id="library" level="project" name="Gradle: xalan:serializer:2.7.2" />
             <element id="library" level="project" name="Gradle: xalan:xalan:2.7.2" />
             <element id="library" level="project" name="Gradle: xml-apis:xml-apis-ext:1.3.04" />
@@ -168,33 +145,13 @@
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-scratchpad:3.17" />
             <element id="library" level="project" name="Gradle: org.apache.ws.xmlschema:xmlschema-core:2.2.2" />
             <element id="library" level="project" name="Gradle: com.braintreepayments.gateway:braintree-java:2.74.1" />
-            <element id="library" level="project" name="Gradle: com.vividsolutions:jts:1.13" />
-            <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-core:2.9.1" />
-            <element id="library" level="project" name="Gradle: org.locationtech.spatial4j:spatial4j:0.6" />
             <element id="library" level="project" name="Gradle: org.slf4j:jcl-over-slf4j:1.7.24" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-analyzers-common:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-backward-codecs:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-core:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-grouping:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-highlighter:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-join:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-memory:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-misc:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-queries:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-queryparser:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-sandbox:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial-extras:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial3d:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-suggest:7.2.1" />
             <element id="library" level="project" name="Gradle: org.elasticsearch:jna:4.5.1" />
             <element id="library" level="project" name="Gradle: net.bull.javamelody:javamelody-core:1.71.0" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpclient:4.5.5" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.4.9" />
             <element id="library" level="project" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjrt:1.8.13" />
-            <element id="library" level="project" name="Gradle: org.mockito:mockito-core:2.15.0" />
-            <element id="library" level="project" name="Gradle: org.mockito:mockito-inline:2.15.0" />
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-launcher:1.1.0" />
             <element id="library" level="project" name="Gradle: com.maxmind.db:maxmind-db:1.2.2" />
             <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-acl:5.0.0.RELEASE" />
@@ -247,15 +204,6 @@
             <element id="library" level="project" name="Gradle: com.noqapp:social:1.3.0" />
             <element id="library" level="project" name="Gradle: com.google.code.findbugs:jsr305:3.0.1" />
             <element id="library" level="project" name="Gradle: org.awaitility:awaitility:3.1.0" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.2.4" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.4" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.2.4" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:parent-join-client:6.2.4" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.2.4" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-cli:6.2.4" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-core:6.2.4" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:6.2.4" />
-            <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:3.1.0" />
             <element id="library" level="project" name="Gradle: mysql:mysql-connector-java:8.0.11" />
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.2.0" />
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.2.0" />
@@ -317,7 +265,6 @@
             <element id="library" level="project" name="Gradle: org.springframework:spring-tx:5.0.6.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-web:5.0.6.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.0.6.RELEASE" />
-            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.6" />
             <element id="library" level="project" name="Gradle: com.github.jai-imageio:jai-imageio-core:1.3.1" />
             <element id="library" level="project" name="Gradle: com.github.openjson:openjson:1.0.10" />
             <element id="library" level="project" name="Gradle: com.healthmarketscience.jackcess:jackcess-encrypt:2.1.4" />
@@ -345,6 +292,57 @@
             <element id="library" level="project" name="Gradle: org.jsoup:jsoup:1.11.2" />
             <element id="library" level="project" name="Gradle: org.opengis:geoapi:3.0.1" />
             <element id="library" level="project" name="Gradle: org.tukaani:xz:1.8" />
+            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.7" />
+            <element id="library" level="project" name="Gradle: com.tdunning:t-digest:3.2" />
+            <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:3.2.0" />
+            <element id="library" level="project" name="Gradle: net.bytebuddy:byte-buddy-agent:1.8.3" />
+            <element id="library" level="project" name="Gradle: net.bytebuddy:byte-buddy:1.8.3" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-analyzers-common:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-backward-codecs:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-core:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-grouping:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-highlighter:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-join:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-memory:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-misc:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-queries:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-queryparser:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-sandbox:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial-extras:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial3d:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-suggest:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-anim:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-awt-util:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-bridge:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-constants:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-css:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-dom:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-ext:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-extension:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-gvt:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-i18n:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-parser:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-script:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svg-dom:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svggen:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-transcoder:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-util:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-xml:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:fop:2.3" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:xmlgraphics-commons:2.3" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:parent-join-client:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-cli:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-core:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-secure-sm:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-x-content:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.mockito:mockito-core:2.18.0" />
+            <element id="library" level="project" name="Gradle: org.mockito:mockito-inline:2.18.0" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -426,7 +424,7 @@
             <element id="library" level="project" name="Gradle: org.springframework:spring-instrument:5.0.6.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-crypto:5.0.0.RELEASE" />
             <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.8.0-beta2" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.4" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.3.0" />
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.11.0" />
             <element id="library" level="project" name="Gradle: com.braintreepayments.gateway:braintree-java:2.74.1" />
             <element id="library" level="project" name="Gradle: redis.clients:jedis:2.9.0" />
@@ -441,7 +439,7 @@
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-vfs2:2.2" />
             <element id="library" level="project" name="Gradle: com.jcraft:jsch:0.1.54" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjrt:1.8.13" />
-            <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:3.1.0" />
+            <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:3.2.0" />
             <element id="library" level="project" name="Gradle: com.google.firebase:firebase-admin:6.1.0" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.3" />
             <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP-java6:2.3.13" />
@@ -453,10 +451,7 @@
             <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.25" />
             <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.3.1.Final" />
             <element id="library" level="project" name="Gradle: mysql:mysql-connector-java:8.0.11" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:parent-join-client:6.2.4" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.2.4" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.2.4" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:6.2.4" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:6.3.0" />
             <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-storage:1.27.0" />
             <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-firestore:0.45.0-beta" />
             <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-core-http:1.27.0" />
@@ -465,7 +460,7 @@
             <element id="library" level="project" name="Gradle: edu.ucar:udunits:4.5.5" />
             <element id="library" level="project" name="Gradle: joda-time:joda-time:2.9.9" />
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.28" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:fop:2.2" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:fop:2.3" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
             <element id="library" level="project" name="Gradle: com.google.guava:guava:25.0-jre" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.23.0" />
@@ -480,7 +475,7 @@
             <element id="library" level="project" name="Gradle: io.grpc:grpc-core:1.10.1" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.5.1" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.4" />
-            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.6" />
+            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.7" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.5" />
             <element id="library" level="project" name="Gradle: com.maxmind.geoip2:geoip2:2.12.0" />
@@ -489,6 +484,7 @@
             <element id="library" level="project" name="Gradle: com.maxmind.db:maxmind-db:1.2.2" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.5" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.5" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-x-content:6.3.0" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client:1.23.0" />
             <element id="library" level="project" name="Gradle: com.google.api:gax:1.23.0" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-oauth2-http:0.9.0" />
@@ -496,21 +492,25 @@
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.5" />
             <element id="library" level="project" name="Gradle: org.json:json:20180130" />
             <element id="library" level="project" name="Gradle: commons-fileupload:commons-fileupload:1.3.3" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-transcoder:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-extension:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-bridge:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-script:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-anim:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svg-dom:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-dom:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-css:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:xmlgraphics-commons:2.2" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-transcoder:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-extension:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-bridge:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-script:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-anim:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svg-dom:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-gvt:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-parser:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svggen:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-awt-util:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-dom:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-css:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:xmlgraphics-commons:2.3" />
             <element id="library" level="project" name="Gradle: commons-io:commons-io:2.6" />
             <element id="library" level="project" name="Gradle: commons-validator:commons-validator:1.6" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-scratchpad:3.17" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-ooxml:3.17" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi:3.17" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.2.4" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.3.0" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpmime:4.5.4" />
             <element id="library" level="project" name="Gradle: com.google.oauth-client:google-oauth-client:1.23.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-appengine:1.23.0" />
@@ -535,7 +535,9 @@
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-all:1.3" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.13" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-jcl:5.0.6.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-core:6.2.4" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:parent-join-client:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.3.0" />
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-api:2.11.0" />
             <element id="library" level="project" name="Gradle: org.osgi:org.osgi.core:4.2.0" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-pool2:2.4.2" />
@@ -546,11 +548,7 @@
             <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.10.0" />
             <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-common-protos:1.9.0" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java:3.5.1" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-gvt:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-parser:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svggen:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-awt-util:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-ext:1.9" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-ext:1.10" />
             <element id="library" level="project" name="Gradle: org.apache.avalon.framework:avalon-framework-impl:4.3.1" />
             <element id="library" level="project" name="Gradle: org.apache.avalon.framework:avalon-framework-api:4.3.1" />
             <element id="library" level="project" name="Gradle: io.opencensus:opencensus-contrib-http-util:0.11.1" />
@@ -622,42 +620,33 @@
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.2.0" />
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.2.0" />
             <element id="library" level="project" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-core:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-analyzers-common:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-backward-codecs:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-grouping:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-highlighter:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-join:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-memory:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-misc:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-queries:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-queryparser:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-sandbox:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial-extras:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial3d:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-suggest:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:securesm:1.2" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-cli:6.2.4" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-cli:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-core:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-secure-sm:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-core:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-analyzers-common:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-backward-codecs:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-grouping:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-highlighter:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-join:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-memory:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-misc:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-queries:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-queryparser:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-sandbox:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial-extras:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial3d:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-suggest:7.3.1" />
             <element id="library" level="project" name="Gradle: com.carrotsearch:hppc:0.7.1" />
-            <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.17" />
-            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.8.10" />
-            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.10" />
-            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.8.10" />
-            <element id="library" level="project" name="Gradle: com.tdunning:t-digest:3.0" />
+            <element id="library" level="project" name="Gradle: com.tdunning:t-digest:3.2" />
             <element id="library" level="project" name="Gradle: org.hdrhistogram:HdrHistogram:2.1.9" />
             <element id="library" level="project" name="Gradle: org.elasticsearch:jna:4.5.1" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.4.9" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpasyncclient:4.1.2" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore-nio:4.4.5" />
-            <element id="library" level="project" name="Gradle: org.locationtech.spatial4j:spatial4j:0.6" />
-            <element id="library" level="project" name="Gradle: com.vividsolutions:jts:1.13" />
-            <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-core:2.9.1" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-xml:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-util:1.9" />
-            <element id="library" level="project" name="Gradle: xalan:xalan:2.7.2" />
-            <element id="library" level="project" name="Gradle: xalan:serializer:2.7.2" />
-            <element id="library" level="project" name="Gradle: xml-apis:xml-apis:1.3.04" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-xml:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-util:1.10" />
             <element id="library" level="project" name="Gradle: xml-apis:xml-apis-ext:1.3.04" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-credentials:0.9.0" />
             <element id="library" level="project" name="Gradle: com.google.apis:google-api-services-storage:v1-rev114-1.23.0" />
@@ -677,9 +666,16 @@
             <element id="library" level="project" name="Gradle: javax.measure:unit-api:1.0" />
             <element id="library" level="project" name="Gradle: commons-logging:commons-logging-api:1.1" />
             <element id="library" level="project" name="Gradle: org.opentest4j:opentest4j:1.1.0" />
+            <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.17" />
+            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.8.10" />
+            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.10" />
+            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.8.10" />
             <element id="library" level="project" name="Gradle: net.sf.jopt-simple:jopt-simple:5.0.2" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-constants:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-i18n:1.9" />
+            <element id="library" level="project" name="Gradle: xalan:xalan:2.7.2" />
+            <element id="library" level="project" name="Gradle: xalan:serializer:2.7.2" />
+            <element id="library" level="project" name="Gradle: xml-apis:xml-apis:1.3.04" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-constants:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-i18n:1.10" />
             <element id="library" level="project" name="Gradle: io.grpc:grpc-context:1.10.1" />
             <element id="library" level="project" name="Gradle: org.threeten:threetenbp:1.3.3" />
             <element id="library" level="project" name="Gradle: io.netty:netty-common:4.1.22.Final" />
@@ -771,7 +767,7 @@
             <element id="library" level="project" name="Gradle: org.springframework:spring-instrument:5.0.6.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-crypto:5.0.0.RELEASE" />
             <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.8.0-beta2" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.4" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.3.0" />
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.11.0" />
             <element id="library" level="project" name="Gradle: com.braintreepayments.gateway:braintree-java:2.74.1" />
             <element id="library" level="project" name="Gradle: redis.clients:jedis:2.9.0" />
@@ -786,7 +782,7 @@
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-vfs2:2.2" />
             <element id="library" level="project" name="Gradle: com.jcraft:jsch:0.1.54" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjrt:1.8.13" />
-            <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:3.1.0" />
+            <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:3.2.0" />
             <element id="library" level="project" name="Gradle: com.google.firebase:firebase-admin:6.1.0" />
             <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.3" />
             <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP-java6:2.3.13" />
@@ -798,10 +794,7 @@
             <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.25" />
             <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.3.1.Final" />
             <element id="library" level="project" name="Gradle: mysql:mysql-connector-java:8.0.11" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:parent-join-client:6.2.4" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.2.4" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.2.4" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:6.2.4" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:6.3.0" />
             <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-storage:1.27.0" />
             <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-firestore:0.45.0-beta" />
             <element id="library" level="project" name="Gradle: com.google.cloud:google-cloud-core-http:1.27.0" />
@@ -810,7 +803,7 @@
             <element id="library" level="project" name="Gradle: edu.ucar:udunits:4.5.5" />
             <element id="library" level="project" name="Gradle: joda-time:joda-time:2.9.9" />
             <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.28" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:fop:2.2" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:fop:2.3" />
             <element id="library" level="project" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239" />
             <element id="library" level="project" name="Gradle: com.google.guava:guava:25.0-jre" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client-gson:1.23.0" />
@@ -825,7 +818,7 @@
             <element id="library" level="project" name="Gradle: io.grpc:grpc-core:1.10.1" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java-util:3.5.1" />
             <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.4" />
-            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.6" />
+            <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.7" />
             <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.5" />
             <element id="library" level="project" name="Gradle: com.maxmind.geoip2:geoip2:2.12.0" />
@@ -834,6 +827,7 @@
             <element id="library" level="project" name="Gradle: com.maxmind.db:maxmind-db:1.2.2" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.5" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.5" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-x-content:6.3.0" />
             <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client:1.23.0" />
             <element id="library" level="project" name="Gradle: com.google.api:gax:1.23.0" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-oauth2-http:0.9.0" />
@@ -841,21 +835,25 @@
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.5" />
             <element id="library" level="project" name="Gradle: org.json:json:20180130" />
             <element id="library" level="project" name="Gradle: commons-fileupload:commons-fileupload:1.3.3" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-transcoder:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-extension:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-bridge:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-script:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-anim:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svg-dom:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-dom:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-css:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:xmlgraphics-commons:2.2" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-transcoder:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-extension:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-bridge:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-script:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-anim:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svg-dom:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-gvt:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-parser:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svggen:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-awt-util:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-dom:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-css:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:xmlgraphics-commons:2.3" />
             <element id="library" level="project" name="Gradle: commons-io:commons-io:2.6" />
             <element id="library" level="project" name="Gradle: commons-validator:commons-validator:1.6" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-scratchpad:3.17" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi-ooxml:3.17" />
             <element id="library" level="project" name="Gradle: org.apache.poi:poi:3.17" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.2.4" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.3.0" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpmime:4.5.4" />
             <element id="library" level="project" name="Gradle: com.google.oauth-client:google-oauth-client:1.23.0" />
             <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-appengine:1.23.0" />
@@ -880,7 +878,9 @@
             <element id="library" level="project" name="Gradle: org.hamcrest:hamcrest-all:1.3" />
             <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.8.13" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-jcl:5.0.6.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-core:6.2.4" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:parent-join-client:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.3.0" />
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-api:2.11.0" />
             <element id="library" level="project" name="Gradle: org.osgi:org.osgi.core:4.2.0" />
             <element id="library" level="project" name="Gradle: org.apache.commons:commons-pool2:2.4.2" />
@@ -891,11 +891,7 @@
             <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-iam-v1:0.10.0" />
             <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-common-protos:1.9.0" />
             <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java:3.5.1" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-gvt:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-parser:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-svggen:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-awt-util:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-ext:1.9" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-ext:1.10" />
             <element id="library" level="project" name="Gradle: org.apache.avalon.framework:avalon-framework-impl:4.3.1" />
             <element id="library" level="project" name="Gradle: org.apache.avalon.framework:avalon-framework-api:4.3.1" />
             <element id="library" level="project" name="Gradle: io.opencensus:opencensus-contrib-http-util:0.11.1" />
@@ -967,42 +963,33 @@
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.2.0" />
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.2.0" />
             <element id="library" level="project" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-core:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-analyzers-common:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-backward-codecs:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-grouping:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-highlighter:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-join:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-memory:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-misc:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-queries:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-queryparser:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-sandbox:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial-extras:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial3d:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-suggest:7.2.1" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:securesm:1.2" />
-            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-cli:6.2.4" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-cli:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-core:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch-secure-sm:6.3.0" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-core:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-analyzers-common:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-backward-codecs:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-grouping:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-highlighter:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-join:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-memory:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-misc:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-queries:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-queryparser:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-sandbox:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial-extras:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-spatial3d:7.3.1" />
+            <element id="library" level="project" name="Gradle: org.apache.lucene:lucene-suggest:7.3.1" />
             <element id="library" level="project" name="Gradle: com.carrotsearch:hppc:0.7.1" />
-            <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.17" />
-            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.8.10" />
-            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.10" />
-            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.8.10" />
-            <element id="library" level="project" name="Gradle: com.tdunning:t-digest:3.0" />
+            <element id="library" level="project" name="Gradle: com.tdunning:t-digest:3.2" />
             <element id="library" level="project" name="Gradle: org.hdrhistogram:HdrHistogram:2.1.9" />
             <element id="library" level="project" name="Gradle: org.elasticsearch:jna:4.5.1" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.4.9" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpasyncclient:4.1.2" />
             <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore-nio:4.4.5" />
-            <element id="library" level="project" name="Gradle: org.locationtech.spatial4j:spatial4j:0.6" />
-            <element id="library" level="project" name="Gradle: com.vividsolutions:jts:1.13" />
-            <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-core:2.9.1" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-xml:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-util:1.9" />
-            <element id="library" level="project" name="Gradle: xalan:xalan:2.7.2" />
-            <element id="library" level="project" name="Gradle: xalan:serializer:2.7.2" />
-            <element id="library" level="project" name="Gradle: xml-apis:xml-apis:1.3.04" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-xml:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-util:1.10" />
             <element id="library" level="project" name="Gradle: xml-apis:xml-apis-ext:1.3.04" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-credentials:0.9.0" />
             <element id="library" level="project" name="Gradle: com.google.apis:google-api-services-storage:v1-rev114-1.23.0" />
@@ -1022,9 +1009,16 @@
             <element id="library" level="project" name="Gradle: javax.measure:unit-api:1.0" />
             <element id="library" level="project" name="Gradle: commons-logging:commons-logging-api:1.1" />
             <element id="library" level="project" name="Gradle: org.opentest4j:opentest4j:1.1.0" />
+            <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.17" />
+            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.8.10" />
+            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.10" />
+            <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.8.10" />
             <element id="library" level="project" name="Gradle: net.sf.jopt-simple:jopt-simple:5.0.2" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-constants:1.9" />
-            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-i18n:1.9" />
+            <element id="library" level="project" name="Gradle: xalan:xalan:2.7.2" />
+            <element id="library" level="project" name="Gradle: xalan:serializer:2.7.2" />
+            <element id="library" level="project" name="Gradle: xml-apis:xml-apis:1.3.04" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-constants:1.10" />
+            <element id="library" level="project" name="Gradle: org.apache.xmlgraphics:batik-i18n:1.10" />
             <element id="library" level="project" name="Gradle: io.grpc:grpc-context:1.10.1" />
             <element id="library" level="project" name="Gradle: org.threeten:threetenbp:1.3.3" />
             <element id="library" level="project" name="Gradle: io.netty:netty-common:4.1.22.Final" />
@@ -1993,15 +1987,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.juniversalchardet/juniversalchardet/1.0.3/77979eaa98f90806f984155f44f63cc1fb60ac25/juniversalchardet-1.0.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.6">
+    <library name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.9.7">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.6/c8effe874c713e39dcb1bae4fa14b0b3e0ff8757/libphonenumber-8.9.6.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.7/de1fde43effe97b53c1af925c66a86235b72df8d/libphonenumber-8.9.7.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.6/fe593dfde7891290255a8cd316d4b8e5d1e6b90e/libphonenumber-8.9.6-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.7/b453bc6bc7af49ddc313ceddd648137544a5959b/libphonenumber-8.9.7-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.6/ca2d038481ffe9494bc2917ba399925d0b15412d/libphonenumber-8.9.6-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.9.7/27b374c4bcdea334161feca5228d139b1c2e53cd/libphonenumber-8.9.7-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.googlecode.mp4parser:isoparser:1.1.18">
@@ -2115,21 +2109,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/domain/1.3.0/domain-1.3.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/medical/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:health:1.3.0">
       <CLASSES>
@@ -2143,63 +2123,21 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/medical/1.3.0/medical-1.3.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/medical/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:search:1.3.0">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/search/1.3.0/search-1.3.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/medical/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:service:1.3.0">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/service/1.3.0/service-1.3.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/medical/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:social:1.3.0">
       <CLASSES>
@@ -2263,26 +2201,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.14.0/e7c96b4fe5651490d8f3c022042940d743a3bdd9/okio-1.14.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.tdunning:t-digest:3.0">
+    <library name="Gradle: com.tdunning:t-digest:3.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tdunning/t-digest/3.0/84ccf145ac2215e6bfa63baa3101c0af41017cfc/t-digest-3.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tdunning/t-digest/3.2/2ab94758b0276a8a26102adf8d528cf6d0567b9a/t-digest-3.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tdunning/t-digest/3.0/b7cb8afbcb16e764ee1efb9f74e1a923591e99be/t-digest-3.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tdunning/t-digest/3.2/eac8d105fa5e29c9e53f8e509b9538fc075d704c/t-digest-3.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tdunning/t-digest/3.0/6195397cb8f51efd91d806bdfa468196375b329/t-digest-3.0-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: com.vividsolutions:jts:1.13">
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vividsolutions/jts/1.13/3ccfb9b60f04d71add996a666ceb8902904fd805/jts-1.13.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vividsolutions/jts/1.13/62ffba17b1bb8be080dacc02413bcc0adbf3790b/jts-1.13-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vividsolutions/jts/1.13/ee922fa0a39de08d193337739d336779e3dfa774/jts-1.13-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tdunning/t-digest/3.2/b1858d66a80a93f61f048cf542fc2751ec7971bf/t-digest-3.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.zaxxer:HikariCP-java6:2.3.13">
@@ -2296,15 +2223,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP-java6/2.3.13/2bf20fa35c3b5fa099fe2ab5eede4e437a6e1063/HikariCP-java6-2.3.13-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.zaxxer:HikariCP:3.1.0">
+    <library name="Gradle: com.zaxxer:HikariCP:3.2.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP/3.1.0/6eda96598aa9d4c657ecfc3dfe88307d5fdb4b78/HikariCP-3.1.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP/3.2.0/6c66db1c636ee90beb4c65fe34abd8ba9396bca6/HikariCP-3.2.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP/3.1.0/5d97ac21dfac3ed2707420762e036bcaf41302f2/HikariCP-3.1.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP/3.2.0/6929946d220d1cf7823106e84e3666096b1eb8bb/HikariCP-3.2.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP/3.1.0/4669cb096661dd7aa57335a2b8a8e9dbc72a8e1/HikariCP-3.1.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP/3.2.0/214ae6e5db95b776e38493ca5808e3a7c4a574e8/HikariCP-3.2.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: commons-beanutils:commons-beanutils:1.9.2">
@@ -2816,26 +2743,26 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bull.javamelody/javamelody-core/1.71.0/1916e8f6efb373c8897980ef59932db510a54625/javamelody-core-1.71.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: net.bytebuddy:byte-buddy-agent:1.7.9">
+    <library name="Gradle: net.bytebuddy:byte-buddy-agent:1.8.3">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.7.9/a6c65f9da7f467ee1f02ff2841ffd3155aee2fc9/byte-buddy-agent-1.7.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.8.3/897127e8724cbf38f72b4c85fe8e39e7ae00d688/byte-buddy-agent-1.8.3.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.7.9/86ab562931e8c82311d9a7b85baba46c89717f2c/byte-buddy-agent-1.7.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.8.3/4645de1f82db905afa269165648591fc020178ca/byte-buddy-agent-1.8.3-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.7.9/b5fa7175ea80a12f140dca7c022ebd7683aa077a/byte-buddy-agent-1.7.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.8.3/37bd6da6e9216f5a475bd735861ca6372e5254f6/byte-buddy-agent-1.8.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: net.bytebuddy:byte-buddy:1.7.9">
+    <library name="Gradle: net.bytebuddy:byte-buddy:1.8.3">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy/1.7.9/51218a01a882c04d0aba8c028179cce488bbcb58/byte-buddy-1.7.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy/1.8.3/c7625191ad0f190bd719f0aef54ece5fdf0e4a77/byte-buddy-1.8.3.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy/1.7.9/b159efe7f0ab677870cd133a635f0a64b42142d7/byte-buddy-1.7.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy/1.8.3/cc4600492844e826c142a81bed10e035689a69fb/byte-buddy-1.8.3-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy/1.7.9/d4715044fac07c15e0578933fa0dd25cd64ad0cc/byte-buddy-1.7.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy/1.8.3/483bc4b0d19e8294179047a5aebb4cd6f30367c2/byte-buddy-1.8.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: net.java.dev.jna:jna-platform:4.0.0">
@@ -3160,17 +3087,6 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.11.0/97f6fb29d69b48fe4bdb47cc21c834b4536cf752/log4j-api-2.11.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.logging.log4j:log4j-core:2.9.1">
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.9.1/c041978c686866ee8534f538c6220238db3bb6be/log4j-core-2.9.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.9.1/ab9b99e192c6260fe82e2ed19fae20fd62bd5aeb/log4j-core-2.9.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.9.1/dd7a74b8b7bacb99e053dea13611e6531e383b06/log4j-core-2.9.1-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.11.0">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-to-slf4j/2.11.0/84d6924babfeb61562848daf807ca2e69da48bc5/log4j-to-slf4j-2.11.0.jar!/" />
@@ -3182,169 +3098,169 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-to-slf4j/2.11.0/fbe8f2f9212d14468c00177c011a66265ca645c5/log4j-to-slf4j-2.11.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-analyzers-common:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-analyzers-common:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-analyzers-common/7.2.1/324c3a090a04136720f4ef612db03b5c14866efa/lucene-analyzers-common-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-analyzers-common/7.3.1/51b62b22f4193bfa386f5ca0c978c68821a12bc0/lucene-analyzers-common-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-analyzers-common/7.2.1/15f983d70019194c8548346c9495d9e4a3fcfe4b/lucene-analyzers-common-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-analyzers-common/7.3.1/68bd1191ba30c070a5de3feec7abdb986b089bbf/lucene-analyzers-common-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-analyzers-common/7.2.1/cee8850871c54f9f835338c640aacde9f6655f9d/lucene-analyzers-common-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-analyzers-common/7.3.1/2d913f6e57b1a0bc0d75a48ed919ffe09fdc0c82/lucene-analyzers-common-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-backward-codecs:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-backward-codecs:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-backward-codecs/7.2.1/bc8dc9cc1555543532953d1dff33b67f849e19f9/lucene-backward-codecs-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-backward-codecs/7.3.1/c9bded879284d12b66eb8df112b6f69078616bb6/lucene-backward-codecs-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-backward-codecs/7.2.1/b9c0a6fcb0c3d994910071ae36502df81109792e/lucene-backward-codecs-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-backward-codecs/7.3.1/26be2942c2e7e481f3629659215faa75c73b633e/lucene-backward-codecs-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-backward-codecs/7.2.1/dcfaa68e5b3928884c90e950b36bc242e4ad750f/lucene-backward-codecs-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-backward-codecs/7.3.1/2d3adb4bbb102dd6c17b4d7784ff49f27853f77b/lucene-backward-codecs-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-core:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-core:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-core/7.2.1/91897dbbbbada95ccddbd90505f0a0ba6bf7c199/lucene-core-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-core/7.3.1/ce76b4aef66ffe0830afefb2b347028a4fc9eb36/lucene-core-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-core/7.2.1/4e7a3c845206057adf777b56b4f7b83b47ebd807/lucene-core-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-core/7.3.1/f1e2236599af47b1c53ca86e6788595fe9b1390e/lucene-core-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-core/7.2.1/e25ec3318ea0eada06529a957162037d9c703c44/lucene-core-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-core/7.3.1/2c99a1c8d3ab277895c416de8e77185893326a10/lucene-core-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-grouping:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-grouping:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-grouping/7.2.1/5dbae570b1a4e54cd978fe5c3ed2d6b2f87be968/lucene-grouping-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-grouping/7.3.1/ebb5344ee066bbb6031164dcf4e690d5a4ea62a5/lucene-grouping-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-grouping/7.2.1/11edeadefdcfedc7a38844b9c010576418f91c76/lucene-grouping-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-grouping/7.3.1/4365a7a2791bd88303370ac944181701ea8f9d9a/lucene-grouping-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-grouping/7.2.1/b5be955b1eca4ab45ba7bb74d2f405d925b7f65/lucene-grouping-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-grouping/7.3.1/f5375a309f739a1e596403607d19d0daacc4962/lucene-grouping-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-highlighter:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-highlighter:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-highlighter/7.2.1/2f4b8c93563409cfebb36d910c4dab4910678689/lucene-highlighter-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-highlighter/7.3.1/1e945c65876a1eab97a5db40e92c981c5a65915/lucene-highlighter-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-highlighter/7.2.1/6ba00171e97fbf9237bd0ef9549f0c520adce9e7/lucene-highlighter-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-highlighter/7.3.1/2679716c7d11686f024f0159f893f91876e43795/lucene-highlighter-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-highlighter/7.2.1/25b102cfa86173ee78cb067316f7cac591adc0ff/lucene-highlighter-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-highlighter/7.3.1/68e36605bbfd9f3ff11400141547e6dcce948fa7/lucene-highlighter-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-join:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-join:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-join/7.2.1/3121a038d472f51087500dd6da9146a9b0031ae4/lucene-join-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-join/7.3.1/e866b2c36555cff48f31a427efbfd52466418504/lucene-join-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-join/7.2.1/52f04c8fc087a94c26e012386496b6e07a98bc63/lucene-join-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-join/7.3.1/21101e03e7c1cbb89c9af1dceb15b00f63ba3d72/lucene-join-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-join/7.2.1/c6542522e022b0125ded1714ecaf79f56359c2eb/lucene-join-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-join/7.3.1/d5513258b447ef396e8a6d44145273d4f83cb2b/lucene-join-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-memory:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-memory:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-memory/7.2.1/21233b2baeed2aaa5acf8359bf8c4a90cc6bf553/lucene-memory-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-memory/7.3.1/12b7520cfb0c83d4d9e4efde6ad1812693f91acd/lucene-memory-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-memory/7.2.1/8636c1eb1518c128f3f750c507479560e737e525/lucene-memory-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-memory/7.3.1/2623612338ffe0e07ac85a30b4f027df18f3e168/lucene-memory-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-memory/7.2.1/7823f500db5dfcb21f5200b022522c67b6c6ecb1/lucene-memory-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-memory/7.3.1/7a84e91bd213ad353b339b1882125e626a9d888d/lucene-memory-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-misc:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-misc:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-misc/7.2.1/478fed6c474c95f6c0c678c04297a3df0c1687e/lucene-misc-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-misc/7.3.1/2ce12b8828f29c8e5dd9eeef05333705befc9342/lucene-misc-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-misc/7.2.1/bcaa4742634d942a564097a896a5a0a41c043aa2/lucene-misc-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-misc/7.3.1/3a8aa1399213dcdf7204d2b7e0739546e351e20a/lucene-misc-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-misc/7.2.1/ce267bf8e96a64952d61b055f2cf3e8d7f7d8405/lucene-misc-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-misc/7.3.1/e769174f35cb93c44fd46aa2f6137e8f8d559530/lucene-misc-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-queries:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-queries:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queries/7.2.1/2135cf5047409ed1ca6cd098e802b30f9dbd1ff/lucene-queries-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queries/7.3.1/d531efe427da6cb41a9aa52854be4dd241227a19/lucene-queries-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queries/7.2.1/617c5fee5a0929c2e66b334f4be6ab0292774e42/lucene-queries-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queries/7.3.1/cebf1bcc218a9790cefe6c0ad484790889b30971/lucene-queries-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queries/7.2.1/7b05e934c925d7d855cf3fba855de10bb13366d8/lucene-queries-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queries/7.3.1/460df21d9cbcef1780fc23f81021f69116497865/lucene-queries-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-queryparser:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-queryparser:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queryparser/7.2.1/a87d8b14d1c8045f61cb704955706f6681170be3/lucene-queryparser-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queryparser/7.3.1/51e4cde15df3ab4534a6407598cfb5c7ce7d21ac/lucene-queryparser-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queryparser/7.2.1/324d61de15daabd846a63e5f87b6752b6bb156fc/lucene-queryparser-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queryparser/7.3.1/6247ae15a67b70a7ab578e47e0c20c04104e5094/lucene-queryparser-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queryparser/7.2.1/ec116aa6b8e68cb5ce6980cce395608d6945c202/lucene-queryparser-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queryparser/7.3.1/9130645128a64b669b2e483d7f1248f74b0d0f48/lucene-queryparser-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-sandbox:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-sandbox:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-sandbox/7.2.1/dc8dd132fd183791dc27591a69974f55b685d0d7/lucene-sandbox-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-sandbox/7.3.1/ba8c7a91cf3d74d7f5e6f91e6842c6e857bd73c5/lucene-sandbox-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-sandbox/7.2.1/c5fe0b4cf3abd51e6168240da46c19f7ce4a5c36/lucene-sandbox-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-sandbox/7.3.1/997b628918b8fdb87bc6e059c68848c251266dbb/lucene-sandbox-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-sandbox/7.2.1/7efe6a5d29d1ed2144fd49dac786b4dfbde8f6dc/lucene-sandbox-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-sandbox/7.3.1/129abe427c6e0be1c89f1bdae74a18770d158db7/lucene-sandbox-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-spatial-extras:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-spatial-extras:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial-extras/7.2.1/8aff7e8a5547c03d0c4e7e1b58cb30773bb1d7d5/lucene-spatial-extras-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial-extras/7.3.1/7ff14f7c7b8e2fb7259e925949f51122cbc873c4/lucene-spatial-extras-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial-extras/7.2.1/78bdf138fa7bab5dd4b7a67e2f8f607136053efd/lucene-spatial-extras-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial-extras/7.3.1/8b7c8076a7e3613ce0282f6d0fd2f99e17c3a06d/lucene-spatial-extras-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial-extras/7.2.1/19beb893a65bd1b1534e89d0bb04b162f9ee0b58/lucene-spatial-extras-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial-extras/7.3.1/22d2b42bebc71e724a7aa0e4843ba4bf50d65a5b/lucene-spatial-extras-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-spatial3d:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-spatial3d:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial3d/7.2.1/8b0db8ff795b31994ebe93779c450d17c612590d/lucene-spatial3d-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial3d/7.3.1/db59b01557dd4abb1a469d857e2a96b3c3aa6365/lucene-spatial3d-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial3d/7.2.1/f339a67f7c0f3b3fe9b3e824ef889818464f81d/lucene-spatial3d-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial3d/7.3.1/1e4cdc243a8dfc7a8b9dd7acac93f97397ed4d6b/lucene-spatial3d-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial3d/7.2.1/fa14c331c5955553c5aa32052b370d4d8f6093c5/lucene-spatial3d-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial3d/7.3.1/ec58f7cb9e62c104641f46fe28b360a13c88e871/lucene-spatial3d-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-spatial:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-spatial:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial/7.2.1/9c4d96e6ea34292f7cd20c4ff1d16ff31eb7869/lucene-spatial-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial/7.3.1/6e5fb097fdb41f1817c748e4b1d4e6b9bb6e92ec/lucene-spatial-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial/7.2.1/11dd78ffbece94ed3544580d89a125b2b2fbc21f/lucene-spatial-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial/7.3.1/2c0681661d26880768d049648da35ca1555654d8/lucene-spatial-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial/7.2.1/e124d75c6ce656371889150eb2cd6289c305562f/lucene-spatial-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-spatial/7.3.1/1756453891a35aec22e714ecb743d6f9f212399/lucene-spatial-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.lucene:lucene-suggest:7.2.1">
+    <library name="Gradle: org.apache.lucene:lucene-suggest:7.3.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-suggest/7.2.1/1c3804602e35589c21b0391fa7088ef012751a22/lucene-suggest-7.2.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-suggest/7.3.1/5255e5bec27f078ca89cdc44b9614e3295b51607/lucene-suggest-7.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-suggest/7.2.1/f7c30ac8a07566cde09047faa665dac15ca64022/lucene-suggest-7.2.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-suggest/7.3.1/d0a522cbbd20d30ab3fb91d75123a6e59e60c211/lucene-suggest-7.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-suggest/7.2.1/271241f67f93ee06b1d5bd9b90b597f1ca3971f5/lucene-suggest-7.2.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-suggest/7.3.1/e16e3885553bd6cad16408aac7d8481f560fb866/lucene-suggest-7.3.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.apache.opennlp:opennlp-tools:1.8.4">
@@ -3575,213 +3491,213 @@
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-anim:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-anim:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-anim/1.9/bf5a87c6647e4b0c454facc0278c64f4199717fc/batik-anim-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-anim/1.10/e301c476768a53a33ec473b265fbdceb45dce464/batik-anim-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-anim/1.9/5a5b4745925919967536f7083891adf775b2217a/batik-anim-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-anim/1.10/db13e456aace8f5570affc251368b55dba479fbf/batik-anim-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-anim/1.9/ea2fc28cbe11ab267841e9291b001cc7381c3bdc/batik-anim-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-anim/1.10/806fbeae031125537bfbc3d21b091513950d3758/batik-anim-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-awt-util:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-awt-util:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-awt-util/1.9/855cbcf158a0ae62ce85f2705a9bfccd4e99ede7/batik-awt-util-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-awt-util/1.10/32712076ffee3eb533bc32f45f5c4b3f25b82749/batik-awt-util-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-awt-util/1.9/2299b0dae35cabeaea0ce39926cd80378d5dfcae/batik-awt-util-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-awt-util/1.10/f6d33204aaf761aebc5a781809aac01d0617e530/batik-awt-util-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-awt-util/1.9/be1e6daea2a214d3de6c6f070560974086d6baea/batik-awt-util-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-awt-util/1.10/3c536f5b8584f271a98d7b3baccd3023c06ac943/batik-awt-util-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-bridge:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-bridge:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-bridge/1.9/fb7509c68f90e64a45f8ceece187a211415640c1/batik-bridge-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-bridge/1.10/53cdf9504d1eefe0ee3bcf616a882d5a2b93ffd4/batik-bridge-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-bridge/1.9/89a553324ab070183f6bd771ce0266a4664c12d6/batik-bridge-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-bridge/1.10/f3d88d41b564d7ccde4dc1b33fdd09b6413058f8/batik-bridge-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-bridge/1.9/688165e0562485c36c7b9a3ba876ff042913b721/batik-bridge-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-bridge/1.10/a2f70bfbfcc3cf756402487c25fe49bb17fb3b44/batik-bridge-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-constants:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-constants:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-constants/1.9/24cae622672dedddd18951b193a83c12bfe33241/batik-constants-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-constants/1.10/53079777c80f005c10cc4837e9d3c90ad890f1a1/batik-constants-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-constants/1.9/abb6d6f9b5d92b0ba05f9395e32df9a710fe997a/batik-constants-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-constants/1.10/d9ff0e0e75b701bd2385f490ad753d868d4d2e05/batik-constants-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-constants/1.9/169e3ea8513e5b52212bf877347a6785e5b5f003/batik-constants-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-constants/1.10/a2325998f61600f6d3ea366f11d5ec364951dcc5/batik-constants-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-css:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-css:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-css/1.9/3eb0bdc9dedd2e33e7ace50e01eab16741fcb689/batik-css-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-css/1.10/a1b95b2fc81d2089a089e2bb1c143b743cd0eb26/batik-css-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-css/1.9/71a60b96e3c04ac7f48138344ac1f0a91c247cbc/batik-css-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-css/1.10/bdf8bc8f16264ad33378152ad941eabae79792ce/batik-css-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-css/1.9/39994d892857c45e5ca4770b5c12434ddae7a2ac/batik-css-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-css/1.10/dfb5187a13d176bda919ca3490d57116772ac1a3/batik-css-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-dom:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-dom:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-dom/1.9/96e8edbf08358f84f7c9dc5778797203f0feb59c/batik-dom-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-dom/1.10/5f94e491f3b4653c834201dcb36fa7b2169a4af9/batik-dom-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-dom/1.9/df05a2ab9460cb061ef6afc87292c13e4b3ecf6e/batik-dom-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-dom/1.10/23fb09a4de1f278cbb521745c311e16a6b010428/batik-dom-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-dom/1.9/bb615e73b7443c3591dae6dce06f0ba20961b78d/batik-dom-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-dom/1.10/2eac55be159b9412859e820f09ee6d3c706b80e2/batik-dom-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-ext:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-ext:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-ext/1.9/da90c9656f651df691c602285aa1ba40463326c1/batik-ext-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-ext/1.10/23a27a446965644ff5593dab2003221936ca2499/batik-ext-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-ext/1.9/2cfa72d1cb0824c5b9c91cc9e2aceea32be826d9/batik-ext-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-ext/1.10/92d54ebb0c3eca5979e7f4b3c10b84152983ecd1/batik-ext-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-ext/1.9/4127c3c00aa547c32a7a62e34c7aacc256105208/batik-ext-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-ext/1.10/8728355ae5e9ed874712ffddcb1567dbbc4c4a0d/batik-ext-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-extension:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-extension:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-extension/1.9/2e1f5d9da672694274cb0f623f0011199aa57ef2/batik-extension-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-extension/1.10/cda753abfb5d8bd4315c7b6f30f1c948a945ccac/batik-extension-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-extension/1.9/436c0340eee7b3e6f30f116047a36b94d44fdb56/batik-extension-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-extension/1.10/31e1d9880c859c4931fd476fb83f5168b52407bb/batik-extension-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-extension/1.9/d00b242131fd4bf9a859fdb52057c3a3e517ec75/batik-extension-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-extension/1.10/35a38b0aa00c2ee9ad9563b169d27c3de2e0e678/batik-extension-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-gvt:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-gvt:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-gvt/1.9/58fc30896e7afdcc1e5af4e557fcc0e735c5072a/batik-gvt-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-gvt/1.10/7091974abb3f57141f29aa94d2fbf8a06d22f837/batik-gvt-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-gvt/1.9/9d34da0d336f1348e3b8983c9ed341f192c7cbd5/batik-gvt-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-gvt/1.10/2c9f9ba0f480ea4a6fef1c4c2d56466d7bcf8884/batik-gvt-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-gvt/1.9/2048fb3770faec2828f02711999a9f65d77c75c4/batik-gvt-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-gvt/1.10/7ddf15bad10839a32400121b3756b3f2c8a846b8/batik-gvt-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-i18n:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-i18n:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-i18n/1.9/c83bf01767ec26ad24df7277d2dc845c3f4fe0f2/batik-i18n-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-i18n/1.10/14923525d8c01b3cbfa9d340c0d2bf315a85b3f0/batik-i18n-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-i18n/1.9/458cbc3e6d62308e61d24890cb90410f45947f5d/batik-i18n-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-i18n/1.10/a5855d34b9f783193f3481626ea7ecf048633ff6/batik-i18n-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-i18n/1.9/f9bbd3be9470cad1d3fb5575fc54fc4a1512fb92/batik-i18n-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-i18n/1.10/1c4bf7945bf5d1f03aaa8788c89bf4dbbb2cdc20/batik-i18n-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-parser:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-parser:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-parser/1.9/1f57aca8fc9f47431bf637a34097e3797458a211/batik-parser-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-parser/1.10/afe740ee774eb7f94a3f9ae056724dff0d84d7e1/batik-parser-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-parser/1.9/8f0fa8ef84804e21552cf6ef44d91901ad49b3a1/batik-parser-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-parser/1.10/ed8d4a10b3bf0b8876c3a3302366a9688861ebfd/batik-parser-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-parser/1.9/3e9cb72531faab7f643b97687996a916b1972b39/batik-parser-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-parser/1.10/25648288c0c0d3b7f8962ffb187a71095928ebfc/batik-parser-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-script:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-script:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-script/1.9/4476562c724df213cd44d4ee292e1438d04cb7a7/batik-script-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-script/1.10/76c0790c695c9cec110163aef89f1de05c5d0a96/batik-script-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-script/1.9/1ab14a310e7c46832989f88f22ba7f737d44fb7f/batik-script-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-script/1.10/a70077a1327e65fb2bce439a605cff2a9b02bce5/batik-script-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-script/1.9/61a40ddfe9c43e9946dcda9f2b4798e47e9932eb/batik-script-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-script/1.10/199e2b68a5eaeaa656d3d8963203d04818ab4db7/batik-script-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-svg-dom:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-svg-dom:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svg-dom/1.9/c6535d0a6656f18706fbe68796cd803aae5d1ec6/batik-svg-dom-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svg-dom/1.10/98b083931c3a9d3fa4b544ea927940689899eb5e/batik-svg-dom-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svg-dom/1.9/f55d470d71522a906da1d477a4069f0895310ae5/batik-svg-dom-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svg-dom/1.10/c17dab95c4c68631d8147a48c3fb92678bed6159/batik-svg-dom-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svg-dom/1.9/52474f54aafbf9da93dce7b020beb795a64eb215/batik-svg-dom-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svg-dom/1.10/16a55199ad002c03e50d7896766bca4328e4cec6/batik-svg-dom-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-svggen:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-svggen:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svggen/1.9/2c401640b2006df659df1fd21888c7b8c3d3ecec/batik-svggen-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svggen/1.10/1657ee1418304ade24a213e028d89a18e9dec13b/batik-svggen-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svggen/1.9/2635aa59086a4a82063b766cad59565234e958c7/batik-svggen-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svggen/1.10/6671651c008225c31edc2d576d10b7dcdb07cd8c/batik-svggen-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svggen/1.9/7ea7ce500519eaf9afb0f1cfbf0cbb732d3147f9/batik-svggen-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svggen/1.10/9db528b5e5b7758163278a7d89451c088ebe8373/batik-svggen-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-transcoder:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-transcoder:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-transcoder/1.9/46856c150c278ee2d0dfb400fcc09bd75d25aecb/batik-transcoder-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-transcoder/1.10/66d3c8025f50c77834ff4bb09055278fe95070fa/batik-transcoder-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-transcoder/1.9/743bded91aa55a977ecefe129f4541eec7977ff9/batik-transcoder-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-transcoder/1.10/f92b39816f01f89b8a7c322e83a4f667af92e8b6/batik-transcoder-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-transcoder/1.9/1608d334da23e0dd45a2b626fb8d9d00918cd659/batik-transcoder-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-transcoder/1.10/24ef8e38cac9a9cd6bafc43b2e772c052712a7c4/batik-transcoder-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-util:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-util:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-util/1.9/c96247c6b0b4909b0a515577f67622e9190b8f8/batik-util-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-util/1.10/f40a4624616047c86f4bc80c985426afff964975/batik-util-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-util/1.9/bc6198122a878c3fd0b98804fbfb115f24b5cad4/batik-util-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-util/1.10/48bba86bc17f2540c35d0daeb0b3c8d4df5f8d0d/batik-util-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-util/1.9/4adb4cd58acfb4b27d4f1ca19c223ba323b33ef8/batik-util-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-util/1.10/87f316c0c3d6922ab02695d9a82db80a7ab3b7dc/batik-util-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:batik-xml:1.9">
+    <library name="Gradle: org.apache.xmlgraphics:batik-xml:1.10">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-xml/1.9/ea56fceb9d20e5edf416651135e027fc8fbdb45f/batik-xml-1.9.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-xml/1.10/601a184d2e363e0900eeec3617e62a3162a6fe37/batik-xml-1.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-xml/1.9/dc211ca990b30b593a8e97500c8a714b3e6ecf65/batik-xml-1.9-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-xml/1.10/c7b86eda37d8fc0fa929206103a9e2b80425f3b3/batik-xml-1.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-xml/1.9/d7ad29fc654d70f3174ffb393c236d79019a1ed4/batik-xml-1.9-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-xml/1.10/c74f33e0efebf907e520059ebac2ae2d5692b7e1/batik-xml-1.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:fop:2.2">
+    <library name="Gradle: org.apache.xmlgraphics:fop:2.3">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/fop/2.2/cc8a8ae39d215425e1dbec5552c64074d0a54b7f/fop-2.2.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/fop/2.3/3e29d7693cdda2053db86bdedabb1beccc83f6f/fop-2.3.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/fop/2.2/d4de887be0ab2359b3080a2ffbea565e26db1208/fop-2.2-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/fop/2.3/b31ad8dd1157605d44a5e3b695f5d15c0090c9ef/fop-2.3-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/fop/2.2/24af393489d60e655b77445b674c523bc64116bd/fop-2.2-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/fop/2.3/ff869e0625522f64a5cfe7f0d574c6ae23735a20/fop-2.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.apache.xmlgraphics:xmlgraphics-commons:2.2">
+    <library name="Gradle: org.apache.xmlgraphics:xmlgraphics-commons:2.3">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/xmlgraphics-commons/2.2/89f22650b8b8a5ac91207bf58190df852d97415a/xmlgraphics-commons-2.2.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/xmlgraphics-commons/2.3/f0b77d80c4d8f02538512b4d505af0cf5286eb7f/xmlgraphics-commons-2.3.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/xmlgraphics-commons/2.2/e59ab4b89beb546c47c4bc95f53d61bf006d286c/xmlgraphics-commons-2.2-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/xmlgraphics-commons/2.3/686de323bcf6f6c2a33504c498d1c30e50f5cac9/xmlgraphics-commons-2.3-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/xmlgraphics-commons/2.2/dff64d41ec575a0479df722a5cd08b1b9f1fa9a5/xmlgraphics-commons-2.2-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/xmlgraphics-commons/2.3/8d9ad675fb4b506722fa5171f1a9586c7229463e/xmlgraphics-commons-2.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.apiguardian:apiguardian-api:1.0.0">
@@ -3947,92 +3863,114 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.codelibs/jhighlight/1.0.2/b721e136ac6ff410a5ebca2755d7d8c25e6adf7f/jhighlight-1.0.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.2.4">
+    <library name="Gradle: org.elasticsearch.client:elasticsearch-rest-client:6.3.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.2.4/3aaa0527c407ebb9ff2d82a65b2872d83d739778/elasticsearch-rest-client-6.2.4.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.3.0/a95ef38262ef499aa07cdb736f4a47cb19162654/elasticsearch-rest-client-6.3.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.2.4/112093f8bb6716ad5fed496f899c111453497704/elasticsearch-rest-client-6.2.4-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.3.0/3fb28c189732e0eba495d359c764973b27a20f9f/elasticsearch-rest-client-6.3.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.2.4/a605c4a37586b1854a589562166e7ca5385eecb3/elasticsearch-rest-client-6.2.4-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-client/6.3.0/1191ef1773e41aa24636060f81ab043259e17757/elasticsearch-rest-client-6.3.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.4">
+    <library name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.3.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.2.4/13bb3745b6328e00fbfc6092a20845f6bbf51098/elasticsearch-rest-high-level-client-6.2.4.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.3.0/153df32180acd508063dfeee52767fbe2ae6d9c6/elasticsearch-rest-high-level-client-6.3.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.2.4/ff55c28e8f785691f233530dcc616ed6111c6c07/elasticsearch-rest-high-level-client-6.2.4-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.3.0/3d0a69cb01b8c4015604276b4456dbee2511f4a9/elasticsearch-rest-high-level-client-6.3.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.2.4/89bfc772f371eeaf89057681f25b7e7d67929995/elasticsearch-rest-high-level-client-6.2.4-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.client/elasticsearch-rest-high-level-client/6.3.0/c45fd42dbb756c15f53b1b156cb65a0386ba2936/elasticsearch-rest-high-level-client-6.3.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.2.4">
+    <library name="Gradle: org.elasticsearch.plugin:aggs-matrix-stats-client:6.3.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.2.4/f1f23f7c749d74d681843034abda011fe0033753/aggs-matrix-stats-client-6.2.4.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.3.0/dd4d8160b2048e6c3e8f2d702b2dc31928eb101d/aggs-matrix-stats-client-6.3.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.2.4/ac598b2c38d158706c440a8085b4d56dd01f62a5/aggs-matrix-stats-client-6.2.4-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.3.0/a820052925b4703f8f5e3b3ac927ad333ae32665/aggs-matrix-stats-client-6.3.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.2.4/b6a2a7a9a73fb436206b181d5bd9647591fb61c7/aggs-matrix-stats-client-6.2.4-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/aggs-matrix-stats-client/6.3.0/308a11c980f669b9c5908522267d71036bb17ffa/aggs-matrix-stats-client-6.3.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch.plugin:parent-join-client:6.2.4">
+    <library name="Gradle: org.elasticsearch.plugin:parent-join-client:6.3.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.2.4/501c7e31f3279519b6572b9dee78e2fbd84ee648/parent-join-client-6.2.4.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.3.0/6f2f5fb43898269bc75939e4f26febdf6f93b4ca/parent-join-client-6.3.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.2.4/295120db3101eb65a82feb9a4e91465c20b6b647/parent-join-client-6.2.4-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.3.0/1672cad123f7ea40ef830f050cfae5bbb0c2a975/parent-join-client-6.3.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.2.4/6771c21fb08bde4543e4802feadcd01030448138/parent-join-client-6.2.4-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/parent-join-client/6.3.0/bbdf6ea48a76d2b5a8c7d8b06603c99c359d4a88/parent-join-client-6.3.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.2.4">
+    <library name="Gradle: org.elasticsearch.plugin:rank-eval-client:6.3.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.2.4/32b36cc61bc17246ffb7bc15f38355bc02ea42ad/rank-eval-client-6.2.4.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.3.0/35cb1ee7685d48300e2a9492ca20efea619f4106/rank-eval-client-6.3.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.2.4/6f8db33b3392273041c7fad3fad6370f5729a7f3/rank-eval-client-6.2.4-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.3.0/c9a60fb6cce9002fa9d3cf56f443e5457c020eb9/rank-eval-client-6.3.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.2.4/7ef133878a655af1b5ab9c2c017d18649275e7f4/rank-eval-client-6.2.4-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/rank-eval-client/6.3.0/e720b14c07dc186087a8ae6494cc8155425ade2f/rank-eval-client-6.3.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch:elasticsearch-cli:6.2.4">
+    <library name="Gradle: org.elasticsearch:elasticsearch-cli:6.3.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.2.4/73b92527f0bc0802cf74c3fb209d4f8b43258509/elasticsearch-cli-6.2.4.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.3.0/9e31f69ba3b3d4175c12ce811412655e3b8f589/elasticsearch-cli-6.3.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.2.4/873a2f78636d3b52207311c35b60d8f7b59dbed2/elasticsearch-cli-6.2.4-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.3.0/5152cae4ec8ac0065ff14cf242ca7dad3dcad07d/elasticsearch-cli-6.3.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.2.4/6b0467941a2ac0df2df6fb4c2a7359856874b6e0/elasticsearch-cli-6.2.4-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-cli/6.3.0/c0c9d67e70b03d3f84a44eee98a4c394d3b69569/elasticsearch-cli-6.3.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch:elasticsearch-core:6.2.4">
+    <library name="Gradle: org.elasticsearch:elasticsearch-core:6.3.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.2.4/99611d82dba516f0e48a6d65a788e5df4a6219eb/elasticsearch-core-6.2.4.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.3.0/dfc0ff7bf650bcfa0d2b9c71ed20fdc43b405ac0/elasticsearch-core-6.3.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.2.4/f570c8404c374857bb27494b70d2226f22e13e19/elasticsearch-core-6.2.4-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.3.0/62359caddf34333c58c6b0a01d874e7aadbcbf92/elasticsearch-core-6.3.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.2.4/aa0dd9a61c5c1fd691f12c8f84d7ef566beea96/elasticsearch-core-6.2.4-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-core/6.3.0/6ed788314296a43aabe348b648dc95383f265b83/elasticsearch-core-6.3.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.elasticsearch:elasticsearch:6.2.4">
+    <library name="Gradle: org.elasticsearch:elasticsearch-secure-sm:6.3.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.2.4/6d8457abdfc9fe0eb6b7ba99f00605c297e433fd/elasticsearch-6.2.4.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-secure-sm/6.3.0/60fb2937581e923c171e34bd260377bd63455fbb/elasticsearch-secure-sm-6.3.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.2.4/d4a4a2dc3bb66a58dda28c7c93cf11da9eeb3106/elasticsearch-6.2.4-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-secure-sm/6.3.0/1135e76477de870626fb3a070c61de925da5c9c0/elasticsearch-secure-sm-6.3.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.2.4/527d94420405bc17da5998bd5373d49ee9db466c/elasticsearch-6.2.4-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-secure-sm/6.3.0/b4c73919ccb2d8f3b5ce221399cf3c4afcf580d2/elasticsearch-secure-sm-6.3.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.elasticsearch:elasticsearch-x-content:6.3.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-x-content/6.3.0/89ec79239c67eb82159ce217c305f26b175cb81b/elasticsearch-x-content-6.3.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-x-content/6.3.0/ca59b02c5f4539b0b3aea36f593552dbf89f0d39/elasticsearch-x-content-6.3.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-x-content/6.3.0/c2edae7087622a0b1b315ec604b0bd64d54beed8/elasticsearch-x-content-6.3.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.elasticsearch:elasticsearch:6.3.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.3.0/a623a03d29b985923e6e5555442ed3c75051c947/elasticsearch-6.3.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.3.0/95e08555cce95893d46321d911cd6da06d0048c3/elasticsearch-6.3.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch/6.3.0/62ad49fd97897aac2e8491267ac1edbf0f4f8382/elasticsearch-6.3.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.elasticsearch:jna:4.5.1">
@@ -4044,17 +3982,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/jna/4.5.1/965bf0f4cf5b71c2b1e9bb5a8d7b6919020e0492/jna-4.5.1-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.elasticsearch:securesm:1.2">
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/securesm/1.2/4c28f5b634497d64b727961430a516f351a099d5/securesm-1.2.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/securesm/1.2/6e2f8e820359310e71d06cf682c98f388c30220/securesm-1.2-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/securesm/1.2/48d1fcdde0d73d6bd7d6c7a6e0d7a0499c78bbf5/securesm-1.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.freemarker:freemarker:2.3.28">
@@ -4266,37 +4193,26 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-launcher/1.1.0/e2ebb954d6c1ea5cda1d2d09bb5f645e8e219f94/junit-platform-launcher-1.1.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.locationtech.spatial4j:spatial4j:0.6">
+    <library name="Gradle: org.mockito:mockito-core:2.18.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.locationtech.spatial4j/spatial4j/0.6/21b15310bddcfd8c72611c180f20cf23279809a3/spatial4j-0.6.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/2.18.0/d3e839acfc4b862bbcfe9165c316f1567db24cb6/mockito-core-2.18.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.locationtech.spatial4j/spatial4j/0.6/e11f6cbf57ee9dbe24364660b0bb7e322b978201/spatial4j-0.6-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/2.18.0/590a7a5abcd2babc473afa1b38db0d870d85ec8c/mockito-core-2.18.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.locationtech.spatial4j/spatial4j/0.6/b24a8c55cd6244481bbd8c014bc95886d1f053a9/spatial4j-0.6-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/2.18.0/10b8d62b42546785675701f13a98f66fba76487d/mockito-core-2.18.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.mockito:mockito-core:2.15.0">
+    <library name="Gradle: org.mockito:mockito-inline:2.18.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/2.15.0/b84bfbbc29cd22c9529409627af6ea2897f4fa85/mockito-core-2.15.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-inline/2.18.0/3d319d41e17d2576848d5709b4effbfde21e6c65/mockito-inline-2.18.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/2.15.0/902390adc550707983fc808493f0dfecc75da060/mockito-core-2.15.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-inline/2.18.0/3d3972b11b2823e85be96ca495db8cbc069527e7/mockito-inline-2.18.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/2.15.0/46e8ee5e6fdfaee85be74093e324d53c881e0567/mockito-core-2.15.0-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.mockito:mockito-inline:2.15.0">
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-inline/2.15.0/7d8b9e525802f172ad7567b7989b902a8ec2a0fe/mockito-inline-2.15.0.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-inline/2.15.0/a9dd7b122990614c1b570b8087d021838681fbe2/mockito-inline-2.15.0-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-inline/2.15.0/46f7b0b02636af3cee322c3358a7e7712be60ac9/mockito-inline-2.15.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-inline/2.18.0/ec2de7115cb5edb29316d912c0e5f7c210e97b1/mockito-inline-2.18.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.mongodb:mongo-java-driver:3.8.0-beta2">
