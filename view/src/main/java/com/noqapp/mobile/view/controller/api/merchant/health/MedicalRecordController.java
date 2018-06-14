@@ -104,7 +104,7 @@ public class MedicalRecordController {
             LOG.info("Chief Complain={}", chiefComplain);
 
             JsonMedicalRecord jsonMedicalRecord = new ObjectMapper().readValue(requestBodyJson, JsonMedicalRecord.class);
-            jsonMedicalRecord.setDiagnosedBy(qid);
+            jsonMedicalRecord.setDiagnosedById(qid);
             medicalRecordService.addMedicalRecord(jsonMedicalRecord);
 
             return new JsonResponse(true).asJson();
