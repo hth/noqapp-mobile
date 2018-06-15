@@ -8,7 +8,7 @@ import com.noqapp.medical.domain.MedicalMedicineEntity;
 import com.noqapp.medical.domain.MedicalRecordEntity;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.domain.json.JsonMedicalRecordList;
-import com.noqapp.medical.domain.json.JsonMedicine;
+import com.noqapp.medical.domain.json.JsonMedicalMedicine;
 import com.noqapp.medical.domain.json.JsonRecordAccess;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -125,7 +125,7 @@ public class MedicalRecordAPIController {
                 if (null != medicalRecord.getMedicalMedication()) {
                     List<MedicalMedicineEntity> medicalMedicines = medicalRecordService.findByIds(String.join(",", medicalRecord.getMedicalMedication().getMedicineIds()));
                     for (MedicalMedicineEntity medicalMedicine : medicalMedicines) {
-                        jsonMedicalRecord.addMedicine(JsonMedicine.fromMedicalMedicine(medicalMedicine));
+                        jsonMedicalRecord.addMedicine(JsonMedicalMedicine.fromMedicalMedicine(medicalMedicine));
                     }
                 }
 
