@@ -160,6 +160,5 @@ public class MedicalRecordAPIController {
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.G);
         }
-
     }
 }
