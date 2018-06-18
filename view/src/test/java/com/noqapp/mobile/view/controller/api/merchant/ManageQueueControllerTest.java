@@ -30,6 +30,8 @@ import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.service.AccountService;
+import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
@@ -84,6 +86,8 @@ class ManageQueueControllerTest {
     @Mock private ProfessionalProfileService professionalProfileService;
     @Mock private UserProfileManager userProfileManager;
     @Mock private BusinessUserStoreManager businessUserStoreManager;
+    @Mock private AccountService accountService;
+    @Mock private BusinessCustomerService businessCustomerService;
 
     @Mock private HttpServletResponse response;
     private TokenQueueEntity tokenQueue;
@@ -115,6 +119,8 @@ class ManageQueueControllerTest {
                 businessUserStoreService,
                 tokenQueueService,
                 tokenQueueMobileService,
+                accountService,
+                businessCustomerService,
                 apiHealthService);
 
         mapper = new ObjectMapper();
@@ -445,7 +451,7 @@ class ManageQueueControllerTest {
         when(tokenQueueMobileService.getBizService().findByCodeQR(anyString())).thenReturn(new BizStoreEntity().setAverageServiceTime(100));
         when(tokenQueueMobileService.joinQueue(anyString(), anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(jsonToken);
 
-        String responseJson = manageQueueController.dispenseToken(
+        String responseJson = manageQueueController.dispenseTokenWithoutClientInfo(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),

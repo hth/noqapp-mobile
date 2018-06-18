@@ -17,8 +17,11 @@ import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.repository.ApiHealthNowManager;
 import com.noqapp.health.repository.ApiHealthNowManagerImpl;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.repository.BusinessCustomerManager;
+import com.noqapp.repository.BusinessCustomerManagerImpl;
 import com.noqapp.repository.ProfessionalProfileManager;
 import com.noqapp.repository.ProfessionalProfileManagerImpl;
+import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.service.AccountMobileService;
@@ -160,6 +163,9 @@ public class ITest extends RealMongoForITest {
     protected BusinessUserManager businessUserManager;
     protected ProfessionalProfileManager professionalProfileManager;
 
+    protected BusinessCustomerManager businessCustomerManager;
+    protected BusinessCustomerService businessCustomerService;
+
     protected ApiHealthService apiHealthService;
     protected ApiHealthNowManager apiHealthNowManager;
 
@@ -299,6 +305,13 @@ public class ITest extends RealMongoForITest {
 
         professionalProfileManager = new ProfessionalProfileManagerImpl(getMongoTemplate());
         professionalProfileService = new ProfessionalProfileService(professionalProfileManager);
+
+        businessCustomerManager = new BusinessCustomerManagerImpl(getMongoTemplate());
+        businessCustomerService = new BusinessCustomerService(
+                businessCustomerManager,
+                bizService,
+                accountService
+        );
 
         tokenQueueMobileService = new TokenQueueMobileService(
                 tokenQueueService,
