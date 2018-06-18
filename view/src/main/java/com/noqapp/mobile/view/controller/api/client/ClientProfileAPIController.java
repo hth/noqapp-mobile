@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import com.google.api.client.json.Json;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.ParseJsonStringToMap;
@@ -133,10 +134,15 @@ public class ClientProfileAPIController {
         }
 
         try {
-            JsonProfile jsonProfile = JsonProfile.newInstance(
-                    userProfilePreferenceService.findByQueueUserId(qid),
-                    inviteService.getRemoteJoinCount(qid));
+            UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
+            JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, inviteService.getRemoteJoinCount(qid));
             jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
+
+            if (null != userProfile.getGuardianToQueueUserId()) {
+                for (String dependentsQid : userProfile.getGuardianToQueueUserId()) {
+                    jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(dependentsQid), 0));
+                }
+            }
 
             return jsonProfile.asJson();
         } catch(Exception e) {
@@ -236,10 +242,15 @@ public class ClientProfileAPIController {
                 userMedicalProfileService.save(userMedicalProfile);
             }
 
-            JsonProfile jsonProfile = JsonProfile.newInstance(
-                    userProfilePreferenceService.findByQueueUserId(qid),
-                    inviteService.getRemoteJoinCount(qid));
+            UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
+            JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, inviteService.getRemoteJoinCount(qid));
             jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
+
+            if (null != userProfile.getGuardianToQueueUserId()) {
+                for (String dependentsQid : userProfile.getGuardianToQueueUserId()) {
+                    jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(dependentsQid), 0));
+                }
+            }
 
             return jsonProfile.asJson();
         } catch (Exception e) {
@@ -355,6 +366,12 @@ public class ClientProfileAPIController {
 
                 JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, remoteJoin);
                 jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
+
+                if (null != userProfile.getGuardianToQueueUserId()) {
+                    for (String dependentsQid : userProfile.getGuardianToQueueUserId()) {
+                        jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(dependentsQid), 0));
+                    }
+                }
 
                 return jsonProfile.asJson();
             }
