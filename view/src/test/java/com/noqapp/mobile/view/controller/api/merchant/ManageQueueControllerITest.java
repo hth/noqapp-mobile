@@ -55,6 +55,8 @@ class ManageQueueControllerITest extends ITest {
                 businessUserStoreService,
                 tokenQueueService,
                 tokenQueueMobileService,
+                accountService,
+                businessCustomerService,
                 apiHealthService
         );
 
@@ -554,7 +556,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(1, jsonTopic.getTopics().iterator().next().getToken());
 
-        String dispenseToken1 = manageQueueController.dispenseToken(
+        String dispenseToken1 = manageQueueController.dispenseTokenWithoutClientInfo(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(queueUserAccount.getUserId()),
@@ -577,7 +579,7 @@ class ManageQueueControllerITest extends ITest {
                 httpServletResponse
         );
 
-        String dispenseToken2 = manageQueueController.dispenseToken(
+        String dispenseToken2 = manageQueueController.dispenseTokenWithoutClientInfo(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(queueUserAccount.getUserId()),
@@ -651,7 +653,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(0, jsonTopic.getTopics().iterator().next().getToken());
         assertEquals(bizStore.getCountryShortName() + UNDER_SCORE + bizStore.getCodeQR(), jsonTopic.getTopics().iterator().next().getTopic());
 
-        String dispenseToken1 = manageQueueController.dispenseToken(
+        String dispenseToken1 = manageQueueController.dispenseTokenWithoutClientInfo(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(queueUserAccount.getUserId()),
@@ -663,7 +665,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(QueueStatusEnum.C, jsonToken1.getQueueStatus());
         assertEquals(0, jsonToken1.getToken());
 
-        String dispenseToken2 = manageQueueController.dispenseToken(
+        String dispenseToken2 = manageQueueController.dispenseTokenWithoutClientInfo(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(queueUserAccount.getUserId()),
