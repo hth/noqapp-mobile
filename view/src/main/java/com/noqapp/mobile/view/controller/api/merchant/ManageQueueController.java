@@ -1,12 +1,16 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
+import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonBusinessCustomerLookup;
+import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
@@ -15,10 +19,14 @@ import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.JsonModifyQueue;
+import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.service.AccountService;
+import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
@@ -41,6 +49,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
@@ -49,6 +58,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_C
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 /**
@@ -74,6 +84,8 @@ public class ManageQueueController {
     private BusinessUserStoreService businessUserStoreService;
     private TokenQueueService tokenQueueService;
     private TokenQueueMobileService tokenQueueMobileService;
+    private AccountService accountService;
+    private BusinessCustomerService businessCustomerService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -87,6 +99,8 @@ public class ManageQueueController {
             BusinessUserStoreService businessUserStoreService,
             TokenQueueService tokenQueueService,
             TokenQueueMobileService tokenQueueMobileService,
+            AccountService accountService,
+            BusinessCustomerService businessCustomerService,
             ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -96,6 +110,8 @@ public class ManageQueueController {
         this.businessUserStoreService = businessUserStoreService;
         this.tokenQueueService = tokenQueueService;
         this.tokenQueueMobileService = tokenQueueMobileService;
+        this.accountService = accountService;
+        this.businessCustomerService = businessCustomerService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -766,7 +782,7 @@ public class ManageQueueController {
             value = "/dispenseToken/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String dispenseToken(
+    public String dispenseTokenWithoutClientInfo(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -789,7 +805,7 @@ public class ManageQueueController {
         LOG.info("Dispense Token by mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/mq/dispenseToken by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/mq/dispenseToken/{codeQR} by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -814,7 +830,104 @@ public class ManageQueueController {
         } finally {
             apiHealthService.insert(
                     "/dispenseToken/{codeQR}",
-                    "dispenseToken",
+                    "dispenseTokenWithoutClientInfo",
+                    ManageQueueController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /**
+     * When person walks in without phone or app. Merchant is capable of giving out token to walk-ins.
+     */
+    @PostMapping (
+            value = "/dispenseToken",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String dispenseTokenWithClientInfo(
+            @RequestHeader ("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput deviceType,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @RequestBody
+            String requestBodyJson,
+
+            HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Dispense Token by mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/mq/dispenseToken by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            JsonBusinessCustomerLookup businessCustomerLookup = new ObjectMapper().readValue(
+                    requestBodyJson,
+                    JsonBusinessCustomerLookup.class);
+
+            if (StringUtils.isBlank(businessCustomerLookup.getCodeQR())) {
+                LOG.warn("Not a valid codeQR={} qid={}", businessCustomerLookup.getCodeQR(), qid);
+                return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+            } else if (!businessUserStoreService.hasAccess(qid, businessCustomerLookup.getCodeQR())) {
+                LOG.info("Un-authorized store access to /api/m/mq/dispenseToken by mail={}", mail);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+                return null;
+            }
+
+            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(businessCustomerLookup.getCodeQR());
+            if (null == bizStore) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
+                return null;
+            }
+
+            UserProfileEntity userProfile = null;
+            if (StringUtils.isNotBlank(businessCustomerLookup.getCustomerPhone())) {
+                userProfile = accountService.checkUserExistsByPhone(businessCustomerLookup.getCustomerPhone());
+            } else if (StringUtils.isNotBlank(businessCustomerLookup.getBusinessCustomerId())) {
+                userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(
+                        businessCustomerLookup.getBusinessCustomerId(),
+                        bizStore.getBizName().getId());
+            }
+
+            if (null == userProfile) {
+                LOG.info("Failed user login as no user found with phone={} bc={}",
+                        businessCustomerLookup.getCustomerPhone(),
+                        businessCustomerLookup.getBusinessCustomerId());
+
+                Map<String, String> errors = new HashMap<>();
+                errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
+                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), businessCustomerLookup.getCustomerPhone());
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
+                return ErrorEncounteredJson.toJson(errors);
+            }
+
+            return tokenQueueMobileService.joinQueue(
+                    businessCustomerLookup.getCodeQR(),
+                    CommonUtil.appendRandomToDeviceId(did.getText()),
+                    userProfile.getQueueUserId(),
+                    bizStore.getAverageServiceTime(),
+                    TokenServiceEnum.M).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                    "/dispenseToken",
+                    "dispenseTokenWithClientInfo",
                     ManageQueueController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
