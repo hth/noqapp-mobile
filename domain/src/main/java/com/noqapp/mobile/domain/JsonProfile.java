@@ -12,6 +12,9 @@ import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.common.utils.Formatter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * User: hitender
  * Date: 3/25/17 2:05 AM
@@ -70,6 +73,10 @@ public class JsonProfile extends AbstractDomain {
 
     @JsonProperty ("mp")
     private JsonUserMedicalProfile jsonUserMedicalProfile;
+
+    /* Dependents can be anyone minor or other elderly family members. */
+    @JsonProperty ("dp")
+    private List<JsonProfile> dependents = new ArrayList<>();
 
     public JsonProfile() {
         //Required Default Constructor
@@ -174,6 +181,15 @@ public class JsonProfile extends AbstractDomain {
 
     public JsonProfile setJsonUserMedicalProfile(JsonUserMedicalProfile jsonUserMedicalProfile) {
         this.jsonUserMedicalProfile = jsonUserMedicalProfile;
+        return this;
+    }
+
+    public List<JsonProfile> getDependents() {
+        return dependents;
+    }
+
+    public JsonProfile addDependents(JsonProfile dependent) {
+        this.dependents.add(dependent);
         return this;
     }
 }

@@ -901,7 +901,7 @@ public class ManageQueueController {
             }
 
             if (null == userProfile) {
-                LOG.info("Failed user login as no user found with phone={} bc={}",
+                LOG.info("Failed joining queue as no user found with phone={} bc={}",
                         businessCustomerLookup.getCustomerPhone(),
                         businessCustomerLookup.getBusinessCustomerId());
 
