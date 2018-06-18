@@ -138,9 +138,9 @@ public class ClientProfileAPIController {
             JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, inviteService.getRemoteJoinCount(qid));
             jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
 
-            if (null != userProfile.getGuardianToQueueUserId()) {
-                for (String dependentsQid : userProfile.getGuardianToQueueUserId()) {
-                    jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(dependentsQid), 0));
+            if (null != userProfile.getQidOfDependents()) {
+                for (String qidOfDependent : userProfile.getQidOfDependents()) {
+                    jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(qidOfDependent), 0));
                 }
             }
 
@@ -246,9 +246,9 @@ public class ClientProfileAPIController {
             JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, inviteService.getRemoteJoinCount(qid));
             jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
 
-            if (null != userProfile.getGuardianToQueueUserId()) {
-                for (String dependentsQid : userProfile.getGuardianToQueueUserId()) {
-                    jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(dependentsQid), 0));
+            if (null != userProfile.getQidOfDependents()) {
+                for (String qidOfDependent : userProfile.getQidOfDependents()) {
+                    jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(qidOfDependent), 0));
                 }
             }
 
@@ -367,9 +367,9 @@ public class ClientProfileAPIController {
                 JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, remoteJoin);
                 jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
 
-                if (null != userProfile.getGuardianToQueueUserId()) {
-                    for (String dependentsQid : userProfile.getGuardianToQueueUserId()) {
-                        jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(dependentsQid), 0));
+                if (null != userProfile.getQidOfDependents()) {
+                    for (String qidOfDependent : userProfile.getQidOfDependents()) {
+                        jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(qidOfDependent), 0));
                     }
                 }
 
