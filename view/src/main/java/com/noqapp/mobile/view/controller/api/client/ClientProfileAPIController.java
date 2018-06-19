@@ -1,6 +1,5 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import com.google.api.client.json.Json;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.ParseJsonStringToMap;
@@ -22,7 +21,6 @@ import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.UserMedicalProfileValidator;
 import com.noqapp.service.AccountService;
-import com.noqapp.service.FileService;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
