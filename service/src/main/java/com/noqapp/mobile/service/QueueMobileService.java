@@ -127,7 +127,7 @@ public class QueueMobileService {
              * tokenService as null, and
              * guardianQid as null too.
              */
-            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, qid, null, 0, null);
+            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, qid, queue.getGuardianQid(), 0, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
