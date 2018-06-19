@@ -99,8 +99,10 @@ public class QueueMobileService {
             JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, null, null, 0, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
+            LOG.info("QID is {} should be null for did={}", queue.getQueueUserId(), did);
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
                     jsonToken.getToken(),
+                    null,
                     jsonToken.getQueueStatus(),
                     jsonQueue);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
@@ -133,6 +135,7 @@ public class QueueMobileService {
 
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
                     jsonToken.getToken(),
+                    queue.getQueueUserId(),
                     jsonToken.getQueueStatus(),
                     jsonQueue);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
@@ -310,6 +313,7 @@ public class QueueMobileService {
     private void reviewingService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved) {
         boolean reviewSubmitStatus = queueManager.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved);
         if (!reviewSubmitStatus) {
+            //TODO(hth) make sure for Guardian this is taken care. Right now its ignore "GQ" add to MySQL Table
             reviewSubmitStatus = reviewHistoricalService(codeQR, token, did, qid, ratingCount, hoursSaved);
         }
 
