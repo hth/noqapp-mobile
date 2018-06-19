@@ -365,6 +365,7 @@ public class TokenQueueAPIController {
         }
 
         try {
+            LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
             return tokenQueueMobileService.joinQueue(
                     joinQueue.getCodeQR(),
                     did.getText(),
