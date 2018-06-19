@@ -96,7 +96,7 @@ public class QueueMobileService {
              * Since we are fetching only queues that are joined, we can send averageServiceTime as zero, and
              * tokenService as null
              */
-            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, null, 0, null);
+            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, null, null, 0, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
@@ -123,10 +123,12 @@ public class QueueMobileService {
             
             /*
              * Join Queue will join if user is not joined, hence fetch only queues with status is Queued.
-             * Since we are fetching only queues that are joined, we can send averageServiceTime as zero, and
-             * tokenService as null
+             * Since we are fetching only queues that are joined, we can send
+             * averageServiceTime as zero, and
+             * tokenService as null, and
+             * guardianQid as null too.
              */
-            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, qid, 0, null);
+            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, qid, null, 0, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(

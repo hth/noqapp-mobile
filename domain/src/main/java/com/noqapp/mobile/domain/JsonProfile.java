@@ -34,7 +34,10 @@ import java.util.List;
 @JsonPropertyOrder (alphabetic = true)
 @JsonIgnoreProperties (ignoreUnknown = true)
 //@JsonInclude (JsonInclude.Include.NON_NULL)
-public class JsonProfile extends AbstractDomain {
+public final class JsonProfile extends AbstractDomain {
+    @JsonProperty ("qid")
+    private String queueUserId;
+
     @JsonProperty ("pi")
     private String profileImage;
 
@@ -83,6 +86,7 @@ public class JsonProfile extends AbstractDomain {
     }
 
     private JsonProfile(
+            String queueUserId,
             String profileImage,
             String name,
             String mail,
@@ -96,6 +100,7 @@ public class JsonProfile extends AbstractDomain {
             UserLevelEnum userLevel,
             int remoteJoin
     ) {
+        this.queueUserId = queueUserId;
         this.profileImage = profileImage;
         this.name = name;
         this.mail = mail;
@@ -112,6 +117,7 @@ public class JsonProfile extends AbstractDomain {
 
     public static JsonProfile newInstance(UserProfileEntity userProfile, int remoteJoin) {
         return new JsonProfile(
+                userProfile.getQueueUserId(),
                 userProfile.getProfileImage(),
                 userProfile.getName(),
                 userProfile.getEmail(),
@@ -125,6 +131,10 @@ public class JsonProfile extends AbstractDomain {
                 userProfile.getLevel(),
                 remoteJoin
         );
+    }
+
+    public String getQueueUserId() {
+        return queueUserId;
     }
 
     public String getProfileImage() {

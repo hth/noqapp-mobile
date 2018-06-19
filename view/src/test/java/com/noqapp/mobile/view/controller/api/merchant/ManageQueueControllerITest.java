@@ -15,6 +15,7 @@ import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.mobile.domain.JsonModifyQueue;
+import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.domain.body.merchant.Served;
 import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController;
@@ -113,7 +114,7 @@ class ManageQueueControllerITest extends ITest {
             new ScrubbedInput(deviceType),
             new ScrubbedInput(userAccount1.getUserId()),
             new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
-            new ScrubbedInput(bizStore.getCodeQR()),
+            new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()).asJson(),
             httpServletResponse
         );
 
@@ -124,7 +125,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
-                new ScrubbedInput(bizStore.getCodeQR()),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()).asJson(),
                 httpServletResponse
         );
 
@@ -316,7 +317,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount1.getUserId()),
                 new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
-                new ScrubbedInput(bizStore.getCodeQR()),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()).asJson(),
                 httpServletResponse
         );
 
@@ -327,7 +328,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
-                new ScrubbedInput(bizStore.getCodeQR()),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()).asJson(),
                 httpServletResponse
         );
 
@@ -384,7 +385,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount1.getUserId()),
                 new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
-                new ScrubbedInput(bizStore.getCodeQR()),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()).asJson(),
                 httpServletResponse
         );
 
@@ -395,7 +396,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
-                new ScrubbedInput(bizStore.getCodeQR()),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()).asJson(),
                 httpServletResponse
         );
 
@@ -449,7 +450,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount1.getUserId()),
                 new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
-                new ScrubbedInput(bizStore.getCodeQR()),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()).asJson(),
                 httpServletResponse
         );
 
@@ -460,7 +461,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
-                new ScrubbedInput(bizStore.getCodeQR()),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()).asJson(),
                 httpServletResponse
         );
 
@@ -535,7 +536,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount1.getUserId()),
                 new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
-                new ScrubbedInput(bizStore.getCodeQR()),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()).asJson(),
                 httpServletResponse
         );
 
@@ -575,7 +576,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
-                new ScrubbedInput(bizStore.getCodeQR()),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()).asJson(),
                 httpServletResponse
         );
 
@@ -630,7 +631,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount1.getUserId()),
                 new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
-                new ScrubbedInput(bizStore.getCodeQR()),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()).asJson(),
                 httpServletResponse
         );
         JsonToken jsonToken = new ObjectMapper().readValue(joinQueue, JsonToken.class);

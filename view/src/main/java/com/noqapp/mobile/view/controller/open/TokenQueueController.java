@@ -323,6 +323,7 @@ public class TokenQueueController {
                     codeQR.getText(),
                     did.getText(),
                     null,
+                    null,
                     bizStore.getAverageServiceTime(),
                     TokenServiceEnum.C).asJson();
         } catch (Exception e) {
