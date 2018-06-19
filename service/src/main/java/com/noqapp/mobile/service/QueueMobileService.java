@@ -127,20 +127,20 @@ public class QueueMobileService {
              * tokenService as null, and
              * guardianQid as null too.
              */
-            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, qid, queue.getGuardianQid(), 0, null);
+            //JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, qid, queue.getGuardianQid(), 0, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
-                    jsonToken.getToken(),
+                    queue.getTokenNumber(),
                     queue.getQueueUserId(),
-                    jsonToken.getQueueStatus(),
+                    tokenQueueMobileService.findByCodeQR(queue.getCodeQR()).getQueueStatus(),
                     jsonQueue);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
 
         JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
         jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
-        LOG.info("Current queue={} rid={} did={}", jsonTokenAndQueueList, qid, did);
+        LOG.info("Current queue={} qid={} did={}", jsonTokenAndQueueList, qid, did);
 
         return jsonTokenAndQueueList;
     }
