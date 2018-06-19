@@ -449,7 +449,7 @@ class ManageQueueControllerTest {
 
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
         when(tokenQueueMobileService.getBizService().findByCodeQR(anyString())).thenReturn(new BizStoreEntity().setAverageServiceTime(100));
-        when(tokenQueueMobileService.joinQueue(anyString(), anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(jsonToken);
+        when(tokenQueueMobileService.joinQueue(anyString(), anyString(), anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(jsonToken);
 
         String responseJson = manageQueueController.dispenseTokenWithoutClientInfo(
                 new ScrubbedInput(""),

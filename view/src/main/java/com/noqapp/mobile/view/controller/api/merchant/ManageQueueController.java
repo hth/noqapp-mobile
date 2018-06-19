@@ -820,6 +820,7 @@ public class ManageQueueController {
                     codeQR.getText(),
                     CommonUtil.appendRandomToDeviceId(did.getText()),
                     null,
+                    null,
                     bizStore.getAverageServiceTime(),
                     TokenServiceEnum.M).asJson();
         } catch (Exception e) {
@@ -913,10 +914,16 @@ public class ManageQueueController {
                 return ErrorEncounteredJson.toJson(errors);
             }
 
+            String guardianQid = null;
+            if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
+                guardianQid = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone()).getQueueUserId();
+            }
+
             return tokenQueueMobileService.joinQueue(
                     businessCustomerLookup.getCodeQR(),
                     CommonUtil.appendRandomToDeviceId(did.getText()),
                     userProfile.getQueueUserId(),
+                    guardianQid,
                     bizStore.getAverageServiceTime(),
                     TokenServiceEnum.M).asJson();
         } catch (Exception e) {

@@ -1,13 +1,16 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.json.JsonBusinessCustomerLookup;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
@@ -326,16 +329,9 @@ public class TokenQueueAPIController {
 
     /**
      * Join the queue.
-     *
-     * @param did
-     * @param deviceType
-     * @param codeQR
-     * @param response
-     * @return
-     * @throws IOException
      */
     @PostMapping (
-            value = "/queue/{codeQR}",
+            value = "/queue",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String joinQueue(
@@ -351,17 +347,18 @@ public class TokenQueueAPIController {
             @RequestHeader ("X-R-AUTH")
             ScrubbedInput auth,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+            @RequestBody
+            String requestBodyJson,
 
             HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
-        LOG.info("Join queue did={} dt={} codeQR={}", did, deviceType, codeQR);
+        LOG.info("Join queue did={} dt={}", did, deviceType);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(codeQR.getText());
+        JoinQueue joinQueue = new ObjectMapper().readValue(requestBodyJson, JoinQueue.class);
+        BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(joinQueue.getCodeQR());
         if (null == bizStore) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
             return null;
@@ -369,15 +366,16 @@ public class TokenQueueAPIController {
 
         try {
             return tokenQueueMobileService.joinQueue(
-                    codeQR.getText(),
+                    joinQueue.getCodeQR(),
                     did.getText(),
-                    qid,
+                    joinQueue.getQueueUserId(),
+                    joinQueue.getGuardianQid(),
                     bizStore.getAverageServiceTime(),
                     TokenServiceEnum.C).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
-                    "/queue/{codeQR}",
+                    "/queue",
                     "joinQueue",
                     TokenQueueAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
@@ -385,7 +383,7 @@ public class TokenQueueAPIController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/queue/{codeQR}",
+                    "/queue",
                     "joinQueue",
                     TokenQueueAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
@@ -533,71 +531,71 @@ public class TokenQueueAPIController {
      * @return
      * @throws IOException
      */
-    @PostMapping (
-            value = "/remote/queue/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
-    )
-    public String remoteJoinQueue(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
-
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
-
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
-
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
-
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
-
-            HttpServletResponse response
-    ) throws IOException {
-        Instant start = Instant.now();
-        LOG.info("Join queue did={} dt={} codeQR={}", did, deviceType, codeQR);
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid)) return null;
-
-        BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(codeQR.getText());
-        if (null == bizStore) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
-            return null;
-        }
-
-        try {
-            if (0 < inviteService.getRemoteJoinCount(qid)) {
-                String jsonToken = tokenQueueMobileService.joinQueue(
-                        codeQR.getText(),
-                        did.getText(),
-                        qid,
-                        bizStore.getAverageServiceTime(),
-                        TokenServiceEnum.C).asJson();
-                inviteService.deductRemoteJoinCount(qid);
-                return jsonToken;
-            } else {
-                LOG.warn("Failed joining queue rid={}, remoteJoin={}, means not available", qid, 0);
-                return getErrorReason("Remote Join not available.", REMOTE_JOIN_EMPTY);
-            }
-        } catch (Exception e) {
-            LOG.error("Failed joining queue rid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/remote/queue/{codeQR}",
-                    "remoteJoinQueue",
-                    TokenQueueAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
-        } finally {
-            apiHealthService.insert(
-                    "/remote/queue/{codeQR}",
-                    "remoteJoinQueue",
-                    TokenQueueAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
-        }
-    }
+//    @PostMapping (
+//            value = "/remote/queue/{codeQR}",
+//            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+//    )
+//    public String remoteJoinQueue(
+//            @RequestHeader ("X-R-DID")
+//            ScrubbedInput did,
+//
+//            @RequestHeader ("X-R-DT")
+//            ScrubbedInput deviceType,
+//
+//            @RequestHeader ("X-R-MAIL")
+//            ScrubbedInput mail,
+//
+//            @RequestHeader ("X-R-AUTH")
+//            ScrubbedInput auth,
+//
+//            @PathVariable ("codeQR")
+//            ScrubbedInput codeQR,
+//
+//            HttpServletResponse response
+//    ) throws IOException {
+//        Instant start = Instant.now();
+//        LOG.info("Join queue did={} dt={} codeQR={}", did, deviceType, codeQR);
+//        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+//        if (authorizeRequest(response, qid)) return null;
+//
+//        BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(codeQR.getText());
+//        if (null == bizStore) {
+//            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+//            return null;
+//        }
+//
+//        try {
+//            if (0 < inviteService.getRemoteJoinCount(qid)) {
+//                String jsonToken = tokenQueueMobileService.joinQueue(
+//                        codeQR.getText(),
+//                        did.getText(),
+//                        qid,
+//                        bizStore.getAverageServiceTime(),
+//                        TokenServiceEnum.C).asJson();
+//                inviteService.deductRemoteJoinCount(qid);
+//                return jsonToken;
+//            } else {
+//                LOG.warn("Failed joining queue rid={}, remoteJoin={}, means not available", qid, 0);
+//                return getErrorReason("Remote Join not available.", REMOTE_JOIN_EMPTY);
+//            }
+//        } catch (Exception e) {
+//            LOG.error("Failed joining queue rid={}, reason={}", qid, e.getLocalizedMessage(), e);
+//            apiHealthService.insert(
+//                    "/remote/queue/{codeQR}",
+//                    "remoteJoinQueue",
+//                    TokenQueueAPIController.class.getName(),
+//                    Duration.between(start, Instant.now()),
+//                    HealthStatusEnum.F);
+//            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+//        } finally {
+//            apiHealthService.insert(
+//                    "/remote/queue/{codeQR}",
+//                    "remoteJoinQueue",
+//                    TokenQueueAPIController.class.getName(),
+//                    Duration.between(start, Instant.now()),
+//                    HealthStatusEnum.G);
+//        }
+//    }
 
     static boolean authorizeRequest(HttpServletResponse response, String qid) throws IOException {
         if (null == qid) {
