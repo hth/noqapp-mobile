@@ -78,7 +78,7 @@ public class ClientProfileAPIController {
     private InviteService inviteService;
     private ApiHealthService apiHealthService;
     private AccountClientValidator accountClientValidator;
-    private AccountService accountService;
+    private AccountMobileService accountMobileService;
     private UserAddressService userAddressService;
     private UserMedicalProfileValidator userMedicalProfileValidator;
     private UserMedicalProfileService userMedicalProfileService;
@@ -91,7 +91,7 @@ public class ClientProfileAPIController {
             InviteService inviteService,
             ApiHealthService apiHealthService,
             AccountClientValidator accountClientValidator,
-            AccountService accountService,
+            AccountMobileService accountMobileService,
             UserAddressService userAddressService,
             UserMedicalProfileValidator userMedicalProfileValidator,
             UserMedicalProfileService userMedicalProfileService,
@@ -102,7 +102,7 @@ public class ClientProfileAPIController {
         this.inviteService = inviteService;
         this.apiHealthService = apiHealthService;
         this.accountClientValidator = accountClientValidator;
-        this.accountService = accountService;
+        this.accountMobileService = accountMobileService;
         this.userAddressService = userAddressService;
         this.userMedicalProfileValidator = userMedicalProfileValidator;
         this.userMedicalProfileService = userMedicalProfileService;
@@ -132,17 +132,7 @@ public class ClientProfileAPIController {
         }
 
         try {
-            UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
-            JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, inviteService.getRemoteJoinCount(qid));
-            jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
-
-            if (null != userProfile.getQidOfDependents()) {
-                for (String qidOfDependent : userProfile.getQidOfDependents()) {
-                    jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(qidOfDependent), 0));
-                }
-            }
-
-            return jsonProfile.asJson();
+            return accountMobileService.getProfileAsJson(qid);
         } catch(Exception e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -240,17 +230,7 @@ public class ClientProfileAPIController {
                 userMedicalProfileService.save(userMedicalProfile);
             }
 
-            UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
-            JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, inviteService.getRemoteJoinCount(qid));
-            jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
-
-            if (null != userProfile.getQidOfDependents()) {
-                for (String qidOfDependent : userProfile.getQidOfDependents()) {
-                    jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(qidOfDependent), 0));
-                }
-            }
-
-            return jsonProfile.asJson();
+            return accountMobileService.getProfileAsJson(qid);
         } catch (Exception e) {
             LOG.error("Failed updating user medical profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -329,7 +309,7 @@ public class ClientProfileAPIController {
                 }
 
                 LOG.debug("Check if existing user phone={}", phone);
-                UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
+                UserProfileEntity userProfile = accountMobileService.checkUserExistsByPhone(phone);
                 if (null != userProfile) {
                     LOG.info("Failed user login as user found with phone={} cs={}", phone, countryShortName);
                     errors = new HashMap<>();
@@ -342,8 +322,8 @@ public class ClientProfileAPIController {
 
                 UserAccountEntity userAccount;
                 try {
-                    String updateAuthenticationKey = accountService.updatePhoneNumber(qid, phone, countryShortName, timeZone);
-                    userAccount = accountService.findByQueueUserId(qid);
+                    String updateAuthenticationKey = accountMobileService.updatePhoneNumber(qid, phone, countryShortName, timeZone);
+                    userAccount = accountMobileService.findByQueueUserId(qid);
                     response.addHeader("X-R-MAIL", userAccount.getUserId());
                     response.addHeader("X-R-AUTH", updateAuthenticationKey);
 

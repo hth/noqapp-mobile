@@ -66,8 +66,6 @@ public class AccountClientController {
 
     private AccountService accountService;
     private AccountMobileService accountMobileService;
-    private UserProfilePreferenceService userProfilePreferenceService;
-    private InviteService inviteService;
     private AccountClientValidator accountClientValidator;
     private DeviceService deviceService;
 
@@ -75,15 +73,11 @@ public class AccountClientController {
     public AccountClientController(
             AccountService accountService,
             AccountMobileService accountMobileService,
-            UserProfilePreferenceService userProfilePreferenceService,
-            InviteService inviteService,
             AccountClientValidator accountClientValidator,
             DeviceService deviceService
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
-        this.userProfilePreferenceService = userProfilePreferenceService;
-        this.inviteService = inviteService;
         this.accountClientValidator = accountClientValidator;
         this.deviceService = deviceService;
     }
@@ -226,12 +220,7 @@ public class AccountClientController {
                         return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                     }
                     deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
-
-                    userProfile = userProfilePreferenceService.findByQueueUserId(userAccount.getQueueUserId());
-                    int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getQueueUserId());
-                    LOG.info("Remote join available={}", remoteJoin);
-
-                    return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
+                    return accountMobileService.getProfileAsJson(userAccount.getQueueUserId());
                 } catch (DuplicateAccountException e) {
                     LOG.info("Failed user registration as already exists phone={} mail={}", phone, mail);
                     errors = new HashMap<>();
@@ -263,7 +252,7 @@ public class AccountClientController {
     }
 
     //TODO recover is based on phone number. When number already exists then ask which of the stores the user visited.
-    //on bad answer, reset account data instead of showing old data.
+    //on bad answer, mark account data old with some number and let the user create new data.
 
     @PostMapping(
             value = "/login",
@@ -353,10 +342,7 @@ public class AccountClientController {
                         return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                     }
                     deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
-                    int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getQueueUserId());
-                    LOG.info("Remote join available={}", remoteJoin);
-
-                    return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
+                    return accountMobileService.getProfileAsJson(userAccount.getQueueUserId());
                 } catch (Exception e) {
                     LOG.error("Failed login for phone={} cs={} reason={}", phone, countryShortName, e.getLocalizedMessage(), e);
 
@@ -379,7 +365,7 @@ public class AccountClientController {
         }
     }
 
-    private Set<String> invalidElementsInMapDuringRegistration(Map<String, ScrubbedInput> map) {
+    public static Set<String> invalidElementsInMapDuringRegistration(Map<String, ScrubbedInput> map) {
         Set<String> keys = new HashSet<>(map.keySet());
         List<ACCOUNT_REGISTRATION> enums = new ArrayList<>(Arrays.asList(ACCOUNT_REGISTRATION.values()));
         for (ACCOUNT_REGISTRATION registration : enums) {

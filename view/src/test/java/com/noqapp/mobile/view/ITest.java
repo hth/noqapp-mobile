@@ -17,6 +17,9 @@ import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.repository.ApiHealthNowManager;
 import com.noqapp.health.repository.ApiHealthNowManagerImpl;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.repository.UserMedicalProfileManager;
+import com.noqapp.medical.repository.UserMedicalProfileManagerImpl;
+import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.repository.BusinessCustomerManager;
 import com.noqapp.repository.BusinessCustomerManagerImpl;
 import com.noqapp.repository.ProfessionalProfileManager;
@@ -162,9 +165,11 @@ public class ITest extends RealMongoForITest {
     protected BusinessUserService businessUserService;
     protected BusinessUserManager businessUserManager;
     protected ProfessionalProfileManager professionalProfileManager;
+    protected UserMedicalProfileManager userMedicalProfileManager;
 
     protected BusinessCustomerManager businessCustomerManager;
     protected BusinessCustomerService businessCustomerService;
+    protected UserMedicalProfileService userMedicalProfileService;
 
     protected ApiHealthService apiHealthService;
     protected ApiHealthNowManager apiHealthNowManager;
@@ -206,6 +211,8 @@ public class ITest extends RealMongoForITest {
         inviteService = new InviteService(inviteManager);
         forgotRecoverManager = new ForgotRecoverManagerImpl(getMongoTemplate());
         registeredDeviceManager = new RegisteredDeviceManagerImpl(getMongoTemplate());
+        userMedicalProfileManager = new UserMedicalProfileManagerImpl(getMongoTemplate());
+        userMedicalProfileService = new UserMedicalProfileService(userMedicalProfileManager);
 
         accountService = new AccountService(
                 5,
@@ -231,7 +238,8 @@ public class ITest extends RealMongoForITest {
         accountMobileService = new AccountMobileService(
                 "/webapi/mobile/mail/accountSignup.htm",
                 webConnectorService,
-                accountService
+                accountService,
+                userMedicalProfileService
         );
 
         userProfilePreferenceService = new UserProfilePreferenceService(
@@ -335,8 +343,6 @@ public class ITest extends RealMongoForITest {
         accountClientController = new AccountClientController(
                 accountService,
                 accountMobileService,
-                userProfilePreferenceService,
-                inviteService,
                 accountClientValidator,
                 deviceService
         );

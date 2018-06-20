@@ -42,8 +42,6 @@ class AccountClientControllerITest extends ITest {
         accountClientController = new AccountClientController(
                 accountService,
                 accountMobileService,
-                userProfilePreferenceService,
-                inviteService,
                 accountClientValidator,
                 deviceService
         );
