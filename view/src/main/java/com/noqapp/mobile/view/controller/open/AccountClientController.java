@@ -92,7 +92,7 @@ public class AccountClientController {
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
-            @RequestHeader (value = "X-R-DT")
+            @RequestHeader ("X-R-DT")
             ScrubbedInput deviceType,
 
             @RequestBody
@@ -207,7 +207,8 @@ public class AccountClientController {
                             countryShortName,
                             timeZone,
                             password,
-                            inviteCode
+                            inviteCode,
+                            false
                     );
                     response.addHeader("X-R-MAIL", userAccount.getUserId());
                     response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
@@ -264,7 +265,7 @@ public class AccountClientController {
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
-            @RequestHeader (value = "X-R-DT")
+            @RequestHeader ("X-R-DT")
             ScrubbedInput deviceType,
 
             @RequestBody

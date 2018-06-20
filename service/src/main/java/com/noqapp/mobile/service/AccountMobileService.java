@@ -140,7 +140,8 @@ public class AccountMobileService {
             String countryShortName,
             String timeZone,
             String password,
-            String inviteCode
+            String inviteCode,
+            boolean dependent
     ) {
         UserAccountEntity userAccount;
         try {
@@ -157,7 +158,7 @@ public class AccountMobileService {
                     password,
                     inviteCode,
                     true,
-                    false);
+                    dependent);
             Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getQueueUserId());
         } catch (DuplicateAccountException e) {
