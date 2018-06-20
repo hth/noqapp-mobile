@@ -2,7 +2,10 @@ package com.noqapp.mobile.service;
 
 import com.google.gson.Gson;
 
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.GenderEnum;
+import com.noqapp.medical.service.UserMedicalProfileService;
+import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -46,6 +49,7 @@ public class AccountMobileService {
 
     private WebConnectorService webConnectorService;
     private AccountService accountService;
+    private UserMedicalProfileService userMedicalProfileService;
 
     @Autowired
     public AccountMobileService(
@@ -53,12 +57,14 @@ public class AccountMobileService {
             String accountSignupEndPoint,
 
             WebConnectorService webConnectorService,
-            AccountService accountService
+            AccountService accountService,
+            UserMedicalProfileService userMedicalProfileService
     ) {
         this.accountValidationEndPoint = accountSignupEndPoint;
 
         this.webConnectorService = webConnectorService;
         this.accountService = accountService;
+        this.userMedicalProfileService = userMedicalProfileService;
     }
 
     /**
@@ -240,6 +246,20 @@ public class AccountMobileService {
         return accountService.findByQueueUserId(qid);
     }
 
+    public String getProfileAsJson(String qid) {
+        UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
+        JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, 0);
+        jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
+
+        if (null != userProfile.getQidOfDependents()) {
+            for (String qidOfDependent : userProfile.getQidOfDependents()) {
+                jsonProfile.addDependents(JsonProfile.newInstance(accountService.findProfileByQueueUserId(qidOfDependent), 0));
+            }
+        }
+
+        return jsonProfile.asJson();
+    }
+
     /**
      * Create Request Body.
      *
@@ -253,6 +273,14 @@ public class AccountMobileService {
                         ContentType.create(MediaType.APPLICATION_JSON_VALUE, "UTF-8")
                 )
         );
+    }
+
+    public String updatePhoneNumber(String qid, String phone, String countryShortName, String timeZone) {
+        return accountService.updatePhoneNumber(qid, phone, countryShortName, timeZone);
+    }
+
+    public UserProfileEntity checkUserExistsByPhone(String phone) {
+        return accountService.checkUserExistsByPhone(phone);
     }
 
     public enum ACCOUNT_REGISTRATION_MERCHANT {
