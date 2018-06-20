@@ -92,7 +92,6 @@ class AccountClientControllerITest extends ITest {
         assertEquals("1800 000 0010", jsonProfile.getPhoneRaw());
         assertEquals("Asia/Calcutta", jsonProfile.getTimeZone());
         assertNotNull(jsonProfile.getInviteCode());
-        assertEquals(5, 0);
         assertEquals("2000-12-12", jsonProfile.getBirthday());
         assertEquals(GenderEnum.M, jsonProfile.getGender());
         assertEquals(UserLevelEnum.CLIENT, jsonProfile.getUserLevel());
@@ -121,7 +120,6 @@ class AccountClientControllerITest extends ITest {
         assertEquals("1800 000 0010", jsonProfile.getPhoneRaw());
         assertEquals("Asia/Calcutta", jsonProfile.getTimeZone());
         assertNotNull(jsonProfile.getInviteCode());
-        assertEquals(5, 0);
         assertEquals("2000-12-12", jsonProfile.getBirthday());
         assertEquals(GenderEnum.M, jsonProfile.getGender());
         assertEquals(UserLevelEnum.CLIENT, jsonProfile.getUserLevel());
