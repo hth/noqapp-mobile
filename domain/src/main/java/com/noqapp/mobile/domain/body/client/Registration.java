@@ -25,6 +25,9 @@ import com.noqapp.common.utils.AbstractDomain;
 @JsonPropertyOrder(alphabetic = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Registration extends AbstractDomain {
+    @JsonProperty("QID")
+    private String queueUserId;
+
     @JsonProperty("PH")
     private String phone;
 
@@ -51,6 +54,15 @@ public class Registration extends AbstractDomain {
 
     @JsonProperty("IC")
     private String inviteCode;
+
+    public String getQueueUserId() {
+        return queueUserId;
+    }
+
+    public Registration setQueueUserId(String queueUserId) {
+        this.queueUserId = queueUserId;
+        return this;
+    }
 
     public String getPhone() {
         return phone;

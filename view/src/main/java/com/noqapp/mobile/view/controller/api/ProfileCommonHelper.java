@@ -62,7 +62,6 @@ public class ProfileCommonHelper {
     private AccountClientValidator accountClientValidator;
     private AccountService accountService;
     private UserProfilePreferenceService userProfilePreferenceService;
-    private InviteService inviteService;
     private FileService fileService;
     private ApiHealthService apiHealthService;
 
@@ -72,7 +71,6 @@ public class ProfileCommonHelper {
             AccountClientValidator accountClientValidator,
             AccountService accountService,
             UserProfilePreferenceService userProfilePreferenceService,
-            InviteService inviteService,
             FileService fileService,
             ApiHealthService apiHealthService
     ) {
@@ -80,26 +78,21 @@ public class ProfileCommonHelper {
         this.accountClientValidator = accountClientValidator;
         this.accountService = accountService;
         this.userProfilePreferenceService = userProfilePreferenceService;
-        this.inviteService = inviteService;
         this.fileService = fileService;
         this.apiHealthService = apiHealthService;
     }
 
-    public String updateProfile(
-            ScrubbedInput mail,
-            ScrubbedInput auth,
-            String registrationJson,
-            HttpServletResponse response
-    ) throws IOException {
-
+    /**
+     * Update profile does not change phone number or email address.
+     *
+     * @param qidOfSubmitter
+     * @param registrationJson
+     * @param response
+     * @return
+     */
+    private String updateProfile(String qidOfSubmitter, String registrationJson, HttpServletResponse response) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
 
         Map<String, ScrubbedInput> map;
         try {
@@ -110,6 +103,7 @@ public class ProfileCommonHelper {
         }
 
         Map<String, String> errors;
+        String qid = null;
         try {
             if (map.isEmpty()) {
                 /* Validation failure as there is no data in the map. */
@@ -129,7 +123,21 @@ public class ProfileCommonHelper {
                 }
 
                 /* Required. But not changing the phone number. For that we have phone migrate API. */
+                qid = map.get(AccountMobileService.ACCOUNT_UPDATE.QID.name()).getText();
                 UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
+                if (!qidOfSubmitter.equalsIgnoreCase(userProfile.getQueueUserId())) {
+                    UserProfileEntity userProfileGuardian = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone());
+
+                    if (!qidOfSubmitter.equalsIgnoreCase(userProfileGuardian.getQueueUserId())) {
+                        LOG.info("Profile user does not match with QID of submitter nor is a guardian {} {}",
+                                qidOfSubmitter,
+                                userProfileGuardian.getQueueUserId());
+
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+                        return null;
+                    }
+                }
+
                 String phone = userProfile.getPhone();
                 /* Required. */
                 String firstName = WordUtils.capitalize(map.get(AccountMobileService.ACCOUNT_UPDATE.FN.name()).getText());
@@ -152,7 +160,7 @@ public class ProfileCommonHelper {
                 errors = accountClientValidator.validate(
                         phone,
                         map.get(AccountMobileService.ACCOUNT_UPDATE.FN.name()).getText(),
-                        mail.getText(),
+                        userProfile.getEmail(),
                         birthday.getText(),
                         gender,
                         countryShortName,
@@ -164,7 +172,7 @@ public class ProfileCommonHelper {
                 }
 
                 RegisterUser registerUser = new RegisterUser()
-                        .setEmail(mail)
+                        .setEmail(new ScrubbedInput(userProfile.getEmail()))
                         .setQueueUserId(qid)
                         .setFirstName(new ScrubbedInput(firstName))
                         .setLastName(new ScrubbedInput(lastName))
@@ -175,14 +183,11 @@ public class ProfileCommonHelper {
                         .setCountryShortName(new ScrubbedInput(countryShortName))
                         .setTimeZone(timeZone)
                         .setPhone(new ScrubbedInput(phone));
-                accountService.updateUserProfile(registerUser, mail.getText());
+                accountService.updateUserProfile(registerUser, userProfile.getEmail());
             }
 
             UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
-            int remoteJoin = inviteService.getRemoteJoinCount(qid);
-            LOG.info("Remote join available={}", remoteJoin);
-
-            return JsonProfile.newInstance(userProfile, remoteJoin).asJson();
+            return JsonProfile.newInstance(userProfile, 0).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -195,6 +200,23 @@ public class ProfileCommonHelper {
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
+    }
+
+    public String updateProfile(
+            ScrubbedInput mail,
+            ScrubbedInput auth,
+            String registrationJson,
+            HttpServletResponse response
+    ) throws IOException {
+        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        String qidOfSubmitter = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qidOfSubmitter) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        LOG.info("Profile update being performed by qidOfSubmitter={}", qidOfSubmitter);
+        return updateProfile(qidOfSubmitter, registrationJson, response);
     }
 
     public String uploadProfileImage(
