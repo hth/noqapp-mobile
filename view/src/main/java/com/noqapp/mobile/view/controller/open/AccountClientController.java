@@ -383,6 +383,9 @@ public class AccountClientController {
             keys.remove(account_registration_merchant.name());
         }
 
+        //Remove ACCOUNT_UPDATE.QID for registration
+        keys.remove(AccountMobileService.ACCOUNT_UPDATE.QID.name());
+
         return keys;
     }
 
