@@ -91,7 +91,7 @@ public class DependentAPIController {
         this.apiHealthService = apiHealthService;
     }
 
-    /** Add purchase when user presses confirm. */
+    /** Add dependent. */
     @PostMapping(
             value = "/add",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
