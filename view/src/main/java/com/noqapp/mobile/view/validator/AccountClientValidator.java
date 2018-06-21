@@ -84,7 +84,7 @@ public class AccountClientValidator {
         return errors;
     }
 
-    public Map<String, String> validate(
+    public Map<String, String> validateWithPassword(
             String phone,
             String firstName,
             String mail,
@@ -101,7 +101,8 @@ public class AccountClientValidator {
         return errors;
     }
 
-    public Map<String, String> validate(
+    /* Validation of migration of phone in account. */
+    public Map<String, String> validateForPhoneMigration(
             String phone,
             String countryShortName
     ) {

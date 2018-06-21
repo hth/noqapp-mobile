@@ -12,15 +12,12 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
-import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.client.ClientProfileAPIController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.FileService;
-import com.noqapp.service.InviteService;
-import com.noqapp.service.UserProfilePreferenceService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
 import org.slf4j.Logger;
@@ -61,7 +58,7 @@ public class ProfileCommonHelper {
     private AuthenticateMobileService authenticateMobileService;
     private AccountClientValidator accountClientValidator;
     private AccountService accountService;
-    private UserProfilePreferenceService userProfilePreferenceService;
+    private AccountMobileService accountMobileService;
     private FileService fileService;
     private ApiHealthService apiHealthService;
 
@@ -70,14 +67,14 @@ public class ProfileCommonHelper {
             AuthenticateMobileService authenticateMobileService,
             AccountClientValidator accountClientValidator,
             AccountService accountService,
-            UserProfilePreferenceService userProfilePreferenceService,
+            AccountMobileService accountMobileService,
             FileService fileService,
             ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.accountClientValidator = accountClientValidator;
         this.accountService = accountService;
-        this.userProfilePreferenceService = userProfilePreferenceService;
+        this.accountMobileService = accountMobileService;
         this.fileService = fileService;
         this.apiHealthService = apiHealthService;
     }
@@ -86,19 +83,19 @@ public class ProfileCommonHelper {
      * Update profile does not change phone number or email address.
      *
      * @param qidOfSubmitter
-     * @param registrationJson
+     * @param updateProfileJson
      * @param response
      * @return
      */
-    private String updateProfile(String qidOfSubmitter, String registrationJson, HttpServletResponse response) {
+    private String updateProfile(String qidOfSubmitter, String updateProfileJson, HttpServletResponse response) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
 
         Map<String, ScrubbedInput> map;
         try {
-            map = ParseJsonStringToMap.jsonStringToMap(registrationJson);
+            map = ParseJsonStringToMap.jsonStringToMap(updateProfileJson);
         } catch (IOException e) {
-            LOG.error("Could not parse json={} reason={}", registrationJson, e.getLocalizedMessage(), e);
+            LOG.error("Could not parse json={} reason={}", updateProfileJson, e.getLocalizedMessage(), e);
             return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
         }
 
@@ -186,8 +183,7 @@ public class ProfileCommonHelper {
                 accountService.updateUserProfile(registerUser, userProfile.getEmail());
             }
 
-            UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
-            return JsonProfile.newInstance(userProfile, 0).asJson();
+            return accountMobileService.getProfileAsJson(qid);
         } catch (Exception e) {
             LOG.error("Failed updating profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -205,7 +201,7 @@ public class ProfileCommonHelper {
     public String updateProfile(
             ScrubbedInput mail,
             ScrubbedInput auth,
-            String registrationJson,
+            String updateProfileJson,
             HttpServletResponse response
     ) throws IOException {
         LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
@@ -216,7 +212,7 @@ public class ProfileCommonHelper {
         }
 
         LOG.info("Profile update being performed by qidOfSubmitter={}", qidOfSubmitter);
-        return updateProfile(qidOfSubmitter, registrationJson, response);
+        return updateProfile(qidOfSubmitter, updateProfileJson, response);
     }
 
     public String uploadProfileImage(
