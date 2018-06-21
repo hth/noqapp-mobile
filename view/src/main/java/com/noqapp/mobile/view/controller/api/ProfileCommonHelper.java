@@ -121,18 +121,10 @@ public class ProfileCommonHelper {
 
                 /* Required. But not changing the phone number. For that we have phone migrate API. */
                 qid = map.get(AccountMobileService.ACCOUNT_UPDATE.QID.name()).getText();
-                UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
-                if (!qidOfSubmitter.equalsIgnoreCase(userProfile.getQueueUserId())) {
-                    UserProfileEntity userProfileGuardian = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone());
-
-                    if (!qidOfSubmitter.equalsIgnoreCase(userProfileGuardian.getQueueUserId())) {
-                        LOG.info("Profile user does not match with QID of submitter nor is a guardian {} {}",
-                                qidOfSubmitter,
-                                userProfileGuardian.getQueueUserId());
-
-                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-                        return null;
-                    }
+                UserProfileEntity userProfile = checkSelfOrDependent(qidOfSubmitter, qid);
+                if (userProfile == null) {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+                    return null;
                 }
 
                 String phone = userProfile.getPhone();
@@ -196,6 +188,28 @@ public class ProfileCommonHelper {
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
+    }
+
+    /**
+     * Check if the person is self or a guardian of the dependent.
+     *
+     * @param qidOfSubmitter    Guardian
+     * @param qid               Qid of the person who's record is being modified
+     * @return
+     */
+    private UserProfileEntity checkSelfOrDependent(String qidOfSubmitter, String qid) {
+        UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
+        if (!qidOfSubmitter.equalsIgnoreCase(userProfile.getQueueUserId())) {
+            UserProfileEntity userProfileGuardian = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone());
+
+            if (!qidOfSubmitter.equalsIgnoreCase(userProfileGuardian.getQueueUserId())) {
+                LOG.info("Profile user does not match with QID of submitter nor is a guardian {} {}",
+                        qidOfSubmitter,
+                        userProfileGuardian.getQueueUserId());
+                return null;
+            }
+        }
+        return userProfile;
     }
 
     public String updateProfile(
