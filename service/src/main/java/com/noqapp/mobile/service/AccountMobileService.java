@@ -1,12 +1,9 @@
 package com.noqapp.mobile.service;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+
 import com.google.gson.Gson;
 
-import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.types.GenderEnum;
-import com.noqapp.medical.service.UserMedicalProfileService;
-import com.noqapp.mobile.domain.JsonProfile;
-import com.noqapp.service.exceptions.DuplicateAccountException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -24,12 +21,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.noqapp.domain.UserAccountEntity;
+import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.flow.RegisterUser;
+import com.noqapp.domain.types.GenderEnum;
+import com.noqapp.medical.service.UserMedicalProfileService;
+import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.SignupUserInfo;
 import com.noqapp.service.AccountService;
+import com.noqapp.service.exceptions.DuplicateAccountException;
 
 import java.io.IOException;
-
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 
 /**
  * User: hitender
@@ -236,17 +237,21 @@ public class AccountMobileService {
     }
 
     public String getProfileAsJson(String qid) {
-        UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
+        UserProfileEntity userProfile = findProfileByQueueUserId(qid);
         JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, 0);
         jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
 
         if (null != userProfile.getQidOfDependents()) {
             for (String qidOfDependent : userProfile.getQidOfDependents()) {
-                jsonProfile.addDependents(JsonProfile.newInstance(accountService.findProfileByQueueUserId(qidOfDependent), 0));
+                jsonProfile.addDependents(JsonProfile.newInstance(findProfileByQueueUserId(qidOfDependent), 0));
             }
         }
 
         return jsonProfile.asJson();
+    }
+
+    public UserProfileEntity findProfileByQueueUserId(String qid) {
+        return accountService.findProfileByQueueUserId(qid);
     }
 
     /**
@@ -270,6 +275,10 @@ public class AccountMobileService {
 
     public UserProfileEntity checkUserExistsByPhone(String phone) {
         return accountService.checkUserExistsByPhone(phone);
+    }
+
+    public void updateUserProfile(RegisterUser registerUser, String email) {
+        accountService.updateUserProfile(registerUser, email);
     }
 
     public enum ACCOUNT_REGISTRATION_MERCHANT {

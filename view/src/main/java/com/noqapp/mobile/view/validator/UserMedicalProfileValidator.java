@@ -1,8 +1,11 @@
 package com.noqapp.mobile.view.validator;
 
-import com.noqapp.domain.types.medical.BloodTypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.springframework.stereotype.Component;
+
+import com.noqapp.domain.types.medical.BloodTypeEnum;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +14,7 @@ import java.util.Map;
  * hitender
  * 6/21/18 2:29 PM
  */
+@Component
 public class UserMedicalProfileValidator {
     private static final Logger LOG = LoggerFactory.getLogger(UserMedicalProfileValidator.class);
 
