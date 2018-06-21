@@ -330,7 +330,7 @@ public class AccountClientController {
                         accountService.save(userAccount);
                     }
 
-                    //update authentication key after login
+                    /* Update authentication key after login. */
                     String updatedAuthenticationKey = accountService.updateAuthenticationKey(userAccount.getUserAuthentication().getId());
                     response.addHeader("X-R-MAIL", userAccount.getUserId());
                     response.addHeader("X-R-AUTH", updatedAuthenticationKey);
