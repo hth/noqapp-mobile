@@ -118,18 +118,6 @@ public class AccountMobileService {
         return userAccount.getUserAuthentication().getAuthenticationKey();
     }
 
-    /**
-     * @param phone
-     * @param firstName
-     * @param lastName
-     * @param mail
-     * @param birthday
-     * @param gender
-     * @param countryShortName
-     * @param timeZone
-     * @return
-     */
-    @SuppressWarnings ("all")
     public UserAccountEntity createNewClientAccount(
             String phone,
             String firstName,
