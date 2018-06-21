@@ -122,7 +122,7 @@ public class ProfileCommonHelper {
                 /* Required. But not changing the phone number. For that we have phone migrate API. */
                 qid = map.get(AccountMobileService.ACCOUNT_UPDATE.QID.name()).getText();
                 UserProfileEntity userProfile = checkSelfOrDependent(qidOfSubmitter, qid);
-                if (userProfile == null) {
+                if (null == userProfile) {
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                     return null;
                 }
