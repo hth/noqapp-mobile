@@ -183,7 +183,7 @@ public class ProfileCommonHelper {
                 accountService.updateUserProfile(registerUser, userProfile.getEmail());
             }
 
-            return accountMobileService.getProfileAsJson(qid);
+            return accountMobileService.getProfileAsJson(qidOfSubmitter);
         } catch (Exception e) {
             LOG.error("Failed updating profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
