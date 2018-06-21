@@ -1,5 +1,23 @@
 package com.noqapp.mobile.view.controller.api;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.common.utils.FileUtil.getFileExtensionWithDot;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.WordUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.noqapp.common.utils.FileUtil;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
@@ -16,17 +34,8 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.client.ClientProfileAPIController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
-import com.noqapp.service.AccountService;
 import com.noqapp.service.FileService;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.WordUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.Duration;
@@ -38,13 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.common.utils.FileUtil.getFileExtensionWithDot;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Common code shared between Client and Merchant to update profile.
@@ -57,7 +60,6 @@ public class ProfileCommonHelper {
 
     private AuthenticateMobileService authenticateMobileService;
     private AccountClientValidator accountClientValidator;
-    private AccountService accountService;
     private AccountMobileService accountMobileService;
     private FileService fileService;
     private ApiHealthService apiHealthService;
@@ -66,14 +68,12 @@ public class ProfileCommonHelper {
     public ProfileCommonHelper(
             AuthenticateMobileService authenticateMobileService,
             AccountClientValidator accountClientValidator,
-            AccountService accountService,
             AccountMobileService accountMobileService,
             FileService fileService,
             ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.accountClientValidator = accountClientValidator;
-        this.accountService = accountService;
         this.accountMobileService = accountMobileService;
         this.fileService = fileService;
         this.apiHealthService = apiHealthService;
@@ -172,7 +172,7 @@ public class ProfileCommonHelper {
                         .setCountryShortName(new ScrubbedInput(countryShortName))
                         .setTimeZone(timeZone)
                         .setPhone(new ScrubbedInput(phone));
-                accountService.updateUserProfile(registerUser, userProfile.getEmail());
+                accountMobileService.updateUserProfile(registerUser, userProfile.getEmail());
             }
 
             return accountMobileService.getProfileAsJson(qidOfSubmitter);
@@ -198,9 +198,9 @@ public class ProfileCommonHelper {
      * @return
      */
     private UserProfileEntity checkSelfOrDependent(String qidOfSubmitter, String qid) {
-        UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
+        UserProfileEntity userProfile = accountMobileService.findProfileByQueueUserId(qid);
         if (!qidOfSubmitter.equalsIgnoreCase(userProfile.getQueueUserId())) {
-            UserProfileEntity userProfileGuardian = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone());
+            UserProfileEntity userProfileGuardian = accountMobileService.checkUserExistsByPhone(userProfile.getGuardianPhone());
 
             if (!qidOfSubmitter.equalsIgnoreCase(userProfileGuardian.getQueueUserId())) {
                 LOG.info("Profile user does not match with QID of submitter nor is a guardian {} {}",
