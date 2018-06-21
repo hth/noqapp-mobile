@@ -9,15 +9,12 @@ import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
-import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_CLIENT;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT;
 import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
-import com.noqapp.service.InviteService;
-import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
@@ -112,7 +109,7 @@ public class AccountClientController {
         try {
             if (map.isEmpty()) {
                 /* Validation failure as there is no data in the map. */
-                return ErrorEncounteredJson.toJson(accountClientValidator.validate(
+                return ErrorEncounteredJson.toJson(accountClientValidator.validateWithPassword(
                         null,
                         null,
                         null,
@@ -157,7 +154,7 @@ public class AccountClientController {
                     }
                 }
 
-                errors = accountClientValidator.validate(
+                errors = accountClientValidator.validateWithPassword(
                         phone,
                         map.get(ACCOUNT_REGISTRATION.FN.name()).getText(),
                         mail,
@@ -286,7 +283,7 @@ public class AccountClientController {
         try {
             if (map.isEmpty()) {
                 /* Validation failure as there is no data in the map. */
-                return ErrorEncounteredJson.toJson(accountClientValidator.validate(
+                return ErrorEncounteredJson.toJson(accountClientValidator.validateForPhoneMigration(
                         null,
                         null));
             } else {
@@ -302,7 +299,8 @@ public class AccountClientController {
                 /* Required. */
                 String countryShortName = Formatter.getCountryShortNameFromInternationalPhone(phone);
 
-                errors = accountClientValidator.validate(
+                /* Doing phone validation for login. */
+                errors = accountClientValidator.validateForPhoneMigration(
                         phone,
                         countryShortName
                 );

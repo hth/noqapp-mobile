@@ -20,7 +20,6 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.UserMedicalProfileValidator;
-import com.noqapp.service.AccountService;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
@@ -161,11 +160,11 @@ public class ClientProfileAPIController {
             ScrubbedInput auth,
 
             @RequestBody
-            String registrationJson,
+            String updateProfileJson,
 
             HttpServletResponse response
     ) throws IOException {
-        return profileCommonHelper.updateProfile(mail, auth, registrationJson, response);
+        return profileCommonHelper.updateProfile(mail, auth, updateProfileJson, response);
     }
 
     /* Update Medical Profile of user. */
@@ -282,7 +281,7 @@ public class ClientProfileAPIController {
         try {
             if (map.isEmpty()) {
                 /* Validation failure as there is no data in the map. */
-                return ErrorEncounteredJson.toJson(accountClientValidator.validate(
+                return ErrorEncounteredJson.toJson(accountClientValidator.validateForPhoneMigration(
                         null,
                         null));
             } else {
@@ -299,7 +298,7 @@ public class ClientProfileAPIController {
                 /* Required. */
                 String timeZone = map.get(AccountMobileService.ACCOUNT_MIGRATE.TZ.name()).getText();
 
-                errors = accountClientValidator.validate(
+                errors = accountClientValidator.validateForPhoneMigration(
                         phone,
                         countryShortName
                 );

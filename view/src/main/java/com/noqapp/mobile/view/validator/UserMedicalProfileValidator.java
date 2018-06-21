@@ -3,22 +3,19 @@ package com.noqapp.mobile.view.validator;
 import com.noqapp.domain.types.medical.BloodTypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * hitender
- * 6/12/18 3:57 PM
+ * 6/21/18 2:29 PM
  */
-@Component
 public class UserMedicalProfileValidator {
     private static final Logger LOG = LoggerFactory.getLogger(UserMedicalProfileValidator.class);
 
-
     public Map<String, String> validate(BloodTypeEnum bloodType) {
-        LOG.debug("Validating user medical profile information bloodType={}", bloodType);
+        LOG.debug("Validating user professional profile information bloodType={}", bloodType);
 
         Map<String, String> errors = new HashMap<>();
 

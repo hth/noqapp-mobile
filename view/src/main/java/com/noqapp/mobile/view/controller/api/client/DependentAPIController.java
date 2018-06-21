@@ -11,16 +11,12 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
-import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.DeviceService;
-import com.noqapp.mobile.view.controller.open.AccountClientController;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
-import com.noqapp.service.InviteService;
-import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
@@ -136,7 +132,7 @@ public class DependentAPIController {
             try {
                 if (map.isEmpty()) {
                     /* Validation failure as there is no data in the map. */
-                    return ErrorEncounteredJson.toJson(accountClientValidator.validate(
+                    return ErrorEncounteredJson.toJson(accountClientValidator.validateWithPassword(
                             null,
                             null,
                             null,
@@ -181,7 +177,7 @@ public class DependentAPIController {
                         }
                     }
 
-                    errors = accountClientValidator.validate(
+                    errors = accountClientValidator.validateWithPassword(
                             phone,
                             map.get(AccountMobileService.ACCOUNT_REGISTRATION.FN.name()).getText(),
                             dependentMail,

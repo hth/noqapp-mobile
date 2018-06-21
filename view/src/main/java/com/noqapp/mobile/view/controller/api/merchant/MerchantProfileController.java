@@ -128,32 +128,33 @@ public class MerchantProfileController {
             ScrubbedInput auth,
 
             @RequestBody
-            String registrationJson,
+            String updateProfileJson,
 
             HttpServletResponse response
     ) throws IOException {
-        return profileCommonHelper.updateProfile(mail, auth, registrationJson, response);
+        return profileCommonHelper.updateProfile(mail, auth, updateProfileJson, response);
     }
 
     @PostMapping(
-            value = "/updateHealthCareProfile",
+            value = "/updateProfessionalProfile",
             headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String updateHealthCareProfile(
+    public String updateProfessionalProfile(
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
 
             @RequestHeader ("X-R-AUTH")
             ScrubbedInput auth,
 
+            //TODO change this to professional profile
             @RequestBody
-            String registrationJson,
+            String updateProfileJson,
 
             HttpServletResponse response
     ) throws IOException {
-        return profileCommonHelper.updateProfile(mail, auth, registrationJson, response);
+        return profileCommonHelper.updateProfile(mail, auth, updateProfileJson, response);
     }
 
     @RequestMapping (
