@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.ParseJsonStringToMap;
@@ -544,9 +545,12 @@ public class ClientProfileAPIController {
             @RequestPart("file")
             MultipartFile multipartFile,
 
+            @RequestPart("qid")
+            TextNode textNode,
+
             HttpServletResponse response
     ) throws IOException {
-        return profileCommonHelper.uploadProfileImage(did, dt, mail, auth, multipartFile, response);
+        return profileCommonHelper.uploadProfileImage(did, dt, mail, auth, new ScrubbedInput(textNode.asText()), multipartFile, response);
     }
 
     private Set<String> invalidElementsInMapDuringMigration(Map<String, ScrubbedInput> map) {
