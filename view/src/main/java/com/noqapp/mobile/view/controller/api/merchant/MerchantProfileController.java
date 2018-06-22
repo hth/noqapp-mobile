@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonTopic;
@@ -178,8 +179,11 @@ public class MerchantProfileController {
             @RequestPart("file")
             MultipartFile multipartFile,
 
+            @RequestPart("qid")
+            TextNode textNode,
+
             HttpServletResponse response
     ) throws IOException {
-        return profileCommonHelper.uploadProfileImage(did, dt, mail, auth, multipartFile, response);
+        return profileCommonHelper.uploadProfileImage(did, dt, mail, auth, new ScrubbedInput(textNode.asText()), multipartFile, response);
     }
 }

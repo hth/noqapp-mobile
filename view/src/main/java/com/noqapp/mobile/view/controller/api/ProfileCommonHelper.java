@@ -234,6 +234,7 @@ public class ProfileCommonHelper {
             ScrubbedInput dt,
             ScrubbedInput mail,
             ScrubbedInput auth,
+            ScrubbedInput profileImageOfQid,
             MultipartFile multipartFile,
             HttpServletResponse response
     ) throws IOException {
@@ -242,6 +243,11 @@ public class ProfileCommonHelper {
         LOG.info("Profile Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (null == checkSelfOrDependent(qid, profileImageOfQid.getText())) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
