@@ -1,5 +1,7 @@
 package com.noqapp.mobile.service;
 
+import static java.util.concurrent.Executors.newCachedThreadPool;
+
 import org.apache.commons.lang3.StringUtils;
 
 import org.joda.time.DateTime;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.noqapp.common.utils.Validate;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
@@ -27,7 +30,6 @@ import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.QueueService;
-import com.noqapp.common.utils.Validate;
 
 import java.time.DayOfWeek;
 import java.time.ZonedDateTime;
@@ -36,8 +38,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
-
-import static java.util.concurrent.Executors.newCachedThreadPool;
 
 /**
  * User: hitender
@@ -366,10 +366,6 @@ public class QueueMobileService {
                 preventJoining,
                 dayClosed,
                 delayedInMinutes);
-    }
-
-    public JsonQueuePersonList findAllClientQueuedOrAborted(String codeQR) {
-        return queueService.findAllClientQueuedOrAborted(codeQR);
     }
 
     public JsonQueuePersonList findAllClient(String codeQR) {
