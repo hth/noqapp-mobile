@@ -1,14 +1,32 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.apache.commons.lang3.StringUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BusinessCustomerEntity;
-import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonBusinessCustomerLookup;
-import com.noqapp.domain.json.JsonQueuePersonList;
-import com.noqapp.domain.json.JsonQueuedPerson;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
@@ -19,32 +37,14 @@ import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.QueueService;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
-import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Helps find client details when adding client to queue. Add client to business and find dependents.
@@ -155,10 +155,7 @@ public class BusinessCustomerController {
             businessCustomerService.addBusinessCustomer(userProfile.getQueueUserId(), businessCustomerLookup.getCodeQR(), businessCustomerLookup.getBusinessCustomerId());
             LOG.info("Added business customer number to qid={} businessCustomerId={}", userProfile.getQueueUserId(), businessCustomerLookup.getBusinessCustomerId());
 
-            List<QueueEntity> queues = queueService.findAllQueuedByQid(userProfile.getQueueUserId());
-            List<JsonQueuedPerson> queuedPeople = new ArrayList<>();
-            queueService.populateInJsonQueuePersonList(queuedPeople, queues);
-            return new JsonQueuePersonList().setQueuedPeople(queuedPeople).asJson();
+            return queueService.getQueuedPerson(userProfile.getQueueUserId(), businessCustomerLookup.getCodeQR());
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
