@@ -1,6 +1,12 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
+import static com.noqapp.domain.BizStoreEntity.UNDER_SCORE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
@@ -28,11 +34,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
-
-import static com.noqapp.domain.BizStoreEntity.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * hitender
@@ -305,8 +306,8 @@ class ManageQueueControllerITest extends ITest {
     }
 
     @Test
-    @DisplayName("Show all the queued clients")
-    void showQueuedClients() throws IOException {
+    @DisplayName("Show all clients")
+    void showClients() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
@@ -350,7 +351,7 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(2, jsonTopic.getTopics().iterator().next().getToken());
 
         /* Before start of the queue. Show all queued clients. */
-        String jsonQueuePerson = manageQueueController.showQueuedClients(
+        String jsonQueuePerson = manageQueueController.showClients(
                 new ScrubbedInput(didQueueSupervisor),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(queueUserAccount.getUserId()),
