@@ -1,17 +1,11 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
-import com.fasterxml.jackson.databind.node.TextNode;
-import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.JsonTopic;
-import com.noqapp.mobile.domain.JsonMerchant;
-import com.noqapp.mobile.domain.JsonProfile;
-import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
-import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.service.UserProfilePreferenceService;
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +18,20 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
+import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonTopic;
+import com.noqapp.mobile.domain.JsonMerchant;
+import com.noqapp.mobile.domain.JsonProfile;
+import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
+import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.UserProfilePreferenceService;
+
 import java.io.IOException;
 import java.util.List;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * User: hitender
@@ -179,11 +181,11 @@ public class MerchantProfileController {
             @RequestPart("file")
             MultipartFile multipartFile,
 
-            @RequestPart("qid")
-            TextNode textNode,
+            @RequestPart("profileImageOfQid")
+            String profileImageOfQid,
 
             HttpServletResponse response
     ) throws IOException {
-        return profileCommonHelper.uploadProfileImage(did, dt, mail, auth, new ScrubbedInput(textNode.asText()), multipartFile, response);
+        return profileCommonHelper.uploadProfileImage(did, dt, mail, auth, new ScrubbedInput(profileImageOfQid), multipartFile, response);
     }
 }
