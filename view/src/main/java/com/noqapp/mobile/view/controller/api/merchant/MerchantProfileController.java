@@ -89,18 +89,18 @@ public class MerchantProfileController {
         UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
         switch (userProfile.getLevel()) {
             case M_ADMIN:
-                LOG.info("Cannot login through Client App");
+                LOG.info("Cannot login through Merchant App qid={}", qid);
                 break;
             case S_MANAGER:
             case Q_SUPERVISOR:
-                LOG.info("Has access in Client App");
+                LOG.info("Has access in Merchant App qid={}", qid);
                 break;
             case ADMIN:
             case CLIENT:
             case TECHNICIAN:
             case SUPERVISOR:
             case ANALYSIS:
-                LOG.info("Has no access");
+                LOG.info("Has no access to Merchant App={}", qid);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             default:
