@@ -232,7 +232,7 @@ class ManageQueueControllerTest {
     @Test
     void served() throws Exception {
         JsonObject json = new JsonObject();
-        json.addProperty("c", "queuecode");
+        json.addProperty("qr", "queuecode");
         json.addProperty("t", "1");
         json.addProperty("q", QueueUserStateEnum.S.getName());
         json.addProperty("s", QueueStatusEnum.N.getName());
