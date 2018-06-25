@@ -267,14 +267,14 @@ class ManageQueueControllerTest {
         verify(queueService, times(1)).updateAndGetNextInQueue(any(String.class), any(Integer.class), ArgumentMatchers.any(QueueUserStateEnum.class), anyString(), anyString(), ArgumentMatchers.any(TokenServiceEnum.class));
 
         JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
-        assertEquals("queuecode", jo.get("c").getAsString());
+        assertEquals("queuecode", jo.get("qr").getAsString());
         assertEquals(QueueStatusEnum.D, QueueStatusEnum.valueOf(jo.get("q").getAsString()));
     }
 
     @Test
     void served_code_queue_fail() throws Exception {
         JsonObject json = new JsonObject();
-        json.addProperty("c", "");
+        json.addProperty("qr", "");
         json.addProperty("t", "1");
         json.addProperty("q", QueueUserStateEnum.S.getName());
         json.addProperty("s", QueueStatusEnum.N.getName());
@@ -302,7 +302,7 @@ class ManageQueueControllerTest {
     @Test
     void served_code_queue_authentication_fail() throws Exception {
         JsonObject json = new JsonObject();
-        json.addProperty("c", "queueCode");
+        json.addProperty("qr", "queueCode");
         json.addProperty("t", "1");
         json.addProperty("q", QueueUserStateEnum.S.getName());
         json.addProperty("s", QueueStatusEnum.N.getName());
@@ -410,7 +410,7 @@ class ManageQueueControllerTest {
     @Test
     void served_fail() throws Exception {
         JsonObject json = new JsonObject();
-        json.addProperty("c", "queuecode");
+        json.addProperty("qr", "queuecode");
         json.addProperty("t", "1");
         json.addProperty("q", QueueUserStateEnum.S.getName());
         json.addProperty("s", QueueStatusEnum.N.getName());

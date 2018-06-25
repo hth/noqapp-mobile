@@ -207,7 +207,7 @@ public class ManageQueueController {
 
         try {
             Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(requestBodyJson);
-            String codeQR = map.containsKey("c") ? map.get("c").getText() : null;
+            String codeQR = map.containsKey("qr") ? map.get("qr").getText() : null;
 
             if (StringUtils.isBlank(codeQR)) {
                 LOG.warn("Not a valid codeQR={} qid={}", codeQR, qid);
@@ -642,7 +642,7 @@ public class ManageQueueController {
 
         try {
             Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(requestBodyJson);
-            String codeQR = map.containsKey("c") ? map.get("c").getText() : null;
+            String codeQR = map.containsKey("qr") ? map.get("qr").getText() : null;
 
             if (StringUtils.isBlank(codeQR)) {
                 LOG.warn("Not a valid codeQR={} qid={}", codeQR, qid);
