@@ -29,7 +29,7 @@ import com.noqapp.domain.StoreHourEntity;
 //@JsonInclude (JsonInclude.Include.NON_NULL)
 public class JsonModifyQueue extends AbstractDomain {
 
-    @JsonProperty ("c")
+    @JsonProperty ("qr")
     private String codeQR;
 
     @JsonProperty ("f")

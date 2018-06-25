@@ -27,7 +27,7 @@ import com.noqapp.domain.types.QueueUserStateEnum;
 @JsonPropertyOrder(alphabetic = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Served extends AbstractDomain {
-    @JsonProperty("c")
+    @JsonProperty("qr")
     private String codeQR;
 
     @JsonProperty("t")
