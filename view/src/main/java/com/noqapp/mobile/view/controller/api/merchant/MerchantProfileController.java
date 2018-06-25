@@ -2,7 +2,19 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.noqapp.domain.ProfessionalProfileEntity;
+import com.noqapp.domain.json.JsonProfessionalProfile;
+import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.health.domain.types.HealthStatusEnum;
+import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.domain.json.JsonMedicalRecord;
+import com.noqapp.mobile.view.controller.api.merchant.health.MedicalRecordController;
+import com.noqapp.service.ProfessionalProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +41,8 @@ import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.UserProfilePreferenceService;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -52,18 +66,24 @@ public class MerchantProfileController {
     private UserProfilePreferenceService userProfilePreferenceService;
     private BusinessUserStoreService businessUserStoreService;
     private ProfileCommonHelper profileCommonHelper;
+    private ProfessionalProfileService professionalProfileService;
+    private ApiHealthService apiHealthService;
 
     @Autowired
     public MerchantProfileController(
             AuthenticateMobileService authenticateMobileService,
             UserProfilePreferenceService userProfilePreferenceService,
             BusinessUserStoreService businessUserStoreService,
-            ProfileCommonHelper profileCommonHelper
+            ProfileCommonHelper profileCommonHelper,
+            ProfessionalProfileService professionalProfileService,
+            ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
         this.businessUserStoreService = businessUserStoreService;
         this.profileCommonHelper = profileCommonHelper;
+        this.professionalProfileService = professionalProfileService;
+        this.apiHealthService = apiHealthService;
     }
 
     @GetMapping(
@@ -187,5 +207,60 @@ public class MerchantProfileController {
             HttpServletResponse response
     ) throws IOException {
         return profileCommonHelper.uploadProfileImage(did, dt, mail, auth, new ScrubbedInput(profileImageOfQid), multipartFile, response);
+    }
+
+    /** Add suggestions back to merchant's professional profile. */
+    @RequestMapping (
+            method = RequestMethod.POST,
+            value = "/intellisense",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String intellisense(
+            @RequestHeader("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput deviceType,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @RequestBody
+            String professionalProfileJson,
+
+            HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/profile/intellisense by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            JsonProfessionalProfile jsonProfessionalProfile = new ObjectMapper().readValue(professionalProfileJson, JsonProfessionalProfile.class);
+            ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(qid);
+            professionalProfile.setDataDictionary(jsonProfessionalProfile.getDataDictionary());
+            professionalProfileService.save(professionalProfile);
+
+            return new JsonResponse(true).asJson();
+        } catch (JsonMappingException e) {
+            LOG.error("Failed parsing json={} qid={} message={}", professionalProfileJson, qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                    "/intellisense",
+                    "intellisense",
+                    MerchantProfileController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
     }
 }
