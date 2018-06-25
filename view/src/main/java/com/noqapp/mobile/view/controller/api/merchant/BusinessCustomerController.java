@@ -152,7 +152,10 @@ public class BusinessCustomerController {
                 return ErrorEncounteredJson.toJson(errors);
             }
 
-            businessCustomerService.addBusinessCustomer(userProfile.getQueueUserId(), businessCustomerLookup.getCodeQR(), businessCustomerLookup.getBusinessCustomerId());
+            businessCustomerService.addBusinessCustomer(
+                    userProfile.getQueueUserId(),
+                    businessCustomerLookup.getCodeQR(),
+                    businessCustomerLookup.getBusinessCustomerId());
             LOG.info("Added business customer number to qid={} businessCustomerId={}", userProfile.getQueueUserId(), businessCustomerLookup.getBusinessCustomerId());
 
             return queueService.getQueuedPerson(userProfile.getQueueUserId(), businessCustomerLookup.getCodeQR());
