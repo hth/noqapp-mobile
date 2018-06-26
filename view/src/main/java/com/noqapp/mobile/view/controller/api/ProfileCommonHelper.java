@@ -5,7 +5,6 @@ import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
@@ -32,6 +31,7 @@ import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.client.ClientProfileAPIController;
+import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.FileService;
 
@@ -178,7 +178,7 @@ public class ProfileCommonHelper {
         } catch (Exception e) {
             LOG.error("Failed updating profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+            return DeviceController.getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
                     "/updateProfile",
