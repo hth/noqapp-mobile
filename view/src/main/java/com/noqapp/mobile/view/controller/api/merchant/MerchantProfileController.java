@@ -244,6 +244,7 @@ public class MerchantProfileController {
         }
 
         try {
+            LOG.info("{}", professionalProfileJson);
             JsonProfessionalProfile jsonProfessionalProfile = new ObjectMapper().readValue(professionalProfileJson, JsonProfessionalProfile.class);
             ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(qid);
             professionalProfile.setDataDictionary(jsonProfessionalProfile.getDataDictionary());
