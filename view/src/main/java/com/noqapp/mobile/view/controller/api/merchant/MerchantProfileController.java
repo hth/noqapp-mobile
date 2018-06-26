@@ -10,10 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.medical.domain.json.JsonMedicalRecord;
-import com.noqapp.mobile.view.controller.api.merchant.health.MedicalRecordController;
 import com.noqapp.service.ProfessionalProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,10 +130,15 @@ public class MerchantProfileController {
         /* For merchant profile no need to find remote scan. */
         JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, 0);
         List<JsonTopic> jsonTopics = businessUserStoreService.getQueues(qid);
-        JsonMerchant jsonMerchant = new JsonMerchant();
-        jsonMerchant.setJsonProfile(jsonProfile);
-        jsonMerchant.setTopics(jsonTopics);
-        return jsonMerchant.asJson();
+        JsonProfessionalProfile jsonProfessionalProfile = null;
+        if (UserLevelEnum.S_MANAGER == jsonProfile.getUserLevel()) {
+            jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfileByQid(jsonProfile.getQueueUserId());
+        }
+
+        return new JsonMerchant()
+                .setJsonProfile(jsonProfile)
+                .setJsonProfessionalProfile(jsonProfessionalProfile)
+                .setTopics(jsonTopics).asJson();
     }
 
     @PostMapping(

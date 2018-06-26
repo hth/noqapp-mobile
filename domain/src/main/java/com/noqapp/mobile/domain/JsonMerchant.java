@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import com.noqapp.common.utils.AbstractDomain;
+import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonTopic;
 
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public class JsonMerchant extends AbstractDomain {
     @JsonProperty ("p")
     private JsonProfile jsonProfile;
 
+    @JsonProperty ("pp")
+    private JsonProfessionalProfile jsonProfessionalProfile;
+
     @JsonProperty ("ts")
     private List<JsonTopic> topics = new ArrayList<>();
 
@@ -41,15 +45,26 @@ public class JsonMerchant extends AbstractDomain {
         return jsonProfile;
     }
 
-    public void setJsonProfile(JsonProfile jsonProfile) {
+    public JsonMerchant setJsonProfile(JsonProfile jsonProfile) {
         this.jsonProfile = jsonProfile;
+        return this;
+    }
+
+    public JsonProfessionalProfile getJsonProfessionalProfile() {
+        return jsonProfessionalProfile;
+    }
+
+    public JsonMerchant setJsonProfessionalProfile(JsonProfessionalProfile jsonProfessionalProfile) {
+        this.jsonProfessionalProfile = jsonProfessionalProfile;
+        return this;
     }
 
     public List<JsonTopic> getTopics() {
         return topics;
     }
 
-    public void setTopics(List<JsonTopic> topics) {
+    public JsonMerchant setTopics(List<JsonTopic> topics) {
         this.topics = topics;
+        return this;
     }
 }
