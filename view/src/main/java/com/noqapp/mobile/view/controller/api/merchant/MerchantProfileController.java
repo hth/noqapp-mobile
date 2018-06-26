@@ -98,47 +98,62 @@ public class MerchantProfileController {
 
             HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
         LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
+        
+        try {
+            UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
+            switch (userProfile.getLevel()) {
+                case M_ADMIN:
+                    LOG.info("Cannot login through Merchant App qid={}", qid);
+                    break;
+                case S_MANAGER:
+                case Q_SUPERVISOR:
+                    LOG.info("Has access in Merchant App qid={}", qid);
+                    break;
+                case ADMIN:
+                case CLIENT:
+                case TECHNICIAN:
+                case SUPERVISOR:
+                case ANALYSIS:
+                    LOG.info("Has no access to Merchant App={}", qid);
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+                    return null;
+                default:
+                    LOG.error("Reached unsupported user level");
+                    throw new UnsupportedOperationException("Reached unsupported user level " + userProfile.getLevel().getDescription());
+            }
 
-        UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
-        switch (userProfile.getLevel()) {
-            case M_ADMIN:
-                LOG.info("Cannot login through Merchant App qid={}", qid);
-                break;
-            case S_MANAGER:
-            case Q_SUPERVISOR:
-                LOG.info("Has access in Merchant App qid={}", qid);
-                break;
-            case ADMIN:
-            case CLIENT:
-            case TECHNICIAN:
-            case SUPERVISOR:
-            case ANALYSIS:
-                LOG.info("Has no access to Merchant App={}", qid);
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-                return null;
-            default:
-                LOG.error("Reached unsupported user level");
-                throw new UnsupportedOperationException("Reached unsupported user level " + userProfile.getLevel().getDescription());
+            /* For merchant profile no need to find remote scan. */
+            JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, 0);
+            List<JsonTopic> jsonTopics = businessUserStoreService.getQueues(qid);
+            JsonProfessionalProfile jsonProfessionalProfile = null;
+            if (UserLevelEnum.S_MANAGER == jsonProfile.getUserLevel()) {
+                jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfileByQid(jsonProfile.getQueueUserId());
+            }
+
+            return new JsonMerchant()
+                    .setJsonProfile(jsonProfile)
+                    .setJsonProfessionalProfile(jsonProfessionalProfile)
+                    .setTopics(jsonTopics).asJson();
+        } catch (JsonMappingException e) {
+            LOG.error("Failed fetching profile qid={} reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                    "/fetch",
+                    "fetch",
+                    MerchantProfileController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
-
-        /* For merchant profile no need to find remote scan. */
-        JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, 0);
-        List<JsonTopic> jsonTopics = businessUserStoreService.getQueues(qid);
-        JsonProfessionalProfile jsonProfessionalProfile = null;
-        if (UserLevelEnum.S_MANAGER == jsonProfile.getUserLevel()) {
-            jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfileByQid(jsonProfile.getQueueUserId());
-        }
-
-        return new JsonMerchant()
-                .setJsonProfile(jsonProfile)
-                .setJsonProfessionalProfile(jsonProfessionalProfile)
-                .setTopics(jsonTopics).asJson();
     }
 
     @PostMapping(
@@ -256,7 +271,7 @@ public class MerchantProfileController {
 
             return new JsonResponse(true).asJson();
         } catch (JsonMappingException e) {
-            LOG.error("Failed parsing json={} qid={} message={}", professionalProfileJson, qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed parsing json={} qid={} reason={}", professionalProfileJson, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
