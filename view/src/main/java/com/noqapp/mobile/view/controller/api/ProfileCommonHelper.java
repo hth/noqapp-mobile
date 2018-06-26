@@ -2,7 +2,6 @@ package com.noqapp.mobile.view.controller.api;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.common.utils.FileUtil.getFileExtensionWithDot;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
@@ -289,7 +288,8 @@ public class ProfileCommonHelper {
         BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
         String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
         if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
-            String profileFilename = FileUtil.createRandomFilenameOf24Chars() + getFileExtensionWithDot(multipartFile.getOriginalFilename());
+            String profileFilename = FileUtil.createRandomFilenameOf24Chars()
+                    + FileUtil.getFileExtensionWithDot(multipartFile.getOriginalFilename());
             fileService.addProfileImage(qid, profileFilename, bufferedImage);
         } else {
             LOG.error("Failed mime mismatch found={} sentMime={}", mimeType, multipartFile.getContentType());
