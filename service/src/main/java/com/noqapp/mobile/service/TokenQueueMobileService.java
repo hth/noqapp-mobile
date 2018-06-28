@@ -1,37 +1,37 @@
 package com.noqapp.mobile.service;
 
-import com.noqapp.domain.BizCategoryEntity;
-import com.noqapp.domain.BizNameEntity;
-import com.noqapp.domain.BusinessUserStoreEntity;
-import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.JsonCategory;
-import com.noqapp.domain.json.JsonQueueList;
-import com.noqapp.domain.types.BusinessTypeEnum;
-import com.noqapp.domain.types.TokenServiceEnum;
-import com.noqapp.domain.types.UserLevelEnum;
-import com.noqapp.service.ProfessionalProfileService;
-import com.noqapp.repository.BusinessUserStoreManager;
-import com.noqapp.repository.QueueManager;
-import com.noqapp.repository.UserProfileManager;
-import com.noqapp.search.elastic.domain.BizStoreElastic;
-import com.noqapp.search.elastic.domain.BizStoreElasticList;
-import com.noqapp.search.elastic.helper.DomainConversion;
 import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.noqapp.domain.BizCategoryEntity;
+import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
+import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonQueue;
+import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.QueueStatusEnum;
+import com.noqapp.domain.types.TokenServiceEnum;
+import com.noqapp.domain.types.UserLevelEnum;
+import com.noqapp.repository.BusinessUserStoreManager;
+import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
+import com.noqapp.repository.UserProfileManager;
+import com.noqapp.search.elastic.domain.BizStoreElastic;
+import com.noqapp.search.elastic.domain.BizStoreElasticList;
+import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.service.BizService;
+import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.TokenQueueService;
 
 import java.time.DayOfWeek;
@@ -237,28 +237,26 @@ public class TokenQueueMobileService {
                 } else {
                     LOG.warn("No Category defined for bizStore name={} id={}", bizStore.getBizName(), bizStore.getId());
                 }
+                
+                switch (bizName.getBusinessType()) {
+                    case DO:
+                        bizStoreElastic.setAmenities(bizName.getAmenities());
+                        bizStoreElastic.setFacilities(bizName.getFacilities());
 
-                for (BusinessTypeEnum businessType : bizName.getBusinessTypes()) {
-                    switch (businessType) {
-                        case DO:
-                            bizStoreElastic.setAmenities(bizName.getAmenities());
-                            bizStoreElastic.setFacilities(bizName.getFacilities());
+                        List<BusinessUserStoreEntity> businessUsers = businessUserStoreManager.findAllManagingStoreWithUserLevel(
+                                bizStore.getId(),
+                                UserLevelEnum.S_MANAGER);
 
-                            List<BusinessUserStoreEntity> businessUsers = businessUserStoreManager.findAllManagingStoreWithUserLevel(
-                                    bizStore.getId(),
-                                    UserLevelEnum.S_MANAGER);
+                        if (!businessUsers.isEmpty()) {
+                            BusinessUserStoreEntity businessUserStore = businessUsers.get(0);
+                            bizStoreElastic.setWebProfileId(professionalProfileService.findByQid(businessUserStore.getQueueUserId()).getWebProfileId());
 
-                            if (!businessUsers.isEmpty()) {
-                                BusinessUserStoreEntity businessUserStore = businessUsers.get(0);
-                                bizStoreElastic.setWebProfileId(professionalProfileService.findByQid(businessUserStore.getQueueUserId()).getWebProfileId());
-
-                                UserProfileEntity userProfile = userProfileManager.findByQueueUserId(businessUserStore.getQueueUserId());
-                                bizStoreElastic.setDisplayImage(userProfile.getProfileImage());
-                            }
-                            break;
-                        default:
-                            break;
-                    }
+                            UserProfileEntity userProfile = userProfileManager.findByQueueUserId(businessUserStore.getQueueUserId());
+                            bizStoreElastic.setDisplayImage(userProfile.getProfileImage());
+                        }
+                        break;
+                    default:
+                        break;
                 }
                 bizStoreElasticList.addBizStoreElastic(bizStoreElastic);
             }
