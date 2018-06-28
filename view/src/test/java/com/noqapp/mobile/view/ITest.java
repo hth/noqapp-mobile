@@ -57,7 +57,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -481,7 +480,7 @@ public class ITest extends RealMongoForITest {
 
         BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")))
                 .setBusinessName("Champ")
-                .setBusinessTypes(Arrays.asList(BusinessTypeEnum.AT, BusinessTypeEnum.BA))
+                .setBusinessType(BusinessTypeEnum.DO)
                 .setPhone("9118000000000")
                 .setPhoneRaw("18000000000")
                 .setAddress("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India")
