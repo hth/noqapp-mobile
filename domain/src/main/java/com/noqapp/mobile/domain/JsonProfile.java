@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.medical.JsonUserMedicalProfile;
+import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.common.utils.Formatter;
@@ -74,6 +75,9 @@ public final class JsonProfile extends AbstractDomain {
     @JsonProperty("ul")
     private UserLevelEnum userLevel;
 
+    @JsonProperty("bt")
+    private BusinessTypeEnum businessType;
+
     @JsonProperty ("mp")
     private JsonUserMedicalProfile jsonUserMedicalProfile;
 
@@ -98,6 +102,7 @@ public final class JsonProfile extends AbstractDomain {
             String birthday,
             GenderEnum gender,
             UserLevelEnum userLevel,
+            BusinessTypeEnum businessType,
             int remoteJoin
     ) {
         this.queueUserId = queueUserId;
@@ -112,6 +117,7 @@ public final class JsonProfile extends AbstractDomain {
         this.birthday = birthday;
         this.gender = gender;
         this.userLevel = userLevel;
+        this.businessType = businessType;
         this.remoteJoin = remoteJoin;
     }
 
@@ -129,6 +135,7 @@ public final class JsonProfile extends AbstractDomain {
                 userProfile.getBirthday(),
                 userProfile.getGender(),
                 userProfile.getLevel(),
+                userProfile.getBusinessType(),
                 remoteJoin
         );
     }
@@ -183,6 +190,10 @@ public final class JsonProfile extends AbstractDomain {
 
     public UserLevelEnum getUserLevel() {
         return userLevel;
+    }
+
+    public BusinessTypeEnum getBusinessType() {
+        return businessType;
     }
 
     public JsonUserMedicalProfile getJsonUserMedicalProfile() {
