@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.noqapp.domain.BizCategoryEntity;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueList;
@@ -38,6 +38,7 @@ import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -137,13 +138,13 @@ public class TokenQueueMobileService {
     public JsonQueueList findAllTokenState(String codeQR) {
         try {
             BizStoreEntity bizStoreForCodeQR = bizService.findByCodeQR(codeQR);
-            List<BizCategoryEntity> bizCategories = bizService.getBusinessCategories(bizStoreForCodeQR.getBizName().getId());
+            Map<String, String> bizCategories = CommonHelper.getCategories(bizStoreForCodeQR.getBizName().getBusinessType());
             JsonQueueList jsonQueues = new JsonQueueList();
-            for (BizCategoryEntity bizCategory : bizCategories) {
+            for (String bizCategoryId : bizCategories.keySet()) {
                 JsonCategory jsonCategory = new JsonCategory()
-                        .setBizCategoryId(bizCategory.getId())
-                        .setCategoryName(bizCategory.getCategoryName())
-                        .setDisplayImage(bizCategory.getDisplayImage());
+                        .setBizCategoryId(bizCategoryId)
+                        .setCategoryName(bizCategories.get(bizCategoryId))
+                        .setDisplayImage("");
                 jsonQueues.addCategories(jsonCategory);
             }
 
@@ -176,13 +177,13 @@ public class TokenQueueMobileService {
                 BizStoreEntity bizStoreForCodeQR = bizService.findByCodeQR(codeQR);
                 bizName = bizStoreForCodeQR.getBizName();
             }
-            List<BizCategoryEntity> bizCategories = bizService.getBusinessCategories(bizName.getId());
+            Map<String, String> bizCategories = CommonHelper.getCategories(bizName.getBusinessType());
             JsonQueueList jsonQueues = new JsonQueueList();
-            for (BizCategoryEntity bizCategory : bizCategories) {
+            for (String bizCategoryId : bizCategories.keySet()) {
                 JsonCategory jsonCategory = new JsonCategory()
-                        .setBizCategoryId(bizCategory.getId())
-                        .setCategoryName(bizCategory.getCategoryName())
-                        .setDisplayImage(bizCategory.getDisplayImage());
+                        .setBizCategoryId(bizCategoryId)
+                        .setCategoryName(bizCategories.get(bizCategoryId))
+                        .setDisplayImage("");
                 jsonQueues.addCategories(jsonCategory);
             }
 
@@ -217,12 +218,11 @@ public class TokenQueueMobileService {
                 bizName = bizStoreForCodeQR.getBizName();
             }
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList().setCityName(bizName.getArea());
-            List<BizCategoryEntity> bizCategories = bizService.getBusinessCategories(bizName.getId());
-            for (BizCategoryEntity bizCategory : bizCategories) {
+            Map<String, String> bizCategories = CommonHelper.getCategories(bizName.getBusinessType());
+            for (String bizCategoryId : bizCategories.keySet()) {
                 JsonCategory jsonCategory = new JsonCategory()
-                        .setBizCategoryId(bizCategory.getId())
-                        .setCategoryName(bizCategory.getCategoryName())
-                        .setDisplayImage(bizCategory.getDisplayImage());
+                        .setBizCategoryId(bizCategoryId)
+                        .setCategoryName(bizCategories.get(bizCategoryId));
                 bizStoreElasticList.addJsonCategory(jsonCategory);
             }
 
@@ -232,8 +232,7 @@ public class TokenQueueMobileService {
                 bizStoreElastic.setStoreHourElasticList(DomainConversion.getStoreHourElastics(bizService.findAllStoreHours(bizStore.getId())));
 
                 if (StringUtils.isNotBlank(bizStore.getBizCategoryId())) {
-                    BizCategoryEntity bizCategory = bizService.findByBizCategoryId(bizStore.getBizCategoryId());
-                    bizStoreElastic.setBizCategoryName(bizCategory.getCategoryName());
+                    bizStoreElastic.setBizCategoryName(bizCategories.get(bizStore.getBizCategoryId()));
                 } else {
                     LOG.warn("No Category defined for bizStore name={} id={}", bizStore.getBizName(), bizStore.getId());
                 }
@@ -279,12 +278,11 @@ public class TokenQueueMobileService {
     public BizStoreElasticList findAllBizStoreByAddress(BizStoreEntity matchedStore) {
         try {
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList().setCityName(matchedStore.getArea());
-            List<BizCategoryEntity> bizCategories = bizService.getBusinessCategories(matchedStore.getBizName().getId());
-            for (BizCategoryEntity bizCategory : bizCategories) {
+            Map<String, String> bizCategories = CommonHelper.getCategories(matchedStore.getBizName().getBusinessType());
+            for (String bizCategoryId : bizCategories.keySet()) {
                 JsonCategory jsonCategory = new JsonCategory()
-                        .setBizCategoryId(bizCategory.getId())
-                        .setCategoryName(bizCategory.getCategoryName())
-                        .setDisplayImage(bizCategory.getDisplayImage());
+                        .setBizCategoryId(bizCategoryId)
+                        .setCategoryName(bizCategories.get(bizCategoryId));
                 bizStoreElasticList.addJsonCategory(jsonCategory);
             }
 
@@ -294,8 +292,7 @@ public class TokenQueueMobileService {
                 bizStoreElastic.setStoreHourElasticList(DomainConversion.getStoreHourElastics(bizService.findAllStoreHours(bizStore.getId())));
 
                 if (StringUtils.isNotBlank(bizStore.getBizCategoryId())) {
-                    BizCategoryEntity bizCategory = bizService.findByBizCategoryId(bizStore.getBizCategoryId());
-                    bizStoreElastic.setBizCategoryName(bizCategory.getCategoryName());
+                    bizStoreElastic.setBizCategoryName(bizCategories.get(bizStore.getBizCategoryId()));
                 } else {
                     LOG.warn("No Category defined for bizStore name={} id={}", bizStore.getBizName(), bizStore.getId());
                 }
