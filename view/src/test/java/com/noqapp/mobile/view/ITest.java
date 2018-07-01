@@ -116,7 +116,6 @@ public class ITest extends RealMongoForITest {
     protected BizNameManager bizNameManager;
     protected BizStoreManager bizStoreManager;
     protected StoreHourManager storeHourManager;
-    protected BizCategoryManager bizCategoryManager;
     protected BusinessUserStoreManager businessUserStoreManager;
     protected BusinessUserService businessUserService;
     protected BusinessUserManager businessUserManager;
@@ -253,7 +252,6 @@ public class ITest extends RealMongoForITest {
         );
 
         bizNameManager = new BizNameManagerImpl(getMongoTemplate());
-        bizCategoryManager = new BizCategoryManagerImpl(getMongoTemplate());
         businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
 
         queueService = new QueueService(
@@ -270,7 +268,6 @@ public class ITest extends RealMongoForITest {
                 bizNameManager,
                 bizStoreManager,
                 storeHourManager,
-                bizCategoryManager,
                 tokenQueueService,
                 queueService,
                 businessUserStoreManager
