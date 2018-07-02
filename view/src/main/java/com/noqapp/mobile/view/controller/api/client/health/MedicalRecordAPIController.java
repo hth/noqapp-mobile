@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.domain.types.medical.MedicalDepartmentEnum;
+import com.noqapp.domain.types.catgeory.MedicalDepartmentEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.MedicalMedicineEntity;
