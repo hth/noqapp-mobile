@@ -5,6 +5,7 @@ import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.medical.domain.json.JsonMedicalPhysical;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,10 +117,11 @@ public class MedicalRecordAPIController {
                                 : MedicalDepartmentEnum.valueOf(medicalRecord.getBizCategoryId()).getDescription());
 
                 if (null != medicalRecord.getMedicalPhysical()) {
-                    Set<String> medicalPhysicalExaminationIds = medicalRecord.getMedicalPhysical().getMedicalPhysicalExaminationIds();
-                    for (String id : medicalPhysicalExaminationIds) {
-                        //TODO something
-                    }
+                    jsonMedicalRecord.setMedicalPhysical(
+                            new JsonMedicalPhysical()
+                                    .setBloodPressure(medicalRecord.getMedicalPhysical().getBloodPressure())
+                                    .setPluse(medicalRecord.getMedicalPhysical().getPluse())
+                                    .setWeight(medicalRecord.getMedicalPhysical().getWeight()));
                 }
 
                 if (null != medicalRecord.getMedicalMedication()) {
