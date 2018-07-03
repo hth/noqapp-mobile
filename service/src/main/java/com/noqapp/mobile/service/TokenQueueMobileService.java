@@ -250,6 +250,11 @@ public class TokenQueueMobileService {
                             BusinessUserStoreEntity businessUserStore = businessUsers.get(0);
                             bizStoreElastic.setWebProfileId(professionalProfileService.findByQid(businessUserStore.getQueueUserId()).getWebProfileId());
 
+                            /*
+                             * Since all bizStore are clubbed for this business type,
+                             * we are putting profile image in bizStore instead of display image of store.
+                             * Client needs to show first one from service image as banner image.
+                             */
                             UserProfileEntity userProfile = userProfileManager.findByQueueUserId(businessUserStore.getQueueUserId());
                             bizStoreElastic.setDisplayImage(userProfile.getProfileImage());
                         }
