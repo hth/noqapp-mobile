@@ -2131,6 +2131,7 @@
         <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
         <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
         <root url="file://$PROJECT_DIR$/../noqapp/medical/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../noqapp/medical/src/test/java" />
         <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
         <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
         <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
