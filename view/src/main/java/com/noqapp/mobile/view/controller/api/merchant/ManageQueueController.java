@@ -274,6 +274,10 @@ public class ManageQueueController {
                 case R:
                 case S:
                     jsonToken = queueService.getNextInQueue(codeQR, goTo, did.getText());
+
+                    /* Remove delay or any setting associated before starting of queue. */
+                    LOG.info("Resetting queue when queue status={}", tokenQueue.getQueueStatus());
+                    tokenQueueService.resetQueueSettingWhenQueueStarts(codeQR);
                     break;
                 default:
                     LOG.error("Reached unsupported condition queueState={}", tokenQueue.getQueueStatus());
