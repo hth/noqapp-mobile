@@ -5,7 +5,6 @@ import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
-import com.noqapp.medical.domain.json.JsonMedicalPhysical;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +23,7 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.MedicalMedicineEntity;
 import com.noqapp.medical.domain.MedicalRecordEntity;
 import com.noqapp.medical.domain.json.JsonMedicalMedicine;
+import com.noqapp.medical.domain.json.JsonMedicalPhysical;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.domain.json.JsonMedicalRecordList;
 import com.noqapp.medical.domain.json.JsonRecordAccess;
@@ -37,7 +37,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -125,7 +124,7 @@ public class MedicalRecordAPIController {
                 }
 
                 if (null != medicalRecord.getMedicalMedication()) {
-                    List<MedicalMedicineEntity> medicalMedicines = medicalRecordService.findByIds(String.join(",", medicalRecord.getMedicalMedication().getMedicineIds()));
+                    List<MedicalMedicineEntity> medicalMedicines = medicalRecordService.findByIds(medicalRecord.getMedicalMedication().getMedicineIds());
                     for (MedicalMedicineEntity medicalMedicine : medicalMedicines) {
                         jsonMedicalRecord.addMedicine(JsonMedicalMedicine.fromMedicalMedicine(medicalMedicine));
                     }
