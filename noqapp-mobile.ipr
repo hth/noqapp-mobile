@@ -324,7 +324,6 @@
             <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:6.3.0" />
             <element id="library" level="project" name="Gradle: org.mockito:mockito-core:2.18.0" />
             <element id="library" level="project" name="Gradle: org.mockito:mockito-inline:2.18.0" />
-            <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.8.0-beta3" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-aop:5.0.7.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-aspects:5.0.7.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-beans:5.0.7.RELEASE" />
@@ -343,6 +342,7 @@
             <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.0.7.RELEASE" />
             <element id="library" level="project" name="Gradle: de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.1.1" />
             <element id="library" level="project" name="Gradle: de.flapdoodle.embed:de.flapdoodle.embed.process:2.0.5" />
+            <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.8.0" />
           </element>
           <element id="directory" name="freemarker">
             <element id="dir-copy" path="$PROJECT_DIR$/view/web/WEB-INF/freemarker" />
@@ -423,7 +423,6 @@
             <element id="library" level="project" name="Gradle: org.springframework:spring-core:5.0.7.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-instrument:5.0.7.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-crypto:5.0.0.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.8.0-beta3" />
             <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.3.0" />
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.11.0" />
             <element id="library" level="project" name="Gradle: com.braintreepayments.gateway:braintree-java:2.74.1" />
@@ -685,6 +684,7 @@
             <element id="library" level="project" name="Gradle: javax.annotation:javax.annotation-api:1.2" />
             <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.11" />
             <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.8.0/d9d56e3f038524c29c86afcd2db3d38a19c3bc11/mongo-java-driver-3.8.0.jar" />
           </element>
         </element>
       </root>
@@ -766,7 +766,6 @@
             <element id="library" level="project" name="Gradle: org.springframework:spring-core:5.0.7.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework:spring-instrument:5.0.7.RELEASE" />
             <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-crypto:5.0.0.RELEASE" />
-            <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.8.0-beta3" />
             <element id="library" level="project" name="Gradle: org.elasticsearch.client:elasticsearch-rest-high-level-client:6.3.0" />
             <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.11.0" />
             <element id="library" level="project" name="Gradle: com.braintreepayments.gateway:braintree-java:2.74.1" />
@@ -1032,6 +1031,7 @@
               <element id="module-output" name="service_main" />
               <element id="dir-copy" path="$PROJECT_DIR$/service/out/production/resources" />
             </element>
+            <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.8.0/d9d56e3f038524c29c86afcd2db3d38a19c3bc11/mongo-java-driver-3.8.0.jar" />
           </element>
         </element>
       </root>
@@ -4286,15 +4286,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-inline/2.18.0/ec2de7115cb5edb29316d912c0e5f7c210e97b1/mockito-inline-2.18.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.mongodb:mongo-java-driver:3.8.0-beta3">
+    <library name="Gradle: org.mongodb:mongo-java-driver:3.8.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.8.0-beta3/f45728f1d9dad6ad16eeec640306cea44b7f0303/mongo-java-driver-3.8.0-beta3.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.8.0/d9d56e3f038524c29c86afcd2db3d38a19c3bc11/mongo-java-driver-3.8.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.8.0-beta3/14fc718590fec271d4247b210b1c9dce70c4ed13/mongo-java-driver-3.8.0-beta3-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.8.0/b0a7c9a2600f147537234bdcb38b7edcae2db26d/mongo-java-driver-3.8.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.8.0-beta3/fcae9b3720e6f73389f52e315352a0e1592f8e7f/mongo-java-driver-3.8.0-beta3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.8.0/62852d91d41bfca1ca26ad9e5fc6a9736067208c/mongo-java-driver-3.8.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.objenesis:objenesis:2.6">
