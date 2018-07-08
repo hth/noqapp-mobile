@@ -174,7 +174,11 @@ public class BusinessCustomerController {
 
             return queueService.getQueuedPerson(userProfile.getQueueUserId(), jsonBusinessCustomer.getCodeQR());
         } catch (JsonMappingException e) {
-            LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed parsing json={} qid={} reason={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } catch (Exception e) {
+            LOG.error("Failed adding customer id qid={} reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
@@ -259,7 +263,7 @@ public class BusinessCustomerController {
 
             return queueService.getQueuedPerson(jsonBusinessCustomer.getQueueUserId(), jsonBusinessCustomer.getCodeQR());
         } catch (JsonMappingException e) {
-            LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed parsing json={} qid={} reason={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
