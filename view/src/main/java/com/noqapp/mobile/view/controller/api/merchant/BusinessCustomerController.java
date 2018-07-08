@@ -26,11 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BusinessCustomerEntity;
 import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.JsonBusinessCustomerLookup;
+import com.noqapp.domain.json.JsonBusinessCustomer;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.AccountService;
@@ -86,6 +85,7 @@ public class BusinessCustomerController {
         this.apiHealthService = apiHealthService;
     }
 
+    /** Add Business Customer Id to existing QID. */
     @PostMapping(
             value = "/addId",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -119,9 +119,9 @@ public class BusinessCustomerController {
         }
 
         try {
-            JsonBusinessCustomerLookup businessCustomerLookup = new ObjectMapper().readValue(
+            JsonBusinessCustomer businessCustomerLookup = new ObjectMapper().readValue(
                     requestBodyJson,
-                    JsonBusinessCustomerLookup.class);
+                    JsonBusinessCustomer.class);
 
             if (StringUtils.isBlank(businessCustomerLookup.getCodeQR())) {
                 LOG.warn("Not a valid codeQR={} qid={}", businessCustomerLookup.getCodeQR(), qid);
@@ -132,13 +132,13 @@ public class BusinessCustomerController {
                 return null;
             }
 
-            BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByCustomerId(
-                    businessCustomerLookup.getBusinessCustomerId(),
+            BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(
+                    businessCustomerLookup.getQueueUserId(),
                     businessCustomerLookup.getCodeQR());
 
             UserProfileEntity userProfile = null;
             if (businessCustomer == null) {
-                userProfile = accountService.checkUserExistsByPhone(businessCustomerLookup.getCustomerPhone());
+                userProfile = accountService.findProfileByQueueUserId(businessCustomerLookup.getQueueUserId());
             }
 
             if (userProfile == null) {
