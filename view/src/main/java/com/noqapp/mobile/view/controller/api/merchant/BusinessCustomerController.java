@@ -2,6 +2,8 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.BUSINESS_CUSTOMER_ID_DOES_NOT_EXISTS;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.BUSINESS_CUSTOMER_ID_EXISTS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -24,13 +27,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.common.utils.Validate;
 import com.noqapp.domain.BusinessCustomerEntity;
+import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.JsonBusinessCustomerLookup;
+import com.noqapp.domain.json.JsonBusinessCustomer;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.AccountService;
@@ -86,6 +90,7 @@ public class BusinessCustomerController {
         this.apiHealthService = apiHealthService;
     }
 
+    /** Add Business Customer Id to existing QID. */
     @PostMapping(
             value = "/addId",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -119,34 +124,41 @@ public class BusinessCustomerController {
         }
 
         try {
-            JsonBusinessCustomerLookup businessCustomerLookup = new ObjectMapper().readValue(
+            JsonBusinessCustomer jsonBusinessCustomer = new ObjectMapper().readValue(
                     requestBodyJson,
-                    JsonBusinessCustomerLookup.class);
+                    JsonBusinessCustomer.class);
 
-            if (StringUtils.isBlank(businessCustomerLookup.getCodeQR())) {
-                LOG.warn("Not a valid codeQR={} qid={}", businessCustomerLookup.getCodeQR(), qid);
+            if (StringUtils.isBlank(jsonBusinessCustomer.getCodeQR())) {
+                LOG.warn("Not a valid codeQR={} qid={}", jsonBusinessCustomer.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(qid, businessCustomerLookup.getCodeQR())) {
+            } else if (!businessUserStoreService.hasAccess(qid, jsonBusinessCustomer.getCodeQR())) {
                 LOG.info("Un-authorized store access to /api/m/bc/addId by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
 
-            BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByCustomerId(
-                    businessCustomerLookup.getBusinessCustomerId(),
-                    businessCustomerLookup.getCodeQR());
-
-            UserProfileEntity userProfile = null;
-            if (businessCustomer == null) {
-                userProfile = accountService.checkUserExistsByPhone(businessCustomerLookup.getCustomerPhone());
+            try {
+                Assert.isTrue(Validate.isValidQid(jsonBusinessCustomer.getQueueUserId()), "Queue user id not valid");
+            } catch (Exception e) {
+                LOG.error("Failed as qid is null reason={}", e.getLocalizedMessage(), e);
+                return getErrorReason("Not a valid queue status.", MOBILE_JSON);
+            }
+            
+            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, jsonBusinessCustomer.getCodeQR());
+            BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(
+                    jsonBusinessCustomer.getQueueUserId(),
+                    businessUserStore.getBizNameId());
+            if (null != businessCustomer) {
+                return getErrorReason("Business customer id already exists", BUSINESS_CUSTOMER_ID_EXISTS);
             }
 
-            if (userProfile == null) {
+            UserProfileEntity userProfile = accountService.findProfileByQueueUserId(jsonBusinessCustomer.getQueueUserId());
+            if (null == userProfile) {
                 /* Likely hood of reach here is zero, but if you do reach, then do investigate. */
 
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
-                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), businessCustomerLookup.getCustomerPhone());
+                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), jsonBusinessCustomer.getCustomerPhone());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
                 return ErrorEncounteredJson.toJson(errors);
@@ -154,11 +166,13 @@ public class BusinessCustomerController {
 
             businessCustomerService.addBusinessCustomer(
                     userProfile.getQueueUserId(),
-                    businessCustomerLookup.getCodeQR(),
-                    businessCustomerLookup.getBusinessCustomerId());
-            LOG.info("Added business customer number to qid={} businessCustomerId={}", userProfile.getQueueUserId(), businessCustomerLookup.getBusinessCustomerId());
+                    jsonBusinessCustomer.getCodeQR(),
+                    businessUserStore.getBizNameId(),
+                    jsonBusinessCustomer.getBusinessCustomerId());
+            LOG.info("Added business customer number to qid={} businessCustomerId={}",
+                    userProfile.getQueueUserId(), jsonBusinessCustomer.getBusinessCustomerId());
 
-            return queueService.getQueuedPerson(userProfile.getQueueUserId(), businessCustomerLookup.getCodeQR());
+            return queueService.getQueuedPerson(userProfile.getQueueUserId(), jsonBusinessCustomer.getCodeQR());
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -167,6 +181,91 @@ public class BusinessCustomerController {
             apiHealthService.insert(
                     "/addId",
                     "addId",
+                    BusinessCustomerController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Edit Business Customer Id to existing QID. */
+    @PostMapping(
+            value = "/editId",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String editBusinessCustomerId(
+            @RequestHeader("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput deviceType,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @RequestBody
+            String requestBodyJson,
+
+            HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("All queues associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/bc/editId by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            JsonBusinessCustomer jsonBusinessCustomer = new ObjectMapper().readValue(
+                    requestBodyJson,
+                    JsonBusinessCustomer.class);
+
+            if (StringUtils.isBlank(jsonBusinessCustomer.getCodeQR())) {
+                LOG.warn("Not a valid codeQR={} qid={}", jsonBusinessCustomer.getCodeQR(), qid);
+                return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+            } else if (!businessUserStoreService.hasAccess(qid, jsonBusinessCustomer.getCodeQR())) {
+                LOG.info("Un-authorized store access to /api/m/bc/editId by mail={}", mail);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+                return null;
+            }
+
+            try {
+                Assert.isTrue(Validate.isValidQid(jsonBusinessCustomer.getQueueUserId()), "Queue user id not valid");
+            } catch (Exception e) {
+                LOG.error("Failed as qid is null reason={}", e.getLocalizedMessage(), e);
+                return getErrorReason("Not a valid queue status.", MOBILE_JSON);
+            }
+
+            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, jsonBusinessCustomer.getCodeQR());
+            BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(
+                    jsonBusinessCustomer.getQueueUserId(),
+                    businessUserStore.getBizNameId());
+            if (null == businessCustomer) {
+                return getErrorReason("Business customer id does not exists", BUSINESS_CUSTOMER_ID_DOES_NOT_EXISTS);
+            }
+
+            businessCustomerService.editBusinessCustomer(
+                    jsonBusinessCustomer.getQueueUserId(),
+                    jsonBusinessCustomer.getCodeQR(),
+                    businessUserStore.getBizNameId(),
+                    jsonBusinessCustomer.getBusinessCustomerId());
+            LOG.info("Edit business customer number to qid={} businessCustomerId={}",
+                    jsonBusinessCustomer.getQueueUserId(), jsonBusinessCustomer.getBusinessCustomerId());
+
+            return queueService.getQueuedPerson(jsonBusinessCustomer.getQueueUserId(), jsonBusinessCustomer.getCodeQR());
+        } catch (JsonMappingException e) {
+            LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                    "/editId",
+                    "editId",
                     BusinessCustomerController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
