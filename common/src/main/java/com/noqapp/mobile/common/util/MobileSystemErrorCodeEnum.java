@@ -28,6 +28,8 @@ public enum MobileSystemErrorCodeEnum {
     MEDICAL_RECORD_ENTRY_DENIED("4101"),
     MEDICAL_RECORD_ACCESS_DENIED("4102"),
     BUSINESS_NOT_AUTHORIZED("4120"),
+    BUSINESS_CUSTOMER_ID_DOES_NOT_EXISTS("4121"),
+    BUSINESS_CUSTOMER_ID_EXISTS("4122"),
 
     /** Mobile application related issue. */
     SEVERE("5000"),
