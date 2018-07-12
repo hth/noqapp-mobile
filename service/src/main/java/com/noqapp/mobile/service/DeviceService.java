@@ -108,12 +108,7 @@ public class DeviceService {
         return registeredDeviceManager.lastAccessed(qid, did, token);
     }
 
-    /**
-     * Update Registered Device after register or login when token is not available.
-     *
-     * @param qid
-     * @param did
-     */
+    /** Update Registered Device after register or login when token is not available. */
     public void updateRegisteredDevice(String qid, String did, DeviceTypeEnum deviceType) {
         RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(null, did);
 
