@@ -86,12 +86,14 @@ public class DeviceService {
                 }
             } else if (StringUtils.isNotBlank(token)) {
                 LOG.info("Updating registered device of deviceType={} did={} qid={}", deviceType, did, qid);
-                registeredDevice.setQueueUserId(qid);
-                registeredDevice.setDeviceType(deviceType);
-                registeredDevice.setToken(token);
-                registeredDevice.setSinceBeginning(true);
-                registeredDeviceManager.save(registeredDevice);
-                LOG.info("updated registered device for did={} token={}", did, token);
+                boolean updateSuccess = registeredDeviceManager.updateDevice(
+                        registeredDevice.getId(),
+                        registeredDevice.getDeviceId(),
+                        qid,
+                        deviceType,
+                        token,
+                        true);
+                LOG.info("updated registered device for did={} token={} updateSucess={}", did, token, updateSuccess);
             }
         } catch (Exception e) {
             LOG.error("Failed device registration deviceType={} did={} rid={} reason={}", deviceType, did, qid, e.getLocalizedMessage(), e);
