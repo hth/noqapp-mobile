@@ -1,29 +1,5 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
-import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
-
-import org.apache.commons.lang3.StringUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.ParseJsonStringToMap;
@@ -32,10 +8,8 @@ import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonUserAddress;
 import com.noqapp.domain.json.JsonUserAddressList;
-import com.noqapp.domain.types.medical.BloodTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.medical.domain.UserMedicalProfileEntity;
 import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.JsonProfile;
@@ -43,23 +17,26 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
-import com.noqapp.mobile.view.validator.UserMedicalProfileValidator;
-import com.noqapp.service.InviteService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import javax.servlet.http.HttpServletResponse;
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.*;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 /**
  * User: hitender
@@ -78,12 +55,10 @@ public class ClientProfileAPIController {
 
     private AuthenticateMobileService authenticateMobileService;
     private UserProfilePreferenceService userProfilePreferenceService;
-    private InviteService inviteService;
     private ApiHealthService apiHealthService;
     private AccountClientValidator accountClientValidator;
     private AccountMobileService accountMobileService;
     private UserAddressService userAddressService;
-    private UserMedicalProfileValidator userMedicalProfileValidator;
     private UserMedicalProfileService userMedicalProfileService;
     private ProfileCommonHelper profileCommonHelper;
 
@@ -91,23 +66,19 @@ public class ClientProfileAPIController {
     public ClientProfileAPIController(
             AuthenticateMobileService authenticateMobileService,
             UserProfilePreferenceService userProfilePreferenceService,
-            InviteService inviteService,
             ApiHealthService apiHealthService,
             AccountClientValidator accountClientValidator,
             AccountMobileService accountMobileService,
             UserAddressService userAddressService,
-            UserMedicalProfileValidator userMedicalProfileValidator,
             UserMedicalProfileService userMedicalProfileService,
             ProfileCommonHelper profileCommonHelper
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
-        this.inviteService = inviteService;
         this.apiHealthService = apiHealthService;
         this.accountClientValidator = accountClientValidator;
         this.accountMobileService = accountMobileService;
         this.userAddressService = userAddressService;
-        this.userMedicalProfileValidator = userMedicalProfileValidator;
         this.userMedicalProfileService = userMedicalProfileService;
         this.profileCommonHelper = profileCommonHelper;
     }
@@ -169,83 +140,6 @@ public class ClientProfileAPIController {
             HttpServletResponse response
     ) throws IOException {
         return profileCommonHelper.updateProfile(mail, auth, updateProfileJson, response);
-    }
-
-    /* Update Medical Profile of user. */
-    @PostMapping(
-            value = "/updateUserMedicalProfile",
-            headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
-    )
-    public String updateUserMedicalProfile(
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
-
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
-
-            @RequestBody
-            String userMedicalProfileJson,
-
-            HttpServletResponse response
-    ) throws IOException {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        Map<String, ScrubbedInput> map;
-        try {
-            map = ParseJsonStringToMap.jsonStringToMap(userMedicalProfileJson);
-        } catch (IOException e) {
-            LOG.error("Could not parse json={} reason={}", userMedicalProfileJson, e.getLocalizedMessage(), e);
-            return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
-        }
-
-        Map<String, String> errors;
-        try {
-            if (map.isEmpty()) {
-                /* Validation failure as there is no data in the map. */
-                return ErrorEncounteredJson.toJson(userMedicalProfileValidator.validate(null));
-            } else {
-                Set<String> unknownKeys = invalidElementsInMapDuringUpdateUserMedicalProfile(map);
-                if (!unknownKeys.isEmpty()) {
-                    /* Validation failure as there are unknown keys. */
-                    return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
-                }
-
-                /* Required. */
-                BloodTypeEnum bloodType = BloodTypeEnum.valueOf(map.get(AccountMobileService.MEDICAL_PROFILE.BT.name().toLowerCase()).getText());
-
-                errors = userMedicalProfileValidator.validate(bloodType);
-
-                if (!errors.isEmpty()) {
-                    return ErrorEncounteredJson.toJson(errors);
-                }
-
-                UserMedicalProfileEntity userMedicalProfile = userMedicalProfileService.findOne(qid);
-                userMedicalProfile.setBloodType(bloodType);
-                userMedicalProfileService.save(userMedicalProfile);
-            }
-
-            return accountMobileService.getProfileAsJson(qid);
-        } catch (Exception e) {
-            LOG.error("Failed updating user medical profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
-        } finally {
-            apiHealthService.insert(
-                    "/updateUserMedicalProfile",
-                    "updateUserMedicalProfile",
-                    ProfileCommonHelper.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
     }
 
     @PostMapping(
@@ -558,16 +452,6 @@ public class ClientProfileAPIController {
         List<AccountMobileService.ACCOUNT_MIGRATE> enums = new ArrayList<>(Arrays.asList(AccountMobileService.ACCOUNT_MIGRATE.values()));
         for (AccountMobileService.ACCOUNT_MIGRATE registration : enums) {
             keys.remove(registration.name());
-        }
-
-        return keys;
-    }
-
-    private Set<String> invalidElementsInMapDuringUpdateUserMedicalProfile(Map<String, ScrubbedInput> map) {
-        Set<String> keys = new HashSet<>(map.keySet());
-        List<AccountMobileService.MEDICAL_PROFILE> enums = new ArrayList<>(Arrays.asList(AccountMobileService.MEDICAL_PROFILE.values()));
-        for (AccountMobileService.MEDICAL_PROFILE medicalProfile : enums) {
-            keys.remove(medicalProfile.name().toLowerCase());
         }
 
         return keys;
