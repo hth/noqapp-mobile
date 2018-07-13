@@ -63,9 +63,6 @@ public final class JsonProfile extends AbstractDomain {
     @JsonProperty ("ic")
     private String inviteCode;
 
-    @JsonProperty ("rj")
-    private int remoteJoin;
-
     @JsonProperty ("bd")
     private String birthday;
 
@@ -102,8 +99,7 @@ public final class JsonProfile extends AbstractDomain {
             String birthday,
             GenderEnum gender,
             UserLevelEnum userLevel,
-            BusinessTypeEnum businessType,
-            int remoteJoin
+            BusinessTypeEnum businessType
     ) {
         this.queueUserId = queueUserId;
         this.profileImage = profileImage;
@@ -118,10 +114,9 @@ public final class JsonProfile extends AbstractDomain {
         this.gender = gender;
         this.userLevel = userLevel;
         this.businessType = businessType;
-        this.remoteJoin = remoteJoin;
     }
 
-    public static JsonProfile newInstance(UserProfileEntity userProfile, int remoteJoin) {
+    public static JsonProfile newInstance(UserProfileEntity userProfile) {
         return new JsonProfile(
                 userProfile.getQueueUserId(),
                 userProfile.getProfileImage(),
@@ -135,8 +130,7 @@ public final class JsonProfile extends AbstractDomain {
                 userProfile.getBirthday(),
                 userProfile.getGender(),
                 userProfile.getLevel(),
-                userProfile.getBusinessType(),
-                remoteJoin
+                userProfile.getBusinessType()
         );
     }
 
@@ -174,10 +168,6 @@ public final class JsonProfile extends AbstractDomain {
 
     public String getInviteCode() {
         return inviteCode;
-    }
-
-    public int getRemoteJoin() {
-        return remoteJoin;
     }
 
     public String getBirthday() {
