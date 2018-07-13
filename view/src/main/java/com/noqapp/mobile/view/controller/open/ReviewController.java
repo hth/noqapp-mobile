@@ -56,16 +56,7 @@ public class ReviewController {
         this.apiHealthService = apiHealthService;
     }
 
-    /**
-     * Add review to service. This includes today's service or historical service.
-     *
-     * @param did
-     * @param dt
-     * @param bodyJson
-     * @param response
-     * @return
-     * @throws IOException
-     */
+    /** Add review to service. This includes today's service or historical service. */
     @PostMapping(
             value = "/service",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"

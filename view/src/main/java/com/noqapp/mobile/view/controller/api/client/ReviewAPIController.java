@@ -63,15 +63,6 @@ public class ReviewAPIController {
 
     /**
      * Add review to service. This includes today's service or historical service.
-     *
-     * @param did
-     * @param dt
-     * @param mail
-     * @param auth
-     * @param bodyJson
-     * @param response
-     * @return
-     * @throws IOException
      */
     @PostMapping(
             value = "/service",
