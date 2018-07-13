@@ -135,7 +135,7 @@ public class UserMedicalProfileController {
             apiHealthService.insert(
                     "/updateUserMedicalProfile",
                     "updateUserMedicalProfile",
-                    ProfileCommonHelper.class.getName(),
+                    UserMedicalProfileController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
