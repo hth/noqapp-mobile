@@ -342,15 +342,12 @@ public class ClientProfileAPIController {
                 }
 
                 userProfile = userProfilePreferenceService.findByQueueUserId(userAccount.getQueueUserId());
-                int remoteJoin = inviteService.getRemoteJoinCount(userAccount.getQueueUserId());
-                LOG.info("Remote join available={}", remoteJoin);
-
-                JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, remoteJoin);
+                JsonProfile jsonProfile = JsonProfile.newInstance(userProfile);
                 jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
 
                 if (null != userProfile.getQidOfDependents()) {
                     for (String qidOfDependent : userProfile.getQidOfDependents()) {
-                        jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(qidOfDependent), 0));
+                        jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(qidOfDependent)));
                     }
                 }
 

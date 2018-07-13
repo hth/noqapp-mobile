@@ -59,7 +59,6 @@ public class TokenQueueAPIController {
 
     private TokenQueueMobileService tokenQueueMobileService;
     private QueueMobileService queueMobileService;
-    private InviteService inviteService;
     private AuthenticateMobileService authenticateMobileService;
     private PurchaseOrderService purchaseOrderService;
     private ApiHealthService apiHealthService;
@@ -68,14 +67,12 @@ public class TokenQueueAPIController {
     public TokenQueueAPIController(
             TokenQueueMobileService tokenQueueMobileService,
             QueueMobileService queueMobileService,
-            InviteService inviteService,
             AuthenticateMobileService authenticateMobileService,
             PurchaseOrderService purchaseOrderService,
             ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
-        this.inviteService = inviteService;
         this.authenticateMobileService = authenticateMobileService;
         this.purchaseOrderService = purchaseOrderService;
         this.apiHealthService = apiHealthService;
@@ -498,11 +495,7 @@ public class TokenQueueAPIController {
         }
 
         try {
-            JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(codeQR.getText());
-            int remoteJoinCount = inviteService.getRemoteJoinCount(qid);
-            LOG.info("Found available remote join for qid={} is remoteJoinCount={}", qid, remoteJoinCount);
-            jsonQueue.setRemoteJoinCount(remoteJoinCount);
-            return jsonQueue.asJson();
+            return tokenQueueMobileService.findTokenState(codeQR.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queue state qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(

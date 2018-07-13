@@ -65,7 +65,6 @@ class ManageQueueControllerITest extends ITest {
         tokenQueueAPIController = new TokenQueueAPIController(
                 tokenQueueMobileService,
                 queueMobileService,
-                inviteService,
                 authenticateMobileService,
                 purchaseOrderService,
                 apiHealthService
