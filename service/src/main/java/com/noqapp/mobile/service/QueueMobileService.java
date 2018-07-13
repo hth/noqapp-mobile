@@ -115,7 +115,7 @@ public class QueueMobileService {
     public JsonTokenAndQueueList findAllJoinedQueues(String qid, String did) {
         Validate.isValidQid(qid);
         List<QueueEntity> queues = queueService.findAllQueuedByQid(qid);
-        LOG.info("Currently joined queue size={} rid={} did={}", queues.size(), qid, did);
+        LOG.info("Currently joined queue size={} qid={} did={}", queues.size(), qid, did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
             validateJoinedQueue(queue);

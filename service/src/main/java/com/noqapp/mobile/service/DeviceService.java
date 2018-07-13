@@ -1,21 +1,18 @@
 package com.noqapp.mobile.service;
 
-import static java.util.concurrent.Executors.newCachedThreadPool;
-
+import com.noqapp.domain.RegisteredDeviceEntity;
+import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.repository.RegisteredDeviceManager;
 import org.apache.commons.lang3.StringUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
-import com.noqapp.domain.RegisteredDeviceEntity;
-import com.noqapp.domain.types.DeviceTypeEnum;
-import com.noqapp.repository.RegisteredDeviceManager;
-
 import java.util.concurrent.ExecutorService;
+
+import static java.util.concurrent.Executors.newCachedThreadPool;
 
 /**
  * User: hitender
@@ -66,7 +63,7 @@ public class DeviceService {
         try {
             RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(qid, did);
             if (registeredDevice == null) {
-                LOG.info("Registering new deviceType={} did={} rid={}", deviceType, did, qid);
+                LOG.info("Registering new deviceType={} did={} qid={}", deviceType, did, qid);
                 registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, token);
                 try {
                     registeredDeviceManager.save(registeredDevice);
@@ -93,10 +90,10 @@ public class DeviceService {
                         deviceType,
                         token,
                         true);
-                LOG.info("updated registered device for did={} token={} updateSucess={}", did, token, updateSuccess);
+                LOG.info("updated registered device for did={} token={} updateSuccess={}", did, token, updateSuccess);
             }
         } catch (Exception e) {
-            LOG.error("Failed device registration deviceType={} did={} rid={} reason={}", deviceType, did, qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed device registration deviceType={} did={} qid={} reason={}", deviceType, did, qid, e.getLocalizedMessage(), e);
         }
     }
 
