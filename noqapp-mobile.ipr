@@ -206,8 +206,6 @@
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.2.0" />
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-params:5.2.0" />
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.2.0" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.2.0" />
-            <element id="library" level="project" name="Gradle: org.opentest4j:opentest4j:1.1.0" />
             <element id="library" level="project" name="Gradle: com.google.auth:google-auth-library-credentials:0.9.0" />
             <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-cloud-firestore-v1beta1:0.10.0" />
             <element id="library" level="project" name="Gradle: com.google.api.grpc:proto-google-common-protos:1.9.0" />
@@ -362,9 +360,7 @@
     <artifact type="exploded-war" name="Gradle : com.noqapp.mobile : security-1.3.war (exploded)">
       <output-path>$PROJECT_DIR$/security/build/libs/exploded/security-1.3.war</output-path>
       <properties id="gradle-properties">
-        <options external-project-path="$PROJECT_DIR$">
-          <manifest>TWFuaWZlc3QtVmVyc2lvbjogMS4wDQoNCg==</manifest>
-        </options>
+        <options external-project-path="$PROJECT_DIR$" />
       </properties>
       <root id="root">
         <element id="directory" name="META-INF">
@@ -616,7 +612,6 @@
             <element id="library" level="project" name="Gradle: org.apache.pdfbox:jbig2-imageio:3.0.0" />
             <element id="library" level="project" name="Gradle: com.github.jai-imageio:jai-imageio-core:1.3.1" />
             <element id="library" level="project" name="Gradle: org.jrobin:jrobin:1.5.9" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.2.0" />
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.2.0" />
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.2.0" />
             <element id="library" level="project" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" />
@@ -665,7 +660,6 @@
             <element id="library" level="project" name="Gradle: com.beust:jcommander:1.35" />
             <element id="library" level="project" name="Gradle: javax.measure:unit-api:1.0" />
             <element id="library" level="project" name="Gradle: commons-logging:commons-logging-api:1.1" />
-            <element id="library" level="project" name="Gradle: org.opentest4j:opentest4j:1.1.0" />
             <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.17" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.8.10" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.10" />
@@ -701,9 +695,7 @@
     <artifact type="exploded-war" name="Gradle : com.noqapp.mobile : noqapp.mobile-view-1.3.war (exploded)">
       <output-path>$PROJECT_DIR$/view/build/libs/exploded/noqapp.mobile-view-1.3.war</output-path>
       <properties id="gradle-properties">
-        <options external-project-path="$PROJECT_DIR$">
-          <manifest>TWFuaWZlc3QtVmVyc2lvbjogMS4wDQoNCg==</manifest>
-        </options>
+        <options external-project-path="$PROJECT_DIR$" />
       </properties>
       <root id="root">
         <element id="directory" name="META-INF">
@@ -959,7 +951,6 @@
             <element id="library" level="project" name="Gradle: org.apache.pdfbox:jbig2-imageio:3.0.0" />
             <element id="library" level="project" name="Gradle: com.github.jai-imageio:jai-imageio-core:1.3.1" />
             <element id="library" level="project" name="Gradle: org.jrobin:jrobin:1.5.9" />
-            <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.2.0" />
             <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.2.0" />
             <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-commons:1.2.0" />
             <element id="library" level="project" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" />
@@ -1008,7 +999,6 @@
             <element id="library" level="project" name="Gradle: com.beust:jcommander:1.35" />
             <element id="library" level="project" name="Gradle: javax.measure:unit-api:1.0" />
             <element id="library" level="project" name="Gradle: commons-logging:commons-logging-api:1.1" />
-            <element id="library" level="project" name="Gradle: org.opentest4j:opentest4j:1.1.0" />
             <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.17" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.8.10" />
             <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.10" />
@@ -2112,22 +2102,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/domain/1.3.0/domain-1.3.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/medical/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/medical/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:health:1.3.0">
       <CLASSES>
@@ -2155,22 +2130,7 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/noqapp/service/1.3.0/service-1.3.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/common/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/domain/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/health/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/loader/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/medical/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/medical/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/search/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/security/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/service/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/social/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../noqapp/view/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="Gradle: com.noqapp:social:1.3.0">
       <CLASSES>
@@ -3735,10 +3695,14 @@
     </library>
     <library name="Gradle: org.apiguardian:apiguardian-api:1.0.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apiguardian/apiguardian-api/1.0.0/3ef5276905e36f4d8055fe3cb0bdcc7503ffc85d/apiguardian-api-1.0.0.jar!/" />
       </CLASSES>
-      <JAVADOC />
-      <SOURCES />
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apiguardian/apiguardian-api/1.0.0/c00d4b62d6f43f718cedf8e3fd9594faf97d922e/apiguardian-api-1.0.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apiguardian/apiguardian-api/1.0.0/777508fa9f3e03cafb3c1fb2eba3dca317f4b1ee/apiguardian-api-1.0.0-sources.jar!/" />
+      </SOURCES>
     </library>
     <library name="Gradle: org.aspectj:aspectjrt:1.8.13">
       <CLASSES>
@@ -4191,17 +4155,14 @@
     </library>
     <library name="Gradle: org.junit.platform:junit-platform-commons:1.2.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.2.0/junit-platform-commons-1.2.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.2.0/dbce1d822d3dc6c61703b340cd79018518685451/junit-platform-commons-1.2.0.jar!/" />
       </CLASSES>
-      <JAVADOC />
-      <SOURCES />
-    </library>
-    <library name="Gradle: org.junit.platform:junit-platform-engine:1.2.0">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-engine/1.2.0/junit-platform-engine-1.2.0.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.2.0/45d04559d1f09e75eb97e618e824d37ec18ed815/junit-platform-commons-1.2.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.2.0/bf6544529adb99bb5b81454f44ab69f5935be4af/junit-platform-commons-1.2.0-sources.jar!/" />
+      </SOURCES>
     </library>
     <library name="Gradle: org.junit.platform:junit-platform-launcher:1.1.0">
       <CLASSES>
@@ -4268,13 +4229,6 @@
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opengis/geoapi/3.0.1/8c56e525fe648bf5027320e0e67430b1836f4c40/geoapi-3.0.1-sources.jar!/" />
       </SOURCES>
-    </library>
-    <library name="Gradle: org.opentest4j:opentest4j:1.1.0">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.1.0/opentest4j-1.1.0.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
     </library>
     <library name="Gradle: org.osgi:org.osgi.core:4.2.0">
       <CLASSES>

@@ -434,7 +434,7 @@ public class TokenQueueAPIController {
         try {
             return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), qid).asJson();
         } catch (Exception e) {
-            LOG.error("Failed aborting queue rid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed aborting queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
                     "/abort/{codeQR}",
                     "abortQueue",
@@ -569,11 +569,11 @@ public class TokenQueueAPIController {
 //                inviteService.deductRemoteJoinCount(qid);
 //                return jsonToken;
 //            } else {
-//                LOG.warn("Failed joining queue rid={}, remoteJoin={}, means not available", qid, 0);
+//                LOG.warn("Failed joining queue qid={}, remoteJoin={}, means not available", qid, 0);
 //                return getErrorReason("Remote Join not available.", REMOTE_JOIN_EMPTY);
 //            }
 //        } catch (Exception e) {
-//            LOG.error("Failed joining queue rid={}, reason={}", qid, e.getLocalizedMessage(), e);
+//            LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
 //            apiHealthService.insert(
 //                    "/remote/queue/{codeQR}",
 //                    "remoteJoinQueue",
