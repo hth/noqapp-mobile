@@ -9,7 +9,7 @@ public enum MobileSystemErrorCodeEnum {
     /** Can be user input or mobile submission. */
     USER_INPUT("1000"),
 
-    /** Mobile data submitted. */
+    /** Issue in mobile data submitted. */
     MOBILE("2000"),
 
     /** When cannot parse JSON sent to Mobile Server from mobile devices. */
