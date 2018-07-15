@@ -1,35 +1,21 @@
 package com.noqapp.mobile.service;
 
-import static java.util.concurrent.Executors.newCachedThreadPool;
-
-import org.apache.commons.lang3.StringUtils;
-
-import org.joda.time.DateTime;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-
 import com.noqapp.common.utils.Validate;
-import com.noqapp.domain.BizStoreEntity;
-import com.noqapp.domain.QueueEntity;
-import com.noqapp.domain.RegisteredDeviceEntity;
-import com.noqapp.domain.StoreHourEntity;
-import com.noqapp.domain.TokenQueueEntity;
-import com.noqapp.domain.json.JsonQueue;
-import com.noqapp.domain.json.JsonQueuePersonList;
-import com.noqapp.domain.json.JsonToken;
-import com.noqapp.domain.json.JsonTokenAndQueue;
-import com.noqapp.domain.json.JsonTokenAndQueueList;
+import com.noqapp.domain.*;
+import com.noqapp.domain.json.*;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.QueueService;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.ZonedDateTime;
@@ -38,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
+
+import static java.util.concurrent.Executors.newCachedThreadPool;
 
 /**
  * User: hitender
@@ -299,29 +287,30 @@ public class QueueMobileService {
      * @param ratingCount
      * @param hoursSaved
      */
-    public boolean reviewService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved) {
-        executorService.submit(() -> reviewingService(codeQR, token, did, qid, ratingCount, hoursSaved));
+    public boolean reviewService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved, String review) {
+        executorService.submit(() -> reviewingService(codeQR, token, did, qid, ratingCount, hoursSaved, review));
         return true;
     }
 
     /**
      * Submitting review.
      */
-    private void reviewingService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved) {
-        boolean reviewSubmitStatus = queueManager.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved);
+    private void reviewingService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved, String review) {
+        boolean reviewSubmitStatus = queueManager.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved, review);
         if (!reviewSubmitStatus) {
             //TODO(hth) make sure for Guardian this is taken care. Right now its ignore "GQ" add to MySQL Table
-            reviewSubmitStatus = reviewHistoricalService(codeQR, token, did, qid, ratingCount, hoursSaved);
+            reviewSubmitStatus = reviewHistoricalService(codeQR, token, did, qid, ratingCount, hoursSaved, review);
         }
 
-        LOG.info("Review update status={} codeQR={} token={} ratingCount={} hoursSaved={} did={} qid={} ",
+        LOG.info("Review update status={} codeQR={} token={} ratingCount={} hoursSaved={} did={} qid={} review={}",
                 reviewSubmitStatus,
                 codeQR,
                 token,
                 ratingCount,
                 hoursSaved,
                 did,
-                qid);
+                qid,
+                review);
     }
 
     private boolean reviewHistoricalService(
@@ -330,9 +319,10 @@ public class QueueMobileService {
             String did,
             String qid,
             int ratingCount,
-            int hoursSaved
+            int hoursSaved,
+            String review
     ) {
-        return queueManagerJDBC.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved);
+        return queueManagerJDBC.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved, review);
     }
 
     public TokenQueueEntity getTokenQueueByCodeQR(String codeQR) {

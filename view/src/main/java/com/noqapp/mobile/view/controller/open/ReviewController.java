@@ -91,13 +91,14 @@ public class ReviewController {
             int token = Integer.parseInt(map.get("t").getText());
             int ratingCount = Integer.parseInt(map.get("ra").getText());
             int hoursSaved = Integer.parseInt(map.get("hr").getText());
+            String review = map.get("rv").getText();
 
             if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR)) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
                 return null;
             }
 
-            reviewSuccess = queueMobileService.reviewService(codeQR, token, did.getText(), null, ratingCount, hoursSaved);
+            reviewSuccess = queueMobileService.reviewService(codeQR, token, did.getText(), null, ratingCount, hoursSaved, review);
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
