@@ -62,8 +62,9 @@ class ReviewControllerITest extends ITest {
         ReviewRating reviewRating = new ReviewRating()
                 .setCodeQR(did)
                 .setToken(1)
-                .setRatingCount("5")
-                .setHoursSaved("1");
+                .setRatingCount(5)
+                .setHoursSaved(1)
+                .setReview("This is review");
 
         String response = reviewController.service(
                 new ScrubbedInput(did),
@@ -144,8 +145,9 @@ class ReviewControllerITest extends ITest {
         ReviewRating reviewRating = new ReviewRating()
                 .setCodeQR(bizStore.getCodeQR())
                 .setToken(jsonToken.getToken())
-                .setRatingCount("5")
-                .setHoursSaved("1");
+                .setRatingCount(5)
+                .setHoursSaved(1)
+                .setReview("This is review");
 
         /* Fails to update as its still under Queued state. */
         String response = reviewController.service(

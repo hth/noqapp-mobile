@@ -459,11 +459,18 @@ public class ClientProfileAPIController {
             MultipartFile multipartFile,
 
             @RequestPart("profileImageOfQid")
-            String profileImageOfQid,
+            ScrubbedInput profileImageOfQid,
 
             HttpServletResponse response
     ) throws IOException {
-        return profileCommonHelper.uploadProfileImage(did, dt, mail, auth, new ScrubbedInput(profileImageOfQid), multipartFile, response);
+        return profileCommonHelper.uploadProfileImage(
+                did.getText(),
+                dt.getText(),
+                mail.getText(),
+                auth.getText(),
+                profileImageOfQid.getText(),
+                multipartFile,
+                response);
     }
 
     private Set<String> invalidElementsInMapDuringMigration(Map<String, ScrubbedInput> map) {

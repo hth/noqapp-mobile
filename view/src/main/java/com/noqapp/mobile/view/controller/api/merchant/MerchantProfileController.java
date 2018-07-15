@@ -222,11 +222,18 @@ public class MerchantProfileController {
             MultipartFile multipartFile,
 
             @RequestPart("profileImageOfQid")
-            String profileImageOfQid,
+            ScrubbedInput profileImageOfQid,
 
             HttpServletResponse response
     ) throws IOException {
-        return profileCommonHelper.uploadProfileImage(did, dt, mail, auth, new ScrubbedInput(profileImageOfQid), multipartFile, response);
+        return profileCommonHelper.uploadProfileImage(
+                did.getText(),
+                dt.getText(),
+                mail.getText(),
+                auth.getText(),
+                profileImageOfQid.getText(),
+                multipartFile,
+                response);
     }
 
     /** Add suggestions back to merchant's professional profile. */
