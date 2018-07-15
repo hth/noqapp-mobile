@@ -3,6 +3,8 @@ package com.noqapp.mobile.view.listener;
 import com.noqapp.common.config.FirebaseConfig;
 import com.noqapp.common.utils.CommonUtil;
 
+import com.maxmind.geoip2.DatabaseReader;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,8 +15,6 @@ import org.springframework.stereotype.Component;
 
 import org.elasticsearch.action.main.MainResponse;
 import org.elasticsearch.client.RestHighLevelClient;
-
-import com.maxmind.geoip2.DatabaseReader;
 
 import java.io.IOException;
 import java.sql.SQLException;
