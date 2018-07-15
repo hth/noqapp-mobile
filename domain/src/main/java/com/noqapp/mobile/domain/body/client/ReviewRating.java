@@ -33,10 +33,10 @@ public class ReviewRating extends AbstractDomain {
     private int token;
 
     @JsonProperty("ra")
-    private String ratingCount;
+    private int ratingCount;
 
     @JsonProperty("hr")
-    private String hoursSaved;
+    private int hoursSaved;
 
     @JsonProperty("rv")
     private String review;
@@ -59,20 +59,20 @@ public class ReviewRating extends AbstractDomain {
         return this;
     }
 
-    public String getRatingCount() {
+    public int getRatingCount() {
         return ratingCount;
     }
 
-    public ReviewRating setRatingCount(String ratingCount) {
+    public ReviewRating setRatingCount(int ratingCount) {
         this.ratingCount = ratingCount;
         return this;
     }
 
-    public String getHoursSaved() {
+    public int getHoursSaved() {
         return hoursSaved;
     }
 
-    public ReviewRating setHoursSaved(String hoursSaved) {
+    public ReviewRating setHoursSaved(int hoursSaved) {
         this.hoursSaved = hoursSaved;
         return this;
     }

@@ -3,15 +3,17 @@ package com.noqapp.mobile.view.controller.api.client;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 
-import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.mobile.domain.body.client.ReviewRating;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -85,7 +86,7 @@ public class ReviewAPIController {
             ScrubbedInput auth,
 
             @RequestBody
-            String bodyJson,
+            String requestBodyJson,
 
             HttpServletResponse response
     ) throws IOException {
@@ -94,30 +95,32 @@ public class ReviewAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        Map<String, ScrubbedInput> map;
+        ReviewRating reviewRating;
         try {
-            map = ParseJsonStringToMap.jsonStringToMap(bodyJson);
+            reviewRating = new ObjectMapper().readValue(
+                    requestBodyJson,
+                    ReviewRating.class);
         } catch (IOException e) {
-            LOG.error("Could not parse json={} reason={}", bodyJson, e.getLocalizedMessage(), e);
+            LOG.error("Could not parse json={} reason={}", requestBodyJson, e.getLocalizedMessage(), e);
             return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
         }
 
         boolean reviewSuccess = false;
         try {
             /* Required. */
-            String codeQR = map.get("codeQR").getText();
-            /* Required. */
-            int token = Integer.parseInt(map.get("t").getText());
-            int ratingCount = Integer.parseInt(map.get("ra").getText());
-            int hoursSaved = Integer.parseInt(map.get("hr").getText());
-            String review = map.get("rv").getText();
-
-            if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR)) {
+            if (!tokenQueueMobileService.getBizService().isValidCodeQR(reviewRating.getCodeQR())) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
                 return null;
             }
 
-            reviewSuccess = queueMobileService.reviewService(codeQR, token, did.getText(), qid, ratingCount, hoursSaved, review);
+            reviewSuccess = queueMobileService.reviewService(
+                    reviewRating.getCodeQR(),
+                    reviewRating.getToken(),
+                    did.getText(),
+                    qid,
+                    reviewRating.getRatingCount(),
+                    reviewRating.getHoursSaved(),
+                    reviewRating.getReview());
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);

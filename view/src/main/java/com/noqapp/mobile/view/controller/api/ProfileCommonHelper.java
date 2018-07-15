@@ -229,24 +229,24 @@ public class ProfileCommonHelper {
     }
 
     public String uploadProfileImage(
-            ScrubbedInput did,
-            ScrubbedInput dt,
-            ScrubbedInput mail,
-            ScrubbedInput auth,
-            ScrubbedInput profileImageOfQid,
+            String did,
+            String dt,
+            String mail,
+            String auth,
+            String profileImageOfQid,
             MultipartFile multipartFile,
             HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = false;
         Instant start = Instant.now();
         LOG.info("Profile Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        String qid = authenticateMobileService.getQueueUserId(mail, auth);
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
 
-        if (null == checkSelfOrDependent(qid, profileImageOfQid.getText())) {
+        if (null == checkSelfOrDependent(qid, profileImageOfQid)) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
