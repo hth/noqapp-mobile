@@ -1,17 +1,17 @@
 package com.noqapp.mobile.domain;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 import com.noqapp.common.utils.AbstractDomain;
+import com.noqapp.common.utils.Formatter;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.medical.JsonUserMedicalProfile;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.domain.types.UserLevelEnum;
-import com.noqapp.common.utils.Formatter;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.ArrayList;
 import java.util.List;

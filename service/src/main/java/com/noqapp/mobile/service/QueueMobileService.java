@@ -1,18 +1,32 @@
 package com.noqapp.mobile.service;
 
+import static java.util.concurrent.Executors.newCachedThreadPool;
+
 import com.noqapp.common.utils.Validate;
-import com.noqapp.domain.*;
-import com.noqapp.domain.json.*;
+import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.QueueEntity;
+import com.noqapp.domain.RegisteredDeviceEntity;
+import com.noqapp.domain.StoreHourEntity;
+import com.noqapp.domain.TokenQueueEntity;
+import com.noqapp.domain.json.JsonQueue;
+import com.noqapp.domain.json.JsonQueuePersonList;
+import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.json.JsonTokenAndQueue;
+import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.QueueService;
+
 import org.apache.commons.lang3.StringUtils;
+
 import org.joda.time.DateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -24,8 +38,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
-
-import static java.util.concurrent.Executors.newCachedThreadPool;
 
 /**
  * User: hitender

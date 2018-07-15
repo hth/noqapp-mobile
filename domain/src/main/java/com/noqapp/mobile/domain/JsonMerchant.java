@@ -1,13 +1,13 @@
 package com.noqapp.mobile.domain;
 
+import com.noqapp.common.utils.AbstractDomain;
+import com.noqapp.domain.json.JsonProfessionalProfile;
+import com.noqapp.domain.json.JsonTopic;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import com.noqapp.common.utils.AbstractDomain;
-import com.noqapp.domain.json.JsonProfessionalProfile;
-import com.noqapp.domain.json.JsonTopic;
 
 import java.util.ArrayList;
 import java.util.List;

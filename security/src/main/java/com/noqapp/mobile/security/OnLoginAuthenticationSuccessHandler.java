@@ -1,6 +1,10 @@
 package com.noqapp.mobile.security;
 
+import com.noqapp.domain.site.QueueUser;
+import com.noqapp.domain.types.RoleEnum;
+
 import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,9 +17,6 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
-
-import com.noqapp.domain.site.QueueUser;
-import com.noqapp.domain.types.RoleEnum;
 
 import java.io.IOException;
 import java.util.Collection;

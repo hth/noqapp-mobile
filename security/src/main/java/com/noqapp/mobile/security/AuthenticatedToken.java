@@ -1,10 +1,11 @@
 package com.noqapp.mobile.security;
 
+import com.noqapp.domain.UserAccountEntity;
+import com.noqapp.service.AccountService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.noqapp.domain.UserAccountEntity;
-import com.noqapp.service.AccountService;
 import org.junit.jupiter.api.Assertions;
 
 /**

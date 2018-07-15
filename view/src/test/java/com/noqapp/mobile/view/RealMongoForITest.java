@@ -2,6 +2,9 @@ package com.noqapp.mobile.view;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+
+import org.springframework.data.mongodb.core.MongoTemplate;
+
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodProcess;
 import de.flapdoodle.embed.mongo.MongodStarter;
@@ -11,7 +14,6 @@ import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
  * hitender

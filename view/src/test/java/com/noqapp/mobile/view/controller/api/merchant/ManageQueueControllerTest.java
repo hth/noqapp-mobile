@@ -1,7 +1,6 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -12,12 +11,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
+import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonHour;
@@ -30,9 +24,6 @@ import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.service.AccountService;
-import com.noqapp.service.BusinessCustomerService;
-import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -42,11 +33,20 @@ import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
+import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
+import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;

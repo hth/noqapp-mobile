@@ -4,6 +4,9 @@ import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_SOCIAL;
 
+import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.mobile.domain.ProviderAndAccessToken;
+
 import com.google.gson.Gson;
 
 import org.apache.http.HttpEntity;
@@ -21,9 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.domain.ProviderAndAccessToken;
 
 import java.io.IOException;
 

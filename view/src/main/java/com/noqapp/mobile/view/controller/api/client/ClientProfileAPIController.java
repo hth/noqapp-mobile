@@ -1,5 +1,12 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.ParseJsonStringToMap;
@@ -19,24 +26,36 @@ import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
+
 import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.*;
-import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * User: hitender

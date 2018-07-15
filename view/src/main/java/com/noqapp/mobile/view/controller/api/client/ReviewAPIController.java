@@ -1,5 +1,8 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
+
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonResponse;
@@ -9,8 +12,10 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,14 +24,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * User: hitender

@@ -3,8 +3,9 @@ package com.noqapp.mobile.view.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * hitender

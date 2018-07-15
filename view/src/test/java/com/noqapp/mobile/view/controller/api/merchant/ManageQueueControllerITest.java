@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
@@ -25,6 +23,9 @@ import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.domain.body.merchant.Served;
 import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

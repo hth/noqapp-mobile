@@ -5,15 +5,26 @@ import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.ProfessionalProfileEntity;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.domain.JsonMerchant;
+import com.noqapp.mobile.domain.JsonProfile;
+import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
+import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
+import com.noqapp.service.UserProfilePreferenceService;
+
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,16 +39,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.JsonTopic;
-import com.noqapp.mobile.domain.JsonMerchant;
-import com.noqapp.mobile.domain.JsonProfile;
-import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
-import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.service.UserProfilePreferenceService;
 
 import java.io.IOException;
 import java.time.Duration;

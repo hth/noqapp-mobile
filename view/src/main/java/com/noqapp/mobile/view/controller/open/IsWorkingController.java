@@ -1,14 +1,17 @@
 package com.noqapp.mobile.view.controller.open;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.noqapp.health.domain.json.JsonSiteHealth;
 import com.noqapp.health.domain.json.JsonSiteHealthService;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.service.SiteHealthService;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

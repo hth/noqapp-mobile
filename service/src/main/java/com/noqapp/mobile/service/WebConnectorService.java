@@ -1,5 +1,7 @@
 package com.noqapp.mobile.service;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -17,8 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 
 /**
  * Helper class to create connection to Web Application for provided endpoint.

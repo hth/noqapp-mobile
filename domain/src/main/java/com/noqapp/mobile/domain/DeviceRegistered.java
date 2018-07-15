@@ -1,10 +1,10 @@
 package com.noqapp.mobile.domain;
 
+import com.noqapp.common.utils.AbstractDomain;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import com.noqapp.common.utils.AbstractDomain;
 
 /**
  * User: hitender

@@ -1,9 +1,8 @@
 package com.noqapp.mobile.view.listener;
 
-import com.maxmind.geoip2.DatabaseReader;
+import com.noqapp.common.config.FirebaseConfig;
 import com.noqapp.common.utils.CommonUtil;
-import org.elasticsearch.action.main.MainResponse;
-import org.elasticsearch.client.RestHighLevelClient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +11,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import com.noqapp.common.config.FirebaseConfig;
+import com.maxmind.geoip2.DatabaseReader;
+import org.elasticsearch.action.main.MainResponse;
+import org.elasticsearch.client.RestHighLevelClient;
 
 import java.io.IOException;
 import java.sql.SQLException;

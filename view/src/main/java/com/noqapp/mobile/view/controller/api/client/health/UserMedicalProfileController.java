@@ -1,5 +1,11 @@
 package com.noqapp.mobile.view.controller.api.client.health;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.types.medical.BloodTypeEnum;
@@ -10,24 +16,29 @@ import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.UserMedicalProfileValidator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * User: hitender

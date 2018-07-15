@@ -1,13 +1,19 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.QueueService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,15 +21,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * hitender

@@ -4,13 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
+import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.TokenQueueService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

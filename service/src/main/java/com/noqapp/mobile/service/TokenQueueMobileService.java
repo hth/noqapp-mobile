@@ -1,13 +1,5 @@
 package com.noqapp.mobile.service;
 
-import org.apache.commons.lang3.StringUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
@@ -33,6 +25,14 @@ import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.service.BizService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.TokenQueueService;
+
+import org.apache.commons.lang3.StringUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.Duration;

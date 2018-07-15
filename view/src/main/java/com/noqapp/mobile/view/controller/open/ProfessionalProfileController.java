@@ -5,10 +5,12 @@ import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.mobile.service.StoreDetailService;
+import com.noqapp.service.ProfessionalProfileService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
