@@ -2,6 +2,16 @@ package com.noqapp.mobile.service;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 
+import com.noqapp.domain.UserAccountEntity;
+import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.flow.RegisterUser;
+import com.noqapp.domain.types.GenderEnum;
+import com.noqapp.medical.service.UserMedicalProfileService;
+import com.noqapp.mobile.domain.JsonProfile;
+import com.noqapp.mobile.domain.SignupUserInfo;
+import com.noqapp.service.AccountService;
+import com.noqapp.service.exceptions.DuplicateAccountException;
+
 import com.google.gson.Gson;
 
 import org.apache.http.HttpResponse;
@@ -19,16 +29,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-
-import com.noqapp.domain.UserAccountEntity;
-import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.flow.RegisterUser;
-import com.noqapp.domain.types.GenderEnum;
-import com.noqapp.medical.service.UserMedicalProfileService;
-import com.noqapp.mobile.domain.JsonProfile;
-import com.noqapp.mobile.domain.SignupUserInfo;
-import com.noqapp.service.AccountService;
-import com.noqapp.service.exceptions.DuplicateAccountException;
 
 import java.io.IOException;
 

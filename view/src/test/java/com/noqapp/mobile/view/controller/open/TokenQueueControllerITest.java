@@ -1,6 +1,9 @@
 package com.noqapp.mobile.view.controller.open;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
@@ -11,6 +14,9 @@ import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.mobile.domain.body.client.DeviceToken;
 import com.noqapp.mobile.view.ITest;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -19,10 +25,6 @@ import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * hitender

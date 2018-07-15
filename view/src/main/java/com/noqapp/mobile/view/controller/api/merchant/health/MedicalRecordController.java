@@ -8,6 +8,19 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSO
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.types.BusinessTypeEnum;
+import com.noqapp.domain.types.UserLevelEnum;
+import com.noqapp.health.domain.types.HealthStatusEnum;
+import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.domain.json.JsonMedicalRecord;
+import com.noqapp.medical.service.MedicalRecordService;
+import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.service.BizService;
+import com.noqapp.service.BusinessUserStoreService;
+
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,19 +36,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.domain.BizStoreEntity;
-import com.noqapp.domain.json.JsonResponse;
-import com.noqapp.domain.types.BusinessTypeEnum;
-import com.noqapp.domain.types.UserLevelEnum;
-import com.noqapp.health.domain.types.HealthStatusEnum;
-import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.medical.domain.json.JsonMedicalRecord;
-import com.noqapp.medical.service.MedicalRecordService;
-import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.service.BizService;
-import com.noqapp.service.BusinessUserStoreService;
 
 import java.io.IOException;
 import java.time.Duration;

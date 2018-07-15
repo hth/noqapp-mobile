@@ -1,18 +1,21 @@
 package com.noqapp.mobile.service;
 
+import static java.util.concurrent.Executors.newCachedThreadPool;
+
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.repository.RegisteredDeviceManager;
+
 import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutorService;
-
-import static java.util.concurrent.Executors.newCachedThreadPool;
 
 /**
  * User: hitender

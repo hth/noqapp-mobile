@@ -9,6 +9,22 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.common.utils.Validate;
+import com.noqapp.domain.BusinessCustomerEntity;
+import com.noqapp.domain.BusinessUserStoreEntity;
+import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonBusinessCustomer;
+import com.noqapp.health.domain.types.HealthStatusEnum;
+import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.mobile.service.AccountMobileService;
+import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.service.AccountService;
+import com.noqapp.service.BusinessCustomerService;
+import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.QueueService;
+
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,22 +41,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.common.utils.Validate;
-import com.noqapp.domain.BusinessCustomerEntity;
-import com.noqapp.domain.BusinessUserStoreEntity;
-import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.JsonBusinessCustomer;
-import com.noqapp.health.domain.types.HealthStatusEnum;
-import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.service.AccountMobileService;
-import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.service.AccountService;
-import com.noqapp.service.BusinessCustomerService;
-import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.service.QueueService;
 
 import java.io.IOException;
 import java.time.Duration;

@@ -1,12 +1,12 @@
 package com.noqapp.mobile.view.filter;
 
+import com.noqapp.mobile.view.controller.open.IsWorkingController;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import org.springframework.util.CollectionUtils;
-
-import com.noqapp.mobile.view.controller.open.IsWorkingController;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;

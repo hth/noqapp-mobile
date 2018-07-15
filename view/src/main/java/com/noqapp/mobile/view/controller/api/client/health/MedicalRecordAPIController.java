@@ -5,6 +5,12 @@ import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.health.domain.types.HealthStatusEnum;
+import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.service.MedicalRecordService;
+import com.noqapp.mobile.service.AuthenticateMobileService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,28 +21,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.noqapp.common.utils.DateUtil;
-import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.domain.types.catgeory.MedicalDepartmentEnum;
-import com.noqapp.health.domain.types.HealthStatusEnum;
-import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.medical.domain.MedicalMedicineEntity;
-import com.noqapp.medical.domain.MedicalRecordEntity;
-import com.noqapp.medical.domain.json.JsonMedicalMedicine;
-import com.noqapp.medical.domain.json.JsonMedicalPhysical;
-import com.noqapp.medical.domain.json.JsonMedicalRecord;
-import com.noqapp.medical.domain.json.JsonMedicalRecordList;
-import com.noqapp.medical.domain.json.JsonRecordAccess;
-import com.noqapp.medical.service.MedicalRecordService;
-import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.service.AccountService;
-
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -58,19 +45,16 @@ public class MedicalRecordAPIController {
     private AuthenticateMobileService authenticateMobileService;
     private MedicalRecordService medicalRecordService;
     private ApiHealthService apiHealthService;
-    private AccountService accountService;
 
     @Autowired
     public MedicalRecordAPIController(
             AuthenticateMobileService authenticateMobileService,
             MedicalRecordService medicalRecordService,
-            ApiHealthService apiHealthService,
-            AccountService accountService
+            ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.medicalRecordService = medicalRecordService;
         this.apiHealthService = apiHealthService;
-        this.accountService = accountService;
     }
 
     @GetMapping(
@@ -94,56 +78,8 @@ public class MedicalRecordAPIController {
             return null;
         }
 
-        JsonMedicalRecordList jsonMedicalRecordList = new JsonMedicalRecordList();
         try {
-            List<MedicalRecordEntity> medicalRecords = medicalRecordService.historicalRecords(qid);
-            for (MedicalRecordEntity medicalRecord : medicalRecords) {
-                JsonMedicalRecord jsonMedicalRecord = new JsonMedicalRecord();
-                jsonMedicalRecord
-                        .setBusinessType(medicalRecord.getBusinessType())
-                        .setQueueUserId(medicalRecord.getQueueUserId())
-                        .setChiefComplain(medicalRecord.getChiefComplain())
-                        .setPastHistory(medicalRecord.getPastHistory())
-                        .setFamilyHistory(medicalRecord.getFamilyHistory())
-                        .setKnownAllergies(medicalRecord.getKnownAllergies())
-                        .setClinicalFinding(medicalRecord.getClinicalFinding())
-                        .setProvisionalDifferentialDiagnosis(medicalRecord.getProvisionalDifferentialDiagnosis())
-                        .setDiagnosedById(accountService.findProfileByQueueUserId(medicalRecord.getDiagnosedById()).getName())
-                        .setCreateDate(DateUtil.dateToString(medicalRecord.getCreated()))
-                        .setBusinessName(medicalRecord.getBusinessName())
-                        .setBizCategoryName(medicalRecord.getBizCategoryId() == null
-                                ? "NA"
-                                : MedicalDepartmentEnum.valueOf(medicalRecord.getBizCategoryId()).getDescription());
-
-                if (null != medicalRecord.getMedicalPhysical()) {
-                    jsonMedicalRecord.setMedicalPhysical(
-                            new JsonMedicalPhysical()
-                                    .setBloodPressure(medicalRecord.getMedicalPhysical().getBloodPressure())
-                                    .setPluse(medicalRecord.getMedicalPhysical().getPluse())
-                                    .setWeight(medicalRecord.getMedicalPhysical().getWeight()));
-                }
-
-                if (null != medicalRecord.getMedicalMedication()) {
-                    List<MedicalMedicineEntity> medicalMedicines = medicalRecordService.findByIds(medicalRecord.getMedicalMedication().getMedicineIds());
-                    for (MedicalMedicineEntity medicalMedicine : medicalMedicines) {
-                        jsonMedicalRecord.addMedicine(JsonMedicalMedicine.fromMedicalMedicine(medicalMedicine));
-                    }
-                }
-
-                List<JsonRecordAccess> jsonRecordAccesses = new ArrayList<>();
-                for (Long date : medicalRecord.getRecordAccessed().keySet()) {
-                    String accessedBy = medicalRecord.getRecordAccessed().get(date);
-                    JsonRecordAccess jsonRecordAccess = new JsonRecordAccess()
-                            .setRecordAccessedDate(DateUtil.dateToString(new Date(date)))
-                            .setRecordAccessedQid("#######");
-
-                    jsonRecordAccesses.add(jsonRecordAccess);
-                }
-                jsonMedicalRecord.setRecordAccess(jsonRecordAccesses);
-                jsonMedicalRecordList.addJsonMedicalRecords(jsonMedicalRecord);
-            }
-
-            return jsonMedicalRecordList.asJson();
+            return medicalRecordService.populateMedicalHistory(qid).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting medical record qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(

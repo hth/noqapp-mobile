@@ -1,11 +1,11 @@
 package com.noqapp.mobile.view.validator;
 
+import com.noqapp.domain.types.medical.BloodTypeEnum;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Component;
-
-import com.noqapp.domain.types.medical.BloodTypeEnum;
 
 import java.util.HashMap;
 import java.util.Map;

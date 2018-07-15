@@ -1,9 +1,5 @@
 package com.noqapp.mobile.view;
 
-import org.bson.types.ObjectId;
-
-import org.springframework.mock.env.MockEnvironment;
-
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
@@ -33,7 +29,51 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.WebConnectorService;
 import com.noqapp.mobile.view.controller.open.AccountClientController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
-import com.noqapp.repository.*;
+import com.noqapp.repository.BizNameManager;
+import com.noqapp.repository.BizNameManagerImpl;
+import com.noqapp.repository.BizStoreManager;
+import com.noqapp.repository.BizStoreManagerImpl;
+import com.noqapp.repository.BusinessCustomerManager;
+import com.noqapp.repository.BusinessCustomerManagerImpl;
+import com.noqapp.repository.BusinessUserManager;
+import com.noqapp.repository.BusinessUserManagerImpl;
+import com.noqapp.repository.BusinessUserStoreManager;
+import com.noqapp.repository.BusinessUserStoreManagerImpl;
+import com.noqapp.repository.EmailValidateManager;
+import com.noqapp.repository.EmailValidateManagerImpl;
+import com.noqapp.repository.ForgotRecoverManager;
+import com.noqapp.repository.ForgotRecoverManagerImpl;
+import com.noqapp.repository.GenerateUserIdManager;
+import com.noqapp.repository.GenerateUserIdManagerImpl;
+import com.noqapp.repository.InviteManager;
+import com.noqapp.repository.InviteManagerImpl;
+import com.noqapp.repository.ProfessionalProfileManager;
+import com.noqapp.repository.ProfessionalProfileManagerImpl;
+import com.noqapp.repository.PurchaseOrderManager;
+import com.noqapp.repository.PurchaseOrderManagerImpl;
+import com.noqapp.repository.PurchaseProductOrderManager;
+import com.noqapp.repository.PurchaseProductOrderManagerImpl;
+import com.noqapp.repository.QueueManager;
+import com.noqapp.repository.QueueManagerImpl;
+import com.noqapp.repository.QueueManagerJDBC;
+import com.noqapp.repository.RegisteredDeviceManager;
+import com.noqapp.repository.RegisteredDeviceManagerImpl;
+import com.noqapp.repository.StoreHourManager;
+import com.noqapp.repository.StoreHourManagerImpl;
+import com.noqapp.repository.StoreProductManager;
+import com.noqapp.repository.StoreProductManagerImpl;
+import com.noqapp.repository.TokenQueueManager;
+import com.noqapp.repository.TokenQueueManagerImpl;
+import com.noqapp.repository.UserAccountManager;
+import com.noqapp.repository.UserAccountManagerImpl;
+import com.noqapp.repository.UserAddressManager;
+import com.noqapp.repository.UserAddressManagerImpl;
+import com.noqapp.repository.UserAuthenticationManager;
+import com.noqapp.repository.UserAuthenticationManagerImpl;
+import com.noqapp.repository.UserPreferenceManager;
+import com.noqapp.repository.UserPreferenceManagerImpl;
+import com.noqapp.repository.UserProfileManager;
+import com.noqapp.repository.UserProfileManagerImpl;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessCustomerService;
@@ -51,6 +91,11 @@ import com.noqapp.service.StoreProductService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
+
+import org.bson.types.ObjectId;
+
+import org.springframework.mock.env.MockEnvironment;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;

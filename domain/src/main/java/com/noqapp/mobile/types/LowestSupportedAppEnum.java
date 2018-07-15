@@ -2,6 +2,7 @@ package com.noqapp.mobile.types;
 
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.common.util.AppVersion;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

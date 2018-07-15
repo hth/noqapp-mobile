@@ -1,9 +1,13 @@
 package com.noqapp.mobile.view.validator;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
+
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.service.AccountMobileService;
+
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
@@ -14,9 +18,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 
 /**
  * User: hitender
