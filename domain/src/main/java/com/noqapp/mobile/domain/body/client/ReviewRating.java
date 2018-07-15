@@ -38,6 +38,9 @@ public class ReviewRating extends AbstractDomain {
     @JsonProperty("hr")
     private String hoursSaved;
 
+    @JsonProperty("rv")
+    private String review;
+
     public String getCodeQR() {
         return codeQR;
     }
@@ -71,6 +74,15 @@ public class ReviewRating extends AbstractDomain {
 
     public ReviewRating setHoursSaved(String hoursSaved) {
         this.hoursSaved = hoursSaved;
+        return this;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public ReviewRating setReview(String review) {
+        this.review = review;
         return this;
     }
 }
