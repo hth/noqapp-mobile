@@ -11,9 +11,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import com.maxmind.geoip2.DatabaseReader;
 import org.elasticsearch.action.main.MainResponse;
 import org.elasticsearch.client.RestHighLevelClient;
+
+import com.maxmind.geoip2.DatabaseReader;
 
 import java.io.IOException;
 import java.sql.SQLException;
