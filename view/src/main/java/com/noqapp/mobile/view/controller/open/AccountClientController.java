@@ -336,6 +336,7 @@ public class AccountClientController {
                     String updatedAuthenticationKey = accountService.updateAuthenticationKey(userAccount.getUserAuthentication().getId());
                     response.addHeader("X-R-MAIL", userAccount.getUserId());
                     response.addHeader("X-R-AUTH", updatedAuthenticationKey);
+                    LOG.info("Success login phone={} qid={}", phone, userAccount.getQueueUserId());
 
                     DeviceTypeEnum deviceTypeEnum;
                     try {
