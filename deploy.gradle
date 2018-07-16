@@ -67,20 +67,6 @@ task deployServer {
     }
 }
 
-task stopStartServer {
-    if (env == 'sandbox') {
-        stopStart(remotes.sn1, "10.0.0.54")
-        stopStart(remotes.sn2, "10.0.0.64")
-        stopStart(remotes.sn4, "10.0.0.84")
-    }
-    if (env == 'prod') {
-        stopStart(remotes.n1, "10.0.0.53")
-        stopStart(remotes.n2, "10.0.0.63")
-        stopStart(remotes.n3, "10.0.0.73")
-        stopStart(remotes.n4, "10.0.0.83")
-    }
-}
-
 def deploy(def server, def ip, def serverName, def path, def rootFile, def mobileFile) {
     logger.lifecycle("--------------------------------------------")
     logger.lifecycle("         Deploying to $server for $env")
@@ -104,22 +90,6 @@ def deploy(def server, def ip, def serverName, def path, def rootFile, def mobil
     sshExecute(server, "cd /usr/local/tomcat/webapps/noqapp-mobile; rm -rf noqapp-mobile.war")
     sshExecute(server, "echo 'server=$serverName' >> /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/build-info.properties")
     sshExecute(server, "echo 'server=$serverName' >> /usr/local/tomcat/webapps/noqapp-mobile/WEB-INF/classes/build-info.properties")
-
-    sshExecute(server, "sudo service tomcat start")
-    sshExecute(server, "sleep 35")
-    sshExecute(server, "sudo service tomcat status")
-    sshExecute(server, "curl -I http://$ip:8080/open/login.htm")
-    sshExecute(server, "wget -qO- http://$ip:8080/open/login.htm > /dev/null 2>&1")
-    sshExecute(server, "wget -qO- http://$ip:8080/noqapp-mobile/open/healthCheck.json > /dev/null 2>&1")
-}
-
-def stopStart(def server, def ip) {
-    logger.lifecycle("--------------------------------------------")
-    logger.lifecycle("         Stop and Start to $server for $env")
-    logger.lifecycle("--------------------------------------------")
-
-    sshExecute(server, 'sudo service tomcat stop')
-    sshExecute(server, 'sleep 20')
 
     sshExecute(server, "sudo service tomcat start")
     sshExecute(server, "sleep 35")
