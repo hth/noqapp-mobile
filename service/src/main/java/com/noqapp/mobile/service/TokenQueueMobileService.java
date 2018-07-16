@@ -3,6 +3,7 @@ package com.noqapp.mobile.service;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
+import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -248,7 +249,11 @@ public class TokenQueueMobileService {
 
                         if (!businessUsers.isEmpty()) {
                             BusinessUserStoreEntity businessUserStore = businessUsers.get(0);
-                            bizStoreElastic.setWebProfileId(professionalProfileService.findByQid(businessUserStore.getQueueUserId()).getWebProfileId());
+                            ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(businessUserStore.getQueueUserId());
+                            bizStoreElastic
+                                    .setWebProfileId(professionalProfile.getWebProfileId())
+                                    .setEducation(professionalProfile.getEducationAsJson());
+
 
                             /*
                              * Since all bizStore are clubbed for this business type,
