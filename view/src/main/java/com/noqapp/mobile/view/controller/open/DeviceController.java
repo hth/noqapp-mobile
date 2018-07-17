@@ -80,11 +80,18 @@ public class DeviceController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Register deviceType={} appFlavor={} did={} token={}",
-                deviceType.getText(),
-                appFlavor.getText(),
-                did.getText(),
-                tokenJson);
+        if (null == appFlavor) {
+            LOG.warn("OLD Register deviceType={} did={} token={}",
+                    deviceType.getText(),
+                    did.getText(),
+                    tokenJson);
+        } else {
+            LOG.info("Register deviceType={} appFlavor={} did={} token={}",
+                    deviceType.getText(),
+                    appFlavor.getText(),
+                    did.getText(),
+                    tokenJson);
+        }
 
         DeviceTypeEnum deviceTypeEnum;
         try {
