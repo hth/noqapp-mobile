@@ -13,6 +13,7 @@ import com.noqapp.domain.json.JsonQueuePersonList;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
+import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
@@ -155,7 +156,7 @@ public class QueueMobileService {
         }
     }
 
-    public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, String token) {
+    public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token) {
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(null, did, token);
 
         /* Get all the queues that have been serviced for today. */
@@ -165,7 +166,7 @@ public class QueueMobileService {
         List<QueueEntity> historyQueues;
         if (null == registeredDevice) {
             historyQueues = queueService.getByDid(did);
-            deviceService.registerDevice(null, did, deviceType, token);
+            deviceService.registerDevice(null, did, deviceType, appFlavor, token);
             LOG.info("Historical new device queue size={} did={} deviceType={}", historyQueues.size(), did, deviceType);
         } else {
             /* Unset QID for DID as user seems to have logged out of the App. */
@@ -194,7 +195,7 @@ public class QueueMobileService {
         return getJsonTokenAndQueueList(servicedQueues, sinceBeginning);
     }
 
-    public JsonTokenAndQueueList findHistoricalQueue(String qid, String did, DeviceTypeEnum deviceType, String token) {
+    public JsonTokenAndQueueList findHistoricalQueue(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token) {
         Validate.isValidQid(qid);
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(qid, did, token);
 
@@ -205,7 +206,7 @@ public class QueueMobileService {
         List<QueueEntity> historyQueues;
         if (null == registeredDevice) {
             historyQueues = queueService.getByQid(qid);
-            deviceService.registerDevice(qid, did, deviceType, token);
+            deviceService.registerDevice(qid, did, deviceType, appFlavor, token);
             LOG.info("Historical new device queue size={} did={} qid={} deviceType={}",
                     historyQueues.size(),
                     did,
@@ -215,7 +216,7 @@ public class QueueMobileService {
         } else {
             if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
                 /* Save with QID when missing in registered device. */
-                deviceService.registerDevice(qid, did, deviceType, token);
+                deviceService.registerDevice(qid, did, deviceType, appFlavor, token);
             }
 
             /*

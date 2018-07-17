@@ -11,6 +11,7 @@ import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
+import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.mobile.domain.body.client.DeviceToken;
 import com.noqapp.mobile.view.ITest;
@@ -92,6 +93,7 @@ class TokenQueueControllerITest extends ITest {
         String allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
+                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
                 new DeviceToken(fcmToken).asJson(),
                 httpServletResponse
         );
@@ -158,6 +160,7 @@ class TokenQueueControllerITest extends ITest {
         String allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
+                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
                 new DeviceToken(fcmToken).asJson(),
                 httpServletResponse
         );
@@ -173,6 +176,7 @@ class TokenQueueControllerITest extends ITest {
         allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
+                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
                 new DeviceToken(fcmToken).asJson(),
                 httpServletResponse
         );
@@ -184,6 +188,7 @@ class TokenQueueControllerITest extends ITest {
         allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
                 new ScrubbedInput(UUID.randomUUID().toString()),
                 new ScrubbedInput(deviceType),
+                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
                 new DeviceToken(fcmToken).asJson(),
                 httpServletResponse
         );
