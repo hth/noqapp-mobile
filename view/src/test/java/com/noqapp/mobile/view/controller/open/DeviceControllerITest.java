@@ -121,7 +121,7 @@ class DeviceControllerITest extends ITest {
     }
 
     @Test
-    @DisplayName("Check mobile version is supported with flavor. Response VACL")
+    @DisplayName("Check mobile version is supported with flavor. Response Client VACL")
     void isSupportedWithFlavor_NQCL() throws IOException {
         String version = String.valueOf("1.1.185");
         String response = deviceController.isSupportedAppVersion(
@@ -136,7 +136,7 @@ class DeviceControllerITest extends ITest {
     }
 
     @Test
-    @DisplayName("Check mobile version is supported with flavor. Response VACL")
+    @DisplayName("Check mobile version is supported with flavor. Response Merchant Medical VAMH")
     void isSupportedWithFlavor_NQMH() throws IOException {
         String version = String.valueOf("1.1.185");
         String response = deviceController.isSupportedAppVersion(

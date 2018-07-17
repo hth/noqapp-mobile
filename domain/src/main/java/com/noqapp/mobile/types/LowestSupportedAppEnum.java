@@ -1,5 +1,6 @@
 package com.noqapp.mobile.types;
 
+import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.common.util.AppVersion;
 
@@ -17,33 +18,57 @@ public enum LowestSupportedAppEnum {
     /* List lowest supported version of iPhone and Android app. */
     VI("1.1.10",                    //Oldest Supported App Version in String
             DeviceTypeEnum.I,       //Device Type
+            AppFlavorEnum.NQCL,
             "1.1.10"),              //Latest App Version on App Store
     /* 1.1.10 is not released. */
 
 
     VA("1.1.180",                   //Oldest Supported App Version in String
             DeviceTypeEnum.A,       //Device Type
-            "1.1.190");             //Latest App Version on Play Store
+            AppFlavorEnum.NQCL,
+            "1.1.190"),             //Latest App Version on Play Store
+
+    VACL("1.1.180",                  //Oldest Supported App Version in String
+            DeviceTypeEnum.A,       //Device Type
+            AppFlavorEnum.NQCL,
+            "1.1.190"),             //Latest App Version on Play Store
+
+    VACH("1.1.180",                 //Oldest Supported App Version in String
+            DeviceTypeEnum.A,       //Device Type
+            AppFlavorEnum.NQCH,
+            "1.1.190"),             //Latest App Version on Play Store
+
+    VAMS("1.1.180",
+            DeviceTypeEnum.A,
+            AppFlavorEnum.NQMS,
+            "1.1.190"),
+
+    VAMH("1.1.180",
+            DeviceTypeEnum.A,
+            AppFlavorEnum.NQMH,
+            "1.1.190"),
+
+    VAMT("1.1.180",
+            DeviceTypeEnum.A,
+            AppFlavorEnum.NQMT,
+            "1.1.190");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
 
     private String oldestAppVersion;
     private DeviceTypeEnum deviceType;
+    private AppFlavorEnum appFlavor;
     private String latestAppVersion;
 
-    /**
-     *
-     * @param oldestAppVersion
-     * @param deviceType
-     * @param latestAppVersion
-     */
     LowestSupportedAppEnum(
             String oldestAppVersion,
             DeviceTypeEnum deviceType,
+            AppFlavorEnum appFlavor,
             String latestAppVersion
     ) {
         this.oldestAppVersion = oldestAppVersion;
         this.deviceType = deviceType;
+        this.appFlavor = appFlavor;
         this.latestAppVersion = latestAppVersion;
     }
 
@@ -65,9 +90,20 @@ public enum LowestSupportedAppEnum {
         return supported;
     }
 
+    @Deprecated
     public static LowestSupportedAppEnum findBasedOnDeviceType(DeviceTypeEnum deviceType) {
         for (LowestSupportedAppEnum lowestSupportedApp : LowestSupportedAppEnum.values()) {
             if (lowestSupportedApp.deviceType == deviceType) {
+                return lowestSupportedApp;
+            }
+        }
+
+        return null;
+    }
+
+    public static LowestSupportedAppEnum findBasedOnDeviceType(DeviceTypeEnum deviceType, AppFlavorEnum appFlavor) {
+        for (LowestSupportedAppEnum lowestSupportedApp : LowestSupportedAppEnum.values()) {
+            if (lowestSupportedApp.deviceType == deviceType && lowestSupportedApp.appFlavor == appFlavor) {
                 return lowestSupportedApp;
             }
         }
