@@ -81,12 +81,12 @@ public enum LowestSupportedAppEnum {
     }
 
     public static boolean isSupportedVersion(LowestSupportedAppEnum lowestSupportedApp, String appVersionNumber) {
-        LOG.info("App Version={} device={}",
-                appVersionNumber,
-                lowestSupportedApp.deviceType);
-
         boolean supported = AppVersion.compare(appVersionNumber, lowestSupportedApp.oldestAppVersion);
-        LOG.info("Calculated supported app version={}", supported);
+        LOG.info("App Version={} device={} appFlavor={} supported app version={}",
+                appVersionNumber,
+                lowestSupportedApp.deviceType,
+                lowestSupportedApp.appFlavor,
+                supported);
         return supported;
     }
 

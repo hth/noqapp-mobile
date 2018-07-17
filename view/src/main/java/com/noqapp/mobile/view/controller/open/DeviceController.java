@@ -30,13 +30,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * User: hitender
@@ -63,15 +60,7 @@ public class DeviceController {
         this.apiHealthService = apiHealthService;
     }
 
-    /**
-     * Finds if device exists or saves the device when does not exists. Most likely this call would not be required.
-     *
-     * @param did
-     * @param deviceType iPhone or Android
-     * @param response
-     * @return
-     * @throws IOException
-     */
+    /** Finds if device exists or saves the device when does not exists. Most likely this call would not be required. */
     @PostMapping(
             value = "/register",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -83,14 +72,19 @@ public class DeviceController {
             @RequestHeader (value = "X-R-DT")
             ScrubbedInput deviceType,
 
-            @RequestBody
-            String tokenJson,
+            @RequestHeader (value = "X-R-AF", required = false)
+            ScrubbedInput appFlavor,
 
-            HttpServletResponse response
+            @RequestBody
+            String tokenJson
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Register did={} token={}", did.getText(), tokenJson);
+        LOG.info("Register deviceType={} appFlavor={} did={} token={}",
+                deviceType.getText(),
+                appFlavor.getText(),
+                did.getText(),
+                tokenJson);
 
         DeviceTypeEnum deviceTypeEnum;
         try {
@@ -140,7 +134,7 @@ public class DeviceController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Supported device did={} deviceType={} versionRelease={}", did, deviceType, versionRelease);
+        LOG.warn("OLD Supported device did={} deviceType={} versionRelease={}", did, deviceType, versionRelease);
 
         try {
             DeviceTypeEnum deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
