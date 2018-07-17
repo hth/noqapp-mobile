@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonLatestAppVersion;
+import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.domain.DeviceRegistered;
 import com.noqapp.mobile.domain.body.client.DeviceToken;
@@ -102,6 +103,51 @@ class DeviceControllerITest extends ITest {
 
         ErrorJsonList errorJsonList = new ObjectMapper().readValue(response, ErrorJsonList.class);
         assertEquals(MOBILE_UPGRADE.getCode(), errorJsonList.getError().getSystemErrorCode());
+    }
+
+    @Test
+    @DisplayName("Check mobile version with flavor. Upgrade Request.")
+    void isSupportedWithFlavor_UpgradeRequested() throws IOException {
+        String version = String.valueOf("1.1.200");
+        String response = deviceController.isSupportedAppVersion(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
+                new ScrubbedInput(version)
+        );
+
+        ErrorJsonList errorJsonList = new ObjectMapper().readValue(response, ErrorJsonList.class);
+        assertEquals(MOBILE_UPGRADE.getCode(), errorJsonList.getError().getSystemErrorCode());
+    }
+
+    @Test
+    @DisplayName("Check mobile version is supported with flavor. Response VACL")
+    void isSupportedWithFlavor_NQCL() throws IOException {
+        String version = String.valueOf("1.1.185");
+        String response = deviceController.isSupportedAppVersion(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
+                new ScrubbedInput(version)
+        );
+
+        JsonLatestAppVersion jsonLatestAppVersion = new ObjectMapper().readValue(response, JsonLatestAppVersion.class);
+        assertEquals(LowestSupportedAppEnum.VACL.getLatestAppVersion(), jsonLatestAppVersion.getLatestAppVersion());
+    }
+
+    @Test
+    @DisplayName("Check mobile version is supported with flavor. Response VACL")
+    void isSupportedWithFlavor_NQMH() throws IOException {
+        String version = String.valueOf("1.1.185");
+        String response = deviceController.isSupportedAppVersion(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(AppFlavorEnum.NQMH.getName()),
+                new ScrubbedInput(version)
+        );
+
+        JsonLatestAppVersion jsonLatestAppVersion = new ObjectMapper().readValue(response, JsonLatestAppVersion.class);
+        assertEquals(LowestSupportedAppEnum.VAMH.getLatestAppVersion(), jsonLatestAppVersion.getLatestAppVersion());
     }
 
     private Callable<Boolean> awaitUntilDeviceIsRegistered(String did) {
