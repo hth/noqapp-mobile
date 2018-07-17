@@ -67,7 +67,7 @@ public class DeviceService {
         try {
             RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(qid, did);
             if (registeredDevice == null) {
-                LOG.info("Registering new deviceType={} did={} qid={}", deviceType, did, qid);
+                LOG.info("Registering new deviceType={} appFlavor={} did={} qid={}", deviceType, appFlavor, did, qid);
                 registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token);
                 try {
                     registeredDeviceManager.save(registeredDevice);
@@ -87,7 +87,7 @@ public class DeviceService {
                     LOG.info("existing registered device updateStatus={} with qid={} token={}", updateStatus, qid, token);
                 }
             } else if (StringUtils.isNotBlank(token)) {
-                LOG.info("Updating registered device of deviceType={} did={} qid={}", deviceType, did, qid);
+                LOG.info("Updating registered device of deviceType={} appFlavor={} did={} qid={}", deviceType, appFlavor, did, qid);
                 boolean updateSuccess = registeredDeviceManager.updateDevice(
                         registeredDevice.getId(),
                         registeredDevice.getDeviceId(),
