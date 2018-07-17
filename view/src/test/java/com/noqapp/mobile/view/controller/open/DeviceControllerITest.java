@@ -52,8 +52,8 @@ class DeviceControllerITest extends ITest {
         String jsonDeviceRegistered = deviceController.registerDevice(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
-                deviceToken.asJson(),
-                httpServletResponse
+                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
+                deviceToken.asJson()
         );
 
         DeviceRegistered deviceRegistered = new ObjectMapper().readValue(jsonDeviceRegistered, DeviceRegistered.class);
