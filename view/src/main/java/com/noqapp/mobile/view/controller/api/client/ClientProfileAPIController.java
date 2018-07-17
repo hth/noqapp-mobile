@@ -459,7 +459,7 @@ public class ClientProfileAPIController {
             MultipartFile multipartFile,
 
             @RequestPart("profileImageOfQid")
-            ScrubbedInput profileImageOfQid,
+            String profileImageOfQid,
 
             HttpServletResponse response
     ) throws IOException {
@@ -468,7 +468,7 @@ public class ClientProfileAPIController {
                 dt.getText(),
                 mail.getText(),
                 auth.getText(),
-                profileImageOfQid.getText(),
+                new ScrubbedInput(profileImageOfQid).getText(),
                 multipartFile,
                 response);
     }
