@@ -222,7 +222,7 @@ public class MerchantProfileController {
             MultipartFile multipartFile,
 
             @RequestPart("profileImageOfQid")
-            ScrubbedInput profileImageOfQid,
+            String profileImageOfQid,
 
             HttpServletResponse response
     ) throws IOException {
@@ -231,7 +231,7 @@ public class MerchantProfileController {
                 dt.getText(),
                 mail.getText(),
                 auth.getText(),
-                profileImageOfQid.getText(),
+                new ScrubbedInput(profileImageOfQid).getText(),
                 multipartFile,
                 response);
     }
