@@ -349,7 +349,7 @@ public class TokenQueueMobileService {
     }
 
     public JsonToken joinQueue(String codeQR, String did, String qid, String guardianQid, long averageServiceTime, TokenServiceEnum tokenService) {
-        LOG.info("joinQueue codeQR={} did={} qid={}", codeQR, did, qid);
+        LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
         return tokenQueueService.getNextToken(codeQR, did, qid, guardianQid, averageServiceTime, tokenService);
     }
 
