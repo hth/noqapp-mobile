@@ -3,6 +3,7 @@ package com.noqapp.mobile.service;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import com.noqapp.domain.RegisteredDeviceEntity;
+import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.repository.RegisteredDeviceManager;
 
@@ -50,8 +51,8 @@ public class DeviceService {
      * @param deviceType
      * @param token
      */
-    public void registerDevice(String qid, String did, DeviceTypeEnum deviceType, String token) {
-        executorService.submit(() -> registeringDevice(qid, did, deviceType, token));
+    public void registerDevice(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token) {
+        executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token));
     }
 
     /**
@@ -62,12 +63,12 @@ public class DeviceService {
      * @param deviceType iPhone or Android
      * @return
      */
-    private void registeringDevice(String qid, String did, DeviceTypeEnum deviceType, String token) {
+    private void registeringDevice(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token) {
         try {
             RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(qid, did);
             if (registeredDevice == null) {
                 LOG.info("Registering new deviceType={} did={} qid={}", deviceType, did, qid);
-                registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, token);
+                registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token);
                 try {
                     registeredDeviceManager.save(registeredDevice);
                     LOG.info("registered device for did={}", did);
@@ -80,6 +81,7 @@ public class DeviceService {
                             registeredDevice.getDeviceId(),
                             qid,
                             deviceType,
+                            appFlavor,
                             token
                     );
                     LOG.info("existing registered device updateStatus={} with qid={} token={}", updateStatus, qid, token);
@@ -91,6 +93,7 @@ public class DeviceService {
                         registeredDevice.getDeviceId(),
                         qid,
                         deviceType,
+                        appFlavor,
                         token,
                         true);
                 LOG.info("updated registered device for did={} token={} updateSuccess={}", did, token, updateSuccess);

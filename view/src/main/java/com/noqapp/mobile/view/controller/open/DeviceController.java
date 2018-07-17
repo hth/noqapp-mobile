@@ -94,13 +94,21 @@ public class DeviceController {
             return getErrorReason("Incorrect device type.", USER_INPUT);
         }
 
+        AppFlavorEnum appFlavorEnum;
+        try {
+            appFlavorEnum = AppFlavorEnum.valueOf(appFlavor.getText());
+        } catch (Exception e) {
+            LOG.error("Failed parsing appFlavor, reason={}", e.getLocalizedMessage(), e);
+            return getErrorReason("Incorrect appFlavor type.", USER_INPUT);
+        }
+
         ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson);
         if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
             return parseTokenFCM.getErrorResponse();
         }
 
         try {
-            deviceService.registerDevice(null, did.getText(), deviceTypeEnum, parseTokenFCM.getTokenFCM());
+            deviceService.registerDevice(null, did.getText(), deviceTypeEnum, appFlavorEnum, parseTokenFCM.getTokenFCM());
             return DeviceRegistered.newInstance(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);

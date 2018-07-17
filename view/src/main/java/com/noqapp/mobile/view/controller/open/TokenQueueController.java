@@ -5,6 +5,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
@@ -259,6 +260,9 @@ public class TokenQueueController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput deviceType,
 
+            @RequestHeader (value = "X-R-AF", required = false, defaultValue = "NQMT")
+            ScrubbedInput appFlavor,
+
             @RequestBody
             String tokenJson,
 
@@ -275,6 +279,7 @@ public class TokenQueueController {
             return queueMobileService.findHistoricalQueue(
                     did.getText(),
                     DeviceTypeEnum.valueOf(deviceType.getText()),
+                    AppFlavorEnum.valueOf(appFlavor.getText()),
                     parseTokenFCM.getTokenFCM()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting history did={}, reason={}", did, e.getLocalizedMessage(), e);
