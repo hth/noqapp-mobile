@@ -72,7 +72,7 @@ public class DeviceController {
             @RequestHeader (value = "X-R-DT")
             ScrubbedInput deviceType,
 
-            @RequestHeader (value = "X-R-AF", required = false)
+            @RequestHeader (value = "X-R-AF", required = false, defaultValue = "NQMT")
             ScrubbedInput appFlavor,
 
             @RequestBody
@@ -80,18 +80,11 @@ public class DeviceController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        if (null == appFlavor) {
-            LOG.warn("OLD Register deviceType={} did={} token={}",
-                    deviceType.getText(),
-                    did.getText(),
-                    tokenJson);
-        } else {
-            LOG.info("Register deviceType={} appFlavor={} did={} token={}",
-                    deviceType.getText(),
-                    appFlavor.getText(),
-                    did.getText(),
-                    tokenJson);
-        }
+        LOG.info("Register deviceType={} appFlavor={} did={} token={}",
+                deviceType.getText(),
+                appFlavor.getText(),
+                did.getText(),
+                tokenJson);
 
         DeviceTypeEnum deviceTypeEnum;
         try {
