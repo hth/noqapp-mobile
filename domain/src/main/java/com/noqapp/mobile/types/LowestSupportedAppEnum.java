@@ -23,35 +23,35 @@ public enum LowestSupportedAppEnum {
     /* 1.1.10 is not released. */
 
 
-    VA("1.1.180",                   //Oldest Supported App Version in String
+    VA("1.1.200",                   //Oldest Supported App Version in String
             DeviceTypeEnum.A,       //Device Type
             AppFlavorEnum.NQCL,
-            "1.1.190"),             //Latest App Version on Play Store
+            "1.1.201"),             //Latest App Version on Play Store
 
-    VACL("1.1.180",                  //Oldest Supported App Version in String
+    VACL("1.1.200",                  //Oldest Supported App Version in String
             DeviceTypeEnum.A,       //Device Type
             AppFlavorEnum.NQCL,
-            "1.1.190"),             //Latest App Version on Play Store
+            "1.1.201"),             //Latest App Version on Play Store
 
-    VACH("1.1.180",                 //Oldest Supported App Version in String
+    VACH("1.1.200",                 //Oldest Supported App Version in String
             DeviceTypeEnum.A,       //Device Type
             AppFlavorEnum.NQCH,
-            "1.1.190"),             //Latest App Version on Play Store
+            "1.1.201"),             //Latest App Version on Play Store
 
-    VAMS("1.1.180",
+    VAMS("1.1.200",
             DeviceTypeEnum.A,
             AppFlavorEnum.NQMS,
-            "1.1.190"),
+            "1.1.201"),
 
-    VAMH("1.1.180",
+    VAMH("1.1.200",
             DeviceTypeEnum.A,
             AppFlavorEnum.NQMH,
-            "1.1.190"),
+            "1.1.201"),
 
-    VAMT("1.1.180",
+    VAMT("1.1.200",
             DeviceTypeEnum.A,
             AppFlavorEnum.NQMT,
-            "1.1.190");
+            "1.1.201");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
 
