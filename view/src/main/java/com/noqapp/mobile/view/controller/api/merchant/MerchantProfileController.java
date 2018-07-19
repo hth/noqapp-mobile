@@ -14,10 +14,12 @@ import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
+import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.UserProfilePreferenceService;
@@ -44,6 +46,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -68,6 +71,7 @@ public class MerchantProfileController {
     private ProfileCommonHelper profileCommonHelper;
     private ProfessionalProfileService professionalProfileService;
     private ApiHealthService apiHealthService;
+    private ImageValidator imageValidator;
 
     @Autowired
     public MerchantProfileController(
@@ -76,7 +80,8 @@ public class MerchantProfileController {
             BusinessUserStoreService businessUserStoreService,
             ProfileCommonHelper profileCommonHelper,
             ProfessionalProfileService professionalProfileService,
-            ApiHealthService apiHealthService
+            ApiHealthService apiHealthService,
+            ImageValidator imageValidator
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
@@ -84,6 +89,7 @@ public class MerchantProfileController {
         this.profileCommonHelper = profileCommonHelper;
         this.professionalProfileService = professionalProfileService;
         this.apiHealthService = apiHealthService;
+        this.imageValidator = imageValidator;
     }
 
     @GetMapping(
@@ -226,6 +232,11 @@ public class MerchantProfileController {
 
             HttpServletResponse response
     ) throws IOException {
+        Map<String, String> errors = imageValidator.validate(multipartFile);
+        if (!errors.isEmpty()) {
+            return ErrorEncounteredJson.toJson(errors);
+        }
+
         return profileCommonHelper.uploadProfileImage(
                 did.getText(),
                 dt.getText(),

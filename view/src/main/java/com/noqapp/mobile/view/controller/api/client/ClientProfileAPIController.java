@@ -24,6 +24,7 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
+import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
 
@@ -80,6 +81,7 @@ public class ClientProfileAPIController {
     private UserAddressService userAddressService;
     private UserMedicalProfileService userMedicalProfileService;
     private ProfileCommonHelper profileCommonHelper;
+    private ImageValidator imageValidator;
 
     @Autowired
     public ClientProfileAPIController(
@@ -90,7 +92,8 @@ public class ClientProfileAPIController {
             AccountMobileService accountMobileService,
             UserAddressService userAddressService,
             UserMedicalProfileService userMedicalProfileService,
-            ProfileCommonHelper profileCommonHelper
+            ProfileCommonHelper profileCommonHelper,
+            ImageValidator imageValidator
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
@@ -100,6 +103,7 @@ public class ClientProfileAPIController {
         this.userAddressService = userAddressService;
         this.userMedicalProfileService = userMedicalProfileService;
         this.profileCommonHelper = profileCommonHelper;
+        this.imageValidator = imageValidator;
     }
 
     @GetMapping(
@@ -463,6 +467,11 @@ public class ClientProfileAPIController {
 
             HttpServletResponse response
     ) throws IOException {
+        Map<String, String> errors = imageValidator.validate(multipartFile);
+        if (!errors.isEmpty()) {
+            return ErrorEncounteredJson.toJson(errors);
+        }
+
         return profileCommonHelper.uploadProfileImage(
                 did.getText(),
                 dt.getText(),
