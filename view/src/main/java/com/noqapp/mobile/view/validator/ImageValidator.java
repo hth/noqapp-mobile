@@ -21,10 +21,10 @@ import java.util.Map;
  * 7/16/18 11:30 AM
  */
 @SuppressWarnings({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @Component
 public class ImageValidator {
@@ -40,10 +40,8 @@ public class ImageValidator {
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, MOBILE_UPLOAD_NO_SIZE.getCode());
             }
 
-            if (null != file.getContentType()
-                    && (!file.getContentType().toLowerCase().equals("image/jpg")
-                    || !file.getContentType().toLowerCase().equals("image/jpeg")
-                    || !file.getContentType().toLowerCase().equals("image/png"))) {
+            String s = file.getContentType().toLowerCase();
+            if (!s.equals("image/jpg") && !s.equals("image/jpeg") && !s.equals("image/png")) {
                 LOG.error("Supported file formats are jpg/png");
                 errors.put(ErrorEncounteredJson.REASON, "Supported file formats are jpg/png");
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, MOBILE_UPLOAD_UNSUPPORTED_FORMAT.name());
