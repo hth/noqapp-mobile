@@ -44,7 +44,7 @@ public class ImageValidator {
                     && (!file.getContentType().toLowerCase().equals("image/jpg")
                     || !file.getContentType().toLowerCase().equals("image/jpeg")
                     || !file.getContentType().toLowerCase().equals("image/png"))) {
-
+                LOG.error("Supported file formats are jpg/png");
                 errors.put(ErrorEncounteredJson.REASON, "Supported file formats are jpg/png");
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, MOBILE_UPLOAD_UNSUPPORTED_FORMAT.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, MOBILE_UPLOAD_UNSUPPORTED_FORMAT.getCode());
@@ -59,13 +59,14 @@ public class ImageValidator {
                 long fileSizeInMB = fileSizeInKB / 1024;
 
                 if (fileSizeInMB > 5) {
+                    LOG.error("Selected file size exceeds 5MB");
                     errors.put(ErrorEncounteredJson.REASON, "Selected file size exceeds 5MB");
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR, MOBILE_UPLOAD_EXCEED_SIZE.name());
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, MOBILE_UPLOAD_EXCEED_SIZE.getCode());
                 }
             }
         } catch (Exception e) {
-            LOG.error("Failed validating file");
+            LOG.error("Failed validating image file");
             errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, MOBILE_UPLOAD.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, MOBILE_UPLOAD.getCode());
