@@ -5,8 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.body.client.MigrateProfile;
+import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.ImageValidator;
@@ -55,6 +57,54 @@ class ClientProfileAPIControllerITest extends ITest {
                 new ImageValidator()
         );
     }
+    
+    @Test
+    void fetch() throws IOException {
+        UserProfileEntity userProfile = userProfileManager.findOneByPhone("9118000000001");
+        UserAccountEntity userAccount = userAccountManager.findByQueueUserId(userProfile.getQueueUserId());
+
+        String jsonProfileAsJson = clientProfileAPIController.fetch(
+                new ScrubbedInput(userProfile.getEmail()),
+                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+                httpServletResponse
+        );
+
+        JsonProfile jsonProfile = new ObjectMapper().readValue(
+                jsonProfileAsJson,
+                JsonProfile.class);
+
+        assertEquals("1800 000 0001", jsonProfile.getPhoneRaw());
+    }
+
+    @Test
+    void update() throws IOException {
+        UserProfileEntity userProfile = userProfileManager.findOneByPhone("9118000000001");
+        UserAccountEntity userAccount = userAccountManager.findByQueueUserId(userProfile.getQueueUserId());
+
+        UpdateProfile updateProfile = new UpdateProfile()
+                .setQueueUserId(userProfile.getQueueUserId())
+                .setAddress("Navi Mumbai, India")
+                .setBirthday("2000-01-31")
+                .setFirstName("Shamsher Bhadur")
+                .setGender(GenderEnum.F.name())
+                .setTimeZoneId("Asia/Calcutta");
+
+        String jsonProfileUpdatedAsJson = clientProfileAPIController.update(
+                new ScrubbedInput(userProfile.getEmail()),
+                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+                updateProfile.asJson(),
+                httpServletResponse
+        );
+
+        JsonProfile jsonProfile = new ObjectMapper().readValue(
+                jsonProfileUpdatedAsJson,
+                JsonProfile.class);
+
+        assertEquals("Shamsher Bhadur", jsonProfile.getName());
+        assertEquals("1800 000 0001", jsonProfile.getPhoneRaw());
+        assertEquals(userProfile.getQueueUserId(), jsonProfile.getQueueUserId());
+    }
+
 
     @Test
     void migrate() throws IOException {
