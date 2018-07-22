@@ -58,6 +58,8 @@ import com.noqapp.repository.QueueManagerImpl;
 import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.RegisteredDeviceManager;
 import com.noqapp.repository.RegisteredDeviceManagerImpl;
+import com.noqapp.repository.S3FileManager;
+import com.noqapp.repository.S3FileManagerImpl;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.repository.StoreHourManagerImpl;
 import com.noqapp.repository.StoreProductManager;
@@ -81,7 +83,9 @@ import com.noqapp.service.BusinessUserService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.EmailValidateService;
 import com.noqapp.service.ExternalService;
+import com.noqapp.service.FileService;
 import com.noqapp.service.FirebaseMessageService;
+import com.noqapp.service.FtpService;
 import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.ProfessionalProfileService;
@@ -143,6 +147,8 @@ public class ITest extends RealMongoForITest {
     protected PurchaseOrderManager purchaseOrderManager;
     protected PurchaseProductOrderManager purchaseProductOrderManager;
     protected PurchaseOrderService purchaseOrderService;
+    protected FileService fileService;
+    protected S3FileManager s3FileManager;
 
     protected TokenQueueManager tokenQueueManager;
     protected FirebaseMessageService firebaseMessageService;
@@ -183,6 +189,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected ExternalService externalService;
     @Mock protected QueueManagerJDBC queueManagerJDBC;
     @Mock protected HttpServletResponse httpServletResponse;
+    @Mock protected FtpService ftpService;
 
     @BeforeAll
     public void globalISetup() throws IOException {
@@ -258,6 +265,7 @@ public class ITest extends RealMongoForITest {
         bizStoreManager = new BizStoreManagerImpl(getMongoTemplate());
         storeHourManager = new StoreHourManagerImpl(getMongoTemplate());
         businessCustomerManager = new BusinessCustomerManagerImpl(getMongoTemplate());
+        s3FileManager = new S3FileManagerImpl(getMongoTemplate());
         businessCustomerService = new BusinessCustomerService(
                 businessCustomerManager,
                 bizStoreManager,
@@ -316,6 +324,14 @@ public class ITest extends RealMongoForITest {
                 tokenQueueService,
                 queueService,
                 businessUserStoreManager
+        );
+
+        fileService = new FileService(
+                192, 192,300, 150,
+                accountService,
+                ftpService,
+                s3FileManager,
+                bizService
         );
 
         professionalProfileManager = new ProfessionalProfileManagerImpl(getMongoTemplate());
