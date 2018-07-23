@@ -43,14 +43,6 @@ public class DeviceService {
         this.executorService = newCachedThreadPool();
     }
 
-    /**
-     * Since registration can be done in background. Moved logic to thread.
-     *
-     * @param qid
-     * @param did
-     * @param deviceType
-     * @param token
-     */
     public void registerDevice(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token) {
         executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token));
     }
@@ -66,7 +58,7 @@ public class DeviceService {
     private void registeringDevice(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token) {
         try {
             RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(qid, did);
-            if (registeredDevice == null) {
+            if (null == registeredDevice) {
                 LOG.info("Registering new deviceType={} appFlavor={} did={} qid={}", deviceType.getName(), appFlavor.getName(), did, qid);
                 registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token);
                 try {
