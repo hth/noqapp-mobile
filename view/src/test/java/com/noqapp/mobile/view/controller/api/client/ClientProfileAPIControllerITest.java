@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonUserAddressList;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.body.client.MigrateProfile;
@@ -128,5 +129,49 @@ class ClientProfileAPIControllerITest extends ITest {
                 JsonProfile.class);
 
         assertEquals("090040 05000", jsonProfile.getPhoneRaw());
+    }
+    
+    void address() throws IOException {
+        UserProfileEntity userProfile = userProfileManager.findOneByPhone("9118000000001");
+        UserAccountEntity userAccount = userAccountManager.findByQueueUserId(userProfile.getQueueUserId());
+
+        UpdateProfile updateProfile = new UpdateProfile()
+                .setQueueUserId(userProfile.getQueueUserId())
+                .setAddress("665 W Olive Ave, Sunnyvale, CA 94086, USA")
+                .setBirthday(userProfile.getBirthday())
+                .setFirstName(userProfile.getName())
+                .setGender(userProfile.getGender().name())
+                .setTimeZoneId(userProfile.getTimeZone());
+
+        String jsonProfileUpdatedAsJson = clientProfileAPIController.update(
+                new ScrubbedInput(userProfile.getEmail()),
+                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+                updateProfile.asJson(),
+                httpServletResponse
+        );
+
+        String json = clientProfileAPIController.address(
+                new ScrubbedInput(userProfile.getEmail()),
+                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+                httpServletResponse
+        );
+
+        JsonUserAddressList jsonUserAddressList = new ObjectMapper().readValue(
+                json,
+                JsonUserAddressList.class);
+
+        assertEquals("665 W Olive Ave, Sunnyvale, CA 94086, USA", jsonUserAddressList.getJsonUserAddresses().get(0));
+    }
+
+    @Test
+    void addressAdd() {
+    }
+
+    @Test
+    void addressDelete() {
+    }
+
+    @Test
+    void upload() {
     }
 }
