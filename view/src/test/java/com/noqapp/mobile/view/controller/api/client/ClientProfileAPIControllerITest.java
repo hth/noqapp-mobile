@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonUserAddress;
 import com.noqapp.domain.json.JsonUserAddressList;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.mobile.domain.JsonProfile;
@@ -39,40 +40,40 @@ class ClientProfileAPIControllerITest extends ITest {
     @BeforeEach
     void setUp() {
         profileCommonHelper = new ProfileCommonHelper(
-                authenticateMobileService,
-                accountClientValidator,
-                accountMobileService,
-                fileService,
-                apiHealthService
+            authenticateMobileService,
+            accountClientValidator,
+            accountMobileService,
+            fileService,
+            apiHealthService
         );
 
         clientProfileAPIController = new ClientProfileAPIController(
-                authenticateMobileService,
-                userProfilePreferenceService,
-                apiHealthService,
-                accountClientValidator,
-                accountMobileService,
-                userAddressService,
-                userMedicalProfileService,
-                profileCommonHelper,
-                new ImageValidator()
+            authenticateMobileService,
+            userProfilePreferenceService,
+            apiHealthService,
+            accountClientValidator,
+            accountMobileService,
+            userAddressService,
+            userMedicalProfileService,
+            profileCommonHelper,
+            new ImageValidator()
         );
     }
-    
+
     @Test
     void fetch() throws IOException {
         UserProfileEntity userProfile = userProfileManager.findOneByPhone("9118000000001");
         UserAccountEntity userAccount = userAccountManager.findByQueueUserId(userProfile.getQueueUserId());
 
         String jsonProfileAsJson = clientProfileAPIController.fetch(
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                httpServletResponse
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            httpServletResponse
         );
 
         JsonProfile jsonProfile = new ObjectMapper().readValue(
-                jsonProfileAsJson,
-                JsonProfile.class);
+            jsonProfileAsJson,
+            JsonProfile.class);
 
         assertEquals("1800 000 0001", jsonProfile.getPhoneRaw());
     }
@@ -83,29 +84,28 @@ class ClientProfileAPIControllerITest extends ITest {
         UserAccountEntity userAccount = userAccountManager.findByQueueUserId(userProfile.getQueueUserId());
 
         UpdateProfile updateProfile = new UpdateProfile()
-                .setQueueUserId(userProfile.getQueueUserId())
-                .setAddress("Navi Mumbai, India")
-                .setBirthday("2000-01-31")
-                .setFirstName("Shamsher Bhadur")
-                .setGender(GenderEnum.F.name())
-                .setTimeZoneId("Asia/Calcutta");
+            .setQueueUserId(userProfile.getQueueUserId())
+            .setAddress("Navi Mumbai, India")
+            .setBirthday("2000-01-31")
+            .setFirstName("Shamsher Bhadur")
+            .setGender(GenderEnum.F.name())
+            .setTimeZoneId("Asia/Calcutta");
 
         String jsonProfileUpdatedAsJson = clientProfileAPIController.update(
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                updateProfile.asJson(),
-                httpServletResponse
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            updateProfile.asJson(),
+            httpServletResponse
         );
 
         JsonProfile jsonProfile = new ObjectMapper().readValue(
-                jsonProfileUpdatedAsJson,
-                JsonProfile.class);
+            jsonProfileUpdatedAsJson,
+            JsonProfile.class);
 
         assertEquals("Shamsher Bhadur", jsonProfile.getName());
         assertEquals("1800 000 0001", jsonProfile.getPhoneRaw());
         assertEquals(userProfile.getQueueUserId(), jsonProfile.getQueueUserId());
     }
-
 
     @Test
     void migrate() throws IOException {
@@ -113,62 +113,79 @@ class ClientProfileAPIControllerITest extends ITest {
         UserAccountEntity userAccount = userAccountManager.findByQueueUserId(userProfile.getQueueUserId());
 
         MigrateProfile migrateProfile = new MigrateProfile()
-                .setPhone("91 900 400 5000")
-                .setCountryShortName("IN")
-                .setTimeZoneId("Asia/Calcutta");
+            .setPhone("91 900 400 5000")
+            .setCountryShortName("IN")
+            .setTimeZoneId("Asia/Calcutta");
 
         String jsonProfileAsJson = clientProfileAPIController.migrate(
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                migrateProfile.asJson(),
-                httpServletResponse
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            migrateProfile.asJson(),
+            httpServletResponse
         );
 
         JsonProfile jsonProfile = new ObjectMapper().readValue(
-                jsonProfileAsJson,
-                JsonProfile.class);
+            jsonProfileAsJson,
+            JsonProfile.class);
 
         assertEquals("090040 05000", jsonProfile.getPhoneRaw());
     }
-    
-    void address() throws IOException {
+
+    @DisplayName("Add and Delete additional address")
+    @Test
+    void address_Add_Delete() throws IOException {
         UserProfileEntity userProfile = userProfileManager.findOneByPhone("9118000000001");
         UserAccountEntity userAccount = userAccountManager.findByQueueUserId(userProfile.getQueueUserId());
 
-        UpdateProfile updateProfile = new UpdateProfile()
-                .setQueueUserId(userProfile.getQueueUserId())
-                .setAddress("665 W Olive Ave, Sunnyvale, CA 94086, USA")
-                .setBirthday(userProfile.getBirthday())
-                .setFirstName(userProfile.getName())
-                .setGender(userProfile.getGender().name())
-                .setTimeZoneId(userProfile.getTimeZone());
-
-        String jsonProfileUpdatedAsJson = clientProfileAPIController.update(
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                updateProfile.asJson(),
-                httpServletResponse
-        );
-
-        String json = clientProfileAPIController.address(
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                httpServletResponse
+        String addressJson = clientProfileAPIController.address(
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            httpServletResponse
         );
 
         JsonUserAddressList jsonUserAddressList = new ObjectMapper().readValue(
-                json,
-                JsonUserAddressList.class);
+            addressJson,
+            JsonUserAddressList.class);
 
-        assertEquals("665 W Olive Ave, Sunnyvale, CA 94086, USA", jsonUserAddressList.getJsonUserAddresses().get(0));
-    }
+        assertEquals(0, jsonUserAddressList.getJsonUserAddresses().size());
 
-    @Test
-    void addressAdd() {
-    }
+        JsonUserAddress jsonUserAddress = new JsonUserAddress().setAddress("665 W Olive Ave, Sunnyvale, CA 94086, USA");
+        addressJson = clientProfileAPIController.addressAdd(
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonUserAddress.asJson(),
+            httpServletResponse
+        );
 
-    @Test
-    void addressDelete() {
+        jsonUserAddressList = new ObjectMapper().readValue(addressJson, JsonUserAddressList.class);
+        /* Size of address list is now 1. */
+        assertEquals(1, jsonUserAddressList.getJsonUserAddresses().size());
+        assertEquals("665 W Olive Ave, Sunnyvale, CA 94086, USA", jsonUserAddressList.getJsonUserAddresses().get(0).getAddress());
+
+        /* Add address again. */
+        jsonUserAddress = new JsonUserAddress().setAddress("665 W Olive Ave, Sunnyvale, CA 94086, USA");
+        addressJson = clientProfileAPIController.addressAdd(
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonUserAddress.asJson(),
+            httpServletResponse
+        );
+
+        jsonUserAddressList = new ObjectMapper().readValue(addressJson, JsonUserAddressList.class);
+        /* Size of address list is now 2. */
+        assertEquals(2, jsonUserAddressList.getJsonUserAddresses().size());
+
+        jsonUserAddress = new JsonUserAddress().setId(jsonUserAddressList.getJsonUserAddresses().get(0).getId());
+        addressJson = clientProfileAPIController.addressDelete(
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonUserAddress.asJson(),
+            httpServletResponse
+        );
+
+        jsonUserAddressList = new ObjectMapper().readValue(addressJson, JsonUserAddressList.class);
+        /* Size of address list is now 1. */
+        assertEquals(1, jsonUserAddressList.getJsonUserAddresses().size());
     }
 
     @Test

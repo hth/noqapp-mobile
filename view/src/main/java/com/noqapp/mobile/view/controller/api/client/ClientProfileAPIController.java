@@ -360,7 +360,10 @@ public class ClientProfileAPIController {
 
             JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
 
-            String id = map.get("id").getText();
+            String id = null;
+            if (map.containsKey("id")) {
+                id = map.get("id").getText();
+            }
             String address = StringUtils.capitalize(map.get("ad").getText());
 
             if (StringUtils.isBlank(id)) {
@@ -420,7 +423,10 @@ public class ClientProfileAPIController {
 
             JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
 
-            String id = map.get("id").getText();
+            String id = null;
+            if (map.containsKey("id")) {
+                id = map.get("id").getText();
+            }
             if (StringUtils.isNotBlank(id)) {
                 userAddressService.deleteAddress(id, qid);
                 jsonUserAddressList.removeJsonUserAddresses(id);
