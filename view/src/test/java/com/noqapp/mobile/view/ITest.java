@@ -14,6 +14,7 @@ import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.BusinessUserRegistrationStatusEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
+import com.noqapp.domain.types.catgeory.MedicalDepartmentEnum;
 import com.noqapp.health.repository.ApiHealthNowManager;
 import com.noqapp.health.repository.ApiHealthNowManagerImpl;
 import com.noqapp.health.service.ApiHealthService;
@@ -25,6 +26,7 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.service.QueueMobileService;
+import com.noqapp.mobile.service.StoreDetailService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.WebConnectorService;
 import com.noqapp.mobile.view.controller.open.AccountClientController;
@@ -60,6 +62,8 @@ import com.noqapp.repository.RegisteredDeviceManager;
 import com.noqapp.repository.RegisteredDeviceManagerImpl;
 import com.noqapp.repository.S3FileManager;
 import com.noqapp.repository.S3FileManagerImpl;
+import com.noqapp.repository.StoreCategoryManager;
+import com.noqapp.repository.StoreCategoryManagerImpl;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.repository.StoreHourManagerImpl;
 import com.noqapp.repository.StoreProductManager;
@@ -91,6 +95,7 @@ import com.noqapp.service.InviteService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
+import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.UserAddressService;
@@ -172,10 +177,13 @@ public class ITest extends RealMongoForITest {
     protected BusinessUserManager businessUserManager;
     protected ProfessionalProfileManager professionalProfileManager;
     protected UserMedicalProfileManager userMedicalProfileManager;
+    protected StoreCategoryManager storeCategoryManager;
 
     protected BusinessCustomerManager businessCustomerManager;
     protected BusinessCustomerService businessCustomerService;
     protected UserMedicalProfileService userMedicalProfileService;
+    protected StoreCategoryService storeCategoryService;
+    protected StoreDetailService storeDetailService;
 
     protected ApiHealthService apiHealthService;
     protected ApiHealthNowManager apiHealthNowManager;
@@ -334,6 +342,9 @@ public class ITest extends RealMongoForITest {
                 bizService
         );
 
+        storeCategoryManager = new StoreCategoryManagerImpl(getMongoTemplate());
+        storeCategoryService = new StoreCategoryService(storeCategoryManager, storeProductManager);
+
         professionalProfileManager = new ProfessionalProfileManagerImpl(getMongoTemplate());
         professionalProfileService = new ProfessionalProfileService(professionalProfileManager);
 
@@ -345,6 +356,8 @@ public class ITest extends RealMongoForITest {
                 professionalProfileService,
                 userProfileManager,
                 businessUserStoreManager);
+
+        storeDetailService = new StoreDetailService(bizService, tokenQueueMobileService, storeProductService, storeCategoryService);
 
         queueMobileService = new QueueMobileService(
                 queueManager,
@@ -551,8 +564,9 @@ public class ITest extends RealMongoForITest {
 
         BizStoreEntity bizStore = BizStoreEntity.newInstance()
                 .setBizName(bizName)
-                .setDisplayName("Food")
-                .setBusinessType(BusinessTypeEnum.AT)
+                .setDisplayName("Dr Aaj Kal")
+                .setBusinessType(bizName.getBusinessType())
+                .setBizCategoryId(MedicalDepartmentEnum.CRD.getName())
                 .setPhone("9118000000000")
                 .setPhoneRaw("18000000000")
                 .setAddress("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India")
@@ -589,8 +603,9 @@ public class ITest extends RealMongoForITest {
                 userProfile.getQueueUserId(),
                 UserLevelEnum.M_ADMIN
         );
-        businessUser.setBusinessUserRegistrationStatus(BusinessUserRegistrationStatusEnum.V);
-        businessUser.setValidateByQid(accountService.checkUserExistsByPhone("9118000000102").getQueueUserId());
+        businessUser.setBusinessUserRegistrationStatus(BusinessUserRegistrationStatusEnum.V)
+            .setValidateByQid(accountService.checkUserExistsByPhone("9118000000102").getQueueUserId())
+            .setBizName(bizName);
         businessUserService.save(businessUser);
 
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");

@@ -29,7 +29,7 @@ import java.io.IOException;
  * User: hitender
  * Date: 7/22/18 4:12 PM
  */
-@DisplayName("Manage Queue API")
+@DisplayName("Client Profile API")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
 class ClientProfileAPIControllerITest extends ITest {
