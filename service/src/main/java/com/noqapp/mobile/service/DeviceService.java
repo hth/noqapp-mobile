@@ -67,7 +67,7 @@ public class DeviceService {
         try {
             RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(qid, did);
             if (registeredDevice == null) {
-                LOG.info("Registering new deviceType={} appFlavor={} did={} qid={}", deviceType, appFlavor, did, qid);
+                LOG.info("Registering new deviceType={} appFlavor={} did={} qid={}", deviceType.getName(), appFlavor.getName(), did, qid);
                 registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token);
                 try {
                     registeredDeviceManager.save(registeredDevice);
