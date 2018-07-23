@@ -97,7 +97,7 @@ class ManageQueueControllerITest extends ITest {
         );
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
-        assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals("Dr Aaj Kal", jsonTopic.getTopics().iterator().next().getDisplayName());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
     }
@@ -141,8 +141,8 @@ class ManageQueueControllerITest extends ITest {
         );
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
-        assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
-        assertEquals(BusinessTypeEnum.AT, jsonTopic.getTopics().iterator().next().getBusinessType());
+        assertEquals("Dr Aaj Kal", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals(BusinessTypeEnum.DO, jsonTopic.getTopics().iterator().next().getBusinessType());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(2, jsonTopic.getTopics().iterator().next().getToken());
@@ -226,7 +226,7 @@ class ManageQueueControllerITest extends ITest {
         );
 
         JsonTopic jsonTopic = new ObjectMapper().readValue(topic, JsonTopic.class);
-        assertEquals("Food", jsonTopic.getDisplayName());
+        assertEquals("Dr Aaj Kal", jsonTopic.getDisplayName());
         assertEquals(QueueStatusEnum.S, jsonTopic.getQueueStatus());
         assertEquals(0, jsonTopic.getServingNumber());
         assertEquals(0, jsonTopic.getToken());
@@ -344,8 +344,8 @@ class ManageQueueControllerITest extends ITest {
         );
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
-        assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
-        assertEquals(BusinessTypeEnum.AT, jsonTopic.getTopics().iterator().next().getBusinessType());
+        assertEquals("Dr Aaj Kal", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals(BusinessTypeEnum.DO, jsonTopic.getTopics().iterator().next().getBusinessType());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(2, jsonTopic.getTopics().iterator().next().getToken());
@@ -412,8 +412,8 @@ class ManageQueueControllerITest extends ITest {
         );
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
-        assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
-        assertEquals(BusinessTypeEnum.AT, jsonTopic.getTopics().iterator().next().getBusinessType());
+        assertEquals("Dr Aaj Kal", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals(BusinessTypeEnum.DO, jsonTopic.getTopics().iterator().next().getBusinessType());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(2, jsonTopic.getTopics().iterator().next().getToken());
@@ -477,8 +477,8 @@ class ManageQueueControllerITest extends ITest {
         );
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
-        assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
-        assertEquals(BusinessTypeEnum.AT, jsonTopic.getTopics().iterator().next().getBusinessType());
+        assertEquals("Dr Aaj Kal", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals(BusinessTypeEnum.DO, jsonTopic.getTopics().iterator().next().getBusinessType());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(2, jsonTopic.getTopics().iterator().next().getToken());
@@ -552,8 +552,8 @@ class ManageQueueControllerITest extends ITest {
         );
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
-        assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
-        assertEquals(BusinessTypeEnum.AT, jsonTopic.getTopics().iterator().next().getBusinessType());
+        assertEquals("Dr Aaj Kal", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals(BusinessTypeEnum.DO, jsonTopic.getTopics().iterator().next().getBusinessType());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(1, jsonTopic.getTopics().iterator().next().getToken());
