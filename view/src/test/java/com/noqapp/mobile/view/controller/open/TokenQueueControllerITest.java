@@ -168,7 +168,7 @@ class TokenQueueControllerITest extends ITest {
         assertTrue(jsonTokenAndQueueList.isSinceBeginning());
         assertEquals(1, jsonTokenAndQueueList.getTokenAndQueues().size());
         JsonTokenAndQueue jsonTokenAndQueue = jsonTokenAndQueueList.getTokenAndQueues().iterator().next();
-        assertEquals("Dr Aaj kal", jsonTokenAndQueue.getDisplayName());
+        assertEquals("Dr Aaj Kal", jsonTokenAndQueue.getDisplayName());
         assertEquals(1, jsonTokenAndQueue.getToken());
         assertEquals(0, jsonTokenAndQueue.getRatingCount());
 
