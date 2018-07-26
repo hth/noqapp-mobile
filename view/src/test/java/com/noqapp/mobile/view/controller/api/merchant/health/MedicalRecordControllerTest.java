@@ -77,7 +77,7 @@ class MedicalRecordControllerTest extends ITest {
         );
 
         JsonMedicalRecordList jsonMedicalRecordList = new ObjectMapper().readValue(response, JsonMedicalRecordList.class);
-        assertEquals(1, jsonMedicalRecordList.getJsonMedicalRecords().size());
+        assertEquals(2, jsonMedicalRecordList.getJsonMedicalRecords().size());
     }
 
     private String addMedicalRecord() throws IOException {
