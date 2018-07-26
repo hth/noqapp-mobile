@@ -17,7 +17,9 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.service.MedicalRecordService;
+import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.view.controller.api.client.health.MedicalRecordAPIController;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 
@@ -31,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -108,7 +111,7 @@ public class MedicalRecordController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        LOG.info("Add medical record mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/m/h/medicalRecord/add by mail={}", mail);
@@ -153,6 +156,60 @@ public class MedicalRecordController {
                     MedicalRecordController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @GetMapping(
+        value = "/fetch",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String fetch(
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        String requestBodyJson,
+
+        HttpServletResponse response
+    ) throws IOException {
+        Instant start = Instant.now();
+        LOG.debug("Client medical record fetch mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            FindMedicalProfile findMedicalProfile = new ObjectMapper().readValue(requestBodyJson, FindMedicalProfile.class);
+            if (StringUtils.isBlank(findMedicalProfile.getCodeQR())) {
+                LOG.warn("Not a valid codeQR={} qid={}", findMedicalProfile.getCodeQR(), qid);
+                return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+            } else if (!businessUserStoreService.hasAccess(qid, findMedicalProfile.getCodeQR())) {
+                LOG.info("Your are not authorized to see medical history of client mail={}", mail);
+                return getErrorReason("Your are not authorized to see medical profile of client", MEDICAL_RECORD_ENTRY_DENIED);
+            }
+
+            return medicalRecordService.populateMedicalHistory(findMedicalProfile.getQueueUserId()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting medical record qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                "/fetch",
+                "fetch",
+                MedicalRecordAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/fetch",
+                "fetch",
+                MedicalRecordAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
         }
     }
 }
