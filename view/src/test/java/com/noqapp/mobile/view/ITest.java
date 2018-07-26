@@ -18,8 +18,21 @@ import com.noqapp.domain.types.catgeory.MedicalDepartmentEnum;
 import com.noqapp.health.repository.ApiHealthNowManager;
 import com.noqapp.health.repository.ApiHealthNowManagerImpl;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.repository.MedicalMedicationManager;
+import com.noqapp.medical.repository.MedicalMedicationManagerImpl;
+import com.noqapp.medical.repository.MedicalMedicineManager;
+import com.noqapp.medical.repository.MedicalMedicineManagerImpl;
+import com.noqapp.medical.repository.MedicalPathologyManager;
+import com.noqapp.medical.repository.MedicalPathologyManagerImpl;
+import com.noqapp.medical.repository.MedicalPathologyTestManager;
+import com.noqapp.medical.repository.MedicalPathologyTestManagerImpl;
+import com.noqapp.medical.repository.MedicalPhysicalManager;
+import com.noqapp.medical.repository.MedicalPhysicalManagerImpl;
+import com.noqapp.medical.repository.MedicalRecordManager;
+import com.noqapp.medical.repository.MedicalRecordManagerImpl;
 import com.noqapp.medical.repository.UserMedicalProfileManager;
 import com.noqapp.medical.repository.UserMedicalProfileManagerImpl;
+import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.service.AccountMobileService;
@@ -154,6 +167,14 @@ public class ITest extends RealMongoForITest {
     protected PurchaseOrderService purchaseOrderService;
     protected FileService fileService;
     protected S3FileManager s3FileManager;
+
+    protected MedicalRecordManager medicalRecordManager;
+    protected MedicalPhysicalManager medicalPhysicalManager;
+    protected MedicalMedicationManager medicalMedicationManager;
+    protected MedicalMedicineManager medicalMedicineManager;
+    protected MedicalPathologyManager medicalPathologyManager;
+    protected MedicalPathologyTestManager medicalPathologyTestManager;
+    protected MedicalRecordService medicalRecordService;
 
     protected TokenQueueManager tokenQueueManager;
     protected FirebaseMessageService firebaseMessageService;
@@ -391,6 +412,24 @@ public class ITest extends RealMongoForITest {
                 bizService
         );
 
+        medicalRecordManager = new MedicalRecordManagerImpl(getMongoTemplate());
+        medicalPhysicalManager = new MedicalPhysicalManagerImpl(getMongoTemplate());
+        medicalMedicationManager = new MedicalMedicationManagerImpl(getMongoTemplate());
+        medicalMedicineManager = new MedicalMedicineManagerImpl(getMongoTemplate());
+        medicalPathologyManager = new MedicalPathologyManagerImpl(getMongoTemplate());
+        medicalPathologyTestManager = new MedicalPathologyTestManagerImpl(getMongoTemplate());
+        medicalRecordService = new MedicalRecordService(
+            medicalRecordManager,
+            medicalPhysicalManager,
+            medicalMedicationManager,
+            medicalMedicineManager,
+            medicalPathologyManager,
+            medicalPathologyTestManager,
+            bizService,
+            businessUserStoreService,
+            userProfileManager
+        );
+
         registerUser();
         createBusiness("9118000000030");
     }
@@ -406,7 +445,7 @@ public class ITest extends RealMongoForITest {
         addStoreUsers();
     }
 
-    private void addStoreUsers() throws IOException {
+    private void addStoreUsers() {
         Registration queueAdmin = new Registration()
                 .setPhone("+9118000000030")
                 .setFirstName("Diktaa D mA")
@@ -456,9 +495,34 @@ public class ITest extends RealMongoForITest {
                 queueSupervisorUserProfile.getQueueUserId(),
                 queueSupervisorUserProfile.getLevel());
         accountService.save(queueSupervisorUserAccount);
+
+        Registration queueManager = new Registration()
+            .setPhone("+9118000000032")
+            .setFirstName("Manager Doctor")
+            .setMail("manager_doctor@r.com")
+            .setPassword("password")
+            .setBirthday("2000-12-12")
+            .setGender("F")
+            .setCountryShortName("IN")
+            .setTimeZoneId("Asia/Calcutta")
+            .setInviteCode("");
+
+        accountClientController.register(
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            queueManager.asJson(),
+            httpServletResponse);
+
+        UserProfileEntity storeManagerUserProfile = accountService.checkUserExistsByPhone("9118000000032");
+        storeManagerUserProfile.setLevel(UserLevelEnum.S_MANAGER);
+        accountService.save(storeManagerUserProfile);
+        UserAccountEntity storeManagerUserAccount = accountService.changeAccountRolesToMatchUserLevel(
+            storeManagerUserProfile.getQueueUserId(),
+            storeManagerUserProfile.getLevel());
+        accountService.save(storeManagerUserAccount);
     }
 
-    private void addClients() throws IOException {
+    private void addClients() {
         Registration client1 = new Registration()
                 .setPhone("+9118000000001")
                 .setFirstName("ROCKET Docket")
@@ -598,7 +662,7 @@ public class ITest extends RealMongoForITest {
         /* Create Queue. */
         tokenQueueService.createUpdate(bizStore.getCodeQR(), bizStore.getTopic(), bizStore.getDisplayName(), bizStore.getBusinessType());
 
-        /* Add Queue Admin and Queue Supervisor to Business and Store. */
+        /* Add Queue Admin, Queue Supervisor, Queue Manager to Business and Store. */
         BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
                 userProfile.getQueueUserId(),
                 UserLevelEnum.M_ADMIN
@@ -615,6 +679,15 @@ public class ITest extends RealMongoForITest {
                 bizName.getId(),
                 bizStore.getCodeQR(),
                 queueSupervisorUserProfile.getLevel());
+        businessUserStoreService.save(businessUserStore);
+
+        UserProfileEntity queueManagerUserProfile = accountService.checkUserExistsByPhone("9118000000032");
+        businessUserStore = new BusinessUserStoreEntity(
+            queueManagerUserProfile.getQueueUserId(),
+            bizStore.getId(),
+            bizName.getId(),
+            bizStore.getCodeQR(),
+            queueManagerUserProfile.getLevel());
         businessUserStoreService.save(businessUserStore);
     }
 }
