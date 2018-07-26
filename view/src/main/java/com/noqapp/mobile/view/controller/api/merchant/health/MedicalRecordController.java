@@ -149,6 +149,10 @@ public class MedicalRecordController {
             LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } catch (Exception e) {
+            LOG.error("Failed processing medical record json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
                     "/add",
