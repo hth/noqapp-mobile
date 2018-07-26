@@ -100,7 +100,7 @@ public class MedicalUserProfileController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        LOG.info("Fetch mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/m/h/medicalRecord/add by mail={}", mail);
@@ -110,7 +110,6 @@ public class MedicalUserProfileController {
 
         try {
             FindMedicalProfile findMedicalProfile = new ObjectMapper().readValue(requestBodyJson, FindMedicalProfile.class);
-
             if (StringUtils.isBlank(findMedicalProfile.getCodeQR())) {
                 LOG.warn("Not a valid codeQR={} qid={}", findMedicalProfile.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
