@@ -159,7 +159,7 @@ public class MedicalRecordController {
         }
     }
 
-    @GetMapping(
+    @PostMapping(
         value = "/fetch",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
