@@ -118,7 +118,7 @@ public class MedicalUserProfileController {
                 return getErrorReason("Your are not authorized to see medical profile of client", MEDICAL_RECORD_ENTRY_DENIED);
             }
 
-            return accountMobileService.getProfileAsJson(qid);
+            return accountMobileService.getProfileAsJson(findMedicalProfile.getQueueUserId());
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
