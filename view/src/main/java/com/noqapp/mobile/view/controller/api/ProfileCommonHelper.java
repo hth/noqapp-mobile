@@ -87,6 +87,7 @@ public class ProfileCommonHelper {
      * @return
      */
     private String updateProfile(String qidOfSubmitter, String updateProfileJson, HttpServletResponse response) {
+        LOG.info("Update Profile qidOfSubmitter={} updateProfileJson={}", qidOfSubmitter, updateProfileJson);
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
 
