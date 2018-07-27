@@ -35,7 +35,6 @@ class MedicalRecordControllerTest extends ITest {
 
     private MedicalRecordController medicalRecordController;
 
-    private BizNameEntity bizName;
     private BizStoreEntity bizStore;
     private UserProfileEntity queueManagerUserProfile;
 
@@ -49,7 +48,7 @@ class MedicalRecordControllerTest extends ITest {
             bizService
         );
 
-        bizName = bizService.findByPhone("9118000000000");
+        BizNameEntity bizName = bizService.findByPhone("9118000000000");
         bizStore = bizService.findOneBizStore(bizName.getId());
         queueManagerUserProfile = accountService.checkUserExistsByPhone("9118000000032");
     }
@@ -61,10 +60,9 @@ class MedicalRecordControllerTest extends ITest {
         assertEquals(1, jsonResponse.getResponse());
     }
 
+    @DisplayName("Fetch existing medical records")
     @Test
     void fetch() throws IOException {
-        addMedicalRecord();
-
         UserAccountEntity userAccount = accountService.findByQueueUserId(queueManagerUserProfile.getQueueUserId());
         UserProfileEntity client = accountService.checkUserExistsByPhone("9118000000001");
 
@@ -77,7 +75,7 @@ class MedicalRecordControllerTest extends ITest {
         );
 
         JsonMedicalRecordList jsonMedicalRecordList = new ObjectMapper().readValue(response, JsonMedicalRecordList.class);
-        assertEquals(2, jsonMedicalRecordList.getJsonMedicalRecords().size());
+        assertEquals(1, jsonMedicalRecordList.getJsonMedicalRecords().size());
     }
 
     private String addMedicalRecord() throws IOException {

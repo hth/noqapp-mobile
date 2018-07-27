@@ -7,7 +7,6 @@ import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.medical.domain.json.JsonMedicalRecordList;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.view.ITest;
@@ -33,7 +32,6 @@ class MedicalUserProfileControllerTest extends ITest {
 
     private MedicalUserProfileController medicalUserProfileController;
 
-    private BizNameEntity bizName;
     private BizStoreEntity bizStore;
     private UserProfileEntity queueManagerUserProfile;
 
@@ -46,7 +44,7 @@ class MedicalUserProfileControllerTest extends ITest {
             apiHealthService
         );
 
-        bizName = bizService.findByPhone("9118000000000");
+        BizNameEntity bizName = bizService.findByPhone("9118000000000");
         bizStore = bizService.findOneBizStore(bizName.getId());
         queueManagerUserProfile = accountService.checkUserExistsByPhone("9118000000032");
     }
