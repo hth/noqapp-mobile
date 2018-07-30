@@ -250,7 +250,7 @@ class ManageQueueControllerTest {
                 anyString(),
                 anyString(),
                 ArgumentMatchers.any(TokenServiceEnum.class))
-        ).thenReturn(new JsonToken("queuecode", BusinessTypeEnum.AT)
+        ).thenReturn(new JsonToken("queuecode", BusinessTypeEnum.DO)
                 .setQueueStatus(QueueStatusEnum.D));
         when(tokenQueueService.findByCodeQR(anyString())).thenReturn(tokenQueue);
 
@@ -283,7 +283,7 @@ class ManageQueueControllerTest {
 
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
-        when(queueService.updateAndGetNextInQueue(anyString(), anyInt(), ArgumentMatchers.any(QueueUserStateEnum.class), anyString(), anyString(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(new JsonToken("queuecode", BusinessTypeEnum.AT));
+        when(queueService.updateAndGetNextInQueue(anyString(), anyInt(), ArgumentMatchers.any(QueueUserStateEnum.class), anyString(), anyString(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(new JsonToken("queuecode", BusinessTypeEnum.DO));
 
         String responseJson = manageQueueController.served(
                 new ScrubbedInput(""),
