@@ -649,7 +649,7 @@ class ManageQueueControllerITest extends ITest {
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
         assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
-        assertEquals(BusinessTypeEnum.AT, jsonTopic.getTopics().iterator().next().getBusinessType());
+        assertEquals(BusinessTypeEnum.DO, jsonTopic.getTopics().iterator().next().getBusinessType());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getToken());
