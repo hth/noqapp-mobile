@@ -110,7 +110,7 @@ import com.noqapp.service.FtpService;
 import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.ProfessionalProfileService;
-//import com.noqapp.service.PurchaseOrderService;
+import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
@@ -168,7 +168,7 @@ public class ITest extends RealMongoForITest {
     protected StoreProductService storeProductService;
     protected PurchaseOrderManager purchaseOrderManager;
     protected PurchaseProductOrderManager purchaseProductOrderManager;
-//    protected PurchaseOrderService purchaseOrderService;
+    protected PurchaseOrderService purchaseOrderService;
     protected FileService fileService;
     protected S3FileManager s3FileManager;
 
@@ -329,18 +329,15 @@ public class ITest extends RealMongoForITest {
         userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
         userAddressService = new UserAddressService(userAddressManager, externalService);
 
-//        purchaseOrderService = new PurchaseOrderService(
-//                bizService,
-//                tokenQueueService,
-//                storeHourManager,
-//                storeProductService,
-//                purchaseOrderManager,
-//                purchaseProductOrderManager,
-//                userAddressService,
-//                firebaseMessageService,
-//                registeredDeviceManager,
-//                accountService
-//        );
+        purchaseOrderService = new PurchaseOrderService(
+                bizService,
+                tokenQueueService,
+                storeHourManager,
+                storeProductService,
+                purchaseOrderManager,
+                purchaseProductOrderManager,
+                userAddressService
+        );
 
         bizNameManager = new BizNameManagerImpl(getMongoTemplate());
         businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
