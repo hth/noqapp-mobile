@@ -28,6 +28,10 @@ import com.noqapp.medical.repository.MedicalPathologyTestManager;
 import com.noqapp.medical.repository.MedicalPathologyTestManagerImpl;
 import com.noqapp.medical.repository.MedicalPhysicalManager;
 import com.noqapp.medical.repository.MedicalPhysicalManagerImpl;
+import com.noqapp.medical.repository.MedicalRadiologyManager;
+import com.noqapp.medical.repository.MedicalRadiologyManagerImpl;
+import com.noqapp.medical.repository.MedicalRadiologyTestManager;
+import com.noqapp.medical.repository.MedicalRadiologyTestManagerImpl;
 import com.noqapp.medical.repository.MedicalRecordManager;
 import com.noqapp.medical.repository.MedicalRecordManagerImpl;
 import com.noqapp.medical.repository.UserMedicalProfileManager;
@@ -174,6 +178,8 @@ public class ITest extends RealMongoForITest {
     protected MedicalMedicineManager medicalMedicineManager;
     protected MedicalPathologyManager medicalPathologyManager;
     protected MedicalPathologyTestManager medicalPathologyTestManager;
+    protected MedicalRadiologyManager medicalRadiologyManager;
+    protected MedicalRadiologyTestManager medicalRadiologyTestManager;
     protected MedicalRecordService medicalRecordService;
 
     protected TokenQueueManager tokenQueueManager;
@@ -330,7 +336,10 @@ public class ITest extends RealMongoForITest {
                 storeProductService,
                 purchaseOrderManager,
                 purchaseProductOrderManager,
-                userAddressService
+                userAddressService,
+                firebaseMessageService,
+                registeredDeviceManager,
+                accountService
         );
 
         bizNameManager = new BizNameManagerImpl(getMongoTemplate());
@@ -418,6 +427,8 @@ public class ITest extends RealMongoForITest {
         medicalMedicineManager = new MedicalMedicineManagerImpl(getMongoTemplate());
         medicalPathologyManager = new MedicalPathologyManagerImpl(getMongoTemplate());
         medicalPathologyTestManager = new MedicalPathologyTestManagerImpl(getMongoTemplate());
+        medicalRadiologyManager = new MedicalRadiologyManagerImpl(getMongoTemplate());
+        medicalRadiologyTestManager = new MedicalRadiologyTestManagerImpl(getMongoTemplate());
         medicalRecordService = new MedicalRecordService(
             medicalRecordManager,
             medicalPhysicalManager,
@@ -425,6 +436,8 @@ public class ITest extends RealMongoForITest {
             medicalMedicineManager,
             medicalPathologyManager,
             medicalPathologyTestManager,
+            medicalRadiologyManager,
+            medicalRadiologyTestManager,
             bizService,
             businessUserStoreService,
             userProfileManager
