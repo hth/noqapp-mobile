@@ -17,41 +17,48 @@ public enum LowestSupportedAppEnum {
 
     /* List lowest supported version of iPhone and Android app. */
     VI("1.1.10",                    //Oldest Supported App Version in String
-            DeviceTypeEnum.I,       //Device Type
-            AppFlavorEnum.NQCL,
-            "1.1.10"),              //Latest App Version on App Store
+        DeviceTypeEnum.I,           //Device Type
+        AppFlavorEnum.NQCL,
+        "1.1.10",                   //Latest App Version on App Store
+        "Version iPhone"),
     /* 1.1.10 is not released. */
 
 
-    VA("1.1.200",                   //Oldest Supported App Version in String
-            DeviceTypeEnum.A,       //Device Type
-            AppFlavorEnum.NQCL,
-            "1.1.201"),             //Latest App Version on Play Store
+    VA("1.1.210",                   //Oldest Supported App Version in String
+        DeviceTypeEnum.A,           //Device Type
+        AppFlavorEnum.NQCL,
+        "1.1.212",                  //Latest App Version on Play Store
+        "Version Android"),
 
-    VACL("1.1.200",                  //Oldest Supported App Version in String
-            DeviceTypeEnum.A,       //Device Type
-            AppFlavorEnum.NQCL,
-            "1.1.201"),             //Latest App Version on Play Store
+    VACL("1.1.210",                 //Oldest Supported App Version in String
+        DeviceTypeEnum.A,           //Device Type
+        AppFlavorEnum.NQCL,
+        "1.1.212",                  //Latest App Version on Play Store
+        "Version Android Client"),
 
-    VACH("1.1.200",                 //Oldest Supported App Version in String
-            DeviceTypeEnum.A,       //Device Type
-            AppFlavorEnum.NQCH,
-            "1.1.201"),             //Latest App Version on Play Store
+    VACH("1.1.210",                 //Oldest Supported App Version in String
+        DeviceTypeEnum.A,           //Device Type
+        AppFlavorEnum.NQCH,
+        "1.1.210",                  //Latest App Version on Play Store
+        "Version Android Client HealthCare"),
 
-    VAMS("1.1.200",
-            DeviceTypeEnum.A,
-            AppFlavorEnum.NQMS,
-            "1.1.201"),
+    VAMS("1.1.210",
+        DeviceTypeEnum.A,
+        AppFlavorEnum.NQMS,
+        "1.1.210",
+        "Version Android Merchant Store"),
 
-    VAMH("1.1.200",
-            DeviceTypeEnum.A,
-            AppFlavorEnum.NQMH,
-            "1.1.201"),
+    VAMH("1.1.210",
+        DeviceTypeEnum.A,
+        AppFlavorEnum.NQMH,
+        "1.1.210",
+        "Version Android Merchant HealthCare"),
 
-    VAMT("1.1.200",
-            DeviceTypeEnum.A,
-            AppFlavorEnum.NQMT,
-            "1.1.201");
+    VAMT("1.1.210",
+        DeviceTypeEnum.A,
+        AppFlavorEnum.NQMT,
+        "1.1.210",
+        "Version Android Merchant TV");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
 
@@ -59,17 +66,20 @@ public enum LowestSupportedAppEnum {
     private DeviceTypeEnum deviceType;
     private AppFlavorEnum appFlavor;
     private String latestAppVersion;
+    private String description;
 
     LowestSupportedAppEnum(
-            String oldestAppVersion,
-            DeviceTypeEnum deviceType,
-            AppFlavorEnum appFlavor,
-            String latestAppVersion
+        String oldestAppVersion,
+        DeviceTypeEnum deviceType,
+        AppFlavorEnum appFlavor,
+        String latestAppVersion,
+        String description
     ) {
         this.oldestAppVersion = oldestAppVersion;
         this.deviceType = deviceType;
         this.appFlavor = appFlavor;
         this.latestAppVersion = latestAppVersion;
+        this.description = description;
     }
 
     public String getOldestAppVersion() {
@@ -83,10 +93,10 @@ public enum LowestSupportedAppEnum {
     public static boolean isSupportedVersion(LowestSupportedAppEnum lowestSupportedApp, String appVersionNumber) {
         boolean supported = AppVersion.compare(appVersionNumber, lowestSupportedApp.oldestAppVersion);
         LOG.info("App Version={} device={} appFlavor={} supported app version={}",
-                appVersionNumber,
-                lowestSupportedApp.deviceType.getName(),
-                lowestSupportedApp.appFlavor.getName(),
-                supported);
+            appVersionNumber,
+            lowestSupportedApp.deviceType.getName(),
+            lowestSupportedApp.appFlavor.getName(),
+            supported);
         return supported;
     }
 
@@ -109,5 +119,9 @@ public enum LowestSupportedAppEnum {
         }
 
         return null;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
