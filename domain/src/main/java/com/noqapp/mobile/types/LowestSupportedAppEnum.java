@@ -24,40 +24,40 @@ public enum LowestSupportedAppEnum {
     /* 1.1.10 is not released. */
 
 
-    VA("1.1.214",                   //Oldest Supported App Version in String
+    VA("1.1.218",                   //Oldest Supported App Version in String
         DeviceTypeEnum.A,           //Device Type
         AppFlavorEnum.NQCL,
-        "1.1.215",                  //Latest App Version on Play Store
+        "1.1.218",                  //Latest App Version on Play Store
         "Version Android"),
 
-    VACL("1.1.214",                 //Oldest Supported App Version in String
+    VACL("1.1.218",                 //Oldest Supported App Version in String
         DeviceTypeEnum.A,           //Device Type
         AppFlavorEnum.NQCL,
-        "1.1.215",                  //Latest App Version on Play Store
+        "1.1.218",                  //Latest App Version on Play Store
         "Version Android Client"),
 
-    VACH("1.1.212",                 //Oldest Supported App Version in String
+    VACH("1.1.216",                 //Oldest Supported App Version in String
         DeviceTypeEnum.A,           //Device Type
         AppFlavorEnum.NQCH,
-        "1.1.213",                  //Latest App Version on Play Store
+        "1.1.216",                  //Latest App Version on Play Store
         "Version Android Client HealthCare"),
 
-    VAMS("1.1.212",
+    VAMS("1.1.216",
         DeviceTypeEnum.A,
         AppFlavorEnum.NQMS,
-        "1.1.213",
+        "1.1.216",
         "Version Android Merchant Store"),
 
-    VAMH("1.1.212",
+    VAMH("1.1.216",
         DeviceTypeEnum.A,
         AppFlavorEnum.NQMH,
-        "1.1.213",
+        "1.1.216",
         "Version Android Merchant HealthCare"),
 
-    VAMT("1.1.212",
+    VAMT("1.1.216",
         DeviceTypeEnum.A,
         AppFlavorEnum.NQMT,
-        "1.1.213",
+        "1.1.216",
         "Version Android Merchant TV");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
