@@ -130,17 +130,17 @@ public class ClientProfileAPIController {
 
         try {
             return accountMobileService.getProfileAsJson(qid);
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/fetch",
-                    "fetch",
-                    ClientProfileAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/fetch",
+                "fetch",
+                ClientProfileAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -203,8 +203,8 @@ public class ClientProfileAPIController {
             if (map.isEmpty()) {
                 /* Validation failure as there is no data in the map. */
                 return ErrorEncounteredJson.toJson(accountClientValidator.validateForPhoneMigration(
-                        null,
-                        null));
+                    null,
+                    null));
             } else {
                 Set<String> unknownKeys = invalidElementsInMapDuringMigration(map);
                 if (!unknownKeys.isEmpty()) {
@@ -220,8 +220,8 @@ public class ClientProfileAPIController {
                 String timeZone = map.get(AccountMobileService.ACCOUNT_MIGRATE.TZ.name()).getText();
 
                 errors = accountClientValidator.validateForPhoneMigration(
-                        phone,
-                        countryShortName
+                    phone,
+                    countryShortName
                 );
 
                 if (!errors.isEmpty()) {
@@ -270,17 +270,17 @@ public class ClientProfileAPIController {
 
                 return jsonProfile.asJson();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOG.error("Failed migrating qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/migrate",
-                    "migrate",
-                    ClientProfileAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/migrate",
+                "migrate",
+                ClientProfileAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -315,11 +315,11 @@ public class ClientProfileAPIController {
             return new JsonUserAddressList().asJson();
         } finally {
             apiHealthService.insert(
-                    "/address",
-                    "address",
-                    ClientProfileAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/address",
+                "address",
+                ClientProfileAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -378,11 +378,11 @@ public class ClientProfileAPIController {
             return new JsonUserAddressList().asJson();
         } finally {
             apiHealthService.insert(
-                    "/address/add",
-                    "addressAdd",
-                    ClientProfileAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/address/add",
+                "addressAdd",
+                ClientProfileAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -439,11 +439,11 @@ public class ClientProfileAPIController {
             return new JsonUserAddressList().asJson();
         } finally {
             apiHealthService.insert(
-                    "/address/delete",
-                    "addressDelete",
-                    ClientProfileAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/address/delete",
+                "addressDelete",
+                ClientProfileAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -479,13 +479,13 @@ public class ClientProfileAPIController {
         }
 
         return profileCommonHelper.uploadProfileImage(
-                did.getText(),
-                dt.getText(),
-                mail.getText(),
-                auth.getText(),
-                new ScrubbedInput(profileImageOfQid).getText(),
-                multipartFile,
-                response);
+            did.getText(),
+            dt.getText(),
+            mail.getText(),
+            auth.getText(),
+            new ScrubbedInput(profileImageOfQid).getText(),
+            multipartFile,
+            response);
     }
 
     private Set<String> invalidElementsInMapDuringMigration(Map<String, ScrubbedInput> map) {
