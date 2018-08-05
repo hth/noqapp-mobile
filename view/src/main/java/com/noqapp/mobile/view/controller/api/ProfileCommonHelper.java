@@ -289,9 +289,10 @@ public class ProfileCommonHelper {
         BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
         String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
         if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
-            String profileFilename = FileUtil.createRandomFilenameOf24Chars()
-                    + FileUtil.getFileExtensionWithDot(multipartFile.getOriginalFilename());
-            fileService.addProfileImage(qid, profileFilename, bufferedImage);
+            fileService.addProfileImage(
+                qid,
+                FileUtil.createRandomFilenameOf24Chars() + FileUtil.getImageFileExtension(multipartFile.getOriginalFilename(), mimeType),
+                bufferedImage);
         } else {
             LOG.error("Failed mime mismatch found={} sentMime={}", mimeType, multipartFile.getContentType());
             throw new RuntimeException("Mime type mismatch");

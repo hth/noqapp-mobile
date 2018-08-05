@@ -36,11 +36,11 @@ import java.io.IOException;
  * User: hitender
  * Date: 1/14/17 10:57 AM
  */
-@SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+@SuppressWarnings({
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @Component
 public class AccountMobileService {
@@ -54,12 +54,12 @@ public class AccountMobileService {
 
     @Autowired
     public AccountMobileService(
-            @Value ("${accountSignupEndPoint:/webapi/mobile/mail/accountSignup.htm}")
+        @Value("${accountSignupEndPoint:/webapi/mobile/mail/accountSignup.htm}")
             String accountSignupEndPoint,
 
-            WebConnectorService webConnectorService,
-            AccountService accountService,
-            UserMedicalProfileService userMedicalProfileService
+        WebConnectorService webConnectorService,
+        AccountService accountService,
+        UserMedicalProfileService userMedicalProfileService
     ) {
         this.accountValidationEndPoint = accountSignupEndPoint;
 
@@ -78,33 +78,33 @@ public class AccountMobileService {
      * @param birthday
      * @return
      */
-    @SuppressWarnings ("all")
+    @SuppressWarnings("all")
     public String createNewMerchantAccount(
-            String phone,
-            String firstName,
-            String lastName,
-            String mail,
-            String birthday,
-            GenderEnum gender,
-            String countryShortName,
-            String timeZone,
-            String password
+        String phone,
+        String firstName,
+        String lastName,
+        String mail,
+        String birthday,
+        GenderEnum gender,
+        String countryShortName,
+        String timeZone,
+        String password
     ) {
         UserAccountEntity userAccount;
         try {
             userAccount = accountService.createNewAccount(
-                    phone,
-                    firstName,
-                    lastName,
-                    mail,
-                    birthday,
-                    gender,
-                    countryShortName,
-                    timeZone,
-                    password,
-                    null,
-                    false,
-                    true);
+                phone,
+                firstName,
+                lastName,
+                mail,
+                birthday,
+                gender,
+                countryShortName,
+                timeZone,
+                password,
+                null,
+                false,
+                true);
             Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getQueueUserId());
         } catch (DuplicateAccountException e) {
@@ -120,34 +120,34 @@ public class AccountMobileService {
     }
 
     public UserAccountEntity createNewClientAccount(
-            String phone,
-            String firstName,
-            String lastName,
-            String mail,
-            String birthday,
-            GenderEnum gender,
-            String countryShortName,
-            String timeZone,
-            String password,
-            String inviteCode,
-            boolean dependent
+        String phone,
+        String firstName,
+        String lastName,
+        String mail,
+        String birthday,
+        GenderEnum gender,
+        String countryShortName,
+        String timeZone,
+        String password,
+        String inviteCode,
+        boolean dependent
     ) {
         UserAccountEntity userAccount;
         try {
             //TODO before marking client account as validated, make sure you compare FB token with server
             userAccount = accountService.createNewAccount(
-                    phone,
-                    firstName,
-                    lastName,
-                    mail,
-                    birthday,
-                    gender,
-                    countryShortName,
-                    timeZone,
-                    password,
-                    inviteCode,
-                    true,
-                    dependent);
+                phone,
+                firstName,
+                lastName,
+                mail,
+                birthday,
+                gender,
+                countryShortName,
+                timeZone,
+                password,
+                inviteCode,
+                true,
+                dependent);
             Assert.notNull(userAccount, "Account creation cannot be null");
             LOG.info("Registered new user Id={}", userAccount.getQueueUserId());
         } catch (DuplicateAccountException e) {
@@ -178,10 +178,10 @@ public class AccountMobileService {
 
     private void sendValidationEmail(UserAccountEntity userAccount) {
         boolean mailStatus = sendMailDuringSignup(
-                userAccount.getUserId(),
-                userAccount.getQueueUserId(),
-                userAccount.getName(),
-                HttpClientBuilder.create().build());
+            userAccount.getUserId(),
+            userAccount.getQueueUserId(),
+            userAccount.getName(),
+            HttpClientBuilder.create().build());
 
         LOG.info("mail sent={} to user={}", mailStatus, userAccount.getUserId());
     }
@@ -213,8 +213,7 @@ public class AccountMobileService {
         try {
             response = httpClient.execute(httpPost);
         } catch (IOException e) {
-            LOG.error("error occurred while executing request path={} reason={}",
-                    httpPost.getURI(), e.getLocalizedMessage(), e);
+            LOG.error("error occurred while executing request path={} reason={}", httpPost.getURI(), e.getLocalizedMessage(), e);
         }
 
         if (null == response) {
@@ -262,10 +261,10 @@ public class AccountMobileService {
      */
     private void setEntity(Object object, HttpPost httpPost) {
         httpPost.setEntity(
-                new StringEntity(
-                        new Gson().toJson(object),
-                        ContentType.create(MediaType.APPLICATION_JSON_VALUE, "UTF-8")
-                )
+            new StringEntity(
+                new Gson().toJson(object),
+                ContentType.create(MediaType.APPLICATION_JSON_VALUE, "UTF-8")
+            )
         );
     }
 
