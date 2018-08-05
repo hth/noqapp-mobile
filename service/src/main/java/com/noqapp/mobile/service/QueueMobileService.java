@@ -60,13 +60,13 @@ public class QueueMobileService {
 
     @Autowired
     public QueueMobileService(
-            QueueManager queueManager,
-            TokenQueueMobileService tokenQueueMobileService,
-            BizService bizService,
-            DeviceService deviceService,
-            QueueManagerJDBC queueManagerJDBC,
-            StoreHourManager storeHourManager,
-            QueueService queueService) {
+        QueueManager queueManager,
+        TokenQueueMobileService tokenQueueMobileService,
+        BizService bizService,
+        DeviceService deviceService,
+        QueueManagerJDBC queueManagerJDBC,
+        StoreHourManager storeHourManager,
+        QueueService queueService) {
         this.queueManager = queueManager;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.bizService = bizService;
@@ -80,7 +80,7 @@ public class QueueMobileService {
 
     public JsonTokenAndQueueList findAllJoinedQueues(String did) {
         if (StringUtils.isBlank(did)) {
-           throw new RuntimeException("DID should not be blank");
+            throw new RuntimeException("DID should not be blank");
         }
 
         List<QueueEntity> queues = queueManager.findAllQueuedByDid(did);
@@ -99,10 +99,10 @@ public class QueueMobileService {
 
             LOG.info("QID is {} should be null for did={}", queue.getQueueUserId(), did);
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
-                    jsonToken.getToken(),
-                    null,
-                    jsonToken.getQueueStatus(),
-                    jsonQueue);
+                jsonToken.getToken(),
+                null,
+                jsonToken.getQueueStatus(),
+                jsonQueue);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
 
@@ -120,7 +120,7 @@ public class QueueMobileService {
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
             validateJoinedQueue(queue);
-            
+
             /*
              * Join Queue will join if user is not joined, hence fetch only queues with status is Queued.
              * Since we are fetching only queues that are joined, we can send
@@ -132,10 +132,10 @@ public class QueueMobileService {
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
-                    queue.getTokenNumber(),
-                    queue.getQueueUserId(),
-                    tokenQueueMobileService.findByCodeQR(queue.getCodeQR()).getQueueStatus(),
-                    jsonQueue);
+                queue.getTokenNumber(),
+                queue.getQueueUserId(),
+                tokenQueueMobileService.findByCodeQR(queue.getCodeQR()).getQueueStatus(),
+                jsonQueue);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
 
@@ -184,9 +184,9 @@ public class QueueMobileService {
 
             markFetchedSinceBeginningForDevice(registeredDevice);
             LOG.info("Historical existing device queue size={} did={} deviceType={}",
-                    historyQueues.size(),
-                    did,
-                    deviceType);
+                historyQueues.size(),
+                did,
+                deviceType);
         }
 
         servicedQueues.addAll(historyQueues);
@@ -195,7 +195,13 @@ public class QueueMobileService {
         return getJsonTokenAndQueueList(servicedQueues, sinceBeginning);
     }
 
-    public JsonTokenAndQueueList findHistoricalQueue(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token) {
+    public JsonTokenAndQueueList findHistoricalQueue(
+        String qid,
+        String did,
+        DeviceTypeEnum deviceType,
+        AppFlavorEnum appFlavor,
+        String token
+    ) {
         Validate.isValidQid(qid);
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(qid, did, token);
 
@@ -208,10 +214,10 @@ public class QueueMobileService {
             historyQueues = queueService.getByQid(qid);
             deviceService.registerDevice(qid, did, deviceType, appFlavor, token);
             LOG.info("Historical new device queue size={} did={} qid={} deviceType={}",
-                    historyQueues.size(),
-                    did,
-                    qid,
-                    deviceType);
+                historyQueues.size(),
+                did,
+                qid,
+                deviceType);
 
         } else {
             if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
@@ -229,10 +235,10 @@ public class QueueMobileService {
 
             markFetchedSinceBeginningForDevice(registeredDevice);
             LOG.info("Historical existing device queue size={} did={} qid={} deviceType={}",
-                    historyQueues.size(),
-                    did,
-                    qid,
-                    deviceType);
+                historyQueues.size(),
+                did,
+                qid,
+                deviceType);
         }
 
         servicedQueues.addAll(historyQueues);
@@ -242,9 +248,9 @@ public class QueueMobileService {
     }
 
     private Date computeDateToFetchSince(
-            DeviceTypeEnum deviceType,
-            RegisteredDeviceEntity registeredDevice,
-            boolean sinceBeginning
+        DeviceTypeEnum deviceType,
+        RegisteredDeviceEntity registeredDevice,
+        boolean sinceBeginning
     ) {
         Date fetchUntil;
         switch (deviceType) {
@@ -286,8 +292,8 @@ public class QueueMobileService {
         }
 
         return new JsonTokenAndQueueList()
-                .setTokenAndQueues(jsonTokenAndQueues)
-                .setSinceBeginning(sinceBeginning);
+            .setTokenAndQueues(jsonTokenAndQueues)
+            .setSinceBeginning(sinceBeginning);
     }
 
     /**
@@ -316,24 +322,24 @@ public class QueueMobileService {
         }
 
         LOG.info("Review update status={} codeQR={} token={} ratingCount={} hoursSaved={} did={} qid={} review={}",
-                reviewSubmitStatus,
-                codeQR,
-                token,
-                ratingCount,
-                hoursSaved,
-                did,
-                qid,
-                review);
+            reviewSubmitStatus,
+            codeQR,
+            token,
+            ratingCount,
+            hoursSaved,
+            did,
+            qid,
+            review);
     }
 
     private boolean reviewHistoricalService(
-            String codeQR,
-            int token,
-            String did,
-            String qid,
-            int ratingCount,
-            int hoursSaved,
-            String review
+        String codeQR,
+        int token,
+        String did,
+        String qid,
+        int ratingCount,
+        int hoursSaved,
+        String review
     ) {
         return queueManagerJDBC.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved, review);
     }
@@ -349,26 +355,26 @@ public class QueueMobileService {
     }
 
     public StoreHourEntity updateQueueStateForToday(
-            String codeQR,
-            int tokenAvailableFrom,
-            int startHour,
-            int tokenNotAvailableFrom,
-            int endHour,
-            boolean preventJoining,
-            boolean dayClosed,
-            int delayedInMinutes) {
+        String codeQR,
+        int tokenAvailableFrom,
+        int startHour,
+        int tokenNotAvailableFrom,
+        int endHour,
+        boolean preventJoining,
+        boolean dayClosed,
+        int delayedInMinutes) {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
         DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
         return storeHourManager.modifyOne(
-                bizStore.getId(),
-                dayOfWeek,
-                tokenAvailableFrom,
-                startHour,
-                tokenNotAvailableFrom,
-                endHour,
-                preventJoining,
-                dayClosed,
-                delayedInMinutes);
+            bizStore.getId(),
+            dayOfWeek,
+            tokenAvailableFrom,
+            startHour,
+            tokenNotAvailableFrom,
+            endHour,
+            preventJoining,
+            dayClosed,
+            delayedInMinutes);
     }
 
     public JsonQueuePersonList findAllClient(String codeQR) {
