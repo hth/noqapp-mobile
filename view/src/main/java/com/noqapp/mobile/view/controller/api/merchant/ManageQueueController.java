@@ -221,7 +221,7 @@ public class ManageQueueController {
             String serveTokenString = map.containsKey("t") ? map.get("t").getText() : null;
             int servedNumber;
             if (StringUtils.isNumeric(serveTokenString)) {
-                servedNumber = Integer.valueOf(serveTokenString);
+                servedNumber = Integer.parseInt(serveTokenString);
             } else {
                 LOG.warn("Not a valid number={} codeQR={} qid={}", serveTokenString, codeQR, qid);
                 return getErrorReason("Not a valid number.", MOBILE_JSON);
@@ -660,7 +660,7 @@ public class ManageQueueController {
             String serveTokenString = map.containsKey("t") ? map.get("t").getText() : null;
             int servedNumber;
             if (StringUtils.isNumeric(serveTokenString)) {
-                servedNumber = Integer.valueOf(serveTokenString);
+                servedNumber = Integer.parseInt(serveTokenString);
             } else {
                 LOG.warn("Not a valid number={} codeQR={} qid={}", serveTokenString, codeQR, qid);
                 return getErrorReason("Not a valid number.", MOBILE_JSON);
