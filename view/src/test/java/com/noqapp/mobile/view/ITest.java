@@ -336,7 +336,10 @@ public class ITest extends RealMongoForITest {
                 storeProductService,
                 purchaseOrderManager,
                 purchaseProductOrderManager,
-                userAddressService
+                userAddressService,
+                firebaseMessageService,
+                registeredDeviceManager,
+                accountService
         );
 
         bizNameManager = new BizNameManagerImpl(getMongoTemplate());
