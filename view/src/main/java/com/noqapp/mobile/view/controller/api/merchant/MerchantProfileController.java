@@ -197,13 +197,13 @@ public class MerchantProfileController {
             @RequestHeader ("X-R-AUTH")
             ScrubbedInput auth,
 
-            //TODO change this to professional profile
             @RequestBody
-            String updateProfileJson,
+            String updateProfessionalProfileJson,
 
             HttpServletResponse response
     ) throws IOException {
-        return profileCommonHelper.updateProfile(mail, auth, updateProfileJson, response);
+        JsonProfessionalProfile jsonProfessionalProfile = new ObjectMapper().readValue(updateProfessionalProfileJson, JsonProfessionalProfile.class);
+        return profileCommonHelper.updateProfessionalProfile(mail, auth, jsonProfessionalProfile, response);
     }
 
     @RequestMapping (

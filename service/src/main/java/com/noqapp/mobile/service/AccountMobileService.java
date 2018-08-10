@@ -2,14 +2,19 @@ package com.noqapp.mobile.service;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 
+import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.flow.RegisterUser;
+import com.noqapp.domain.helper.NameDatePair;
+import com.noqapp.domain.json.JsonNameDatePair;
+import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.SignupUserInfo;
 import com.noqapp.service.AccountService;
+import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 
 import com.google.gson.Gson;
@@ -31,6 +36,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: hitender
@@ -51,6 +58,7 @@ public class AccountMobileService {
     private WebConnectorService webConnectorService;
     private AccountService accountService;
     private UserMedicalProfileService userMedicalProfileService;
+    private ProfessionalProfileService professionalProfileService;
 
     @Autowired
     public AccountMobileService(
@@ -59,13 +67,15 @@ public class AccountMobileService {
 
         WebConnectorService webConnectorService,
         AccountService accountService,
-        UserMedicalProfileService userMedicalProfileService
+        UserMedicalProfileService userMedicalProfileService,
+        ProfessionalProfileService professionalProfileService
     ) {
         this.accountValidationEndPoint = accountSignupEndPoint;
 
         this.webConnectorService = webConnectorService;
         this.accountService = accountService;
         this.userMedicalProfileService = userMedicalProfileService;
+        this.professionalProfileService = professionalProfileService;
     }
 
     /**
@@ -278,6 +288,44 @@ public class AccountMobileService {
 
     public void updateUserProfile(RegisterUser registerUser, String email) {
         accountService.updateUserProfile(registerUser, email);
+    }
+
+    public String updateProfessionalProfile(String qidOfSubmitter, JsonProfessionalProfile jsonProfessionalProfile) {
+        ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(qidOfSubmitter);
+
+        List<NameDatePair> nameDatePairsAwards = new ArrayList<>();
+        for (JsonNameDatePair jsonNameDatePair : jsonProfessionalProfile.getAwards()) {
+            NameDatePair nameDatePair = new NameDatePair()
+                .setName(jsonNameDatePair.getName())
+                .setMonthYear(jsonNameDatePair.getMonthYear());
+            nameDatePairsAwards.add(nameDatePair);
+        }
+
+        List<NameDatePair> nameDatePairsEducations = new ArrayList<>();
+        for (JsonNameDatePair jsonNameDatePair : jsonProfessionalProfile.getEducation()) {
+            NameDatePair nameDatePair = new NameDatePair()
+                .setName(jsonNameDatePair.getName())
+                .setMonthYear(jsonNameDatePair.getMonthYear());
+            nameDatePairsEducations.add(nameDatePair);
+        }
+
+        List<NameDatePair> nameDatePairsLicenses = new ArrayList<>();
+        for (JsonNameDatePair jsonNameDatePair : jsonProfessionalProfile.getLicenses()) {
+            NameDatePair nameDatePair = new NameDatePair()
+                .setName(jsonNameDatePair.getName())
+                .setMonthYear(jsonNameDatePair.getMonthYear());
+            nameDatePairsLicenses.add(nameDatePair);
+        }
+
+        professionalProfile
+            .setPracticeStart(jsonProfessionalProfile.getPracticeStart())
+            .setAboutMe(jsonProfessionalProfile.getAboutMe())
+            .setDataDictionary(jsonProfessionalProfile.getDataDictionary())
+            .setAwards(nameDatePairsAwards)
+            .setEducation(nameDatePairsEducations)
+            .setLicenses(nameDatePairsLicenses);
+        professionalProfileService.save(professionalProfile);
+        return jsonProfessionalProfile.asJson();
     }
 
     public enum ACCOUNT_REGISTRATION_MERCHANT {
