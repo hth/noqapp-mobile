@@ -66,7 +66,7 @@ public class PurchaseOrderAPIController {
             value = "/purchase",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String service(
+    public String purchase(
             @RequestHeader("X-R-DID")
             ScrubbedInput did,
 
