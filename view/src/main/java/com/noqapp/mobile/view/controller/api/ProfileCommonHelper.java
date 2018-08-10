@@ -11,6 +11,7 @@ import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.flow.RegisterUser;
+import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.AddressOriginEnum;
 import com.noqapp.domain.types.GenderEnum;
@@ -227,6 +228,23 @@ public class ProfileCommonHelper {
 
         LOG.info("Profile update being performed by qidOfSubmitter={}", qidOfSubmitter);
         return updateProfile(qidOfSubmitter, updateProfileJson, response);
+    }
+
+    public String updateProfessionalProfile(
+        ScrubbedInput mail,
+        ScrubbedInput auth,
+        JsonProfessionalProfile jsonProfessionalProfile,
+        HttpServletResponse response
+    ) throws IOException {
+        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        String qidOfSubmitter = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qidOfSubmitter) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        LOG.info("Professional profile update being performed by qidOfSubmitter={}", qidOfSubmitter);
+        return accountMobileService.updateProfessionalProfile(qidOfSubmitter, jsonProfessionalProfile);
     }
 
     public String uploadProfileImage(
