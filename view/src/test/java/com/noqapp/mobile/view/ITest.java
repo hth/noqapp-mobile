@@ -6,9 +6,11 @@ import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
+import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.helper.NameDatePair;
 import com.noqapp.domain.types.AddressOriginEnum;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.BusinessUserRegistrationStatusEnum;
@@ -128,6 +130,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -704,5 +707,13 @@ public class ITest extends RealMongoForITest {
             bizStore.getCodeQR(),
             queueManagerUserProfile.getLevel());
         businessUserStoreService.save(businessUserStore);
+        professionalProfileService.createProfessionalProfile(queueManagerUserProfile.getQueueUserId());
+        ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(queueManagerUserProfile.getQueueUserId());
+        NameDatePair nameDatePair1 = new NameDatePair().setName("MBBS").setMonthYear("20-12-1985");
+        List<NameDatePair> nameDatePairs = new ArrayList<>() {{
+            add(nameDatePair1);
+        }};
+        professionalProfile.setEducation(nameDatePairs).setAboutMe("About Me");
+        professionalProfileService.save(professionalProfile);
     }
 }

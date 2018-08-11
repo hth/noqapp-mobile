@@ -138,7 +138,7 @@ public class ProfileCommonHelper {
                     lastName = extractFirstLastName.getLastName();
                 }
 
-                ScrubbedInput address = map.get(AccountMobileService.ACCOUNT_UPDATE.AD.name());
+                ScrubbedInput address = map.get(AccountMobileService.ACCOUNT_UPDATE.AD.name()) == null ? new ScrubbedInput("") : map.get(AccountMobileService.ACCOUNT_UPDATE.AD.name());
                 ScrubbedInput birthday = map.get(AccountMobileService.ACCOUNT_UPDATE.BD.name());
                 /* Required. */
                 String gender = map.get(AccountMobileService.ACCOUNT_UPDATE.GE.name()).getText();
@@ -167,7 +167,7 @@ public class ProfileCommonHelper {
                         .setFirstName(new ScrubbedInput(firstName))
                         .setLastName(new ScrubbedInput(lastName))
                         .setAddress(address)
-                        .setAddressOrigin(AddressOriginEnum.S)
+                        .setAddressOrigin(StringUtils.isBlank(address.getText()) ? null : AddressOriginEnum.S)
                         .setBirthday(birthday)
                         .setGender(GenderEnum.valueOf(gender))
                         .setCountryShortName(new ScrubbedInput(countryShortName))
