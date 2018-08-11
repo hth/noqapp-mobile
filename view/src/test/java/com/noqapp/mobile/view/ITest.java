@@ -710,7 +710,7 @@ public class ITest extends RealMongoForITest {
         professionalProfileService.createProfessionalProfile(queueManagerUserProfile.getQueueUserId());
         ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(queueManagerUserProfile.getQueueUserId());
         NameDatePair nameDatePair1 = new NameDatePair().setName("MBBS").setMonthYear("20-12-1985");
-        List<NameDatePair> nameDatePairs = new ArrayList<>() {{
+        List<NameDatePair> nameDatePairs = new ArrayList<NameDatePair>() {{
             add(nameDatePair1);
         }};
         professionalProfile.setEducation(nameDatePairs).setAboutMe("About Me");
