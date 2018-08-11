@@ -176,6 +176,7 @@ class ClientProfileAPIControllerITest extends ITest {
         assertEquals(2, jsonUserAddressList.getJsonUserAddresses().size());
 
         jsonUserAddress = new JsonUserAddress().setId(jsonUserAddressList.getJsonUserAddresses().get(0).getId());
+        String id = jsonUserAddressList.getJsonUserAddresses().get(1).getId();
         addressJson = clientProfileAPIController.addressDelete(
             new ScrubbedInput(userProfile.getEmail()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
@@ -186,6 +187,7 @@ class ClientProfileAPIControllerITest extends ITest {
         jsonUserAddressList = new ObjectMapper().readValue(addressJson, JsonUserAddressList.class);
         /* Size of address list is now 1. */
         assertEquals(1, jsonUserAddressList.getJsonUserAddresses().size());
+        assertEquals(id, jsonUserAddressList.getJsonUserAddresses().get(0).getId());
     }
 
     @Test
