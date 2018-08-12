@@ -66,7 +66,8 @@ public class QueueMobileService {
         DeviceService deviceService,
         QueueManagerJDBC queueManagerJDBC,
         StoreHourManager storeHourManager,
-        QueueService queueService) {
+        QueueService queueService
+    ) {
         this.queueManager = queueManager;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.bizService = bizService;
