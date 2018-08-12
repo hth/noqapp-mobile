@@ -24,6 +24,7 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.client.ClientProfileAPIController;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
+import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
 import com.noqapp.service.FileService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -62,6 +63,7 @@ public class ProfileCommonHelper {
     private AccountClientValidator accountClientValidator;
     private AccountMobileService accountMobileService;
     private FileService fileService;
+    private ProfessionalProfileValidator professionalProfileValidator;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -70,12 +72,14 @@ public class ProfileCommonHelper {
             AccountClientValidator accountClientValidator,
             AccountMobileService accountMobileService,
             FileService fileService,
+            ProfessionalProfileValidator professionalProfileValidator,
             ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.accountClientValidator = accountClientValidator;
         this.accountMobileService = accountMobileService;
         this.fileService = fileService;
+        this.professionalProfileValidator = professionalProfileValidator;
         this.apiHealthService = apiHealthService;
     }
 
@@ -241,6 +245,11 @@ public class ProfileCommonHelper {
         if (null == qidOfSubmitter) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
+        }
+
+        Map<String, String> errors = professionalProfileValidator.validate(jsonProfessionalProfile);
+        if (!errors.isEmpty()) {
+            return ErrorEncounteredJson.toJson(errors);
         }
 
         LOG.info("Professional profile update being performed by qidOfSubmitter={}", qidOfSubmitter);
