@@ -306,7 +306,13 @@ public class TokenQueueMobileService {
             List<BizStoreEntity> stores = bizService.getAllBizStoresMatchingAddress(matchedStore.getAddress(), matchedStore.getBizName().getId());
             for (BizStoreEntity bizStore : stores) {
                 BizStoreElastic bizStoreElastic = BizStoreElastic.getThisFromBizStore(bizStore);
-                bizStoreElastic.setStoreHourElasticList(DomainConversion.getStoreHourElastics(bizService.findAllStoreHours(bizStore.getId())));
+                if (matchedStore.getBizName().isDayClosed()) {
+                    bizStoreElastic.setStoreHourElasticList(
+                        DomainConversion.getStoreHourElasticsWithClosedAsDefault(bizService.findAllStoreHours(bizStore.getId())));
+                } else {
+                    bizStoreElastic.setStoreHourElasticList(
+                        DomainConversion.getStoreHourElastics(bizService.findAllStoreHours(bizStore.getId())));
+                }
 
                 if (StringUtils.isNotBlank(bizStore.getBizCategoryId())) {
                     bizStoreElastic.setBizCategoryName(bizCategories.get(bizStore.getBizCategoryId()));
