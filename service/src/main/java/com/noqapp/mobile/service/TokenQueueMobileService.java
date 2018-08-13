@@ -115,7 +115,7 @@ public class TokenQueueMobileService {
                 .setEndHour(storeHour.getEndHour())
                 .setDelayedInMinutes(storeHour.getDelayedInMinutes())
                 .setPreventJoining(storeHour.isPreventJoining())
-                .setDayClosed(storeHour.isDayClosed())
+                .setDayClosed(bizStore.getBizName().isDayClosed() || storeHour.isDayClosed())
                 .setTopic(bizStore.getTopic())
                 .setGeoHash(bizStore.getGeoPoint().getGeohash())
                 .setServingNumber(tokenQueue.getCurrentlyServing())
