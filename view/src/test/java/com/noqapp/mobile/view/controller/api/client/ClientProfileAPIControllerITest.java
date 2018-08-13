@@ -14,6 +14,7 @@ import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.ImageValidator;
+import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,14 +37,17 @@ class ClientProfileAPIControllerITest extends ITest {
 
     private ProfileCommonHelper profileCommonHelper;
     private ClientProfileAPIController clientProfileAPIController;
+    private ProfessionalProfileValidator professionalProfileValidator;
 
     @BeforeEach
     void setUp() {
+        professionalProfileValidator = new ProfessionalProfileValidator(professionalProfileService);
         profileCommonHelper = new ProfileCommonHelper(
             authenticateMobileService,
             accountClientValidator,
             accountMobileService,
             fileService,
+            professionalProfileValidator,
             apiHealthService
         );
 

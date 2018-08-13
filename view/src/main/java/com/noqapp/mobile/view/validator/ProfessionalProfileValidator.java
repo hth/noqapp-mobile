@@ -43,14 +43,14 @@ public class ProfessionalProfileValidator {
     public Map<String, String> validate(JsonProfessionalProfile jsonProfessionalProfile) {
         Map<String, String> errors = new HashMap<>();
 
-        if (jsonProfessionalProfile.getLicenses().isEmpty() || jsonProfessionalProfile.getEducation().isEmpty()) {
+        if (jsonProfessionalProfile.getLicenses().isEmpty() && jsonProfessionalProfile.getEducation().isEmpty()) {
             LOG.error("Education or License in professional profile cannot be empty. Please fill these up first.");
             errors.put(ErrorEncounteredJson.REASON, "Education or License in professional profile cannot be empty. Please fill these up first.");
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
         }
 
-        if (StringUtils.isBlank(jsonProfessionalProfile.getPracticeStart()) && !DateUtil.DOB_PATTERN.matcher(jsonProfessionalProfile.getPracticeStart()).matches()) {
+        if (StringUtils.isNotBlank(jsonProfessionalProfile.getPracticeStart()) && !DateUtil.DOB_PATTERN.matcher(jsonProfessionalProfile.getPracticeStart()).matches()) {
             LOG.error("Practicing Since should be of format " + DateUtil.SDF_YYYY_MM_DD.toPattern());
             errors.put(ErrorEncounteredJson.REASON, "Practicing Since should be of format " + DateUtil.SDF_YYYY_MM_DD.toPattern());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());

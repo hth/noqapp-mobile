@@ -17,6 +17,7 @@ import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.ImageValidator;
+import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -40,16 +41,19 @@ class MerchantProfileControllerITest extends ITest {
     private ImageValidator imageValidator;
     private ProfileCommonHelper profileCommonHelper;
     private MerchantProfileController merchantProfileController;
+    private ProfessionalProfileValidator professionalProfileValidator;
 
     @BeforeEach
     void setUp() {
         imageValidator = new ImageValidator();
+        professionalProfileValidator = new ProfessionalProfileValidator(professionalProfileService);
         
         profileCommonHelper = new ProfileCommonHelper(
                 authenticateMobileService,
                 accountClientValidator,
                 accountMobileService,
                 fileService,
+                professionalProfileValidator,
                 apiHealthService
         );
 
@@ -144,7 +148,7 @@ class MerchantProfileControllerITest extends ITest {
 
         JsonMerchant jsonMerchant = new ObjectMapper().readValue(jsonMerchantAsString, JsonMerchant.class);
         jsonMerchant.getJsonProfessionalProfile().setAboutMe("About Myself");
-        jsonMerchant.getJsonProfessionalProfile().getEducation().add(new JsonNameDatePair().setName("M.D").setMonthYear("12-12-1990"));
+        jsonMerchant.getJsonProfessionalProfile().getEducation().add(new JsonNameDatePair().setName("M.D").setMonthYear("1990-12-12"));
 
         String jsonProfessionalProfileAsString = merchantProfileController.updateProfessionalProfile(
                 new ScrubbedInput(userAccount.getUserId()),
