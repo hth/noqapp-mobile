@@ -161,6 +161,9 @@ class MerchantProfileControllerITest extends ITest {
         JsonProfessionalProfile jsonProfessionalProfile = new ObjectMapper().readValue(jsonProfessionalProfileAsString, JsonProfessionalProfile.class);
         assertEquals("About Myself", jsonProfessionalProfile.getAboutMe());
         assertEquals(2, jsonProfessionalProfile.getEducation().size());
+        assertEquals(
+            jsonMerchant.getJsonProfessionalProfile().getEducation().get(1).getMonthYear(),
+            jsonProfessionalProfile.getEducation().get(1).getMonthYear());
     }
     
     @Test
