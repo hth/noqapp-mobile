@@ -82,6 +82,7 @@ class MerchantProfileControllerITest extends ITest {
         assertEquals("manager_doctor@r.com", jsonMerchant.getJsonProfile().getMail());
         assertEquals(UserLevelEnum.S_MANAGER, jsonMerchant.getJsonProfile().getUserLevel());
         assertEquals("About Me", jsonMerchant.getJsonProfessionalProfile().getAboutMe());
+        assertEquals(queueManagerUserProfile.getName(), jsonMerchant.getJsonProfessionalProfile().getName());
     }
 
     @Test
@@ -160,6 +161,9 @@ class MerchantProfileControllerITest extends ITest {
         JsonProfessionalProfile jsonProfessionalProfile = new ObjectMapper().readValue(jsonProfessionalProfileAsString, JsonProfessionalProfile.class);
         assertEquals("About Myself", jsonProfessionalProfile.getAboutMe());
         assertEquals(2, jsonProfessionalProfile.getEducation().size());
+        assertEquals(
+            jsonMerchant.getJsonProfessionalProfile().getEducation().get(1).getMonthYear(),
+            jsonProfessionalProfile.getEducation().get(1).getMonthYear());
     }
     
     @Test
