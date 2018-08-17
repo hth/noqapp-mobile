@@ -281,7 +281,7 @@ public class ITest extends RealMongoForITest {
         );
 
         professionalProfileManager = new ProfessionalProfileManagerImpl(getMongoTemplate());
-        professionalProfileService = new ProfessionalProfileService(professionalProfileManager);
+        professionalProfileService = new ProfessionalProfileService(professionalProfileManager, userProfileManager);
 
         accountMobileService = new AccountMobileService(
                 "/webapi/mobile/mail/accountSignup.htm",
