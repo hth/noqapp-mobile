@@ -709,7 +709,7 @@ public class ITest extends RealMongoForITest {
         businessUserStoreService.save(businessUserStore);
         professionalProfileService.createProfessionalProfile(queueManagerUserProfile.getQueueUserId());
         ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(queueManagerUserProfile.getQueueUserId());
-        NameDatePair nameDatePair1 = new NameDatePair().setName("MBBS").setMonthYear("20-12-1985");
+        NameDatePair nameDatePair1 = new NameDatePair().setName("MBBS").setMonthYear("1985-01-22");
         List<NameDatePair> nameDatePairs = new ArrayList<NameDatePair>() {{
             add(nameDatePair1);
         }};
