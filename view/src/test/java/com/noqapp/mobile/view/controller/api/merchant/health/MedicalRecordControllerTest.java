@@ -88,7 +88,7 @@ class MedicalRecordControllerTest extends ITest {
         JsonResponse jsonResponse = new ObjectMapper().readValue(response, JsonResponse.class);
         assertEquals(1, jsonResponse.getResponse());
 
-        await().atMost(5, SECONDS);
+        await().atMost(10, SECONDS);
         UserProfileEntity client = accountService.checkUserExistsByPhone("9118000000061");
         UserAccountEntity clientUserAccount = accountService.findByQueueUserId(client.getQueueUserId());
         BizNameEntity bizName = bizService.findByPhone("9118000000011");
