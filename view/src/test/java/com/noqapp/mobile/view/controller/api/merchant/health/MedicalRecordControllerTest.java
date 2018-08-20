@@ -87,17 +87,21 @@ class MedicalRecordControllerTest extends ITest {
         );
         JsonResponse jsonResponse = new ObjectMapper().readValue(response, JsonResponse.class);
         assertEquals(1, jsonResponse.getResponse());
+    }
 
-        await().atMost(10, SECONDS);
-        UserProfileEntity client = accountService.checkUserExistsByPhone("9118000000061");
-        UserAccountEntity clientUserAccount = accountService.findByQueueUserId(client.getQueueUserId());
+    @DisplayName("Check if order has been placed")
+    @Test
+    void checkOrderPlaced() throws IOException {
+        await().atMost(5, SECONDS);
+        UserProfileEntity supervisorProfile = accountService.checkUserExistsByPhone("9118000000061");
+        UserAccountEntity supervisorUserAccount = accountService.findByQueueUserId(supervisorProfile.getQueueUserId());
         BizNameEntity bizName = bizService.findByPhone("9118000000011");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
-        response = purchaseOrderController.showOrders(
+        String response = purchaseOrderController.showOrders(
             new ScrubbedInput("12345-A"),
             new ScrubbedInput(DeviceTypeEnum.A.getName()),
-            new ScrubbedInput(clientUserAccount.getUserId()),
-            new ScrubbedInput(clientUserAccount.getUserAuthentication().getAuthenticationKey()),
+            new ScrubbedInput(supervisorUserAccount.getUserId()),
+            new ScrubbedInput(supervisorUserAccount.getUserAuthentication().getAuthenticationKey()),
             new ScrubbedInput(bizStore.getCodeQR()),
             httpServletResponse
         );
