@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
 /**
  * hitender
@@ -76,7 +77,7 @@ class MedicalRecordControllerTest extends ITest {
     @Test
     void add() throws IOException {
         UserAccountEntity userAccount = accountService.findByQueueUserId(queueManager_Doctor_UserProfile.getQueueUserId());
-        JsonMedicalRecord jsonMedicalRecord = populateForAMedicalVisit();
+        JsonMedicalRecord jsonMedicalRecord = populateForMedicalVisit();
         String response = medicalRecordController.add(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
@@ -92,11 +93,11 @@ class MedicalRecordControllerTest extends ITest {
     @DisplayName("Check if order has been placed")
     @Test
     void checkOrderPlaced() throws IOException {
-        await().atMost(5, SECONDS);
         UserProfileEntity supervisorProfile = accountService.checkUserExistsByPhone("9118000000061");
         UserAccountEntity supervisorUserAccount = accountService.findByQueueUserId(supervisorProfile.getQueueUserId());
         BizNameEntity bizName = bizService.findByPhone("9118000000011");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
+        await().atMost(60, SECONDS).until(awaitUntilPurchaseOrderIsPlaced(bizStore.getCodeQR()));
         String response = purchaseOrderController.showOrders(
             new ScrubbedInput("12345-A"),
             new ScrubbedInput(DeviceTypeEnum.A.getName()),
@@ -128,7 +129,7 @@ class MedicalRecordControllerTest extends ITest {
         assertEquals(1, jsonMedicalRecordList.getJsonMedicalRecords().size());
     }
 
-    private JsonMedicalRecord populateForAMedicalVisit() {
+    private JsonMedicalRecord populateForMedicalVisit() {
         UserProfileEntity client = accountService.checkUserExistsByPhone("9118000000001");
         BizNameEntity bizNameHospital = bizService.findByPhone("9118000000000");
         BizStoreEntity bizStoreDoctor = bizService.findOneBizStore(bizNameHospital.getId());
@@ -170,5 +171,9 @@ class MedicalRecordControllerTest extends ITest {
             .setStoreIdPharmacy(bizStorePharmacy.getId());
 
         return jsonMedicalRecord;
+    }
+
+    private Callable<Boolean> awaitUntilPurchaseOrderIsPlaced(String codeQR) {
+        return () -> purchaseOrderManager.findAllOpenOrderByCodeQR(codeQR).size() == 1;
     }
 }
