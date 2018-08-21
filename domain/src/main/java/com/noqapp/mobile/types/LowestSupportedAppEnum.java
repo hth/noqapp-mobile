@@ -27,37 +27,37 @@ public enum LowestSupportedAppEnum {
     VA("1.2.25",                    //Oldest Supported App Version in String
         DeviceTypeEnum.A,           //Device Type
         AppFlavorEnum.NQCL,
-        "1.2.27",                   //Latest App Version on Play Store
+        "1.2.28",                   //Latest App Version on Play Store
         "Version Android"),
 
     VACL("1.2.25",                  //Oldest Supported App Version in String
         DeviceTypeEnum.A,           //Device Type
         AppFlavorEnum.NQCL,
-        "1.2.27",                   //Latest App Version on Play Store
+        "1.2.28",                   //Latest App Version on Play Store
         "Version Android Client"),
 
     VACH("1.2.25",                  //Oldest Supported App Version in String
         DeviceTypeEnum.A,           //Device Type
         AppFlavorEnum.NQCH,
-        "1.2.27",                   //Latest App Version on Play Store
+        "1.2.28",                   //Latest App Version on Play Store
         "Version Android Client HealthCare"),
 
     VAMS("1.2.25",                  //Oldest Supported App Version in String
         DeviceTypeEnum.A,           //Device Type
         AppFlavorEnum.NQMS,
-        "1.2.27",                   //Latest App Version on Play Store
+        "1.2.28",                   //Latest App Version on Play Store
         "Version Android Merchant Store"),
 
     VAMH("1.2.25",                  //Oldest Supported App Version in String
         DeviceTypeEnum.A,           //Device Type
         AppFlavorEnum.NQMH,
-        "1.2.27",                   //Latest App Version on Play Store
+        "1.2.28",                   //Latest App Version on Play Store
         "Version Android Merchant HealthCare"),
 
     VAMT("1.2.25",                  //Oldest Supported App Version in String
         DeviceTypeEnum.A,           //Device Type
         AppFlavorEnum.NQMT,
-        "1.2.27",                   //Latest App Version on Play Store
+        "1.2.28",                   //Latest App Version on Play Store
         "Version Android Merchant TV");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
