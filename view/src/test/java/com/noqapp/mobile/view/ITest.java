@@ -377,7 +377,9 @@ public class ITest extends RealMongoForITest {
                 accountService,
                 ftpService,
                 s3FileManager,
-                bizService
+                bizNameManager,
+                bizStoreManager,
+                storeProductManager
         );
 
         storeCategoryManager = new StoreCategoryManagerImpl(getMongoTemplate());
