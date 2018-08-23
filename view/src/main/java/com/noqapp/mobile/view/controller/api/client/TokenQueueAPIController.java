@@ -305,12 +305,15 @@ public class TokenQueueAPIController {
         }
 
         try {
-            return queueMobileService.findHistoricalQueue(
+            JsonTokenAndQueueList jsonTokenAndQueues = queueMobileService.findHistoricalQueue(
                     qid,
                     did.getText(),
                     DeviceTypeEnum.valueOf(deviceType.getText()),
                     AppFlavorEnum.valueOf(appFlavor.getText()),
-                    parseTokenFCM.getTokenFCM()).asJson();
+                    parseTokenFCM.getTokenFCM());
+            //TODO(hth) get old historical order, it just gets todays historical order
+            jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllHistoricalOrderAsJson(qid));
+            return jsonTokenAndQueues.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting history qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
