@@ -68,6 +68,8 @@ import com.noqapp.repository.GenerateUserIdManager;
 import com.noqapp.repository.GenerateUserIdManagerImpl;
 import com.noqapp.repository.InviteManager;
 import com.noqapp.repository.InviteManagerImpl;
+import com.noqapp.repository.PreferredBusinessManager;
+import com.noqapp.repository.PreferredBusinessManagerImpl;
 import com.noqapp.repository.ProfessionalProfileManager;
 import com.noqapp.repository.ProfessionalProfileManagerImpl;
 import com.noqapp.repository.PurchaseOrderManager;
@@ -111,6 +113,7 @@ import com.noqapp.service.FirebaseMessageService;
 import com.noqapp.service.FtpService;
 import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
+import com.noqapp.service.PreferredBusinessService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
@@ -208,6 +211,8 @@ public class ITest extends RealMongoForITest {
     protected ProfessionalProfileManager professionalProfileManager;
     protected UserMedicalProfileManager userMedicalProfileManager;
     protected StoreCategoryManager storeCategoryManager;
+    protected PreferredBusinessManager preferredBusinessManager;
+    protected PreferredBusinessService preferredBusinessService;
 
     protected BusinessCustomerManager businessCustomerManager;
     protected BusinessCustomerService businessCustomerService;
@@ -417,15 +422,19 @@ public class ITest extends RealMongoForITest {
                 userAccountManager
         );
 
+        preferredBusinessManager = new PreferredBusinessManagerImpl(getMongoTemplate());
+        preferredBusinessService = new PreferredBusinessService(preferredBusinessManager, bizStoreManager);
+
         businessUserManager = new BusinessUserManagerImpl(getMongoTemplate());
         businessUserService = new BusinessUserService(businessUserManager);
         businessUserStoreService = new BusinessUserStoreService(
                 10,
-                businessUserStoreManager,
-                businessUserService,
-                tokenQueueService,
-                accountService,
-                bizService
+            businessUserStoreManager,
+            preferredBusinessService,
+            businessUserService,
+            tokenQueueService,
+            accountService,
+            bizService
         );
 
         medicalRecordManager = new MedicalRecordManagerImpl(getMongoTemplate());

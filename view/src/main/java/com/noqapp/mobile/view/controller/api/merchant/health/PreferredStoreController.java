@@ -16,6 +16,9 @@ import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.FileService;
 import com.noqapp.service.PreferredBusinessService;
 
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,11 +30,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -181,7 +181,7 @@ public class PreferredStoreController {
 
     /** Gets file of all products as zip in CSV format for preferred business store id. */
     @GetMapping(
-        value = "/file/{bizStoreId}",
+        value = "/file/{codeQR}/{bizStoreId}",
         produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
     )
     public void file(
@@ -197,6 +197,9 @@ public class PreferredStoreController {
         @RequestHeader ("X-R-AUTH")
         ScrubbedInput auth,
 
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
+
         @PathVariable("bizStoreId")
         ScrubbedInput bizStoreId,
 
@@ -207,31 +210,32 @@ public class PreferredStoreController {
         LOG.info("Fetch preferred file mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/h/preferredStore/file/{bizStoreId} by {} mail={}", bizStoreId.getText(), mail);
+            LOG.warn("Un-authorized access to /api/m/h/preferredStore/file/{codeQR}/{bizStoreId} by {} mail={}", bizStoreId.getText(), mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return;
         }
 
-//        if (!businessUserStoreService.hasAccessUsingStoreId(qid, bizStoreId.getText())) {
-//            LOG.info("Your are not authorized to get file for bizStoreId={} mail={}", bizStoreId, mail);
-//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-//        }
+        if (!businessUserStoreService.businessHasThisAsPreferredStoreId(qid, codeQR.getText(), bizStoreId.getText())) {
+            LOG.info("Your are not authorized to get file for bizStoreId={} mail={}", bizStoreId, mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return;
+        }
 
         try {
-            File file = fileService.getPreferredBusinessTarGZ(bizStoreId.getText());
-            if (null != file) {
+            FileObject fileObject = fileService.getPreferredBusinessTarGZ(bizStoreId.getText());
+            if (fileObject != null && fileObject.getContent() != null) {
+                response.setHeader("Content-disposition", "attachment; filename=\"" + com.noqapp.common.utils.FileUtil.getFileName(fileObject) + "\"");
+                response.setContentType("application/gzip");
+                response.setContentLength((int)fileObject.getContent().getSize());
                 try (OutputStream out = response.getOutputStream()) {
-                    Path path = file.toPath();
-                    Files.copy(path, out);
-                    out.flush();
-
-                    response.setContentType("application/gzip");
-                    response.setHeader("Content-Disposition", String.format("attachment; filename=%s", file.getName()));
-                    response.setContentLength(Long.valueOf(file.length()).intValue());
-                    return;
+                    out.write(FileUtil.getContent(fileObject));
                 } catch (IOException e) {
                     LOG.error("Failed to get file for bizStoreId={} reason={}", bizStoreId, e.getLocalizedMessage(), e);
                 }
+
+                return;
             }
+
             LOG.warn("Failed getting preferred file for bizStoreId={}", bizStoreId.getText());
             response.setContentType("application/gzip");
             response.setHeader("Content-Disposition", String.format("attachment; filename=%s", ""));
@@ -241,7 +245,7 @@ public class PreferredStoreController {
             methodStatusSuccess = false;
         } finally {
             apiHealthService.insert(
-                "/api/m/h/preferredStore/file/{bizStoreId}",
+                "/api/m/h/preferredStore/file/{codeQR}/{bizStoreId}",
                 "file",
                 PreferredStoreController.class.getName(),
                 Duration.between(start, Instant.now()),
