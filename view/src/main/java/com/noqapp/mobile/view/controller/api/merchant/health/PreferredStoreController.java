@@ -232,6 +232,7 @@ public class PreferredStoreController {
                     LOG.error("Failed to get file for bizStoreId={} reason={}", bizStoreId, e.getLocalizedMessage(), e);
                 }
             }
+            LOG.warn("Failed getting preferred file for bizStoreId={}", bizStoreId.getText());
             response.setContentType("application/gzip");
             response.setHeader("Content-Disposition", String.format("attachment; filename=%s", ""));
             response.setContentLength(0);
