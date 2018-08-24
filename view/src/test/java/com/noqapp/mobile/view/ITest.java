@@ -68,6 +68,8 @@ import com.noqapp.repository.GenerateUserIdManager;
 import com.noqapp.repository.GenerateUserIdManagerImpl;
 import com.noqapp.repository.InviteManager;
 import com.noqapp.repository.InviteManagerImpl;
+import com.noqapp.repository.PreferredBusinessManager;
+import com.noqapp.repository.PreferredBusinessManagerImpl;
 import com.noqapp.repository.ProfessionalProfileManager;
 import com.noqapp.repository.ProfessionalProfileManagerImpl;
 import com.noqapp.repository.PurchaseOrderManager;
@@ -111,6 +113,7 @@ import com.noqapp.service.FirebaseMessageService;
 import com.noqapp.service.FtpService;
 import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
+import com.noqapp.service.PreferredBusinessService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
@@ -208,6 +211,8 @@ public class ITest extends RealMongoForITest {
     protected ProfessionalProfileManager professionalProfileManager;
     protected UserMedicalProfileManager userMedicalProfileManager;
     protected StoreCategoryManager storeCategoryManager;
+    protected PreferredBusinessManager preferredBusinessManager;
+    protected PreferredBusinessService preferredBusinessService;
 
     protected BusinessCustomerManager businessCustomerManager;
     protected BusinessCustomerService businessCustomerService;
@@ -260,40 +265,40 @@ public class ITest extends RealMongoForITest {
         userMedicalProfileService = new UserMedicalProfileService(userMedicalProfileManager);
 
         accountService = new AccountService(
-                5,
-                userAccountManager,
-                userAuthenticationManager,
-                userPreferenceManager,
-                userProfileManager,
-                generateUserIdService,
-                emailValidateService,
-                inviteService,
-                forgotRecoverManager
+            5,
+            userAccountManager,
+            userAuthenticationManager,
+            userPreferenceManager,
+            userProfileManager,
+            generateUserIdService,
+            emailValidateService,
+            inviteService,
+            forgotRecoverManager
         );
 
         webConnectorService = new WebConnectorService(
-                "/webapi/mobile/get.htm",
-                "could not connect to server",
-                "webApiAccessToken",
-                "8080",
-                "http",
-                "localhost"
+            "/webapi/mobile/get.htm",
+            "could not connect to server",
+            "webApiAccessToken",
+            "8080",
+            "http",
+            "localhost"
         );
 
         professionalProfileManager = new ProfessionalProfileManagerImpl(getMongoTemplate());
         professionalProfileService = new ProfessionalProfileService(professionalProfileManager, userProfileManager);
 
         accountMobileService = new AccountMobileService(
-                "/webapi/mobile/mail/accountSignup.htm",
-                webConnectorService,
-                accountService,
-                userMedicalProfileService,
-                professionalProfileService
+            "/webapi/mobile/mail/accountSignup.htm",
+            webConnectorService,
+            accountService,
+            userMedicalProfileService,
+            professionalProfileService
         );
 
         userProfilePreferenceService = new UserProfilePreferenceService(
-                userProfileManager,
-                userPreferenceManager
+            userProfileManager,
+            userPreferenceManager
         );
 
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6);
@@ -309,23 +314,23 @@ public class ITest extends RealMongoForITest {
         businessCustomerManager = new BusinessCustomerManagerImpl(getMongoTemplate());
         s3FileManager = new S3FileManagerImpl(getMongoTemplate());
         businessCustomerService = new BusinessCustomerService(
-                businessCustomerManager,
-                bizStoreManager,
-                userProfileManager,
-                queueManager
+            businessCustomerManager,
+            bizStoreManager,
+            userProfileManager,
+            queueManager
         );
 
         tokenQueueService = new TokenQueueService(
-                tokenQueueManager,
-                firebaseMessageService,
-                queueManager,
-                accountService,
-                registeredDeviceManager,
-                queueManagerJDBC,
-                storeHourManager,
-                bizStoreManager,
-                businessCustomerService,
-                apiHealthService
+            tokenQueueManager,
+            firebaseMessageService,
+            queueManager,
+            accountService,
+            registeredDeviceManager,
+            queueManagerJDBC,
+            storeHourManager,
+            bizStoreManager,
+            businessCustomerService,
+            apiHealthService
         );
 
         storeProductManager = new StoreProductManagerImpl(getMongoTemplate());
@@ -337,95 +342,99 @@ public class ITest extends RealMongoForITest {
         userAddressService = new UserAddressService(userAddressManager, externalService);
 
         purchaseOrderService = new PurchaseOrderService(
-                bizStoreManager,
-                tokenQueueService,
-                storeHourManager,
-                storeProductService,
-                purchaseOrderManager,
-                purchaseProductOrderManager,
-                userAddressService,
-                firebaseMessageService,
-                registeredDeviceManager,
-                tokenQueueManager,
-                accountService
+            bizStoreManager,
+            tokenQueueService,
+            storeHourManager,
+            storeProductService,
+            purchaseOrderManager,
+            purchaseProductOrderManager,
+            userAddressService,
+            firebaseMessageService,
+            registeredDeviceManager,
+            tokenQueueManager,
+            accountService
         );
 
         bizNameManager = new BizNameManagerImpl(getMongoTemplate());
         businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
 
         queueService = new QueueService(
-                accountService,
-                queueManager,
-                queueManagerJDBC,
-                tokenQueueService,
-                businessUserStoreManager
+            accountService,
+            queueManager,
+            queueManagerJDBC,
+            tokenQueueService,
+            businessUserStoreManager
         );
 
         bizService = new BizService(
-                69.172,
-                111.321,
-                bizNameManager,
-                bizStoreManager,
-                storeHourManager,
-                tokenQueueService,
-                queueService,
-                businessUserStoreManager
+            69.172,
+            111.321,
+            bizNameManager,
+            bizStoreManager,
+            storeHourManager,
+            tokenQueueService,
+            queueService,
+            businessUserStoreManager
         );
 
         fileService = new FileService(
-                192, 192,300, 150,
-                accountService,
-                ftpService,
-                s3FileManager,
-                bizNameManager,
-                bizStoreManager,
-                storeProductManager
+            192, 192, 300, 150,
+            accountService,
+            ftpService,
+            s3FileManager,
+            bizNameManager,
+            bizStoreManager,
+            storeProductManager
         );
 
         storeCategoryManager = new StoreCategoryManagerImpl(getMongoTemplate());
         storeCategoryService = new StoreCategoryService(storeCategoryManager, storeProductManager);
 
         tokenQueueMobileService = new TokenQueueMobileService(
-                tokenQueueService,
-                bizService,
-                tokenQueueManager,
-                queueManager,
-                professionalProfileService,
-                userProfileManager,
-                businessUserStoreManager);
+            tokenQueueService,
+            bizService,
+            tokenQueueManager,
+            queueManager,
+            professionalProfileService,
+            userProfileManager,
+            businessUserStoreManager);
 
         storeDetailService = new StoreDetailService(bizService, tokenQueueMobileService, storeProductService, storeCategoryService);
 
         queueMobileService = new QueueMobileService(
-                queueManager,
-                tokenQueueMobileService,
-                bizService,
-                deviceService,
-                queueManagerJDBC,
-                storeHourManager,
-                queueService
+            queueManager,
+            tokenQueueMobileService,
+            bizService,
+            deviceService,
+            queueManagerJDBC,
+            storeHourManager,
+            queueService
         );
 
         accountClientController = new AccountClientController(
-                accountService,
-                accountMobileService,
-                accountClientValidator,
-                deviceService
+            accountService,
+            accountMobileService,
+            accountClientValidator,
+            deviceService
         );
 
         authenticateMobileService = new AuthenticateMobileService(
-                userAccountManager
+            userAccountManager
         );
+
+        preferredBusinessManager = new PreferredBusinessManagerImpl(getMongoTemplate());
+        preferredBusinessService = new PreferredBusinessService(preferredBusinessManager, bizStoreManager);
 
         businessUserManager = new BusinessUserManagerImpl(getMongoTemplate());
         businessUserService = new BusinessUserService(businessUserManager);
         businessUserStoreService = new BusinessUserStoreService(
-                10,
-                businessUserStoreManager,
-                businessUserService,
-                tokenQueueService,
-                accountService,
-                bizService
+            10,
+            businessUserStoreManager,
+            preferredBusinessService,
+            businessUserService,
+            tokenQueueService,
+            accountService,
+            bizService
         );
 
         medicalRecordManager = new MedicalRecordManagerImpl(getMongoTemplate());
@@ -470,53 +479,53 @@ public class ITest extends RealMongoForITest {
 
     private void addStoreUsersToDoctor() {
         Registration queueAdmin = new Registration()
-                .setPhone("+9118000000030")
-                .setFirstName("Diktaa D mA")
-                .setMail("diktad@r.com")
-                .setPassword("password")
-                .setBirthday("2000-12-12")
-                .setGender("M")
-                .setCountryShortName("IN")
-                .setTimeZoneId("Asia/Calcutta")
-                .setInviteCode("");
+            .setPhone("+9118000000030")
+            .setFirstName("Diktaa D mA")
+            .setMail("diktad@r.com")
+            .setPassword("password")
+            .setBirthday("2000-12-12")
+            .setGender("M")
+            .setCountryShortName("IN")
+            .setTimeZoneId("Asia/Calcutta")
+            .setInviteCode("");
 
         accountClientController.register(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                queueAdmin.asJson(),
-                httpServletResponse);
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            queueAdmin.asJson(),
+            httpServletResponse);
 
         UserProfileEntity merchantUserProfile = accountService.checkUserExistsByPhone("9118000000030");
         merchantUserProfile.setLevel(UserLevelEnum.M_ADMIN);
         accountService.save(merchantUserProfile);
         UserAccountEntity merchantUserAccount = accountService.changeAccountRolesToMatchUserLevel(
-                merchantUserProfile.getQueueUserId(),
-                merchantUserProfile.getLevel());
+            merchantUserProfile.getQueueUserId(),
+            merchantUserProfile.getLevel());
         accountService.save(merchantUserAccount);
 
         Registration queueSupervisor = new Registration()
-                .setPhone("+9118000000031")
-                .setFirstName("Fiktaa D mAn")
-                .setMail("fiktad@r.com")
-                .setPassword("password")
-                .setBirthday("2000-12-12")
-                .setGender("M")
-                .setCountryShortName("IN")
-                .setTimeZoneId("Asia/Calcutta")
-                .setInviteCode("");
+            .setPhone("+9118000000031")
+            .setFirstName("Fiktaa D mAn")
+            .setMail("fiktad@r.com")
+            .setPassword("password")
+            .setBirthday("2000-12-12")
+            .setGender("M")
+            .setCountryShortName("IN")
+            .setTimeZoneId("Asia/Calcutta")
+            .setInviteCode("");
 
         accountClientController.register(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                queueSupervisor.asJson(),
-                httpServletResponse);
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            queueSupervisor.asJson(),
+            httpServletResponse);
 
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
         queueSupervisorUserProfile.setLevel(UserLevelEnum.Q_SUPERVISOR);
         accountService.save(queueSupervisorUserProfile);
         UserAccountEntity queueSupervisorUserAccount = accountService.changeAccountRolesToMatchUserLevel(
-                queueSupervisorUserProfile.getQueueUserId(),
-                queueSupervisorUserProfile.getLevel());
+            queueSupervisorUserProfile.getQueueUserId(),
+            queueSupervisorUserProfile.getLevel());
         accountService.save(queueSupervisorUserAccount);
 
         Registration queueManager = new Registration()
@@ -624,89 +633,89 @@ public class ITest extends RealMongoForITest {
 
     private void addClients() {
         Registration client1 = new Registration()
-                .setPhone("+9118000000001")
-                .setFirstName("ROCKET Docket")
-                .setMail("rocketd@r.com")
-                .setPassword("password")
-                .setBirthday("2000-12-12")
-                .setGender("M")
-                .setCountryShortName("IN")
-                .setTimeZoneId("Asia/Calcutta")
-                .setInviteCode("");
+            .setPhone("+9118000000001")
+            .setFirstName("ROCKET Docket")
+            .setMail("rocketd@r.com")
+            .setPassword("password")
+            .setBirthday("2000-12-12")
+            .setGender("M")
+            .setCountryShortName("IN")
+            .setTimeZoneId("Asia/Calcutta")
+            .setInviteCode("");
 
         Registration client2 = new Registration()
-                .setPhone("+9118000000002")
-                .setFirstName("Pintoa D mAni")
-                .setMail("pintod@r.com")
-                .setPassword("password")
-                .setBirthday("2000-12-12")
-                .setGender("M")
-                .setCountryShortName("IN")
-                .setTimeZoneId("Asia/Calcutta")
-                .setInviteCode("");
+            .setPhone("+9118000000002")
+            .setFirstName("Pintoa D mAni")
+            .setMail("pintod@r.com")
+            .setPassword("password")
+            .setBirthday("2000-12-12")
+            .setGender("M")
+            .setCountryShortName("IN")
+            .setTimeZoneId("Asia/Calcutta")
+            .setInviteCode("");
 
         accountClientController.register(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                client1.asJson(),
-                httpServletResponse);
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            client1.asJson(),
+            httpServletResponse);
 
         accountClientController.register(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                client2.asJson(),
-                httpServletResponse);
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            client2.asJson(),
+            httpServletResponse);
     }
 
     private void addSystemUsers() {
         Registration admin = new Registration()
-                .setPhone("+9118000000101")
-                .setFirstName("Admin Admin")
-                .setMail("admin@r.com")
-                .setPassword("password")
-                .setBirthday("2000-12-12")
-                .setGender("M")
-                .setCountryShortName("IN")
-                .setTimeZoneId("Asia/Calcutta")
-                .setInviteCode("");
+            .setPhone("+9118000000101")
+            .setFirstName("Admin Admin")
+            .setMail("admin@r.com")
+            .setPassword("password")
+            .setBirthday("2000-12-12")
+            .setGender("M")
+            .setCountryShortName("IN")
+            .setTimeZoneId("Asia/Calcutta")
+            .setInviteCode("");
 
         accountClientController.register(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                admin.asJson(),
-                httpServletResponse);
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            admin.asJson(),
+            httpServletResponse);
 
         UserProfileEntity adminUserProfile = accountService.checkUserExistsByPhone("9118000000101");
         adminUserProfile.setLevel(UserLevelEnum.ADMIN);
         accountService.save(adminUserProfile);
         UserAccountEntity adminUserAccount = accountService.changeAccountRolesToMatchUserLevel(
-                adminUserProfile.getQueueUserId(),
-                adminUserProfile.getLevel());
+            adminUserProfile.getQueueUserId(),
+            adminUserProfile.getLevel());
         accountService.save(adminUserAccount);
 
         Registration supervisor = new Registration()
-                .setPhone("+9118000000102")
-                .setFirstName("Supervisor Supervisor")
-                .setMail("super@r.com")
-                .setPassword("password")
-                .setBirthday("2000-12-12")
-                .setGender("M")
-                .setCountryShortName("IN")
-                .setTimeZoneId("Asia/Calcutta")
-                .setInviteCode("");
+            .setPhone("+9118000000102")
+            .setFirstName("Supervisor Supervisor")
+            .setMail("super@r.com")
+            .setPassword("password")
+            .setBirthday("2000-12-12")
+            .setGender("M")
+            .setCountryShortName("IN")
+            .setTimeZoneId("Asia/Calcutta")
+            .setInviteCode("");
 
         accountClientController.register(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                supervisor.asJson(),
-                httpServletResponse);
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            supervisor.asJson(),
+            httpServletResponse);
 
         UserProfileEntity supervisorUserProfile = accountService.checkUserExistsByPhone("9118000000102");
         supervisorUserProfile.setLevel(UserLevelEnum.SUPERVISOR);
         accountService.save(supervisorUserProfile);
         UserAccountEntity supervisorUserAccount = accountService.changeAccountRolesToMatchUserLevel(
-                supervisorUserProfile.getQueueUserId(),
-                supervisorUserProfile.getLevel());
+            supervisorUserProfile.getQueueUserId(),
+            supervisorUserProfile.getLevel());
         accountService.save(supervisorUserAccount);
     }
 
@@ -714,18 +723,18 @@ public class ITest extends RealMongoForITest {
         UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
 
         BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")))
-                .setBusinessName("Champ")
-                .setBusinessType(BusinessTypeEnum.DO)
-                .setPhone("9118000000000")
-                .setPhoneRaw("18000000000")
-                .setAddress("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India")
-                .setTown("Vashi")
-                .setStateShortName("MH")
-                .setTimeZone("Asia/Calcutta")
-                .setInviteeCode(userProfile.getInviteCode())
-                .setAddressOrigin(AddressOriginEnum.G)
-                .setCountryShortName("IN")
-                .setCoordinate(new double[]{73.022498, 19.0244723});
+            .setBusinessName("Champ")
+            .setBusinessType(BusinessTypeEnum.DO)
+            .setPhone("9118000000000")
+            .setPhoneRaw("18000000000")
+            .setAddress("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India")
+            .setTown("Vashi")
+            .setStateShortName("MH")
+            .setTimeZone("Asia/Calcutta")
+            .setInviteeCode(userProfile.getInviteCode())
+            .setAddressOrigin(AddressOriginEnum.G)
+            .setCountryShortName("IN")
+            .setCoordinate(new double[]{73.022498, 19.0244723});
         String webLocation = bizService.buildWebLocationForBiz(
             bizName.getTown(),
             bizName.getStateShortName(),
@@ -738,22 +747,22 @@ public class ITest extends RealMongoForITest {
         bizService.saveName(bizName);
 
         BizStoreEntity bizStore = BizStoreEntity.newInstance()
-                .setBizName(bizName)
-                .setDisplayName("Dr Aaj Kal")
-                .setBusinessType(bizName.getBusinessType())
-                .setBizCategoryId(MedicalDepartmentEnum.CRD.getName())
-                .setPhone("9118000000000")
-                .setPhoneRaw("18000000000")
-                .setAddress("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India")
-                .setTimeZone("Asia/Calcutta")
-                .setCodeQR(ObjectId.get().toString())
-                .setAddressOrigin(AddressOriginEnum.G)
-                .setRemoteJoin(true)
-                .setAllowLoggedInUser(false)
-                .setAvailableTokenCount(0)
-                .setAverageServiceTime(50000)
-                .setCountryShortName("IN")
-                .setCoordinate(new double[]{73.022498, 19.0244723});
+            .setBizName(bizName)
+            .setDisplayName("Dr Aaj Kal")
+            .setBusinessType(bizName.getBusinessType())
+            .setBizCategoryId(MedicalDepartmentEnum.CRD.getName())
+            .setPhone("9118000000000")
+            .setPhoneRaw("18000000000")
+            .setAddress("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India")
+            .setTimeZone("Asia/Calcutta")
+            .setCodeQR(ObjectId.get().toString())
+            .setAddressOrigin(AddressOriginEnum.G)
+            .setRemoteJoin(true)
+            .setAllowLoggedInUser(false)
+            .setAvailableTokenCount(0)
+            .setAverageServiceTime(50000)
+            .setCountryShortName("IN")
+            .setCoordinate(new double[]{73.022498, 19.0244723});
         bizStore.setWebLocation(webLocation);
         bizStore.setCodeQR(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")));
         bizService.saveStore(bizStore);
@@ -762,9 +771,9 @@ public class ITest extends RealMongoForITest {
         for (int i = 1; i <= 7; i++) {
             StoreHourEntity storeHour = new StoreHourEntity(bizStore.getId(), DayOfWeek.of(i).getValue());
             storeHour.setStartHour(1)
-                    .setTokenAvailableFrom(1)
-                    .setTokenNotAvailableFrom(2359)
-                    .setEndHour(2359);
+                .setTokenAvailableFrom(1)
+                .setTokenNotAvailableFrom(2359)
+                .setEndHour(2359);
 
             storeHours.add(storeHour);
         }
@@ -777,8 +786,8 @@ public class ITest extends RealMongoForITest {
 
         /* Add Queue Admin, Queue Supervisor, Queue Manager to Business and Store. */
         BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
-                userProfile.getQueueUserId(),
-                UserLevelEnum.M_ADMIN
+            userProfile.getQueueUserId(),
+            UserLevelEnum.M_ADMIN
         );
         businessUser.setBusinessUserRegistrationStatus(BusinessUserRegistrationStatusEnum.V)
             .setValidateByQid(accountService.checkUserExistsByPhone("9118000000102").getQueueUserId())
@@ -787,11 +796,11 @@ public class ITest extends RealMongoForITest {
 
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
         BusinessUserStoreEntity businessUserStore = new BusinessUserStoreEntity(
-                queueSupervisorUserProfile.getQueueUserId(),
-                bizStore.getId(),
-                bizName.getId(),
-                bizStore.getCodeQR(),
-                queueSupervisorUserProfile.getLevel());
+            queueSupervisorUserProfile.getQueueUserId(),
+            bizStore.getId(),
+            bizName.getId(),
+            bizStore.getCodeQR(),
+            queueSupervisorUserProfile.getLevel());
         businessUserStoreService.save(businessUserStore);
 
         UserProfileEntity queueManagerUserProfile = accountService.checkUserExistsByPhone("9118000000032");
