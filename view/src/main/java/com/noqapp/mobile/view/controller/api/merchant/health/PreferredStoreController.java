@@ -211,10 +211,10 @@ public class PreferredStoreController {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
         }
 
-        if (!businessUserStoreService.hasAccessUsingStoreId(qid, bizStoreId.getText())) {
-            LOG.info("Your are not authorized to get file for bizStoreId={} mail={}", bizStoreId, mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-        }
+//        if (!businessUserStoreService.hasAccessUsingStoreId(qid, bizStoreId.getText())) {
+//            LOG.info("Your are not authorized to get file for bizStoreId={} mail={}", bizStoreId, mail);
+//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+//        }
 
         try {
             File file = fileService.getPreferredBusinessTarGZ(bizStoreId.getText());
