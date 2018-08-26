@@ -64,48 +64,6 @@ class DeviceControllerITest extends ITest {
     }
 
     @Test
-    @DisplayName("Check mobile version is supported")
-    void isSupportedAppVersion() throws IOException {
-        String version = String.valueOf(LowestSupportedAppEnum.VA.getOldestAppVersion());
-        String response = deviceController.isSupportedAppVersion(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(version)
-        );
-
-        JsonLatestAppVersion jsonLatestAppVersion = new ObjectMapper().readValue(response, JsonLatestAppVersion.class);
-        assertEquals(LowestSupportedAppEnum.VA.getLatestAppVersion(), jsonLatestAppVersion.getLatestAppVersion());
-    }
-
-    @Test
-    @DisplayName("Check mobile version is supported")
-    void isNewerVersionFormatSupported() throws IOException {
-        String version = String.valueOf("1.1.0");
-        String response = deviceController.isSupportedAppVersion(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(version)
-        );
-
-        ErrorJsonList errorJsonList = new ObjectMapper().readValue(response, ErrorJsonList.class);
-        assertEquals(MOBILE_UPGRADE.getCode(), errorJsonList.getError().getSystemErrorCode());
-    }
-
-    @Test
-    @DisplayName("Check older mobile version if supported")
-    void isOlderAppSupported() throws IOException {
-        String version = String.valueOf("1097");
-        String response = deviceController.isSupportedAppVersion(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(version)
-        );
-
-        ErrorJsonList errorJsonList = new ObjectMapper().readValue(response, ErrorJsonList.class);
-        assertEquals(MOBILE_UPGRADE.getCode(), errorJsonList.getError().getSystemErrorCode());
-    }
-
-    @Test
     @DisplayName("Check mobile version with flavor. Upgrade Request.")
     void isSupportedWithFlavor_UpgradeRequested() throws IOException {
         String version = String.valueOf("1.1.170");

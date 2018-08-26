@@ -125,66 +125,6 @@ public class DeviceController {
     }
 
     /** Checks is device version is supported. */
-    @Deprecated
-    @PostMapping (
-            value = "/version",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
-    )
-    public String isSupportedAppVersion(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
-
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
-
-            @RequestHeader (value = "X-R-VR")
-            ScrubbedInput versionRelease
-    ) {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.warn("OLD Supported device did={} deviceType={} versionRelease={}", did, deviceType, versionRelease);
-
-        try {
-            DeviceTypeEnum deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
-            LOG.info("Check if API version is supported for {} versionRelease={}",
-                    deviceTypeEnum.getDescription(),
-                    versionRelease);
-
-            try {
-                LowestSupportedAppEnum lowestSupportedApp = LowestSupportedAppEnum.findBasedOnDeviceType(deviceTypeEnum);
-                if (versionRelease.getText().contains(".")) {
-                    if (!LowestSupportedAppEnum.isSupportedVersion(lowestSupportedApp, versionRelease.getText())) {
-                        LOG.warn("Sent warning to upgrade versionNumber={}", versionRelease.getText());
-                        return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
-                    }
-
-                    return new JsonLatestAppVersion(lowestSupportedApp.getLatestAppVersion()).asJson();
-                } else {
-                    LOG.warn("Sent warning to upgrade versionNumber={}", versionRelease.getText());
-                    return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
-                }
-            } catch (NumberFormatException e) {
-                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
-                return getErrorReason("Failed to read API version type.", USER_INPUT);
-            } catch (Exception e) {
-                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
-                return getErrorReason("Incorrect API version type.", USER_INPUT);
-            }
-        } catch (Exception e) {
-            LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Incorrect device type.", USER_INPUT);
-        } finally {
-            apiHealthService.insert(
-                    "/version",
-                    "version",
-                    DeviceController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
-    /** Checks is device version is supported. */
     @PostMapping (
             value = "/v1/version",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
