@@ -10,6 +10,7 @@ import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonStore;
 import com.noqapp.domain.json.JsonStoreCategory;
 import com.noqapp.domain.json.JsonStoreProduct;
+import com.noqapp.domain.types.medical.PharmacyCategoryEnum;
 import com.noqapp.service.BizService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * hitender
@@ -71,11 +73,23 @@ public class StoreDetailService {
             jsonStore.addJsonStoreProduct(jsonStoreProduct);
         }
 
-        for (StoreCategoryEntity storeCategory : storeCategories) {
-            JsonStoreCategory jsonStoreCategory = new JsonStoreCategory()
-                    .setCategoryId(storeCategory.getId())
-                    .setCategoryName(storeCategory.getCategoryName());
-            jsonStore.addJsonStoreCategory(jsonStoreCategory);
+        switch (bizStore.getBusinessType()) {
+            case PH:
+                Map<String, String> map = PharmacyCategoryEnum.asMap();
+                for(String key : map.keySet()) {
+                    JsonStoreCategory jsonStoreCategory = new JsonStoreCategory()
+                        .setCategoryId(key)
+                        .setCategoryName(map.get(key));
+                    jsonStore.addJsonStoreCategory(jsonStoreCategory);
+                }
+                break;
+            default:
+                for (StoreCategoryEntity storeCategory : storeCategories) {
+                    JsonStoreCategory jsonStoreCategory = new JsonStoreCategory()
+                        .setCategoryId(storeCategory.getId())
+                        .setCategoryName(storeCategory.getCategoryName());
+                    jsonStore.addJsonStoreCategory(jsonStoreCategory);
+                }
         }
 
         List<StoreHourEntity> storeHours = bizService.findAllStoreHours(bizStore.getId());
