@@ -71,7 +71,7 @@ public class StoreDetailController {
         try {
             return storeDetailService.populateStoreDetail(codeQR.getText());
         } catch (Exception e) {
-            LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed getting store detail reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new BizStoreElasticList().asJson();
         } finally {
