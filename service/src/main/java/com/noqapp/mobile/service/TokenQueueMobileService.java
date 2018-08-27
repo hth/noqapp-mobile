@@ -277,7 +277,6 @@ public class TokenQueueMobileService {
                 bizStoreElasticList.addBizStoreElastic(bizStoreElastic);
             }
 
-            LOG.info("{}", bizStoreElasticList);
             return bizStoreElasticList;
         } catch (Exception e) {
             //TODO remove this catch
