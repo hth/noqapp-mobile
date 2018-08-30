@@ -66,4 +66,8 @@ public class AuthenticateMobileService {
         }
         return null;
     }
+
+    public UserAccountEntity findByQueueUserId(String qid) {
+        return userAccountManager.findByQueueUserId(qid);
+    }
 }

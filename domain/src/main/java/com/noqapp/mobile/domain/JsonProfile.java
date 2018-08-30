@@ -2,6 +2,7 @@ package com.noqapp.mobile.domain;
 
 import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.common.utils.Formatter;
+import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.medical.JsonUserMedicalProfile;
 import com.noqapp.domain.types.BusinessTypeEnum;
@@ -75,6 +76,9 @@ public final class JsonProfile extends AbstractDomain {
     @JsonProperty("bt")
     private BusinessTypeEnum businessType;
 
+    @JsonProperty("av")
+    private boolean accountValidated;
+
     @JsonProperty ("mp")
     private JsonUserMedicalProfile jsonUserMedicalProfile;
 
@@ -99,7 +103,8 @@ public final class JsonProfile extends AbstractDomain {
             String birthday,
             GenderEnum gender,
             UserLevelEnum userLevel,
-            BusinessTypeEnum businessType
+            BusinessTypeEnum businessType,
+            boolean accountValidated
     ) {
         this.queueUserId = queueUserId;
         this.profileImage = profileImage;
@@ -114,9 +119,10 @@ public final class JsonProfile extends AbstractDomain {
         this.gender = gender;
         this.userLevel = userLevel;
         this.businessType = businessType;
+        this.accountValidated = accountValidated;
     }
 
-    public static JsonProfile newInstance(UserProfileEntity userProfile) {
+    public static JsonProfile newInstance(UserProfileEntity userProfile, UserAccountEntity userAccount) {
         return new JsonProfile(
                 userProfile.getQueueUserId(),
                 userProfile.getProfileImage(),
@@ -130,7 +136,8 @@ public final class JsonProfile extends AbstractDomain {
                 userProfile.getBirthday(),
                 userProfile.getGender(),
                 userProfile.getLevel(),
-                userProfile.getBusinessType()
+                userProfile.getBusinessType(),
+                userAccount.isAccountValidated()
         );
     }
 
@@ -184,6 +191,10 @@ public final class JsonProfile extends AbstractDomain {
 
     public BusinessTypeEnum getBusinessType() {
         return businessType;
+    }
+
+    public boolean isAccountValidated() {
+        return accountValidated;
     }
 
     public JsonUserMedicalProfile getJsonUserMedicalProfile() {

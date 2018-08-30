@@ -138,7 +138,7 @@ public class MerchantProfileController {
             }
 
             /* For merchant profile no need to find remote scan. */
-            JsonProfile jsonProfile = JsonProfile.newInstance(userProfile);
+            JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, authenticateMobileService.findByQueueUserId(userProfile.getQueueUserId()));
             List<JsonTopic> jsonTopics = businessUserStoreService.getQueues(qid);
             JsonProfessionalProfile jsonProfessionalProfile = null;
             if (UserLevelEnum.S_MANAGER == jsonProfile.getUserLevel()) {
