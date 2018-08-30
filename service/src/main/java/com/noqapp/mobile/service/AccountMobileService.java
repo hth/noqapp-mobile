@@ -247,12 +247,16 @@ public class AccountMobileService {
 
     public String getProfileAsJson(String qid) {
         UserProfileEntity userProfile = findProfileByQueueUserId(qid);
-        JsonProfile jsonProfile = JsonProfile.newInstance(userProfile);
+        UserAccountEntity userAccount = findByQueueUserId(qid);
+        JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount);
         jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
 
         if (null != userProfile.getQidOfDependents()) {
             for (String qidOfDependent : userProfile.getQidOfDependents()) {
-                jsonProfile.addDependents(JsonProfile.newInstance(findProfileByQueueUserId(qidOfDependent)));
+                jsonProfile.addDependents(
+                    JsonProfile.newInstance(
+                        findProfileByQueueUserId(qidOfDependent),
+                        findByQueueUserId(qidOfDependent)));
             }
         }
 

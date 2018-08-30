@@ -165,6 +165,7 @@ public class ClientProfileAPIController {
         return profileCommonHelper.updateProfile(mail, auth, updateProfileJson, response);
     }
 
+    /** Migrate Phone number. */
     @PostMapping(
             value="/migrate",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -259,12 +260,15 @@ public class ClientProfileAPIController {
                 }
 
                 userProfile = userProfilePreferenceService.findByQueueUserId(userAccount.getQueueUserId());
-                JsonProfile jsonProfile = JsonProfile.newInstance(userProfile);
+                JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount);
                 jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
 
                 if (null != userProfile.getQidOfDependents()) {
                     for (String qidOfDependent : userProfile.getQidOfDependents()) {
-                        jsonProfile.addDependents(JsonProfile.newInstance(userProfilePreferenceService.findByQueueUserId(qidOfDependent)));
+                        jsonProfile.addDependents(
+                            JsonProfile.newInstance(
+                                userProfilePreferenceService.findByQueueUserId(qidOfDependent),
+                                accountMobileService.findByQueueUserId(qidOfDependent)));
                     }
                 }
 
