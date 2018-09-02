@@ -13,6 +13,7 @@ import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.types.InvocationByEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.domain.types.UserLevelEnum;
@@ -139,7 +140,7 @@ public class TokenQueueMobileService {
     public JsonQueueList findAllTokenState(String codeQR) {
         try {
             BizStoreEntity bizStoreForCodeQR = bizService.findByCodeQR(codeQR);
-            Map<String, String> bizCategories = CommonHelper.getCategories(bizStoreForCodeQR.getBizName().getBusinessType());
+            Map<String, String> bizCategories = CommonHelper.getCategories(bizStoreForCodeQR.getBizName().getBusinessType(), InvocationByEnum.STORE);
             JsonQueueList jsonQueues = new JsonQueueList();
             for (String bizCategoryId : bizCategories.keySet()) {
                 JsonCategory jsonCategory = new JsonCategory()
@@ -178,7 +179,7 @@ public class TokenQueueMobileService {
                 BizStoreEntity bizStoreForCodeQR = bizService.findByCodeQR(codeQR);
                 bizName = bizStoreForCodeQR.getBizName();
             }
-            Map<String, String> bizCategories = CommonHelper.getCategories(bizName.getBusinessType());
+            Map<String, String> bizCategories = CommonHelper.getCategories(bizName.getBusinessType(), InvocationByEnum.BUSINESS);
             JsonQueueList jsonQueues = new JsonQueueList();
             for (String bizCategoryId : bizCategories.keySet()) {
                 JsonCategory jsonCategory = new JsonCategory()
@@ -219,7 +220,7 @@ public class TokenQueueMobileService {
                 bizName = bizStoreForCodeQR.getBizName();
             }
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList().setCityName(bizName.getArea());
-            Map<String, String> bizCategories = CommonHelper.getCategories(bizName.getBusinessType());
+            Map<String, String> bizCategories = CommonHelper.getCategories(bizName.getBusinessType(), InvocationByEnum.BUSINESS);
             for (String bizCategoryId : bizCategories.keySet()) {
                 JsonCategory jsonCategory = new JsonCategory()
                         .setBizCategoryId(bizCategoryId)
@@ -296,7 +297,7 @@ public class TokenQueueMobileService {
     public BizStoreElasticList findAllBizStoreByAddress(BizStoreEntity matchedStore) {
         try {
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList().setCityName(matchedStore.getArea());
-            Map<String, String> bizCategories = CommonHelper.getCategories(matchedStore.getBizName().getBusinessType());
+            Map<String, String> bizCategories = CommonHelper.getCategories(matchedStore.getBizName().getBusinessType(), InvocationByEnum.STORE);
             for (String bizCategoryId : bizCategories.keySet()) {
                 JsonCategory jsonCategory = new JsonCategory()
                         .setBizCategoryId(bizCategoryId)
