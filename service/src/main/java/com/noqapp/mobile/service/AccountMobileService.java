@@ -2,6 +2,7 @@ package com.noqapp.mobile.service;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 
+import com.noqapp.common.utils.RandomString;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -11,6 +12,7 @@ import com.noqapp.domain.json.JsonNameDatePair;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.medical.service.UserMedicalProfileService;
+import com.noqapp.mobile.domain.ChangeMailOTP;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.SignupUserInfo;
 import com.noqapp.service.AccountService;
@@ -54,6 +56,7 @@ public class AccountMobileService {
     private static final Logger LOG = LoggerFactory.getLogger(AccountMobileService.class);
 
     private String accountValidationEndPoint;
+    private String mailChangeEndPoint;
 
     private WebConnectorService webConnectorService;
     private AccountService accountService;
@@ -63,7 +66,10 @@ public class AccountMobileService {
     @Autowired
     public AccountMobileService(
         @Value("${accountSignupEndPoint:/webapi/mobile/mail/accountSignup.htm}")
-            String accountSignupEndPoint,
+        String accountSignupEndPoint,
+
+        @Value("${accountSignupEndPoint:/webapi/mobile/mail/mailChange.htm}")
+        String mailChangeEndPoint,
 
         WebConnectorService webConnectorService,
         AccountService accountService,
@@ -71,6 +77,7 @@ public class AccountMobileService {
         ProfessionalProfileService professionalProfileService
     ) {
         this.accountValidationEndPoint = accountSignupEndPoint;
+        this.mailChangeEndPoint = mailChangeEndPoint;
 
         this.webConnectorService = webConnectorService;
         this.accountService = accountService;
@@ -290,6 +297,41 @@ public class AccountMobileService {
         return accountService.checkUserExistsByPhone(phone);
     }
 
+    public UserProfileEntity doesUserExists(String mail) {
+        return accountService.doesUserExists(mail);
+    }
+
+    public void initiateChangeMailOTP(String qid, String migrateToMail) {
+        UserProfileEntity userProfile = findProfileByQueueUserId(qid);
+        String mailOTP = RandomString.newInstance(6).nextString();
+        userProfile.setMailOTP(mailOTP);
+        accountService.save(userProfile);
+
+        populateChangeMailWithData(userProfile, migrateToMail);
+    }
+
+    private void populateChangeMailWithData(UserProfileEntity userProfile, String migrateToMail) {
+        boolean mailStatus = sendMailWhenChangingMail(
+            migrateToMail,
+            userProfile.getName(),
+            userProfile.getMailOTP(),
+            HttpClientBuilder.create().build());
+
+        LOG.info("Change mail confirmation sent={} to qid={} at {}", mailStatus, userProfile.getQueueUserId(), migrateToMail);
+    }
+
+    private boolean sendMailWhenChangingMail(String userId, String name, String mailOTP, HttpClient httpClient) {
+        LOG.debug("userId={} name={} webApiAccessToken={}", userId, name, AUTH_KEY_HIDDEN);
+        HttpPost httpPost = webConnectorService.getHttpPost(mailChangeEndPoint, httpClient);
+        if (null == httpPost) {
+            LOG.warn("failed connecting, reason={}", webConnectorService.getNoResponseFromWebServer());
+            return false;
+        }
+
+        setEntity(ChangeMailOTP.newInstance(userId, name, mailOTP), httpPost);
+        return invokeHttpPost(httpClient, httpPost);
+    }
+
     public void updateUserProfile(RegisterUser registerUser, String email) {
         accountService.updateUserProfile(registerUser, email);
     }
@@ -354,6 +396,10 @@ public class AccountMobileService {
         PH, //Phone
         CS, //CountryShortName
         TZ, //TimeZone
+    }
+
+    public enum ACCOUNT_MAIL_MIGRATE {
+        EM, //Email
     }
 
     public enum ACCOUNT_UPDATE {

@@ -24,7 +24,7 @@ public class SignupUserInfo {
     private String userId;
 
     @SuppressWarnings ({"unused"})
-    @SerializedName ("rid")
+    @SerializedName ("qid")
     private String qid;
 
     @SuppressWarnings ({"unused"})

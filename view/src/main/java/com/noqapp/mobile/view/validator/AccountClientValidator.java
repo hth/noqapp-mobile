@@ -117,6 +117,15 @@ public class AccountClientValidator {
         return errors;
     }
 
+    /* Validation of migration of mail in account. */
+    public Map<String, String> validateForMailMigration(String mail) {
+        LOG.info("Validating client information mail={}", mail);
+
+        Map<String, String> errors = new HashMap<>();
+        mailValidation(mail, errors);
+        return errors;
+    }
+
     /**
      * Validate password when email exists.
      *

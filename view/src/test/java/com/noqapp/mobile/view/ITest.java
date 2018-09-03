@@ -290,6 +290,7 @@ public class ITest extends RealMongoForITest {
 
         accountMobileService = new AccountMobileService(
             "/webapi/mobile/mail/accountSignup.htm",
+            "/webapi/mobile/mail/mailChange.htm",
             webConnectorService,
             accountService,
             userMedicalProfileService,
