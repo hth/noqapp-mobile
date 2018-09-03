@@ -175,7 +175,7 @@ public class AccountClientValidator {
     void mailOTPValidation(String mailOTP, Map<String, String> errors) {
         if (StringUtils.isBlank(mailOTP) || mailOTP.length() != 6) {
             LOG.info("failed validation mail={}", mailOTP);
-            errors.put(ErrorEncounteredJson.REASON, "Mail validation failed. Minimum length '" + mailLength + "' characters");
+            errors.put(ErrorEncounteredJson.REASON, "Mail OTP validation failed. Minimum length '" + 6 + "' characters");
             errors.put("OTP", StringUtils.isBlank(mailOTP) ? EMPTY : mailOTP);
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
