@@ -193,6 +193,14 @@ public class AccountMobileService {
         return userAccount;
     }
 
+    public UserAccountEntity changeUIDWithMailOTP(String existingUserId, String newUserId) {
+        /* No QID hence using method without QID. */
+        UserAccountEntity userAccount = accountService.updateUID(existingUserId, newUserId);
+        userAccount.setAccountValidated(true);
+        accountService.save(userAccount);
+        return userAccount;
+    }
+
     private void sendValidationEmail(UserAccountEntity userAccount) {
         boolean mailStatus = sendMailDuringSignup(
             userAccount.getUserId(),
