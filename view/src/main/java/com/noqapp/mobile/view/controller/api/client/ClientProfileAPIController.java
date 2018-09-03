@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MAIL_OTP_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
@@ -169,7 +170,7 @@ public class ClientProfileAPIController {
         return profileCommonHelper.updateProfile(mail, auth, updateProfileJson, response);
     }
 
-    /** Migrate Mail address. */
+    /** Request change in Email address. */
     @PostMapping(
         value="/changeMail",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -265,121 +266,6 @@ public class ClientProfileAPIController {
         }
     }
 
-    /** Migrate Mail address. */
-//    @PostMapping(
-//        value="/migrateMail",
-//        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
-//    )
-//    public String migrateMail(
-//        @RequestHeader ("X-R-MAIL")
-//            ScrubbedInput mail,
-//
-//        @RequestHeader ("X-R-AUTH")
-//            ScrubbedInput auth,
-//
-//        @RequestBody
-//            String registrationJson,
-//
-//        HttpServletResponse response
-//    ) throws IOException {
-//        boolean methodStatusSuccess = true;
-//        Instant start = Instant.now();
-//        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
-//        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-//        if (null == qid) {
-//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-//            return null;
-//        }
-//
-//        Map<String, ScrubbedInput> map;
-//        try {
-//            map = ParseJsonStringToMap.jsonStringToMap(registrationJson);
-//        } catch (IOException e) {
-//            LOG.error("Could not parse json={} reason={}", registrationJson, e.getLocalizedMessage(), e);
-//            return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
-//        }
-//
-//        Map<String, String> errors;
-//        try {
-//            if (map.isEmpty()) {
-//                /* Validation failure as there is no data in the map. */
-//                return ErrorEncounteredJson.toJson(accountClientValidator.validateForMailMigration(null));
-//            } else {
-//                Set<String> unknownKeys = invalidElementsInMapDuringMailMigration(map);
-//                if (!unknownKeys.isEmpty()) {
-//                    /* Validation failure as there are unknown keys. */
-//                    return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
-//                }
-//
-//
-//                /* Required. */
-//                String mailMigrate = StringUtils.deleteWhitespace(map.get(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name()).getText());
-//
-//                errors = accountClientValidator.validateForMailMigration(mailMigrate);
-//
-//                if (!errors.isEmpty()) {
-//                    return ErrorEncounteredJson.toJson(errors);
-//                }
-//
-//                LOG.debug("Check if existing user with mail={}", mailMigrate);
-//                UserProfileEntity userProfile = accountMobileService.doesUserExists(mailMigrate);
-//                if (null != userProfile) {
-//                    LOG.info("Failed user migration mail={}", mailMigrate);
-//                    errors = new HashMap<>();
-//                    errors.put(ErrorEncounteredJson.REASON, "User already exists. Cannot continue migration.");
-//                    errors.put(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name(), mailMigrate);
-//                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
-//                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
-//                    return ErrorEncounteredJson.toJson(errors);
-//                }
-//
-//                UserAccountEntity userAccount;
-//                try {
-//                    String updateAuthenticationKey = accountMobileService.updatePhoneNumber(qid, phone, countryShortName, timeZone);
-//                    userAccount = accountMobileService.findByQueueUserId(qid);
-//                    response.addHeader("X-R-MAIL", userAccount.getUserId());
-//                    response.addHeader("X-R-AUTH", updateAuthenticationKey);
-//
-//                } catch (Exception e) {
-//                    LOG.error("Failed migration for user={} reason={}", mail, e.getLocalizedMessage(), e);
-//
-//                    errors = new HashMap<>();
-//                    errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
-//                    errors.put(AccountMobileService.ACCOUNT_MIGRATE.PH.name(), phone);
-//                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
-//                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
-//                    return ErrorEncounteredJson.toJson(errors);
-//                }
-//
-//                userProfile = userProfilePreferenceService.findByQueueUserId(userAccount.getQueueUserId());
-//                JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount);
-//                jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
-//
-//                if (null != userProfile.getQidOfDependents()) {
-//                    for (String qidOfDependent : userProfile.getQidOfDependents()) {
-//                        jsonProfile.addDependents(
-//                            JsonProfile.newInstance(
-//                                userProfilePreferenceService.findByQueueUserId(qidOfDependent),
-//                                accountMobileService.findByQueueUserId(qidOfDependent)));
-//                    }
-//                }
-//
-//                return jsonProfile.asJson();
-//            }
-//        } catch (Exception e) {
-//            LOG.error("Failed migrating qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-//            methodStatusSuccess = false;
-//            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
-//        } finally {
-//            apiHealthService.insert(
-//                "/migrate",
-//                "migrate",
-//                ClientProfileAPIController.class.getName(),
-//                Duration.between(start, Instant.now()),
-//                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-//        }
-//    }
-
     /** Migrate Phone number. */
     @PostMapping(
             value="/migrate",
@@ -469,6 +355,123 @@ public class ClientProfileAPIController {
                     errors = new HashMap<>();
                     errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
                     errors.put(AccountMobileService.ACCOUNT_MIGRATE.PH.name(), phone);
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
+                    return ErrorEncounteredJson.toJson(errors);
+                }
+
+                userProfile = userProfilePreferenceService.findByQueueUserId(userAccount.getQueueUserId());
+                JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount);
+                jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
+
+                if (null != userProfile.getQidOfDependents()) {
+                    for (String qidOfDependent : userProfile.getQidOfDependents()) {
+                        jsonProfile.addDependents(
+                            JsonProfile.newInstance(
+                                userProfilePreferenceService.findByQueueUserId(qidOfDependent),
+                                accountMobileService.findByQueueUserId(qidOfDependent)));
+                    }
+                }
+
+                return jsonProfile.asJson();
+            }
+        } catch (Exception e) {
+            LOG.error("Failed migrating qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/migrate",
+                "migrate",
+                ClientProfileAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Migrate Mail address. */
+    @PostMapping(
+        value="/migrateMail",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String migrateMail(
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        String changeMailOTP,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        Map<String, ScrubbedInput> map;
+        try {
+            map = ParseJsonStringToMap.jsonStringToMap(changeMailOTP);
+        } catch (IOException e) {
+            LOG.error("Could not parse json={} reason={}", changeMailOTP, e.getLocalizedMessage(), e);
+            return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
+        }
+
+        Map<String, String> errors;
+        try {
+            if (map.isEmpty()) {
+                /* Validation failure as there is no data in the map. */
+                return ErrorEncounteredJson.toJson(accountClientValidator.validateForMailMigration(null));
+            } else {
+                /* Required. */
+                String mailMigrate = StringUtils.deleteWhitespace(map.get("userId").getText());
+                String mailOTP = StringUtils.deleteWhitespace(map.get("mailOTP").getText());
+
+                errors = accountClientValidator.validateForMailMigrationAndMailOTP(mailMigrate, mailOTP);
+
+                if (!errors.isEmpty()) {
+                    return ErrorEncounteredJson.toJson(errors);
+                }
+
+                LOG.debug("Check if existing user with mail={}", mailMigrate);
+                UserProfileEntity userProfile = accountMobileService.doesUserExists(mailMigrate);
+                if (null != userProfile) {
+                    LOG.info("Failed user migration mail={}", mailMigrate);
+                    errors = new HashMap<>();
+                    errors.put(ErrorEncounteredJson.REASON, "User already exists. Cannot continue migration.");
+                    errors.put(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name(), mailMigrate);
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
+                    return ErrorEncounteredJson.toJson(errors);
+                }
+
+                UserAccountEntity userAccount;
+                try {
+                    userProfile = accountMobileService.findProfileByQueueUserId(qid);
+                    if(userProfile.getMailOTP().equals(mailOTP)) {
+                        userAccount = accountMobileService.changeUID(userProfile.getQueueUserId(), mailMigrate);
+                        response.addHeader("X-R-MAIL", userAccount.getUserId());
+                        response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKeyEncoded());
+                    } else {
+                        errors = new HashMap<>();
+                        errors.put(ErrorEncounteredJson.REASON, "User already exists. Cannot continue migration.");
+                        errors.put(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name(), mailMigrate);
+                        errors.put(ErrorEncounteredJson.SYSTEM_ERROR, MAIL_OTP_FAILED.name());
+                        errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, MAIL_OTP_FAILED.getCode());
+                        return ErrorEncounteredJson.toJson(errors);
+                    }
+                } catch (Exception e) {
+                    LOG.error("Failed migration for user={} reason={}", mail, e.getLocalizedMessage(), e);
+
+                    errors = new HashMap<>();
+                    errors.put(ErrorEncounteredJson.REASON, "Something went wrong. Engineers are looking into this.");
+                    errors.put(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name(), mailMigrate);
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR, SEVERE.name());
                     errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, SEVERE.getCode());
                     return ErrorEncounteredJson.toJson(errors);
