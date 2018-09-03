@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -309,6 +310,7 @@ public class AccountMobileService {
         return accountService.doesUserExists(mail);
     }
 
+    @Async
     public void initiateChangeMailOTP(String qid, String migrateToMail) {
         UserProfileEntity userProfile = findProfileByQueueUserId(qid);
         String mailOTP = RandomString.newInstance(6).nextString();
