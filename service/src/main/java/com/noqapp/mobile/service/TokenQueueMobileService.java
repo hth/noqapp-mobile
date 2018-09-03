@@ -97,6 +97,15 @@ public class TokenQueueMobileService {
         }
     }
 
+    /**
+     * Store Service Image and Store Interior Image are as is. Its not being appended with code QR like
+     * for BizStoreElastic.
+     *
+     * @param bizStore
+     * @param storeHour
+     * @param tokenQueue
+     * @return
+     */
     private JsonQueue getJsonQueue(BizStoreEntity bizStore, StoreHourEntity storeHour, TokenQueueEntity tokenQueue) {
         return new JsonQueue(bizStore.getId(), bizStore.getCodeQR())
                 .setBusinessName(bizStore.getBizName().getBusinessName())
