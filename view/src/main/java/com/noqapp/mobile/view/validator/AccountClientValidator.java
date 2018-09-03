@@ -126,6 +126,16 @@ public class AccountClientValidator {
         return errors;
     }
 
+    /* Validation of migration of mail in account. */
+    public Map<String, String> validateForMailMigrationAndMailOTP(String mail, String mailOTP) {
+        LOG.info("Validating client information mail={}", mail);
+
+        Map<String, String> errors = new HashMap<>();
+        mailValidation(mail, errors);
+        mailOTPValidation(mailOTP, errors);
+        return errors;
+    }
+
     /**
      * Validate password when email exists.
      *
@@ -157,6 +167,16 @@ public class AccountClientValidator {
             LOG.info("failed validation mail={}", mail);
             errors.put(ErrorEncounteredJson.REASON, "Mail validation failed. Minimum length '" + mailLength + "' characters");
             errors.put(AccountMobileService.ACCOUNT_REGISTRATION.EM.name(), StringUtils.isBlank(mail) ? EMPTY : mail);
+            errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
+            errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
+        }
+    }
+
+    void mailOTPValidation(String mailOTP, Map<String, String> errors) {
+        if (StringUtils.isBlank(mailOTP) || mailOTP.length() != 6) {
+            LOG.info("failed validation mail={}", mailOTP);
+            errors.put(ErrorEncounteredJson.REASON, "Mail validation failed. Minimum length '" + mailLength + "' characters");
+            errors.put("OTP", StringUtils.isBlank(mailOTP) ? EMPTY : mailOTP);
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
         }
