@@ -33,6 +33,7 @@ public class AccountClientValidator {
     private int genderLength;
     private int countryShortNameLength;
     private int passwordLength;
+    private int mailOTPLength;
 
     public AccountClientValidator(
             @Value("${AccountValidator.nameLength}")
@@ -48,13 +49,17 @@ public class AccountClientValidator {
             int countryShortNameLength,
 
             @Value ("${AccountValidator.passwordLength}")
-            int passwordLength
+            int passwordLength,
+
+            @Value("${AccountValidator.mailOTPLength}")
+            int mailOTPLength
     ) {
         this.nameLength = nameLength;
         this.mailLength = mailLength;
         this.genderLength = genderLength;
         this.countryShortNameLength = countryShortNameLength;
         this.passwordLength = passwordLength;
+        this.mailOTPLength = mailOTPLength;
     }
 
     public Map<String, String> validate(
@@ -173,9 +178,9 @@ public class AccountClientValidator {
     }
 
     void mailOTPValidation(String mailOTP, Map<String, String> errors) {
-        if (StringUtils.isBlank(mailOTP) || mailOTP.length() != 6) {
+        if (StringUtils.isBlank(mailOTP) || mailOTP.length() != mailOTPLength) {
             LOG.info("failed validation mail={}", mailOTP);
-            errors.put(ErrorEncounteredJson.REASON, "Mail OTP validation failed. Minimum length '" + 6 + "' characters");
+            errors.put(ErrorEncounteredJson.REASON, "Mail OTP validation failed. Minimum length '" + mailOTPLength + "' characters");
             errors.put("OTP", StringUtils.isBlank(mailOTP) ? EMPTY : mailOTP);
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
