@@ -455,7 +455,7 @@ public class ClientProfileAPIController {
                 try {
                     userProfile = accountMobileService.findProfileByQueueUserId(qid);
                     if(userProfile.getMailOTP().equals(mailOTP)) {
-                        userAccount = accountMobileService.changeUIDWithMailOTP(userProfile.getQueueUserId(), mailMigrate);
+                        userAccount = accountMobileService.changeUIDWithMailOTP(userProfile.getEmail(), mailMigrate);
                         response.addHeader("X-R-MAIL", userAccount.getUserId());
                         response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKeyEncoded());
                     } else {
