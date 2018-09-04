@@ -384,6 +384,11 @@ public class AccountMobileService {
         return jsonProfessionalProfile.asJson();
     }
 
+    @Async
+    public void unsetMailOTP(String id) {
+        accountService.unsetMailOTP(id);
+    }
+
     public enum ACCOUNT_REGISTRATION_MERCHANT {
         PW  //Password
     }
