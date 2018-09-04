@@ -313,7 +313,7 @@ public class AccountMobileService {
     @Async
     public void initiateChangeMailOTP(String qid, String migrateToMail) {
         UserProfileEntity userProfile = findProfileByQueueUserId(qid);
-        String mailOTP = RandomString.newInstance(6).nextString();
+        String mailOTP = RandomString.newInstance(6).nextString().toUpperCase();
         userProfile.setMailOTP(mailOTP);
         accountService.save(userProfile);
 

@@ -302,7 +302,7 @@ public class ITest extends RealMongoForITest {
             userPreferenceManager
         );
 
-        accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6);
+        accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6, 6);
         deviceService = new DeviceService(registeredDeviceManager);
 
         apiHealthNowManager = new ApiHealthNowManagerImpl(getMongoTemplate());
