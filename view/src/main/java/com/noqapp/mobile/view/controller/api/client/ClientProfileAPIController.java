@@ -479,7 +479,8 @@ public class ClientProfileAPIController {
                     return ErrorEncounteredJson.toJson(errors);
                 }
 
-                userProfile = userProfilePreferenceService.findByQueueUserId(userAccount.getQueueUserId());
+                /* Note: Added temp mail directly, without updating profile data. */
+                userProfile.setEmail(mailMigrate);
                 JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount);
                 jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
 
