@@ -13,6 +13,7 @@ import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.types.FCMTypeEnum;
 import com.noqapp.domain.types.InvocationByEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
@@ -61,13 +62,13 @@ public class TokenQueueMobileService {
 
     @Autowired
     public TokenQueueMobileService(
-            TokenQueueService tokenQueueService,
-            BizService bizService,
-            TokenQueueManager tokenQueueManager,
-            QueueManager queueManager,
-            ProfessionalProfileService professionalProfileService,
-            UserProfileManager userProfileManager,
-            BusinessUserStoreManager businessUserStoreManager
+        TokenQueueService tokenQueueService,
+        BizService bizService,
+        TokenQueueManager tokenQueueManager,
+        QueueManager queueManager,
+        ProfessionalProfileService professionalProfileService,
+        UserProfileManager userProfileManager,
+        BusinessUserStoreManager businessUserStoreManager
     ) {
         this.tokenQueueService = tokenQueueService;
         this.bizService = bizService;
@@ -84,10 +85,10 @@ public class TokenQueueMobileService {
             StoreHourEntity storeHour = getStoreHours(codeQR, bizStore);
             TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
             LOG.info("TokenState bizStore={} businessType={} averageServiceTime={} tokenQueue={}",
-                    bizStore.getBizName(),
-                    bizStore.getBusinessType().getDescription(),
-                    bizStore.getAverageServiceTime(),
-                    tokenQueue.getCurrentlyServing());
+                bizStore.getBizName(),
+                bizStore.getBusinessType().getDescription(),
+                bizStore.getAverageServiceTime(),
+                tokenQueue.getCurrentlyServing());
 
             return getJsonQueue(bizStore, storeHour, tokenQueue);
         } catch (Exception e) {
@@ -108,42 +109,42 @@ public class TokenQueueMobileService {
      */
     private JsonQueue getJsonQueue(BizStoreEntity bizStore, StoreHourEntity storeHour, TokenQueueEntity tokenQueue) {
         return new JsonQueue(bizStore.getId(), bizStore.getCodeQR())
-                .setBusinessName(bizStore.getBizName().getBusinessName())
-                .setDisplayName(bizStore.getDisplayName())
-                .setBusinessType(bizStore.getBusinessType())
-                .setStoreAddress(bizStore.getAddress())
-                .setArea(bizStore.getArea())
-                .setTown(bizStore.getTown())
-                .setCountryShortName(bizStore.getCountryShortName())
-                .setStorePhone(bizStore.getPhoneFormatted())
-                .setRating(bizStore.getRating())
-                .setRatingCount(bizStore.getRatingCount())
-                .setAverageServiceTime(bizStore.getAverageServiceTime())
-                .setTokenAvailableFrom(storeHour.getTokenAvailableFrom())
-                .setStartHour(storeHour.getStartHour())
-                .setTokenNotAvailableFrom(storeHour.getTokenNotAvailableFrom())
-                .setEndHour(storeHour.getEndHour())
-                .setDelayedInMinutes(storeHour.getDelayedInMinutes())
-                .setPreventJoining(storeHour.isPreventJoining())
-                .setDayClosed(bizStore.getBizName().isDayClosed() || storeHour.isDayClosed())
-                .setTopic(bizStore.getTopic())
-                .setGeoHash(bizStore.getGeoPoint().getGeohash())
-                .setServingNumber(tokenQueue.getCurrentlyServing())
-                .setLastNumber(tokenQueue.getLastNumber())
-                .setQueueStatus(tokenQueue.getQueueStatus())
-                .setCreated(tokenQueue.getCreated())
-                .setRemoteJoinAvailable(bizStore.isRemoteJoin())
-                .setAllowLoggedInUser(bizStore.isAllowLoggedInUser())
-                .setAvailableTokenCount(bizStore.getAvailableTokenCount())
-                .setBizCategoryId(bizStore.getBizCategoryId())
-                .setFamousFor(bizStore.getFamousFor())
-                .setDiscount(bizStore.getDiscount())
-                .setMinimumDeliveryOrder(bizStore.getMinimumDeliveryOrder())
-                .setDeliveryRange(bizStore.getDeliveryRange())
-                .setStoreServiceImages(bizStore.getStoreServiceImages())
-                .setStoreInteriorImages(bizStore.getStoreInteriorImages())
-                .setAmenities(bizStore.getAmenities())
-                .setFacilities(bizStore.getFacilities());
+            .setBusinessName(bizStore.getBizName().getBusinessName())
+            .setDisplayName(bizStore.getDisplayName())
+            .setBusinessType(bizStore.getBusinessType())
+            .setStoreAddress(bizStore.getAddress())
+            .setArea(bizStore.getArea())
+            .setTown(bizStore.getTown())
+            .setCountryShortName(bizStore.getCountryShortName())
+            .setStorePhone(bizStore.getPhoneFormatted())
+            .setRating(bizStore.getRating())
+            .setRatingCount(bizStore.getRatingCount())
+            .setAverageServiceTime(bizStore.getAverageServiceTime())
+            .setTokenAvailableFrom(storeHour.getTokenAvailableFrom())
+            .setStartHour(storeHour.getStartHour())
+            .setTokenNotAvailableFrom(storeHour.getTokenNotAvailableFrom())
+            .setEndHour(storeHour.getEndHour())
+            .setDelayedInMinutes(storeHour.getDelayedInMinutes())
+            .setPreventJoining(storeHour.isPreventJoining())
+            .setDayClosed(bizStore.getBizName().isDayClosed() || storeHour.isDayClosed())
+            .setTopic(bizStore.getTopic())
+            .setGeoHash(bizStore.getGeoPoint().getGeohash())
+            .setServingNumber(tokenQueue.getCurrentlyServing())
+            .setLastNumber(tokenQueue.getLastNumber())
+            .setQueueStatus(tokenQueue.getQueueStatus())
+            .setCreated(tokenQueue.getCreated())
+            .setRemoteJoinAvailable(bizStore.isRemoteJoin())
+            .setAllowLoggedInUser(bizStore.isAllowLoggedInUser())
+            .setAvailableTokenCount(bizStore.getAvailableTokenCount())
+            .setBizCategoryId(bizStore.getBizCategoryId())
+            .setFamousFor(bizStore.getFamousFor())
+            .setDiscount(bizStore.getDiscount())
+            .setMinimumDeliveryOrder(bizStore.getMinimumDeliveryOrder())
+            .setDeliveryRange(bizStore.getDeliveryRange())
+            .setStoreServiceImages(bizStore.getStoreServiceImages())
+            .setStoreInteriorImages(bizStore.getStoreInteriorImages())
+            .setAmenities(bizStore.getAmenities())
+            .setFacilities(bizStore.getFacilities());
     }
 
     public JsonQueueList findAllTokenState(String codeQR) {
@@ -153,9 +154,9 @@ public class TokenQueueMobileService {
             JsonQueueList jsonQueues = new JsonQueueList();
             for (String bizCategoryId : bizCategories.keySet()) {
                 JsonCategory jsonCategory = new JsonCategory()
-                        .setBizCategoryId(bizCategoryId)
-                        .setCategoryName(bizCategories.get(bizCategoryId))
-                        .setDisplayImage("");
+                    .setBizCategoryId(bizCategoryId)
+                    .setCategoryName(bizCategories.get(bizCategoryId))
+                    .setDisplayImage("");
                 jsonQueues.addCategories(jsonCategory);
             }
 
@@ -177,6 +178,7 @@ public class TokenQueueMobileService {
     /**
      * //TODO(hth) add GPS co-ordinate to this query for limiting data.
      * Refer findAllBizStoreByBizNameCodeQR as simplified for using BizStoreElastic.
+     *
      * @param codeQR
      * @return
      * @deprecated
@@ -192,9 +194,9 @@ public class TokenQueueMobileService {
             JsonQueueList jsonQueues = new JsonQueueList();
             for (String bizCategoryId : bizCategories.keySet()) {
                 JsonCategory jsonCategory = new JsonCategory()
-                        .setBizCategoryId(bizCategoryId)
-                        .setCategoryName(bizCategories.get(bizCategoryId))
-                        .setDisplayImage("");
+                    .setBizCategoryId(bizCategoryId)
+                    .setCategoryName(bizCategories.get(bizCategoryId))
+                    .setDisplayImage("");
                 jsonQueues.addCategories(jsonCategory);
             }
 
@@ -232,8 +234,8 @@ public class TokenQueueMobileService {
             Map<String, String> bizCategories = CommonHelper.getCategories(bizName.getBusinessType(), InvocationByEnum.BUSINESS);
             for (String bizCategoryId : bizCategories.keySet()) {
                 JsonCategory jsonCategory = new JsonCategory()
-                        .setBizCategoryId(bizCategoryId)
-                        .setCategoryName(bizCategories.get(bizCategoryId));
+                    .setBizCategoryId(bizCategoryId)
+                    .setCategoryName(bizCategories.get(bizCategoryId));
                 bizStoreElasticList.addJsonCategory(jsonCategory);
             }
 
@@ -253,22 +255,22 @@ public class TokenQueueMobileService {
                 } else {
                     LOG.warn("No Category defined for bizStore name={} id={}", bizStore.getBizName(), bizStore.getId());
                 }
-                
+
                 switch (bizName.getBusinessType()) {
                     case DO:
                         bizStoreElastic.setAmenities(bizName.getAmenities());
                         bizStoreElastic.setFacilities(bizName.getFacilities());
 
                         List<BusinessUserStoreEntity> businessUsers = businessUserStoreManager.findAllManagingStoreWithUserLevel(
-                                bizStore.getId(),
-                                UserLevelEnum.S_MANAGER);
+                            bizStore.getId(),
+                            UserLevelEnum.S_MANAGER);
 
                         if (!businessUsers.isEmpty()) {
                             BusinessUserStoreEntity businessUserStore = businessUsers.get(0);
                             ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(businessUserStore.getQueueUserId());
                             bizStoreElastic
-                                    .setWebProfileId(professionalProfile.getWebProfileId())
-                                    .setEducation(professionalProfile.getEducationAsJson());
+                                .setWebProfileId(professionalProfile.getWebProfileId())
+                                .setEducation(professionalProfile.getEducationAsJson());
 
 
                             /*
@@ -309,8 +311,8 @@ public class TokenQueueMobileService {
             Map<String, String> bizCategories = CommonHelper.getCategories(matchedStore.getBizName().getBusinessType(), InvocationByEnum.STORE);
             for (String bizCategoryId : bizCategories.keySet()) {
                 JsonCategory jsonCategory = new JsonCategory()
-                        .setBizCategoryId(bizCategoryId)
-                        .setCategoryName(bizCategories.get(bizCategoryId));
+                    .setBizCategoryId(bizCategoryId)
+                    .setCategoryName(bizCategories.get(bizCategoryId));
                 bizStoreElasticList.addJsonCategory(jsonCategory);
             }
 
@@ -353,9 +355,9 @@ public class TokenQueueMobileService {
         } catch (Exception e) {
             //TODO remove this catch
             LOG.error("Failed populating bizStoreElastic for store codeQR={} reason={}",
-                    matchedStore.getCodeQR(),
-                    e.getLocalizedMessage(),
-                    e);
+                matchedStore.getCodeQR(),
+                e.getLocalizedMessage(),
+                e);
 
             return null;
         }
@@ -396,11 +398,12 @@ public class TokenQueueMobileService {
     public long notifyAllInQueueWhenStoreClosesForTheDay(String codeQR, String serverDeviceId) {
         TokenQueueEntity tokenQueue = tokenQueueManager.findByCodeQR(codeQR);
         tokenQueueService.sendMessageToAllOnSpecificTopic(
-                tokenQueue.getDisplayName(),
-                "Is Closed Today. We are informing you to not visit today. Sorry for inconvenience.",
-                tokenQueue,
-                QueueStatusEnum.C);
-        
+            tokenQueue.getDisplayName(),
+            "Is Closed Today. We are informing you to not visit today. Sorry for inconvenience.",
+            tokenQueue,
+            QueueStatusEnum.C,
+            FCMTypeEnum.A);
+
         /* Mark all of the people in queue as aborted. */
         return queueManager.markAllAbortWhenQueueClosed(codeQR, serverDeviceId);
     }
@@ -420,10 +423,11 @@ public class TokenQueueMobileService {
         }
 
         tokenQueueService.sendMessageToAllOnSpecificTopic(
-                tokenQueue.getDisplayName(),
-                "Delayed by " + delayed +  ". Sorry for inconvenience.",
-                tokenQueue,
-                /* Using queue state C so that message goes to Client and Merchant. This setting if for broadcast. */
-                QueueStatusEnum.C);
+            tokenQueue.getDisplayName(),
+            "Delayed by " + delayed + ". Sorry for inconvenience.",
+            tokenQueue,
+            /* Using queue state C so that message goes to Client and Merchant. This setting if for broadcast. */
+            QueueStatusEnum.C,
+            FCMTypeEnum.A);
     }
 }
