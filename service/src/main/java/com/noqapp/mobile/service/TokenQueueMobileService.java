@@ -13,8 +13,8 @@ import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
-import com.noqapp.domain.types.FCMTypeEnum;
 import com.noqapp.domain.types.InvocationByEnum;
+import com.noqapp.domain.types.MessageOriginEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.domain.types.UserLevelEnum;
@@ -397,12 +397,11 @@ public class TokenQueueMobileService {
 
     public long notifyAllInQueueWhenStoreClosesForTheDay(String codeQR, String serverDeviceId) {
         TokenQueueEntity tokenQueue = tokenQueueManager.findByCodeQR(codeQR);
-        tokenQueueService.sendMessageToAllOnSpecificTopic(
+        tokenQueueService.sendAlertMessageToAllOnSpecificTopic(
             tokenQueue.getDisplayName(),
             "Is Closed Today. We are informing you to not visit today. Sorry for inconvenience.",
             tokenQueue,
-            QueueStatusEnum.C,
-            FCMTypeEnum.A);
+            QueueStatusEnum.C);
 
         /* Mark all of the people in queue as aborted. */
         return queueManager.markAllAbortWhenQueueClosed(codeQR, serverDeviceId);
@@ -422,12 +421,11 @@ public class TokenQueueMobileService {
             delayed = delayInMinutes + " minutes";
         }
 
-        tokenQueueService.sendMessageToAllOnSpecificTopic(
+        tokenQueueService.sendAlertMessageToAllOnSpecificTopic(
             tokenQueue.getDisplayName(),
             "Delayed by " + delayed + ". Sorry for inconvenience.",
             tokenQueue,
             /* Using queue state C so that message goes to Client and Merchant. This setting if for broadcast. */
-            QueueStatusEnum.C,
-            FCMTypeEnum.A);
+            QueueStatusEnum.C);
     }
 }
