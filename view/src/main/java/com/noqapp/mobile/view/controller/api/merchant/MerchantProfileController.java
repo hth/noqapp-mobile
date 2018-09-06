@@ -11,6 +11,7 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonTopic;
+import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -142,7 +143,9 @@ public class MerchantProfileController {
             List<JsonTopic> jsonTopics = businessUserStoreService.getQueues(qid);
             JsonProfessionalProfile jsonProfessionalProfile = null;
             if (UserLevelEnum.S_MANAGER == jsonProfile.getUserLevel()) {
-                jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfileByQid(jsonProfile.getQueueUserId());
+                if (userProfile.getBusinessType() == BusinessTypeEnum.DO) {
+                    jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfileByQid(jsonProfile.getQueueUserId());
+                }
             }
 
             return new JsonMerchant()
