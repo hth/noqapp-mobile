@@ -14,6 +14,7 @@ import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.QueueEntity;
+import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -33,6 +34,7 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.repository.RegisteredDeviceManager;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
@@ -92,6 +94,7 @@ public class ManageQueueController {
     private TokenQueueMobileService tokenQueueMobileService;
     private AccountService accountService;
     private BusinessCustomerService businessCustomerService;
+    private RegisteredDeviceManager registeredDeviceManager;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -107,6 +110,7 @@ public class ManageQueueController {
             TokenQueueMobileService tokenQueueMobileService,
             AccountService accountService,
             BusinessCustomerService businessCustomerService,
+            RegisteredDeviceManager registeredDeviceManager,
             ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -118,6 +122,7 @@ public class ManageQueueController {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.accountService = accountService;
         this.businessCustomerService = businessCustomerService;
+        this.registeredDeviceManager = registeredDeviceManager;
         this.apiHealthService = apiHealthService;
     }
 
@@ -863,9 +868,10 @@ public class ManageQueueController {
                 guardianQid = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone()).getQueueUserId();
             }
 
+            RegisteredDeviceEntity registeredDevice = registeredDeviceManager.findRecentDevice(qid);
             return tokenQueueMobileService.joinQueue(
                     businessCustomerLookup.getCodeQR(),
-                    CommonUtil.appendRandomToDeviceId(did.getText()),
+                    registeredDevice.getDeviceId(),
                     userProfile.getQueueUserId(),
                     guardianQid,
                     bizStore.getAverageServiceTime(),
