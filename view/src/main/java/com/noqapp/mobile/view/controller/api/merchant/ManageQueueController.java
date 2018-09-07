@@ -608,6 +608,71 @@ public class ManageQueueController {
         }
     }
 
+    /**
+     * List all clients from history.
+     */
+    @PostMapping (
+        value = "/showClients/{codeQR}/historical",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String showClientsHistorical(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @PathVariable ("codeQR")
+        ScrubbedInput codeQR,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Clients shown for codeQR={} request from mail={} did={} deviceType={} auth={}",
+            codeQR,
+            mail,
+            did,
+            deviceType,
+            AUTH_KEY_HIDDEN);
+
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/mq/showClients by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (StringUtils.isBlank(codeQR.getText())) {
+            LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
+            return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+        } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
+            LOG.info("Un-authorized store access to /api/m/mq/showClients by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            return queueMobileService.findAllClientHistorical(codeQR.getText()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting queued clients reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/showClients/{codeQR}",
+                "showClients",
+                ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
 
     /**
      * Acquire specific token not in order. Send message of being served next to the owner of the token.
@@ -958,72 +1023,6 @@ public class ManageQueueController {
                     ManageQueueController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
-    /**
-     * List all clients from history.
-     */
-    @PostMapping (
-        value = "/showClients/{codeQR}/historical",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
-    )
-    public String showClientsHistorical(
-        @RequestHeader ("X-R-DID")
-        ScrubbedInput did,
-
-        @RequestHeader ("X-R-DT")
-        ScrubbedInput deviceType,
-
-        @RequestHeader ("X-R-MAIL")
-        ScrubbedInput mail,
-
-        @RequestHeader ("X-R-AUTH")
-        ScrubbedInput auth,
-
-        @PathVariable ("codeQR")
-        ScrubbedInput codeQR,
-
-        HttpServletResponse response
-    ) throws IOException {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.info("Clients shown for codeQR={} request from mail={} did={} deviceType={} auth={}",
-            codeQR,
-            mail,
-            did,
-            deviceType,
-            AUTH_KEY_HIDDEN);
-
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/mq/showClients by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        if (StringUtils.isBlank(codeQR.getText())) {
-            LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
-            return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-        } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
-            LOG.info("Un-authorized store access to /api/m/mq/showClients by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        try {
-            return queueMobileService.findAllClientHistorical(codeQR.getText()).asJson();
-        } catch (Exception e) {
-            LOG.error("Failed getting queued clients reason={}", e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
-        } finally {
-            apiHealthService.insert(
-                "/showClients/{codeQR}",
-                "showClients",
-                ManageQueueController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }
