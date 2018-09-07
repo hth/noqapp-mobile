@@ -108,7 +108,14 @@ public class DeviceController {
         }
 
         try {
-            deviceService.registerDevice(null, did.getText(), deviceTypeEnum, appFlavorEnum, parseTokenFCM.getTokenFCM());
+            deviceService.registerDevice(
+                null,
+                did.getText(),
+                deviceTypeEnum,
+                appFlavorEnum,
+                parseTokenFCM.getTokenFCM(),
+                parseTokenFCM.getModel(),
+                parseTokenFCM.getOsVersion());
             return DeviceRegistered.newInstance(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
