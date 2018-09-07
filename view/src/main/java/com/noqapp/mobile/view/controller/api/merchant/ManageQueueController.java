@@ -34,6 +34,7 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.service.AccountService;
+import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.QueueService;
@@ -92,6 +93,7 @@ public class ManageQueueController {
     private TokenQueueMobileService tokenQueueMobileService;
     private AccountService accountService;
     private BusinessCustomerService businessCustomerService;
+    private BizService bizService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -107,6 +109,7 @@ public class ManageQueueController {
             TokenQueueMobileService tokenQueueMobileService,
             AccountService accountService,
             BusinessCustomerService businessCustomerService,
+            BizService bizService,
             ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -118,6 +121,7 @@ public class ManageQueueController {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.accountService = accountService;
         this.businessCustomerService = businessCustomerService;
+        this.bizService = bizService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -438,7 +442,7 @@ public class ManageQueueController {
     }
 
     /**
-     * Modifies the state of queue.
+     * Modifies queue settings.
      */
     @PostMapping (
             value = "/modify",
@@ -524,6 +528,8 @@ public class ManageQueueController {
                     requestBodyJson.getAvailableTokenCount(),
                     requestBodyJson.getCodeQR());
 
+            /* Send email when store setting changes. */
+            bizService.sendMailWhenStoreSettingHasChanged(storeHour.getBizStoreId());
             return new JsonModifyQueue(
                     requestBodyJson.getCodeQR(),
                     storeHour,

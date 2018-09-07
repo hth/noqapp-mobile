@@ -113,6 +113,7 @@ import com.noqapp.service.FirebaseMessageService;
 import com.noqapp.service.FtpService;
 import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
+import com.noqapp.service.MailService;
 import com.noqapp.service.PreferredBusinessService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.PurchaseOrderService;
@@ -235,6 +236,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected QueueManagerJDBC queueManagerJDBC;
     @Mock protected HttpServletResponse httpServletResponse;
     @Mock protected FtpService ftpService;
+    @Mock protected MailService mailService;
 
     @BeforeAll
     public void globalISetup() throws IOException {
@@ -246,7 +248,6 @@ public class ITest extends RealMongoForITest {
         didQueueSupervisor = UUID.randomUUID().toString();
         mockEnvironment = new MockEnvironment();
         mockEnvironment.setProperty("build.env", "sandbox");
-
 
         fcmToken = UUID.randomUUID().toString();
         deviceType = DeviceTypeEnum.A.getName();
@@ -381,7 +382,9 @@ public class ITest extends RealMongoForITest {
             storeHourManager,
             tokenQueueService,
             queueService,
-            businessUserStoreManager
+            businessUserStoreManager,
+            mailService,
+            userProfileManager
         );
 
         fileService = new FileService(
