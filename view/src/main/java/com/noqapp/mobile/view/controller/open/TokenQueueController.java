@@ -280,7 +280,9 @@ public class TokenQueueController {
                     did.getText(),
                     DeviceTypeEnum.valueOf(deviceType.getText()),
                     AppFlavorEnum.valueOf(appFlavor.getText()),
-                    parseTokenFCM.getTokenFCM()).asJson();
+                    parseTokenFCM.getTokenFCM(),
+                    parseTokenFCM.getModel(),
+                    parseTokenFCM.getOsVersion()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting history did={}, reason={}", did, e.getLocalizedMessage(), e);
             apiHealthService.insert(

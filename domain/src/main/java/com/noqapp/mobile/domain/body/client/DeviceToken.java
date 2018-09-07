@@ -30,11 +30,27 @@ public class DeviceToken extends AbstractDomain {
     @JsonProperty("tk")
     private String fcmToken;
 
-    public DeviceToken(String fcmToken) {
+    @JsonProperty("mo")
+    private String model;
+
+    @JsonProperty("os")
+    private String osVersion;
+
+    public DeviceToken(String fcmToken, String model, String osVersion) {
         this.fcmToken = fcmToken;
+        this.model = model;
+        this.osVersion = osVersion;
     }
 
     public String getFcmToken() {
         return fcmToken;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getOsVersion() {
+        return osVersion;
     }
 }

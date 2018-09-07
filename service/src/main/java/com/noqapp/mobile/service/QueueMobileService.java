@@ -157,7 +157,7 @@ public class QueueMobileService {
         }
     }
 
-    public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token) {
+    public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token, String model, String osVersion) {
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(null, did, token);
 
         /* Get all the queues that have been serviced for today. */
@@ -167,7 +167,7 @@ public class QueueMobileService {
         List<QueueEntity> historyQueues;
         if (null == registeredDevice) {
             historyQueues = queueService.getByDid(did);
-            deviceService.registerDevice(null, did, deviceType, appFlavor, token);
+            deviceService.registerDevice(null, did, deviceType, appFlavor, token, model, osVersion);
             LOG.info("Historical new device queue size={} did={} deviceType={}", historyQueues.size(), did, deviceType);
         } else {
             /* Unset QID for DID as user seems to have logged out of the App. */
@@ -201,7 +201,9 @@ public class QueueMobileService {
         String did,
         DeviceTypeEnum deviceType,
         AppFlavorEnum appFlavor,
-        String token
+        String token,
+        String model,
+        String osVersion
     ) {
         Validate.isValidQid(qid);
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(qid, did, token);
@@ -213,7 +215,7 @@ public class QueueMobileService {
         List<QueueEntity> historyQueues;
         if (null == registeredDevice) {
             historyQueues = queueService.getByQid(qid);
-            deviceService.registerDevice(qid, did, deviceType, appFlavor, token);
+            deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion);
             LOG.info("Historical new device queue size={} did={} qid={} deviceType={}",
                 historyQueues.size(),
                 did,
@@ -223,7 +225,7 @@ public class QueueMobileService {
         } else {
             if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
                 /* Save with QID when missing in registered device. */
-                deviceService.registerDevice(qid, did, deviceType, appFlavor, token);
+                deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion);
             }
 
             /*
