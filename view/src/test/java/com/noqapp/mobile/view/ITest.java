@@ -320,7 +320,6 @@ public class ITest extends RealMongoForITest {
         s3FileManager = new S3FileManagerImpl(getMongoTemplate());
         businessCustomerService = new BusinessCustomerService(
             businessCustomerManager,
-            bizStoreManager,
             userProfileManager,
             queueManager
         );
@@ -366,6 +365,8 @@ public class ITest extends RealMongoForITest {
         queueService = new QueueService(
             30,
             accountService,
+            businessCustomerService,
+            bizStoreManager,
             queueManager,
             queueManagerJDBC,
             tokenQueueService,
