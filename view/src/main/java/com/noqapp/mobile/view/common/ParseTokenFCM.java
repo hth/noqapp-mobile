@@ -25,6 +25,8 @@ public class ParseTokenFCM {
 
     private String errorResponse;
     private String tokenFCM;
+    private String model;
+    private String osVersion;
 
     private ParseTokenFCM(String tokenJson) {
         parseForFCM(tokenJson);
@@ -40,6 +42,14 @@ public class ParseTokenFCM {
 
     public String getTokenFCM() {
         return tokenFCM;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getOsVersion() {
+        return osVersion;
     }
 
     private void parseForFCM(String tokenJson) {
@@ -61,6 +71,9 @@ public class ParseTokenFCM {
             if (StringUtils.isBlank(tokenFCM)) {
                 errorResponse = getErrorReason("Failed data validation.", USER_INPUT);
             }
+
+            model = map.get("mo").getText();
+            osVersion = map.get("os").getText();
         } catch (IOException | NullPointerException e) {
             LOG.error("Could not parse json={} errorResponse={}", tokenJson, e.getLocalizedMessage(), e);
             errorResponse = ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);

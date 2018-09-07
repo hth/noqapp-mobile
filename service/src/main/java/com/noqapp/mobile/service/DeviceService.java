@@ -43,8 +43,8 @@ public class DeviceService {
         this.executorService = newCachedThreadPool();
     }
 
-    public void registerDevice(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token) {
-        executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token));
+    public void registerDevice(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token, String model, String osVersion) {
+        executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token, model, osVersion));
     }
 
     /**
@@ -55,13 +55,16 @@ public class DeviceService {
      * @param deviceType iPhone or Android
      * @return
      */
-    private void registeringDevice(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token) {
+    private void registeringDevice(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token, String model, String osVersion) {
         try {
             RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(qid, did);
             if (null == registeredDevice) {
                 LOG.info("Registering new deviceType={} appFlavor={} did={} qid={}", deviceType.getName(), appFlavor.getName(), did, qid);
                 registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token);
                 try {
+                    registeredDevice
+                        .setModel(model)
+                        .setOsVersion(osVersion);
                     registeredDeviceManager.save(registeredDevice);
                     LOG.info("registered device for did={}", did);
                 } catch (DuplicateKeyException duplicateKeyException) {
