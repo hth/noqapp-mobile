@@ -60,7 +60,6 @@ class ManageQueueControllerITest extends ITest {
                 tokenQueueMobileService,
                 accountService,
                 businessCustomerService,
-                registeredDeviceManager,
                 apiHealthService
         );
 

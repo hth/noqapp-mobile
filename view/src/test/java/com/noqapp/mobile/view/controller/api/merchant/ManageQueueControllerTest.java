@@ -123,7 +123,6 @@ class ManageQueueControllerTest {
                 tokenQueueMobileService,
                 accountService,
                 businessCustomerService,
-                registeredDeviceManager,
                 apiHealthService);
 
         mapper = new ObjectMapper();
