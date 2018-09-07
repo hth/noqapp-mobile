@@ -11,7 +11,6 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonTopic;
-import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
