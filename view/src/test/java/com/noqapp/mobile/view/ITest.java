@@ -151,6 +151,8 @@ public class ITest extends RealMongoForITest {
     protected String didClient2;
     protected String didQueueSupervisor;
     protected String fcmToken;
+    protected String model;
+    protected String osVersion;
     protected String deviceType;
 
     protected AccountService accountService;
@@ -248,6 +250,8 @@ public class ITest extends RealMongoForITest {
 
         fcmToken = UUID.randomUUID().toString();
         deviceType = DeviceTypeEnum.A.getName();
+        model = "Model";
+        osVersion = "OS-Version";
 
         userAccountManager = new UserAccountManagerImpl(getMongoTemplate());
         userAuthenticationManager = new UserAuthenticationManagerImpl(getMongoTemplate());
