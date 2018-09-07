@@ -158,7 +158,7 @@ public class QueueMobileService {
     }
 
     public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token, String model, String osVersion) {
-        RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(null, did, token);
+        RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(null, did, token, model, osVersion);
 
         /* Get all the queues that have been serviced for today. */
         List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByDid(did);
@@ -206,7 +206,7 @@ public class QueueMobileService {
         String osVersion
     ) {
         Validate.isValidQid(qid);
-        RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(qid, did, token);
+        RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(qid, did, token, model, osVersion);
 
         /* Get all the queues that have been serviced for today. This first for sorting reasons. */
         List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByQid(qid);
