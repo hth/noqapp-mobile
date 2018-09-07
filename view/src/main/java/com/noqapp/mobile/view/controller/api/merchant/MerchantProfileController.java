@@ -143,8 +143,12 @@ public class MerchantProfileController {
             List<JsonTopic> jsonTopics = businessUserStoreService.getQueues(qid);
             JsonProfessionalProfile jsonProfessionalProfile = null;
             if (UserLevelEnum.S_MANAGER == jsonProfile.getUserLevel()) {
-                if (userProfile.getBusinessType() == BusinessTypeEnum.DO) {
-                    jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfileByQid(jsonProfile.getQueueUserId());
+                switch (userProfile.getBusinessType()) {
+                    case DO:
+                        jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfileByQid(jsonProfile.getQueueUserId());
+                        break;
+                    default:
+                        //Skip getting Professional Profile. Profiles only for Doctor, Mechanic, Nurse, Advocate.
                 }
             }
 
