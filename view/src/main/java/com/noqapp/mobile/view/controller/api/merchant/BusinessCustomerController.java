@@ -143,12 +143,13 @@ public class BusinessCustomerController {
                 LOG.error("Failed as qid is null reason={}", e.getLocalizedMessage(), e);
                 return getErrorReason("Not a valid queue status.", MOBILE_JSON);
             }
-            
+
             BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, jsonBusinessCustomer.getCodeQR());
             BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(
                     jsonBusinessCustomer.getQueueUserId(),
                     businessUserStore.getBizNameId());
             if (null != businessCustomer) {
+                LOG.info("qid={} codeQR={} businessQid={} bizNameId={}", qid, jsonBusinessCustomer.getCodeQR(), jsonBusinessCustomer.getQueueUserId(), businessUserStore);
                 return getErrorReason("Business customer id already exists", BUSINESS_CUSTOMER_ID_EXISTS);
             }
 
