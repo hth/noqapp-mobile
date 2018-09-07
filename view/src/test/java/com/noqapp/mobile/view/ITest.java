@@ -360,6 +360,7 @@ public class ITest extends RealMongoForITest {
         businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
 
         queueService = new QueueService(
+            30,
             accountService,
             queueManager,
             queueManagerJDBC,
