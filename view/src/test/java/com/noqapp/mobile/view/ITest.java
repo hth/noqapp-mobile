@@ -497,7 +497,9 @@ public class ITest extends RealMongoForITest {
             httpServletResponse);
 
         UserProfileEntity merchantUserProfile = accountService.checkUserExistsByPhone("9118000000030");
-        merchantUserProfile.setLevel(UserLevelEnum.M_ADMIN);
+        merchantUserProfile
+            .setLevel(UserLevelEnum.M_ADMIN)
+            .setBusinessType(BusinessTypeEnum.DO);
         accountService.save(merchantUserProfile);
         UserAccountEntity merchantUserAccount = accountService.changeAccountRolesToMatchUserLevel(
             merchantUserProfile.getQueueUserId(),
@@ -522,7 +524,9 @@ public class ITest extends RealMongoForITest {
             httpServletResponse);
 
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
-        queueSupervisorUserProfile.setLevel(UserLevelEnum.Q_SUPERVISOR);
+        queueSupervisorUserProfile
+            .setLevel(UserLevelEnum.Q_SUPERVISOR)
+            .setBusinessType(BusinessTypeEnum.DO);
         accountService.save(queueSupervisorUserProfile);
         UserAccountEntity queueSupervisorUserAccount = accountService.changeAccountRolesToMatchUserLevel(
             queueSupervisorUserProfile.getQueueUserId(),
@@ -547,7 +551,9 @@ public class ITest extends RealMongoForITest {
             httpServletResponse);
 
         UserProfileEntity storeManagerUserProfile = accountService.checkUserExistsByPhone("9118000000032");
-        storeManagerUserProfile.setLevel(UserLevelEnum.S_MANAGER);
+        storeManagerUserProfile
+            .setLevel(UserLevelEnum.S_MANAGER)
+            .setBusinessType(BusinessTypeEnum.DO);
         accountService.save(storeManagerUserProfile);
         UserAccountEntity storeManagerUserAccount = accountService.changeAccountRolesToMatchUserLevel(
             storeManagerUserProfile.getQueueUserId(),
