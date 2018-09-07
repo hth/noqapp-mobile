@@ -2,6 +2,7 @@ package com.noqapp.mobile.service;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 
+import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.common.utils.RandomString;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.UserAccountEntity;
@@ -56,8 +57,8 @@ import java.util.List;
 public class AccountMobileService {
     private static final Logger LOG = LoggerFactory.getLogger(AccountMobileService.class);
 
-    private String accountValidationEndPoint;
-    private String mailChangeEndPoint;
+    private String accountSignup;
+    private String mailChange;
 
     private WebConnectorService webConnectorService;
     private AccountService accountService;
@@ -66,19 +67,19 @@ public class AccountMobileService {
 
     @Autowired
     public AccountMobileService(
-        @Value("${accountSignupEndPoint:/webapi/mobile/mail/accountSignup.htm}")
-        String accountSignupEndPoint,
+        @Value("${accountSignup:/webapi/mobile/mail/accountSignup.htm}")
+        String accountSignup,
 
-        @Value("${accountSignupEndPoint:/webapi/mobile/mail/mailChange.htm}")
-        String mailChangeEndPoint,
+        @Value("${mailChange:/webapi/mobile/mail/mailChange.htm}")
+        String mailChange,
 
         WebConnectorService webConnectorService,
         AccountService accountService,
         UserMedicalProfileService userMedicalProfileService,
         ProfessionalProfileService professionalProfileService
     ) {
-        this.accountValidationEndPoint = accountSignupEndPoint;
-        this.mailChangeEndPoint = mailChangeEndPoint;
+        this.accountSignup = accountSignup;
+        this.mailChange = mailChange;
 
         this.webConnectorService = webConnectorService;
         this.accountService = accountService;
@@ -187,6 +188,7 @@ public class AccountMobileService {
      * @param newUserId
      * @return
      */
+    @Deprecated //has never been used. Can be deleted at some time later
     public UserAccountEntity changeUID(String existingUserId, String newUserId) {
         /* No QID hence using method without QID. */
         UserAccountEntity userAccount = accountService.updateUID(existingUserId, newUserId);
@@ -224,13 +226,13 @@ public class AccountMobileService {
      */
     private boolean sendMailDuringSignup(String userId, String qid, String name, HttpClient httpClient) {
         LOG.debug("userId={} name={} webApiAccessToken={}", userId, name, AUTH_KEY_HIDDEN);
-        HttpPost httpPost = webConnectorService.getHttpPost(accountValidationEndPoint, httpClient);
+        HttpPost httpPost = webConnectorService.getHttpPost(accountSignup, httpClient);
         if (null == httpPost) {
             LOG.warn("failed connecting, reason={}", webConnectorService.getNoResponseFromWebServer());
             return false;
         }
 
-        setEntity(SignupUserInfo.newInstance(userId, qid, name), httpPost);
+        setEntityWithGson(SignupUserInfo.newInstance(userId, qid, name), httpPost);
         return invokeHttpPost(httpClient, httpPost);
     }
 
@@ -289,7 +291,7 @@ public class AccountMobileService {
      * @param object
      * @param httpPost
      */
-    private void setEntity(Object object, HttpPost httpPost) {
+    private void setEntityWithGson(Object object, HttpPost httpPost) {
         httpPost.setEntity(
             new StringEntity(
                 new Gson().toJson(object),
@@ -330,15 +332,15 @@ public class AccountMobileService {
         LOG.info("Change mail confirmation sent={} to qid={} at {}", mailStatus, userProfile.getQueueUserId(), migrateToMail);
     }
 
-    private boolean sendMailWhenChangingMail(String userId, String name, String mailOTP, HttpClient httpClient) {
-        LOG.debug("userId={} name={} webApiAccessToken={}", userId, name, AUTH_KEY_HIDDEN);
-        HttpPost httpPost = webConnectorService.getHttpPost(mailChangeEndPoint, httpClient);
+    private boolean sendMailWhenChangingMail(String migrateToMail, String name, String mailOTP, HttpClient httpClient) {
+        LOG.debug("migrateToMail={} name={} webApiAccessToken={}", migrateToMail, name, AUTH_KEY_HIDDEN);
+        HttpPost httpPost = webConnectorService.getHttpPost(mailChange, httpClient);
         if (null == httpPost) {
             LOG.warn("failed connecting, reason={}", webConnectorService.getNoResponseFromWebServer());
             return false;
         }
 
-        setEntity(ChangeMailOTP.newInstance(userId, name, mailOTP), httpPost);
+        setEntityWithGson(ChangeMailOTP.newInstance(migrateToMail, name, mailOTP), httpPost);
         return invokeHttpPost(httpClient, httpPost);
     }
 
