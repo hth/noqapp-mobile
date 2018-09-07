@@ -77,7 +77,9 @@ public class DeviceService {
                             qid,
                             deviceType,
                             appFlavor,
-                            token
+                            token,
+                            model,
+                            osVersion
                     );
                     LOG.info("existing registered device updateStatus={} with qid={} token={}", updateStatus, qid, token);
                 }
@@ -90,6 +92,8 @@ public class DeviceService {
                         deviceType,
                         appFlavor,
                         token,
+                        model,
+                        osVersion,
                         true);
                 LOG.info("updated registered device for did={} token={} updateSuccess={}", did, token, updateSuccess);
             }
@@ -102,8 +106,8 @@ public class DeviceService {
         return registeredDeviceManager.find(qid, did) != null;
     }
 
-    RegisteredDeviceEntity lastAccessed(String qid, String did, String token) {
-        return registeredDeviceManager.lastAccessed(qid, did, token);
+    RegisteredDeviceEntity lastAccessed(String qid, String did, String token, String model, String osVersion) {
+        return registeredDeviceManager.lastAccessed(qid, did, token, model, osVersion);
     }
 
     /** Update Registered Device after register or login when token is not available. */
