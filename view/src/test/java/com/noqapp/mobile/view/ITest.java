@@ -394,7 +394,8 @@ public class ITest extends RealMongoForITest {
             s3FileManager,
             bizNameManager,
             bizStoreManager,
-            storeProductManager
+            storeProductManager,
+            bizService
         );
 
         storeCategoryManager = new StoreCategoryManagerImpl(getMongoTemplate());
@@ -781,7 +782,7 @@ public class ITest extends RealMongoForITest {
             .setCoordinate(new double[]{73.022498, 19.0244723});
         bizStore.setWebLocation(webLocation);
         bizStore.setCodeQR(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")));
-        bizService.saveStore(bizStore);
+        bizService.saveStore(bizStore, "Created New Store");
 
         List<StoreHourEntity> storeHours = new LinkedList<>();
         for (int i = 1; i <= 7; i++) {
@@ -883,7 +884,7 @@ public class ITest extends RealMongoForITest {
             .setCoordinate(new double[]{73.022498, 19.0244723});
         bizStore.setWebLocation(webLocation);
         bizStore.setCodeQR(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")));
-        bizService.saveStore(bizStore);
+        bizService.saveStore(bizStore, "Created New Store");
 
         List<StoreHourEntity> storeHours = new LinkedList<>();
         for (int i = 1; i <= 7; i++) {
