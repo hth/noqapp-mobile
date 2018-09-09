@@ -28,7 +28,7 @@ public class ApiFilter implements Filter {
     private static final Logger LOG = LoggerFactory.getLogger(ApiFilter.class);
 
     @Override
-    public void init(FilterConfig config) throws ServletException {
+    public void init(FilterConfig config) {
         // If you have any <init-param> in web.xml, then you could get them
         // here by config.getInitParameter("name") and assign it as field.
         LOG.info("Api filter initialized");
