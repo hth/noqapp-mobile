@@ -35,6 +35,13 @@ public final class HttpRequestResponseParser {
     }
 
     /**
+     * Make sure tomcat conf has this setting for forwarding IP.
+     *
+     * <Valve className="org.apache.catalina.valves.RemoteIpValve"
+     *                remoteIpHeader="X-Forwarded-For"
+     *                requestAttributesEnabled="true"
+     *                internalProxies="127\.0\.0\.1"  />
+     *
      * Returns clients IP address.
      *
      * @param request
