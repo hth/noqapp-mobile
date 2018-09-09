@@ -173,7 +173,7 @@ public class BusinessCustomerController {
             LOG.info("Added business customer number to qid={} businessCustomerId={}",
                     userProfile.getQueueUserId(), jsonBusinessCustomer.getBusinessCustomerId());
 
-            return queueService.getQueuedPerson(userProfile.getQueueUserId(), jsonBusinessCustomer.getCodeQR());
+            return queueService.findThisPersonInQueue(userProfile.getQueueUserId(), jsonBusinessCustomer.getCodeQR());
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} reason={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -262,7 +262,7 @@ public class BusinessCustomerController {
             LOG.info("Edit business customer number to qid={} businessCustomerId={}",
                     jsonBusinessCustomer.getQueueUserId(), jsonBusinessCustomer.getBusinessCustomerId());
 
-            return queueService.getQueuedPerson(jsonBusinessCustomer.getQueueUserId(), jsonBusinessCustomer.getCodeQR());
+            return queueService.findThisPersonInQueue(jsonBusinessCustomer.getQueueUserId(), jsonBusinessCustomer.getCodeQR());
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} reason={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
