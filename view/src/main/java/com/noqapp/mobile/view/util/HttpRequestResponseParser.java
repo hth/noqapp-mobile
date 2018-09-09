@@ -35,16 +35,20 @@ public final class HttpRequestResponseParser {
     }
 
     /**
+     * Make sure tomcat conf has this setting for forwarding IP.
+     *
+     * <Valve className="org.apache.catalina.valves.RemoteIpValve"
+     *                remoteIpHeader="X-Forwarded-For"
+     *                requestAttributesEnabled="true"
+     *                internalProxies="127\.0\.0\.1"  />
+     *
      * Returns clients IP address.
      *
      * @param request
      * @return
      */
     public static String getClientIpAddress(HttpServletRequest request) {
-        String ip = request.getHeader("X-Real-IP");
-        if (null == ip || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("X-Forwarded-For");
-        }
+        String ip = request.getHeader("X-Forwarded-For");
         if (null == ip || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
         }
