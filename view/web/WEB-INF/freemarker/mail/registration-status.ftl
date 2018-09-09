@@ -56,6 +56,18 @@
             Registered New Devices ${deviceRegistered} <br/>
             Registered New Android Devices ${androidDeviceRegistered} <br/>
             Registered New iPhone Devices ${iPhoneDeviceRegistered} <br/>
+
+			<br/>
+            Android Flavors Breakdown:<br/>
+            <#list androidFlavoredDevices?keys as key>
+                &nbsp;&nbsp;${key} = ${androidFlavoredDevices[key]}<br/>
+            </#list>
+
+			<br/>
+            Iphone Flavor Breakdown:<br/>
+            <#list iPhoneFlavoredDevices?keys as key>
+                &nbsp;&nbsp;${key} = ${iPhoneFlavoredDevices[key]}<br/>
+            </#list>
         </p>
         <p style="font-family: 'Roboto', sans-serif;">
             Thanks, <br/>

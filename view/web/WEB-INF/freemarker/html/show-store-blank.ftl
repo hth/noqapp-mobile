@@ -38,19 +38,20 @@
                         <p>No matching business found with QR Code.</p>
                     </div>
                     <div class="download-app-icon">
-                        <p>Download NoQApp to</p>
+                        <p>Get NoQApp</p>
                         <div>
-                            <a href="https://itunes.apple.com/us/app/noqapp/id1237327532?ls=1&mt=8"><img
-                                src="${parentHost}/static2/internal/img/apple-store.png"/></a>
-                            <a href="https://play.google.com/store/apps/details?id=com.noqapp.android.client"><img
-                                    src="${parentHost}/static2/internal/img/google-play.png"/></a>
+                            <#--<a href="https://itunes.apple.com/us/app/noqapp/id1237327532?ls=1&mt=8">-->
+                                <#--<img src="${parentHost}/static2/internal/img/apple-store.png"/>-->
+                            <#--</a>-->
+                            <a href="https://play.google.com/store/apps/details?id=com.noqapp.android.client">
+                                <img src="${parentHost}/static2/internal/img/google-play.png"/>
+                            </a>
                         </div>
                     </div>
                     <div class="qr-footer">
                         <p>TM and Copyright &copy; 2018 NoQueue Inc.</p>
                         <p>All Rights Reserved &nbsp; | &nbsp; <a href="${parentHost}/privacy.html">Privacy Policy</a>
                             &nbsp; | &nbsp; <a href="${parentHost}/terms.html">Terms</a></p>
-                        <p class="tm">S:${ftlDateTime?iso("PST")}</p>
                     </div>
                 </div>
             </div>
