@@ -48,10 +48,7 @@ public final class HttpRequestResponseParser {
      * @return
      */
     public static String getClientIpAddress(HttpServletRequest request) {
-        String ip = request.getHeader("X-Real-IP");
-        if (null == ip || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("X-Forwarded-For");
-        }
+        String ip = request.getHeader("X-Forwarded-For");
         if (null == ip || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
         }
