@@ -49,11 +49,14 @@ public class JsonModifyQueue extends AbstractDomain {
     @JsonProperty ("de")
     private int delayedInMinutes;
 
-    @JsonProperty ("pj")
-    private boolean preventJoining;
-
     @JsonProperty ("dc")
     private boolean dayClosed = false;
+
+    @JsonProperty("tc")
+    private boolean tempDayClosed;
+
+    @JsonProperty ("pj")
+    private boolean preventJoining;
 
     @JsonProperty ("at")
     private int availableTokenCount;
@@ -68,8 +71,9 @@ public class JsonModifyQueue extends AbstractDomain {
         this.tokenNotAvailableFrom = storeHour.getTokenNotAvailableFrom();
         this.endHour = storeHour.getEndHour();
         this.delayedInMinutes = storeHour.getDelayedInMinutes();
-        this.preventJoining = storeHour.isPreventJoining();
         this.dayClosed = storeHour.isDayClosed();
+        this.tempDayClosed = storeHour.isTempDayClosed();
+        this.preventJoining = storeHour.isPreventJoining();
         this.availableTokenCount = availableTokenCount;
     }
 
@@ -127,21 +131,30 @@ public class JsonModifyQueue extends AbstractDomain {
         return this;
     }
 
-    public boolean isPreventJoining() {
-        return preventJoining;
-    }
-
-    public JsonModifyQueue setPreventJoining(boolean preventJoining) {
-        this.preventJoining = preventJoining;
-        return this;
-    }
-
     public boolean isDayClosed() {
         return dayClosed;
     }
 
     public JsonModifyQueue setDayClosed(boolean dayClosed) {
         this.dayClosed = dayClosed;
+        return this;
+    }
+
+    public boolean isTempDayClosed() {
+        return tempDayClosed;
+    }
+
+    public JsonModifyQueue setTempDayClosed(boolean tempDayClosed) {
+        this.tempDayClosed = tempDayClosed;
+        return this;
+    }
+
+    public boolean isPreventJoining() {
+        return preventJoining;
+    }
+
+    public JsonModifyQueue setPreventJoining(boolean preventJoining) {
+        this.preventJoining = preventJoining;
         return this;
     }
 

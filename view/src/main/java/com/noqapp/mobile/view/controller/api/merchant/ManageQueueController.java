@@ -519,8 +519,9 @@ public class ManageQueueController {
                     requestBodyJson.getStartHour(),
                     requestBodyJson.getTokenNotAvailableFrom(),
                     requestBodyJson.getEndHour(),
-                    requestBodyJson.isPreventJoining(),
                     requestBodyJson.isDayClosed(),
+                    requestBodyJson.isTempDayClosed(),
+                    requestBodyJson.isPreventJoining(),
                     requestBodyJson.getDelayedInMinutes());
 
             //TODO add missing available token count to iOS.
