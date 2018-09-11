@@ -101,7 +101,7 @@ public class StoreDetailService {
                     .setStartHour(storeHour.getStartHour())
                     .setEndHour(storeHour.getEndHour())
                     .setPreventJoining(storeHour.isPreventJoining())
-                    .setDayClosed(storeHour.isDayClosed())
+                    .setDayClosed(storeHour.isDayClosed() || storeHour.isTempDayClosed())
                     .setDelayedInMinutes(storeHour.getDelayedInMinutes());
             jsonStore.addJsonHour(jsonHour);
         }

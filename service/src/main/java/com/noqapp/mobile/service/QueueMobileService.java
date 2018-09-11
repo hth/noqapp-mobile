@@ -363,9 +363,11 @@ public class QueueMobileService {
         int startHour,
         int tokenNotAvailableFrom,
         int endHour,
-        boolean preventJoining,
         boolean dayClosed,
-        int delayedInMinutes) {
+        boolean tempDayClosed,
+        boolean preventJoining,
+        int delayedInMinutes
+    ) {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
         DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
         return storeHourManager.modifyOne(
@@ -375,8 +377,9 @@ public class QueueMobileService {
             startHour,
             tokenNotAvailableFrom,
             endHour,
-            preventJoining,
             dayClosed,
+            tempDayClosed,
+            preventJoining,
             delayedInMinutes);
     }
 
