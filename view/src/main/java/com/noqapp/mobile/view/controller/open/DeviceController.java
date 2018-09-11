@@ -72,7 +72,7 @@ public class DeviceController {
             @RequestHeader (value = "X-R-DT")
             ScrubbedInput deviceType,
 
-            @RequestHeader (value = "X-R-AF", required = false, defaultValue = "NQMT")
+            @RequestHeader ("X-R-AF")
             ScrubbedInput appFlavor,
 
             @RequestBody
