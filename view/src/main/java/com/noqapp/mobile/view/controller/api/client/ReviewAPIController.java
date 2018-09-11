@@ -97,9 +97,7 @@ public class ReviewAPIController {
 
         ReviewRating reviewRating;
         try {
-            reviewRating = new ObjectMapper().readValue(
-                    requestBodyJson,
-                    ReviewRating.class);
+            reviewRating = new ObjectMapper().readValue(requestBodyJson, ReviewRating.class);
         } catch (IOException e) {
             LOG.error("Could not parse json={} reason={}", requestBodyJson, e.getLocalizedMessage(), e);
             return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
