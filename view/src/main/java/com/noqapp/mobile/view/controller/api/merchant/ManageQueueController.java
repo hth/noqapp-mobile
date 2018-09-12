@@ -531,7 +531,9 @@ public class ManageQueueController {
 
             /* Send email when store setting changes. */
             UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
-            bizService.sendMailWhenStoreSettingHasChanged(storeHour.getBizStoreId(), "Modified Store Detail from App, modified by " + userProfile.getEmail());
+            bizService.sendMailWhenStoreSettingHasChanged(
+                storeHour.getBizStoreId(),
+                "Modified Store Detail from App, modified by " + userProfile.getEmail());
             return new JsonModifyQueue(
                     requestBodyJson.getCodeQR(),
                     storeHour,
