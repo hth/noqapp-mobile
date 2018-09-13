@@ -60,9 +60,9 @@
 			Allowed Logged In User: ${allowLoggedInUser}<br/>
 			Available Token: ${availableTokenCount}<br/>
 			Additional Note or Famous For: ${famousFor}<br/>
-            <#if closedForToday??>
-            <strong>Temporary closed for today: ${closedForToday}</strong><br/>
-            </#if>
+			<#if closedForToday??>
+			<strong>Temporary closed for today: ${closedForToday}</strong><br/>
+			</#if>
 		</p>
 		<table style="background-color: lightgrey">
 			<tr>
