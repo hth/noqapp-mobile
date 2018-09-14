@@ -14,6 +14,7 @@ import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.QueueEntity;
+import com.noqapp.domain.ScheduledTaskEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -23,6 +24,7 @@ import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
+import com.noqapp.domain.types.ScheduleTaskEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -33,6 +35,7 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.repository.ScheduledTaskManager;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessCustomerService;
@@ -94,6 +97,7 @@ public class ManageQueueController {
     private AccountService accountService;
     private BusinessCustomerService businessCustomerService;
     private BizService bizService;
+    private ScheduledTaskManager scheduledTaskManager;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -110,6 +114,7 @@ public class ManageQueueController {
             AccountService accountService,
             BusinessCustomerService businessCustomerService,
             BizService bizService,
+            ScheduledTaskManager scheduledTaskManager,
             ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -122,6 +127,7 @@ public class ManageQueueController {
         this.accountService = accountService;
         this.businessCustomerService = businessCustomerService;
         this.bizService = bizService;
+        this.scheduledTaskManager = scheduledTaskManager;
         this.apiHealthService = apiHealthService;
     }
 
@@ -462,7 +468,7 @@ public class ManageQueueController {
             ScrubbedInput auth,
 
             @RequestBody
-            JsonModifyQueue requestBodyJson,
+            JsonModifyQueue modifyQueue,
 
             HttpServletResponse response
     ) throws IOException {
@@ -476,22 +482,22 @@ public class ManageQueueController {
             return null;
         }
 
-        if (StringUtils.isBlank(requestBodyJson.getCodeQR())) {
-            LOG.warn("Not a valid codeQR={} qid={}", requestBodyJson.getCodeQR(), qid);
+        if (StringUtils.isBlank(modifyQueue.getCodeQR())) {
+            LOG.warn("Not a valid codeQR={} qid={}", modifyQueue.getCodeQR(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-        } else if (!businessUserStoreService.hasAccess(qid, requestBodyJson.getCodeQR())) {
+        } else if (!businessUserStoreService.hasAccess(qid, modifyQueue.getCodeQR())) {
             LOG.info("Un-authorized store access to /api/m/mq/modify by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
 
         try {
-            LOG.info("Received Data for qid={} JsonModifyQueue={}", qid, requestBodyJson.toString());
-            TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(requestBodyJson.getCodeQR());
-            if (tokenQueue.getLastNumber() > 0 && (requestBodyJson.isDayClosed() || requestBodyJson.isTempDayClosed())) {
+            LOG.info("Received Data for qid={} JsonModifyQueue={}", qid, modifyQueue.toString());
+            TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(modifyQueue.getCodeQR());
+            if (tokenQueue.getLastNumber() > 0 && (modifyQueue.isDayClosed() || modifyQueue.isTempDayClosed())) {
                 /* Notify everyone about day closed. */
                 long notified = tokenQueueMobileService.notifyAllInQueueWhenStoreClosesForTheDay(
-                        requestBodyJson.getCodeQR(),
+                        modifyQueue.getCodeQR(),
                         did.getText());
 
                 LOG.info("Send message to {} when store is marked closed for the day queueName={} lastNumber={} queueStatus={}",
@@ -500,34 +506,43 @@ public class ManageQueueController {
                         tokenQueue.getLastNumber(),
                         tokenQueue.getQueueStatus());
 
-            } else if (requestBodyJson.getDelayedInMinutes() > 0) {
+            } else if (modifyQueue.getDelayedInMinutes() > 0) {
                 /* Notify everyone about delay. */
                 tokenQueueMobileService.notifyAllInQueueAboutDelay(
-                        requestBodyJson.getCodeQR(),
-                        requestBodyJson.getDelayedInMinutes());
+                        modifyQueue.getCodeQR(),
+                        modifyQueue.getDelayedInMinutes());
 
                 LOG.info("Send message when queues starts late by minutes={} queueName={} lastNumber={} queueStatus={}",
-                        requestBodyJson.getDelayedInMinutes(),
+                        modifyQueue.getDelayedInMinutes(),
                         tokenQueue.getDisplayName(),
                         tokenQueue.getLastNumber(),
                         tokenQueue.getQueueStatus());
             }
 
-            StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(
-                    requestBodyJson.getCodeQR(),
-                    requestBodyJson.getTokenAvailableFrom(),
-                    requestBodyJson.getStartHour(),
-                    requestBodyJson.getTokenNotAvailableFrom(),
-                    requestBodyJson.getEndHour(),
-                    requestBodyJson.isDayClosed(),
-                    requestBodyJson.isTempDayClosed(),
-                    requestBodyJson.isPreventJoining(),
-                    requestBodyJson.getDelayedInMinutes());
+            if (StringUtils.isNotBlank(modifyQueue.getFromDay()) && StringUtils.isNotBlank(modifyQueue.getUntilDay())) {
+                String id = CommonUtil.generateHexFromObjectId();
+                bizService.setScheduleTaskId(modifyQueue.getCodeQR(), id);
 
-            //TODO add missing available token count to iOS.
-            queueMobileService.updateBizStoreAvailableTokenCount(
-                    requestBodyJson.getAvailableTokenCount(),
-                    requestBodyJson.getCodeQR());
+                ScheduledTaskEntity scheduledTask = new ScheduledTaskEntity()
+                    .setFrom(modifyQueue.getFromDay())
+                    .setUntil(modifyQueue.getUntilDay())
+                    .setScheduleTask(ScheduleTaskEnum.CLOSE);
+                scheduledTask.setId(id);
+                scheduledTaskManager.save(scheduledTask);
+            }
+
+            StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(
+                    modifyQueue.getCodeQR(),
+                    modifyQueue.getTokenAvailableFrom(),
+                    modifyQueue.getStartHour(),
+                    modifyQueue.getTokenNotAvailableFrom(),
+                    modifyQueue.getEndHour(),
+                    modifyQueue.isDayClosed(),
+                    modifyQueue.isTempDayClosed(),
+                    modifyQueue.isPreventJoining(),
+                    modifyQueue.getDelayedInMinutes());
+
+            queueMobileService.updateBizStoreAvailableTokenCount(modifyQueue.getAvailableTokenCount(), modifyQueue.getCodeQR());
 
             /* Send email when store setting changes. */
             UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
@@ -535,9 +550,9 @@ public class ManageQueueController {
                 storeHour.getBizStoreId(),
                 "Modified Store Detail from App, modified by " + userProfile.getEmail());
             return new JsonModifyQueue(
-                    requestBodyJson.getCodeQR(),
+                    modifyQueue.getCodeQR(),
                     storeHour,
-                    requestBodyJson.getAvailableTokenCount()).asJson();
+                    modifyQueue.getAvailableTokenCount()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

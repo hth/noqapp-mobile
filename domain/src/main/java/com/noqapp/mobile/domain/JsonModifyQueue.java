@@ -61,6 +61,12 @@ public class JsonModifyQueue extends AbstractDomain {
     @JsonProperty ("at")
     private int availableTokenCount;
 
+    @JsonProperty ("fr")
+    private String fromDay;
+
+    @JsonProperty ("un")
+    private String untilDay;
+
     public JsonModifyQueue() {
     }
 
@@ -164,6 +170,24 @@ public class JsonModifyQueue extends AbstractDomain {
 
     public JsonModifyQueue setAvailableTokenCount(int availableTokenCount) {
         this.availableTokenCount = availableTokenCount;
+        return this;
+    }
+
+    public String getFromDay() {
+        return fromDay;
+    }
+
+    public JsonModifyQueue setFromDay(String fromDay) {
+        this.fromDay = fromDay;
+        return this;
+    }
+
+    public String getUntilDay() {
+        return untilDay;
+    }
+
+    public JsonModifyQueue setUntilDay(String untilDay) {
+        this.untilDay = untilDay;
         return this;
     }
 
