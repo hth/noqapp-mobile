@@ -429,8 +429,8 @@ public class ManageQueueController {
             BizStoreEntity bizStore = queueMobileService.findByCodeQR(codeQR.getText());
             StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
 
-            ScheduledTaskEntity scheduledTask;
-            if (StringUtils.isNotBlank(bizStore.getScheduledTaskId()) {
+            ScheduledTaskEntity scheduledTask = null;
+            if (StringUtils.isNotBlank(bizStore.getScheduledTaskId())) {
                 scheduledTask = scheduledTaskManager.findOneById(bizStore.getScheduledTaskId());
             }
 
@@ -525,11 +525,12 @@ public class ManageQueueController {
                         tokenQueue.getQueueStatus());
             }
 
+            ScheduledTaskEntity scheduledTask = null;
             if (StringUtils.isNotBlank(modifyQueue.getFromDay()) && StringUtils.isNotBlank(modifyQueue.getUntilDay())) {
                 String id = CommonUtil.generateHexFromObjectId();
                 bizService.setScheduleTaskId(modifyQueue.getCodeQR(), id);
 
-                ScheduledTaskEntity scheduledTask = new ScheduledTaskEntity()
+                scheduledTask = new ScheduledTaskEntity()
                     .setFrom(modifyQueue.getFromDay())
                     .setUntil(modifyQueue.getUntilDay())
                     .setScheduleTask(ScheduleTaskEnum.CLOSE);
@@ -558,7 +559,8 @@ public class ManageQueueController {
             return new JsonModifyQueue(
                     modifyQueue.getCodeQR(),
                     storeHour,
-                    modifyQueue.getAvailableTokenCount()).asJson();
+                    modifyQueue.getAvailableTokenCount(),
+                    scheduledTask).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
