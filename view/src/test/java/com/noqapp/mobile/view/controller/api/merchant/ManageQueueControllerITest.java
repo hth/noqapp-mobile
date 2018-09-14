@@ -2,8 +2,10 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.domain.BizStoreEntity.UNDER_SCORE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
@@ -256,8 +258,8 @@ class ManageQueueControllerITest extends ITest {
                 httpServletResponse
         );
         JsonModifyQueue jsonModifyQueue = new ObjectMapper().readValue(queueState, JsonModifyQueue.class);
-        assertEquals(false, jsonModifyQueue.isPreventJoining());
-        assertEquals(false, jsonModifyQueue.isDayClosed());
+        assertFalse(jsonModifyQueue.isPreventJoining());
+        assertFalse(jsonModifyQueue.isDayClosed());
         assertEquals(0, jsonModifyQueue.getAvailableTokenCount());
     }
 
@@ -282,8 +284,8 @@ class ManageQueueControllerITest extends ITest {
                 httpServletResponse
         );
         JsonModifyQueue jsonModifiedQueue = new ObjectMapper().readValue(queueStateResponse, JsonModifyQueue.class);
-        assertEquals(true, jsonModifiedQueue.isPreventJoining());
-        assertEquals(true, jsonModifiedQueue.isDayClosed());
+        assertTrue(jsonModifiedQueue.isPreventJoining());
+        assertTrue(jsonModifiedQueue.isDayClosed());
         assertEquals(0, jsonModifiedQueue.getAvailableTokenCount());
 
         /* Reset State of Queue to Day Closed as False and Prevent Joining as False. */
