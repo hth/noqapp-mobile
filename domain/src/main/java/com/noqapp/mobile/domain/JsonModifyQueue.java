@@ -1,6 +1,7 @@
 package com.noqapp.mobile.domain;
 
 import com.noqapp.common.utils.AbstractDomain;
+import com.noqapp.domain.ScheduledTaskEntity;
 import com.noqapp.domain.StoreHourEntity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -67,10 +68,16 @@ public class JsonModifyQueue extends AbstractDomain {
     @JsonProperty ("un")
     private String untilDay;
 
+    @JsonProperty ("scFr")
+    private String scheduledFromDay;
+
+    @JsonProperty ("scUn")
+    private String scheduleUntilDay;
+
     public JsonModifyQueue() {
     }
 
-    public JsonModifyQueue(String codeQR, StoreHourEntity storeHour, int availableTokenCount) {
+    public JsonModifyQueue(String codeQR, StoreHourEntity storeHour, int availableTokenCount, ScheduledTaskEntity scheduledTask) {
         this.codeQR = codeQR;
         this.tokenAvailableFrom = storeHour.getTokenAvailableFrom();
         this.startHour = storeHour.getStartHour();
@@ -81,6 +88,11 @@ public class JsonModifyQueue extends AbstractDomain {
         this.tempDayClosed = storeHour.isTempDayClosed();
         this.preventJoining = storeHour.isPreventJoining();
         this.availableTokenCount = availableTokenCount;
+
+        if (null != scheduledTask) {
+            scheduledFromDay = scheduledTask.getFrom();
+            scheduleUntilDay = scheduledTask.getUntil();
+        }
     }
 
     public String getCodeQR() {

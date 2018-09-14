@@ -429,10 +429,16 @@ public class ManageQueueController {
             BizStoreEntity bizStore = queueMobileService.findByCodeQR(codeQR.getText());
             StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
 
+            ScheduledTaskEntity scheduledTask;
+            if (StringUtils.isNotBlank(bizStore.getScheduledTaskId()) {
+                scheduledTask = scheduledTaskManager.findOneById(bizStore.getScheduledTaskId());
+            }
+
             return new JsonModifyQueue(
                     codeQR.getText(),
                     storeHour,
-                    bizStore.getAvailableTokenCount()).asJson();
+                    bizStore.getAvailableTokenCount(),
+                    scheduledTask).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
