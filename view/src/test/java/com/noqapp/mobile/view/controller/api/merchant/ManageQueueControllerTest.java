@@ -90,7 +90,6 @@ class ManageQueueControllerTest {
     @Mock private BusinessUserStoreManager businessUserStoreManager;
     @Mock private AccountService accountService;
     @Mock private BusinessCustomerService businessCustomerService;
-    @Mock private RegisteredDeviceManager registeredDeviceManager;
     @Mock private ScheduledTaskManager scheduledTaskManager;
 
     @Mock private HttpServletResponse response;
