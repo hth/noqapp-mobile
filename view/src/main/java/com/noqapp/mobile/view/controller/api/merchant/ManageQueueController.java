@@ -10,6 +10,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_F
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.CommonUtil;
+import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
@@ -527,6 +528,10 @@ public class ManageQueueController {
 
             ScheduledTaskEntity scheduledTask = null;
             if (StringUtils.isNotBlank(modifyQueue.getFromDay()) && StringUtils.isNotBlank(modifyQueue.getUntilDay())) {
+                if (DateUtil.convertToDate(modifyQueue.getFromDay()).after(DateUtil.convertToDate(modifyQueue.getUntilDay()))) {
+                    return getErrorReason("From Day has to before Until Day", MOBILE_JSON);
+                }
+
                 String id = CommonUtil.generateHexFromObjectId();
                 bizService.setScheduleTaskId(modifyQueue.getCodeQR(), id);
 
