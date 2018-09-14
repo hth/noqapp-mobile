@@ -72,7 +72,7 @@ public class JsonModifyQueue extends AbstractDomain {
     private String scheduledFromDay;
 
     @JsonProperty ("scUn")
-    private String scheduleUntilDay;
+    private String scheduledUntilDay;
 
     public JsonModifyQueue() {
     }
@@ -91,7 +91,7 @@ public class JsonModifyQueue extends AbstractDomain {
 
         if (null != scheduledTask) {
             scheduledFromDay = scheduledTask.getFrom();
-            scheduleUntilDay = scheduledTask.getUntil();
+            scheduledUntilDay = scheduledTask.getUntil();
         }
     }
 
