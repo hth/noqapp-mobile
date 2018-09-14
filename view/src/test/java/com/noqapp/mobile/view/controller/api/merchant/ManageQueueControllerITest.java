@@ -61,6 +61,7 @@ class ManageQueueControllerITest extends ITest {
                 accountService,
                 businessCustomerService,
                 bizService,
+                scheduledTaskManager,
                 apiHealthService
         );
 
