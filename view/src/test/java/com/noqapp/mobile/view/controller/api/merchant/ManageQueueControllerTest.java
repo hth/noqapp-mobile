@@ -32,6 +32,7 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.RegisteredDeviceManager;
+import com.noqapp.repository.ScheduledTaskManager;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.AccountService;
@@ -90,6 +91,7 @@ class ManageQueueControllerTest {
     @Mock private AccountService accountService;
     @Mock private BusinessCustomerService businessCustomerService;
     @Mock private RegisteredDeviceManager registeredDeviceManager;
+    @Mock private ScheduledTaskManager scheduledTaskManager;
 
     @Mock private HttpServletResponse response;
     private TokenQueueEntity tokenQueue;
@@ -124,6 +126,7 @@ class ManageQueueControllerTest {
                 accountService,
                 businessCustomerService,
                 bizService,
+                scheduledTaskManager,
                 apiHealthService);
 
         mapper = new ObjectMapper();

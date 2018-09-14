@@ -83,6 +83,8 @@ import com.noqapp.repository.RegisteredDeviceManager;
 import com.noqapp.repository.RegisteredDeviceManagerImpl;
 import com.noqapp.repository.S3FileManager;
 import com.noqapp.repository.S3FileManagerImpl;
+import com.noqapp.repository.ScheduledTaskManager;
+import com.noqapp.repository.ScheduledTaskManagerImpl;
 import com.noqapp.repository.StoreCategoryManager;
 import com.noqapp.repository.StoreCategoryManagerImpl;
 import com.noqapp.repository.StoreHourManager;
@@ -219,6 +221,7 @@ public class ITest extends RealMongoForITest {
     protected StoreCategoryManager storeCategoryManager;
     protected PreferredBusinessManager preferredBusinessManager;
     protected PreferredBusinessService preferredBusinessService;
+    protected ScheduledTaskManager scheduledTaskManager;
 
     protected BusinessCustomerManager businessCustomerManager;
     protected BusinessCustomerService businessCustomerService;
@@ -348,6 +351,7 @@ public class ITest extends RealMongoForITest {
 
         userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
         userAddressService = new UserAddressService(userAddressManager, externalService);
+        scheduledTaskManager = new ScheduledTaskManagerImpl(getMongoTemplate());
 
         purchaseOrderService = new PurchaseOrderService(
             bizStoreManager,
