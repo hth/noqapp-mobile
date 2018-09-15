@@ -385,8 +385,8 @@ public class QueueMobileService {
             preventJoining,
             delayedInMinutes);
 
-        /* Since store hour is being changed for today. We need to update the next run time. */
-        ZonedDateTime queueHistoryNextRun = DateUtil.computeNextRunTimeAtUTC(timeZone, storeHour.storeClosingHourOfDay(), storeHour.storeClosingMinuteOfDay());
+        /* Since store hour is being changed for today. We need to update the next run time for today. */
+        ZonedDateTime queueHistoryNextRun = DateUtil.computeNextRunTimeAtUTC(timeZone, storeHour.storeClosingHourOfDay(), storeHour.storeClosingMinuteOfDay(), DateUtil.Day.TODAY);
         bizService.updateNextRun(bizStore, Date.from(queueHistoryNextRun.toInstant()));
         return storeHour;
     }
