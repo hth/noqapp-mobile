@@ -2,6 +2,7 @@ package com.noqapp.mobile.service;
 
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
+import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.Validate;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.QueueEntity;
@@ -56,7 +57,6 @@ public class QueueMobileService {
     private QueueManagerJDBC queueManagerJDBC;
     private StoreHourManager storeHourManager;
     private QueueService queueService;
-    private ExternalService externalService;
 
     private ExecutorService executorService;
 
@@ -68,8 +68,7 @@ public class QueueMobileService {
         DeviceService deviceService,
         QueueManagerJDBC queueManagerJDBC,
         StoreHourManager storeHourManager,
-        QueueService queueService,
-        ExternalService externalService
+        QueueService queueService
     ) {
         this.queueManager = queueManager;
         this.tokenQueueMobileService = tokenQueueMobileService;
@@ -78,7 +77,6 @@ public class QueueMobileService {
         this.queueManagerJDBC = queueManagerJDBC;
         this.storeHourManager = storeHourManager;
         this.queueService = queueService;
-        this.externalService = externalService;
 
         this.executorService = newCachedThreadPool();
     }
@@ -388,7 +386,7 @@ public class QueueMobileService {
             delayedInMinutes);
 
         /* Since store hour is being changed for today. We need to update the next run time. */
-        ZonedDateTime queueHistoryNextRun = externalService.computeNextRunTimeAtUTC(timeZone, storeHour.storeClosingHourOfDay(), storeHour.storeClosingMinuteOfDay());
+        ZonedDateTime queueHistoryNextRun = DateUtil.computeNextRunTimeAtUTC(timeZone, storeHour.storeClosingHourOfDay(), storeHour.storeClosingMinuteOfDay());
         bizService.updateNextRun(bizStore, Date.from(queueHistoryNextRun.toInstant()));
         return storeHour;
     }
