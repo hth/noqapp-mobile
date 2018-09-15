@@ -63,6 +63,9 @@
 			<#if closedForToday??>
             <strong>Temporary closed for today: ${closedForToday}</strong><br/>
             </#if>
+			<#if scheduledClose??>
+			<strong>Scheduled: ${scheduledClose}</strong><br/>
+            </#if>
 		</p>
 		<table style="background-color: lightgrey">
 			<tr>
