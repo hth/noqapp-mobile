@@ -498,6 +498,16 @@ public class ManageQueueController {
             return null;
         }
 
+        if (StringUtils.isNotBlank(modifyQueue.getFromDay()) || StringUtils.isNotBlank(modifyQueue.getUntilDay())) {
+            if (StringUtils.isNotBlank(modifyQueue.getFromDay()) && StringUtils.isNotBlank(modifyQueue.getUntilDay())) {
+                if (DateUtil.convertToDate(modifyQueue.getFromDay()).after(DateUtil.convertToDate(modifyQueue.getUntilDay()))) {
+                    return getErrorReason("From Day has to before Until Day", MOBILE_JSON);
+                }
+            } else {
+                return getErrorReason("Please provide with both the dates", MOBILE_JSON);
+            }
+        }
+
         try {
             LOG.info("Received Data for qid={} JsonModifyQueue={}", qid, modifyQueue.toString());
             TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(modifyQueue.getCodeQR());
@@ -526,23 +536,7 @@ public class ManageQueueController {
                         tokenQueue.getQueueStatus());
             }
 
-            ScheduledTaskEntity scheduledTask = null;
-            if (StringUtils.isNotBlank(modifyQueue.getFromDay()) && StringUtils.isNotBlank(modifyQueue.getUntilDay())) {
-                if (DateUtil.convertToDate(modifyQueue.getFromDay()).after(DateUtil.convertToDate(modifyQueue.getUntilDay()))) {
-                    return getErrorReason("From Day has to before Until Day", MOBILE_JSON);
-                }
-
-                String id = CommonUtil.generateHexFromObjectId();
-                bizService.setScheduleTaskId(modifyQueue.getCodeQR(), id);
-
-                scheduledTask = new ScheduledTaskEntity()
-                    .setFrom(modifyQueue.getFromDay())
-                    .setUntil(modifyQueue.getUntilDay())
-                    .setScheduleTask(ScheduleTaskEnum.CLOSE);
-                scheduledTask.setId(id);
-                scheduledTaskManager.save(scheduledTask);
-            }
-
+            ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(modifyQueue);
             StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(
                     modifyQueue.getCodeQR(),
                     modifyQueue.getTokenAvailableFrom(),
@@ -1062,5 +1056,26 @@ public class ManageQueueController {
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
+    }
+
+    private ScheduledTaskEntity getScheduledTaskIfAny(JsonModifyQueue modifyQueue) {
+        ScheduledTaskEntity scheduledTask = null;
+        if (StringUtils.isNotBlank(modifyQueue.getFromDay()) && StringUtils.isNotBlank(modifyQueue.getUntilDay())) {
+            String id = CommonUtil.generateHexFromObjectId();
+            bizService.setScheduleTaskId(modifyQueue.getCodeQR(), id);
+
+            scheduledTask = new ScheduledTaskEntity()
+                .setFrom(modifyQueue.getFromDay())
+                .setUntil(modifyQueue.getUntilDay())
+                .setScheduleTask(ScheduleTaskEnum.CLOSE);
+            scheduledTask.setId(id);
+            scheduledTaskManager.save(scheduledTask);
+        }
+
+        BizStoreEntity bizStore = bizService.findByCodeQR(modifyQueue.getCodeQR());
+        if (StringUtils.isNotBlank(bizStore.getScheduledTaskId())) {
+            scheduledTask = scheduledTaskManager.findOneById(bizStore.getScheduledTaskId());
+        }
+        return scheduledTask;
     }
 }
