@@ -393,7 +393,8 @@ public class ITest extends RealMongoForITest {
             businessUserManager,
             businessUserStoreManager,
             mailService,
-            userProfileManager
+            userProfileManager,
+            scheduledTaskManager
         );
 
         fileService = new FileService(
