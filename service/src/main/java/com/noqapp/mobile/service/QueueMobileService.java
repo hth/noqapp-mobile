@@ -19,6 +19,7 @@ import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.service.BizService;
+import com.noqapp.service.ExternalService;
 import com.noqapp.service.QueueService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -55,6 +56,7 @@ public class QueueMobileService {
     private QueueManagerJDBC queueManagerJDBC;
     private StoreHourManager storeHourManager;
     private QueueService queueService;
+    private ExternalService externalService;
 
     private ExecutorService executorService;
 
@@ -66,7 +68,8 @@ public class QueueMobileService {
         DeviceService deviceService,
         QueueManagerJDBC queueManagerJDBC,
         StoreHourManager storeHourManager,
-        QueueService queueService
+        QueueService queueService,
+        ExternalService externalService
     ) {
         this.queueManager = queueManager;
         this.tokenQueueMobileService = tokenQueueMobileService;
@@ -75,6 +78,7 @@ public class QueueMobileService {
         this.queueManagerJDBC = queueManagerJDBC;
         this.storeHourManager = storeHourManager;
         this.queueService = queueService;
+        this.externalService = externalService;
 
         this.executorService = newCachedThreadPool();
     }
@@ -369,8 +373,9 @@ public class QueueMobileService {
         int delayedInMinutes
     ) {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
-        DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
-        return storeHourManager.modifyOne(
+        TimeZone timeZone = TimeZone.getTimeZone(bizStore.getTimeZone());
+        DayOfWeek dayOfWeek = ZonedDateTime.now(timeZone.toZoneId()).getDayOfWeek();
+        StoreHourEntity storeHour = storeHourManager.modifyOne(
             bizStore.getId(),
             dayOfWeek,
             tokenAvailableFrom,
@@ -381,6 +386,11 @@ public class QueueMobileService {
             tempDayClosed,
             preventJoining,
             delayedInMinutes);
+
+        /* Since store hour is being changed for today. We need to update the next run time. */
+        ZonedDateTime queueHistoryNextRun = externalService.computeNextRunTimeAtUTC(timeZone, storeHour.storeClosingHourOfDay(), storeHour.storeClosingMinuteOfDay());
+        bizService.updateNextRun(bizStore, Date.from(queueHistoryNextRun.toInstant()));
+        return storeHour;
     }
 
     public JsonQueuePersonList findAllClient(String codeQR) {
