@@ -1,5 +1,6 @@
 package com.noqapp.mobile.service;
 
+import static com.noqapp.common.utils.DateUtil.Day.TODAY;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import com.noqapp.common.utils.DateUtil;
@@ -373,7 +374,7 @@ public class QueueMobileService {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
         TimeZone timeZone = TimeZone.getTimeZone(bizStore.getTimeZone());
         DayOfWeek dayOfWeek = ZonedDateTime.now(timeZone.toZoneId()).getDayOfWeek();
-        StoreHourEntity storeHour = storeHourManager.modifyOne(
+        StoreHourEntity today = storeHourManager.modifyOne(
             bizStore.getId(),
             dayOfWeek,
             tokenAvailableFrom,
@@ -386,9 +387,11 @@ public class QueueMobileService {
             delayedInMinutes);
 
         /* Since store hour is being changed for today. We need to update the next run time for today. */
-        ZonedDateTime queueHistoryNextRun = DateUtil.computeNextRunTimeAtUTC(timeZone, storeHour.storeClosingHourOfDay(), storeHour.storeClosingMinuteOfDay(), DateUtil.Day.TODAY);
+        int hourOfDay = today.storeClosingHourOfDay();
+        int minuteOfDay = today.storeClosingMinuteOfDay();
+        ZonedDateTime queueHistoryNextRun = DateUtil.computeNextRunTimeAtUTC(timeZone, hourOfDay, minuteOfDay, TODAY);
         bizService.updateNextRun(bizStore, Date.from(queueHistoryNextRun.toInstant()));
-        return storeHour;
+        return today;
     }
 
     public JsonQueuePersonList findAllClient(String codeQR) {
