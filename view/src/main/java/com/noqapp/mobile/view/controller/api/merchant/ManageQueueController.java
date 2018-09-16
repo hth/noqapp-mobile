@@ -537,17 +537,7 @@ public class ManageQueueController {
             }
 
             ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(modifyQueue);
-            StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(
-                    modifyQueue.getCodeQR(),
-                    modifyQueue.getTokenAvailableFrom(),
-                    modifyQueue.getStartHour(),
-                    modifyQueue.getTokenNotAvailableFrom(),
-                    modifyQueue.getEndHour(),
-                    modifyQueue.isDayClosed(),
-                    modifyQueue.isTempDayClosed(),
-                    modifyQueue.isPreventJoining(),
-                    modifyQueue.getDelayedInMinutes());
-
+            StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(modifyQueue);
             queueMobileService.updateBizStoreAvailableTokenCount(modifyQueue.getAvailableTokenCount(), modifyQueue.getCodeQR());
 
             /* Send email when store setting changes. */
