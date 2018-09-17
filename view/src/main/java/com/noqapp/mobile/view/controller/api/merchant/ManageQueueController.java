@@ -62,13 +62,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -458,6 +462,80 @@ public class ManageQueueController {
      * Modifies queue settings.
      */
     @PostMapping (
+        value = "/removeSchedule",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String removeSchedule(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestParam("codeQR")
+        ScrubbedInput codeQR,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Modify queue associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/mq/removeSchedule by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (StringUtils.isBlank(codeQR.getText())) {
+            LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
+            return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+        } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
+            LOG.info("Un-authorized store access to /api/m/mq/removeSchedule by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            BizStoreEntity bizStore = bizService.findByCodeQR(codeQR.getText());
+            if (StringUtils.isNotBlank(bizStore.getScheduledTaskId())) {
+                bizService.unsetScheduledTask(bizStore.getId());
+                ScheduledTaskEntity scheduledTask = scheduledTaskManager.findOneById(bizStore.getScheduledTaskId());
+                scheduledTaskManager.inActive(bizStore.getScheduledTaskId());
+
+                /* Send email when store setting changes. */
+                UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
+                bizService.sendMailWhenStoreSettingHasChanged(
+                    bizStore.getId(),
+                    "Removed Scheduled " + scheduledTask.getScheduleTask() + " from App, modified by " + userProfile.getEmail());
+            }
+
+            StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
+            return new JsonModifyQueue(codeQR.getText(), storeHour, bizStore.getAvailableTokenCount(), null).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/removeSchedule",
+                "removeSchedule",
+                ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /**
+     * Modifies queue settings.
+     */
+    @PostMapping (
             value = "/modify",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -537,17 +615,7 @@ public class ManageQueueController {
             }
 
             ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(modifyQueue);
-            StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(
-                    modifyQueue.getCodeQR(),
-                    modifyQueue.getTokenAvailableFrom(),
-                    modifyQueue.getStartHour(),
-                    modifyQueue.getTokenNotAvailableFrom(),
-                    modifyQueue.getEndHour(),
-                    modifyQueue.isDayClosed(),
-                    modifyQueue.isTempDayClosed(),
-                    modifyQueue.isPreventJoining(),
-                    modifyQueue.getDelayedInMinutes());
-
+            StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(modifyQueue);
             queueMobileService.updateBizStoreAvailableTokenCount(modifyQueue.getAvailableTokenCount(), modifyQueue.getCodeQR());
 
             /* Send email when store setting changes. */
@@ -555,11 +623,7 @@ public class ManageQueueController {
             bizService.sendMailWhenStoreSettingHasChanged(
                 storeHour.getBizStoreId(),
                 "Modified Store Detail from App, modified by " + userProfile.getEmail());
-            return new JsonModifyQueue(
-                    modifyQueue.getCodeQR(),
-                    storeHour,
-                    modifyQueue.getAvailableTokenCount(),
-                    scheduledTask).asJson();
+            return new JsonModifyQueue(modifyQueue.getCodeQR(), storeHour, modifyQueue.getAvailableTokenCount(), scheduledTask).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

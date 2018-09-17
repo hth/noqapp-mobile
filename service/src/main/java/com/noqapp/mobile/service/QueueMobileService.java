@@ -17,6 +17,7 @@ import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.mobile.domain.JsonModifyQueue;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
@@ -360,31 +361,21 @@ public class QueueMobileService {
         return storeHourManager.findOne(bizStore.getId(), dayOfWeek);
     }
 
-    public StoreHourEntity updateQueueStateForToday(
-        String codeQR,
-        int tokenAvailableFrom,
-        int startHour,
-        int tokenNotAvailableFrom,
-        int endHour,
-        boolean dayClosed,
-        boolean tempDayClosed,
-        boolean preventJoining,
-        int delayedInMinutes
-    ) {
-        BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
+    public StoreHourEntity updateQueueStateForToday(JsonModifyQueue modifyQueue) {
+        BizStoreEntity bizStore = bizService.findByCodeQR(modifyQueue.getCodeQR());
         TimeZone timeZone = TimeZone.getTimeZone(bizStore.getTimeZone());
         DayOfWeek dayOfWeek = ZonedDateTime.now(timeZone.toZoneId()).getDayOfWeek();
         StoreHourEntity today = storeHourManager.modifyOne(
             bizStore.getId(),
             dayOfWeek,
-            tokenAvailableFrom,
-            startHour,
-            tokenNotAvailableFrom,
-            endHour,
-            dayClosed,
-            tempDayClosed,
-            preventJoining,
-            delayedInMinutes);
+            modifyQueue.getTokenAvailableFrom(),
+            modifyQueue.getStartHour(),
+            modifyQueue.getTokenNotAvailableFrom(),
+            modifyQueue.getEndHour(),
+            modifyQueue.isDayClosed(),
+            modifyQueue.isTempDayClosed(),
+            modifyQueue.isPreventJoining(),
+            modifyQueue.getDelayedInMinutes());
 
         /* Since store hour is being changed for today. We need to update the next run time for today. */
         int hourOfDay = today.storeClosingHourOfDay();
