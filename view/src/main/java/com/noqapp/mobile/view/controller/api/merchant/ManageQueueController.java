@@ -28,6 +28,7 @@ import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.ScheduleTaskEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
+import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
@@ -463,7 +464,7 @@ public class ManageQueueController {
      * Modifies queue settings.
      */
     @PostMapping (
-        value = "/removeSchedule",
+        value = "/removeSchedule/${codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String removeSchedule(
@@ -479,14 +480,14 @@ public class ManageQueueController {
         @RequestHeader ("X-R-AUTH")
         ScrubbedInput auth,
 
-        @RequestParam("codeQR")
+        @PathVariable("codeQR")
         ScrubbedInput codeQR,
 
         HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Modify queue associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        LOG.info("Remove schedule from queue associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/m/mq/removeSchedule by mail={}", mail);
@@ -497,7 +498,7 @@ public class ManageQueueController {
         if (StringUtils.isBlank(codeQR.getText())) {
             LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-        } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
+        } else if (!businessUserStoreService.hasAccessWithUserLevel(qid, codeQR.getText(), UserLevelEnum.S_MANAGER)) {
             LOG.info("Un-authorized store access to /api/m/mq/removeSchedule by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
@@ -520,12 +521,12 @@ public class ManageQueueController {
             StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
             return new JsonModifyQueue(codeQR.getText(), storeHour, bizStore.getAvailableTokenCount(), null).asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed removing schedule from queues reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/removeSchedule",
+                "/removeSchedule/{codeQR}",
                 "removeSchedule",
                 ManageQueueController.class.getName(),
                 Duration.between(start, Instant.now()),
