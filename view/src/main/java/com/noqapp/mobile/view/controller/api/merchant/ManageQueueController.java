@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.common.utils.DateUtil.Day.TODAY;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_ACTION_NOT_PERMITTED;
@@ -580,7 +581,10 @@ public class ManageQueueController {
 
         BizStoreEntity bizStore = bizService.findByCodeQR(modifyQueue.getCodeQR());
         if (StringUtils.isNotBlank(bizStore.getScheduledTaskId())) {
-            return getErrorReason("Cannot modify as there is a schedule set. Delete set schedule to modify.", MOBILE_ACTION_NOT_PERMITTED);
+            ScheduledTaskEntity scheduledTask = scheduledTaskManager.findOneById(bizStore.getScheduledTaskId());
+            if (DateUtil.isThisDayBetween(DateUtil.convertToDate(scheduledTask.getFrom()), DateUtil.convertToDate(scheduledTask.getUntil()), TODAY)) {
+                return getErrorReason("Cannot modify as schedule is active. Delete set schedule to modify.", MOBILE_ACTION_NOT_PERMITTED);
+            }
         }
 
         if (StringUtils.isNotBlank(modifyQueue.getFromDay()) || StringUtils.isNotBlank(modifyQueue.getUntilDay())) {
