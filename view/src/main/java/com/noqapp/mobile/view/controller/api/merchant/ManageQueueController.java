@@ -464,7 +464,7 @@ public class ManageQueueController {
      * Modifies queue settings.
      */
     @PostMapping (
-        value = "/removeSchedule/${codeQR}",
+        value = "/removeSchedule/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String removeSchedule(
