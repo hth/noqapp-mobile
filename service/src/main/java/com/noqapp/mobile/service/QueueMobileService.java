@@ -399,6 +399,7 @@ public class QueueMobileService {
 
     @Async
     public void updateBizStoreAvailableTokenCount(int availableTokenCount, String codeQR) {
+        LOG.debug("Changed count {} for codeQR={}", availableTokenCount, codeQR);
         bizService.updateBizStoreAvailableTokenCount(availableTokenCount, codeQR);
     }
 }
