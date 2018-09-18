@@ -70,8 +70,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -578,14 +582,18 @@ public class ManageQueueController {
         BizStoreEntity bizStore = bizService.findByCodeQR(modifyQueue.getCodeQR());
         if (StringUtils.isNotBlank(bizStore.getScheduledTaskId())) {
             ScheduledTaskEntity scheduledTask = scheduledTaskManager.findOneById(bizStore.getScheduledTaskId());
-            if (DateUtil.isThisDayBetween(DateUtil.convertToDate(scheduledTask.getFrom()), DateUtil.convertToDate(scheduledTask.getUntil()), TODAY)) {
+            Date from = DateUtil.convertToDate(scheduledTask.getFrom(), TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId());
+            Date until = DateUtil.convertToDate(scheduledTask.getUntil(), TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId());
+            if (DateUtil.isThisDayBetween(from, until, TODAY, TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId())) {
                 return getErrorReason("Cannot modify as schedule is active. Delete set schedule to modify.", MOBILE_ACTION_NOT_PERMITTED);
             }
         }
 
         if (StringUtils.isNotBlank(modifyQueue.getFromDay()) || StringUtils.isNotBlank(modifyQueue.getUntilDay())) {
             if (StringUtils.isNotBlank(modifyQueue.getFromDay()) && StringUtils.isNotBlank(modifyQueue.getUntilDay())) {
-                if (DateUtil.convertToDate(modifyQueue.getFromDay()).after(DateUtil.convertToDate(modifyQueue.getUntilDay()))) {
+                Date from = DateUtil.convertToDate(modifyQueue.getFromDay(), TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId());
+                Date until = DateUtil.convertToDate(modifyQueue.getUntilDay(), TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId());
+                if (from.after(until)) {
                     return getErrorReason("From Day has to before Until Day", MOBILE_JSON);
                 }
             } else {
