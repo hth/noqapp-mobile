@@ -80,9 +80,7 @@ public class AccountClientValidator {
         if (StringUtils.isNotBlank(mail)) {
             mailValidation(mail, errors);
         }
-        if (StringUtils.isNotBlank(birthday)) {
-            birthdayValidation(birthday, errors);
-        }
+        birthdayValidation(birthday, errors);
         genderValidation(gender, errors);
         countryShortNameValidation(countryShortName, errors);
         timeZoneValidation(timeZone, errors);
@@ -188,7 +186,7 @@ public class AccountClientValidator {
     }
 
     void birthdayValidation(String birthday, Map<String, String> errors) {
-        if (StringUtils.isNotBlank(birthday) && !DateUtil.DOB_PATTERN.matcher(birthday).matches()) {
+        if (StringUtils.isBlank(birthday) || !DateUtil.DOB_PATTERN.matcher(birthday).matches()) {
             LOG.info("failed validation birthday={}", birthday);
             errors.put(ErrorEncounteredJson.REASON, "Date of birth validation failed.");
             errors.put(AccountMobileService.ACCOUNT_REGISTRATION.BD.name(), StringUtils.isBlank(birthday) ? EMPTY : birthday);
