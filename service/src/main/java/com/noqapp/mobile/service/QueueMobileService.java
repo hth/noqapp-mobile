@@ -389,13 +389,17 @@ public class QueueMobileService {
             modifyQueue.isTempDayClosed(),
             modifyQueue.isPreventJoining(),
             modifyQueue.getDelayedInMinutes());
+        updateNextRun(bizStore, today);
+        return today;
+    }
 
+    public void updateNextRun(BizStoreEntity bizStore, StoreHourEntity today) {
+        TimeZone timeZone = TimeZone.getTimeZone(bizStore.getTimeZone());
         /* Since store hour is being changed for today. We need to update the next run time for today. */
         int hourOfDay = today.storeClosingHourOfDay();
         int minuteOfDay = today.storeClosingMinuteOfDay();
         ZonedDateTime queueHistoryNextRun = DateUtil.computeNextRunTimeAtUTC(timeZone, hourOfDay, minuteOfDay, TODAY);
         bizService.updateNextRun(bizStore, Date.from(queueHistoryNextRun.toInstant()));
-        return today;
     }
 
     public JsonQueuePersonList findAllClient(String codeQR) {
