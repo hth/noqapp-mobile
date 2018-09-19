@@ -518,7 +518,7 @@ public class ManageQueueController {
                 if (now.after(lastPlannedRun)) {
                     StoreHourEntity storeHour = queueMobileService.getQueueStateForTomorrow(codeQR.getText());
                     queueMobileService.resetTemporarySettingsOnStoreHour(storeHour.getId());
-                } else if (now.before(lastPlannedRun) && now.after(DateUtil.convertToDateTime(scheduledTask.getFrom(), bizStore.getTimeZone()))) {
+                } else if (now.before(lastPlannedRun) && now.after(DateUtil.convertToDate(scheduledTask.getFrom(), bizStore.getTimeZone()))) {
                     StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
                     queueMobileService.resetTemporarySettingsOnStoreHour(storeHour.getId());
                 }
