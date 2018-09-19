@@ -70,8 +70,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -586,6 +584,9 @@ public class ManageQueueController {
             Date until = DateUtil.convertToDate(scheduledTask.getUntil(), TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId());
             if (DateUtil.isThisDayBetween(from, until, TODAY, TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId())) {
                 return getErrorReason("Cannot modify as schedule is active. Delete set schedule to modify.", MOBILE_ACTION_NOT_PERMITTED);
+            } else {
+                LOG.info("Today={} or {} is not between From={} Until={}",
+                        new Date(), DateUtil.convertToDate("2018-09-19", TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()), from, until);
             }
         }
 
