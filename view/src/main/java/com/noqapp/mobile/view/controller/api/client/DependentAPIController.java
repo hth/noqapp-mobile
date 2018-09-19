@@ -7,6 +7,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSO
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_MAX_DEPENDENT;
 import static com.noqapp.mobile.view.controller.open.AccountClientController.invalidElementsInMapDuringRegistration;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -47,6 +48,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -194,6 +196,10 @@ public class DependentAPIController {
 
                     if (!errors.isEmpty()) {
                         return ErrorEncounteredJson.toJson(errors);
+                    }
+
+                    if (accountService.reachedMaxDependents(qid)) {
+                        return ErrorEncounteredJson.toJson("Cannot add more dependents", USER_MAX_DEPENDENT);
                     }
 
                     LOG.debug("Check by phone={}", phone);
