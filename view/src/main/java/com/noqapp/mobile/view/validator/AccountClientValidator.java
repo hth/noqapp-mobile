@@ -26,7 +26,7 @@ import java.util.Map;
 @Component
 public class AccountClientValidator {
     private static final Logger LOG = LoggerFactory.getLogger(AccountClientValidator.class);
-    public static final String EMPTY = "Empty";
+    private static final String EMPTY = "Empty";
 
     private int nameLength;
     private int mailLength;
@@ -36,23 +36,23 @@ public class AccountClientValidator {
     private int mailOTPLength;
 
     public AccountClientValidator(
-            @Value("${AccountValidator.nameLength}")
-            int nameLength,
+        @Value("${AccountValidator.nameLength}")
+        int nameLength,
 
-            @Value ("${AccountValidator.mailLength}")
-            int mailLength,
+        @Value("${AccountValidator.mailLength}")
+        int mailLength,
 
-            @Value ("${AccountValidator.genderLength}")
-            int genderLength,
+        @Value("${AccountValidator.genderLength}")
+        int genderLength,
 
-            @Value ("${AccountValidator.countryShortNameLength}")
-            int countryShortNameLength,
+        @Value("${AccountValidator.countryShortNameLength}")
+        int countryShortNameLength,
 
-            @Value ("${AccountValidator.passwordLength}")
-            int passwordLength,
+        @Value("${AccountValidator.passwordLength}")
+        int passwordLength,
 
-            @Value("${AccountValidator.mailOTPLength}")
-            int mailOTPLength
+        @Value("${AccountValidator.mailOTPLength}")
+        int mailOTPLength
     ) {
         this.nameLength = nameLength;
         this.mailLength = mailLength;
@@ -63,13 +63,13 @@ public class AccountClientValidator {
     }
 
     public Map<String, String> validate(
-            String phone,
-            String firstName,
-            String mail,
-            String birthday,
-            String gender,
-            String countryShortName,
-            String timeZone
+        String phone,
+        String firstName,
+        String mail,
+        String birthday,
+        String gender,
+        String countryShortName,
+        String timeZone
     ) {
         LOG.debug("Validating client information phone={} cs={}", phone, countryShortName);
 
@@ -89,14 +89,14 @@ public class AccountClientValidator {
     }
 
     public Map<String, String> validateWithPassword(
-            String phone,
-            String firstName,
-            String mail,
-            String birthday,
-            String gender,
-            String countryShortName,
-            String timeZone,
-            String password
+        String phone,
+        String firstName,
+        String mail,
+        String birthday,
+        String gender,
+        String countryShortName,
+        String timeZone,
+        String password
     ) {
         LOG.debug("Validating client information phone={} cs={}", phone, countryShortName);
 
@@ -107,8 +107,8 @@ public class AccountClientValidator {
 
     /* Validation of migration of phone in account. */
     public Map<String, String> validateForPhoneMigration(
-            String phone,
-            String countryShortName
+        String phone,
+        String countryShortName
     ) {
         LOG.info("Validating client information phone={} cs={}", phone, countryShortName);
 
@@ -145,7 +145,7 @@ public class AccountClientValidator {
      * @param phone
      * @param errors
      */
-    void phoneValidation(String phone, Map<String, String> errors) {
+    private void phoneValidation(String phone, Map<String, String> errors) {
         if (StringUtils.isBlank(phone)) {
             LOG.info("failed validation phone={}", phone);
             errors.put(ErrorEncounteredJson.REASON, "Phone validation failed.");
@@ -155,7 +155,7 @@ public class AccountClientValidator {
         }
     }
 
-    void firstNameValidation(String firstName, Map<String, String> errors) {
+    private void firstNameValidation(String firstName, Map<String, String> errors) {
         if (StringUtils.isBlank(firstName) || firstName.length() < nameLength) {
             LOG.info("failed validation firstName={}", firstName);
             errors.put(ErrorEncounteredJson.REASON, "Name validation failed. Minimum length '" + nameLength + "' characters");
@@ -165,7 +165,7 @@ public class AccountClientValidator {
         }
     }
 
-    void mailValidation(String mail, Map<String, String> errors) {
+    private void mailValidation(String mail, Map<String, String> errors) {
         if (StringUtils.isBlank(mail) || mail.length() < mailLength) {
             LOG.info("failed validation mail={}", mail);
             errors.put(ErrorEncounteredJson.REASON, "Mail validation failed. Minimum length '" + mailLength + "' characters");
@@ -175,7 +175,7 @@ public class AccountClientValidator {
         }
     }
 
-    void mailOTPValidation(String mailOTP, Map<String, String> errors) {
+    private void mailOTPValidation(String mailOTP, Map<String, String> errors) {
         if (StringUtils.isBlank(mailOTP) || mailOTP.length() != mailOTPLength) {
             LOG.info("failed validation mail={}", mailOTP);
             errors.put(ErrorEncounteredJson.REASON, "Mail OTP validation failed. Minimum length '" + mailOTPLength + "' characters");
@@ -185,7 +185,7 @@ public class AccountClientValidator {
         }
     }
 
-    void birthdayValidation(String birthday, Map<String, String> errors) {
+    private void birthdayValidation(String birthday, Map<String, String> errors) {
         if (StringUtils.isBlank(birthday) || !DateUtil.DOB_PATTERN.matcher(birthday).matches()) {
             LOG.info("failed validation birthday={}", birthday);
             errors.put(ErrorEncounteredJson.REASON, "Date of birth validation failed.");
@@ -195,7 +195,7 @@ public class AccountClientValidator {
         }
     }
 
-    void genderValidation(String gender, Map<String, String> errors) {
+    private void genderValidation(String gender, Map<String, String> errors) {
         try {
             if (StringUtils.isBlank(gender) || gender.length() != genderLength) {
                 LOG.info("failed validation gender={}", gender);
@@ -215,7 +215,7 @@ public class AccountClientValidator {
         }
     }
 
-    void countryShortNameValidation(String countryShortName, Map<String, String> errors) {
+    private void countryShortNameValidation(String countryShortName, Map<String, String> errors) {
         if (StringUtils.isBlank(countryShortName) || countryShortName.length() != countryShortNameLength) {
             LOG.info("failed validation countryShortName={}", countryShortName);
             errors.put(ErrorEncounteredJson.REASON, "Country name validation failed.");
@@ -225,7 +225,7 @@ public class AccountClientValidator {
         }
     }
 
-    void timeZoneValidation(String timeZone, Map<String, String> errors) {
+    private void timeZoneValidation(String timeZone, Map<String, String> errors) {
         if (StringUtils.isBlank(timeZone)) {
             LOG.info("failed validation timeZone={}", timeZone);
             errors.put(ErrorEncounteredJson.REASON, "Timezone validation failed.");
@@ -235,7 +235,7 @@ public class AccountClientValidator {
         }
     }
 
-    void passwordValidation(String mail, String password, Map<String, String> errors) {
+    private void passwordValidation(String mail, String password, Map<String, String> errors) {
         if (StringUtils.isNotBlank(mail)) {
             if (StringUtils.isBlank(password) || password.length() < passwordLength) {
                 LOG.info("failed validation password={}", AUTH_KEY_HIDDEN);
