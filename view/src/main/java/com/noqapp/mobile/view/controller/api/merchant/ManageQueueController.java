@@ -509,21 +509,23 @@ public class ManageQueueController {
         try {
             BizStoreEntity bizStore = bizService.findByCodeQR(codeQR.getText());
             if (StringUtils.isNotBlank(bizStore.getScheduledTaskId())) {
-                bizService.unsetScheduledTask(bizStore.getId());
                 ScheduledTaskEntity scheduledTask = scheduledTaskManager.findOneById(bizStore.getScheduledTaskId());
-                scheduledTaskManager.inActive(bizStore.getScheduledTaskId());
-
                 Date lastPlannedRun = bizStore.getQueueHistory();
                 Date now = DateUtil.dateAtTimeZone(bizStore.getTimeZone());
+                /* This condition is when schedule is active. */
                 if (now.before(lastPlannedRun) && now.after(DateUtil.convertToDate(scheduledTask.getFrom(), bizStore.getTimeZone()))) {
                     LOG.info("lastPlannedRun={} now={} after={}", lastPlannedRun, now, DateUtil.convertToDate(scheduledTask.getFrom(), bizStore.getTimeZone()));
                     StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
                     queueMobileService.resetTemporarySettingsOnStoreHour(storeHour.getId());
                 } else {
+                    /* Otherwise, work on resetting tomorrow's store schedule and reset today's run. */
                     LOG.info("lastPlannedRun={} now={}", lastPlannedRun, now);
                     StoreHourEntity storeHour = queueMobileService.getQueueStateForTomorrow(codeQR.getText());
                     queueMobileService.resetTemporarySettingsOnStoreHour(storeHour.getId());
+                    queueMobileService.updateNextRun(bizStore, storeHour);
                 }
+                bizService.unsetScheduledTask(bizStore.getId());
+                scheduledTaskManager.inActive(bizStore.getScheduledTaskId());
 
                 /* Send email when store setting changes. */
                 UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
@@ -600,8 +602,7 @@ public class ManageQueueController {
                 return getErrorReason("Cannot modify as schedule is active. Delete set schedule to modify.", MOBILE_ACTION_NOT_PERMITTED);
             } else {
                 ZonedDateTime zonedDateTime = ZonedDateTime.of(LocalDateTime.now(), TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId());
-                LOG.info("Today={} or {} is not between From={} Until={}",
-                        new Date(), Date.from(zonedDateTime.toInstant()), from, until);
+                LOG.info("Today={} or {} is not between From={} Until={}", new Date(), Date.from(zonedDateTime.toInstant()), from, until);
             }
         }
 
