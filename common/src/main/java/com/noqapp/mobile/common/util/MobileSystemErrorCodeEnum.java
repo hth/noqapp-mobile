@@ -30,6 +30,7 @@ public enum MobileSystemErrorCodeEnum {
     USER_NOT_FOUND("4012", ALERT),
     USER_SOCIAL("4016", ALERT),
     MAIL_OTP_FAILED("4020", ERROR),
+    USER_MAX_DEPENDENT("4050", ALERT),
 
     /** Medical. */
     MEDICAL_RECORD_ENTRY_DENIED("4101", ERROR),
