@@ -71,6 +71,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.HashMap;
@@ -512,11 +513,20 @@ public class ManageQueueController {
                 ScheduledTaskEntity scheduledTask = scheduledTaskManager.findOneById(bizStore.getScheduledTaskId());
                 scheduledTaskManager.inActive(bizStore.getScheduledTaskId());
 
+                Date lastPlannedRun = bizStore.getQueueHistory();
+                Date now = DateUtil.dateAtTimeZone(bizStore.getTimeZone());
+                if (now.after(lastPlannedRun)) {
+                    StoreHourEntity storeHour = queueMobileService.getQueueStateForTomorrow(codeQR.getText());
+                    queueMobileService.resetTemporarySettingsOnStoreHour(storeHour.getId());
+                } else if (now.before(lastPlannedRun) && now.after(DateUtil.convertToDateTime(scheduledTask.getFrom(), bizStore.getTimeZone()))) {
+                    StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
+                    queueMobileService.resetTemporarySettingsOnStoreHour(storeHour.getId());
+                }
+
                 /* Send email when store setting changes. */
                 UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
-                bizService.sendMailWhenStoreSettingHasChanged(
-                    bizStore.getId(),
-                    "Removed Scheduled " + scheduledTask.getScheduleTask() + " from App, modified by " + userProfile.getEmail());
+                String changeInitiateReason = "Removed Scheduled " + scheduledTask.getScheduleTask() + " from App, modified by " + userProfile.getEmail();
+                bizService.sendMailWhenStoreSettingHasChanged(bizStore.getId(), changeInitiateReason);
             }
 
             StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());

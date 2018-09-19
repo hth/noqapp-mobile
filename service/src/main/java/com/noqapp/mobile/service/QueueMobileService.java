@@ -3,6 +3,7 @@ package com.noqapp.mobile.service;
 import static com.noqapp.common.utils.DateUtil.Day.TODAY;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.Validate;
 import com.noqapp.domain.BizStoreEntity;
@@ -35,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.time.DayOfWeek;
 import java.time.ZonedDateTime;
@@ -359,6 +361,17 @@ public class QueueMobileService {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
         DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
         return storeHourManager.findOne(bizStore.getId(), dayOfWeek);
+    }
+
+    public StoreHourEntity getQueueStateForTomorrow(String codeQR) {
+        BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
+        DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
+        return storeHourManager.findOne(bizStore.getId(), CommonUtil.getNextDayOfWeek(dayOfWeek));
+    }
+
+    public void resetTemporarySettingsOnStoreHour(String id) {
+        Assert.hasText(id, "Should not be empty");
+        storeHourManager.resetTemporarySettingsOnStoreHour(id);
     }
 
     public StoreHourEntity updateQueueStateForToday(JsonModifyQueue modifyQueue) {
