@@ -956,8 +956,6 @@ public class ManageQueueController {
             return tokenQueueMobileService.joinQueue(
                     codeQR.getText(),
                     CommonUtil.appendRandomToDeviceId(did.getText()),
-                    null,
-                    null,
                     bizStore.getAverageServiceTime(),
                     TokenServiceEnum.M).asJson();
         } catch (Exception e) {

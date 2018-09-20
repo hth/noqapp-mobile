@@ -6,7 +6,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -55,6 +58,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -80,40 +84,25 @@ class ManageQueueControllerTest {
     @Mock private QueueService queueService;
     @Mock private QueueMobileService queueMobileService;
     @Mock private TokenQueueService tokenQueueService;
-    @Mock private TokenQueueManager tokenQueueManager;
     @Mock private BusinessUserStoreService businessUserStoreService;
     @Mock private ApiHealthService apiHealthService;
     @Mock private BizService bizService;
-    @Mock private QueueManager queueManager;
-    @Mock private ProfessionalProfileService professionalProfileService;
-    @Mock private UserProfileManager userProfileManager;
-    @Mock private BusinessUserStoreManager businessUserStoreManager;
     @Mock private AccountService accountService;
     @Mock private BusinessCustomerService businessCustomerService;
     @Mock private ScheduledTaskManager scheduledTaskManager;
+    @Mock private TokenQueueMobileService tokenQueueMobileService;
 
     @Mock private HttpServletResponse response;
-    private TokenQueueEntity tokenQueue;
 
     private ManageQueueController manageQueueController;
-    private TokenQueueMobileService tokenQueueMobileService;
+    private TokenQueueEntity tokenQueue;
     private ObjectMapper mapper;
     private JsonTopicList jsonTopicList;
     private List<JsonTopic> topics;
 
-
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         MockitoAnnotations.initMocks(this);
-        tokenQueueMobileService = new TokenQueueMobileService(
-                tokenQueueService,
-                bizService,
-                tokenQueueManager,
-                queueManager,
-                professionalProfileService,
-                userProfileManager,
-                businessUserStoreManager);
-
         manageQueueController = new ManageQueueController(
                 20,
                 authenticateMobileService,
@@ -134,6 +123,7 @@ class ManageQueueControllerTest {
         tokenQueue.setLastNumber(10);
         tokenQueue.setCurrentlyServing(5);
         tokenQueue.setId("codeQR");
+        tokenQueue.setBusinessType(BusinessTypeEnum.DO);
 
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
@@ -445,16 +435,17 @@ class ManageQueueControllerTest {
         assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.SEVERE.name());
     }
 
-    @Disabled
-    @DisplayName("Dispense Token does not work. Some mockito issue.")
+    @Test
+    @DisplayName("Dispense Token does not work")
     void dispenseToken() throws Exception {
         tokenQueue.setQueueStatus(QueueStatusEnum.N);
         JsonToken jsonToken = new JsonToken(tokenQueue);
         jsonToken.setToken(11);
 
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
+        when(tokenQueueMobileService.getBizService()).thenReturn(bizService);
         when(tokenQueueMobileService.getBizService().findByCodeQR(anyString())).thenReturn(new BizStoreEntity().setAverageServiceTime(100));
-        when(tokenQueueMobileService.joinQueue(anyString(), anyString(), anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(jsonToken);
+        when(tokenQueueMobileService.joinQueue(anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(jsonToken);
 
         String responseJson = manageQueueController.dispenseTokenWithoutClientInfo(
                 new ScrubbedInput(""),
@@ -464,9 +455,9 @@ class ManageQueueControllerTest {
                 new ScrubbedInput(""),
                 response);
 
-//        verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
-//        verify(tokenQueueMobileService.getBizService(), times(1)).findByCodeQR(any(String.class));
-//        verify(tokenQueueMobileService, times(1)).joinQueue(anyString(), anyString(), anyString(), anyLong());
+        verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
+        verify(tokenQueueMobileService.getBizService(), times(1)).findByCodeQR(any(String.class));
+        verify(tokenQueueMobileService, times(1)).joinQueue(anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class));
 
         JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
         assertEquals(11, jo.get("t").getAsInt());
