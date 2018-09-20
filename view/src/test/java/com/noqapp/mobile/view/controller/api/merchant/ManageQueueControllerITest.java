@@ -601,7 +601,7 @@ class ManageQueueControllerITest extends ITest {
         resetQueueAsOpen(bizStore, queueUserAccount);
     }
 
-    @Disabled
+    @Test
     @DisplayName("Dispense token fails when queue is closed")
     void dispenseTokenFailWhenStoreIsClosedOrPreventJoin() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
@@ -652,7 +652,7 @@ class ManageQueueControllerITest extends ITest {
         );
         JsonTopicList jsonTopic = new ObjectMapper().readValue(topics, JsonTopicList.class);
         assertEquals(1, jsonTopic.getTopics().size());
-        assertEquals("Food", jsonTopic.getTopics().iterator().next().getDisplayName());
+        assertEquals("Dr Aaj Kal", jsonTopic.getTopics().iterator().next().getDisplayName());
         assertEquals(BusinessTypeEnum.DO, jsonTopic.getTopics().iterator().next().getBusinessType());
         assertEquals(QueueStatusEnum.S, jsonTopic.getTopics().iterator().next().getQueueStatus());
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
