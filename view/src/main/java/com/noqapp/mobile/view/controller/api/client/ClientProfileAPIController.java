@@ -454,19 +454,14 @@ public class ClientProfileAPIController {
                 UserAccountEntity userAccount;
                 try {
                     userProfile = accountMobileService.findProfileByQueueUserId(qid);
-                    if(userProfile.getMailOTP().equals(mailOTP)) {
+                    if (userProfile.getMailOTP().equals(mailOTP)) {
                         userAccount = accountMobileService.changeUIDWithMailOTP(userProfile.getEmail(), mailMigrate);
                         accountMobileService.unsetMailOTP(userProfile.getId());
 
                         response.addHeader("X-R-MAIL", userAccount.getUserId());
                         response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKeyEncoded());
                     } else {
-                        errors = new HashMap<>();
-                        errors.put(ErrorEncounteredJson.REASON, "User already exists. Cannot continue migration.");
-                        errors.put(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name(), mailMigrate);
-                        errors.put(ErrorEncounteredJson.SYSTEM_ERROR, MAIL_OTP_FAILED.name());
-                        errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, MAIL_OTP_FAILED.getCode());
-                        return ErrorEncounteredJson.toJson(errors);
+                        return ErrorEncounteredJson.toJson("Entered Mail OTP is incorrect", MAIL_OTP_FAILED);
                     }
                 } catch (Exception e) {
                     LOG.error("Failed migration for user={} reason={}", mail, e.getLocalizedMessage(), e);
