@@ -57,7 +57,7 @@
 		</p>
 		<p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
 			Remote Join: ${remoteJoin}<br/>
-			Allowed Logged In User: ${allowLoggedInUser}<br/>
+			Allow only registered user: ${allowLoggedInUser}<br/>
 			Available Token: ${availableTokenCount}<br/>
 			Additional Note or Famous For: ${famousFor}<br/>
 			<#if closedForToday??>
