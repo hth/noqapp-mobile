@@ -156,9 +156,7 @@ public class DeviceController {
         try {
             DeviceTypeEnum deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
             AppFlavorEnum appFlavorEnum = AppFlavorEnum.valueOf(appFlavor.getText());
-            LOG.info("Check if API version is supported for {} versionRelease={}",
-                deviceTypeEnum.getDescription(),
-                versionRelease);
+            LOG.info("Check if API version is supported for {} versionRelease={}", deviceTypeEnum.getDescription(), versionRelease);
 
             try {
                 LowestSupportedAppEnum lowestSupportedApp = LowestSupportedAppEnum.findBasedOnDeviceType(deviceTypeEnum, appFlavorEnum);
