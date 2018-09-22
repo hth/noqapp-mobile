@@ -144,8 +144,8 @@ public class BusinessCustomerController {
             BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, json.getCodeQR());
             BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(json.getQueueUserId(), businessUserStore.getBizNameId());
             if (null != businessCustomer) {
-                LOG.info("Found existing business customer qid={} codeQR={} businessQid={} bizNameId={}",
-                    qid, json.getCodeQR(), json.getQueueUserId(), businessUserStore.getBizNameId());
+                LOG.info("Found existing business customer qid={} codeQR={} businessQid={} bizNameId={} businessCustomerId={}",
+                    qid, json.getCodeQR(), json.getQueueUserId(), businessUserStore.getBizNameId(), businessCustomer.getBusinessCustomerId());
                 return getErrorReason("Business customer id already exists", BUSINESS_CUSTOMER_ID_EXISTS);
             }
 
