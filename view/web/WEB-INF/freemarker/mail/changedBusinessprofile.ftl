@@ -57,7 +57,7 @@
 		</p>
 		<p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
 			<#if isClosed??>
-				<strong>Business closed: ${isClosed}</strong><br/>
+            <strong>Business closed: ${isClosed}</strong><br/>
             </#if>
 		</p>
 		<p style="font-family: 'Roboto', sans-serif;">
