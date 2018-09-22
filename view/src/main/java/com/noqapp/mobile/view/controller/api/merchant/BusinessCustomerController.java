@@ -124,42 +124,38 @@ public class BusinessCustomerController {
         }
 
         try {
-            JsonBusinessCustomer jsonBusinessCustomer = new ObjectMapper().readValue(
-                    requestBodyJson,
-                    JsonBusinessCustomer.class);
-
-            if (StringUtils.isBlank(jsonBusinessCustomer.getCodeQR())) {
-                LOG.warn("Not a valid codeQR={} qid={}", jsonBusinessCustomer.getCodeQR(), qid);
+            JsonBusinessCustomer json = new ObjectMapper().readValue(requestBodyJson, JsonBusinessCustomer.class);
+            if (StringUtils.isBlank(json.getCodeQR())) {
+                LOG.warn("Not a valid codeQR={} qid={}", json.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(qid, jsonBusinessCustomer.getCodeQR())) {
+            } else if (!businessUserStoreService.hasAccess(qid, json.getCodeQR())) {
                 LOG.info("Un-authorized store access to /api/m/bc/addId by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
 
             try {
-                Assert.isTrue(Validate.isValidQid(jsonBusinessCustomer.getQueueUserId()), "Queue user id not valid");
+                Assert.isTrue(Validate.isValidQid(json.getQueueUserId()), "Queue user id not valid");
             } catch (Exception e) {
                 LOG.error("Failed as qid is null reason={}", e.getLocalizedMessage(), e);
                 return getErrorReason("Not a valid queue status.", MOBILE_JSON);
             }
 
-            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, jsonBusinessCustomer.getCodeQR());
-            BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(
-                    jsonBusinessCustomer.getQueueUserId(),
-                    businessUserStore.getBizNameId());
+            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, json.getCodeQR());
+            BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(json.getQueueUserId(), businessUserStore.getBizNameId());
             if (null != businessCustomer) {
-                LOG.info("qid={} codeQR={} businessQid={} bizNameId={}", qid, jsonBusinessCustomer.getCodeQR(), jsonBusinessCustomer.getQueueUserId(), businessUserStore);
+                LOG.info("Found existing business customer qid={} codeQR={} businessQid={} bizNameId={}",
+                    qid, json.getCodeQR(), json.getQueueUserId(), businessUserStore.getBizNameId());
                 return getErrorReason("Business customer id already exists", BUSINESS_CUSTOMER_ID_EXISTS);
             }
 
-            UserProfileEntity userProfile = accountService.findProfileByQueueUserId(jsonBusinessCustomer.getQueueUserId());
+            UserProfileEntity userProfile = accountService.findProfileByQueueUserId(json.getQueueUserId());
             if (null == userProfile) {
                 /* Likely hood of reach here is zero, but if you do reach, then do investigate. */
 
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
-                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), jsonBusinessCustomer.getCustomerPhone());
+                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), json.getCustomerPhone());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
                 return ErrorEncounteredJson.toJson(errors);
@@ -167,13 +163,11 @@ public class BusinessCustomerController {
 
             businessCustomerService.addBusinessCustomer(
                     userProfile.getQueueUserId(),
-                    jsonBusinessCustomer.getCodeQR(),
+                    json.getCodeQR(),
                     businessUserStore.getBizNameId(),
-                    jsonBusinessCustomer.getBusinessCustomerId());
-            LOG.info("Added business customer number to qid={} businessCustomerId={}",
-                    userProfile.getQueueUserId(), jsonBusinessCustomer.getBusinessCustomerId());
-
-            return queueService.findThisPersonInQueue(userProfile.getQueueUserId(), jsonBusinessCustomer.getCodeQR());
+                    json.getBusinessCustomerId());
+            LOG.info("Added business customer number to qid={} businessCustomerId={}", userProfile.getQueueUserId(), json.getBusinessCustomerId());
+            return queueService.findThisPersonInQueue(userProfile.getQueueUserId(), json.getCodeQR());
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} reason={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
