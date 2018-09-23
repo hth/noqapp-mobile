@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.concurrent.ExecutorService;
 
@@ -44,7 +45,14 @@ public class DeviceService {
     }
 
     public void registerDevice(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token, String model, String osVersion) {
-        executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token, model, osVersion));
+        try {
+            Assert.hasLength(did, "DID cannot be blank");
+            Assert.hasLength(token, "FCM Token cannot be blank");
+            executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token, model, osVersion));
+        } catch (Exception e) {
+            LOG.error("Failed registration as cannot find did={} toke={} reason={}", did, token, e.getLocalizedMessage(), e);
+            //TODO add throw exception
+        }
     }
 
     /**
@@ -68,8 +76,7 @@ public class DeviceService {
                     registeredDeviceManager.save(registeredDevice);
                     LOG.info("registered device for did={}", did);
                 } catch (DuplicateKeyException duplicateKeyException) {
-                    LOG.warn("Already registered device exists, update existing with new details deviceType={} did={} qid={}",
-                            deviceType, did, qid);
+                    LOG.warn("Its registered device, update existing with new details deviceType={} did={} qid={}", deviceType, did, qid);
                     
                     /* Reset update date with create date to fetch all the possible historical data. */
                     boolean updateStatus = registeredDeviceManager.resetRegisteredDeviceWithNewDetails(
