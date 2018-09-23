@@ -163,7 +163,14 @@ public class QueueMobileService {
         }
     }
 
-    public JsonTokenAndQueueList findHistoricalQueue(String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token, String model, String osVersion) {
+    public JsonTokenAndQueueList findHistoricalQueue(
+        String did,
+        DeviceTypeEnum deviceType,
+        AppFlavorEnum appFlavor,
+        String token,
+        String model,
+        String osVersion
+    ) {
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(null, did, token, model, osVersion);
 
         /* Get all the queues that have been serviced for today. */
@@ -222,12 +229,7 @@ public class QueueMobileService {
         if (null == registeredDevice) {
             historyQueues = queueService.getByQid(qid);
             deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion);
-            LOG.info("Historical new device queue size={} did={} qid={} deviceType={}",
-                historyQueues.size(),
-                did,
-                qid,
-                deviceType);
-
+            LOG.info("Historical new device queue size={} did={} qid={} deviceType={}", historyQueues.size(), did, qid, deviceType);
         } else {
             if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
                 /* Save with QID when missing in registered device. */
