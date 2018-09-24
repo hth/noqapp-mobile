@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.open;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -12,6 +13,7 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 
 import org.apache.commons.lang3.StringUtils;
@@ -283,6 +285,9 @@ public class TokenQueueController {
                     parseTokenFCM.getTokenFCM(),
                     parseTokenFCM.getModel(),
                     parseTokenFCM.getOsVersion()).asJson();
+        } catch (DeviceDetailMissingException e) {
+            LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
+            return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
         } catch (Exception e) {
             LOG.error("Failed getting history did={}, reason={}", did, e.getLocalizedMessage(), e);
             apiHealthService.insert(

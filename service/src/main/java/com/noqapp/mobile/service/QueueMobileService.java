@@ -1,6 +1,7 @@
 package com.noqapp.mobile.service;
 
 import static com.noqapp.common.utils.DateUtil.Day.TODAY;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import com.noqapp.common.utils.CommonUtil;
@@ -19,6 +20,7 @@ import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.domain.JsonModifyQueue;
+import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
@@ -180,7 +182,12 @@ public class QueueMobileService {
         List<QueueEntity> historyQueues;
         if (null == registeredDevice) {
             historyQueues = queueService.getByDid(did);
-            deviceService.registerDevice(null, did, deviceType, appFlavor, token, model, osVersion);
+            try {
+                deviceService.registerDevice(null, did, deviceType, appFlavor, token, model, osVersion);
+            } catch (DeviceDetailMissingException e) {
+                LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
+                throw new DeviceDetailMissingException("Device Details Missing");
+            }
             LOG.info("Historical new device queue size={} did={} deviceType={}", historyQueues.size(), did, deviceType);
         } else {
             /* Unset QID for DID as user seems to have logged out of the App. */
@@ -228,12 +235,22 @@ public class QueueMobileService {
         List<QueueEntity> historyQueues;
         if (null == registeredDevice) {
             historyQueues = queueService.getByQid(qid);
-            deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion);
+            try {
+                deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion);
+            } catch (DeviceDetailMissingException e) {
+                LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
+                throw new DeviceDetailMissingException("Device Details Missing");
+            }
             LOG.info("Historical new device queue size={} did={} qid={} deviceType={}", historyQueues.size(), did, qid, deviceType);
         } else {
             if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
-                /* Save with QID when missing in registered device. */
-                deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion);
+                try {
+                    /* Save with QID when missing in registered device. */
+                    deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion);
+                } catch (DeviceDetailMissingException e) {
+                    LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
+                    throw new DeviceDetailMissingException("Device Details Missing");
+                }
             }
 
             /*
