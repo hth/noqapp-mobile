@@ -47,24 +47,25 @@ class MerchantProfileControllerITest extends ITest {
     void setUp() {
         imageValidator = new ImageValidator();
         professionalProfileValidator = new ProfessionalProfileValidator(professionalProfileService);
-        
+
         profileCommonHelper = new ProfileCommonHelper(
-                authenticateMobileService,
-                accountClientValidator,
-                accountMobileService,
-                fileService,
-                professionalProfileValidator,
-                apiHealthService
+            authenticateMobileService,
+            accountClientValidator,
+            accountMobileService,
+            fileService,
+            professionalProfileValidator,
+            apiHealthService
         );
 
         merchantProfileController = new MerchantProfileController(
-                authenticateMobileService,
-                userProfilePreferenceService,
-                businessUserStoreService,
-                profileCommonHelper,
-                professionalProfileService,
-                apiHealthService,
-                imageValidator
+            authenticateMobileService,
+            userProfilePreferenceService,
+            businessUserStoreService,
+            profileCommonHelper,
+            professionalProfileService,
+            apiHealthService,
+            imageValidator,
+            deviceService
         );
     }
 
@@ -73,9 +74,11 @@ class MerchantProfileControllerITest extends ITest {
         UserProfileEntity queueManagerUserProfile = accountService.checkUserExistsByPhone("9118000000032");
         UserAccountEntity userAccount = accountService.findByQueueUserId(queueManagerUserProfile.getQueueUserId());
         String jsonMerchantAsString = merchantProfileController.fetch(
-                new ScrubbedInput(userAccount.getUserId()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userAccount.getUserId()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            httpServletResponse
         );
 
         JsonMerchant jsonMerchant = new ObjectMapper().readValue(jsonMerchantAsString, JsonMerchant.class);
@@ -90,26 +93,28 @@ class MerchantProfileControllerITest extends ITest {
         UserProfileEntity queueManagerUserProfile = accountService.checkUserExistsByPhone("9118000000032");
         UserAccountEntity userAccount = accountService.findByQueueUserId(queueManagerUserProfile.getQueueUserId());
         String jsonMerchantAsString = merchantProfileController.fetch(
-                new ScrubbedInput(userAccount.getUserId()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userAccount.getUserId()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            httpServletResponse
         );
 
         JsonMerchant jsonMerchant = new ObjectMapper().readValue(jsonMerchantAsString, JsonMerchant.class);
         JsonProfile jsonProfile = jsonMerchant.getJsonProfile();
         UpdateProfile updateProfile = new UpdateProfile()
-                .setQueueUserId(jsonProfile.getQueueUserId())
-                .setAddress(jsonProfile.getAddress())
-                .setFirstName("My new Name")
-                .setBirthday(jsonProfile.getBirthday())
-                .setGender(jsonProfile.getGender().name())
-                .setTimeZoneId(jsonProfile.getTimeZone());
+            .setQueueUserId(jsonProfile.getQueueUserId())
+            .setAddress(jsonProfile.getAddress())
+            .setFirstName("My new Name")
+            .setBirthday(jsonProfile.getBirthday())
+            .setGender(jsonProfile.getGender().name())
+            .setTimeZoneId(jsonProfile.getTimeZone());
 
         String jsonProfileAsString = merchantProfileController.update(
-                new ScrubbedInput(userAccount.getUserId()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                updateProfile.asJson(),
-                httpServletResponse
+            new ScrubbedInput(userAccount.getUserId()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            updateProfile.asJson(),
+            httpServletResponse
         );
 
         JsonProfile jsonProfileUpdated = new ObjectMapper().readValue(jsonProfileAsString, JsonProfile.class);
@@ -117,18 +122,18 @@ class MerchantProfileControllerITest extends ITest {
         assertEquals("", jsonProfileUpdated.getAddress());
 
         updateProfile = new UpdateProfile()
-                .setQueueUserId(jsonProfile.getQueueUserId())
-                .setAddress("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India")
-                .setFirstName("My new Name")
-                .setBirthday(jsonProfile.getBirthday())
-                .setGender(jsonProfile.getGender().name())
-                .setTimeZoneId(jsonProfile.getTimeZone());
+            .setQueueUserId(jsonProfile.getQueueUserId())
+            .setAddress("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India")
+            .setFirstName("My new Name")
+            .setBirthday(jsonProfile.getBirthday())
+            .setGender(jsonProfile.getGender().name())
+            .setTimeZoneId(jsonProfile.getTimeZone());
 
         jsonProfileAsString = merchantProfileController.update(
-                new ScrubbedInput(userAccount.getUserId()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                updateProfile.asJson(),
-                httpServletResponse
+            new ScrubbedInput(userAccount.getUserId()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            updateProfile.asJson(),
+            httpServletResponse
         );
 
         jsonProfileUpdated = new ObjectMapper().readValue(jsonProfileAsString, JsonProfile.class);
@@ -142,9 +147,11 @@ class MerchantProfileControllerITest extends ITest {
         UserProfileEntity queueManagerUserProfile = accountService.checkUserExistsByPhone("9118000000032");
         UserAccountEntity userAccount = accountService.findByQueueUserId(queueManagerUserProfile.getQueueUserId());
         String jsonMerchantAsString = merchantProfileController.fetch(
-                new ScrubbedInput(userAccount.getUserId()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userAccount.getUserId()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            httpServletResponse
         );
 
         JsonMerchant jsonMerchant = new ObjectMapper().readValue(jsonMerchantAsString, JsonMerchant.class);
@@ -152,10 +159,10 @@ class MerchantProfileControllerITest extends ITest {
         jsonMerchant.getJsonProfessionalProfile().getEducation().add(new JsonNameDatePair().setName("M.D").setMonthYear("1990-12-12"));
 
         String jsonProfessionalProfileAsString = merchantProfileController.updateProfessionalProfile(
-                new ScrubbedInput(userAccount.getUserId()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                jsonMerchant.getJsonProfessionalProfile().asJson(),
-                httpServletResponse
+            new ScrubbedInput(userAccount.getUserId()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonMerchant.getJsonProfessionalProfile().asJson(),
+            httpServletResponse
         );
 
         JsonProfessionalProfile jsonProfessionalProfile = new ObjectMapper().readValue(jsonProfessionalProfileAsString, JsonProfessionalProfile.class);
@@ -165,15 +172,17 @@ class MerchantProfileControllerITest extends ITest {
             jsonMerchant.getJsonProfessionalProfile().getEducation().get(1).getMonthYear(),
             jsonProfessionalProfile.getEducation().get(1).getMonthYear());
     }
-    
+
     @Test
     void intellisense() throws IOException {
         UserProfileEntity queueManagerUserProfile = accountService.checkUserExistsByPhone("9118000000032");
         UserAccountEntity userAccount = accountService.findByQueueUserId(queueManagerUserProfile.getQueueUserId());
         String jsonMerchantAsString = merchantProfileController.fetch(
-                new ScrubbedInput(userAccount.getUserId()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userAccount.getUserId()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            httpServletResponse
         );
 
         JsonMerchant jsonMerchant = new ObjectMapper().readValue(jsonMerchantAsString, JsonMerchant.class);
@@ -182,21 +191,23 @@ class MerchantProfileControllerITest extends ITest {
 
         jsonProfessionalProfile.setDataDictionary("Setting Data Dictionary");
         String response = merchantProfileController.intellisense(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(userAccount.getUserId()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                jsonProfessionalProfile.asJson(),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userAccount.getUserId()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonProfessionalProfile.asJson(),
+            httpServletResponse
         );
 
         JsonResponse jsonResponse = new ObjectMapper().readValue(response, JsonResponse.class);
         assertEquals(1, jsonResponse.getResponse());
 
         jsonMerchantAsString = merchantProfileController.fetch(
-                new ScrubbedInput(userAccount.getUserId()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userAccount.getUserId()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            httpServletResponse
         );
 
         jsonMerchant = new ObjectMapper().readValue(jsonMerchantAsString, JsonMerchant.class);

@@ -11,6 +11,7 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonTopic;
+import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -18,6 +19,7 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.service.BusinessUserStoreService;
@@ -72,6 +74,7 @@ public class MerchantProfileController {
     private ProfessionalProfileService professionalProfileService;
     private ApiHealthService apiHealthService;
     private ImageValidator imageValidator;
+    private DeviceService deviceService;
 
     @Autowired
     public MerchantProfileController(
@@ -81,7 +84,8 @@ public class MerchantProfileController {
             ProfileCommonHelper profileCommonHelper,
             ProfessionalProfileService professionalProfileService,
             ApiHealthService apiHealthService,
-            ImageValidator imageValidator
+            ImageValidator imageValidator,
+            DeviceService deviceService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
@@ -90,13 +94,21 @@ public class MerchantProfileController {
         this.professionalProfileService = professionalProfileService;
         this.apiHealthService = apiHealthService;
         this.imageValidator = imageValidator;
+        this.deviceService = deviceService;
     }
 
+    /** Fetch merchant profile also register device with qid after login. */
     @GetMapping(
             value = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String fetch(
+            @RequestHeader("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
 
@@ -135,6 +147,11 @@ public class MerchantProfileController {
                 default:
                     LOG.error("Reached unsupported user level");
                     throw new UnsupportedOperationException("Reached unsupported user level " + userProfile.getLevel().getDescription());
+            }
+
+            /* Register Merchant device after login. */
+            if (!deviceService.isDeviceRegistered(qid, did.getText())) {
+                deviceService.updateRegisteredDevice(qid, did.getText(), DeviceTypeEnum.valueOf(dt.getText()));
             }
 
             /* For merchant profile no need to find remote scan. */

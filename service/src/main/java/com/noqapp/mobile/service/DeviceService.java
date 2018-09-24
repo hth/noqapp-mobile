@@ -5,6 +5,7 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.RegisteredDeviceManager;
 
 import org.apache.commons.lang3.StringUtils;
@@ -50,8 +51,8 @@ public class DeviceService {
             Assert.hasLength(token, "FCM Token cannot be blank");
             executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token, model, osVersion));
         } catch (Exception e) {
-            LOG.error("Failed registration as cannot find did={} toke={} reason={}", did, token, e.getLocalizedMessage(), e);
-            //TODO add throw exception
+            LOG.error("Failed registration as cannot find qid={} did={} token={} reason={}", qid, did, token, e.getLocalizedMessage(), e);
+            throw new DeviceDetailMissingException("Device Details Missing");
         }
     }
 

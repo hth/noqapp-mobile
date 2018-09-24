@@ -41,6 +41,7 @@ public enum MobileSystemErrorCodeEnum {
 
     /** Mobile application related issue. */
     SEVERE("5000", ERROR),
+    DEVICE_DETAIL_MISSING("5010", ERROR),
 
     /** Not mobile web application. */
     WEB_APPLICATION("6000", ERROR);

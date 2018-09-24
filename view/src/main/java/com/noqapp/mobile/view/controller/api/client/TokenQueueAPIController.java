@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -16,6 +17,7 @@ import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.service.PurchaseOrderService;
 
@@ -316,6 +318,9 @@ public class TokenQueueAPIController {
             //TODO(hth) get old historical order, it just gets todays historical order
             jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllHistoricalOrderAsJson(qid));
             return jsonTokenAndQueues.asJson();
+        } catch (DeviceDetailMissingException e) {
+            LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
+            return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
         } catch (Exception e) {
             LOG.error("Failed getting history qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
