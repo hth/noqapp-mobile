@@ -131,6 +131,7 @@ public class DeviceService {
         registeredDevice.setDeviceType(deviceType);
         registeredDevice.setSinceBeginning(true);
         registeredDeviceManager.save(registeredDevice);
+        LOG.info("Updated did={} with qid={} deviceType={}", did, qid, deviceType);
     }
 
     void markFetchedSinceBeginningForDevice(String id) {
