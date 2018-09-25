@@ -771,7 +771,7 @@ public class ManageQueueController {
 
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/mq/showClients by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/mq/showClients/{codeQR}/historical by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -780,7 +780,7 @@ public class ManageQueueController {
             LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
         } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
-            LOG.info("Un-authorized store access to /api/m/mq/showClients by mail={}", mail);
+            LOG.info("Un-authorized store access to /api/m/mq/showClients/{codeQR}/historical by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -793,8 +793,8 @@ public class ManageQueueController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/showClients/{codeQR}",
-                "showClients",
+                "/showClients/{codeQR}/historical",
+                "showClientsHistorical",
                 ManageQueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
