@@ -149,6 +149,13 @@ public class BusinessCustomerController {
                 return getErrorReason("Business customer id already exists", BUSINESS_CUSTOMER_ID_EXISTS);
             }
 
+            businessCustomer = businessCustomerService.findOneByCustomerId(json.getBusinessCustomerId(), businessUserStore.getBizNameId());
+            if (null != businessCustomer) {
+                LOG.warn("Found existing business customer qid={} codeQR={} businessQid={} bizNameId={} businessCustomerId={}",
+                    qid, json.getCodeQR(), json.getQueueUserId(), businessUserStore.getBizNameId(), businessCustomer.getBusinessCustomerId());
+                return getErrorReason("Business customer id already exists", BUSINESS_CUSTOMER_ID_EXISTS);
+            }
+
             UserProfileEntity userProfile = accountService.findProfileByQueueUserId(json.getQueueUserId());
             if (null == userProfile) {
                 /* Likely hood of reach here is zero, but if you do reach, then do investigate. */
