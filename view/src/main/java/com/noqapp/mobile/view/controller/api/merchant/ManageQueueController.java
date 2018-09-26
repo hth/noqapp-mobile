@@ -8,6 +8,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_ACTION_NOT_PERMITTED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_ALREADY_IN_QUEUE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -1127,6 +1128,12 @@ public class ManageQueueController {
                 LOG.info("Un-authorized store access to /api/m/mq/changeUserInQueue by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
+            }
+
+            QueueEntity existingInQueue = queueService.findQueuedOneByQid(changeUserInQueue.getCodeQR(), changeUserInQueue.getChangeToQueueUserId());
+            if (null != existingInQueue) {
+                LOG.warn("User already in queue qid={}", changeUserInQueue.getChangeToQueueUserId());
+                return getErrorReason("User already in queue", USER_ALREADY_IN_QUEUE);
             }
 
             QueueEntity queue = queueService.changeUserInQueue(
