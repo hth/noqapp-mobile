@@ -220,43 +220,50 @@ public class BusinessCustomerController {
         }
 
         try {
-            JsonBusinessCustomer jsonBusinessCustomer = new ObjectMapper().readValue(
+            JsonBusinessCustomer json = new ObjectMapper().readValue(
                     requestBodyJson,
                     JsonBusinessCustomer.class);
 
-            if (StringUtils.isBlank(jsonBusinessCustomer.getCodeQR())) {
-                LOG.warn("Not a valid codeQR={} qid={}", jsonBusinessCustomer.getCodeQR(), qid);
+            if (StringUtils.isBlank(json.getCodeQR())) {
+                LOG.warn("Not a valid codeQR={} qid={}", json.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(qid, jsonBusinessCustomer.getCodeQR())) {
+            } else if (!businessUserStoreService.hasAccess(qid, json.getCodeQR())) {
                 LOG.info("Un-authorized store access to /api/m/bc/editId by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
 
             try {
-                Assert.isTrue(Validate.isValidQid(jsonBusinessCustomer.getQueueUserId()), "Queue user id not valid");
+                Assert.isTrue(Validate.isValidQid(json.getQueueUserId()), "Queue user id not valid");
             } catch (Exception e) {
                 LOG.error("Failed as qid is null reason={}", e.getLocalizedMessage(), e);
                 return getErrorReason("Not a valid queue status.", MOBILE_JSON);
             }
 
-            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, jsonBusinessCustomer.getCodeQR());
+            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, json.getCodeQR());
             BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(
-                    jsonBusinessCustomer.getQueueUserId(),
+                    json.getQueueUserId(),
                     businessUserStore.getBizNameId());
             if (null == businessCustomer) {
                 return getErrorReason("Business customer id does not exists", BUSINESS_CUSTOMER_ID_DOES_NOT_EXISTS);
             }
 
-            businessCustomerService.editBusinessCustomer(
-                    jsonBusinessCustomer.getQueueUserId(),
-                    jsonBusinessCustomer.getCodeQR(),
-                    businessUserStore.getBizNameId(),
-                    jsonBusinessCustomer.getBusinessCustomerId());
-            LOG.info("Edit business customer number to qid={} businessCustomerId={}",
-                    jsonBusinessCustomer.getQueueUserId(), jsonBusinessCustomer.getBusinessCustomerId());
+            businessCustomer = businessCustomerService.findOneByCustomerId(json.getBusinessCustomerId(), businessUserStore.getBizNameId());
+            if (null != businessCustomer) {
+                LOG.info("Found existing business customer qid={} codeQR={} businessQid={} bizNameId={} businessCustomerId={}",
+                    qid, json.getCodeQR(), json.getQueueUserId(), businessUserStore.getBizNameId(), businessCustomer.getBusinessCustomerId());
+                return getErrorReason("Business customer id already exists", BUSINESS_CUSTOMER_ID_EXISTS);
+            }
 
-            return queueService.findThisPersonInQueue(jsonBusinessCustomer.getQueueUserId(), jsonBusinessCustomer.getCodeQR());
+            businessCustomerService.editBusinessCustomer(
+                    json.getQueueUserId(),
+                    json.getCodeQR(),
+                    businessUserStore.getBizNameId(),
+                    json.getBusinessCustomerId());
+            LOG.info("Edit business customer number to qid={} businessCustomerId={}",
+                    json.getQueueUserId(), json.getBusinessCustomerId());
+
+            return queueService.findThisPersonInQueue(json.getQueueUserId(), json.getCodeQR());
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} reason={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
