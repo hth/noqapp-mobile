@@ -245,12 +245,13 @@ public class BusinessCustomerController {
                     json.getQueueUserId(),
                     businessUserStore.getBizNameId());
             if (null == businessCustomer) {
+                LOG.warn("Could not find customer with qid={} bizNameId={}",json.getQueueUserId(), businessUserStore.getBizNameId());
                 return getErrorReason("Business customer id does not exists", BUSINESS_CUSTOMER_ID_DOES_NOT_EXISTS);
             }
 
             businessCustomer = businessCustomerService.findOneByCustomerId(json.getBusinessCustomerId(), businessUserStore.getBizNameId());
             if (null != businessCustomer) {
-                LOG.info("Found existing business customer qid={} codeQR={} businessQid={} bizNameId={} businessCustomerId={}",
+                LOG.warn("Found existing business customer qid={} codeQR={} businessQid={} bizNameId={} businessCustomerId={}",
                     qid, json.getCodeQR(), json.getQueueUserId(), businessUserStore.getBizNameId(), businessCustomer.getBusinessCustomerId());
                 return getErrorReason("Business customer id already exists", BUSINESS_CUSTOMER_ID_EXISTS);
             }
