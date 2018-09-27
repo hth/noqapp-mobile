@@ -145,7 +145,7 @@ public class PurchaseOrderController {
         }
 
         try {
-            return purchaseOrderService.findAllOpenOrderByCodeAsJson(codeQR.getText());
+            return purchaseOrderService.findAllOrderByCodeAsJson(codeQR.getText());
         } catch (Exception e) {
             LOG.error("Failed getting order clients reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
