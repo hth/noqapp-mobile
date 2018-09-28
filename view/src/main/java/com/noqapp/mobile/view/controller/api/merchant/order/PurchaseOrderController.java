@@ -20,6 +20,7 @@ import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.domain.body.merchant.OrderServed;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
@@ -417,7 +418,7 @@ public class PurchaseOrderController {
         ScrubbedInput auth,
 
         @RequestBody
-        String requestBodyJson,
+        OrderServed orderServed,
 
         HttpServletResponse response
     ) throws IOException {
@@ -432,64 +433,61 @@ public class PurchaseOrderController {
         }
 
         try {
-            Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(requestBodyJson);
-            String codeQR = map.containsKey("qr") ? map.get("qr").getText() : null;
-
-            if (StringUtils.isBlank(codeQR)) {
-                LOG.warn("Not a valid codeQR={} qid={}", codeQR, qid);
+            if (StringUtils.isBlank(orderServed.getCodeQR().getText())) {
+                LOG.warn("Not a valid codeQR={} qid={}", orderServed.getCodeQR().getText(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(qid, codeQR)) {
+            } else if (!businessUserStoreService.hasAccess(qid, orderServed.getCodeQR().getText())) {
                 LOG.info("Un-authorized store access to /api/m/o/purchaseOrder/processed by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
 
-            String serveTokenString = map.containsKey("t") ? map.get("t").getText() : null;
-            int servedNumber;
-            if (StringUtils.isNumeric(serveTokenString)) {
-                servedNumber = Integer.parseInt(serveTokenString);
-            } else {
-                LOG.warn("Not a valid number={} codeQR={} qid={}", serveTokenString, codeQR, qid);
-                return getErrorReason("Not a valid number.", MOBILE_JSON);
-            }
-
             PurchaseOrderStateEnum purchaseOrderState;
             try {
-                purchaseOrderState = map.containsKey("p") ? PurchaseOrderStateEnum.valueOf(map.get("p").getText()) : null;
+                purchaseOrderState = orderServed.getPurchaseOrderState();
             } catch (IllegalArgumentException e) {
                 LOG.error("Failed finding PurchaseOrderState reason={}", e.getLocalizedMessage(), e);
                 return getErrorReason("Not a valid purchase order state.", MOBILE_JSON);
             }
 
-            QueueStatusEnum queueStatus;
             try {
-                queueStatus = map.containsKey("s") ? QueueStatusEnum.valueOf(map.get("s").getText()) : null;
-                Assert.notNull(queueStatus, "Queue Status cannot be null");
+                Assert.notNull(orderServed.getQueueStatus(), "Queue Status cannot be null");
             } catch (IllegalArgumentException e) {
                 LOG.error("Failed finding QueueStatus reason={}", e.getLocalizedMessage(), e);
                 return getErrorReason("Not a valid queue status.", MOBILE_JSON);
             }
 
-            String goTo = map.containsKey("g") ? map.get("g").getText() : null;
-            if (StringUtils.isBlank(goTo)) {
+            if (StringUtils.isBlank(orderServed.getGoTo().getText())) {
                 return getErrorReason("Counter name cannot be empty.", MOBILE_JSON);
             } else {
-                if (goTo.length() > counterNameLength) {
+                if (orderServed.getGoTo().getText().length() > counterNameLength) {
                     return getErrorReason("Counter name cannot exceed character size of 20.", MOBILE_JSON);
                 }
             }
 
-            TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(codeQR);
-            LOG.info("queueStatus received={} found={}", queueStatus, tokenQueue.getQueueStatus());
+            TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(orderServed.getCodeQR().getText());
+            LOG.info("queueStatus received={} found={}", orderServed.getQueueStatus(), tokenQueue.getQueueStatus());
 
             JsonPurchaseOrderList jsonPurchaseOrderList;
             switch (purchaseOrderState) {
                 case OP:
-                    jsonPurchaseOrderList = purchaseOrderService.processedOrderService(codeQR, servedNumber, purchaseOrderState, goTo, did.getText(), TokenServiceEnum.M);
+                    jsonPurchaseOrderList = purchaseOrderService.processedOrderService(
+                        orderServed.getCodeQR().getText(),
+                        orderServed.getServedNumber(),
+                        orderServed.getPurchaseOrderState(),
+                        orderServed.getGoTo().getText(),
+                        did.getText(),
+                        TokenServiceEnum.M);
                     break;
                 case RP:
                 case RD:
-                    jsonPurchaseOrderList = purchaseOrderService.processedOrderService(codeQR, servedNumber, purchaseOrderState, goTo, did.getText(), TokenServiceEnum.M);
+                    jsonPurchaseOrderList = purchaseOrderService.processedOrderService(
+                        orderServed.getCodeQR().getText(),
+                        orderServed.getServedNumber(),
+                        orderServed.getPurchaseOrderState(),
+                        orderServed.getGoTo().getText(),
+                        did.getText(),
+                        TokenServiceEnum.M);
                     break;
                 default:
                     LOG.error("Reached unsupported condition queueState={}", tokenQueue.getQueueStatus());
@@ -498,14 +496,14 @@ public class PurchaseOrderController {
             }
 
             if (null == jsonPurchaseOrderList) {
-                LOG.error("Could not find queue codeQR={} servedNumber={} queueUserState={}", codeQR, servedNumber, purchaseOrderState);
+                LOG.error("Could not find queue codeQR={} servedNumber={} queueUserState={}", orderServed.getCodeQR(), orderServed.getServedNumber(), purchaseOrderState);
                 return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
             }
 
-            LOG.info("On served response servedNumber={} jsonPurchaseOrderList={}", servedNumber, jsonPurchaseOrderList);
+            LOG.info("On served response servedNumber={} jsonPurchaseOrderList={}", orderServed.getServedNumber(), jsonPurchaseOrderList);
             return jsonPurchaseOrderList.asJson();
         } catch (JsonMappingException e) {
-            LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed parsing json qid={} message={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
