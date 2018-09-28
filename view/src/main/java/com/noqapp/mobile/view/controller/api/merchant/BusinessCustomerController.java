@@ -151,9 +151,10 @@ public class BusinessCustomerController {
 
             businessCustomer = businessCustomerService.findOneByCustomerId(json.getBusinessCustomerId(), businessUserStore.getBizNameId());
             if (null != businessCustomer) {
+                UserProfileEntity userProfile = accountService.findProfileByQueueUserId(businessCustomer.getQueueUserId());
                 LOG.warn("Found existing business customer qid={} codeQR={} businessQid={} bizNameId={} businessCustomerId={}",
                     qid, json.getCodeQR(), json.getQueueUserId(), businessUserStore.getBizNameId(), businessCustomer.getBusinessCustomerId());
-                return getErrorReason("Business customer id already exists", BUSINESS_CUSTOMER_ID_EXISTS);
+                return getErrorReason("Business customer id already exists for user with phone: " + userProfile.getPhoneFormatted(), BUSINESS_CUSTOMER_ID_EXISTS);
             }
 
             UserProfileEntity userProfile = accountService.findProfileByQueueUserId(json.getQueueUserId());
@@ -258,9 +259,10 @@ public class BusinessCustomerController {
 
             businessCustomer = businessCustomerService.findOneByCustomerId(json.getBusinessCustomerId(), businessUserStore.getBizNameId());
             if (null != businessCustomer) {
+                UserProfileEntity userProfile = accountService.findProfileByQueueUserId(businessCustomer.getQueueUserId());
                 LOG.warn("Found existing business customer qid={} codeQR={} businessQid={} bizNameId={} businessCustomerId={}",
                     qid, json.getCodeQR(), json.getQueueUserId(), businessUserStore.getBizNameId(), businessCustomer.getBusinessCustomerId());
-                return getErrorReason("Business customer id already exists", BUSINESS_CUSTOMER_ID_EXISTS);
+                return getErrorReason("Business customer id already exists for user with phone: " + userProfile.getPhoneFormatted(), BUSINESS_CUSTOMER_ID_EXISTS);
             }
 
             businessCustomerService.editBusinessCustomer(
