@@ -85,5 +85,16 @@ public class OrderServed extends AbstractDomain {
     public void setGoTo(ScrubbedInput goTo) {
         this.goTo = goTo;
     }
+
+    @Override
+    public String toString() {
+        return "OrderServed{" +
+            "codeQR=" + codeQR +
+            ", servedNumber=" + servedNumber +
+            ", purchaseOrderState=" + purchaseOrderState +
+            ", queueStatus=" + queueStatus +
+            ", goTo=" + goTo +
+            '}';
+    }
 }
 
