@@ -1,6 +1,7 @@
 package com.noqapp.mobile.domain.body.merchant;
 
 import com.noqapp.common.utils.AbstractDomain;
+import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 
@@ -29,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderServed extends AbstractDomain {
     @JsonProperty("qr")
-    private String codeQR;
+    private ScrubbedInput codeQR;
 
     @JsonProperty("t")
     private int servedNumber;
@@ -41,13 +42,13 @@ public class OrderServed extends AbstractDomain {
     private QueueStatusEnum queueStatus;
 
     @JsonProperty("g")
-    private String goTo;
+    private ScrubbedInput goTo;
 
-    public String getCodeQR() {
+    public ScrubbedInput getCodeQR() {
         return codeQR;
     }
 
-    public void setCodeQR(String codeQR) {
+    public void setCodeQR(ScrubbedInput codeQR) {
         this.codeQR = codeQR;
     }
 
@@ -77,11 +78,11 @@ public class OrderServed extends AbstractDomain {
         return this;
     }
 
-    public String getGoTo() {
+    public ScrubbedInput getGoTo() {
         return goTo;
     }
 
-    public void setGoTo(String goTo) {
+    public void setGoTo(ScrubbedInput goTo) {
         this.goTo = goTo;
     }
 }
