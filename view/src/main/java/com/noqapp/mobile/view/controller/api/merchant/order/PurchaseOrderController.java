@@ -466,7 +466,7 @@ public class PurchaseOrderController {
             }
 
             TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(orderServed.getCodeQR().getText());
-            LOG.info("queueStatus received={} found={}", orderServed.getQueueStatus(), tokenQueue.getQueueStatus());
+            LOG.info("queueStatus received={} found={} orderServed={}", orderServed.getQueueStatus(), tokenQueue.getQueueStatus(), orderServed);
 
             JsonPurchaseOrderList jsonPurchaseOrderList;
             switch (purchaseOrderState) {
