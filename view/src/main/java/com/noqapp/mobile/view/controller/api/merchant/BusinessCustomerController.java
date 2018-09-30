@@ -138,7 +138,7 @@ public class BusinessCustomerController {
                 Assert.isTrue(Validate.isValidQid(json.getQueueUserId()), "Queue user id not valid");
             } catch (Exception e) {
                 LOG.error("Failed as qid is null reason={}", e.getLocalizedMessage(), e);
-                return getErrorReason("No user found. Would you like to register?", USER_NOT_FOUND);
+                return getErrorReason("No user found. Please register user.", USER_NOT_FOUND);
             }
 
             BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, json.getCodeQR());
@@ -245,7 +245,7 @@ public class BusinessCustomerController {
                 Assert.isTrue(Validate.isValidQid(json.getQueueUserId()), "Queue user id not valid");
             } catch (Exception e) {
                 LOG.error("Failed as qid is null reason={}", e.getLocalizedMessage(), e);
-                return getErrorReason("No user found. Would you like to register?", USER_NOT_FOUND);
+                return getErrorReason("No user found. Please register user.", USER_NOT_FOUND);
             }
 
             BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, json.getCodeQR());
