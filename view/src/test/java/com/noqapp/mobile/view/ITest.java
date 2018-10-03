@@ -74,8 +74,8 @@ import com.noqapp.repository.ProfessionalProfileManager;
 import com.noqapp.repository.ProfessionalProfileManagerImpl;
 import com.noqapp.repository.PurchaseOrderManager;
 import com.noqapp.repository.PurchaseOrderManagerImpl;
-import com.noqapp.repository.PurchaseProductOrderManager;
-import com.noqapp.repository.PurchaseProductOrderManagerImpl;
+import com.noqapp.repository.PurchaseOrderProductManager;
+import com.noqapp.repository.PurchaseOrderProductManagerImpl;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerImpl;
 import com.noqapp.repository.QueueManagerJDBC;
@@ -181,7 +181,7 @@ public class ITest extends RealMongoForITest {
     protected StoreProductManager storeProductManager;
     protected StoreProductService storeProductService;
     protected PurchaseOrderManager purchaseOrderManager;
-    protected PurchaseProductOrderManager purchaseProductOrderManager;
+    protected PurchaseOrderProductManager purchaseOrderProductManager;
     protected PurchaseOrderService purchaseOrderService;
     protected FileService fileService;
     protected S3FileManager s3FileManager;
@@ -347,7 +347,7 @@ public class ITest extends RealMongoForITest {
         storeProductManager = new StoreProductManagerImpl(getMongoTemplate());
         storeProductService = new StoreProductService(storeProductManager);
         purchaseOrderManager = new PurchaseOrderManagerImpl(getMongoTemplate());
-        purchaseProductOrderManager = new PurchaseProductOrderManagerImpl(getMongoTemplate());
+        purchaseOrderProductManager = new PurchaseOrderProductManagerImpl(getMongoTemplate());
 
         userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
         userAddressService = new UserAddressService(userAddressManager, externalService);
@@ -359,7 +359,7 @@ public class ITest extends RealMongoForITest {
             storeHourManager,
             storeProductService,
             purchaseOrderManager,
-            purchaseProductOrderManager,
+            purchaseOrderProductManager,
             userAddressService,
             firebaseMessageService,
             registeredDeviceManager,
