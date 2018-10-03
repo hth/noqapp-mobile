@@ -109,6 +109,9 @@ public class MerchantProfileController {
             @RequestHeader ("X-R-DT")
             ScrubbedInput dt,
 
+            @RequestHeader (value = "X-R-AF", required = false, defaultValue = "NQMT")
+            ScrubbedInput appFlavor,
+
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
 
@@ -151,6 +154,7 @@ public class MerchantProfileController {
 
             /* Register Merchant device after login. */
             if (!deviceService.isDeviceRegistered(qid, did.getText())) {
+                LOG.info("Registering device during profile fetch for appFlavor={}", appFlavor);
                 deviceService.updateRegisteredDevice(qid, did.getText(), DeviceTypeEnum.valueOf(dt.getText()));
             }
 
