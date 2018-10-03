@@ -10,6 +10,7 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonNameDatePair;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.JsonProfile;
@@ -76,6 +77,7 @@ class MerchantProfileControllerITest extends ITest {
         String jsonMerchantAsString = merchantProfileController.fetch(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQMH.getName()),
             new ScrubbedInput(userAccount.getUserId()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
             httpServletResponse
@@ -95,6 +97,7 @@ class MerchantProfileControllerITest extends ITest {
         String jsonMerchantAsString = merchantProfileController.fetch(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQMH.getName()),
             new ScrubbedInput(userAccount.getUserId()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
             httpServletResponse
@@ -149,6 +152,7 @@ class MerchantProfileControllerITest extends ITest {
         String jsonMerchantAsString = merchantProfileController.fetch(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQMH.getName()),
             new ScrubbedInput(userAccount.getUserId()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
             httpServletResponse
@@ -180,6 +184,7 @@ class MerchantProfileControllerITest extends ITest {
         String jsonMerchantAsString = merchantProfileController.fetch(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQMH.getName()),
             new ScrubbedInput(userAccount.getUserId()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
             httpServletResponse
@@ -205,6 +210,7 @@ class MerchantProfileControllerITest extends ITest {
         jsonMerchantAsString = merchantProfileController.fetch(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQMH.getName()),
             new ScrubbedInput(userAccount.getUserId()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
             httpServletResponse
