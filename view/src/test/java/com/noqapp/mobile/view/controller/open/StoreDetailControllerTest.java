@@ -1,13 +1,12 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonStore;
-import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.view.ITest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
