@@ -129,9 +129,6 @@ import com.noqapp.service.UserProfilePreferenceService;
 import org.bson.types.ObjectId;
 
 import org.springframework.mock.env.MockEnvironment;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mock;
