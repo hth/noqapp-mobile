@@ -316,7 +316,7 @@ public class TokenQueueAPIController {
                     parseTokenFCM.getModel(),
                     parseTokenFCM.getOsVersion());
             //TODO(hth) get old historical order, it just gets todays historical order
-            jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllHistoricalOrderAsJson(qid));
+            jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllDeliveredHistoricalOrderAsJson(qid));
             return jsonTokenAndQueues.asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
