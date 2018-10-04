@@ -2,12 +2,16 @@ package com.noqapp.mobile.service;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 
+import com.google.gson.Gson;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.protocol.HTTP;
 
 import org.slf4j.Logger;
@@ -152,7 +156,45 @@ public class WebConnectorService {
         return StringUtils.isBlank(securePort) ? "" : ":" + securePort;
     }
 
-    public String getNoResponseFromWebServer() {
+    boolean invokeHttpPost(HttpClient httpClient, HttpPost httpPost) {
+        HttpResponse response = null;
+        try {
+            response = httpClient.execute(httpPost);
+        } catch (IOException e) {
+            LOG.error("error occurred while executing request path={} reason={}", httpPost.getURI(), e.getLocalizedMessage(), e);
+        }
+
+        if (null == response) {
+            LOG.warn("failed response, reason={}", getNoResponseFromWebServer());
+            return false;
+        }
+
+        int status = response.getStatusLine().getStatusCode();
+        LOG.debug("status={}", status);
+        if (WebConnectorService.HTTP_STATUS_200 <= status && WebConnectorService.HTTP_STATUS_300 > status) {
+            return true;
+        }
+
+        LOG.error("server responded with response code={}", status);
+        return false;
+    }
+
+    /**
+     * Create Request Body.
+     *
+     * @param object
+     * @param httpPost
+     */
+    void setEntityWithGson(Object object, HttpPost httpPost) {
+        httpPost.setEntity(
+            new StringEntity(
+                new Gson().toJson(object),
+                ContentType.create(MediaType.APPLICATION_JSON_VALUE, "UTF-8")
+            )
+        );
+    }
+
+    String getNoResponseFromWebServer() {
         return noResponseFromWebServer;
     }
 }

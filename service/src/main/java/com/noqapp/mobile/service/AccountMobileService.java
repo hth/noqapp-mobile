@@ -232,31 +232,8 @@ public class AccountMobileService {
             return false;
         }
 
-        setEntityWithGson(SignupUserInfo.newInstance(userId, qid, name), httpPost);
-        return invokeHttpPost(httpClient, httpPost);
-    }
-
-    private boolean invokeHttpPost(HttpClient httpClient, HttpPost httpPost) {
-        HttpResponse response = null;
-        try {
-            response = httpClient.execute(httpPost);
-        } catch (IOException e) {
-            LOG.error("error occurred while executing request path={} reason={}", httpPost.getURI(), e.getLocalizedMessage(), e);
-        }
-
-        if (null == response) {
-            LOG.warn("failed response, reason={}", webConnectorService.getNoResponseFromWebServer());
-            return false;
-        }
-
-        int status = response.getStatusLine().getStatusCode();
-        LOG.debug("status={}", status);
-        if (WebConnectorService.HTTP_STATUS_200 <= status && WebConnectorService.HTTP_STATUS_300 > status) {
-            return true;
-        }
-
-        LOG.error("server responded with response code={}", status);
-        return false;
+        webConnectorService.setEntityWithGson(SignupUserInfo.newInstance(userId, qid, name), httpPost);
+        return webConnectorService.invokeHttpPost(httpClient, httpPost);
     }
 
     public UserAccountEntity findByQueueUserId(String qid) {
@@ -283,21 +260,6 @@ public class AccountMobileService {
 
     public UserProfileEntity findProfileByQueueUserId(String qid) {
         return accountService.findProfileByQueueUserId(qid);
-    }
-
-    /**
-     * Create Request Body.
-     *
-     * @param object
-     * @param httpPost
-     */
-    private void setEntityWithGson(Object object, HttpPost httpPost) {
-        httpPost.setEntity(
-            new StringEntity(
-                new Gson().toJson(object),
-                ContentType.create(MediaType.APPLICATION_JSON_VALUE, "UTF-8")
-            )
-        );
     }
 
     public String updatePhoneNumber(String qid, String phone, String countryShortName, String timeZone) {
@@ -340,8 +302,8 @@ public class AccountMobileService {
             return false;
         }
 
-        setEntityWithGson(ChangeMailOTP.newInstance(migrateToMail, name, mailOTP), httpPost);
-        return invokeHttpPost(httpClient, httpPost);
+        webConnectorService.setEntityWithGson(ChangeMailOTP.newInstance(migrateToMail, name, mailOTP), httpPost);
+        return webConnectorService.invokeHttpPost(httpClient, httpPost);
     }
 
     public void updateUserProfile(RegisterUser registerUser, String email) {
