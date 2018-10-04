@@ -92,7 +92,7 @@ public class DeviceService {
                     LOG.info("existing registered device updateStatus={} with qid={} token={}", updateStatus, qid, token);
                 }
             } else if (StringUtils.isNotBlank(token)) {
-                LOG.info("Updating registered device of deviceType={} appFlavor={} did={} qid={}", deviceType, appFlavor, did, qid);
+                LOG.info("Updating registered device of deviceType={} appFlavor={} did={} qid={}", deviceType, appFlavor.getName(), did, qid);
                 boolean updateSuccess = registeredDeviceManager.updateDevice(
                         registeredDevice.getId(),
                         registeredDevice.getDeviceId(),
