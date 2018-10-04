@@ -74,8 +74,10 @@ import com.noqapp.repository.ProfessionalProfileManager;
 import com.noqapp.repository.ProfessionalProfileManagerImpl;
 import com.noqapp.repository.PurchaseOrderManager;
 import com.noqapp.repository.PurchaseOrderManagerImpl;
+import com.noqapp.repository.PurchaseOrderManagerJDBC;
 import com.noqapp.repository.PurchaseOrderProductManager;
 import com.noqapp.repository.PurchaseOrderProductManagerImpl;
+import com.noqapp.repository.PurchaseOrderProductManagerJDBC;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerImpl;
 import com.noqapp.repository.QueueManagerJDBC;
@@ -237,6 +239,8 @@ public class ITest extends RealMongoForITest {
     private WebConnectorService webConnectorService;
     @Mock protected ExternalService externalService;
     @Mock protected QueueManagerJDBC queueManagerJDBC;
+    @Mock protected PurchaseOrderManagerJDBC purchaseOrderManagerJDBC;
+    @Mock protected PurchaseOrderProductManagerJDBC purchaseOrderProductManagerJDBC;
     @Mock protected HttpServletResponse httpServletResponse;
     @Mock protected FtpService ftpService;
     @Mock protected MailService mailService;
@@ -356,7 +360,9 @@ public class ITest extends RealMongoForITest {
             storeHourManager,
             storeProductService,
             purchaseOrderManager,
+            purchaseOrderManagerJDBC,
             purchaseOrderProductManager,
+            purchaseOrderProductManagerJDBC,
             userAddressService,
             firebaseMessageService,
             registeredDeviceManager,

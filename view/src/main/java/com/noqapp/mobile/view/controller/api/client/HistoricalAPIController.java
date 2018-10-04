@@ -96,8 +96,7 @@ public class HistoricalAPIController {
         }
 
         try {
-            JsonPurchaseOrderList jsonPurchaseOrderList = purchaseOrderService.findAllPastDeliveredOrCancelledOrdersAsJson(qid);
-            return jsonPurchaseOrderList.asJson();
+            return purchaseOrderService.findAllPastDeliveredOrCancelledOrdersAsJson(qid).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting historical order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
