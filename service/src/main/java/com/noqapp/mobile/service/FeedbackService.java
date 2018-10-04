@@ -3,8 +3,8 @@ package com.noqapp.mobile.service;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 
 import com.noqapp.domain.UserAccountEntity;
-import com.noqapp.mobile.domain.SignupUserInfo;
 import com.noqapp.mobile.domain.body.client.Feedback;
+import com.noqapp.mobile.domain.mail.FeedbackMail;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -54,6 +54,7 @@ public class FeedbackService {
         UserAccountEntity userAccount = accountMobileService.findByQueueUserId(qid);
         boolean mailStatus = sendMailFeedback(
             userAccount.getUserId(),
+            qid,
             userAccount.getName(),
             feedback,
             HttpClientBuilder.create().build());
@@ -62,7 +63,7 @@ public class FeedbackService {
         return mailStatus;
     }
 
-    private boolean sendMailFeedback(String userId, String name, Feedback feedback, HttpClient httpClient) {
+    private boolean sendMailFeedback(String userId, String qid, String name, Feedback feedback, HttpClient httpClient) {
         LOG.debug("userId={} name={} webApiAccessToken={}", userId, name, AUTH_KEY_HIDDEN);
         HttpPost httpPost = webConnectorService.getHttpPost(feedbackLink, httpClient);
         if (null == httpPost) {
@@ -70,7 +71,8 @@ public class FeedbackService {
             return false;
         }
 
-        webConnectorService.setEntityWithGson(feedback, httpPost);
+        FeedbackMail feedbackMail = FeedbackMail.newInstance(userId, qid, name, feedback.getSubject().getText(), feedback.getBody().getText());
+        webConnectorService.setEntityWithGson(feedbackMail, httpPost);
         return webConnectorService.invokeHttpPost(httpClient, httpPost);
     }
 }

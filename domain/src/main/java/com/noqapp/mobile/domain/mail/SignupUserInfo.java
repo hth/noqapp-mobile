@@ -1,4 +1,4 @@
-package com.noqapp.mobile.domain;
+package com.noqapp.mobile.domain.mail;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

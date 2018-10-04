@@ -2,7 +2,6 @@ package com.noqapp.mobile.service;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 
-import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.common.utils.RandomString;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.UserAccountEntity;
@@ -13,20 +12,15 @@ import com.noqapp.domain.json.JsonNameDatePair;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.medical.service.UserMedicalProfileService;
-import com.noqapp.mobile.domain.ChangeMailOTP;
+import com.noqapp.mobile.domain.mail.ChangeMailOTP;
 import com.noqapp.mobile.domain.JsonProfile;
-import com.noqapp.mobile.domain.SignupUserInfo;
+import com.noqapp.mobile.domain.mail.SignupUserInfo;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 
-import com.google.gson.Gson;
-
-import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import org.slf4j.Logger;
@@ -34,12 +28,10 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
