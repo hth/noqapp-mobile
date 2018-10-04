@@ -1,21 +1,14 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.Feedback;
-import com.noqapp.mobile.domain.body.client.ReviewRating;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.FeedbackService;
-import com.noqapp.mobile.service.QueueMobileService;
-import com.noqapp.mobile.service.TokenQueueMobileService;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,12 +89,12 @@ public class FeedbackAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        boolean reviewSuccess = false;
+        boolean feedbackSuccess = false;
         try {
-            reviewSuccess = feedbackService.submitFeedback(
+            feedbackSuccess = feedbackService.submitFeedback(
                 qid,
                 feedbackJson);
-            return new JsonResponse(reviewSuccess).asJson();
+            return new JsonResponse(feedbackSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing feedback reason={}", e.getLocalizedMessage(), e);
             apiHealthService.insert(
@@ -110,7 +103,7 @@ public class FeedbackAPIController {
                 FeedbackAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 HealthStatusEnum.F);
-            return new JsonResponse(reviewSuccess).asJson();
+            return new JsonResponse(feedbackSuccess).asJson();
         } finally {
             apiHealthService.insert(
                 "/",
