@@ -48,26 +48,20 @@ public class HistoricalAPIController {
     private static final Logger LOG = LoggerFactory.getLogger(HistoricalAPIController.class);
 
     private AuthenticateMobileService authenticateMobileService;
-    private BusinessUserStoreService businessUserStoreService;
     private PurchaseOrderService purchaseOrderService;
     private QueueMobileService queueMobileService;
-    private TokenQueueService tokenQueueService;
     private ApiHealthService apiHealthService;
 
     @Autowired
     public HistoricalAPIController(
         AuthenticateMobileService authenticateMobileService,
-        BusinessUserStoreService businessUserStoreService,
         PurchaseOrderService purchaseOrderService,
         QueueMobileService queueMobileService,
-        TokenQueueService tokenQueueService,
         ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
-        this.businessUserStoreService = businessUserStoreService;
         this.purchaseOrderService = purchaseOrderService;
         this.queueMobileService = queueMobileService;
-        this.tokenQueueService = tokenQueueService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -90,7 +84,7 @@ public class HistoricalAPIController {
         LOG.info("Historical orders request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/o/purchaseOrder/showOrders by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/c/historical/showOrders by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -105,6 +99,46 @@ public class HistoricalAPIController {
             apiHealthService.insert(
                 "/orders",
                 "orders",
+                HistoricalAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** List all past queues. */
+    @GetMapping(
+        value = "/queues",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String queues(
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Historical queues request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/c/historical/queues by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            return queueMobileService.findAllHistoricalQueueAsJson(qid).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting historical queues reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/queues",
+                "queues",
                 HistoricalAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);

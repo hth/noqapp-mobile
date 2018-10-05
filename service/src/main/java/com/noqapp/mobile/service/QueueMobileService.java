@@ -13,6 +13,7 @@ import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonQueue;
+import com.noqapp.domain.json.JsonQueueHistoricalList;
 import com.noqapp.domain.json.JsonQueuePersonList;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueue;
@@ -437,5 +438,9 @@ public class QueueMobileService {
     public void updateBizStoreAvailableTokenCount(int availableTokenCount, String codeQR) {
         LOG.debug("Changed count {} for codeQR={}", availableTokenCount, codeQR);
         bizService.updateBizStoreAvailableTokenCount(availableTokenCount, codeQR);
+    }
+
+    public JsonQueueHistoricalList findAllHistoricalQueueAsJson(String qid) {
+        return queueService.findAllHistoricalQueueAsJson(qid);
     }
 }
