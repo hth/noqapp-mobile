@@ -21,8 +21,6 @@ import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.service.PurchaseOrderService;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
@@ -361,7 +359,7 @@ public class TokenQueueAPIController {
             ScrubbedInput auth,
 
             @RequestBody
-            String requestBodyJson,
+            JoinQueue joinQueue,
 
             HttpServletResponse response
     ) throws IOException {
@@ -370,7 +368,6 @@ public class TokenQueueAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        JoinQueue joinQueue = new ObjectMapper().readValue(requestBodyJson, JoinQueue.class);
         BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(joinQueue.getCodeQR());
         if (null == bizStore) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
