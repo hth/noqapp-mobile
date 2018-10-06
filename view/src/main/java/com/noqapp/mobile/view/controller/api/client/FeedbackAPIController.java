@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 
 import com.noqapp.common.utils.ScrubbedInput;
@@ -57,9 +58,7 @@ public class FeedbackAPIController {
         this.apiHealthService = apiHealthService;
     }
 
-    /**
-     * Add review to service. This includes today's service or historical service.
-     */
+    /** Add review to service. This includes today's service or historical service. */
     @PostMapping(
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -85,15 +84,13 @@ public class FeedbackAPIController {
         HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
-        LOG.info("Feedback API for did={} dt={} appFlavor={}", did, dt, appFlavor);
+        LOG.info("Feedback API for mail={} auth={} did={} dt={} appFlavor={}", mail, AUTH_KEY_HIDDEN, did, dt, appFlavor);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
         boolean feedbackSuccess = false;
         try {
-            feedbackSuccess = feedbackService.submitFeedback(
-                qid,
-                feedbackJson);
+            feedbackSuccess = feedbackService.submitFeedback(qid, feedbackJson);
             return new JsonResponse(feedbackSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing feedback reason={}", e.getLocalizedMessage(), e);

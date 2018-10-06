@@ -118,7 +118,7 @@ class ManageQueueControllerITest extends ITest {
             new ScrubbedInput(deviceType),
             new ScrubbedInput(userAccount1.getUserId()),
             new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
-            new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()).asJson(),
+            new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()),
             httpServletResponse
         );
 
@@ -129,7 +129,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
-                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()).asJson(),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()),
                 httpServletResponse
         );
 
@@ -321,7 +321,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount1.getUserId()),
                 new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
-                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()).asJson(),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()),
                 httpServletResponse
         );
 
@@ -332,7 +332,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
-                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()).asJson(),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()),
                 httpServletResponse
         );
 
@@ -389,7 +389,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount1.getUserId()),
                 new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
-                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()).asJson(),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()),
                 httpServletResponse
         );
 
@@ -400,7 +400,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
-                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()).asJson(),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()),
                 httpServletResponse
         );
 
@@ -454,7 +454,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount1.getUserId()),
                 new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
-                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()).asJson(),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()),
                 httpServletResponse
         );
 
@@ -465,7 +465,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
-                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()).asJson(),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()),
                 httpServletResponse
         );
 
@@ -540,7 +540,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount1.getUserId()),
                 new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
-                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()).asJson(),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()),
                 httpServletResponse
         );
 
@@ -580,7 +580,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount2.getUserId()),
                 new ScrubbedInput(userAccount2.getUserAuthentication().getAuthenticationKey()),
-                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()).asJson(),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client2.getQueueUserId()),
                 httpServletResponse
         );
 
@@ -635,7 +635,7 @@ class ManageQueueControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userAccount1.getUserId()),
                 new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
-                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()).asJson(),
+                new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()),
                 httpServletResponse
         );
         JsonToken jsonToken = new ObjectMapper().readValue(joinQueue, JsonToken.class);
