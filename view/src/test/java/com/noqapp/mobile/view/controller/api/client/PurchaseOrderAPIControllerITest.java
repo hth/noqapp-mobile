@@ -12,6 +12,7 @@ import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderProduct;
 import com.noqapp.domain.types.DeliveryTypeEnum;
 import com.noqapp.domain.types.PaymentTypeEnum;
+import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.mobile.view.ITest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -65,8 +66,34 @@ class PurchaseOrderAPIControllerITest extends ITest {
         );
 
         JsonPurchaseOrder jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
-        assertEquals(1, jsonPurchaseOrderResponse.getToken());
         assertEquals("900", jsonPurchaseOrderResponse.getOrderPrice());
+        assertEquals(PurchaseOrderStateEnum.PO, jsonPurchaseOrderResponse.getPresentOrderState());
+    }
+
+    @Test
+    void cancel() throws IOException {
+        JsonPurchaseOrder jsonPurchaseOrder = createOrder();
+        String jsonPurchaseOrderAsString = purchaseOrderAPIController.purchase(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(userProfile.getEmail()),
+                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+                jsonPurchaseOrder.asJson(),
+                httpServletResponse
+        );
+        JsonPurchaseOrder jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
+        String jsonPurchaseOrderCancelAsString = purchaseOrderAPIController.cancel(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(userProfile.getEmail()),
+                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+                jsonPurchaseOrderResponse.asJson(),
+                httpServletResponse
+        );
+
+        JsonPurchaseOrder jsonPurchaseOrderCancelResponse = new ObjectMapper().readValue(jsonPurchaseOrderCancelAsString, JsonPurchaseOrder.class);
+        assertEquals("900", jsonPurchaseOrderCancelResponse.getOrderPrice());
+        assertEquals(PurchaseOrderStateEnum.CO, jsonPurchaseOrderCancelResponse.getPresentOrderState());
     }
 
     private JsonPurchaseOrder createOrder() {

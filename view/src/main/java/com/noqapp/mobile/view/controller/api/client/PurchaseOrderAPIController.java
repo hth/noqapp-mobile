@@ -157,7 +157,7 @@ public class PurchaseOrderAPIController {
 
         try {
             JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.cancelOrderByClient(qid, jsonPurchaseOrder.getTransactionId());
-            LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrder.getPresentOrderState());
+            LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
             return jsonPurchaseOrderResponse.asJson();
         } catch (Exception e) {
             LOG.error("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
