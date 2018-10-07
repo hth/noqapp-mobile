@@ -66,7 +66,7 @@ class PurchaseOrderAPIControllerITest extends ITest {
 
         JsonPurchaseOrder jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
         assertEquals(1, jsonPurchaseOrderResponse.getToken());
-        assertEquals(900, jsonPurchaseOrderResponse.getOrderPrice());
+        assertEquals("900", jsonPurchaseOrderResponse.getOrderPrice());
     }
 
     private JsonPurchaseOrder createOrder() {
