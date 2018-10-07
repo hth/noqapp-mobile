@@ -101,7 +101,7 @@ public class PurchaseOrderAPIController {
 
         try {
             purchaseOrderService.createOrder(jsonPurchaseOrder, qid, did.getText(), TokenServiceEnum.C);
-            LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPurchaseOrderState());
+            LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
             return jsonPurchaseOrder.asJson();
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
@@ -111,6 +111,62 @@ public class PurchaseOrderAPIController {
             apiHealthService.insert(
                     "/purchase",
                     "purchase",
+                    PurchaseOrderAPIController.class.getName(),
+                    Duration.between(start, Instant.now()),
+                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Cancel placed order. */
+    @PostMapping(
+            value = "/cancel",
+            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String cancel(
+            @RequestHeader("X-R-DID")
+            ScrubbedInput did,
+
+            @RequestHeader ("X-R-DT")
+            ScrubbedInput dt,
+
+            @RequestHeader ("X-R-MAIL")
+            ScrubbedInput mail,
+
+            @RequestHeader ("X-R-AUTH")
+            ScrubbedInput auth,
+
+            @RequestBody
+            String bodyJson,
+
+            HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Purchase Order API for did={} dt={}", did, dt);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        JsonPurchaseOrder jsonPurchaseOrder;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            jsonPurchaseOrder = mapper.readValue(bodyJson, JsonPurchaseOrder.class);
+        } catch (IOException e) {
+            LOG.error("Could not parse json={} reason={}", bodyJson, e.getLocalizedMessage(), e);
+            return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
+        }
+
+        try {
+            JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.cancelOrderByClient(qid, jsonPurchaseOrder.getTransactionId());
+            LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
+            return jsonPurchaseOrderResponse.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return jsonPurchaseOrder.asJson();
+        } finally {
+            apiHealthService.insert(
+                    "/cancel",
+                    "cancel",
                     PurchaseOrderAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
