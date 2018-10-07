@@ -5,12 +5,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.StoreProductEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderHistoricalList;
+import com.noqapp.domain.json.JsonPurchaseOrderProduct;
 import com.noqapp.domain.json.JsonQueueHistoricalList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.types.DeliveryTypeEnum;
+import com.noqapp.domain.types.PaymentTypeEnum;
+import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.view.ITest;
 
@@ -23,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +43,7 @@ class HistoricalAPIControllerITest extends ITest {
 
     private HistoricalAPIController historicalAPIController;
     private TokenQueueAPIController tokenQueueAPIController;
+    private PurchaseOrderAPIController purchaseOrderAPIController;
 
     private UserProfileEntity userProfile;
     private UserAccountEntity userAccount;
@@ -57,12 +65,41 @@ class HistoricalAPIControllerITest extends ITest {
                 apiHealthService
         );
 
+        purchaseOrderAPIController = new PurchaseOrderAPIController(
+                purchaseOrderService,
+                apiHealthService,
+                authenticateMobileService
+        );
+
         userProfile = userProfileManager.findOneByPhone("9118000000001");
         userAccount = userAccountManager.findByQueueUserId(userProfile.getQueueUserId());
     }
 
     @Test
     void orders() throws IOException {
+        JsonPurchaseOrder jsonPurchaseOrder = createOrder();
+        String jsonPurchaseOrderAsString = purchaseOrderAPIController.purchase(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(userProfile.getEmail()),
+                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+                jsonPurchaseOrder.asJson(),
+                httpServletResponse
+        );
+        JsonPurchaseOrder jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
+        String jsonPurchaseOrderCancelAsString = purchaseOrderAPIController.cancel(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                new ScrubbedInput(userProfile.getEmail()),
+                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+                jsonPurchaseOrderResponse.asJson(),
+                httpServletResponse
+        );
+
+        JsonPurchaseOrder jsonPurchaseOrderCancelResponse = new ObjectMapper().readValue(jsonPurchaseOrderCancelAsString, JsonPurchaseOrder.class);
+        assertEquals("900", jsonPurchaseOrderCancelResponse.getOrderPrice());
+        assertEquals(PurchaseOrderStateEnum.CO, jsonPurchaseOrderCancelResponse.getPresentOrderState());
+
         String orders = historicalAPIController.orders(
                 new ScrubbedInput(userProfile.getEmail()),
                 new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
@@ -70,7 +107,7 @@ class HistoricalAPIControllerITest extends ITest {
         );
 
         JsonPurchaseOrderHistoricalList jsonPurchaseOrderHistoricalList = new ObjectMapper().readValue(orders, JsonPurchaseOrderHistoricalList.class);
-        assertEquals(0, jsonPurchaseOrderHistoricalList.getJsonPurchaseOrderHistoricals().size());
+        assertEquals(1, jsonPurchaseOrderHistoricalList.getJsonPurchaseOrderHistoricals().size());
     }
 
     @Test
@@ -117,5 +154,42 @@ class HistoricalAPIControllerITest extends ITest {
                 httpServletResponse
         );
         return new ObjectMapper().readValue(jsonTokenAsString, JsonToken.class);
+    }
+
+    private JsonPurchaseOrder createOrder() {
+        BizNameEntity bizName = bizNameManager.findByPhone("9118000000021");
+        List<BizStoreEntity> bizStores = bizStoreManager.getAllBizStores(bizName.getId());
+        BizStoreEntity bizStore = bizStores.get(0);
+        List<StoreProductEntity> storeProducts = storeProductService.findAll(bizStore.getId());
+
+        int orderPrice = 0;
+        List<JsonPurchaseOrderProduct> jsonPurchaseOrderProducts = new ArrayList<>();
+        for (StoreProductEntity storeProduct : storeProducts) {
+            JsonPurchaseOrderProduct pop = new JsonPurchaseOrderProduct()
+                    .setProductId(storeProduct.getId())
+                    .setProductName(storeProduct.getProductName())
+                    .setProductPrice(storeProduct.getProductPrice())
+                    .setProductDiscount(storeProduct.getProductDiscount())
+                    .setProductQuantity(1);
+
+
+            orderPrice = computePrice(orderPrice, pop);
+            jsonPurchaseOrderProducts.add(pop);
+        }
+
+        return new JsonPurchaseOrder()
+                .setPurchaseOrderProducts(jsonPurchaseOrderProducts)
+                .setBizStoreId(bizStore.getId())
+                .setBusinessType(bizStore.getBusinessType())
+                .setCustomerName(userProfile.getName())
+                .setCustomerPhone(userProfile.getPhone())
+                .setDeliveryType(DeliveryTypeEnum.TO)
+                .setPaymentType(PaymentTypeEnum.CA)
+                .setStoreDiscount(bizStore.getDiscount())
+                .setOrderPrice(String.valueOf(orderPrice));
+    }
+
+    private int computePrice(int orderPrice, JsonPurchaseOrderProduct pop) {
+        return orderPrice + (pop.getProductPrice() - (pop.getProductPrice() * pop.getProductDiscount()/100)) * pop.getProductQuantity();
     }
 }
