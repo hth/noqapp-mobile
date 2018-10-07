@@ -7,7 +7,9 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
+import com.noqapp.domain.StoreCategoryEntity;
 import com.noqapp.domain.StoreHourEntity;
+import com.noqapp.domain.StoreProductEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.helper.NameDatePair;
@@ -15,6 +17,8 @@ import com.noqapp.domain.types.AddressOriginEnum;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.BusinessUserRegistrationStatusEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.domain.types.ProductTypeEnum;
+import com.noqapp.domain.types.UnitOfMeasurementEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.domain.types.catgeory.MedicalDepartmentEnum;
 import com.noqapp.health.repository.ApiHealthNowManager;
@@ -486,6 +490,8 @@ public class ITest extends RealMongoForITest {
         registerUser();
         createBusinessDoctor("9118000000030");
         createBusinessPharmacy("9118000000060");
+        createBusinessRestaurant("9118000000090");
+        populateRestaurantWithProducts("9118000000021");
     }
 
     private void registerUser() throws IOException {
@@ -498,6 +504,7 @@ public class ITest extends RealMongoForITest {
         /* Store Admin and Queue Supervisors. */
         addStoreUsersToDoctor();
         addStoreUsersToPharmacy();
+        addStoreUsersToRestaurant();
     }
 
     private void addStoreUsersToDoctor() {
@@ -660,6 +667,83 @@ public class ITest extends RealMongoForITest {
         accountService.save(storeManagerUserAccount);
     }
 
+    private void addStoreUsersToRestaurant() {
+        Registration queueAdmin = new Registration()
+                .setPhone("+9118000000090")
+                .setFirstName("Restaurant Business")
+                .setMail("restaurant_business@r.com")
+                .setPassword("password")
+                .setBirthday("2000-12-12")
+                .setGender("M")
+                .setCountryShortName("IN")
+                .setTimeZoneId("Asia/Calcutta")
+                .setInviteCode("");
+
+        accountClientController.register(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                queueAdmin.asJson(),
+                httpServletResponse);
+
+        UserProfileEntity merchantUserProfile = accountService.checkUserExistsByPhone("9118000000090");
+        merchantUserProfile.setLevel(UserLevelEnum.M_ADMIN);
+        accountService.save(merchantUserProfile);
+        UserAccountEntity merchantUserAccount = accountService.changeAccountRolesToMatchUserLevel(
+                merchantUserProfile.getQueueUserId(),
+                merchantUserProfile.getLevel());
+        accountService.save(merchantUserAccount);
+
+        Registration queueSupervisor = new Registration()
+                .setPhone("+9118000000091")
+                .setFirstName("Restaurant Store")
+                .setMail("restaurant_store_supervisor@r.com")
+                .setPassword("password")
+                .setBirthday("2000-12-12")
+                .setGender("M")
+                .setCountryShortName("IN")
+                .setTimeZoneId("Asia/Calcutta")
+                .setInviteCode("");
+
+        accountClientController.register(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                queueSupervisor.asJson(),
+                httpServletResponse);
+
+        UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000091");
+        queueSupervisorUserProfile.setLevel(UserLevelEnum.Q_SUPERVISOR);
+        accountService.save(queueSupervisorUserProfile);
+        UserAccountEntity queueSupervisorUserAccount = accountService.changeAccountRolesToMatchUserLevel(
+                queueSupervisorUserProfile.getQueueUserId(),
+                queueSupervisorUserProfile.getLevel());
+        accountService.save(queueSupervisorUserAccount);
+
+        Registration queueManager = new Registration()
+                .setPhone("+9118000000092")
+                .setFirstName("Manager of Restaurant")
+                .setMail("manager_restaurant@r.com")
+                .setPassword("password")
+                .setBirthday("2000-12-12")
+                .setGender("F")
+                .setCountryShortName("IN")
+                .setTimeZoneId("Asia/Calcutta")
+                .setInviteCode("");
+
+        accountClientController.register(
+                new ScrubbedInput(did),
+                new ScrubbedInput(deviceType),
+                queueManager.asJson(),
+                httpServletResponse);
+
+        UserProfileEntity storeManagerUserProfile = accountService.checkUserExistsByPhone("9118000000092");
+        storeManagerUserProfile.setLevel(UserLevelEnum.S_MANAGER);
+        accountService.save(storeManagerUserProfile);
+        UserAccountEntity storeManagerUserAccount = accountService.changeAccountRolesToMatchUserLevel(
+                storeManagerUserProfile.getQueueUserId(),
+                storeManagerUserProfile.getLevel());
+        accountService.save(storeManagerUserAccount);
+    }
+    
     private void addClients() {
         Registration client1 = new Registration()
             .setPhone("+9118000000001")
@@ -942,5 +1026,122 @@ public class ITest extends RealMongoForITest {
             bizStore.getCodeQR(),
             queueManagerUserProfile.getLevel());
         businessUserStoreService.save(businessUserStore);
+    }
+
+    private void createBusinessRestaurant(String phone) {
+        UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
+
+        BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")))
+                .setBusinessName("Restaurant Business")
+                .setBusinessType(BusinessTypeEnum.RS)
+                .setPhone("9118000000021")
+                .setPhoneRaw("18000000021")
+                .setAddress("Shop No 10 Plot No 102 Sector 29, Vashi, Navi Mumbai, Maharashtra 400703")
+                .setTown("Vashi")
+                .setStateShortName("MH")
+                .setTimeZone("Asia/Calcutta")
+                .setInviteeCode(userProfile.getInviteCode())
+                .setAddressOrigin(AddressOriginEnum.G)
+                .setCountryShortName("IN")
+                .setCoordinate(new double[]{71.022498, 18.0244723});
+        String webLocation = bizService.buildWebLocationForBiz(
+                bizName.getTown(),
+                bizName.getStateShortName(),
+                bizName.getCountryShortName(),
+                bizName.getBusinessName(),
+                bizName.getId());
+
+        bizName.setWebLocation(webLocation);
+        bizName.setCodeQR(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")));
+        bizService.saveName(bizName);
+
+        BizStoreEntity bizStore = BizStoreEntity.newInstance()
+                .setBizName(bizName)
+                .setDisplayName("Mera Restaurant")
+                .setBusinessType(bizName.getBusinessType())
+                .setBizCategoryId(null)
+                .setPhone("9118000000022")
+                .setPhoneRaw("18000000022")
+                .setAddress("Shop No 10 Plot No 102 Sector 29, Vashi, Navi Mumbai, Maharashtra 400703")
+                .setTimeZone("Asia/Calcutta")
+                .setCodeQR(ObjectId.get().toString())
+                .setAddressOrigin(AddressOriginEnum.G)
+                .setRemoteJoin(true)
+                .setAllowLoggedInUser(false)
+                .setAvailableTokenCount(0)
+                .setAverageServiceTime(50000)
+                .setCountryShortName("IN")
+                .setCoordinate(new double[]{73.022498, 19.0244723});
+        bizStore.setWebLocation(webLocation);
+        bizStore.setCodeQR(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")));
+        bizService.saveStore(bizStore, "Created New Store");
+
+        List<StoreHourEntity> storeHours = new LinkedList<>();
+        for (int i = 1; i <= 7; i++) {
+            StoreHourEntity storeHour = new StoreHourEntity(bizStore.getId(), DayOfWeek.of(i).getValue());
+            storeHour.setStartHour(1)
+                    .setTokenAvailableFrom(1)
+                    .setTokenNotAvailableFrom(2359)
+                    .setEndHour(2359);
+
+            storeHours.add(storeHour);
+        }
+
+        /* Add store hours. */
+        bizService.insertAll(storeHours);
+
+        /* Create Queue. */
+        tokenQueueService.createUpdate(bizStore.getCodeQR(), bizStore.getTopic(), bizStore.getDisplayName(), bizStore.getBusinessType());
+
+        /* Add Queue Admin, Queue Supervisor, Queue Manager to Business and Store. */
+        BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
+                userProfile.getQueueUserId(),
+                UserLevelEnum.M_ADMIN
+        );
+        businessUser.setBusinessUserRegistrationStatus(BusinessUserRegistrationStatusEnum.V)
+                .setValidateByQid(accountService.checkUserExistsByPhone("9118000000090").getQueueUserId())
+                .setBizName(bizName);
+        businessUserService.save(businessUser);
+
+        UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000091");
+        BusinessUserStoreEntity businessUserStore = new BusinessUserStoreEntity(
+                queueSupervisorUserProfile.getQueueUserId(),
+                bizStore.getId(),
+                bizName.getId(),
+                bizStore.getCodeQR(),
+                queueSupervisorUserProfile.getLevel());
+        businessUserStoreService.save(businessUserStore);
+
+        UserProfileEntity queueManagerUserProfile = accountService.checkUserExistsByPhone("9118000000092");
+        businessUserStore = new BusinessUserStoreEntity(
+                queueManagerUserProfile.getQueueUserId(),
+                bizStore.getId(),
+                bizName.getId(),
+                bizStore.getCodeQR(),
+                queueManagerUserProfile.getLevel());
+        businessUserStoreService.save(businessUserStore);
+    }
+
+    private void populateRestaurantWithProducts(String phone) {
+        BizNameEntity bizName = bizNameManager.findByPhone(phone);
+        List<BizStoreEntity> bizStores = bizStoreManager.getAllBizStores(bizName.getId());
+
+        StoreCategoryEntity storeCategory = new StoreCategoryEntity()
+                .setCategoryName("Chat Food")
+                .setBizStoreId(bizStores.get(0).getId())
+                .setBizNameId(bizName.getId());
+        storeCategoryManager.save(storeCategory);
+
+        StoreProductEntity storeProduct = new StoreProductEntity()
+                .setBizStoreId(bizStores.get(0).getId())
+                .setProductName("Alloo Tikkii")
+                .setProductPrice(1000)
+                .setProductDiscount(10)
+                .setProductInfo("Made from Alloo")
+                .setStoreCategoryId(storeCategory.getId())
+                .setProductType(ProductTypeEnum.VE)
+                .setUnitValue("1")
+                .setUnitOfMeasurement(UnitOfMeasurementEnum.CN);
+        storeProductManager.save(storeProduct);
     }
 }
