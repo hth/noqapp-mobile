@@ -84,10 +84,13 @@ class PurchaseOrderAPIControllerITest extends ITest {
                     .setProductPrice(storeProduct.getProductPrice())
                     .setProductDiscount(storeProduct.getProductDiscount())
                     .setProductQuantity(1);
-            orderPrice = orderPrice + (pop.getProductPrice() - (pop.getProductPrice() * pop.getProductDiscount()/100)) * pop.getProductQuantity();
+
+
+            orderPrice = computePrice(orderPrice, pop);
             jsonPurchaseOrderProducts.add(pop);
         }
-        JsonPurchaseOrder jsonPurchaseOrder = new JsonPurchaseOrder()
+
+        return new JsonPurchaseOrder()
                 .setPurchaseOrderProducts(jsonPurchaseOrderProducts)
                 .setBizStoreId(bizStore.getId())
                 .setBusinessType(bizStore.getBusinessType())
@@ -97,7 +100,9 @@ class PurchaseOrderAPIControllerITest extends ITest {
                 .setPaymentType(PaymentTypeEnum.CA)
                 .setStoreDiscount(bizStore.getDiscount())
                 .setOrderPrice(String.valueOf(orderPrice));
+    }
 
-        return jsonPurchaseOrder;
+    private int computePrice(int orderPrice, JsonPurchaseOrderProduct pop) {
+        return orderPrice + (pop.getProductPrice() - (pop.getProductPrice() * pop.getProductDiscount()/100)) * pop.getProductQuantity();
     }
 }
