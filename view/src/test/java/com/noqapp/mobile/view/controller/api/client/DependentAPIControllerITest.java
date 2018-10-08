@@ -29,7 +29,7 @@ import java.io.IOException;
 @DisplayName("Add dependent API")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
-class DependentAPIControllerTest extends ITest {
+class DependentAPIControllerITest extends ITest {
 
     private DependentAPIController dependentAPIController;
 
