@@ -67,6 +67,7 @@ import javax.servlet.http.HttpServletResponse;
         "PMD.MethodArgumentCouldBeFinal",
         "PMD.LongVariable"
 })
+@DisplayName("Manage Queue")
 class ManageQueueControllerTest {
 
     @Mock private AuthenticateMobileService authenticateMobileService;
