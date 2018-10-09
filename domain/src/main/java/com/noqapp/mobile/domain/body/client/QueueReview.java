@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 )
 @JsonPropertyOrder(alphabetic = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ReviewRating extends AbstractDomain {
+public class QueueReview extends AbstractDomain {
     @JsonProperty("codeQR")
     private String codeQR;
 
@@ -45,7 +45,7 @@ public class ReviewRating extends AbstractDomain {
         return codeQR;
     }
 
-    public ReviewRating setCodeQR(String codeQR) {
+    public QueueReview setCodeQR(String codeQR) {
         this.codeQR = codeQR;
         return this;
     }
@@ -54,7 +54,7 @@ public class ReviewRating extends AbstractDomain {
         return token;
     }
 
-    public ReviewRating setToken(int token) {
+    public QueueReview setToken(int token) {
         this.token = token;
         return this;
     }
@@ -63,7 +63,7 @@ public class ReviewRating extends AbstractDomain {
         return ratingCount;
     }
 
-    public ReviewRating setRatingCount(int ratingCount) {
+    public QueueReview setRatingCount(int ratingCount) {
         this.ratingCount = ratingCount;
         return this;
     }
@@ -72,7 +72,7 @@ public class ReviewRating extends AbstractDomain {
         return hoursSaved;
     }
 
-    public ReviewRating setHoursSaved(int hoursSaved) {
+    public QueueReview setHoursSaved(int hoursSaved) {
         this.hoursSaved = hoursSaved;
         return this;
     }
@@ -81,7 +81,7 @@ public class ReviewRating extends AbstractDomain {
         return review;
     }
 
-    public ReviewRating setReview(String review) {
+    public QueueReview setReview(String review) {
         this.review = review;
         return this;
     }
