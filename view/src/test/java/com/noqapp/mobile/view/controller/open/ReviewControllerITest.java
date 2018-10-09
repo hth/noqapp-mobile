@@ -15,7 +15,7 @@ import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
-import com.noqapp.mobile.domain.body.client.ReviewRating;
+import com.noqapp.mobile.domain.body.client.QueueReview;
 import com.noqapp.mobile.view.ITest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,7 +59,7 @@ class ReviewControllerITest extends ITest {
     @Test
     @DisplayName("Service fails when code QR does not exists")
     void service_fails_when_codeQR_DoesNotExists() {
-        ReviewRating reviewRating = new ReviewRating()
+        QueueReview queueReview = new QueueReview()
                 .setCodeQR(did)
                 .setToken(1)
                 .setRatingCount(5)
@@ -69,7 +69,7 @@ class ReviewControllerITest extends ITest {
         String response = reviewController.service(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
-                reviewRating.asJson(),
+                queueReview.asJson(),
                 httpServletResponse
         );
 
@@ -142,7 +142,7 @@ class ReviewControllerITest extends ITest {
     }
 
     private void submitReview(BizStoreEntity bizStore, JsonToken jsonToken) throws IOException {
-        ReviewRating reviewRating = new ReviewRating()
+        QueueReview queueReview = new QueueReview()
                 .setCodeQR(bizStore.getCodeQR())
                 .setToken(jsonToken.getToken())
                 .setRatingCount(5)
@@ -153,7 +153,7 @@ class ReviewControllerITest extends ITest {
         String response = reviewController.service(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
-                reviewRating.asJson(),
+                queueReview.asJson(),
                 httpServletResponse
         );
         JsonResponse jsonResponse = new ObjectMapper().readValue(response, JsonResponse.class);

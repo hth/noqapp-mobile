@@ -8,7 +8,7 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.domain.body.client.ReviewRating;
+import com.noqapp.mobile.domain.body.client.QueueReview;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
@@ -95,9 +95,9 @@ public class ReviewAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        ReviewRating reviewRating;
+        QueueReview queueReview;
         try {
-            reviewRating = new ObjectMapper().readValue(requestBodyJson, ReviewRating.class);
+            queueReview = new ObjectMapper().readValue(requestBodyJson, QueueReview.class);
         } catch (IOException e) {
             LOG.error("Could not parse json={} reason={}", requestBodyJson, e.getLocalizedMessage(), e);
             return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
@@ -106,19 +106,19 @@ public class ReviewAPIController {
         boolean reviewSuccess = false;
         try {
             /* Required. */
-            if (!tokenQueueMobileService.getBizService().isValidCodeQR(reviewRating.getCodeQR())) {
+            if (!tokenQueueMobileService.getBizService().isValidCodeQR(queueReview.getCodeQR())) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
                 return null;
             }
 
             reviewSuccess = queueMobileService.reviewService(
-                    reviewRating.getCodeQR(),
-                    reviewRating.getToken(),
+                    queueReview.getCodeQR(),
+                    queueReview.getToken(),
                     did.getText(),
                     qid,
-                    reviewRating.getRatingCount(),
-                    reviewRating.getHoursSaved(),
-                    reviewRating.getReview());
+                    queueReview.getRatingCount(),
+                    queueReview.getHoursSaved(),
+                    queueReview.getReview());
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
