@@ -8,6 +8,7 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.mobile.domain.body.client.OrderReview;
 import com.noqapp.mobile.domain.body.client.QueueReview;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
@@ -69,10 +70,10 @@ public class ReviewAPIController {
      * Add review to service. This includes today's service or historical service.
      */
     @PostMapping(
-            value = "/service",
+            value = {"/queue", "/service"},
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String service(
+    public String queue(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
