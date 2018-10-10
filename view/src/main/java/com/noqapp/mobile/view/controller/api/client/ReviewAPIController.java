@@ -11,8 +11,10 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.OrderReview;
 import com.noqapp.mobile.domain.body.client.QueueReview;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.service.PurchaseOrderService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -51,6 +53,7 @@ public class ReviewAPIController {
     private AuthenticateMobileService authenticateMobileService;
     private TokenQueueMobileService tokenQueueMobileService;
     private QueueMobileService queueMobileService;
+    private PurchaseOrderMobileService purchaseOrderMobileService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -58,11 +61,13 @@ public class ReviewAPIController {
             AuthenticateMobileService authenticateMobileService,
             TokenQueueMobileService tokenQueueMobileService,
             QueueMobileService queueMobileService,
+            PurchaseOrderMobileService purchaseOrderMobileService,
             ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
+        this.purchaseOrderMobileService = purchaseOrderMobileService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -87,22 +92,14 @@ public class ReviewAPIController {
             ScrubbedInput auth,
 
             @RequestBody
-            String requestBodyJson,
+            QueueReview queueReview,
 
             HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
-        LOG.info("Review API for did={} dt={}", did, dt);
+        LOG.info("Queue Review API for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
-
-        QueueReview queueReview;
-        try {
-            queueReview = new ObjectMapper().readValue(requestBodyJson, QueueReview.class);
-        } catch (IOException e) {
-            LOG.error("Could not parse json={} reason={}", requestBodyJson, e.getLocalizedMessage(), e);
-            return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
-        }
 
         boolean reviewSuccess = false;
         try {
@@ -122,7 +119,7 @@ public class ReviewAPIController {
                     queueReview.getReview());
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
-            LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed processing queue review reason={}", e.getLocalizedMessage(), e);
             apiHealthService.insert(
                     "/service",
                     "service",
@@ -137,6 +134,71 @@ public class ReviewAPIController {
                     ReviewAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.G);
+        }
+    }
+
+    /**
+     * Add review to service. This includes today's service or historical service.
+     */
+    @PostMapping(
+        value = "/order",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String order(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        OrderReview orderReview,
+
+        HttpServletResponse response
+    ) throws IOException {
+        Instant start = Instant.now();
+        LOG.info("Order Review API for did={} dt={}", did, dt);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        boolean reviewSuccess = false;
+        try {
+            /* Required. */
+            if (!tokenQueueMobileService.getBizService().isValidCodeQR(orderReview.getCodeQR())) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+                return null;
+            }
+
+            reviewSuccess = purchaseOrderMobileService.reviewService(
+                orderReview.getCodeQR(),
+                orderReview.getToken(),
+                did.getText(),
+                qid,
+                orderReview.getRatingCount(),
+                orderReview.getReview());
+            return new JsonResponse(reviewSuccess).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed processing order review reason={}", e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                "/order",
+                "order",
+                ReviewAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
+            return new JsonResponse(reviewSuccess).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/order",
+                "order",
+                ReviewAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
         }
     }
 }
