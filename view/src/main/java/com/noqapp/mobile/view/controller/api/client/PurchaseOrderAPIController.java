@@ -1,7 +1,12 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
+import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonPurchaseOrder;
@@ -9,6 +14,7 @@ import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.mobile.domain.body.client.OrderDetail;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.PurchaseOrderService;
 
@@ -170,6 +176,54 @@ public class PurchaseOrderAPIController {
                     PurchaseOrderAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Get order detail. */
+    @PostMapping(
+        value = "/orderDetail",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String orderDetail(
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        OrderDetail orderDetail,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Order detail request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/c/purchaseOrder/orderDetail by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            JsonPurchaseOrder jsonPurchaseOrder = purchaseOrderService.findBy(qid, orderDetail.getCodeQR(), orderDetail.getToken());
+            if (null == jsonPurchaseOrder) {
+                return getErrorReason("No such order found", PURCHASE_ORDER_NOT_FOUND);
+            }
+
+            return jsonPurchaseOrder.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting order detail reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/orderDetail",
+                "orderDetail",
+                PurchaseOrderAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }

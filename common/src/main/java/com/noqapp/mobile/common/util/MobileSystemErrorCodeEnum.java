@@ -40,6 +40,9 @@ public enum MobileSystemErrorCodeEnum {
     BUSINESS_CUSTOMER_ID_DOES_NOT_EXISTS("4121", ALERT),
     BUSINESS_CUSTOMER_ID_EXISTS("4122", ALERT),
 
+    /** Orders. */
+    PURCHASE_ORDER_NOT_FOUND("4204", ALERT),
+
     /** Mobile application related issue. */
     SEVERE("5000", ERROR),
     DEVICE_DETAIL_MISSING("5010", ERROR),
