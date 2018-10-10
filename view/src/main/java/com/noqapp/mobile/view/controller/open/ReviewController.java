@@ -1,30 +1,29 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.json.JsonReviewList;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.QueueReview;
+import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -47,25 +46,28 @@ public class ReviewController {
 
     private TokenQueueMobileService tokenQueueMobileService;
     private QueueMobileService queueMobileService;
+    private PurchaseOrderMobileService purchaseOrderMobileService;
     private ApiHealthService apiHealthService;
 
     @Autowired
     public ReviewController(
             TokenQueueMobileService tokenQueueMobileService,
             QueueMobileService queueMobileService,
+            PurchaseOrderMobileService purchaseOrderMobileService,
             ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
+        this.purchaseOrderMobileService = purchaseOrderMobileService;
         this.apiHealthService = apiHealthService;
     }
 
-    /** Add review to service. This includes today's service or historical service. */
+    /** Add review to queue service. This includes today's service or historical queue service. */
     @PostMapping(
-            value = "/service",
+            value = {"/queue", "/service"},
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String service(
+    public String queue(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
 
@@ -73,22 +75,12 @@ public class ReviewController {
             ScrubbedInput dt,
 
             @RequestBody
-            String requestBodyJson,
+            QueueReview queueReview,
 
             HttpServletResponse response
     ) {
         Instant start = Instant.now();
         LOG.info("Review for did={} dt={}", did, dt);
-
-        QueueReview queueReview;
-        try {
-            queueReview = new ObjectMapper().readValue(
-                    requestBodyJson,
-                    QueueReview.class);
-        } catch (IOException e) {
-            LOG.error("Could not parse json={} reason={}", requestBodyJson, e.getLocalizedMessage(), e);
-            return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
-        }
 
         boolean reviewSuccess = false;
         try {
@@ -109,19 +101,74 @@ public class ReviewController {
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
             apiHealthService.insert(
-                    "/service",
-                    "service",
+                    "/queue",
+                    "queue",
                     ReviewController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.F);
             return new JsonResponse(reviewSuccess).asJson();
         } finally {
             apiHealthService.insert(
-                    "/service",
-                    "service",
+                    "/queue",
+                    "queue",
                     ReviewController.class.getName(),
                     Duration.between(start, Instant.now()),
                     HealthStatusEnum.G);
+        }
+    }
+
+    /** Get all reviews associated with business. This includes today's review and historical review. */
+    @GetMapping(
+        value = "/reviews/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String reviews(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
+
+        HttpServletResponse response
+    ) {
+        Instant start = Instant.now();
+        LOG.info("Review for did={} dt={}", did, dt);
+
+        try {
+            /* Required. */
+            if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+                return null;
+            }
+
+            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(codeQR.getText());
+            switch (bizStore.getBusinessType().getMessageOrigin()) {
+                case O:
+                    return purchaseOrderMobileService.findReviews(codeQR.getText()).asJson();
+                case Q:
+                    return queueMobileService.findReviews(codeQR.getText()).asJson();
+            }
+
+            return new JsonReviewList().asJson();
+        } catch (Exception e) {
+            LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                "/reviews/{codeQR}",
+                "reviews",
+                ReviewController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
+            return new JsonReviewList().asJson();
+        } finally {
+            apiHealthService.insert(
+                "/reviews/{codeQR}",
+                "reviews",
+                ReviewController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
         }
     }
 }

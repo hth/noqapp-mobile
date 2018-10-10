@@ -15,6 +15,7 @@ import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueHistoricalList;
 import com.noqapp.domain.json.JsonQueuePersonList;
+import com.noqapp.domain.json.JsonReviewList;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
@@ -447,5 +448,9 @@ public class QueueMobileService {
     /** This is for TV Api, shows only active in queue. */
     public String findAllActiveInQueue(String codeQR) {
         return queueService.findYetToBeServed(codeQR);
+    }
+
+    public JsonReviewList findReviews(String codeQR) {
+        return queueService.findReviews(codeQR);
     }
 }
