@@ -443,4 +443,9 @@ public class QueueMobileService {
     public JsonQueueHistoricalList findAllHistoricalQueueAsJson(String qid) {
         return queueService.findAllHistoricalQueueAsJson(qid);
     }
+
+    /** This is for TV Api, shows only active in queue. */
+    public String findAllActiveInQueue(String codeQR) {
+        return queueService.findYetToBeServed(codeQR);
+    }
 }
