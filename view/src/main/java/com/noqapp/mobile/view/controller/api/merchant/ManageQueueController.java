@@ -671,7 +671,7 @@ public class ManageQueueController {
     }
 
     /**
-     * List all clients.
+     * List all clients in queue.
      */
     @PostMapping (
             value = "/showClients/{codeQR}",
