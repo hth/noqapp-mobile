@@ -46,6 +46,7 @@ class ReviewControllerITest extends ITest {
         reviewController = new ReviewController(
                 tokenQueueMobileService,
                 queueMobileService,
+                purchaseOrderMobileService,
                 apiHealthService
         );
 
@@ -66,10 +67,10 @@ class ReviewControllerITest extends ITest {
                 .setHoursSaved(1)
                 .setReview("This is review");
 
-        String response = reviewController.service(
+        String response = reviewController.queue(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
-                queueReview.asJson(),
+                queueReview,
                 httpServletResponse
         );
 
@@ -150,10 +151,10 @@ class ReviewControllerITest extends ITest {
                 .setReview("This is review");
 
         /* Fails to update as its still under Queued state. */
-        String response = reviewController.service(
+        String response = reviewController.queue(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
-                queueReview.asJson(),
+                queueReview,
                 httpServletResponse
         );
         JsonResponse jsonResponse = new ObjectMapper().readValue(response, JsonResponse.class);

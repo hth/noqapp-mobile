@@ -48,6 +48,7 @@ import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.DeviceService;
+import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.StoreDetailService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
@@ -186,6 +187,7 @@ public class ITest extends RealMongoForITest {
     protected PurchaseOrderManager purchaseOrderManager;
     protected PurchaseOrderProductManager purchaseOrderProductManager;
     protected PurchaseOrderService purchaseOrderService;
+    protected PurchaseOrderMobileService purchaseOrderMobileService;
     protected FileService fileService;
     protected S3FileManager s3FileManager;
 
@@ -359,6 +361,7 @@ public class ITest extends RealMongoForITest {
         scheduledTaskManager = new ScheduledTaskManagerImpl(getMongoTemplate());
 
         purchaseOrderService = new PurchaseOrderService(
+            180,
             bizStoreManager,
             tokenQueueService,
             storeHourManager,
@@ -374,12 +377,15 @@ public class ITest extends RealMongoForITest {
             accountService
         );
 
+        purchaseOrderMobileService = new PurchaseOrderMobileService(purchaseOrderService);
+
         bizNameManager = new BizNameManagerImpl(getMongoTemplate());
         businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
         businessUserManager = new BusinessUserManagerImpl(getMongoTemplate());
 
         queueService = new QueueService(
             30,
+            180,
             accountService,
             businessCustomerService,
             bizStoreManager,
