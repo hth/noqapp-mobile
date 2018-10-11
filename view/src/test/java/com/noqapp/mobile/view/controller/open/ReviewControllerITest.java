@@ -46,7 +46,7 @@ class ReviewControllerITest extends ITest {
         reviewController = new ReviewController(
                 tokenQueueMobileService,
                 queueMobileService,
-                purchaseOrderMobileService,
+                reviewService,
                 apiHealthService
         );
 

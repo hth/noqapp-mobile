@@ -2,6 +2,7 @@ package com.noqapp.mobile.service;
 
 import com.noqapp.domain.json.JsonReviewList;
 import com.noqapp.service.PurchaseOrderService;
+import com.noqapp.service.ReviewService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +36,5 @@ public class PurchaseOrderMobileService {
      */
     public boolean reviewService(String codeQR, int token, String did, String qid, int ratingCount, String review) {
         return purchaseOrderService.reviewService(codeQR, token, did, qid, ratingCount, review);
-    }
-
-    public JsonReviewList findReviews(String codeQR) {
-        return purchaseOrderService.findReviews(codeQR);
     }
 }

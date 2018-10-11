@@ -10,6 +10,7 @@ import com.noqapp.mobile.domain.body.client.QueueReview;
 import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.service.ReviewService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,19 +47,19 @@ public class ReviewController {
 
     private TokenQueueMobileService tokenQueueMobileService;
     private QueueMobileService queueMobileService;
-    private PurchaseOrderMobileService purchaseOrderMobileService;
+    private ReviewService reviewService;
     private ApiHealthService apiHealthService;
 
     @Autowired
     public ReviewController(
             TokenQueueMobileService tokenQueueMobileService,
             QueueMobileService queueMobileService,
-            PurchaseOrderMobileService purchaseOrderMobileService,
+            ReviewService reviewService,
             ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
-        this.purchaseOrderMobileService = purchaseOrderMobileService;
+        this.reviewService = reviewService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -147,9 +148,9 @@ public class ReviewController {
             BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(codeQR.getText());
             switch (bizStore.getBusinessType().getMessageOrigin()) {
                 case O:
-                    return purchaseOrderMobileService.findReviews(codeQR.getText()).asJson();
+                    return reviewService.findOrderReviews(codeQR.getText()).asJson();
                 case Q:
-                    return queueMobileService.findReviews(codeQR.getText()).asJson();
+                    return reviewService.findQueueReviews(codeQR.getText()).asJson();
             }
 
             return new JsonReviewList().asJson();
