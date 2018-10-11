@@ -29,6 +29,7 @@ import com.noqapp.repository.StoreHourManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.ExternalService;
 import com.noqapp.service.QueueService;
+import com.noqapp.service.ReviewService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -448,9 +449,5 @@ public class QueueMobileService {
     /** This is for TV Api, shows only active in queue. */
     public String findAllActiveInQueue(String codeQR) {
         return queueService.findYetToBeServed(codeQR);
-    }
-
-    public JsonReviewList findReviews(String codeQR) {
-        return queueService.findReviews(codeQR);
     }
 }

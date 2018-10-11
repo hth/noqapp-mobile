@@ -127,6 +127,7 @@ import com.noqapp.service.PreferredBusinessService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
+import com.noqapp.service.ReviewService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
 import com.noqapp.service.TokenQueueService;
@@ -190,6 +191,7 @@ public class ITest extends RealMongoForITest {
     protected PurchaseOrderMobileService purchaseOrderMobileService;
     protected FileService fileService;
     protected S3FileManager s3FileManager;
+    protected ReviewService reviewService;
 
     protected MedicalRecordManager medicalRecordManager;
     protected MedicalPhysicalManager medicalPhysicalManager;
@@ -303,7 +305,17 @@ public class ITest extends RealMongoForITest {
             "localhost"
         );
 
+        reviewService = new ReviewService(
+            180,
+            queueManager,
+            queueManagerJDBC,
+            purchaseOrderManager,
+            purchaseOrderManagerJDBC,
+            userProfileManager
+        );
+
         professionalProfileManager = new ProfessionalProfileManagerImpl(getMongoTemplate());
+        professionalProfileService = new ProfessionalProfileService(professionalProfileManager, userProfileManager, reviewService);
 
         accountMobileService = new AccountMobileService(
             "/webapi/mobile/mail/accountSignup.htm",
@@ -360,7 +372,6 @@ public class ITest extends RealMongoForITest {
         scheduledTaskManager = new ScheduledTaskManagerImpl(getMongoTemplate());
 
         purchaseOrderService = new PurchaseOrderService(
-            180,
             bizStoreManager,
             tokenQueueService,
             storeHourManager,
@@ -384,8 +395,7 @@ public class ITest extends RealMongoForITest {
 
         queueService = new QueueService(
             30,
-            180,
-            accountService,
+            userProfileManager,
             businessCustomerService,
             bizStoreManager,
             queueManager,
@@ -422,7 +432,6 @@ public class ITest extends RealMongoForITest {
 
         storeCategoryManager = new StoreCategoryManagerImpl(getMongoTemplate());
         storeCategoryService = new StoreCategoryService(storeCategoryManager, storeProductManager);
-        professionalProfileService = new ProfessionalProfileService(professionalProfileManager, userProfileManager, queueService);
 
         tokenQueueMobileService = new TokenQueueMobileService(
             tokenQueueService,
