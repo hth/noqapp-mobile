@@ -4,6 +4,7 @@ import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -533,7 +534,7 @@ public class PurchaseOrderController {
         ScrubbedInput auth,
 
         @RequestBody
-        JsonPurchaseOrder jsonPurchaseOrder,
+        OrderServed orderServed,
 
         HttpServletResponse response
     ) throws IOException {
@@ -548,13 +549,17 @@ public class PurchaseOrderController {
         }
 
         try {
-            JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.cancelOrderByMerchant(jsonPurchaseOrder.getBizStoreId(), jsonPurchaseOrder.getTransactionId());
+            JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.cancelOrderByMerchant(orderServed.getCodeQR().getText(), orderServed.getServedNumber());
             LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
             return jsonPurchaseOrderResponse.asJson();
         } catch (Exception e) {
-            LOG.error("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed cancelling purchase order orderNumber={} codeQR={} purchaseOrderState={} reason={}",
+                orderServed.getServedNumber(),
+                orderServed.getCodeQR(),
+                orderServed.getPurchaseOrderState(),
+                e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return jsonPurchaseOrder.asJson();
+            return getErrorReason("Failed to cancel order", PURCHASE_ORDER_FAILED_TO_CANCEL);
         } finally {
             apiHealthService.insert(
                 "/cancel",
