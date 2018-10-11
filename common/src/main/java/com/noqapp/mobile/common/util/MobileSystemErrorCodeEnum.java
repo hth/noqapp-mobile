@@ -42,6 +42,7 @@ public enum MobileSystemErrorCodeEnum {
 
     /** Orders. */
     PURCHASE_ORDER_NOT_FOUND("4204", ALERT),
+    PURCHASE_ORDER_FAILED_TO_CANCEL("4208", ALERT),
 
     /** Mobile application related issue. */
     SEVERE("5000", ERROR),
