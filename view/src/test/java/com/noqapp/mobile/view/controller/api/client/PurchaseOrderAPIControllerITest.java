@@ -87,7 +87,7 @@ class PurchaseOrderAPIControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userProfile.getEmail()),
                 new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                jsonPurchaseOrderResponse.asJson(),
+                jsonPurchaseOrderResponse,
                 httpServletResponse
         );
 
