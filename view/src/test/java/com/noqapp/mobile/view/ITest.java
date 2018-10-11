@@ -304,7 +304,6 @@ public class ITest extends RealMongoForITest {
         );
 
         professionalProfileManager = new ProfessionalProfileManagerImpl(getMongoTemplate());
-        professionalProfileService = new ProfessionalProfileService(professionalProfileManager, userProfileManager);
 
         accountMobileService = new AccountMobileService(
             "/webapi/mobile/mail/accountSignup.htm",
@@ -423,6 +422,7 @@ public class ITest extends RealMongoForITest {
 
         storeCategoryManager = new StoreCategoryManagerImpl(getMongoTemplate());
         storeCategoryService = new StoreCategoryService(storeCategoryManager, storeProductManager);
+        professionalProfileService = new ProfessionalProfileService(professionalProfileManager, userProfileManager, queueService);
 
         tokenQueueMobileService = new TokenQueueMobileService(
             tokenQueueService,
