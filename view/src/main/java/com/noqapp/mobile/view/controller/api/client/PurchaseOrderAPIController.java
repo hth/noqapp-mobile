@@ -142,7 +142,7 @@ public class PurchaseOrderAPIController {
             ScrubbedInput auth,
 
             @RequestBody
-            String bodyJson,
+            JsonPurchaseOrder jsonPurchaseOrder,
 
             HttpServletResponse response
     ) throws IOException {
@@ -151,15 +151,6 @@ public class PurchaseOrderAPIController {
         LOG.info("Purchase Order API for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
-
-        JsonPurchaseOrder jsonPurchaseOrder;
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            jsonPurchaseOrder = mapper.readValue(bodyJson, JsonPurchaseOrder.class);
-        } catch (IOException e) {
-            LOG.error("Could not parse json={} reason={}", bodyJson, e.getLocalizedMessage(), e);
-            return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
-        }
 
         try {
             JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.cancelOrderByClient(qid, jsonPurchaseOrder.getTransactionId());
