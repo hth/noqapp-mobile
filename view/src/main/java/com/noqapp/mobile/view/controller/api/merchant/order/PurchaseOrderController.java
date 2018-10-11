@@ -6,11 +6,13 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_C
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.TokenQueueEntity;
+import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderList;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.fcm.data.JsonTopicOrderData;
@@ -20,15 +22,18 @@ import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.OrderServed;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
+import com.noqapp.mobile.view.controller.api.client.PurchaseOrderAPIController;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -427,7 +432,7 @@ public class PurchaseOrderController {
         LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/mq/served by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/o/purchaseOrder/actionOnOrder by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -437,7 +442,7 @@ public class PurchaseOrderController {
                 LOG.warn("Not a valid codeQR={} qid={}", orderServed.getCodeQR().getText(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
             } else if (!businessUserStoreService.hasAccess(qid, orderServed.getCodeQR().getText())) {
-                LOG.info("Un-authorized store access to /api/m/o/purchaseOrder/processed by mail={}", mail);
+                LOG.info("Un-authorized store access to /api/m/o/purchaseOrder/actionOnOrder by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
@@ -508,9 +513,60 @@ public class PurchaseOrderController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/served",
-                "served",
+                "/actionOnOrder",
+                "actionOnOrder",
                 ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Cancel placed order. */
+    @PostMapping(
+        value = "/cancel",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String cancel(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonPurchaseOrder jsonPurchaseOrder,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/o/purchaseOrder/cancel by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.cancelOrderByMerchant(jsonPurchaseOrder.getBizStoreId(), jsonPurchaseOrder.getTransactionId());
+            LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
+            return jsonPurchaseOrderResponse.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return jsonPurchaseOrder.asJson();
+        } finally {
+            apiHealthService.insert(
+                "/cancel",
+                "cancel",
+                PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
