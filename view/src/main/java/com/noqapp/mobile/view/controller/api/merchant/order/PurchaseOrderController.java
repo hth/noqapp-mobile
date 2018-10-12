@@ -549,9 +549,9 @@ public class PurchaseOrderController {
         }
 
         try {
-            JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.cancelOrderByMerchant(orderServed.getCodeQR().getText(), orderServed.getServedNumber());
-            LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
-            return jsonPurchaseOrderResponse.asJson();
+            JsonPurchaseOrderList jsonPurchaseOrderList = purchaseOrderService.cancelOrderByMerchant(orderServed.getCodeQR().getText(), orderServed.getServedNumber());
+            LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderList.getPurchaseOrders().get(0).getPresentOrderState());
+            return jsonPurchaseOrderList.asJson();
         } catch (Exception e) {
             LOG.error("Failed cancelling purchase order orderNumber={} codeQR={} purchaseOrderState={} reason={}",
                 orderServed.getServedNumber(),
