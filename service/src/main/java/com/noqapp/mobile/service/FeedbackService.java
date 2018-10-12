@@ -71,9 +71,9 @@ public class FeedbackService {
             return false;
         }
 
-        String body = "QR: " + feedback.getCodeQR().getText() + "<br/>" +
-            "Order(O)/Queue(Q): " + feedback.getMessageOrigin() + "<br/>" +
-            "Token No.: : " + feedback.getToken() + "<br/>" +
+        String body = "QR: " + feedback.getCodeQR().getText() + "; " +
+            "Order(O)/Queue(Q): " + feedback.getMessageOrigin() + "; " +
+            "Token No.: " + feedback.getToken() + "; " +
             "Message: " + feedback.getBody().getText();
         FeedbackMail feedbackMail = FeedbackMail.newInstance(userId, qid, name, feedback.getSubject().getText(), body);
         webConnectorService.setEntityWithGson(feedbackMail, httpPost);
