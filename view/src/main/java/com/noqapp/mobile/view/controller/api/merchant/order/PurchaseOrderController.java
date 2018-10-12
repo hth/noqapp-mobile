@@ -4,6 +4,7 @@ import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -11,7 +12,6 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.TokenQueueEntity;
-import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderList;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
@@ -549,6 +549,10 @@ public class PurchaseOrderController {
         }
 
         try {
+            if (purchaseOrderService.isOrderCancelled(orderServed.getCodeQR().getText(), orderServed.getServedNumber())) {
+                return getErrorReason("Order already cancelled", PURCHASE_ORDER_ALREADY_CANCELLED);
+            }
+
             JsonPurchaseOrderList jsonPurchaseOrderList = purchaseOrderService.cancelOrderByMerchant(orderServed.getCodeQR().getText(), orderServed.getServedNumber());
             LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderList.getPurchaseOrders().get(0).getPresentOrderState());
             return jsonPurchaseOrderList.asJson();
