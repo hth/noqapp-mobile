@@ -3,6 +3,8 @@ package com.noqapp.mobile.view.controller.api.client;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
@@ -153,13 +155,17 @@ public class PurchaseOrderAPIController {
         if (authorizeRequest(response, qid)) return null;
 
         try {
+            if (purchaseOrderService.isOrderCancelled(qid, jsonPurchaseOrder.getTransactionId())) {
+                return getErrorReason("Order already cancelled", PURCHASE_ORDER_ALREADY_CANCELLED);
+            }
+
             JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.cancelOrderByClient(qid, jsonPurchaseOrder.getTransactionId());
             LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
             return jsonPurchaseOrderResponse.asJson();
         } catch (Exception e) {
             LOG.error("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return jsonPurchaseOrder.asJson();
+            return getErrorReason("Failed to cancel order", PURCHASE_ORDER_FAILED_TO_CANCEL);
         } finally {
             apiHealthService.insert(
                     "/cancel",
