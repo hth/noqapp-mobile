@@ -207,7 +207,7 @@ public class TokenQueueAPIController {
     }
 
     /**
-     * Get all the queues user has token from. In short all the queues user has joined.
+     * Get all the queues user has token from. In short all the queues user has joined or all placed orders.
      *
      * @param did
      * @param dt
