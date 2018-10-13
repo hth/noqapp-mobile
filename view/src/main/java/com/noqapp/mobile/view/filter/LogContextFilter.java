@@ -49,9 +49,7 @@ public class LogContextFilter implements Filter {
     /* https://stackoverflow.com/questions/24894093/ruby-regular-expression-extracting-part-of-url */
     private static final Pattern EXTRACT_ENDPOINT_PATTERN =
             Pattern.compile("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
-
-    /* Changed due to logstash error from dash to underscore. */
-    private static final String REQUEST_ID_MDC_KEY = "X_REQUEST_ID";
+    private static final String REQUEST_ID_MDC_KEY = "X-REQUEST-ID";
 
     @Override
     public void doFilter(
