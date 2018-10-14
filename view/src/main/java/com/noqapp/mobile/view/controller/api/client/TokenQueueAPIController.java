@@ -262,7 +262,7 @@ public class TokenQueueAPIController {
     }
     
     /**
-     * Get all the historical queues user has token from. In short all the queues user has joined in past.
+     * Get all the historical queues user has token from. In short all the queues and order user has joined in past.
      *
      * @param did
      * @param deviceType
