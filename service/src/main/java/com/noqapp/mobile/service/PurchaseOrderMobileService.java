@@ -1,8 +1,6 @@
 package com.noqapp.mobile.service;
 
-import com.noqapp.domain.json.JsonReviewList;
 import com.noqapp.service.PurchaseOrderService;
-import com.noqapp.service.ReviewService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
