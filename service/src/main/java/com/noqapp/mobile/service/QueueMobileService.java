@@ -372,6 +372,7 @@ public class QueueMobileService {
         int hoursSaved,
         String review
     ) {
+        //TODO(hth) when adding new review increase ratingCount. Make sure when editing review, do not increase count.
         return queueManagerJDBC.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved, review);
     }
 
