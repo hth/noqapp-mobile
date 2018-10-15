@@ -172,4 +172,60 @@ public class ReviewController {
                 HealthStatusEnum.G);
         }
     }
+
+    /** Get all reviews associated with business. This includes today's review and historical review. */
+    @GetMapping(
+        value = "/reviews/levelUp/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String reviewsLevelUp(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
+
+        HttpServletResponse response
+    ) {
+        Instant start = Instant.now();
+        LOG.info("Review for did={} dt={}", did, dt);
+
+        try {
+            /* Required. */
+            if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+                return null;
+            }
+
+            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(codeQR.getText());
+            switch (bizStore.getBusinessType().getMessageOrigin()) {
+                case O:
+                    LOG.error("Should not reach here bizStoreId={} name={}", bizStore.getId(), bizStore.getDisplayName());
+                    break;
+                case Q:
+                    return reviewService.findQueueLevelUpReviews(bizStore.getBizName().getId()).asJson();
+            }
+
+            return new JsonReviewList().asJson();
+        } catch (Exception e) {
+            LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                "/reviews/levelUp/{codeQR}",
+                "reviewsLevelUp",
+                ReviewController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
+            return new JsonReviewList().asJson();
+        } finally {
+            apiHealthService.insert(
+                "/reviews/levelUp/{codeQR}",
+                "reviewsLevelUp",
+                ReviewController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
+        }
+    }
 }
