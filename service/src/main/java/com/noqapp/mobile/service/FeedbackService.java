@@ -73,7 +73,7 @@ public class FeedbackService {
         }
 
         String body;
-        if (StringUtils.isNotBlank(feedback.getCodeQR().getText())) {
+        if (null != feedback.getCodeQR() && StringUtils.isNotBlank(feedback.getCodeQR().getText())) {
             body = "QR: " + feedback.getCodeQR().getText() + "; " +
                 "Order(O)/Queue(Q): " + feedback.getMessageOrigin() + "; " +
                 "Token No.: " + feedback.getToken() + "; " +
