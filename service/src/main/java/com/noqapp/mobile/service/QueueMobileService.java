@@ -1,7 +1,6 @@
 package com.noqapp.mobile.service;
 
 import static com.noqapp.common.utils.DateUtil.Day.TODAY;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import com.noqapp.common.utils.CommonUtil;
@@ -15,7 +14,6 @@ import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueHistoricalList;
 import com.noqapp.domain.json.JsonQueuePersonList;
-import com.noqapp.domain.json.JsonReviewList;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
@@ -27,9 +25,7 @@ import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.service.BizService;
-import com.noqapp.service.ExternalService;
 import com.noqapp.service.QueueService;
-import com.noqapp.service.ReviewService;
 
 import org.apache.commons.lang3.StringUtils;
 
