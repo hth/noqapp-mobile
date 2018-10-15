@@ -6,6 +6,7 @@ import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.mobile.domain.body.client.Feedback;
 import com.noqapp.mobile.domain.mail.FeedbackMail;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -71,10 +72,15 @@ public class FeedbackService {
             return false;
         }
 
-        String body = "QR: " + feedback.getCodeQR().getText() + "; " +
-            "Order(O)/Queue(Q): " + feedback.getMessageOrigin() + "; " +
-            "Token No.: " + feedback.getToken() + "; " +
-            "Message: " + feedback.getBody().getText();
+        String body;
+        if (StringUtils.isNotBlank(feedback.getCodeQR().getText())) {
+            body = "QR: " + feedback.getCodeQR().getText() + "; " +
+                "Order(O)/Queue(Q): " + feedback.getMessageOrigin() + "; " +
+                "Token No.: " + feedback.getToken() + "; " +
+                "Message: " + feedback.getBody().getText();
+        } else {
+            body = feedback.getBody().getText();
+        }
         FeedbackMail feedbackMail = FeedbackMail.newInstance(userId, qid, name, feedback.getSubject().getText(), body);
         webConnectorService.setEntityWithGson(feedbackMail, httpPost);
         return webConnectorService.invokeHttpPost(httpClient, httpPost);
