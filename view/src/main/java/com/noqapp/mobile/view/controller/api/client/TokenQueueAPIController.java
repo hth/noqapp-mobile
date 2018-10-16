@@ -274,7 +274,6 @@ public class TokenQueueAPIController {
             value = "/historical",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    @Deprecated
     public String allHistoricalJoinedQueues(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
