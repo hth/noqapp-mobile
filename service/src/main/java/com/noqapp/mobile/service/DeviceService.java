@@ -52,7 +52,7 @@ public class DeviceService {
             executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token, model, osVersion));
         } catch (Exception e) {
             LOG.error("Failed registration as cannot find qid={} did={} token={} reason={}", qid, did, token, e.getLocalizedMessage(), e);
-            throw new DeviceDetailMissingException("Device Details Missing");
+            throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
         }
     }
 

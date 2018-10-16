@@ -185,7 +185,7 @@ public class QueueMobileService {
                 deviceService.registerDevice(null, did, deviceType, appFlavor, token, model, osVersion);
             } catch (DeviceDetailMissingException e) {
                 LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
-                throw new DeviceDetailMissingException("Device Details Missing");
+                throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
             }
             LOG.info("Historical new device queue size={} did={} deviceType={}", historyQueues.size(), did, deviceType);
         } else {
@@ -238,7 +238,7 @@ public class QueueMobileService {
                 deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion);
             } catch (DeviceDetailMissingException e) {
                 LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
-                throw new DeviceDetailMissingException("Device Details Missing");
+                throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
             }
             LOG.info("Historical new device queue size={} did={} qid={} deviceType={}", historyQueues.size(), did, qid, deviceType);
         } else {
@@ -248,7 +248,7 @@ public class QueueMobileService {
                     deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion);
                 } catch (DeviceDetailMissingException e) {
                     LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
-                    throw new DeviceDetailMissingException("Device Details Missing");
+                    throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
                 }
             }
 
