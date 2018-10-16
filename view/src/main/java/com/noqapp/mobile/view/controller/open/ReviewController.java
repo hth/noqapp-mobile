@@ -136,7 +136,7 @@ public class ReviewController {
         HttpServletResponse response
     ) {
         Instant start = Instant.now();
-        LOG.info("Review for did={} dt={}", did, dt);
+        LOG.info("Review for did={} dt={} codeQR={}", did, dt, codeQR);
 
         try {
             /* Required. */
@@ -191,7 +191,7 @@ public class ReviewController {
         HttpServletResponse response
     ) {
         Instant start = Instant.now();
-        LOG.info("Review for did={} dt={}", did, dt);
+        LOG.info("Review for did={} dt={} codeQR={}", did, dt, codeQR);
 
         try {
             /* Required. */
