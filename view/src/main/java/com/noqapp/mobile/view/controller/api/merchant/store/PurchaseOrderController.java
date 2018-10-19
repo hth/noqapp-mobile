@@ -1,4 +1,4 @@
-package com.noqapp.mobile.view.controller.api.merchant.order;
+package com.noqapp.mobile.view.controller.api.merchant.store;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
@@ -63,7 +63,7 @@ import javax.servlet.http.HttpServletResponse;
     "PMD.LongVariable"
 })
 @RestController
-@RequestMapping(value = "/api/m/o/purchaseOrder")
+@RequestMapping(value = "/api/m/s/purchaseOrder")
 public class PurchaseOrderController {
     private static final Logger LOG = LoggerFactory.getLogger(PurchaseOrderController.class);
 

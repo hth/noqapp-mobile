@@ -20,7 +20,7 @@ import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.domain.json.JsonMedicalRecordList;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.view.ITest;
-import com.noqapp.mobile.view.controller.api.merchant.order.PurchaseOrderController;
+import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
