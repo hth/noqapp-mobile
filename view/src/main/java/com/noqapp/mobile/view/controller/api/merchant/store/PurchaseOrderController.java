@@ -63,7 +63,7 @@ import javax.servlet.http.HttpServletResponse;
     "PMD.LongVariable"
 })
 @RestController
-@RequestMapping(value = {"/api/m/s/purchaseOrder", "/api/m/o/purchaseOrder"})
+@RequestMapping(value = "/api/m/s/purchaseOrder")
 public class PurchaseOrderController {
     private static final Logger LOG = LoggerFactory.getLogger(PurchaseOrderController.class);
 
