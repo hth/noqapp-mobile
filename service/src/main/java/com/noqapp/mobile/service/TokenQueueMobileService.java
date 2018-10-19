@@ -117,7 +117,7 @@ public class TokenQueueMobileService {
             .setCountryShortName(bizStore.getCountryShortName())
             .setStorePhone(bizStore.getPhoneFormatted())
             .setRating(bizStore.getRating())
-            .setRatingCount(bizStore.getRatingCount())
+            .setReviewCount(bizStore.getReviewCount())
             .setAverageServiceTime(bizStore.getAverageServiceTime())
             .setTokenAvailableFrom(storeHour.getTokenAvailableFrom())
             .setStartHour(storeHour.getStartHour())
