@@ -130,7 +130,7 @@ public class PurchaseOrderController {
 
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/o/purchaseOrder/showOrders by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/showOrders by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -139,7 +139,7 @@ public class PurchaseOrderController {
             LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
         } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
-            LOG.info("Un-authorized store access to /api/m/o/purchaseOrder/showOrders by mail={}", mail);
+            LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/showOrders by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -192,7 +192,7 @@ public class PurchaseOrderController {
         LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/o/purchaseOrder/served by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/served by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -205,7 +205,7 @@ public class PurchaseOrderController {
                 LOG.warn("Not a valid codeQR={} qid={}", codeQR, qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
             } else if (!businessUserStoreService.hasAccess(qid, codeQR)) {
-                LOG.info("Un-authorized store access to /api/m/o/purchaseOrder/served by mail={}", mail);
+                LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/served by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
@@ -319,7 +319,7 @@ public class PurchaseOrderController {
         LOG.info("Acquired mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/o/purchaseOrder by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -332,7 +332,7 @@ public class PurchaseOrderController {
                 LOG.warn("Not a valid codeQR={} qid={}", codeQR, qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
             } else if (!businessUserStoreService.hasAccess(qid, codeQR)) {
-                LOG.info("Un-authorized store access to /api/m/o/purchaseOrder/acquire by mail={}", mail);
+                LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/acquire by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
@@ -426,7 +426,7 @@ public class PurchaseOrderController {
         LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/o/purchaseOrder/actionOnOrder by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/actionOnOrder by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -436,7 +436,7 @@ public class PurchaseOrderController {
                 LOG.warn("Not a valid codeQR={} qid={}", orderServed.getCodeQR().getText(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
             } else if (!businessUserStoreService.hasAccess(qid, orderServed.getCodeQR().getText())) {
-                LOG.info("Un-authorized store access to /api/m/o/purchaseOrder/actionOnOrder by mail={}", mail);
+                LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/actionOnOrder by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
@@ -543,7 +543,7 @@ public class PurchaseOrderController {
         LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/o/purchaseOrder/cancel by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/cancel by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
