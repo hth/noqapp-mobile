@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.merchant.health;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.domain.types.UserLevelEnum.*;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.BUSINESS_NOT_AUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ENTRY_DENIED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
@@ -120,22 +121,19 @@ public class MedicalRecordController {
         }
 
         try {
-            JsonMedicalRecord jsonMedicalRecord = new ObjectMapper().readValue(requestBodyJson, JsonMedicalRecord.class);
-            jsonMedicalRecord.setDiagnosedById(qid);
+            JsonMedicalRecord jsonRecord = new ObjectMapper().readValue(requestBodyJson, JsonMedicalRecord.class);
+            jsonRecord.setDiagnosedById(qid);
 
-            if (StringUtils.isBlank(jsonMedicalRecord.getCodeQR())) {
-                LOG.warn("Not a valid codeQR={} qid={}", jsonMedicalRecord.getCodeQR(), qid);
+            if (StringUtils.isBlank(jsonRecord.getCodeQR())) {
+                LOG.warn("Not a valid codeQR={} qid={}", jsonRecord.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccessWithUserLevel(
-                    jsonMedicalRecord.getDiagnosedById(),
-                    jsonMedicalRecord.getCodeQR(),
-                    UserLevelEnum.S_MANAGER)) {
+            } else if (!businessUserStoreService.hasAccessWithUserLevel(jsonRecord.getDiagnosedById(), jsonRecord.getCodeQR(), S_MANAGER)) {
                 LOG.info("Your are not authorized to add medical record mail={}", mail);
                 return getErrorReason("Your are not authorized to add medical record", MEDICAL_RECORD_ENTRY_DENIED);
             }
 
             /* Check if business type is of Hospital or Doctor to allow adding record. */
-            BizStoreEntity bizStore = bizService.findByCodeQR(jsonMedicalRecord.getCodeQR());
+            BizStoreEntity bizStore = bizService.findByCodeQR(jsonRecord.getCodeQR());
             if (bizStore.getBusinessType() != BusinessTypeEnum.DO && bizStore.getBizName().getBusinessType() != BusinessTypeEnum.DO) {
                 LOG.error("Failed as its not a Doctor or Hospital business type, found store={} biz={}",
                         bizStore.getBusinessType(),
@@ -143,7 +141,7 @@ public class MedicalRecordController {
                 return getErrorReason("Business not authorized to add medical record", BUSINESS_NOT_AUTHORIZED);
             }
 
-            medicalRecordService.addMedicalRecord(jsonMedicalRecord);
+            medicalRecordService.addMedicalRecord(jsonRecord);
             return new JsonResponse(true).asJson();
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
