@@ -659,7 +659,12 @@ public class ManageQueueController {
 
             /* Store Offline or Online based on ActionType. */
             if (null != modifyQueue.getStoreActionType()) {
-                bizService.activeInActiveStore(storeHour.getBizStoreId(), modifyQueue.getStoreActionType());
+                boolean active = bizService.activeInActiveStore(storeHour.getBizStoreId(), modifyQueue.getStoreActionType());
+                if (active) {
+                    bizStore.active();
+                } else {
+                    bizStore.inActive();
+                }
             }
 
             /* Send email when store setting changes. */
