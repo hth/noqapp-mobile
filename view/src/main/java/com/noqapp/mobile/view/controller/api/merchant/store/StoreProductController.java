@@ -185,13 +185,16 @@ public class StoreProductController {
                 case ADD:
                     BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, codeQR.getText());
                     storeProduct.setBizStoreId(businessUserStore.getBizStoreId());
+                    LOG.info("Add new product {}", storeProduct);
                     storeProductService.save(storeProduct);
                     break;
                 case EDIT:
                     storeProduct.populateWithExistingStoreProduct(storeProductService.findOne(storeProduct.getId()));
+                    LOG.info("Edit product {}", storeProduct);
                     storeProductService.save(storeProduct);
                     break;
                 case REMOVE:
+                    LOG.info("Removed product {}", storeProduct);
                     storeProductService.delete(storeProduct);
                     break;
                 default:
