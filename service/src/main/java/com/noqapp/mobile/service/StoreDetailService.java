@@ -69,7 +69,8 @@ public class StoreDetailService {
                     .setStoreCategoryId(storeProduct.getStoreCategoryId())
                     .setProductType(storeProduct.getProductType())
                     .setUnitOfMeasurement(storeProduct.getUnitOfMeasurement())
-                    .setProductReference(storeProduct.getProductReference());
+                    .setProductReference(storeProduct.getProductReference())
+                    .setActive(storeProduct.isActive());
             jsonStore.addJsonStoreProduct(jsonStoreProduct);
         }
 
