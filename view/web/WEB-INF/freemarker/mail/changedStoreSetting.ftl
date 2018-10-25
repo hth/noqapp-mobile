@@ -65,10 +65,10 @@
 			Store/Queue: ${onlineOrOffline?then('Online', 'Offline')}<br/>
 			<#if closedForToday??>
             <strong>Temporary closed for today: ${closedForToday}</strong><br/>
-			</#if>
+            </#if>
 			<#if scheduledClose??>
 			<strong>Scheduled: ${scheduledClose}</strong><br/>
-			</#if>
+            </#if>
 		</p>
 		<table style="background-color: lightgrey">
 			<tr>
@@ -76,13 +76,13 @@
 					<strong>Monday</strong><br/>
                     <#list MONDAY as key, value>
                         <strong>${key}</strong> ${value}<br/>
-					</#list>
+                    </#list>
 				</td>
 				<td style=" padding: 25px">
 					<strong>Tuesday</strong><br/>
                     <#list TUESDAY as key, value>
                         <strong>${key}</strong> ${value}<br/>
-					</#list>
+                    </#list>
 				</td>
 			</tr>
 			<tr>
@@ -90,13 +90,13 @@
 					<strong>Wednesday</strong><br/>
                     <#list WEDNESDAY as key, value>
                         <strong>${key}</strong> ${value}<br/>
-					</#list>
+                    </#list>
 				</td>
 				<td style=" padding: 25px">
 					<strong>Thursday</strong><br/>
                     <#list THURSDAY as key, value>
                         <strong>${key}</strong> ${value}<br/>
-					</#list>
+                    </#list>
 				</td>
 			</tr>
 			<tr>
@@ -104,13 +104,13 @@
 					<strong>Friday</strong><br/>
                     <#list FRIDAY as key, value>
                         <strong>${key}</strong> ${value}<br/>
-					</#list>
+                    </#list>
 				</td>
 				<td style=" padding: 25px">
 					<strong>Saturday</strong><br/>
                     <#list SATURDAY as key, value>
                         <strong>${key}</strong> ${value}<br/>
-					</#list>
+                    </#list>
 				</td>
 			</tr>
 			<tr>
@@ -118,7 +118,7 @@
 					<strong>Sunday</strong><br/>
                     <#list SUNDAY as key, value>
                         <strong>${key}</strong> ${value}<br/>
-					</#list>
+                    </#list>
 				</td>
 				<td style=" padding: 25px">
 					&nbsp;
