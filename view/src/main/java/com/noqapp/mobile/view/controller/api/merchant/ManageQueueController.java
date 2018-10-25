@@ -656,7 +656,11 @@ public class ManageQueueController {
             ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(modifyQueue);
             StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(modifyQueue);
             queueMobileService.updateBizStoreAvailableTokenCount(modifyQueue.getAvailableTokenCount(), modifyQueue.getCodeQR());
-            bizService.activeInActiveStore(storeHour.getBizStoreId(), modifyQueue.getActionType());
+
+            /* Store Offline or Online based on ActionType. */
+            if (null != modifyQueue.getStoreActionType()) {
+                bizService.activeInActiveStore(storeHour.getBizStoreId(), modifyQueue.getStoreActionType());
+            }
 
             /* Send email when store setting changes. */
             UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);

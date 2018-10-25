@@ -75,8 +75,8 @@ public class JsonModifyQueue extends AbstractDomain {
     @JsonProperty ("scUn")
     private String scheduledUntilDay;
 
-    @JsonProperty("ac")
-    private ActionTypeEnum actionType;
+    @JsonProperty("sa")
+    private ActionTypeEnum storeActionType;
 
     public JsonModifyQueue() {
     }
@@ -85,7 +85,7 @@ public class JsonModifyQueue extends AbstractDomain {
         String codeQR,
         StoreHourEntity storeHour,
         int availableTokenCount,
-        ActionTypeEnum actionType,
+        ActionTypeEnum storeActionType,
         ScheduledTaskEntity scheduledTask
     ) {
         this.codeQR = codeQR;
@@ -98,7 +98,7 @@ public class JsonModifyQueue extends AbstractDomain {
         this.tempDayClosed = storeHour.isTempDayClosed();
         this.preventJoining = storeHour.isPreventJoining();
         this.availableTokenCount = availableTokenCount;
-        this.actionType = actionType;
+        this.storeActionType = storeActionType;
 
         if (null != scheduledTask) {
             scheduledFromDay = scheduledTask.getFrom();
@@ -214,12 +214,12 @@ public class JsonModifyQueue extends AbstractDomain {
         return this;
     }
 
-    public ActionTypeEnum getActionType() {
-        return actionType;
+    public ActionTypeEnum getStoreActionType() {
+        return storeActionType;
     }
 
-    public JsonModifyQueue setActionType(ActionTypeEnum actionType) {
-        this.actionType = actionType;
+    public JsonModifyQueue setStoreActionType(ActionTypeEnum storeActionType) {
+        this.storeActionType = storeActionType;
         return this;
     }
 
