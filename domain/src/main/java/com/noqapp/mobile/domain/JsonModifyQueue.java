@@ -3,6 +3,7 @@ package com.noqapp.mobile.domain;
 import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.domain.ScheduledTaskEntity;
 import com.noqapp.domain.StoreHourEntity;
+import com.noqapp.domain.types.ActionTypeEnum;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -74,10 +75,19 @@ public class JsonModifyQueue extends AbstractDomain {
     @JsonProperty ("scUn")
     private String scheduledUntilDay;
 
+    @JsonProperty("ac")
+    private ActionTypeEnum actionType;
+
     public JsonModifyQueue() {
     }
 
-    public JsonModifyQueue(String codeQR, StoreHourEntity storeHour, int availableTokenCount, ScheduledTaskEntity scheduledTask) {
+    public JsonModifyQueue(
+        String codeQR,
+        StoreHourEntity storeHour,
+        int availableTokenCount,
+        ActionTypeEnum actionType,
+        ScheduledTaskEntity scheduledTask
+    ) {
         this.codeQR = codeQR;
         this.tokenAvailableFrom = storeHour.getTokenAvailableFrom();
         this.startHour = storeHour.getStartHour();
@@ -88,6 +98,7 @@ public class JsonModifyQueue extends AbstractDomain {
         this.tempDayClosed = storeHour.isTempDayClosed();
         this.preventJoining = storeHour.isPreventJoining();
         this.availableTokenCount = availableTokenCount;
+        this.actionType = actionType;
 
         if (null != scheduledTask) {
             scheduledFromDay = scheduledTask.getFrom();
@@ -200,6 +211,15 @@ public class JsonModifyQueue extends AbstractDomain {
 
     public JsonModifyQueue setUntilDay(String untilDay) {
         this.untilDay = untilDay;
+        return this;
+    }
+
+    public ActionTypeEnum getActionType() {
+        return actionType;
+    }
+
+    public JsonModifyQueue setActionType(ActionTypeEnum actionType) {
+        this.actionType = actionType;
         return this;
     }
 

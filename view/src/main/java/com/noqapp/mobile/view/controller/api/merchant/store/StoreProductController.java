@@ -200,11 +200,13 @@ public class StoreProductController {
                 case INACTIVE:
                     StoreProductEntity storeProductFromDB = storeProductService.findOne(storeProductFromJson.getId());
                     storeProductFromDB.inActive();
+                    LOG.info("Inactive product {}", storeProductFromDB);
                     storeProductService.save(storeProductFromDB);
                     break;
                 case ACTIVE:
                     storeProductFromDB = storeProductService.findOne(storeProductFromJson.getId());
                     storeProductFromDB.active();
+                    LOG.info("Active product {}", storeProductFromDB);
                     storeProductService.save(storeProductFromDB);
                     break;
                 default:

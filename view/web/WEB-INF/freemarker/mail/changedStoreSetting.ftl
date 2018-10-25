@@ -59,7 +59,10 @@
 			Remote Join: ${remoteJoin}<br/>
 			Allow only registered user: ${allowLoggedInUser}<br/>
 			Available Token: ${availableTokenCount}<br/>
-			Additional Note or Famous For: ${famousFor}<br/>
+			Additional Note or Famous For: ${famousFor}<br/><br/>
+		</p>
+		<p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
+			Store/Queue: ${onlineOrOffline?then('Online', 'Offline')}<br/>
 			<#if closedForToday??>
             <strong>Temporary closed for today: ${closedForToday}</strong><br/>
             </#if>

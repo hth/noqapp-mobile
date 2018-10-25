@@ -26,6 +26,7 @@ import com.noqapp.domain.json.JsonBusinessCustomerLookup;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
+import com.noqapp.domain.types.ActionTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.ScheduleTaskEnum;
@@ -447,6 +448,7 @@ public class ManageQueueController {
                     codeQR.getText(),
                     storeHour,
                     bizStore.getAvailableTokenCount(),
+                    bizStore.isActive() ? ActionTypeEnum.ACTIVE : ActionTypeEnum.INACTIVE,
                     scheduledTask).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
@@ -534,7 +536,12 @@ public class ManageQueueController {
             }
 
             StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
-            return new JsonModifyQueue(codeQR.getText(), storeHour, bizStore.getAvailableTokenCount(), null).asJson();
+            return new JsonModifyQueue(
+                codeQR.getText(),
+                storeHour,
+                bizStore.getAvailableTokenCount(),
+                bizStore.isActive() ? ActionTypeEnum.ACTIVE : ActionTypeEnum.INACTIVE,
+                null).asJson();
         } catch (Exception e) {
             LOG.error("Failed removing schedule from queues reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -649,13 +656,19 @@ public class ManageQueueController {
             ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(modifyQueue);
             StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(modifyQueue);
             queueMobileService.updateBizStoreAvailableTokenCount(modifyQueue.getAvailableTokenCount(), modifyQueue.getCodeQR());
+            bizService.activeInActiveStore(storeHour.getBizStoreId(), modifyQueue.getActionType());
 
             /* Send email when store setting changes. */
             UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
             bizService.sendMailWhenStoreSettingHasChanged(
                 storeHour.getBizStoreId(),
                 "Modified Store Detail from App, modified by " + userProfile.getEmail());
-            return new JsonModifyQueue(modifyQueue.getCodeQR(), storeHour, modifyQueue.getAvailableTokenCount(), scheduledTask).asJson();
+            return new JsonModifyQueue(
+                modifyQueue.getCodeQR(),
+                storeHour,
+                modifyQueue.getAvailableTokenCount(),
+                bizStore.isActive() ? ActionTypeEnum.ACTIVE : ActionTypeEnum.INACTIVE,
+                scheduledTask).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
