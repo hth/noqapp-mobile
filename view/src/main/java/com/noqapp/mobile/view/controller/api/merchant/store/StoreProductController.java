@@ -180,22 +180,32 @@ public class StoreProductController {
 
         try {
             ActionTypeEnum actionType = ActionTypeEnum.valueOf(action.getText());
-            StoreProductEntity storeProduct = StoreProductEntity.parseJsonStoreProduct(jsonStoreProduct);
+            StoreProductEntity storeProductFromJson = StoreProductEntity.parseJsonStoreProduct(jsonStoreProduct);
             switch (actionType) {
                 case ADD:
                     BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, codeQR.getText());
-                    storeProduct.setBizStoreId(businessUserStore.getBizStoreId());
-                    LOG.info("Add new product {}", storeProduct);
-                    storeProductService.save(storeProduct);
+                    storeProductFromJson.setBizStoreId(businessUserStore.getBizStoreId());
+                    LOG.info("Add new product {}", storeProductFromJson);
+                    storeProductService.save(storeProductFromJson);
                     break;
                 case EDIT:
-                    storeProduct.populateWithExistingStoreProduct(storeProductService.findOne(storeProduct.getId()));
-                    LOG.info("Edit product {}", storeProduct);
-                    storeProductService.save(storeProduct);
+                    storeProductFromJson.populateWithExistingStoreProduct(storeProductService.findOne(storeProductFromJson.getId()));
+                    LOG.info("Edit product {}", storeProductFromJson);
+                    storeProductService.save(storeProductFromJson);
                     break;
                 case REMOVE:
-                    LOG.info("Removed product {}", storeProduct);
-                    storeProductService.delete(storeProduct);
+                    LOG.info("Removed product {}", storeProductFromJson);
+                    storeProductService.delete(storeProductFromJson);
+                    break;
+                case INACTIVE:
+                    StoreProductEntity storeProductFromDB = storeProductService.findOne(storeProductFromJson.getId());
+                    storeProductFromDB.inActive();
+                    storeProductService.save(storeProductFromDB);
+                    break;
+                case ACTIVE:
+                    storeProductFromDB = storeProductService.findOne(storeProductFromJson.getId());
+                    storeProductFromDB.active();
+                    storeProductService.save(storeProductFromDB);
                     break;
                 default:
                     LOG.error("Reached unsupported condition actionType={}", actionType);
