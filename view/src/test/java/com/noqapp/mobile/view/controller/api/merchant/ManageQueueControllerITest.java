@@ -48,6 +48,7 @@ class ManageQueueControllerITest extends ITest {
 
     private ManageQueueController manageQueueController;
     private TokenQueueAPIController tokenQueueAPIController;
+    private ManageQueueSettingController manageQueueSettingController;
 
     @BeforeEach
     void setUp() {
@@ -61,8 +62,6 @@ class ManageQueueControllerITest extends ITest {
                 tokenQueueMobileService,
                 accountService,
                 businessCustomerService,
-                bizService,
-                scheduledTaskManager,
                 apiHealthService
         );
 
@@ -72,6 +71,17 @@ class ManageQueueControllerITest extends ITest {
                 authenticateMobileService,
                 purchaseOrderService,
                 apiHealthService
+        );
+
+        manageQueueSettingController = new ManageQueueSettingController(
+            bizService,
+            accountService,
+            queueMobileService,
+            scheduledTaskManager,
+            authenticateMobileService,
+            businessUserStoreService,
+            tokenQueueMobileService,
+            apiHealthService
         );
     }
 
@@ -233,79 +243,6 @@ class ManageQueueControllerITest extends ITest {
         assertEquals(QueueStatusEnum.S, jsonTopic.getQueueStatus());
         assertEquals(0, jsonTopic.getServingNumber());
         assertEquals(0, jsonTopic.getToken());
-    }
-
-    @Test
-    @DisplayName("Checks the state of a queue and the modify the state of it")
-    void queueState_Modify_QueueState() throws IOException {
-        queueState();
-        queueStateModify();
-    }
-
-    private void queueState() throws IOException {
-        BizNameEntity bizName = bizService.findByPhone("9118000000000");
-        BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
-
-        UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
-        UserAccountEntity queueUserAccount = accountService.findByQueueUserId(queueSupervisorUserProfile.getQueueUserId());
-        String queueState = manageQueueController.queueState(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(queueUserAccount.getUserId()),
-                new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
-                new ScrubbedInput(bizStore.getCodeQR()),
-                httpServletResponse
-        );
-        JsonModifyQueue jsonModifyQueue = new ObjectMapper().readValue(queueState, JsonModifyQueue.class);
-        assertFalse(jsonModifyQueue.isPreventJoining());
-        assertFalse(jsonModifyQueue.isDayClosed());
-        assertEquals(0, jsonModifyQueue.getAvailableTokenCount());
-    }
-
-    private void queueStateModify() throws IOException {
-        BizNameEntity bizName = bizService.findByPhone("9118000000000");
-        BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
-
-        JsonModifyQueue jsonModifyQueue = new JsonModifyQueue()
-                .setCodeQR(bizStore.getCodeQR())
-                .setDayClosed(true)
-                .setPreventJoining(true)
-                .setAvailableTokenCount(0);
-
-        UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
-        UserAccountEntity queueUserAccount = accountService.findByQueueUserId(queueSupervisorUserProfile.getQueueUserId());
-        String queueStateResponse = manageQueueController.queueStateModify(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(queueUserAccount.getUserId()),
-                new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
-                jsonModifyQueue,
-                httpServletResponse
-        );
-        JsonModifyQueue jsonModifiedQueue = new ObjectMapper().readValue(queueStateResponse, JsonModifyQueue.class);
-        assertTrue(jsonModifiedQueue.isPreventJoining());
-        assertTrue(jsonModifiedQueue.isDayClosed());
-        assertEquals(0, jsonModifiedQueue.getAvailableTokenCount());
-
-        /* Reset State of Queue to Day Closed as False and Prevent Joining as False. */
-        resetQueueAsOpen(bizStore, queueUserAccount);
-    }
-
-    private void resetQueueAsOpen(BizStoreEntity bizStore, UserAccountEntity queueUserAccount) throws IOException {
-        JsonModifyQueue jsonModifyQueue = new JsonModifyQueue()
-                .setCodeQR(bizStore.getCodeQR())
-                .setDayClosed(false)
-                .setPreventJoining(false)
-                .setAvailableTokenCount(0);
-
-        manageQueueController.queueStateModify(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(queueUserAccount.getUserId()),
-                new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
-                jsonModifyQueue,
-                httpServletResponse
-        );
     }
 
     @Test
@@ -614,7 +551,7 @@ class ManageQueueControllerITest extends ITest {
 
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
         UserAccountEntity queueUserAccount = accountService.findByQueueUserId(queueSupervisorUserProfile.getQueueUserId());
-        String queueStateResponse = manageQueueController.queueStateModify(
+        String queueStateResponse = manageQueueSettingController.queueStateModify(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(queueUserAccount.getUserId()),
@@ -684,5 +621,22 @@ class ManageQueueControllerITest extends ITest {
 
         /* Reset State of Queue to Day Closed as False and Prevent Joining as False. */
         resetQueueAsOpen(bizStore, queueUserAccount);
+    }
+
+    private void resetQueueAsOpen(BizStoreEntity bizStore, UserAccountEntity queueUserAccount) throws IOException {
+        JsonModifyQueue jsonModifyQueue = new JsonModifyQueue()
+            .setCodeQR(bizStore.getCodeQR())
+            .setDayClosed(false)
+            .setPreventJoining(false)
+            .setAvailableTokenCount(0);
+
+        manageQueueSettingController.queueStateModify(
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(queueUserAccount.getUserId()),
+            new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonModifyQueue,
+            httpServletResponse
+        );
     }
 }
