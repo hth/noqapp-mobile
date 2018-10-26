@@ -7,7 +7,9 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_O
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_CLOSED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_PREVENT_JOIN;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_TEMP_DAY_CLOSED;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -20,7 +22,9 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.OrderDetail;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.PurchaseOrderService;
-import com.noqapp.service.exceptions.StoreCloseException;
+import com.noqapp.service.exceptions.StoreDayClosedException;
+import com.noqapp.service.exceptions.StorePreventJoiningException;
+import com.noqapp.service.exceptions.StoreTempDayClosedException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -113,9 +117,15 @@ public class PurchaseOrderAPIController {
             purchaseOrderService.createOrder(jsonPurchaseOrder, qid, did.getText(), TokenServiceEnum.C);
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
             return jsonPurchaseOrder.asJson();
-        } catch (StoreCloseException e) {
+        } catch (StoreDayClosedException e) {
             LOG.warn("Failed placing order reason={}", e.getLocalizedMessage(), e);
-            return ErrorEncounteredJson.toJson("Store is closed", STORE_CLOSED);
+            return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
+        } catch (StoreTempDayClosedException e) {
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage(), e);
+            return ErrorEncounteredJson.toJson("Store is temporary closed", STORE_TEMP_DAY_CLOSED);
+        } catch (StorePreventJoiningException e) {
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage(), e);
+            return ErrorEncounteredJson.toJson("Store not accepting new orders", STORE_PREVENT_JOIN);
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

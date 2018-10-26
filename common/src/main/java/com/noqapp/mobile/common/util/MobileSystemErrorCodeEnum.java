@@ -24,10 +24,14 @@ public enum MobileSystemErrorCodeEnum {
 
     MOBILE_ACTION_NOT_PERMITTED("2101", ALERT),
 
+    /** System alerts or warning when something out of ordinary happens. */
     USER_ALREADY_IN_QUEUE("3030", ALERT),
     MERCHANT_COULD_NOT_ACQUIRE("3050", ALERT),
-    STORE_CLOSED("3060", ALERT),
+    STORE_DAY_CLOSED("3060", ALERT),
+    STORE_TEMP_DAY_CLOSED("3061", ALERT),
+    STORE_PREVENT_JOIN("3062", ALERT),
 
+    /** User related. */
     USER_EXISTING("4010", ALERT),
     USER_NOT_FOUND("4012", ALERT),
     USER_SOCIAL("4016", ALERT),
