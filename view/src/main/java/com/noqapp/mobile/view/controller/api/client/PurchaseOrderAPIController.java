@@ -125,7 +125,7 @@ public class PurchaseOrderAPIController {
             return ErrorEncounteredJson.toJson("Store is temporary closed", STORE_TEMP_DAY_CLOSED);
         } catch (StorePreventJoiningException e) {
             LOG.warn("Failed placing order reason={}", e.getLocalizedMessage(), e);
-            return ErrorEncounteredJson.toJson("Store not accepting new orders", STORE_PREVENT_JOIN);
+            return ErrorEncounteredJson.toJson("Store is not accepting new orders", STORE_PREVENT_JOIN);
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
