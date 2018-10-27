@@ -170,6 +170,12 @@ public class DeviceController {
                     return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
                 }
 
+                /* Remove me... */
+                if (versionRelease.getText().equalsIgnoreCase("1097")) {
+                    LOG.warn("Sent warning to upgrade versionNumber={}", versionRelease.getText());
+                    return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
+                }
+
                 return new JsonLatestAppVersion(lowestSupportedApp.getLatestAppVersion()).asJson();
             } catch (NumberFormatException e) {
                 LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
