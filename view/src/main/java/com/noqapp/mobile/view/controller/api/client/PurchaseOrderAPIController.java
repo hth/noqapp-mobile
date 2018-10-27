@@ -120,16 +120,16 @@ public class PurchaseOrderAPIController {
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
             return jsonPurchaseOrder.asJson();
         } catch (StoreInActiveException e) {
-            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage(), e);
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
             return ErrorEncounteredJson.toJson("Store is offline", STORE_OFFLINE);
         } catch (StoreDayClosedException e) {
-            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage(), e);
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
             return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
         } catch (StoreTempDayClosedException e) {
-            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage(), e);
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
             return ErrorEncounteredJson.toJson("Store is temporary closed", STORE_TEMP_DAY_CLOSED);
         } catch (StorePreventJoiningException e) {
-            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage(), e);
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
             return ErrorEncounteredJson.toJson("Store is not accepting new orders", STORE_PREVENT_JOIN);
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
