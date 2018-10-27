@@ -44,6 +44,7 @@ class ManageQueueSettingControllerITest extends ITest {
             authenticateMobileService,
             businessUserStoreService,
             tokenQueueMobileService,
+            bizStoreElasticService,
             apiHealthService
         );
     }

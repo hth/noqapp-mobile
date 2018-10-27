@@ -12,6 +12,7 @@ import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.StoreProductEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.annotation.Mobile;
 import com.noqapp.domain.helper.NameDatePair;
 import com.noqapp.domain.types.AddressOriginEnum;
 import com.noqapp.domain.types.BusinessTypeEnum;
@@ -110,6 +111,11 @@ import com.noqapp.repository.UserPreferenceManager;
 import com.noqapp.repository.UserPreferenceManagerImpl;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.repository.UserProfileManagerImpl;
+import com.noqapp.search.elastic.config.ElasticsearchClientConfiguration;
+import com.noqapp.search.elastic.repository.BizStoreElasticManager;
+import com.noqapp.search.elastic.repository.BizStoreElasticManagerImpl;
+import com.noqapp.search.elastic.service.BizStoreElasticService;
+import com.noqapp.search.elastic.service.ElasticAdministrationService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessCustomerService;
@@ -138,6 +144,7 @@ import org.bson.types.ObjectId;
 
 import org.springframework.mock.env.MockEnvironment;
 
+import org.elasticsearch.client.RestHighLevelClient;
 import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -235,6 +242,8 @@ public class ITest extends RealMongoForITest {
     protected UserMedicalProfileService userMedicalProfileService;
     protected StoreCategoryService storeCategoryService;
     protected StoreDetailService storeDetailService;
+    protected BizStoreElasticManager bizStoreElasticManager;
+    protected BizStoreElasticService bizStoreElasticService;
 
     protected ApiHealthService apiHealthService;
     protected ApiHealthNowManager apiHealthNowManager;
@@ -252,6 +261,8 @@ public class ITest extends RealMongoForITest {
     @Mock protected HttpServletResponse httpServletResponse;
     @Mock protected FtpService ftpService;
     @Mock protected MailService mailService;
+    @Mock protected ElasticsearchClientConfiguration elasticsearchClientConfiguration;
+    @Mock protected ElasticAdministrationService elasticAdministrationService;
 
     @BeforeAll
     public void globalISetup() throws IOException {
@@ -443,6 +454,14 @@ public class ITest extends RealMongoForITest {
             businessUserStoreManager);
 
         storeDetailService = new StoreDetailService(bizService, tokenQueueMobileService, storeProductService, storeCategoryService);
+        bizStoreElasticManager = new BizStoreElasticManagerImpl(restHighLevelClient);
+        bizStoreElasticService = new BizStoreElasticService(
+            bizStoreElasticManager,
+            elasticAdministrationService,
+            elasticsearchClientConfiguration,
+            bizStoreManager,
+            storeHourManager,
+            apiHealthService);
 
         queueMobileService = new QueueMobileService(
             queueManager,
