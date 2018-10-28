@@ -37,6 +37,8 @@ public abstract class ElasticForITest {
         restHighLevelClient = new RestHighLevelClient(restClientBuilder);
         restClient = restClientBuilder.build();
         try {
+            /* Intentionally delete all existing indices instead of ElasticsearchClientConfiguration.INDEX */
+            restClient.performRequest(new Request("DELETE", "/*"));
             Response response = restClient.performRequest(new Request("GET", "/"));
             assertEquals(response.getStatusLine().getStatusCode(), 200);
             String text = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8.name());
@@ -54,8 +56,6 @@ public abstract class ElasticForITest {
     @AfterAll
     public static void stopRestClient() throws IOException {
         if (restClient != null) {
-            /* Intentionally delete all indices instead of ElasticsearchClientConfiguration.INDEX */
-            restClient.performRequest(new Request("DELETE", "/*"));
             restClient.close();
             restClient = null;
         }
