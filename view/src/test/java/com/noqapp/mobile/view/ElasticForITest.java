@@ -18,7 +18,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -55,6 +54,8 @@ public abstract class ElasticForITest {
     @AfterAll
     public static void stopRestClient() throws IOException {
         if (restClient != null) {
+            /* Intentionally delete all indices instead of ElasticsearchClientConfiguration.INDEX */
+            restClient.performRequest(new Request("DELETE", "/*"));
             restClient.close();
             restClient = null;
         }
