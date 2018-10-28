@@ -20,7 +20,7 @@ import de.flapdoodle.embed.process.runtime.Network;
  * hitender
  * 12/7/17 5:56 AM
  */
-public abstract class RealMongoForITest {
+public abstract class RealMongoForITest extends ElasticForITest {
     /**
      * please store Starter or RuntimeConfig in a static final field
      * if you want to use artifact store caching (or else disable caching)

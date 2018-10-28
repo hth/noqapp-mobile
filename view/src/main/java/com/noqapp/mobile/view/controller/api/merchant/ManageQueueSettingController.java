@@ -26,6 +26,8 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.repository.ScheduledTaskManager;
+import com.noqapp.search.elastic.helper.DomainConversion;
+import com.noqapp.search.elastic.service.BizStoreElasticService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
@@ -52,6 +54,7 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutorService;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -77,6 +80,7 @@ public class ManageQueueSettingController {
     private AuthenticateMobileService authenticateMobileService;
     private BusinessUserStoreService businessUserStoreService;
     private TokenQueueMobileService tokenQueueMobileService;
+    private BizStoreElasticService bizStoreElasticService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -88,6 +92,7 @@ public class ManageQueueSettingController {
         AuthenticateMobileService authenticateMobileService,
         BusinessUserStoreService businessUserStoreService,
         TokenQueueMobileService tokenQueueMobileService,
+        BizStoreElasticService bizStoreElasticService,
         ApiHealthService apiHealthService
     ) {
         this.bizService = bizService;
@@ -97,6 +102,7 @@ public class ManageQueueSettingController {
         this.authenticateMobileService = authenticateMobileService;
         this.businessUserStoreService = businessUserStoreService;
         this.tokenQueueMobileService = tokenQueueMobileService;
+        this.bizStoreElasticService = bizStoreElasticService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -235,8 +241,7 @@ public class ManageQueueSettingController {
                 scheduledTaskManager.inActive(bizStore.getScheduledTaskId());
 
                 /* Send email when store setting changes. */
-                UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
-                String changeInitiateReason = "Removed Scheduled " + scheduledTask.getScheduleTask() + " from App, modified by " + userProfile.getEmail();
+                String changeInitiateReason = "Removed Scheduled " + scheduledTask.getScheduleTask() + " from App, modified by " + accountService.findProfileByQueueUserId(qid).getEmail();
                 bizService.sendMailWhenStoreSettingHasChanged(bizStore.getId(), changeInitiateReason);
             }
 
@@ -369,12 +374,12 @@ public class ManageQueueSettingController {
                     bizStore.inActive();
                 }
             }
+            updateChangesMadeOnElastic(bizStore);
 
             /* Send email when store setting changes. */
-            UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
-            bizService.sendMailWhenStoreSettingHasChanged(
-                storeHour.getBizStoreId(),
-                "Modified Store Detail from App, modified by " + userProfile.getEmail());
+            String changeInitiateReason = "Modified Store Detail from App, modified by " +  accountService.findProfileByQueueUserId(qid).getEmail();
+            bizService.sendMailWhenStoreSettingHasChanged(storeHour.getBizStoreId(), changeInitiateReason);
+
             return new JsonModifyQueue(
                 modifyQueue.getCodeQR(),
                 storeHour,
@@ -392,6 +397,14 @@ public class ManageQueueSettingController {
                 ManageQueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    private void updateChangesMadeOnElastic(BizStoreEntity bizStore) {
+        if (bizStore.isActive()) {
+            bizStoreElasticService.save(DomainConversion.getAsBizStoreElastic(bizStore, bizService.findAllStoreHours(bizStore.getId())));
+        } else {
+            bizStoreElasticService.delete(bizStore.getId());
         }
     }
 
