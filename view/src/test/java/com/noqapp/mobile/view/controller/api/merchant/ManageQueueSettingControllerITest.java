@@ -9,6 +9,7 @@ import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.types.ActionTypeEnum;
 import com.noqapp.mobile.domain.JsonModifyQueue;
 import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController;
@@ -85,7 +86,8 @@ class ManageQueueSettingControllerITest extends ITest {
             .setCodeQR(bizStore.getCodeQR())
             .setDayClosed(true)
             .setPreventJoining(true)
-            .setAvailableTokenCount(0);
+            .setAvailableTokenCount(0)
+            .setStoreActionType(ActionTypeEnum.ACTIVE);
 
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
         UserAccountEntity queueUserAccount = accountService.findByQueueUserId(queueSupervisorUserProfile.getQueueUserId());
@@ -111,7 +113,8 @@ class ManageQueueSettingControllerITest extends ITest {
             .setCodeQR(bizStore.getCodeQR())
             .setDayClosed(false)
             .setPreventJoining(false)
-            .setAvailableTokenCount(0);
+            .setAvailableTokenCount(0)
+            .setStoreActionType(ActionTypeEnum.ACTIVE);
 
         manageQueueSettingController.queueStateModify(
             new ScrubbedInput(did),
