@@ -1174,7 +1174,8 @@ public class ITest extends RealMongoForITest {
                 .setProductInfo("Made from Alloo")
                 .setStoreCategoryId(storeCategory.getId())
                 .setProductType(ProductTypeEnum.VE)
-                .setUnitValue("1")
+                .setUnitValue(1)
+                .setPackageSize(1)
                 .setUnitOfMeasurement(UnitOfMeasurementEnum.CN);
         storeProductManager.save(storeProduct);
     }
