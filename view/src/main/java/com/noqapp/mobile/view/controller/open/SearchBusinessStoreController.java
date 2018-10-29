@@ -148,7 +148,7 @@ public class SearchBusinessStoreController {
 
     /** Populated with lat and lng at the minimum, when missing uses IP address. */
     @PostMapping(
-            value = "/nearMe",
+            value = {"/nearMe", "/healthCare", "/otherMerchant"},
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     public String nearMe(
             @RequestHeader("X-R-DID")
