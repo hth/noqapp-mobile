@@ -45,11 +45,20 @@ public class DeviceService {
         this.executorService = newCachedThreadPool();
     }
 
-    public void registerDevice(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token, String model, String osVersion) {
+    public void registerDevice(
+        String qid,
+        String did,
+        DeviceTypeEnum deviceType,
+        AppFlavorEnum appFlavor,
+        String token,
+        String model,
+        String osVersion,
+        String appVersion
+    ) {
         try {
             Assert.hasLength(did, "DID cannot be blank");
             Assert.hasLength(token, "FCM Token cannot be blank");
-            executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token, model, osVersion));
+            executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion));
         } catch (Exception e) {
             LOG.error("Failed registration as cannot find qid={} did={} token={} reason={}", qid, did, token, e.getLocalizedMessage(), e);
             throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -64,12 +73,12 @@ public class DeviceService {
      * @param deviceType iPhone or Android
      * @return
      */
-    private void registeringDevice(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token, String model, String osVersion) {
+    private void registeringDevice(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token, String model, String osVersion, String appVersion) {
         try {
             RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(qid, did);
             if (null == registeredDevice) {
                 LOG.info("Registering new deviceType={} appFlavor={} did={} qid={}", deviceType.getName(), appFlavor.getName(), did, qid);
-                registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token);
+                registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token, appVersion);
                 try {
                     registeredDevice
                         .setModel(model)

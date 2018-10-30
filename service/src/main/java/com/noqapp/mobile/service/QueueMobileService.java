@@ -171,7 +171,8 @@ public class QueueMobileService {
         AppFlavorEnum appFlavor,
         String token,
         String model,
-        String osVersion
+        String osVersion,
+        String appVersion
     ) {
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(null, did, token, model, osVersion);
 
@@ -183,7 +184,7 @@ public class QueueMobileService {
         if (null == registeredDevice) {
             historyQueues = queueService.getByDid(did);
             try {
-                deviceService.registerDevice(null, did, deviceType, appFlavor, token, model, osVersion);
+                deviceService.registerDevice(null, did, deviceType, appFlavor, token, model, osVersion, appVersion);
             } catch (DeviceDetailMissingException e) {
                 LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
                 throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -223,7 +224,8 @@ public class QueueMobileService {
         AppFlavorEnum appFlavor,
         String token,
         String model,
-        String osVersion
+        String osVersion,
+        String appVersion
     ) {
         Validate.isValidQid(qid);
         RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(qid, did, token, model, osVersion);
@@ -236,7 +238,7 @@ public class QueueMobileService {
         if (null == registeredDevice) {
             historyQueues = queueService.getByQid(qid);
             try {
-                deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion);
+                deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion);
             } catch (DeviceDetailMissingException e) {
                 LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
                 throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -246,7 +248,7 @@ public class QueueMobileService {
             if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
                 try {
                     /* Save with QID when missing in registered device. */
-                    deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion);
+                    deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion);
                 } catch (DeviceDetailMissingException e) {
                     LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
                     throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");

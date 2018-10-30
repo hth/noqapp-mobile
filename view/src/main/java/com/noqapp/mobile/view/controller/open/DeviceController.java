@@ -117,7 +117,8 @@ public class DeviceController {
                 appFlavorEnum,
                 parseTokenFCM.getTokenFCM(),
                 parseTokenFCM.getModel(),
-                parseTokenFCM.getOsVersion());
+                parseTokenFCM.getOsVersion(),
+                parseTokenFCM.getAppVersion());
             return DeviceRegistered.newInstance(true).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);

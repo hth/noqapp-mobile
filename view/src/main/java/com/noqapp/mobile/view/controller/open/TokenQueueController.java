@@ -284,7 +284,8 @@ public class TokenQueueController {
                     AppFlavorEnum.valueOf(appFlavor.getText()),
                     parseTokenFCM.getTokenFCM(),
                     parseTokenFCM.getModel(),
-                    parseTokenFCM.getOsVersion()).asJson();
+                    parseTokenFCM.getOsVersion(),
+                    parseTokenFCM.getAppVersion()).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
             return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);

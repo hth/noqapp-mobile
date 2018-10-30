@@ -313,7 +313,8 @@ public class TokenQueueAPIController {
                     AppFlavorEnum.valueOf(appFlavor.getText()),
                     parseTokenFCM.getTokenFCM(),
                     parseTokenFCM.getModel(),
-                    parseTokenFCM.getOsVersion());
+                    parseTokenFCM.getOsVersion(),
+                    parseTokenFCM.getAppVersion());
             //TODO(hth) get old historical order, it just gets todays historical order
             jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllDeliveredHistoricalOrderAsJson(qid));
             return jsonTokenAndQueues.asJson();
