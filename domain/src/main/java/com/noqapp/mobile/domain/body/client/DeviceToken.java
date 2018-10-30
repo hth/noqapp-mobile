@@ -36,10 +36,14 @@ public class DeviceToken extends AbstractDomain {
     @JsonProperty("os")
     private String osVersion;
 
-    public DeviceToken(String fcmToken, String model, String osVersion) {
+    @JsonProperty("av")
+    private String appVersion;
+
+    public DeviceToken(String fcmToken, String model, String osVersion, String appVersion) {
         this.fcmToken = fcmToken;
         this.model = model;
         this.osVersion = osVersion;
+        this.appVersion = appVersion;
     }
 
     public String getFcmToken() {
@@ -52,5 +56,9 @@ public class DeviceToken extends AbstractDomain {
 
     public String getOsVersion() {
         return osVersion;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
     }
 }

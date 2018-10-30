@@ -94,7 +94,7 @@ class TokenQueueControllerITest extends ITest {
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-                new DeviceToken(fcmToken, model, osVersion).asJson(),
+                new DeviceToken(fcmToken, model, osVersion, appVersion).asJson(),
                 httpServletResponse
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
@@ -161,7 +161,7 @@ class TokenQueueControllerITest extends ITest {
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-                new DeviceToken(fcmToken, model, osVersion).asJson(),
+                new DeviceToken(fcmToken, model, osVersion, appVersion).asJson(),
                 httpServletResponse
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
@@ -177,7 +177,7 @@ class TokenQueueControllerITest extends ITest {
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-                new DeviceToken(fcmToken, model, osVersion).asJson(),
+                new DeviceToken(fcmToken, model, osVersion, appVersion).asJson(),
                 httpServletResponse
         );
         jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
@@ -189,7 +189,7 @@ class TokenQueueControllerITest extends ITest {
                 new ScrubbedInput(UUID.randomUUID().toString()),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-                new DeviceToken(fcmToken, model, osVersion).asJson(),
+                new DeviceToken(fcmToken, model, osVersion, appVersion).asJson(),
                 httpServletResponse
         );
         jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);

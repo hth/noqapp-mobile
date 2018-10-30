@@ -171,6 +171,7 @@ public class ITest extends RealMongoForITest {
     protected String fcmToken;
     protected String model;
     protected String osVersion;
+    protected String appVersion;
     protected String deviceType;
 
     protected AccountService accountService;
@@ -279,6 +280,7 @@ public class ITest extends RealMongoForITest {
         deviceType = DeviceTypeEnum.A.getName();
         model = "Model";
         osVersion = "OS-Version";
+        appVersion = "1.2.100";
 
         userAccountManager = new UserAccountManagerImpl(getMongoTemplate());
         userAuthenticationManager = new UserAuthenticationManagerImpl(getMongoTemplate());
