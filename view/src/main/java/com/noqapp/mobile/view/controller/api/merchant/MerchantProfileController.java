@@ -112,9 +112,6 @@ public class MerchantProfileController {
             @RequestHeader (value = "X-R-AF", required = false, defaultValue = "NQMT")
             ScrubbedInput appFlavor,
 
-            @RequestHeader (value = "X-R-VR", required = false, defaultValue = "1.2.100")
-            ScrubbedInput versionRelease,
-
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
 
@@ -158,7 +155,7 @@ public class MerchantProfileController {
             /* Register Merchant device after login. */
             if (!deviceService.isDeviceRegistered(qid, did.getText())) {
                 LOG.info("Registering device during profile fetch for appFlavor={}", appFlavor);
-                deviceService.updateRegisteredDevice(qid, did.getText(), DeviceTypeEnum.valueOf(dt.getText()), versionRelease.getText());
+                deviceService.updateRegisteredDevice(qid, did.getText(), DeviceTypeEnum.valueOf(dt.getText()));
             }
 
             /* For merchant profile no need to find remote scan. */
