@@ -194,7 +194,7 @@ subprojects {
 
         compile "$springDataGroup:spring-data-mongodb:$springDataMongo"
         compile "$springDataGroup:spring-data-commons:$springDataCommon"
-        compile "org.mongodb:mongodb-driver-async:$mongoJavaDriver"
+        compile "org.mongodb:mongo-java-driver:$mongoJavaDriver"
 
         compile "org.elasticsearch.client:elasticsearch-rest-high-level-client:$elastic"
         /* For elastic. */
