@@ -708,6 +708,39 @@ public class ClientProfileAPIController {
             response);
     }
 
+    @RequestMapping (
+        method = RequestMethod.POST,
+        value = "/remove",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String remove(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestPart("profileImageOfQid")
+        String profileImageOfQid,
+
+        HttpServletResponse response
+    ) throws IOException {
+        return profileCommonHelper.removeProfileImage(
+            did.getText(),
+            dt.getText(),
+            mail.getText(),
+            auth.getText(),
+            new ScrubbedInput(profileImageOfQid).getText(),
+            response
+        );
+    }
+
     private Set<String> invalidElementsInMapDuringMigration(Map<String, ScrubbedInput> map) {
         Set<String> keys = new HashSet<>(map.keySet());
         List<AccountMobileService.ACCOUNT_MIGRATE> enums = new ArrayList<>(Arrays.asList(AccountMobileService.ACCOUNT_MIGRATE.values()));

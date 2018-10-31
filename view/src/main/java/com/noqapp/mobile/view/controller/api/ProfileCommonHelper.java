@@ -289,7 +289,7 @@ public class ProfileCommonHelper {
             methodStatusSuccess = true;
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
-            LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed uploading profile image reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new JsonResponse(false).asJson();
         } finally {
@@ -299,6 +299,46 @@ public class ProfileCommonHelper {
                     ClientProfileAPIController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    public String removeProfileImage(
+        String did,
+        String dt,
+        String mail,
+        String auth,
+        String profileImageOfQid,
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = false;
+        Instant start = Instant.now();
+        LOG.info("Profile Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail, auth);
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (null == checkSelfOrDependent(qid, profileImageOfQid)) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            fileService.removeProfileImage(qid);
+            methodStatusSuccess = true;
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed removing profile image reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonResponse(false).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/removeProfileImage",
+                "removeProfileImage",
+                ClientProfileAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 

@@ -266,9 +266,7 @@ public class TokenQueueController {
             ScrubbedInput appFlavor,
 
             @RequestBody
-            String tokenJson,
-
-            HttpServletResponse response
+            String tokenJson
     ) {
         Instant start = Instant.now();
         LOG.info("Queues historical for did={} dt={}", did.getText(), deviceType.getText());
