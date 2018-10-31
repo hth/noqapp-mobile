@@ -143,16 +143,7 @@ public class TokenQueueAPIController {
         }
     }
 
-    /**
-     * Get all state of queue at a Business when one QR Code is scanned.
-     *
-     * @param did
-     * @param deviceType
-     * @param codeQR
-     * @param response
-     * @return
-     * @throws IOException
-     */
+    /** Get all state of queue at a Business when one QR Code is scanned. */
     @GetMapping (
             value = "/v1/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -206,15 +197,7 @@ public class TokenQueueAPIController {
         }
     }
 
-    /**
-     * Get all the queues user has token from. In short all the queues user has joined AND/OR all placed orders.
-     *
-     * @param did
-     * @param dt
-     * @param response
-     * @return
-     * @throws IOException
-     */
+    /** Get all the queues user has token from. In short all the queues user has joined AND/OR all placed orders. */
     @GetMapping (
             value = "/queues",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -224,7 +207,7 @@ public class TokenQueueAPIController {
             ScrubbedInput did,
 
             @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+            ScrubbedInput deviceType,
 
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
@@ -235,6 +218,7 @@ public class TokenQueueAPIController {
             HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
+        LOG.info("All joined queue did={} dt={} mail={}", did, deviceType, mail);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
@@ -260,21 +244,58 @@ public class TokenQueueAPIController {
                     HealthStatusEnum.G);
         }
     }
+
+    /** Get all pending orders. */
+    @GetMapping (
+        value = "/pendingOrder",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String pendingPurchaseOrder(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        HttpServletResponse response
+    ) throws IOException {
+        Instant start = Instant.now();
+        LOG.info("All pending purchase order did={} dt={} mail={}", did, deviceType, mail);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        try {
+            return new JsonTokenAndQueueList().setTokenAndQueues(purchaseOrderService.findPendingPurchaseOrderAsJson(qid)).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting pendingOrder qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                "/pendingOrder",
+                "pendingPurchaseOrder",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/pendingOrder",
+                "pendingPurchaseOrder",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
+        }
+    }
     
-    /**
-     * Get all the historical queues user has token from. In short all the queues and order user has joined in past.
-     *
-     * @param did
-     * @param deviceType
-     * @param response
-     * @return
-     * @throws IOException
-     */
+    /** Get all the historical queues user has token from. In short all the queues and order user has joined in past. */
     @PostMapping(
             value = "/historical",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    @Deprecated
     public String allHistoricalJoinedQueues(
             @RequestHeader ("X-R-DID")
             ScrubbedInput did,
@@ -297,6 +318,7 @@ public class TokenQueueAPIController {
             HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
+        LOG.info("All historical joined queue did={} dt={} mail={}", did, deviceType, mail);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
