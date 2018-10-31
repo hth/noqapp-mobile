@@ -27,7 +27,6 @@ public class ParseTokenFCM {
     private String tokenFCM;
     private String model;
     private String osVersion;
-    private String appVersion;
 
     private ParseTokenFCM(String tokenJson) {
         parseForFCM(tokenJson);
@@ -51,10 +50,6 @@ public class ParseTokenFCM {
 
     public String getOsVersion() {
         return osVersion;
-    }
-
-    public String getAppVersion() {
-        return appVersion;
     }
 
     private void parseForFCM(String tokenJson) {
@@ -83,10 +78,6 @@ public class ParseTokenFCM {
 
             if (map.containsKey("os")) {
                 osVersion = map.get("os").getText();
-            }
-
-            if (map.containsKey("av")) {
-                appVersion = map.get("av").getText();
             }
         } catch (IOException | NullPointerException e) {
             LOG.error("Could not parse json={} errorResponse={}", tokenJson, e.getLocalizedMessage(), e);

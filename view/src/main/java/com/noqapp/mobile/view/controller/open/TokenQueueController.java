@@ -265,13 +265,19 @@ public class TokenQueueController {
             @RequestHeader (value = "X-R-AF", required = false, defaultValue = "NQMT")
             ScrubbedInput appFlavor,
 
-            @RequestBody
-            String tokenJson,
+            @RequestHeader (value = "X-R-VR", required = false, defaultValue = "1.2.100")
+            ScrubbedInput versionRelease,
 
-            HttpServletResponse response
+            @RequestBody
+            String tokenJson
     ) {
         Instant start = Instant.now();
-        LOG.info("Queues historical for did={} dt={}", did.getText(), deviceType.getText());
+        LOG.info("Queues historical for did={} dt={} appFlavor={} versionRelease={}",
+            did.getText(),
+            deviceType.getText(),
+            appFlavor.getText(),
+            versionRelease.getText());
+
         ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson);
         if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
             return parseTokenFCM.getErrorResponse();
@@ -285,7 +291,7 @@ public class TokenQueueController {
                     parseTokenFCM.getTokenFCM(),
                     parseTokenFCM.getModel(),
                     parseTokenFCM.getOsVersion(),
-                    parseTokenFCM.getAppVersion()).asJson();
+                    versionRelease.getText()).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
             return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
