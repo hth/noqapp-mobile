@@ -285,9 +285,6 @@ public class TokenQueueAPIController {
             @RequestHeader (value = "X-R-AF", required = false, defaultValue = "NQMT")
             ScrubbedInput appFlavor,
 
-            @RequestHeader (value = "X-R-VR", required = false, defaultValue = "1.2.100")
-            ScrubbedInput versionRelease,
-
             @RequestHeader ("X-R-MAIL")
             ScrubbedInput mail,
 
@@ -300,12 +297,6 @@ public class TokenQueueAPIController {
             HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
-        LOG.info("Queues historical for did={} dt={} appFlavor={} versionRelease={}",
-            did.getText(),
-            deviceType.getText(),
-            appFlavor.getText(),
-            versionRelease.getText());
-
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
@@ -323,7 +314,7 @@ public class TokenQueueAPIController {
                     parseTokenFCM.getTokenFCM(),
                     parseTokenFCM.getModel(),
                     parseTokenFCM.getOsVersion(),
-                    versionRelease.getText());
+                    parseTokenFCM.getAppVersion());
             //TODO(hth) get old historical order, it just gets todays historical order
             jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllDeliveredHistoricalOrderAsJson(qid));
             return jsonTokenAndQueues.asJson();
