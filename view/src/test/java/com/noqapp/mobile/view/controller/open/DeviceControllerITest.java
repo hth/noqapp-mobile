@@ -47,12 +47,13 @@ class DeviceControllerITest extends ITest {
     @Test
     @DisplayName("Register Device")
     void registerDevice() throws IOException {
-        DeviceToken deviceToken = new DeviceToken(fcmToken, model, osVersion, appVersion);
+        DeviceToken deviceToken = new DeviceToken(fcmToken, model, osVersion);
 
         String jsonDeviceRegistered = deviceController.registerDevice(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
+                new ScrubbedInput(appVersion),
                 deviceToken.asJson()
         );
 

@@ -128,7 +128,7 @@ public class DeviceService {
     }
 
     /** Update Registered Device after register or login when token is not available. */
-    public void updateRegisteredDevice(String qid, String did, DeviceTypeEnum deviceType) {
+    public void updateRegisteredDevice(String qid, String did, DeviceTypeEnum deviceType, String versionRelease) {
         RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(null, did);
 
         if (null == registeredDevice) {
@@ -139,6 +139,7 @@ public class DeviceService {
         registeredDevice.setQueueUserId(qid);
         registeredDevice.setDeviceType(deviceType);
         registeredDevice.setSinceBeginning(true);
+        registeredDevice.setAppVersion(versionRelease);
         registeredDeviceManager.save(registeredDevice);
         LOG.info("Updated did={} with qid={} deviceType={}", did, qid, deviceType);
     }

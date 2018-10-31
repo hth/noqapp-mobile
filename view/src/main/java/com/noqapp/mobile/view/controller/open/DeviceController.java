@@ -77,15 +77,19 @@ public class DeviceController {
             @RequestHeader ("X-R-AF")
             ScrubbedInput appFlavor,
 
+            @RequestHeader (value = "X-R-VR", required = false, defaultValue = "1.2.100")
+            ScrubbedInput versionRelease,
+
             @RequestBody
             String tokenJson
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Register deviceType={} appFlavor={} did={} token={}",
+        LOG.info("Register deviceType={} appFlavor={} did={} versionRelease={} token={}",
                 deviceType.getText(),
                 appFlavor.getText(),
                 did.getText(),
+                versionRelease.getText(),
                 tokenJson);
 
         DeviceTypeEnum deviceTypeEnum;
@@ -118,7 +122,7 @@ public class DeviceController {
                 parseTokenFCM.getTokenFCM(),
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
-                parseTokenFCM.getAppVersion());
+                versionRelease.getText());
             return DeviceRegistered.newInstance(true).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
