@@ -708,8 +708,7 @@ public class ClientProfileAPIController {
             response);
     }
 
-    @RequestMapping (
-        method = RequestMethod.POST,
+    @PostMapping (
         value = "/remove",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
