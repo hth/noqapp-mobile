@@ -94,7 +94,7 @@ subprojects {
 
     pmd {
         ignoreFailures = true
-        toolVersion = '6.7.0'
+        toolVersion = '6.9.0'
 
         ruleSets = [
                 "java-basic",
@@ -139,7 +139,7 @@ subprojects {
     }
 
     jacoco {
-        toolVersion = "0.8.1"
+        toolVersion = "0.8.2"
         applyTo junitPlatformTest
     }
 
