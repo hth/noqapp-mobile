@@ -74,15 +74,15 @@ public class LogContextFilter implements Filter {
         String url = httpServletRequest.getRequestURL().toString();
         String query = httpServletRequest.getQueryString();
         String ip = getHeader(headerMap, "x-forwarded-for");
-        String country = null;
+        String countryCode = null;
         String city = null;
         try {
             InetAddress ipAddress = InetAddress.getByName(ip);
             CityResponse response = ipGeoConfiguration.getDatabaseReader().city(ipAddress);
-            country = response.getCountry().getName();
+            countryCode = response.getCountry().getIsoCode();
             city = response.getCity().getName();
         } catch (AddressNotFoundException e) {
-            LOG.error("Failed finding address={} reason={}", ip, e.getLocalizedMessage());
+            LOG.warn("Failed finding address={} reason={}", ip, e.getLocalizedMessage());
         } catch (GeoIp2Exception e) {
             LOG.error("Failed reason={}", e.getLocalizedMessage(), e);
         }
@@ -92,7 +92,7 @@ public class LogContextFilter implements Filter {
             + " UserAgent=\"" + getHeader(headerMap, "user-agent") + "\""
             + " Accept=\"" + getHeader(headerMap, "accept") + "\""
             + " ForwardedFor=\"" + ip + "\""
-            + " Country=\"" + country + "\""
+            + " Country=\"" + countryCode + "\""
             + " City=\"" + city + "\""
             + " Endpoint=\"" + extractDataFromURL(url, "$5") + "\""
             + " Query=\"" + (query == null ? "none" : query) + "\""
