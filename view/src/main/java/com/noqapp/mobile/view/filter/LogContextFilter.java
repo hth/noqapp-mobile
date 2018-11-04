@@ -1,17 +1,24 @@
 package com.noqapp.mobile.view.filter;
 
 import com.noqapp.mobile.view.controller.open.IsWorkingController;
+import com.noqapp.search.elastic.config.IPGeoConfiguration;
+
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.CityResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,6 +57,7 @@ public class LogContextFilter implements Filter {
     private static final Pattern EXTRACT_ENDPOINT_PATTERN =
             Pattern.compile("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
     private static final String REQUEST_ID_MDC_KEY = "X-REQUEST-ID";
+    private IPGeoConfiguration ipGeoConfiguration;
 
     @Override
     public void doFilter(
@@ -64,16 +72,30 @@ public class LogContextFilter implements Filter {
         Map<String, String> headerMap = getHeadersInfo(httpServletRequest);
         String url = httpServletRequest.getRequestURL().toString();
         String query = httpServletRequest.getQueryString();
+        String ip = getHeader(headerMap, "x-forwarded-for");
+        String countryName = null;
+        String cityName = null;
+        try {
+            InetAddress ipAddress = InetAddress.getByName(ip);
+            CityResponse response = ipGeoConfiguration.getDatabaseReader().city(ipAddress);
+            countryName = response.getCountry().getName();
+            cityName = response.getCity().getName();
+        } catch (GeoIp2Exception e) {
+            LOG.error("Failed reason={}", e.getLocalizedMessage(), e);
+        }
 
         LOG.info("Request received:"
-                + " ForwardedFor=\"" + getHeader(headerMap, "x-forwarded-for") + "\""
-                + " Endpoint=\"" + extractDataFromURL(url, "$5") + "\""
-                + " UserAgent=\"" + getHeader(headerMap, "user-agent") + "\""
-                + " Host=\"" + getHeader(headerMap, "host") + "\""
-                + " Accept=\"" + getHeader(headerMap, "accept") + "\""
-                + " Query=\"" + (query == null ? "none" : query) + "\""
-                + " URL=\"" + url + "\""
+            + " Host=\"" + getHeader(headerMap, "host") + "\""
+            + " UserAgent=\"" + getHeader(headerMap, "user-agent") + "\""
+            + " Accept=\"" + getHeader(headerMap, "accept") + "\""
+            + " ForwardedFor=\"" + ip + "\""
+            + " Country=\"" + countryName + "\""
+            + " City=\"" + cityName + "\""
+            + " Endpoint=\"" + extractDataFromURL(url, "$5") + "\""
+            + " Query=\"" + (query == null ? "none" : query) + "\""
+            + " URL=\"" + url + "\""
         );
+
         if (isHttpHead(httpServletRequest)) {
             HttpServletResponse httpServletResponse = (HttpServletResponse) res;
             NoBodyResponseWrapper noBodyResponseWrapper = new NoBodyResponseWrapper(httpServletResponse);
@@ -109,12 +131,15 @@ public class LogContextFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        LOG.info("initialized");
+        LOG.info("Initialized mobile logContextFilter");
+
+        ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
+        this.ipGeoConfiguration = ctx.getBean(IPGeoConfiguration.class);
     }
 
     @Override
     public void destroy() {
-        LOG.info("deleted");
+        LOG.info("Destroyed mobile logContextFilter");
     }
 
     /**
