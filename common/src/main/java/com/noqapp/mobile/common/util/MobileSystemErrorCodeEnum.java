@@ -31,6 +31,7 @@ public enum MobileSystemErrorCodeEnum {
     STORE_DAY_CLOSED("3061", ALERT),
     STORE_TEMP_DAY_CLOSED("3062", ALERT),
     STORE_PREVENT_JOIN("3063", ALERT),
+    STORE_NO_LONGER_EXISTS("3064", ALERT),
 
     /** User related. */
     USER_EXISTING("4010", ALERT),
