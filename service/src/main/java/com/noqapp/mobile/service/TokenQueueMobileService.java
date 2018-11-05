@@ -96,6 +96,8 @@ public class TokenQueueMobileService {
                 tokenQueue.getCurrentlyServing());
 
             return getJsonQueue(bizStore, storeHour, tokenQueue);
+        } catch(StoreNoLongerExistsException e) {
+            throw e;
         } catch (Exception e) {
             //TODO remove this catch
             LOG.error("Failed getting state codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);
