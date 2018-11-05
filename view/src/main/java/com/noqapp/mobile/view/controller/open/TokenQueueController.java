@@ -101,7 +101,7 @@ public class TokenQueueController {
             apiHealthService.insert(
                 "/{codeQR}",
                 "getQueueState",
-                TokenQueueAPIController.class.getName(),
+                TokenQueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 HealthStatusEnum.G);
             return getErrorReason("Store is not available.", STORE_NO_LONGER_EXISTS);
