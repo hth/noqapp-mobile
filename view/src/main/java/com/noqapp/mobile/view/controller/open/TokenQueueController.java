@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.open;
 
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_NO_LONGER_EXISTS;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
@@ -14,7 +15,9 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
+import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
+import com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -93,6 +96,15 @@ public class TokenQueueController {
 
         try {
             return tokenQueueMobileService.findTokenState(codeQR.getText()).asJson();
+        } catch (StoreNoLongerExistsException e) {
+            LOG.info("Store no longer exists reason={}", e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                "/{codeQR}",
+                "getQueueState",
+                TokenQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
+            return getErrorReason("Store is not available.", STORE_NO_LONGER_EXISTS);
         } catch (Exception e) {
             LOG.error("Failed getting queue state did={} reason={}", did, e.getLocalizedMessage(), e);
             apiHealthService.insert(

@@ -17,6 +17,7 @@ import com.noqapp.domain.types.InvocationByEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.domain.types.UserLevelEnum;
+import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
@@ -81,6 +82,11 @@ public class TokenQueueMobileService {
     public JsonQueue findTokenState(String codeQR) {
         try {
             BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
+            if (bizStore.isDeleted()) {
+                LOG.info("Store has been deleted id={} displayName={}", bizStore.getId(), bizStore.getDisplayName());
+                throw new StoreNoLongerExistsException("Store no longer exists");
+            }
+
             StoreHourEntity storeHour = getStoreHours(codeQR, bizStore);
             TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
             LOG.info("TokenState bizStore={} businessType={} averageServiceTime={} tokenQueue={}",
@@ -90,6 +96,8 @@ public class TokenQueueMobileService {
                 tokenQueue.getCurrentlyServing());
 
             return getJsonQueue(bizStore, storeHour, tokenQueue);
+        } catch(StoreNoLongerExistsException e) {
+            throw e;
         } catch (Exception e) {
             //TODO remove this catch
             LOG.error("Failed getting state codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);
