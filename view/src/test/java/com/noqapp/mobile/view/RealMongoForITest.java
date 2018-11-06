@@ -3,7 +3,12 @@ package com.noqapp.mobile.view;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.MongoTransactionManager;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -66,5 +71,9 @@ public abstract class RealMongoForITest extends ElasticForITest {
             mongoTemplate = new MongoTemplate(mongoClient, DATABASE_NAME);
         }
         return mongoTemplate;
+    }
+
+    MongoTransactionManager transactionManager() {
+        return new MongoTransactionManager(mongoTemplate.getMongoDbFactory());
     }
 }

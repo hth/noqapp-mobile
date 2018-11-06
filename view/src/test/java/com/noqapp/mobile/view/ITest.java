@@ -137,6 +137,7 @@ import com.noqapp.service.ReviewService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
 import com.noqapp.service.TokenQueueService;
+import com.noqapp.service.TransactionService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
 
@@ -245,6 +246,7 @@ public class ITest extends RealMongoForITest {
     protected StoreDetailService storeDetailService;
     protected BizStoreElasticManager bizStoreElasticManager;
     protected BizStoreElasticService bizStoreElasticService;
+    protected TransactionService transactionService;
 
     protected ApiHealthService apiHealthService;
     protected ApiHealthNowManager apiHealthNowManager;
@@ -383,6 +385,7 @@ public class ITest extends RealMongoForITest {
         userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
         userAddressService = new UserAddressService(userAddressManager, externalService);
         scheduledTaskManager = new ScheduledTaskManagerImpl(getMongoTemplate());
+        transactionService = new TransactionService(getMongoTemplate(), transactionManager());
 
         purchaseOrderService = new PurchaseOrderService(
             bizStoreManager,
@@ -397,7 +400,8 @@ public class ITest extends RealMongoForITest {
             firebaseMessageService,
             registeredDeviceManager,
             tokenQueueManager,
-            accountService
+            accountService,
+            transactionService
         );
 
         purchaseOrderMobileService = new PurchaseOrderMobileService(purchaseOrderService);
