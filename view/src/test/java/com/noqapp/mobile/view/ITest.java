@@ -150,11 +150,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import de.flapdoodle.embed.mongo.config.IMongodConfig;
+import de.flapdoodle.embed.mongo.config.IMongosConfig;
+
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
@@ -385,7 +389,7 @@ public class ITest extends RealMongoForITest {
         userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
         userAddressService = new UserAddressService(userAddressManager, externalService);
         scheduledTaskManager = new ScheduledTaskManagerImpl(getMongoTemplate());
-        transactionService = new TransactionService(getMongoTemplate(), transactionManager());
+        transactionService = new TransactionService(getMongoTemplate(), transactionManager(), getMongoTemplate(), purchaseOrderManager, purchaseOrderProductManager);
 
         purchaseOrderService = new PurchaseOrderService(
             bizStoreManager,
