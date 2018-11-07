@@ -6,6 +6,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSO
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRICE_MISMATCH;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_OFFLINE;
@@ -23,6 +24,7 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.OrderDetail;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.PurchaseOrderService;
+import com.noqapp.service.exceptions.PriceMismatchException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.StoreInActiveException;
 import com.noqapp.service.exceptions.StorePreventJoiningException;
@@ -131,6 +133,10 @@ public class PurchaseOrderAPIController {
         } catch (StorePreventJoiningException e) {
             LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
             return ErrorEncounteredJson.toJson("Store is not accepting new orders", STORE_PREVENT_JOIN);
+        } catch(PriceMismatchException e) {
+            LOG.error("Prices have changed since added to cart reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Prices have changed since added to cart", PURCHASE_ORDER_PRICE_MISMATCH);
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
