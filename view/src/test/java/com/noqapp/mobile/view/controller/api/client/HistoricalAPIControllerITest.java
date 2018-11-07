@@ -97,7 +97,7 @@ class HistoricalAPIControllerITest extends ITest {
         );
 
         JsonPurchaseOrder jsonPurchaseOrderCancelResponse = new ObjectMapper().readValue(jsonPurchaseOrderCancelAsString, JsonPurchaseOrder.class);
-        assertEquals("900", jsonPurchaseOrderCancelResponse.getOrderPrice());
+        assertEquals("990", jsonPurchaseOrderCancelResponse.getOrderPrice());
         assertEquals(PurchaseOrderStateEnum.CO, jsonPurchaseOrderCancelResponse.getPresentOrderState());
 
         String orders = historicalAPIController.orders(
@@ -190,6 +190,6 @@ class HistoricalAPIControllerITest extends ITest {
     }
 
     private int computePrice(int orderPrice, JsonPurchaseOrderProduct pop) {
-        return orderPrice + (pop.getProductPrice() - (pop.getProductPrice() * pop.getProductDiscount()/100)) * pop.getProductQuantity();
+        return orderPrice + (pop.getProductPrice() - pop.getProductDiscount()) * pop.getProductQuantity();
     }
 }
