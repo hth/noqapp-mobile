@@ -202,6 +202,57 @@ public class PurchaseOrderAPIController {
         }
     }
 
+    /** Activate old placed order that is still in PO state. */
+    @PostMapping(
+        value = "/activate",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String activate(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonPurchaseOrder jsonPurchaseOrder,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Activate Old Order API for did={} dt={}", did, dt);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        try {
+            if (purchaseOrderService.isOrderCancelled(qid, jsonPurchaseOrder.getTransactionId())) {
+                return getErrorReason("Order already cancelled", PURCHASE_ORDER_ALREADY_CANCELLED);
+            }
+
+            JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.activateOrderByClient(qid, jsonPurchaseOrder.getTransactionId());
+            LOG.info("Order activated Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
+            return jsonPurchaseOrderResponse.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Failed to cancel order", PURCHASE_ORDER_FAILED_TO_CANCEL);
+        } finally {
+            apiHealthService.insert(
+                "/cancel",
+                "cancel",
+                PurchaseOrderAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
     /** Get order detail. */
     @PostMapping(
         value = "/orderDetail",
