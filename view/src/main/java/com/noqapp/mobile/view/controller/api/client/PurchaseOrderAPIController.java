@@ -4,6 +4,7 @@ import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_CANNOT_ACTIVATE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRICE_MISMATCH;
@@ -24,6 +25,7 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.OrderDetail;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.PurchaseOrderService;
+import com.noqapp.service.exceptions.OrderFailedReActivationException;
 import com.noqapp.service.exceptions.PriceMismatchException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.StoreInActiveException;
@@ -202,7 +204,7 @@ public class PurchaseOrderAPIController {
         }
     }
 
-    /** Activate old placed order that is still in PO state. */
+    /** Activate old placed order that is still in a valid state. */
     @PostMapping(
         value = "/activate",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -232,17 +234,18 @@ public class PurchaseOrderAPIController {
         if (authorizeRequest(response, qid)) return null;
 
         try {
-            if (purchaseOrderService.isOrderCancelled(qid, jsonPurchaseOrder.getTransactionId())) {
-                return getErrorReason("Order already cancelled", PURCHASE_ORDER_ALREADY_CANCELLED);
-            }
-
+            //TODO added QID of the order in JsonPuchaseOrder for dependent or family
             JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.activateOrderByClient(qid, jsonPurchaseOrder.getTransactionId());
             LOG.info("Order activated Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
             return jsonPurchaseOrderResponse.asJson();
-        } catch (Exception e) {
-            LOG.error("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
+        } catch (OrderFailedReActivationException e) {
+            LOG.error("Failed activating purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return getErrorReason("Failed to cancel order", PURCHASE_ORDER_FAILED_TO_CANCEL);
+            return getErrorReason("Failed to activate order", PURCHASE_ORDER_CANNOT_ACTIVATE);
+        } catch (Exception e) {
+            LOG.error("Failed activating purchase order reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
                 "/cancel",
