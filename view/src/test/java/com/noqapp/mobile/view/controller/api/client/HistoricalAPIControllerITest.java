@@ -178,7 +178,7 @@ class HistoricalAPIControllerITest extends ITest {
         }
 
         return new JsonPurchaseOrder()
-                .setPurchaseOrderProducts(jsonPurchaseOrderProducts)
+                .setJsonPurchaseOrderProducts(jsonPurchaseOrderProducts)
                 .setBizStoreId(bizStore.getId())
                 .setBusinessType(bizStore.getBusinessType())
                 .setCustomerName(userProfile.getName())
