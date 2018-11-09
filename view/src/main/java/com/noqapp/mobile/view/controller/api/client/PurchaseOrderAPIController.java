@@ -204,7 +204,7 @@ public class PurchaseOrderAPIController {
         }
     }
 
-    /** Activate old placed order that is still in a valid state. */
+    /** Activate old placed order that is still in a valids state. */
     @PostMapping(
         value = "/activate",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"

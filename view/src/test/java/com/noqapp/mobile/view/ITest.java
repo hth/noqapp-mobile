@@ -12,7 +12,6 @@ import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.StoreProductEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.annotation.Mobile;
 import com.noqapp.domain.helper.NameDatePair;
 import com.noqapp.domain.types.AddressOriginEnum;
 import com.noqapp.domain.types.BusinessTypeEnum;
@@ -137,28 +136,23 @@ import com.noqapp.service.ReviewService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
 import com.noqapp.service.TokenQueueService;
-import com.noqapp.service.TransactionService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
+import com.noqapp.service.transaction.TransactionService;
 
 import org.bson.types.ObjectId;
 
 import org.springframework.mock.env.MockEnvironment;
 
-import org.elasticsearch.client.RestHighLevelClient;
 import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import de.flapdoodle.embed.mongo.config.IMongodConfig;
-import de.flapdoodle.embed.mongo.config.IMongosConfig;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
@@ -381,15 +375,15 @@ public class ITest extends RealMongoForITest {
             apiHealthService
         );
 
-        storeProductManager = new StoreProductManagerImpl(getMongoTemplate());
-        storeProductService = new StoreProductService(storeProductManager);
         purchaseOrderManager = new PurchaseOrderManagerImpl(getMongoTemplate());
         purchaseOrderProductManager = new PurchaseOrderProductManagerImpl(getMongoTemplate());
+        storeProductManager = new StoreProductManagerImpl(getMongoTemplate());
 
         userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
         userAddressService = new UserAddressService(userAddressManager, externalService);
         scheduledTaskManager = new ScheduledTaskManagerImpl(getMongoTemplate());
-        transactionService = new TransactionService(getMongoTemplate(), transactionManager(), getMongoTemplate(), purchaseOrderManager, purchaseOrderProductManager);
+        transactionService = new TransactionService(getMongoTemplate(), transactionManager(), getMongoTemplate(), purchaseOrderManager, purchaseOrderProductManager, storeProductManager);
+        storeProductService = new StoreProductService(storeProductManager, bizStoreManager, fileService, transactionService);
 
         purchaseOrderService = new PurchaseOrderService(
             bizStoreManager,
@@ -440,6 +434,9 @@ public class ITest extends RealMongoForITest {
             scheduledTaskManager
         );
 
+        storeCategoryManager = new StoreCategoryManagerImpl(getMongoTemplate());
+        storeCategoryService = new StoreCategoryService(storeCategoryManager, storeProductManager);
+
         fileService = new FileService(
             192, 192, 300, 150,
             accountService,
@@ -448,11 +445,9 @@ public class ITest extends RealMongoForITest {
             bizNameManager,
             bizStoreManager,
             storeProductManager,
-            bizService
+            bizService,
+            storeCategoryService
         );
-
-        storeCategoryManager = new StoreCategoryManagerImpl(getMongoTemplate());
-        storeCategoryService = new StoreCategoryService(storeCategoryManager, storeProductManager);
 
         tokenQueueMobileService = new TokenQueueMobileService(
             tokenQueueService,
