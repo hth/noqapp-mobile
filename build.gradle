@@ -209,6 +209,7 @@ subprojects {
         compile "com.google.zxing:core:$zxing"
         compile "aopalliance:aopalliance:1.0"
         compile "org.apache.commons:commons-vfs2:$vfs2"
+        compile "org.apache.commons:commons-csv:$csv"
         compile "com.jcraft:jsch:$jsch"
 
         compile "org.aspectj:aspectjrt:$aspectjrt"
