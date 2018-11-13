@@ -23,6 +23,7 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.JsonProfile;
+import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
@@ -726,7 +727,7 @@ public class ClientProfileAPIController {
         ScrubbedInput auth,
 
         @RequestBody
-        String profileImageOfQid,
+        UpdateProfile updateProfile,
 
         HttpServletResponse response
     ) throws IOException {
@@ -735,7 +736,7 @@ public class ClientProfileAPIController {
             dt.getText(),
             mail.getText(),
             auth.getText(),
-            new ScrubbedInput(profileImageOfQid).getText(),
+            new ScrubbedInput(updateProfile.getQueueUserId()).getText(),
             response
         );
     }
