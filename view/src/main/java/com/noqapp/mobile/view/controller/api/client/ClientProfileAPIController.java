@@ -725,7 +725,7 @@ public class ClientProfileAPIController {
         @RequestHeader ("X-R-AUTH")
         ScrubbedInput auth,
 
-        @RequestPart("profileImageOfQid")
+        @RequestBody
         String profileImageOfQid,
 
         HttpServletResponse response
