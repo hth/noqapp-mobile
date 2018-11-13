@@ -285,7 +285,7 @@ public class ProfileCommonHelper {
         }
 
         try {
-            processProfileImage(qid, multipartFile);
+            processProfileImage(profileImageOfQid, multipartFile);
             methodStatusSuccess = true;
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
