@@ -11,6 +11,7 @@ import com.noqapp.domain.json.JsonStore;
 import com.noqapp.domain.json.JsonStoreCategory;
 import com.noqapp.domain.json.JsonStoreProduct;
 import com.noqapp.domain.types.medical.PharmacyCategoryEnum;
+import com.noqapp.domain.types.medical.RadiologyCategoryEnum;
 import com.noqapp.service.BizService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
@@ -78,7 +79,16 @@ public class StoreDetailService {
 
         switch (bizStore.getBusinessType()) {
             case PH:
-                Map<String, String> map = PharmacyCategoryEnum.asMap();
+                Map<String, String> map = PharmacyCategoryEnum.asMapWithNameAsKey();
+                for(String key : map.keySet()) {
+                    JsonStoreCategory jsonStoreCategory = new JsonStoreCategory()
+                        .setCategoryId(key)
+                        .setCategoryName(map.get(key));
+                    jsonStore.addJsonStoreCategory(jsonStoreCategory);
+                }
+                break;
+            case RA:
+                map = RadiologyCategoryEnum.asMapWithNameAsKey();
                 for(String key : map.keySet()) {
                     JsonStoreCategory jsonStoreCategory = new JsonStoreCategory()
                         .setCategoryId(key)
