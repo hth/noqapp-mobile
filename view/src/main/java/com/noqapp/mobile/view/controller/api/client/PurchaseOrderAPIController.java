@@ -18,6 +18,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonPurchaseOrder;
+import com.noqapp.domain.json.JsonPurchaseOrderHistorical;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -223,7 +224,7 @@ public class PurchaseOrderAPIController {
         ScrubbedInput auth,
 
         @RequestBody
-        JsonPurchaseOrder jsonPurchaseOrder,
+        JsonPurchaseOrderHistorical jsonPurchaseOrderHistorical,
 
         HttpServletResponse response
     ) throws IOException {
@@ -234,8 +235,10 @@ public class PurchaseOrderAPIController {
         if (authorizeRequest(response, qid)) return null;
 
         try {
-            //TODO added QID of the order in JsonPuchaseOrder for dependent or family
-            JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.activateOrderByClient(qid, jsonPurchaseOrder.getTransactionId());
+            JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.activateOrderByClient(
+                jsonPurchaseOrderHistorical.getQueueUserId(),
+                jsonPurchaseOrderHistorical.getTransactionId());
+
             LOG.info("Order activated Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
             return jsonPurchaseOrderResponse.asJson();
         } catch (OrderFailedReActivationException e) {
