@@ -213,7 +213,7 @@ public class ManageQueueSettingController {
         if (StringUtils.isBlank(codeQR.getText())) {
             LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-        } else if (!businessUserStoreService.hasAccessWithUserLevel(qid, codeQR.getText(), UserLevelEnum.S_MANAGER)) {
+        } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
             LOG.info("Un-authorized store access to /api/m/mq/removeSchedule by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
