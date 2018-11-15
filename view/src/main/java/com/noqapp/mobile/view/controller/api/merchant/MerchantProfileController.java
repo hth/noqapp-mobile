@@ -18,6 +18,7 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.JsonProfile;
+import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
@@ -272,6 +273,38 @@ public class MerchantProfileController {
                 new ScrubbedInput(profileImageOfQid).getText(),
                 multipartFile,
                 response);
+    }
+
+    @PostMapping (
+        value = "/remove",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String remove(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        UpdateProfile updateProfile,
+
+        HttpServletResponse response
+    ) throws IOException {
+        return profileCommonHelper.removeProfileImage(
+            did.getText(),
+            dt.getText(),
+            mail.getText(),
+            auth.getText(),
+            new ScrubbedInput(updateProfile.getQueueUserId()).getText(),
+            response
+        );
     }
 
     /** Add suggestions back to merchant's professional profile. */
