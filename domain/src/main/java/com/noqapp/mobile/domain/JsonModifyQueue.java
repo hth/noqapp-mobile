@@ -226,15 +226,21 @@ public class JsonModifyQueue extends AbstractDomain {
     @Override
     public String toString() {
         return "JsonModifyQueue{" +
-                "codeQR='" + codeQR + '\'' +
-                ", tokenAvailableFrom=" + tokenAvailableFrom +
-                ", startHour=" + startHour +
-                ", tokenNotAvailableFrom=" + tokenNotAvailableFrom +
-                ", endHour=" + endHour +
-                ", delayedInMinutes=" + delayedInMinutes +
-                ", preventJoining=" + preventJoining +
-                ", dayClosed=" + dayClosed +
-                ", availableTokenCount=" + availableTokenCount +
-                '}';
+            "codeQR='" + codeQR + '\'' +
+            ", tokenAvailableFrom=" + tokenAvailableFrom +
+            ", startHour=" + startHour +
+            ", tokenNotAvailableFrom=" + tokenNotAvailableFrom +
+            ", endHour=" + endHour +
+            ", delayedInMinutes=" + delayedInMinutes +
+            ", dayClosed=" + dayClosed +
+            ", tempDayClosed=" + tempDayClosed +
+            ", preventJoining=" + preventJoining +
+            ", availableTokenCount=" + availableTokenCount +
+            ", fromDay='" + fromDay + '\'' +
+            ", untilDay='" + untilDay + '\'' +
+            ", scheduledFromDay='" + scheduledFromDay + '\'' +
+            ", scheduledUntilDay='" + scheduledUntilDay + '\'' +
+            ", storeActionType=" + storeActionType +
+            '}';
     }
 }
