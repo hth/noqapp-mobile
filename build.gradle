@@ -236,7 +236,7 @@ subprojects {
         compile "com.fasterxml.jackson.core:jackson-databind:$jackson"
         compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson"
 
-        compile "org.json:json:20180130"
+        compile "org.json:json:$json"
         compile "com.maxmind.geoip2:geoip2:$geoip2"
 
         compile "commons-fileupload:commons-fileupload:$commonsfileupload"
