@@ -4,6 +4,8 @@ import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.common.utils.Formatter;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonUserAddress;
+import com.noqapp.domain.json.JsonUserAddressList;
 import com.noqapp.domain.json.medical.JsonUserMedicalProfile;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.GenderEnum;
@@ -13,6 +15,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import org.springframework.data.annotation.Transient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +89,9 @@ public final class JsonProfile extends AbstractDomain {
     /* Dependents can be anyone minor or other elderly family members. */
     @JsonProperty ("dp")
     private List<JsonProfile> dependents = new ArrayList<>();
+
+    @JsonProperty("ads")
+    private List<JsonUserAddress> jsonUserAddresses = new ArrayList<>();
 
     public JsonProfile() {
         //Required Default Constructor
@@ -212,6 +219,15 @@ public final class JsonProfile extends AbstractDomain {
 
     public JsonProfile addDependents(JsonProfile dependent) {
         this.dependents.add(dependent);
+        return this;
+    }
+
+    public List<JsonUserAddress> getJsonUserAddresses() {
+        return jsonUserAddresses;
+    }
+
+    public JsonProfile setJsonUserAddresses(List<JsonUserAddress> jsonUserAddresses) {
+        this.jsonUserAddresses = jsonUserAddresses;
         return this;
     }
 }

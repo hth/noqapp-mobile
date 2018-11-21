@@ -10,6 +10,7 @@ import com.noqapp.domain.flow.RegisterUser;
 import com.noqapp.domain.helper.NameDatePair;
 import com.noqapp.domain.json.JsonNameDatePair;
 import com.noqapp.domain.json.JsonProfessionalProfile;
+import com.noqapp.domain.json.JsonUserAddressList;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.domain.JsonProfile;
@@ -17,6 +18,7 @@ import com.noqapp.mobile.domain.mail.ChangeMailOTP;
 import com.noqapp.mobile.domain.mail.SignupUserInfo;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.ProfessionalProfileService;
+import com.noqapp.service.UserAddressService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 
 import org.apache.http.client.HttpClient;
@@ -56,6 +58,7 @@ public class AccountMobileService {
     private AccountService accountService;
     private UserMedicalProfileService userMedicalProfileService;
     private ProfessionalProfileService professionalProfileService;
+    private UserAddressService userAddressService;
 
     @Autowired
     public AccountMobileService(
@@ -68,7 +71,8 @@ public class AccountMobileService {
         WebConnectorService webConnectorService,
         AccountService accountService,
         UserMedicalProfileService userMedicalProfileService,
-        ProfessionalProfileService professionalProfileService
+        ProfessionalProfileService professionalProfileService,
+        UserAddressService userAddressService
     ) {
         this.accountSignup = accountSignup;
         this.mailChange = mailChange;
@@ -77,6 +81,7 @@ public class AccountMobileService {
         this.accountService = accountService;
         this.userMedicalProfileService = userMedicalProfileService;
         this.professionalProfileService = professionalProfileService;
+        this.userAddressService = userAddressService;
     }
 
     /**
@@ -235,8 +240,10 @@ public class AccountMobileService {
     public String getProfileAsJson(String qid) {
         UserProfileEntity userProfile = findProfileByQueueUserId(qid);
         UserAccountEntity userAccount = findByQueueUserId(qid);
-        JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount);
-        jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
+        JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
+        JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount)
+            .setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid))
+            .setJsonUserAddresses(jsonUserAddressList.getJsonUserAddresses());
 
         if (null != userProfile.getQidOfDependents()) {
             for (String qidOfDependent : userProfile.getQidOfDependents()) {
