@@ -330,13 +330,17 @@ public class ITest extends RealMongoForITest {
         professionalProfileManager = new ProfessionalProfileManagerImpl(getMongoTemplate());
         professionalProfileService = new ProfessionalProfileService(professionalProfileManager, userProfileManager, reviewService);
 
+        userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
+        userAddressService = new UserAddressService(userAddressManager, externalService);
+
         accountMobileService = new AccountMobileService(
             "/webapi/mobile/mail/accountSignup.htm",
             "/webapi/mobile/mail/mailChange.htm",
             webConnectorService,
             accountService,
             userMedicalProfileService,
-            professionalProfileService
+            professionalProfileService,
+            userAddressService
         );
 
         userProfilePreferenceService = new UserProfilePreferenceService(
@@ -379,8 +383,6 @@ public class ITest extends RealMongoForITest {
         purchaseOrderProductManager = new PurchaseOrderProductManagerImpl(getMongoTemplate());
         storeProductManager = new StoreProductManagerImpl(getMongoTemplate());
 
-        userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
-        userAddressService = new UserAddressService(userAddressManager, externalService);
         scheduledTaskManager = new ScheduledTaskManagerImpl(getMongoTemplate());
         transactionService = new TransactionService(getMongoTemplate(), transactionManager(), getMongoTemplate(), purchaseOrderManager, purchaseOrderProductManager, storeProductManager);
         storeProductService = new StoreProductService(storeProductManager, bizStoreManager, fileService, transactionService);
