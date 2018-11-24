@@ -10,8 +10,8 @@ import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonStore;
 import com.noqapp.domain.json.JsonStoreCategory;
 import com.noqapp.domain.json.JsonStoreProduct;
+import com.noqapp.domain.types.medical.LabCategoryEnum;
 import com.noqapp.domain.types.medical.PharmacyCategoryEnum;
-import com.noqapp.domain.types.medical.RadiologyCategoryEnum;
 import com.noqapp.service.BizService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
@@ -87,8 +87,9 @@ public class StoreDetailService {
                     jsonStore.addJsonStoreCategory(jsonStoreCategory);
                 }
                 break;
+                //TODO fix me below
             case RA:
-                map = RadiologyCategoryEnum.asMapWithNameAsKey();
+                map = LabCategoryEnum.asMapWithNameAsKey();
                 for(String key : map.keySet()) {
                     JsonStoreCategory jsonStoreCategory = new JsonStoreCategory()
                         .setCategoryId(key)
