@@ -18,6 +18,7 @@ import de.flapdoodle.embed.process.distribution.GenericVersion;
 import de.flapdoodle.embed.process.runtime.Network;
 import org.bson.Document;
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class HackyBit {
         new GenericVersion("4.0.3"),
         Version.Main.PRODUCTION.getFeatures());
 
-    @Test
+    @Disabled
     public void testSmth() throws IOException {
         MongodStarter runtime = MongodStarter.getDefaultInstance();
         int node1Port = Network.getFreeServerPort();
