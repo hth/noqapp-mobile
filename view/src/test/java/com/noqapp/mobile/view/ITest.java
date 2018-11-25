@@ -148,6 +148,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import okhttp3.OkHttpClient;
+
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -264,6 +266,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected MailService mailService;
     @Mock protected ElasticsearchClientConfiguration elasticsearchClientConfiguration;
     @Mock protected ElasticAdministrationService elasticAdministrationService;
+    @Mock protected OkHttpClient okHttpClient;
 
     @BeforeAll
     public void globalISetup() throws IOException {
@@ -287,14 +290,23 @@ public class ITest extends RealMongoForITest {
         userPreferenceManager = new UserPreferenceManagerImpl(getMongoTemplate());
         userProfileManager = new UserProfileManagerImpl(getMongoTemplate());
         generateUserIdManager = new GenerateUserIdManagerImpl(getMongoTemplate());
-        generateUserIdService = new GenerateUserIdService(generateUserIdManager);
         emailValidateManager = new EmailValidateManagerImpl(getMongoTemplate());
-        emailValidateService = new EmailValidateService(emailValidateManager);
         inviteManager = new InviteManagerImpl(getMongoTemplate());
-        inviteService = new InviteService(inviteManager);
         forgotRecoverManager = new ForgotRecoverManagerImpl(getMongoTemplate());
         registeredDeviceManager = new RegisteredDeviceManagerImpl(getMongoTemplate());
         userMedicalProfileManager = new UserMedicalProfileManagerImpl(getMongoTemplate());
+        purchaseOrderManager = new PurchaseOrderManagerImpl(getMongoTemplate());
+        purchaseOrderProductManager = new PurchaseOrderProductManagerImpl(getMongoTemplate());
+        storeProductManager = new StoreProductManagerImpl(getMongoTemplate());
+        scheduledTaskManager = new ScheduledTaskManagerImpl(getMongoTemplate());
+        bizNameManager = new BizNameManagerImpl(getMongoTemplate());
+        businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
+        businessUserManager = new BusinessUserManagerImpl(getMongoTemplate());
+        queueManager = new QueueManagerImpl(getMongoTemplate());
+
+        generateUserIdService = new GenerateUserIdService(generateUserIdManager);
+        emailValidateService = new EmailValidateService(emailValidateManager);
+        inviteService = new InviteService(inviteManager);
         userMedicalProfileService = new UserMedicalProfileService(userMedicalProfileManager);
 
         accountService = new AccountService(
@@ -354,12 +366,12 @@ public class ITest extends RealMongoForITest {
         apiHealthNowManager = new ApiHealthNowManagerImpl(getMongoTemplate());
         apiHealthService = new ApiHealthService(apiHealthNowManager);
 
-        queueManager = new QueueManagerImpl(getMongoTemplate());
         tokenQueueManager = new TokenQueueManagerImpl(getMongoTemplate());
         bizStoreManager = new BizStoreManagerImpl(getMongoTemplate());
         storeHourManager = new StoreHourManagerImpl(getMongoTemplate());
         businessCustomerManager = new BusinessCustomerManagerImpl(getMongoTemplate());
         s3FileManager = new S3FileManagerImpl(getMongoTemplate());
+        firebaseMessageService = new FirebaseMessageService("", okHttpClient);
         businessCustomerService = new BusinessCustomerService(
             businessCustomerManager,
             userProfileManager,
@@ -379,36 +391,14 @@ public class ITest extends RealMongoForITest {
             apiHealthService
         );
 
-        purchaseOrderManager = new PurchaseOrderManagerImpl(getMongoTemplate());
-        purchaseOrderProductManager = new PurchaseOrderProductManagerImpl(getMongoTemplate());
-        storeProductManager = new StoreProductManagerImpl(getMongoTemplate());
-
-        scheduledTaskManager = new ScheduledTaskManagerImpl(getMongoTemplate());
-        transactionService = new TransactionService(getMongoTemplate(), transactionManager(), getMongoTemplate(), purchaseOrderManager, purchaseOrderProductManager, storeProductManager);
-        storeProductService = new StoreProductService(storeProductManager, bizStoreManager, fileService, transactionService);
-
-        purchaseOrderService = new PurchaseOrderService(
-            bizStoreManager,
-            tokenQueueService,
-            storeHourManager,
-            storeProductService,
+        transactionService = new TransactionService(
+            getMongoTemplate(),
+            transactionManager(),
+            getMongoTemplate(),
             purchaseOrderManager,
-            purchaseOrderManagerJDBC,
             purchaseOrderProductManager,
-            purchaseOrderProductManagerJDBC,
-            userAddressService,
-            firebaseMessageService,
-            registeredDeviceManager,
-            tokenQueueManager,
-            accountService,
-            transactionService
+            storeProductManager
         );
-
-        purchaseOrderMobileService = new PurchaseOrderMobileService(purchaseOrderService);
-
-        bizNameManager = new BizNameManagerImpl(getMongoTemplate());
-        businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
-        businessUserManager = new BusinessUserManagerImpl(getMongoTemplate());
 
         queueService = new QueueService(
             30,
@@ -450,6 +440,25 @@ public class ITest extends RealMongoForITest {
             bizService,
             storeCategoryService
         );
+
+        storeProductService = new StoreProductService(storeProductManager, bizStoreManager, fileService, transactionService);
+        purchaseOrderService = new PurchaseOrderService(
+            bizStoreManager,
+            tokenQueueService,
+            storeHourManager,
+            storeProductService,
+            purchaseOrderManager,
+            purchaseOrderManagerJDBC,
+            purchaseOrderProductManager,
+            purchaseOrderProductManagerJDBC,
+            userAddressService,
+            firebaseMessageService,
+            registeredDeviceManager,
+            tokenQueueManager,
+            accountService,
+            transactionService
+        );
+        purchaseOrderMobileService = new PurchaseOrderMobileService(purchaseOrderService);
 
         tokenQueueMobileService = new TokenQueueMobileService(
             tokenQueueService,
