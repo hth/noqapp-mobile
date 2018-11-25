@@ -87,16 +87,6 @@ public class StoreDetailService {
                     jsonStore.addJsonStoreCategory(jsonStoreCategory);
                 }
                 break;
-                //TODO fix me below
-            case RA:
-                map = LabCategoryEnum.asMapWithNameAsKey();
-                for(String key : map.keySet()) {
-                    JsonStoreCategory jsonStoreCategory = new JsonStoreCategory()
-                        .setCategoryId(key)
-                        .setCategoryName(map.get(key));
-                    jsonStore.addJsonStoreCategory(jsonStoreCategory);
-                }
-                break;
             default:
                 for (StoreCategoryEntity storeCategory : storeCategories) {
                     JsonStoreCategory jsonStoreCategory = new JsonStoreCategory()
