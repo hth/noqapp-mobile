@@ -147,7 +147,9 @@ class MedicalRecordControllerTest extends ITest {
             .setPastHistory("Some History")
             .setFamilyHistory("Family History")
             .setKnownAllergies("This is known allergy")
-            .setClinicalFinding("I found this");
+            .setExamination("Examination is")
+            .setClinicalFinding("I found this")
+            .setProvisionalDifferentialDiagnosis("My finding is");
 
         JsonMedicalMedicine jsonMedicalMedicine1 = new JsonMedicalMedicine()
             .setName("Amox")
