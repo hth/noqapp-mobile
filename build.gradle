@@ -1,3 +1,5 @@
+import com.github.spotbugs.SpotBugsTask
+
 if (!hasProperty('env')) {
     ext.env = System.env['GRADLE_ENV']
 }
@@ -41,11 +43,15 @@ ext {
 buildscript {
     repositories {
         mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatform"
+        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.5"
     }
 }
+
+apply plugin: 'com.github.spotbugs'
 
 allprojects {
     group = 'com.noqapp.mobile'
@@ -57,7 +63,6 @@ subprojects {
     apply plugin: 'java'
 
     apply plugin: 'checkstyle'  //for java code conventions, you can use sonar instead but it need DB
-    apply plugin: 'findbugs'    //for static code analysis
     apply plugin: 'pmd'
     apply plugin: 'jacoco'      //for code coverage
     apply plugin: 'org.junit.platform.gradle.plugin'
@@ -80,16 +85,8 @@ subprojects {
         ignoreFailures = true
     }
 
-    findbugs {
-        toolVersion = "3.0.1"
-        ignoreFailures = true
-        reportsDir = file("$project.buildDir/reports/findbugs")
-        effort = "max"
-        reportLevel = "medium"
-        visitors = ["FindSqlInjection", "SwitchFallthrough"]
-        omitVisitors = ["FindNonShortCircuit"]
-//        includeFilter = file("$rootProject.projectDir/config/findbugs/includeFilter.xml")
-//        excludeFilter = file("$rootProject.projectDir/config/findbugs/excludeFilter.xml")
+    spotbugs {
+        toolVersion = '3.1.3'
     }
 
     pmd {
@@ -325,7 +322,7 @@ subprojects {
         }
     }
 
-    tasks.withType(FindBugs) {
+    tasks.withType(SpotBugsTask) {
         reports {
             xml.enabled = true
             html.enabled = false
