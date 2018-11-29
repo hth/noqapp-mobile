@@ -20,7 +20,9 @@ import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.service.MedicalRecordMobileService;
 import com.noqapp.mobile.view.controller.api.client.health.MedicalRecordAPIController;
+import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 
@@ -35,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -67,6 +70,7 @@ public class MedicalRecordController {
     private MedicalRecordService medicalRecordService;
     private BusinessUserStoreService businessUserStoreService;
     private BizService bizService;
+    private MedicalRecordMobileService medicalRecordMobileService;
 
     @Autowired
     public MedicalRecordController(
@@ -74,13 +78,15 @@ public class MedicalRecordController {
             ApiHealthService apiHealthService,
             MedicalRecordService medicalRecordService,
             BusinessUserStoreService businessUserStoreService,
-            BizService bizService
+            BizService bizService,
+            MedicalRecordMobileService medicalRecordMobileService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.apiHealthService = apiHealthService;
         this.medicalRecordService = medicalRecordService;
         this.businessUserStoreService = businessUserStoreService;
         this.bizService = bizService;
+        this.medicalRecordMobileService = medicalRecordMobileService;
     }
 
     /**
@@ -212,6 +218,58 @@ public class MedicalRecordController {
                 MedicalRecordAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 HealthStatusEnum.G);
+        }
+    }
+
+    @GetMapping(
+        value = "/{codeQR}/followup",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String followUp(
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Follow up shown for codeQR={} request from mail={} auth={}", codeQR, mail, AUTH_KEY_HIDDEN);
+
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/h/medicalRecord/{codeQR}/followup by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (StringUtils.isBlank(codeQR.getText())) {
+            LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
+            return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+        } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
+            LOG.info("Un-authorized store access to /api/m/h/medicalRecord/{codeQR}/followup by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            return medicalRecordMobileService.findAllFollowUp(codeQR.getText());
+        } catch (Exception e) {
+            LOG.error("Failed getting follow up clients reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/{codeQR}/followup",
+                "followUp",
+                MedicalRecordController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }

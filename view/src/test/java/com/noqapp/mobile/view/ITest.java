@@ -48,6 +48,7 @@ import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.DeviceService;
+import com.noqapp.mobile.service.MedicalRecordMobileService;
 import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.StoreDetailService;
@@ -247,6 +248,7 @@ public class ITest extends RealMongoForITest {
     protected BizStoreElasticManager bizStoreElasticManager;
     protected BizStoreElasticService bizStoreElasticService;
     protected TransactionService transactionService;
+    protected MedicalRecordMobileService medicalRecordMobileService;
 
     protected ApiHealthService apiHealthService;
     protected ApiHealthNowManager apiHealthNowManager;
@@ -531,11 +533,13 @@ public class ITest extends RealMongoForITest {
             medicalPathologyTestManager,
             medicalRadiologyManager,
             medicalRadiologyTestManager,
-            bizService,
+            bizStoreManager,
             businessUserStoreService,
             userProfileManager,
             purchaseOrderService
         );
+
+        medicalRecordMobileService = new MedicalRecordMobileService(medicalRecordService);
 
         registerUser();
         createBusinessDoctor("9118000000030");
