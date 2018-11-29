@@ -55,7 +55,8 @@ class MedicalRecordControllerTest extends ITest {
             apiHealthService,
             medicalRecordService,
             businessUserStoreService,
-            bizService
+            bizService,
+            medicalRecordMobileService
         );
 
         this.purchaseOrderController = new PurchaseOrderController(
