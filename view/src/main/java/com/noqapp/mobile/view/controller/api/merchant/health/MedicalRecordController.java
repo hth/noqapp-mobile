@@ -183,6 +183,7 @@ public class MedicalRecordController {
 
         HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.debug("Client medical record fetch mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -204,12 +205,7 @@ public class MedicalRecordController {
             return medicalRecordService.populateMedicalHistory(findMedicalProfile.getQueueUserId()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting medical record qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                "/fetch",
-                "fetch",
-                MedicalRecordAPIController.class.getName(),
-                Duration.between(start, Instant.now()),
-                HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -217,7 +213,7 @@ public class MedicalRecordController {
                 "fetch",
                 MedicalRecordAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
-                HealthStatusEnum.G);
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
