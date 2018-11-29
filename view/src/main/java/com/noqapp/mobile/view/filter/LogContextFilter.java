@@ -107,7 +107,6 @@ public class LogContextFilter implements Filter {
             switch (countryCode) {
                 case "AE":
                 case "SA":
-                case "IN":
                     LOG.warn("Request from county {} failed response", countryCode);
                     HttpServletResponse httpServletResponse = (HttpServletResponse) res;
                     httpServletResponse.setStatus(SC_NOT_FOUND);
