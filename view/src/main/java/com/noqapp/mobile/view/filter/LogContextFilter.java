@@ -1,11 +1,15 @@
 package com.noqapp.mobile.view.filter;
 
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+
 import com.noqapp.mobile.view.controller.open.IsWorkingController;
 import com.noqapp.search.elastic.config.IPGeoConfiguration;
 
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
+
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,11 +47,11 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * User: hitender
  * Date: 11/17/16 9:00 AM
  */
-@SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+@SuppressWarnings({
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 public class LogContextFilter implements Filter {
     private static final Logger LOG = LoggerFactory.getLogger(LogContextFilter.class);
@@ -56,15 +60,15 @@ public class LogContextFilter implements Filter {
 
     /* https://stackoverflow.com/questions/24894093/ruby-regular-expression-extracting-part-of-url */
     private static final Pattern EXTRACT_ENDPOINT_PATTERN =
-            Pattern.compile("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
+        Pattern.compile("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
     private static final String REQUEST_ID_MDC_KEY = "X-REQUEST-ID";
     private IPGeoConfiguration ipGeoConfiguration;
 
     @Override
     public void doFilter(
-            ServletRequest req,
-            ServletResponse res,
-            FilterChain chain
+        ServletRequest req,
+        ServletResponse res,
+        FilterChain chain
     ) throws IOException, ServletException {
         String uuid = UUID.randomUUID().toString();
         MDC.put(REQUEST_ID_MDC_KEY, uuid);
@@ -99,6 +103,18 @@ public class LogContextFilter implements Filter {
             + " URL=\"" + url + "\""
         );
 
+        if (StringUtils.isNotBlank(countryCode)) {
+            switch (countryCode) {
+                case "AE":
+                case "SA":
+                case "IN":
+                    LOG.warn("Request from county {} failed response", countryCode);
+                    HttpServletResponse httpServletResponse = (HttpServletResponse) res;
+                    httpServletResponse.setStatus(SC_NOT_FOUND);
+                    return;
+            }
+        }
+
         if (isHttpHead(httpServletRequest)) {
             HttpServletResponse httpServletResponse = (HttpServletResponse) res;
             NoBodyResponseWrapper noBodyResponseWrapper = new NoBodyResponseWrapper(httpServletResponse);
@@ -119,7 +135,6 @@ public class LogContextFilter implements Filter {
     }
 
     private Map<String, String> getHeadersInfo(HttpServletRequest request) {
-
         Map<String, String> map = new HashMap<>();
 
         Enumeration headerNames = request.getHeaderNames();
@@ -154,6 +169,7 @@ public class LogContextFilter implements Filter {
      * crawlers when a valid user has logged in. We plan to use this until a decision would be made in near future.
      * <p>
      * The reason for this addition has already been fixed in code at location below.
+     *
      * @see IsWorkingController#isWorking()
      */
     private boolean isHttpHead(HttpServletRequest request) {
