@@ -65,7 +65,7 @@ public class ReviewController {
 
     /** Add review to queue service. This includes today's service or historical queue service. */
     @PostMapping(
-            value = {"/queue", "/service"},
+            value = "/queue",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String queue(
