@@ -2,10 +2,8 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.common.utils.DateUtil.Day.TODAY;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_ACTION_NOT_PERMITTED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_ALREADY_IN_QUEUE;
@@ -13,37 +11,28 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_F
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.CommonUtil;
-import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.QueueEntity;
-import com.noqapp.domain.ScheduledTaskEntity;
-import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonBusinessCustomerLookup;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
-import com.noqapp.domain.types.ActionTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
-import com.noqapp.domain.types.ScheduleTaskEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
-import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.domain.JsonModifyQueue;
 import com.noqapp.mobile.domain.body.merchant.ChangeUserInQueue;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
-import com.noqapp.repository.ScheduledTaskManager;
 import com.noqapp.service.AccountService;
-import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.QueueService;
@@ -72,12 +61,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -452,7 +437,7 @@ public class ManageQueueController {
     }
 
     /**
-     * List all clients from history.
+     * List all registered clients from history. None registered clients are never shown.
      */
     @PostMapping (
         value = "/showClients/{codeQR}/historical",
@@ -502,7 +487,7 @@ public class ManageQueueController {
         }
 
         try {
-            return queueMobileService.findAllClientHistorical(codeQR.getText()).asJson();
+            return queueMobileService.findAllRegisteredClientHistorical(codeQR.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queued clients reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

@@ -428,8 +428,8 @@ public class QueueMobileService {
         return queueService.findAllClient(codeQR);
     }
 
-    public JsonQueuePersonList findAllClientHistorical(String codeQR) {
-        return queueService.findAllClientHistorical(codeQR);
+    public JsonQueuePersonList findAllRegisteredClientHistorical(String codeQR) {
+        return queueService.findAllRegisteredClientHistorical(codeQR);
     }
 
     public BizStoreEntity findByCodeQR(String codeQR) {
