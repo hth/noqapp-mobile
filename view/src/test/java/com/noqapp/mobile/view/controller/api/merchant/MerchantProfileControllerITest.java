@@ -122,7 +122,7 @@ class MerchantProfileControllerITest extends ITest {
 
         JsonProfile jsonProfileUpdated = new ObjectMapper().readValue(jsonProfileAsString, JsonProfile.class);
         assertEquals("My New Name", jsonProfileUpdated.getName());
-        assertEquals("", jsonProfileUpdated.getAddress());
+        assertEquals(null, jsonProfileUpdated.getAddress());
 
         updateProfile = new UpdateProfile()
             .setQueueUserId(jsonProfile.getQueueUserId())
@@ -142,7 +142,6 @@ class MerchantProfileControllerITest extends ITest {
         jsonProfileUpdated = new ObjectMapper().readValue(jsonProfileAsString, JsonProfile.class);
         assertEquals("My New Name", jsonProfileUpdated.getName());
         assertEquals("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India", jsonProfileUpdated.getAddress());
-
     }
 
     @Test
