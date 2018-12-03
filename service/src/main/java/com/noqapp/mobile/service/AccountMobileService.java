@@ -342,7 +342,8 @@ public class AccountMobileService {
             .setDataDictionary(jsonProfessionalProfile.getDataDictionary())
             .setAwards(nameDatePairsAwards)
             .setEducation(nameDatePairsEducations)
-            .setLicenses(nameDatePairsLicenses);
+            .setLicenses(nameDatePairsLicenses)
+            .setFormVersion(jsonProfessionalProfile.getFormVersion());
         professionalProfileService.save(professionalProfile);
         return jsonProfessionalProfile.asJson();
     }
