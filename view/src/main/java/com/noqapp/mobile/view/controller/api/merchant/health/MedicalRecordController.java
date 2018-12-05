@@ -217,6 +217,7 @@ public class MedicalRecordController {
         }
     }
 
+    /** //TODO In future move this to its own class .*/
     @GetMapping(
         value = "/{codeQR}/followup",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
