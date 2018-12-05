@@ -4,6 +4,7 @@ import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.domain.types.UserLevelEnum.*;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.BUSINESS_NOT_AUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ACCESS_DENIED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ENTRY_DENIED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
@@ -157,6 +158,63 @@ public class MedicalRecordController {
                     MedicalRecordController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Retrieve record before adding. */
+    @PostMapping(
+        value = "/retrieve",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String retrieve(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonMedicalRecord jsonMedicalRecord,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Retrieve medical record mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/h/medicalRecord/retrieve by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            if (StringUtils.isBlank(jsonMedicalRecord.getCodeQR())) {
+                LOG.warn("Not a valid codeQR={} qid={}", jsonMedicalRecord.getCodeQR(), qid);
+                return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+            } else if (!businessUserStoreService.hasAccess(qid, jsonMedicalRecord.getCodeQR())) {
+                LOG.info("Your are not authorized to add medical record mail={}", mail);
+                return getErrorReason("Your are not authorized to access medical record", MEDICAL_RECORD_ACCESS_DENIED);
+            }
+
+            return medicalRecordService.retrieveMedicalRecord(jsonMedicalRecord.getCodeQR(), jsonMedicalRecord.getRecordReferenceId()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed accessing medical record json={} qid={} message={}", jsonMedicalRecord, qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/retrieve",
+                "retrieve",
+                MedicalRecordController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
