@@ -533,9 +533,10 @@ public class ITest extends RealMongoForITest {
             medicalPathologyTestManager,
             medicalRadiologyManager,
             medicalRadiologyTestManager,
-            bizStoreManager,
-            businessUserStoreService,
             userProfileManager,
+            bizStoreManager,
+            queueManager,
+            businessUserStoreService,
             purchaseOrderService
         );
 
