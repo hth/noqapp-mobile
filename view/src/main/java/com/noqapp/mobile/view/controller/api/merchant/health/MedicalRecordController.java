@@ -112,7 +112,7 @@ public class MedicalRecordController {
             ScrubbedInput auth,
 
             @RequestBody
-            String requestBodyJson,
+            JsonMedicalRecord jsonMedicalRecord,
 
             HttpServletResponse response
     ) throws IOException {
@@ -127,19 +127,17 @@ public class MedicalRecordController {
         }
 
         try {
-            JsonMedicalRecord jsonRecord = new ObjectMapper().readValue(requestBodyJson, JsonMedicalRecord.class);
-            jsonRecord.setDiagnosedById(qid);
-
-            if (StringUtils.isBlank(jsonRecord.getCodeQR())) {
-                LOG.warn("Not a valid codeQR={} qid={}", jsonRecord.getCodeQR(), qid);
+            jsonMedicalRecord.setDiagnosedById(qid);
+            if (StringUtils.isBlank(jsonMedicalRecord.getCodeQR())) {
+                LOG.warn("Not a valid codeQR={} qid={}", jsonMedicalRecord.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccessWithUserLevel(jsonRecord.getDiagnosedById(), jsonRecord.getCodeQR(), S_MANAGER)) {
+            } else if (!businessUserStoreService.hasAccess(jsonMedicalRecord.getDiagnosedById(), jsonMedicalRecord.getCodeQR())) {
                 LOG.info("Your are not authorized to add medical record mail={}", mail);
                 return getErrorReason("Your are not authorized to add medical record", MEDICAL_RECORD_ENTRY_DENIED);
             }
 
             /* Check if business type is of Hospital or Doctor to allow adding record. */
-            BizStoreEntity bizStore = bizService.findByCodeQR(jsonRecord.getCodeQR());
+            BizStoreEntity bizStore = bizService.findByCodeQR(jsonMedicalRecord.getCodeQR());
             if (bizStore.getBusinessType() != BusinessTypeEnum.DO && bizStore.getBizName().getBusinessType() != BusinessTypeEnum.DO) {
                 LOG.error("Failed as its not a Doctor or Hospital business type, found store={} biz={}",
                         bizStore.getBusinessType(),
@@ -147,14 +145,10 @@ public class MedicalRecordController {
                 return getErrorReason("Business not authorized to add medical record", BUSINESS_NOT_AUTHORIZED);
             }
 
-            medicalRecordService.addMedicalRecord(jsonRecord);
+            medicalRecordService.addMedicalRecord(jsonMedicalRecord);
             return new JsonResponse(true).asJson();
-        } catch (JsonMappingException e) {
-            LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } catch (Exception e) {
-            LOG.error("Failed processing medical record json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed processing medical record json={} qid={} message={}", jsonMedicalRecord, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
@@ -179,7 +173,7 @@ public class MedicalRecordController {
         ScrubbedInput auth,
 
         @RequestBody
-        String requestBodyJson,
+        FindMedicalProfile findMedicalProfile,
 
         HttpServletResponse response
     ) throws IOException {
@@ -193,7 +187,6 @@ public class MedicalRecordController {
         }
 
         try {
-            FindMedicalProfile findMedicalProfile = new ObjectMapper().readValue(requestBodyJson, FindMedicalProfile.class);
             if (StringUtils.isBlank(findMedicalProfile.getCodeQR())) {
                 LOG.warn("Not a valid codeQR={} qid={}", findMedicalProfile.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
