@@ -84,7 +84,7 @@ class MedicalRecordControllerTest extends ITest {
             new ScrubbedInput(deviceType),
             new ScrubbedInput(userAccount.getUserId()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            jsonMedicalRecord.asJson(),
+            jsonMedicalRecord,
             httpServletResponse
         );
         JsonResponse jsonResponse = new ObjectMapper().readValue(response, JsonResponse.class);
@@ -122,7 +122,7 @@ class MedicalRecordControllerTest extends ITest {
         String response = medicalRecordController.fetch(
             new ScrubbedInput(userAccount.getUserId()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            findMedicalProfile.asJson(),
+            findMedicalProfile,
             httpServletResponse
         );
 

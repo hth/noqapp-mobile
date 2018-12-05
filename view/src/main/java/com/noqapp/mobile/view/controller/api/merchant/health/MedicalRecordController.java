@@ -127,11 +127,10 @@ public class MedicalRecordController {
         }
 
         try {
-            jsonMedicalRecord.setDiagnosedById(qid);
             if (StringUtils.isBlank(jsonMedicalRecord.getCodeQR())) {
                 LOG.warn("Not a valid codeQR={} qid={}", jsonMedicalRecord.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(jsonMedicalRecord.getDiagnosedById(), jsonMedicalRecord.getCodeQR())) {
+            } else if (!businessUserStoreService.hasAccess(qid, jsonMedicalRecord.getCodeQR())) {
                 LOG.info("Your are not authorized to add medical record mail={}", mail);
                 return getErrorReason("Your are not authorized to add medical record", MEDICAL_RECORD_ENTRY_DENIED);
             }
@@ -145,7 +144,7 @@ public class MedicalRecordController {
                 return getErrorReason("Business not authorized to add medical record", BUSINESS_NOT_AUTHORIZED);
             }
 
-            medicalRecordService.addMedicalRecord(jsonMedicalRecord);
+            medicalRecordService.addMedicalRecord(jsonMedicalRecord, qid);
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing medical record json={} qid={} message={}", jsonMedicalRecord, qid, e.getLocalizedMessage(), e);
