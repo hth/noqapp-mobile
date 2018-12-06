@@ -244,15 +244,15 @@ public class PurchaseOrderAPIController {
         } catch (OrderFailedReActivationException e) {
             LOG.error("Failed activating purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return getErrorReason("Failed to activate order", PURCHASE_ORDER_CANNOT_ACTIVATE);
+            return getErrorReason(e.getLocalizedMessage(), PURCHASE_ORDER_CANNOT_ACTIVATE);
         } catch (Exception e) {
             LOG.error("Failed activating purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/cancel",
-                "cancel",
+                "/activate",
+                "activate",
                 PurchaseOrderAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
