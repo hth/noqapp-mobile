@@ -2,7 +2,6 @@ package com.noqapp.mobile.view.controller.api.merchant.health;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.domain.types.UserLevelEnum.*;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.BUSINESS_NOT_AUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ACCESS_DENIED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ENTRY_DENIED;
@@ -14,7 +13,6 @@ import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.BusinessTypeEnum;
-import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
@@ -23,12 +21,8 @@ import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.MedicalRecordMobileService;
 import com.noqapp.mobile.view.controller.api.client.health.MedicalRecordAPIController;
-import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
-
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -180,7 +174,7 @@ public class MedicalRecordController {
         ScrubbedInput auth,
 
         @RequestBody
-        JsonMedicalRecord jsonMedicalRecord,
+        JsonMedicalRecord mr,
 
         HttpServletResponse response
     ) throws IOException {
@@ -195,17 +189,22 @@ public class MedicalRecordController {
         }
 
         try {
-            if (StringUtils.isBlank(jsonMedicalRecord.getCodeQR())) {
-                LOG.warn("Not a valid codeQR={} qid={}", jsonMedicalRecord.getCodeQR(), qid);
+            if (StringUtils.isBlank(mr.getCodeQR())) {
+                LOG.warn("Not a valid codeQR={} qid={}", mr.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(qid, jsonMedicalRecord.getCodeQR())) {
+            } else if (!businessUserStoreService.hasAccess(qid, mr.getCodeQR())) {
                 LOG.info("Your are not authorized to add medical record mail={}", mail);
                 return getErrorReason("Your are not authorized to access medical record", MEDICAL_RECORD_ACCESS_DENIED);
             }
 
-            return medicalRecordService.retrieveMedicalRecord(jsonMedicalRecord.getCodeQR(), jsonMedicalRecord.getRecordReferenceId()).asJson();
+            JsonMedicalRecord jsonMedicalRecord = medicalRecordService.retrieveMedicalRecord(mr.getCodeQR(), mr.getRecordReferenceId());
+            if (null == jsonMedicalRecord) {
+                return getErrorReason("Your are not authorized to access medical record", MEDICAL_RECORD_ACCESS_DENIED);
+            }
+
+            return jsonMedicalRecord.asJson();
         } catch (Exception e) {
-            LOG.error("Failed accessing medical record json={} qid={} message={}", jsonMedicalRecord, qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed accessing medical record json={} qid={} message={}", mr, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
