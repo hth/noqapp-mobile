@@ -391,7 +391,7 @@ public class TokenQueueMobileService {
 
     public JsonResponse abortQueue(String codeQR, String did, String qid) {
         LOG.info("abortQueue codeQR={} did={} qid={}", codeQR, did, qid);
-        return tokenQueueService.abortQueue(codeQR, did, qid);
+        return tokenQueueService.abortQueue(codeQR, qid);
     }
 
     public BizService getBizService() {
