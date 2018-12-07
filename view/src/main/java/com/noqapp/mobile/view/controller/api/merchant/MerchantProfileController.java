@@ -2,11 +2,13 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.ProfessionalProfileEntity;
+import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
@@ -19,9 +21,12 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
+import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.DeviceService;
+import com.noqapp.mobile.service.exception.AccountNotActiveException;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
+import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
@@ -76,6 +81,7 @@ public class MerchantProfileController {
     private ApiHealthService apiHealthService;
     private ImageValidator imageValidator;
     private DeviceService deviceService;
+    private AccountMobileService accountMobileService;
 
     @Autowired
     public MerchantProfileController(
@@ -86,7 +92,8 @@ public class MerchantProfileController {
             ProfessionalProfileService professionalProfileService,
             ApiHealthService apiHealthService,
             ImageValidator imageValidator,
-            DeviceService deviceService
+            DeviceService deviceService,
+            AccountMobileService accountMobileService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
@@ -96,6 +103,7 @@ public class MerchantProfileController {
         this.apiHealthService = apiHealthService;
         this.imageValidator = imageValidator;
         this.deviceService = deviceService;
+        this.accountMobileService = accountMobileService;
     }
 
     /** Fetch merchant profile also register device with qid after login. */
@@ -160,7 +168,7 @@ public class MerchantProfileController {
             }
 
             /* For merchant profile no need to find remote scan. */
-            JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, authenticateMobileService.findByQueueUserId(userProfile.getQueueUserId()));
+            JsonProfile jsonProfile = accountMobileService.getProfileAsJson(qid);
             List<JsonTopic> jsonTopics = businessUserStoreService.getQueues(qid);
             JsonProfessionalProfile jsonProfessionalProfile = null;
             if (UserLevelEnum.S_MANAGER == jsonProfile.getUserLevel()) {
@@ -181,6 +189,10 @@ public class MerchantProfileController {
             LOG.error("Failed fetching profile qid={} reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } catch(AccountNotActiveException e) {
+            LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
         } finally {
             apiHealthService.insert(
                     "/fetch",

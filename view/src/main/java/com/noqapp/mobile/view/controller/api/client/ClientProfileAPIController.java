@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MAIL_OTP_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
@@ -26,7 +27,9 @@ import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.service.exception.AccountNotActiveException;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
+import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.service.UserAddressService;
@@ -134,7 +137,11 @@ public class ClientProfileAPIController {
         }
 
         try {
-            return accountMobileService.getProfileAsJson(qid);
+            return accountMobileService.getProfileAsJson(qid).asJson();
+        } catch(AccountNotActiveException e) {
+            LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
         } catch (Exception e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

@@ -61,7 +61,7 @@ class MedicalUserProfileControllerTest extends ITest {
             new ScrubbedInput(deviceType),
             new ScrubbedInput(userAccount.getUserId()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            findMedicalProfile.asJson(),
+            findMedicalProfile,
             httpServletResponse
         );
 

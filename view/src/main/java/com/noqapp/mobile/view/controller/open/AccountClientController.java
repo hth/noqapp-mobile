@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.open;
 
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
@@ -21,6 +22,7 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_CLIENT;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT;
 import com.noqapp.mobile.service.DeviceService;
+import com.noqapp.mobile.service.exception.AccountNotActiveException;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
@@ -222,7 +224,7 @@ public class AccountClientController {
                         return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                     }
                     deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
-                    return accountMobileService.getProfileAsJson(userAccount.getQueueUserId());
+                    return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
                 } catch (DuplicateAccountException e) {
                     LOG.info("Failed user registration as already exists phone={} mail={}", phone, mail);
                     errors = new HashMap<>();
@@ -346,7 +348,10 @@ public class AccountClientController {
                         return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                     }
                     deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
-                    return accountMobileService.getProfileAsJson(userAccount.getQueueUserId());
+                    return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
+                } catch(AccountNotActiveException e) {
+                    LOG.error("Failed getting profile phone={}, reason={}", phone, e.getLocalizedMessage(), e);
+                    return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
                 } catch (Exception e) {
                     LOG.error("Failed login for phone={} cs={} reason={}", phone, countryShortName, e.getLocalizedMessage(), e);
 

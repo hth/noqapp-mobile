@@ -237,7 +237,7 @@ public class DependentAPIController {
                             return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                         }
                         deviceService.updateRegisteredDevice(qid, did.getText(), deviceTypeEnum);
-                        return accountMobileService.getProfileAsJson(qid);
+                        return accountMobileService.getProfileAsJson(qid).asJson();
                     } catch (DuplicateAccountException e) {
                         LOG.info("Failed dependent user registration as already exists phone={} mail={}", phone, dependentMail);
                         errors = new HashMap<>();
