@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.client.health;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -16,6 +17,8 @@ import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.service.exception.AccountNotActiveException;
+import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.UserMedicalProfileValidator;
 
 import org.slf4j.Logger;
@@ -137,7 +140,11 @@ public class UserMedicalProfileController {
                 userMedicalProfileService.save(userMedicalProfile);
             }
 
-            return accountMobileService.getProfileAsJson(qid);
+            return accountMobileService.getProfileAsJson(qid).asJson();
+        } catch(AccountNotActiveException e) {
+            LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
         } catch (Exception e) {
             LOG.error("Failed updating user medical profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

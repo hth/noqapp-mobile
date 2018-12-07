@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.merchant.health;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ENTRY_DENIED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
@@ -13,6 +14,8 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.service.exception.AccountNotActiveException;
+import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.service.BusinessUserStoreService;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -92,7 +95,7 @@ public class MedicalUserProfileController {
         ScrubbedInput auth,
 
         @RequestBody
-        String requestBodyJson,
+        FindMedicalProfile findMedicalProfile,
 
         HttpServletResponse response
     ) throws IOException {
@@ -107,7 +110,6 @@ public class MedicalUserProfileController {
         }
 
         try {
-            FindMedicalProfile findMedicalProfile = new ObjectMapper().readValue(requestBodyJson, FindMedicalProfile.class);
             if (StringUtils.isBlank(findMedicalProfile.getCodeQR())) {
                 LOG.warn("Not a valid codeQR={} qid={}", findMedicalProfile.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
@@ -116,11 +118,7 @@ public class MedicalUserProfileController {
                 return getErrorReason("Your are not authorized to see medical profile of client", MEDICAL_RECORD_ENTRY_DENIED);
             }
 
-            return accountMobileService.getProfileAsJson(findMedicalProfile.getQueueUserId());
-        } catch (JsonMappingException e) {
-            LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+            return accountMobileService.getProfileForMedicalAsJson(findMedicalProfile.getQueueUserId()).asJson();
         } finally {
             apiHealthService.insert(
                 "/fetch",

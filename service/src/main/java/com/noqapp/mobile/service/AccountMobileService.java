@@ -16,6 +16,7 @@ import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.mail.ChangeMailOTP;
 import com.noqapp.mobile.domain.mail.SignupUserInfo;
+import com.noqapp.mobile.service.exception.AccountNotActiveException;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.UserAddressService;
@@ -237,9 +238,22 @@ public class AccountMobileService {
         return accountService.findByQueueUserId(qid);
     }
 
-    public String getProfileAsJson(String qid) {
-        UserProfileEntity userProfile = findProfileByQueueUserId(qid);
+    public JsonProfile getProfileAsJson(String qid) {
         UserAccountEntity userAccount = findByQueueUserId(qid);
+        if (!userAccount.isActive()) {
+            LOG.warn("Account In Active {} qid={}", userAccount.getAccountInactiveReason(), qid);
+            throw new AccountNotActiveException("Account not active");
+        }
+        return getProfileForMedicalAsJson(qid, userAccount);
+    }
+
+    public JsonProfile getProfileForMedicalAsJson(String qid) {
+        return getProfileForMedicalAsJson(qid, findByQueueUserId(qid));
+    }
+
+    /** Medical profile should not care about inactive account. */
+    private JsonProfile getProfileForMedicalAsJson(String qid, UserAccountEntity userAccount) {
+        UserProfileEntity userProfile = findProfileByQueueUserId(qid);
         JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
         JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount)
             .setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid))
@@ -254,7 +268,7 @@ public class AccountMobileService {
             }
         }
 
-        return jsonProfile.asJson();
+        return jsonProfile;
     }
 
     public UserProfileEntity findProfileByQueueUserId(String qid) {
