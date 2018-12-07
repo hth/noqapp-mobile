@@ -36,6 +36,9 @@ public class JsonFeed extends AbstractDomain {
     @JsonProperty("ct")
     private String contentType = "Health";
 
+    @JsonProperty("ci")
+    private String contentId;
+
     @JsonProperty("iu")
     private String imageUrl;
 
@@ -75,6 +78,15 @@ public class JsonFeed extends AbstractDomain {
 
     public JsonFeed setContentType(String contentType) {
         this.contentType = contentType;
+        return this;
+    }
+
+    public String getContentId() {
+        return contentId;
+    }
+
+    public JsonFeed setContentId(String contentId) {
+        this.contentId = contentId;
         return this;
     }
 
