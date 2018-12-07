@@ -87,6 +87,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("On scan get state did={} dt={} codeQR={}", did, deviceType, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
@@ -107,21 +108,15 @@ public class TokenQueueController {
             return getErrorReason("Store is not available.", STORE_NO_LONGER_EXISTS);
         } catch (Exception e) {
             LOG.error("Failed getting queue state did={} reason={}", did, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/{codeQR}",
-                    "getQueueState",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
-
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/{codeQR}",
-                    "getQueueState",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/{codeQR}",
+                "getQueueState",
+                TokenQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -142,6 +137,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("On scan get all state did={} dt={} codeQR={}", did, deviceType, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidBizNameCodeQR(codeQR.getText()) && !tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
@@ -153,21 +149,15 @@ public class TokenQueueController {
             return tokenQueueMobileService.findAllBizStoreByBizNameCodeQR(codeQR.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting all queue state did={} reason={}", did, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/v1/{codeQR}",
-                    "getAllQueueState",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
-
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/v1/{codeQR}",
-                    "getAllQueueState",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/v1/{codeQR}",
+                "getAllQueueState",
+                TokenQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -188,6 +178,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("On scan get all state from store codeQR did={} dt={} codeQR={}", did, deviceType, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidBizNameCodeQR(codeQR.getText()) && !tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
@@ -205,21 +196,15 @@ public class TokenQueueController {
             }
         } catch (Exception e) {
             LOG.error("Failed getting all queue state did={} reason={}", did, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/levelUp/{codeQR}",
-                    "levelUp",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
-
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/levelUp/{codeQR}",
-                    "levelUp",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/levelUp/{codeQR}",
+                "levelUp",
+                TokenQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -237,27 +222,22 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Queues for did={} dt={}", did.getText(), deviceType.getText());
         try {
             return queueMobileService.findAllJoinedQueues(did.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues did={}, reason={}", did, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/queues",
-                    "getAllJoinedQueues",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
-
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/queues",
-                    "getAllJoinedQueues",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/queues",
+                "getAllJoinedQueues",
+                TokenQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -280,6 +260,7 @@ public class TokenQueueController {
             @RequestBody
             String tokenJson
     ) {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Queues historical for did={} dt={}", did.getText(), deviceType.getText());
         ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson);
@@ -298,24 +279,19 @@ public class TokenQueueController {
                     parseTokenFCM.getAppVersion()).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
             return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
         } catch (Exception e) {
             LOG.error("Failed getting history did={}, reason={}", did, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/historical",
-                    "getAllHistoricalJoinedQueues",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
-
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/historical",
-                    "getAllHistoricalJoinedQueues",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/historical",
+                "getAllHistoricalJoinedQueues",
+                TokenQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -336,6 +312,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Join queue did={} deviceType={} codeQR={}", did, deviceType, codeQR);
 
@@ -355,21 +332,15 @@ public class TokenQueueController {
                     TokenServiceEnum.C).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue did={}, reason={}", did, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/queue/{codeQR}",
-                    "joinQueue",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
-
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/queue/{codeQR}",
-                    "joinQueue",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/queue/{codeQR}",
+                "joinQueue",
+                TokenQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -390,6 +361,7 @@ public class TokenQueueController {
 
             HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Abort queue did={} deviceType={} codeQR={}", did, deviceType, codeQR);
         if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
@@ -401,21 +373,15 @@ public class TokenQueueController {
             return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), null).asJson();
         } catch (Exception e) {
             LOG.error("Failed aborting queue did={}, reason={}", did, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/abort/{codeQR}",
-                    "abortQueue",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
-
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/abort/{codeQR}",
-                    "abortQueue",
-                    TokenQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/abort/{codeQR}",
+                "abortQueue",
+                TokenQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }

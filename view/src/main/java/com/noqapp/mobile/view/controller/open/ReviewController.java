@@ -80,6 +80,7 @@ public class ReviewController {
 
             HttpServletResponse response
     ) {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Review for did={} dt={}", did, dt);
 
@@ -101,20 +102,15 @@ public class ReviewController {
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/queue",
-                    "queue",
-                    ReviewController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return new JsonResponse(reviewSuccess).asJson();
         } finally {
             apiHealthService.insert(
-                    "/queue",
-                    "queue",
-                    ReviewController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/queue",
+                "queue",
+                ReviewController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -135,6 +131,7 @@ public class ReviewController {
 
         HttpServletResponse response
     ) {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Review for did={} dt={} codeQR={}", did, dt, codeQR);
 
@@ -156,12 +153,7 @@ public class ReviewController {
             return new JsonReviewList().asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                "/reviews/{codeQR}",
-                "reviews",
-                ReviewController.class.getName(),
-                Duration.between(start, Instant.now()),
-                HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return new JsonReviewList().asJson();
         } finally {
             apiHealthService.insert(
@@ -169,7 +161,7 @@ public class ReviewController {
                 "reviews",
                 ReviewController.class.getName(),
                 Duration.between(start, Instant.now()),
-                HealthStatusEnum.G);
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -190,6 +182,7 @@ public class ReviewController {
 
         HttpServletResponse response
     ) {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Review for did={} dt={} codeQR={}", did, dt, codeQR);
 
@@ -212,12 +205,7 @@ public class ReviewController {
             return new JsonReviewList().asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                "/reviews/levelUp/{codeQR}",
-                "reviewsLevelUp",
-                ReviewController.class.getName(),
-                Duration.between(start, Instant.now()),
-                HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return new JsonReviewList().asJson();
         } finally {
             apiHealthService.insert(
@@ -225,7 +213,7 @@ public class ReviewController {
                 "reviewsLevelUp",
                 ReviewController.class.getName(),
                 Duration.between(start, Instant.now()),
-                HealthStatusEnum.G);
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }
