@@ -83,6 +83,43 @@ public class FeedController {
         JsonFeedList jsonFeedList = new JsonFeedList();
 
         jsonFeedList.addJsonFeed(new JsonFeed()
+            .setTitle("12 Ways to Take Care of Your Eyes Everyday")
+            .setImageUrl("https://noqapp.com/imgs/appmages/eyes/man-eyes.png")
+            .setContentId("feed-dec-18")
+            .setContent("<p>Eye problems&nbsp;can be easily prevented if you practice essential eye care habits everyday. Surprisingly, they are very practical and easy to accomplish yet they tend to be the most neglected.</p>\n" +
+                "<p>To maintain your eye health and to keep your vision sharp, here are twelve things that should be part of your daily routine.</p>\n" +
+                "<p>&nbsp;</p>\n" +
+                "<h2>1. Avoid rubbing your eyes.</h2>\n" +
+                "<p>The hands are exposed to a lot of dirt, dust and bacteria, and all of these can be easily transferred to your peepers each time you touch or rub them. So avoid putting your hands to your eyes to prevent infection and irritation. If the habit is so ingrained on you, make an effort to get rid of it as soon as possible.</p><br />\n" +
+                "<h2>2. Practice frequent hand washing.</h2>\n" +
+                "<p>Wash your hands regularly to keep bacteria at bay and prevent them from getting in contact with your eyes, eyeglasses, and contact lenses.</p><br />\n" +
+                "<h2>3. Protect your eyes from the sun.</h2>\n" +
+                "<p>Exposure to sunlight and UV rays increases your risk for&nbsp;age-related macular degeneration&nbsp;and may cause cornea sunburn or photokeratitis. So aside from making a fashion statement and adding oomph to your overall look, put on those sunglasses to protect your eyes. If wearing them is not up your alley, UV-protected eyeglasses or contact lenses will do. Putting on caps, visors and hats are also advisable.</p><br />\n" +
+                "<h2>4. Stay hydrated.</h2>\n" +
+                "<p>Sufficient fluid intake is essential to your body&rsquo;s overall wellbeing, including the eyes. If you&rsquo;re hydrated enough, you prevent your eyes from getting dry and irritated.</p><br />\n" +
+                "<h2>5. Don&rsquo;t smoke.</h2>\n" +
+                "<p>Smoking makes you more susceptible to age-related macular degeneration and other eye conditions such as&nbsp;cataract. Smoking can also damage the optic nerves, which can have adverse effects on your vision overtime.</p><br />\n" +
+                "<h2>6. Keep a balanced diet.</h2>\n" +
+                "<p>Beta-carotene, Lutein, Omega-3, Lycopene, and Vitamins C, A, and E are essential for maintaining your eye health. Make sure that your diet is infused with&nbsp;different foods&nbsp;that are rich in those nutrients.</p><br />\n" +
+                "<h2>7. Keep proper monitor distance and room lighting.</h2>\n" +
+                "<p>Computer monitors should be positioned about an arm&rsquo;s length away from the eyes and 20 degrees below eye level. This keeps your eyes from getting strained. Likewise, make sure that you have sufficient but diffused lighting in your room. Focused and too bright lights may result to glare, and this can put too much stress on the eyes.</p><br />\n" +
+                "<h2>8. Observe the 20-20-20 rule.</h2>\n" +
+                "<p>If you want to keep your eyes in great shape, you should adhere to the 20-20-20 rule, which states that:</p>\n" +
+                "<ul>\n" +
+                "<li>Every 20 minutes, look away from your computer monitor and fix your gaze on an object that&rsquo;s 20 feet away from you.</li>\n" +
+                "<li>Blink 20 successive times to prevent eye dryness.</li>\n" +
+                "<li>Every 20 minutes, get out of your seat and take 20 steps. This is not just good for your vision, but also promotes proper posture and blood circulation throughout the body. Yes, it keeps you from being sedentary too.</li><br />\n" +
+                "</ul>\n" +
+                "<h2>9. Use the right kind of eye make-up.</h2>\n" +
+                "<p>If you wear make-up, choose the brands that work well for you. Steer clear of eye shadows, mascara, and eyeliners that cause an allergic reaction to your eyes. Don&rsquo;t forget to use a make-up remover before going to bed to avoid bacterial build-up from residual make-up left in the eye area. Likewise, clean your make-up brushes regularly, especially those that you use for eye make-up application.</p><br />\n" +
+                "<h2>10. Get enough sleep.</h2>\n" +
+                "<p>Just like the rest of your body, your eyes need to recharge too, and this happens while you sleep. So make sure that you get sufficient shut-eye each day to keep your eyes revitalized and healthy.</p><br />\n" +
+                "<h2>11. Wear the appropriate eye safety gear for different activities.</h2>\n" +
+                "<p>No matter what you do, make sure that your eyes are protected. If you&rsquo;re going swimming, wear goggles to avoid exposing your eyes to chlorine. Meanwhile, if you&rsquo;re gardening or attending to a DIY project at home, put on safety glasses to protect your eyes from dust particles, bacteria, and injuries.</p><br />\n" +
+                "<h2>12. Keep your surroundings clean.</h2>\n" +
+                "<p>Exposure to dirt and dust can irritate the eyes; so make sure that the places you frequent are well maintained and clean. Change you linens and towels regularly and keep your workstation clutter-free.</p>"));
+
+        jsonFeedList.addJsonFeed(new JsonFeed()
             .setTitle("7 ways to stay fit and healthy")
             .setImageUrl("https://noqapp.com/imgs/appmages/yoga/yoga.jpg")
             .setContentId("feed-dec-18")
