@@ -242,7 +242,7 @@ public class AccountMobileService {
         UserAccountEntity userAccount = findByQueueUserId(qid);
         if (!userAccount.isActive()) {
             LOG.warn("Account In Active {} qid={}", userAccount.getAccountInactiveReason(), qid);
-            throw new AccountNotActiveException("Account not active");
+            throw new AccountNotActiveException("Account is blocked. Contact support.");
         }
         return getProfileForMedicalAsJson(qid, userAccount);
     }
