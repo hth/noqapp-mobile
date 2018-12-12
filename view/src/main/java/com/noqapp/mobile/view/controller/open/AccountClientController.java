@@ -22,10 +22,10 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_CLIENT;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT;
 import com.noqapp.mobile.service.DeviceService;
-import com.noqapp.mobile.service.exception.AccountNotActiveException;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
+import com.noqapp.social.exception.AccountNotActiveException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;

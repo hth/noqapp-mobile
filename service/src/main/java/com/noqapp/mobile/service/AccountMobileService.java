@@ -16,11 +16,11 @@ import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.mail.ChangeMailOTP;
 import com.noqapp.mobile.domain.mail.SignupUserInfo;
-import com.noqapp.mobile.service.exception.AccountNotActiveException;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
+import com.noqapp.social.exception.AccountNotActiveException;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
