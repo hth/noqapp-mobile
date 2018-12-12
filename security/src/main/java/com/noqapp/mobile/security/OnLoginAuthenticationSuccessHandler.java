@@ -70,9 +70,9 @@ public class OnLoginAuthenticationSuccessHandler extends SimpleUrlAuthentication
          * Refer: http://www.baeldung.com/2011/10/31/securing-a-restful-web-service-with-spring-security-3-1-part-3/
          * To execute:
          * curl -i -X POST
-         * -d emailId=some@mail.com
+         * -d mail=some@mail.com
          * -d password=realPassword
-         * http://localhost:8080/receipt/login
+         * http://localhost:9090/noqapp-mobile/login
          */
         final SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest == null) {
