@@ -17,9 +17,9 @@ import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.service.exception.AccountNotActiveException;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.UserMedicalProfileValidator;
+import com.noqapp.social.exception.AccountNotActiveException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
