@@ -84,7 +84,7 @@ public class FeedController {
 
         jsonFeedList.addJsonFeed(new JsonFeed()
             .setTitle("12 Ways to Take Care of Your Eyes Everyday")
-            .setImageUrl("https://noqapp.com/imgs/appmages/eyes/man-eyes.png")
+            .setImageUrl("https://noqapp.com/imgs/appmages/eyes/single-blue-eye.jpg")
             .setContentId("feed-dec-18")
             .setContent("<p>Eye problems&nbsp;can be easily prevented if you practice essential eye care habits everyday. Surprisingly, they are very practical and easy to accomplish yet they tend to be the most neglected.</p>\n" +
                 "<p>To maintain your eye health and to keep your vision sharp, here are twelve things that should be part of your daily routine.</p>\n" +
