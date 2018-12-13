@@ -8,7 +8,6 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.ProfessionalProfileEntity;
-import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
@@ -193,6 +192,10 @@ public class MerchantProfileController {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
+        } catch (Exception e) {
+            LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
                     "/fetch",
@@ -241,9 +244,24 @@ public class MerchantProfileController {
             String updateProfessionalProfileJson,
 
             HttpServletResponse response
-    ) throws IOException {
-        JsonProfessionalProfile jsonProfessionalProfile = new ObjectMapper().readValue(updateProfessionalProfileJson, JsonProfessionalProfile.class);
-        return profileCommonHelper.updateProfessionalProfile(mail, auth, jsonProfessionalProfile, response);
+    ) {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        try {
+            JsonProfessionalProfile jsonProfessionalProfile = new ObjectMapper().readValue(updateProfessionalProfileJson, JsonProfessionalProfile.class);
+            return profileCommonHelper.updateProfessionalProfile(mail, auth, jsonProfessionalProfile, response);
+        } catch (Exception e) {
+            LOG.error("Failed updating professional profile reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/updateProfessionalProfile",
+                "updateProfessionalProfile",
+                MerchantProfileController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
     }
 
     @RequestMapping (
@@ -363,6 +381,10 @@ public class MerchantProfileController {
             return new JsonResponse(true).asJson();
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} reason={}", professionalProfileJson, qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } catch (Exception e) {
+            LOG.error("Failed updating intellisense qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
