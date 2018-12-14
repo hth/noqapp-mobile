@@ -81,6 +81,19 @@ public class FeedController {
     /** This is a temp code. */
     private JsonFeedList getFeedObjs() {
         JsonFeedList jsonFeedList = new JsonFeedList();
+        jsonFeedList.addJsonFeed(new JsonFeed()
+            .setTitle("Being Emotionally Healthy")
+            .setImageUrl("https://noqapp.com/imgs/appmages/eyes/single-blue-eye.jpg")
+            .setContentId("feed-dec-18")
+            .setContent("<p>Being Emotionally Healthy</p>" +
+                "<br>" +
+                "<h2>1. Think positively.</h2>" +
+                "<br>" +
+                "<p>It's amazing how much power our minds have over everything in our lives. A simple positive twist on a situation can turn an obstacle into an opportunity. Not only will you have more gusto for life, your immune system can fight off colds and heart disease better Harvard wouldn't lie.</p>" +
+                "<br>" +
+                "<ul>" +
+                "<li>To start this difficult step, focus on gratitude. When you start thinking about the bad thing swirling around you, stop. Cut it out. Think of two things you're grateful for. Eventually, your mind will notice the pattern and stop the negativity before you have to consciously do it.</li>" +
+                "</ul>"));
 
         jsonFeedList.addJsonFeed(new JsonFeed()
             .setTitle("12 Ways to Take Care of Your Eyes Everyday")
