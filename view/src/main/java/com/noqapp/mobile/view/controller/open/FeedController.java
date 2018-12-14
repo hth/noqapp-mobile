@@ -91,9 +91,72 @@ public class FeedController {
                 "<br>" +
                 "<p>It's amazing how much power our minds have over everything in our lives. A simple positive twist on a situation can turn an obstacle into an opportunity. Not only will you have more gusto for life, your immune system can fight off colds and heart disease better Harvard wouldn't lie.</p>" +
                 "<br>" +
-                "<ul>" +
-                "<li>To start this difficult step, focus on gratitude. When you start thinking about the bad thing swirling around you, stop. Cut it out. Think of two things you're grateful for. Eventually, your mind will notice the pattern and stop the negativity before you have to consciously do it.</li>" +
-                "</ul>"));
+                "<p>&bull;&nbsp;To start this difficult step, focus on gratitude. When you start thinking about the bad thing swirling around you, stop. Cut it out. Think of two things you're grateful for. Eventually, your mind will notice the pattern and stop the negativity before you have to consciously do it.</p>" +
+                "<br>" +
+                "<h2>2. Be satisfied.</h2>" +
+                "<br>" +
+                "<p>This doesn't mean \"be content with your life\" (well, it does, but give it a sec)—it sort of means \"satisfy yourself\". If you're on a diet, allow yourself a (small) bit of what you're craving. If watching the Golden Girls for three hours on a Friday night sounds like heaven, do it. Whatever the small things are that make you happy, do them.</p>" +
+                "<br>" +
+                "<p>&bull;&nbsp;Your happiness is invaluable, but so is your health. If you're not healthy, you're not fully happy. It's when we've got our mind and body in top shape that we can attack everything else. If work, family, friends, a relationship, and money are wearing you down, making a small choice like opting for that whole wheat bagel instead of a hot pocket can build the foundation for a long-term difference in your health. Then, when the going gets tough, you'll be ready to take on your challenges with a healthy body, mind, and conscience.</p>"+
+                "<br>" +
+                "<h2>2. Be satisfied.</h2>" +
+                "<br>" +
+                "<p>This doesn't mean \"be content with your life\" (well, it does, but give it a sec)—it sort of means \"satisfy yourself\". If you're on a diet, allow yourself a (small) bit of what you're craving. If watching the Golden Girls for three hours on a Friday night sounds like heaven, do it. Whatever the small things are that make you happy, do them.</p>" +
+                "<br>" +
+                "<p>&bull;&nbsp;Your happiness is invaluable, but so is your health. If you're not healthy, you're not fully happy. It's when we've got our mind and body in top shape that we can attack everything else. If work, family, friends, a relationship, and money are wearing you down, making a small choice like opting for that whole wheat bagel instead of a hot pocket can build the foundation for a long-term difference in your health. Then, when the going gets tough, you'll be ready to take on your challenges with a healthy body, mind, and conscience.</p>"+
+                "<br>" +
+                "<h2>3. Think small.</h2>" +
+                "<br>" +
+                "<p>When we concentrate on unattainable goals, we get daunted, frustrated, and lazy. After all, why try to achieve something that will never happen? A healthy mindset has to be in the here and now. It should have concern for the future, sure, but it shouldn't be preoccupied with what hasn't happened yet or won't.</p>" +
+                "<br>" +
+                "<p>&bull;&nbsp;Being emotionally healthy (and happy) is easier to attain when you focus on the steps of your journey as opposed to the destination. If you want to make it on Broadway, focus on getting your next audition. Then focus on becoming equity, then focus on moving, etc. Now will always come before the future—focus on them in order!</p>"+
+                "<br>" +
+                "<h2>4. Manage stress. </h2>" +
+                "<br>" +
+                "<p>This one is huge. When stress takes over our lives, everything else falls apart. Our homes get cluttered, our minds get cluttered, and our relationships get strained. Take yourself aside for five minutes and think about your stress levels—how are you managing it? What could you do to be more calm and relaxed?</p>" +
+                "<br>" +
+                "<p>&bull;&nbsp;A very healthy way of managing stress is doing yoga. If that doesn't sound appealing, how about meditating? No? Then simply make sure to take ten minutes out of your day to just power down. Sit with yourself and just breathe. Make a point to get centered every day.\n" +
+                "When you feel stressed, do breathing exercises or breathe deeply to calm yourself and relax your body.\n</p>"+
+                "<br>" +
+                "<h2>5. Choose your friends wisely.</h2>" +
+                "<br>" +
+                "<p>We all know those people that seem to drain us, but yet we're friends with them anyway because they have a nice TV or because, well, we get bored. Unfortunately, for our emotional health, they've got to go. They do us no good and we know it — we just ignore it to maintain consistency and avoid awkward situations. Do your mental health a favor and tear off that band-aid. In the long-run, you'll be happier.</p>" +
+                "<br>" +
+                "<p>&bull;&nbsp;Not sure how to recognize a toxic friend? How to end a toxic friendship? We've got you covered.</p>"+
+                "<p>&bull;&nbsp;Spending time with your friends can improve your life. Be social as often as possible with the people who enrich your life.</p>"+
+                "<br>" +
+                "<h2>6. Be productive.</h2>" +
+                "<br>" +
+                "<p>One of the best feelings to easily come by is that feeling of \"I got so much done today!\" For that moment, you feel virtually unstoppable. Your mom saying \"If you put your mind to it, you can do it\" is no longer a lie! Now imagine riding that high constantly.</p>" +
+                "<br>" +
+                "<p>&bull;&nbsp;Start by creating a to-do list. A calendar or planner is a good idea, too. And remember: think small. Attack a few small things to get you going. You'll get on a roll before you even realize it.</p>"+
+                "<p>&bull;&nbsp;Incorporate learning into your day so that you're always learning something new. This will help prevent cognitive decline.</p>"+
+                "<br>" +
+                "<h2>7. Take a break.</h2>" +
+                "<br>" +
+                "<p>This is similar to the \"Be Satisfied\" step; you need to do what's right for you sometimes, regardless of what the world seems to be demanding. Without feeling guilty, take that proverbial Kit Kat Bar. Spend a night in. Take a morning off. You'll be twice as energized when you get back to it.</p>" +
+                "<br>" +
+                "<p>&bull;&nbsp;This goes for exercise too. If you do the same thing over and over, your muscles get used to it, you get bored, and you end up plateauing. So instead of pounding the pavement on Wednesday, go hit the pool. You're not being lazy—you're being logical.</p>"+
+                "<br>" +
+                "<h2>8. Find emotional balance.</h2>" +
+                "<br>" +
+                "<p>Even if you master every other aspect of health, it won’t feel complete if you’re suffering from inner turmoil. Everyone needs a pick-me-up sometimes, and there are many small things that you can do to feel better about yourself. If the problem extends deeper, you may need to learn to cope with emotional pain or even depression.</p>" +
+                "<br>" +
+                "<p>&bull;&nbsp;Once you have worked on yourself, you should work on your approach to interpersonal relationships. Learn how to recognize a manipulative or controlling relationship and, if necessary, deal with emotional abuse so that you can have a healthy relationship.</p>"+
+                "<br>" +
+                "<h2>9. Include the arts in your life, such as music, theater, and visual arts.</h2>" +
+                "<br>" +
+                "<p>Art can improve your enjoyment of life and your health. Listening to or playing music, dancing, participating in theater, and making your own art can improve both your physical and mental health. Express yourself creatively and enjoy the creative expressions of others.</p>" +
+                "<br>" +
+                "<p>&bull;&nbsp;Start a creative hobby or take a class.</p>"+
+                "<p>&bull;&nbsp;Enjoy the arts with friends.</p>"+
+                "<br>" +
+                "<h2>10. Travel as much as you can.</h2>" +
+                "<br>" +
+                "<p>Traveling can improve your physical and mental health, as well. It allows you to grow creatively, relax, and experience new things. Traveling keeps you active and lowers your risk of depression.</p>" +
+                "<br>" +
+                "<p>&bull;&nbsp;Traveling is often difficult if you're living on a budget. If this is the case for you, try going on a day trip or a short road trip.</p>"
+            ));
 
         jsonFeedList.addJsonFeed(new JsonFeed()
             .setTitle("12 Ways to Take Care of Your Eyes Everyday")
