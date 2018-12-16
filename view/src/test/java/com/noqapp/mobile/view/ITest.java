@@ -513,7 +513,8 @@ public class ITest extends RealMongoForITest {
             businessUserService,
             tokenQueueService,
             accountService,
-            bizService
+            bizService,
+            professionalProfileService
         );
 
         medicalRecordManager = new MedicalRecordManagerImpl(getMongoTemplate());
