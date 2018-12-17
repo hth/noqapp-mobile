@@ -73,7 +73,7 @@
 						</div>
 						<div class="qr-queue" style="padding-bottom: 10px;">
                         <#--<h3>${value.displayName}</h3>-->
-							<p>${value.rating} &nbsp; <span id="store_rating_${key}"></span>&nbsp;&nbsp;${value.ratingCount} Reviews &nbsp;
+							<p>${value.rating} &nbsp; <span id="store_rating_${key}"></span>&nbsp;&nbsp;${value.reviewCount} Reviews &nbsp;
 							</p>
                             <#if value.storeClosed == "Yes">
                                 <p><strong>Closed Today</strong></p>
