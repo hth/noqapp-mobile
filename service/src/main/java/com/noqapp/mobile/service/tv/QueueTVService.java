@@ -6,7 +6,6 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonQueuePersonList;
 import com.noqapp.domain.json.tv.JsonQueueTV;
 import com.noqapp.domain.json.tv.JsonQueueTVList;
-import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
