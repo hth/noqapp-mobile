@@ -526,6 +526,7 @@ public class ITest extends RealMongoForITest {
         medicalRadiologyManager = new MedicalRadiologyManagerImpl(getMongoTemplate());
         medicalRadiologyTestManager = new MedicalRadiologyTestManagerImpl(getMongoTemplate());
         medicalRecordService = new MedicalRecordService(
+            10,
             medicalRecordManager,
             medicalPhysicalManager,
             medicalMedicationManager,
