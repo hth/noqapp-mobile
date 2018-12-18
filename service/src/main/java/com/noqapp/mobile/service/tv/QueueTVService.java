@@ -1,14 +1,12 @@
 package com.noqapp.mobile.service.tv;
 
-import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
-import com.noqapp.domain.annotation.Television;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonQueuePersonList;
 import com.noqapp.domain.json.tv.JsonQueueTV;
 import com.noqapp.domain.json.tv.JsonQueueTVList;
 import com.noqapp.mobile.service.AccountMobileService;
-import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.QueueService;
@@ -29,12 +27,14 @@ import java.util.List;
 public class QueueTVService {
     private static final Logger LOG = LoggerFactory.getLogger(QueueTVService.class);
 
+    private AccountMobileService accountMobileService;
     private QueueService queueService;
     private BusinessUserStoreService businessUserStoreService;
     private ProfessionalProfileService professionalProfileService;
 
     @Autowired
     public QueueTVService(
+        AccountMobileService accountMobileService,
         QueueService queueService,
         BusinessUserStoreService businessUserStoreService,
         ProfessionalProfileService professionalProfileService
@@ -64,10 +64,12 @@ public class QueueTVService {
 
                 ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(businessUserStore.getQueueUserId());
                 if (null != professionalProfile) {
-                    jsonQueueTV
-                        .setWebProfileId(professionalProfile.getWebProfileId())
-                        .setEducation(professionalProfile.getEducationAsJson());
+                    jsonQueueTV.setEducation(professionalProfile.getEducationAsJson());
                 }
+
+                UserProfileEntity userProfile = accountMobileService.findProfileByQueueUserId(businessUserStore.getQueueUserId());
+                jsonQueueTV.setProfileImage(userProfile.getProfileImage());
+
                 jsonQueueTVList.addQueue(jsonQueueTV);
             } catch (Exception e) {
                 LOG.error("Failed to fetch reason={}", e.getLocalizedMessage(), e);
