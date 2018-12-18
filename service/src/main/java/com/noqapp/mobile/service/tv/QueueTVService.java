@@ -42,6 +42,7 @@ public class QueueTVService {
         BusinessUserStoreService businessUserStoreService,
         ProfessionalProfileService professionalProfileService
     ) {
+        this.accountMobileService = accountMobileService;
         this.queueService = queueService;
         this.businessUserStoreService = businessUserStoreService;
         this.professionalProfileService = professionalProfileService;
@@ -71,7 +72,7 @@ public class QueueTVService {
                 }
 
                 UserProfileEntity userProfile = accountMobileService.findProfileByQueueUserId(businessUserStore.getQueueUserId());
-                if (null != userProfile && StringUtils.isNotBlank(userProfile.getProfileImage())) {
+                if (StringUtils.isNotBlank(userProfile.getProfileImage())) {
                     jsonQueueTV.setProfileImage(userProfile.getProfileImage());
                 }
 
