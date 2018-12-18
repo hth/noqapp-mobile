@@ -1,12 +1,15 @@
 package com.noqapp.mobile.service.tv;
 
+import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonQueuePersonList;
 import com.noqapp.domain.json.tv.JsonQueueTV;
 import com.noqapp.domain.json.tv.JsonQueueTVList;
+import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.mobile.service.AccountMobileService;
+import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.QueueService;
@@ -31,6 +34,7 @@ public class QueueTVService {
 
     private AccountMobileService accountMobileService;
     private QueueService queueService;
+    private BizService bizService;
     private BusinessUserStoreService businessUserStoreService;
     private ProfessionalProfileService professionalProfileService;
 
@@ -38,11 +42,13 @@ public class QueueTVService {
     public QueueTVService(
         AccountMobileService accountMobileService,
         QueueService queueService,
+        BizService bizService,
         BusinessUserStoreService businessUserStoreService,
         ProfessionalProfileService professionalProfileService
     ) {
         this.accountMobileService = accountMobileService;
         this.queueService = queueService;
+        this.bizService = bizService;
         this.businessUserStoreService = businessUserStoreService;
         this.professionalProfileService = professionalProfileService;
     }
@@ -60,22 +66,34 @@ public class QueueTVService {
         for (String codeQR : codeQRs) {
             LOG.info("Lookup for codeQR={}", codeQR);
             try {
-                BusinessUserStoreEntity businessUserStore = findUserManagingStoreWithCodeQRAndUserLevel(codeQR);
-                JsonQueueTV jsonQueueTV = new JsonQueueTV()
-                    .setCodeQR(codeQR)
-                    .setJsonQueuedPersonTVList(queueService.findYetToBeServedForTV(codeQR));
+                BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
+                if (bizStore.getBusinessType() == BusinessTypeEnum.DO) {
+                    BusinessUserStoreEntity businessUserStore = findUserManagingStoreWithCodeQRAndUserLevel(codeQR);
+                    if (null == businessUserStore) {
+                        LOG.warn("Skipping as no manager set for displayName={} codeQR={}", bizStore.getDisplayName(), codeQR);
+                    } else {
+                        JsonQueueTV jsonQueueTV = new JsonQueueTV()
+                            .setCodeQR(codeQR)
+                            .setJsonQueuedPersonTVList(queueService.findYetToBeServedForTV(codeQR));
 
-                ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(businessUserStore.getQueueUserId());
-                if (null != professionalProfile) {
-                    jsonQueueTV.setEducation(professionalProfile.getEducationAsJson());
+                        ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(businessUserStore.getQueueUserId());
+                        if (null != professionalProfile) {
+                            jsonQueueTV.setEducation(professionalProfile.getEducationAsJson());
+                        }
+
+                        UserProfileEntity userProfile = accountMobileService.findProfileByQueueUserId(businessUserStore.getQueueUserId());
+                        if (StringUtils.isNotBlank(userProfile.getProfileImage())) {
+                            jsonQueueTV.setProfileImage(userProfile.getProfileImage());
+                        }
+
+                        jsonQueueTVList.addQueue(jsonQueueTV);
+                    }
+                } else {
+                    JsonQueueTV jsonQueueTV = new JsonQueueTV()
+                        .setCodeQR(codeQR)
+                        .setJsonQueuedPersonTVList(queueService.findYetToBeServedForTV(codeQR));
+                    jsonQueueTVList.addQueue(jsonQueueTV);
                 }
-
-                UserProfileEntity userProfile = accountMobileService.findProfileByQueueUserId(businessUserStore.getQueueUserId());
-                if (StringUtils.isNotBlank(userProfile.getProfileImage())) {
-                    jsonQueueTV.setProfileImage(userProfile.getProfileImage());
-                }
-
-                jsonQueueTVList.addQueue(jsonQueueTV);
             } catch (Exception e) {
                 LOG.error("Failed to fetch reason={}", e.getLocalizedMessage(), e);
             }
