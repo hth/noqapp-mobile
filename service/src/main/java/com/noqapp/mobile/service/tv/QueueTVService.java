@@ -65,6 +65,6 @@ public class QueueTVService {
             jsonQueueTVList.addQueue(jsonQueue);
         }
         LOG.info("Size returned {}", jsonQueueTVList.getQueues().size());
-        return jsonQueueTVList.toString();
+        return jsonQueueTVList.asJson();
     }
 }
