@@ -174,23 +174,23 @@ public class ClientInQueueController {
             return null;
         }
 
+        String codeQR;
+        if (queueDetail.getCodeQRs().isEmpty()) {
+            return new JsonQueueTVList().asJson();
+        } else {
+            codeQR = queueDetail.getCodeQRs().get(0);
+        }
+
+        if (StringUtils.isBlank(codeQR)) {
+            LOG.warn("Not a valid codeQR={} qid={}", codeQR, qid);
+            return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+        } else if (!businessUserStoreService.hasAccess(qid, codeQR)) {
+            LOG.info("Un-authorized store access to /api/tv/queue/toBeServedClients by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
         try {
-            String codeQR;
-            if (queueDetail.getCodeQRs().isEmpty()) {
-                return new JsonQueueTVList().asJson();
-            } else {
-                codeQR = queueDetail.getCodeQRs().get(0);
-            }
-
-            if (StringUtils.isBlank(codeQR)) {
-                LOG.warn("Not a valid codeQR={} qid={}", codeQR, qid);
-                return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(qid, codeQR)) {
-                LOG.info("Un-authorized store access to /api/tv/queue/toBeServedClients by mail={}", mail);
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-                return null;
-            }
-
             return queueTVService.findAllActiveInQueue(queueDetail.getCodeQRs());
         } catch (Exception e) {
             LOG.error("Failed getting toBeServed clients reason={}", e.getLocalizedMessage(), e);

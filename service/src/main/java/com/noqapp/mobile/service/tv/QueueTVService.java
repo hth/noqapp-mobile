@@ -56,15 +56,24 @@ public class QueueTVService {
         JsonQueueTVList jsonQueueTVList = new JsonQueueTVList();
         for (String codeQR : codeQRs) {
             LOG.info("Lookup for codeQR={}", codeQR);
-            BusinessUserStoreEntity businessUserStore = findOneByCodeQR(codeQR);
-            ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(businessUserStore.getQueueUserId());
-            JsonQueueTV jsonQueue = new JsonQueueTV()
-                .setCodeQR(codeQR)
-                .setWebProfileId(professionalProfile.getWebProfileId())
-                .setJsonQueuedPersonTVList(queueService.findYetToBeServedForTV(codeQR));
-            jsonQueueTVList.addQueue(jsonQueue);
+            try {
+                BusinessUserStoreEntity businessUserStore = findOneByCodeQR(codeQR);
+                JsonQueueTV jsonQueueTV = new JsonQueueTV()
+                    .setCodeQR(codeQR)
+                    .setJsonQueuedPersonTVList(queueService.findYetToBeServedForTV(codeQR));
+
+                ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(businessUserStore.getQueueUserId());
+                if (null != professionalProfile) {
+                    jsonQueueTV
+                        .setWebProfileId(professionalProfile.getWebProfileId())
+                        .setEducation(professionalProfile.getEducationAsJson());
+                }
+                jsonQueueTVList.addQueue(jsonQueueTV);
+            } catch (Exception e) {
+                LOG.error("Failed to fetch reason={}", e.getLocalizedMessage(), e);
+            }
         }
-        LOG.info("Size returned {}", jsonQueueTVList.getQueues().size());
+        LOG.info("Returned queue size={}", jsonQueueTVList.getQueues().size());
         return jsonQueueTVList.asJson();
     }
 }
