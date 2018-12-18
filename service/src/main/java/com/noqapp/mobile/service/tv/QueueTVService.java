@@ -7,10 +7,14 @@ import com.noqapp.domain.annotation.Television;
 import com.noqapp.domain.json.JsonQueuePersonList;
 import com.noqapp.domain.json.tv.JsonQueueTV;
 import com.noqapp.domain.json.tv.JsonQueueTVList;
+import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.QueueService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,7 @@ import java.util.List;
  */
 @Service
 public class QueueTVService {
+    private static final Logger LOG = LoggerFactory.getLogger(QueueTVService.class);
 
     private QueueService queueService;
     private BusinessUserStoreService businessUserStoreService;
@@ -50,6 +55,7 @@ public class QueueTVService {
     public String findAllActiveInQueue(List<String> codeQRs) {
         JsonQueueTVList jsonQueueTVList = new JsonQueueTVList();
         for (String codeQR : codeQRs) {
+            LOG.info("Lookup for codeQR={}", codeQR);
             BusinessUserStoreEntity businessUserStore = findOneByCodeQR(codeQR);
             ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(businessUserStore.getQueueUserId());
             JsonQueueTV jsonQueue = new JsonQueueTV()
@@ -58,7 +64,7 @@ public class QueueTVService {
                 .setJsonQueuedPersonTVList(queueService.findYetToBeServedForTV(codeQR));
             jsonQueueTVList.addQueue(jsonQueue);
         }
-
+        LOG.info("Size returned {}", jsonQueueTVList.getQueues().size());
         return jsonQueueTVList.toString();
     }
 }

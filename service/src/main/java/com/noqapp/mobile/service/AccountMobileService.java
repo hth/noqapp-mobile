@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ import java.util.List;
     "PMD.MethodArgumentCouldBeFinal",
     "PMD.LongVariable"
 })
-@Component
+@Service
 public class AccountMobileService {
     private static final Logger LOG = LoggerFactory.getLogger(AccountMobileService.class);
 
