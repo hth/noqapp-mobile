@@ -52,7 +52,6 @@ public class VigyaapanController {
     private static final Logger LOG = LoggerFactory.getLogger(VigyaapanController.class);
 
     private VigyaapanMobileService vigyaapanMobileService;
-    private BusinessUserService businessUserService;
     private BusinessUserStoreService businessUserStoreService;
     private AuthenticateMobileService authenticateMobileService;
     private ApiHealthService apiHealthService;
@@ -60,13 +59,11 @@ public class VigyaapanController {
     @Autowired
     public VigyaapanController(
         VigyaapanMobileService vigyaapanMobileService,
-        BusinessUserService businessUserService,
         BusinessUserStoreService businessUserStoreService,
         AuthenticateMobileService authenticateMobileService,
         ApiHealthService apiHealthService
     ) {
         this.vigyaapanMobileService = vigyaapanMobileService;
-        this.businessUserService = businessUserService;
         this.businessUserStoreService = businessUserStoreService;
         this.authenticateMobileService = authenticateMobileService;
         this.apiHealthService = apiHealthService;
