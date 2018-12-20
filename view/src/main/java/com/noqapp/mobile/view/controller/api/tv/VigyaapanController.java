@@ -13,7 +13,6 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.tv.VigyaapanMobileService;
-import com.noqapp.service.BusinessUserService;
 import com.noqapp.service.BusinessUserStoreService;
 
 import org.apache.commons.lang3.StringUtils;
