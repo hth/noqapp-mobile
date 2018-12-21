@@ -1,5 +1,7 @@
 package com.noqapp.mobile.service.tv;
 
+import static com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE.*;
+
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StatsVigyaapanStoreDailyEntity;
@@ -9,10 +11,9 @@ import com.noqapp.domain.types.VigyaapanTypeEnum;
 import com.noqapp.medical.domain.MedicalRecordEntity;
 import com.noqapp.medical.repository.MedicalRecordManager;
 import com.noqapp.repository.BizStoreManager;
-import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.StatsVigyaapanStoreDailyManager;
-import com.noqapp.service.BusinessUserService;
 import com.noqapp.service.ProfessionalProfileService;
+import com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,7 +100,7 @@ public class VigyaapanMobileService {
             case PP:
             default:
                 MedicalRecordEntity medicalRecord = medicalRecordManager.findOne();
-                JsonProfessionalProfile jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfileByQid(medicalRecord.getDiagnosedById());
+                JsonProfessionalProfile jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfile(medicalRecord.getDiagnosedById(), TV);
                 return new JsonVigyaapanTV()
                     .setVigyaapanId(medicalRecord.getCodeQR())
                     .setJsonProfessionalProfile(jsonProfessionalProfile)

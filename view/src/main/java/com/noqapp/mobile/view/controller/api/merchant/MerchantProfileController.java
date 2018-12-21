@@ -5,6 +5,7 @@ import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+import static com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE.*;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.ProfessionalProfileEntity;
@@ -28,6 +29,7 @@ import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
+import com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE;
 import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.social.exception.AccountNotActiveException;
 
@@ -173,7 +175,7 @@ public class MerchantProfileController {
             if (UserLevelEnum.S_MANAGER == jsonProfile.getUserLevel()) {
                 switch (userProfile.getBusinessType()) {
                     case DO:
-                        jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfileByQid(jsonProfile.getQueueUserId());
+                        jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfile(jsonProfile.getQueueUserId(), SELF);
                         break;
                     default:
                         //Skip getting Professional Profile. Profiles only for Doctor, Mechanic, Nurse, Advocate.
