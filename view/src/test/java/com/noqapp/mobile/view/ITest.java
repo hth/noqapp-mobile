@@ -305,6 +305,7 @@ public class ITest extends RealMongoForITest {
         businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
         businessUserManager = new BusinessUserManagerImpl(getMongoTemplate());
         queueManager = new QueueManagerImpl(getMongoTemplate());
+        bizStoreManager = new BizStoreManagerImpl(getMongoTemplate());
 
         generateUserIdService = new GenerateUserIdService(generateUserIdManager);
         emailValidateService = new EmailValidateService(emailValidateManager);
@@ -342,7 +343,12 @@ public class ITest extends RealMongoForITest {
         );
 
         professionalProfileManager = new ProfessionalProfileManagerImpl(getMongoTemplate());
-        professionalProfileService = new ProfessionalProfileService(professionalProfileManager, userProfileManager, reviewService);
+        professionalProfileService = new ProfessionalProfileService(
+            reviewService,
+            professionalProfileManager,
+            userProfileManager,
+            businessUserStoreManager,
+            bizStoreManager);
 
         userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
         userAddressService = new UserAddressService(userAddressManager, externalService);
@@ -369,7 +375,6 @@ public class ITest extends RealMongoForITest {
         apiHealthService = new ApiHealthService(apiHealthNowManager);
 
         tokenQueueManager = new TokenQueueManagerImpl(getMongoTemplate());
-        bizStoreManager = new BizStoreManagerImpl(getMongoTemplate());
         storeHourManager = new StoreHourManagerImpl(getMongoTemplate());
         businessCustomerManager = new BusinessCustomerManagerImpl(getMongoTemplate());
         s3FileManager = new S3FileManagerImpl(getMongoTemplate());
