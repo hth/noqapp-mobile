@@ -95,7 +95,7 @@ public class VigyaapanMobileService {
                 return new JsonVigyaapanTV()
                     .setVigyaapanId(UUID.randomUUID().toString())
                     .setImageUrls(imageUrls)
-                    .setVigyaapanType(VigyaapanTypeEnum.DV);
+                    .setVigyaapanType(VigyaapanTypeEnum.MV);
             case PP:
             default:
                 MedicalRecordEntity medicalRecord = medicalRecordManager.findOne();
