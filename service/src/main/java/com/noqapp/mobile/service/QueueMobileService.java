@@ -1,6 +1,6 @@
 package com.noqapp.mobile.service;
 
-import static com.noqapp.common.utils.DateUtil.Day.TODAY;
+import static com.noqapp.common.utils.DateUtil.DAY.TODAY;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import com.noqapp.common.utils.CommonUtil;
