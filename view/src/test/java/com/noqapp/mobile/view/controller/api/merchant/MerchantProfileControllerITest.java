@@ -12,6 +12,8 @@ import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.UserLevelEnum;
+import com.noqapp.mobile.common.util.ErrorJsonList;
+import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
@@ -165,7 +167,7 @@ class MerchantProfileControllerITest extends ITest {
         String jsonProfessionalProfileAsString = merchantProfileController.updateProfessionalProfile(
             new ScrubbedInput(userAccount.getUserId()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            jsonMerchant.getJsonProfessionalProfile().asJson(),
+            jsonMerchant.getJsonProfessionalProfile(),
             httpServletResponse
         );
 
@@ -175,6 +177,34 @@ class MerchantProfileControllerITest extends ITest {
         assertEquals(
             jsonMerchant.getJsonProfessionalProfile().getEducation().get(1).getMonthYear(),
             jsonProfessionalProfile.getEducation().get(1).getMonthYear());
+    }
+
+    @Test
+    void updateProfessionalProfile_Fail() throws IOException {
+        UserProfileEntity queueManagerUserProfile = accountService.checkUserExistsByPhone("9118000000032");
+        UserAccountEntity userAccount = accountService.findByQueueUserId(queueManagerUserProfile.getQueueUserId());
+        String jsonMerchantAsString = merchantProfileController.fetch(
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQMH.getName()),
+            new ScrubbedInput(userAccount.getUserId()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            httpServletResponse
+        );
+
+        JsonMerchant jsonMerchant = new ObjectMapper().readValue(jsonMerchantAsString, JsonMerchant.class);
+        jsonMerchant.getJsonProfessionalProfile().setAboutMe("About Myself");
+        jsonMerchant.getJsonProfessionalProfile().getEducation().add(new JsonNameDatePair().setName("M.D").setMonthYear("Dec 06, 2018"));
+
+        String responseJson = merchantProfileController.updateProfessionalProfile(
+            new ScrubbedInput(userAccount.getUserId()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonMerchant.getJsonProfessionalProfile(),
+            httpServletResponse
+        );
+
+        ErrorJsonList errorJsonList = new ObjectMapper().readValue(responseJson, ErrorJsonList.class);
+        assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.USER_INPUT.name());
     }
 
     @Test
