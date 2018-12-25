@@ -29,7 +29,6 @@ import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
-import com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE;
 import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.social.exception.AccountNotActiveException;
 
@@ -243,14 +242,13 @@ public class MerchantProfileController {
             ScrubbedInput auth,
 
             @RequestBody
-            String updateProfessionalProfileJson,
+            JsonProfessionalProfile jsonProfessionalProfile,
 
             HttpServletResponse response
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         try {
-            JsonProfessionalProfile jsonProfessionalProfile = new ObjectMapper().readValue(updateProfessionalProfileJson, JsonProfessionalProfile.class);
             return profileCommonHelper.updateProfessionalProfile(mail, auth, jsonProfessionalProfile, response);
         } catch (Exception e) {
             LOG.error("Failed updating professional profile reason={}", e.getLocalizedMessage(), e);

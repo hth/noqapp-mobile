@@ -68,11 +68,11 @@ public class ProfessionalProfileValidator {
             validateNameDatePair(errors, jsonNameDatePair, "Education");
         }
 
-        for(JsonNameDatePair jsonNameDatePair : jsonProfessionalProfile.getLicenses()) {
+        for (JsonNameDatePair jsonNameDatePair : jsonProfessionalProfile.getLicenses()) {
             validateNameDatePair(errors, jsonNameDatePair, "Licenses");
         }
 
-        for(JsonNameDatePair jsonNameDatePair : jsonProfessionalProfile.getAwards()) {
+        for (JsonNameDatePair jsonNameDatePair : jsonProfessionalProfile.getAwards()) {
             validateNameDatePair(errors, jsonNameDatePair, "Awards");
         }
 
@@ -87,7 +87,7 @@ public class ProfessionalProfileValidator {
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
         }
 
-        if (StringUtils.isBlank(jsonNameDatePair.getMonthYear()) && !DateUtil.DOB_PATTERN.matcher(jsonNameDatePair.getMonthYear()).matches()) {
+        if (StringUtils.isNotBlank(jsonNameDatePair.getMonthYear()) && !DateUtil.DOB_PATTERN.matcher(jsonNameDatePair.getMonthYear()).matches()) {
             LOG.error(fieldName + " Date should be of format " + DateUtil.SDF_YYYY_MM_DD.toPattern());
             errors.put(ErrorEncounteredJson.REASON, fieldName + " Date should be of format " + DateUtil.SDF_YYYY_MM_DD.toPattern());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
