@@ -2,7 +2,11 @@ if (!hasProperty('env')) {
     ext.env = System.env['GRADLE_ENV']
 }
 
-println "Building for environment: $env"
+if (!hasProperty('fastEnabled')) {
+    ext.fastEnabled = System.getProperty("fastEnabled")
+}
+
+println "Building for environment: $env & fastEnabled: $fastEnabled"
 
 buildscript {
     repositories {
@@ -78,8 +82,14 @@ def deploy(def server, def ip, def serverName, def path, def rootFile, def mobil
     if (env == 'sandbox') {
         sshExecute(server, 'cd /usr/local/tomcat/logs; rm -rf *')
     }
-    copyFiles(server, "/var/lib/jenkins/jobs/noqapp-$env-build/workspace/build/war/$path/$rootFile")
-    copyFiles(server, "/var/lib/jenkins/jobs/noqapp.mobile-$env-build/workspace/build/war/$env/$mobileFile")
+
+    if (fastEnabled) {
+        copyFiles(server, "/var/lib/jenkins/jobs/noqapp-$env-build-fast/workspace/build/war/$path/$rootFile")
+        copyFiles(server, "/var/lib/jenkins/jobs/noqapp.mobile-$env-build-fast/workspace/build/war/$env/$mobileFile")
+    } else {
+        copyFiles(server, "/var/lib/jenkins/jobs/noqapp-$env-build/workspace/build/war/$path/$rootFile")
+        copyFiles(server, "/var/lib/jenkins/jobs/noqapp.mobile-$env-build/workspace/build/war/$env/$mobileFile")
+    }
     sshExecute(server, "mkdir /usr/local/tomcat/webapps/ROOT")
     sshExecute(server, "mkdir /usr/local/tomcat/webapps/noqapp-mobile")
     sshExecute(server, "cd /usr/local/tomcat/webapps/; mv $rootFile ROOT/ROOT.war")
