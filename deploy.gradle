@@ -83,11 +83,10 @@ def deploy(def server, def ip, def serverName, def path, def rootFile, def mobil
         sshExecute(server, 'cd /usr/local/tomcat/logs; rm -rf *')
     }
 
+    copyFiles(server, "/var/lib/jenkins/jobs/noqapp-$env-build/workspace/build/war/$path/$rootFile")
     if (fastEnabled) {
-        copyFiles(server, "/var/lib/jenkins/jobs/noqapp-$env-build-fast/workspace/build/war/$path/$rootFile")
         copyFiles(server, "/var/lib/jenkins/jobs/noqapp.mobile-$env-build-fast/workspace/build/war/$env/$mobileFile")
     } else {
-        copyFiles(server, "/var/lib/jenkins/jobs/noqapp-$env-build/workspace/build/war/$path/$rootFile")
         copyFiles(server, "/var/lib/jenkins/jobs/noqapp.mobile-$env-build/workspace/build/war/$env/$mobileFile")
     }
     sshExecute(server, "mkdir /usr/local/tomcat/webapps/ROOT")
