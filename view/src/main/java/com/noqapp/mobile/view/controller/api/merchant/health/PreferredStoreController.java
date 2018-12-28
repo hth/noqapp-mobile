@@ -4,6 +4,7 @@ import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+import static com.noqapp.service.FtpService.PREFERRED_STORE;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
@@ -14,10 +15,14 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.FileService;
+import com.noqapp.service.FtpService;
 import com.noqapp.service.PreferredBusinessService;
 
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileUtil;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -221,8 +226,10 @@ public class PreferredStoreController {
             return;
         }
 
+        DefaultFileSystemManager manager = new StandardFileSystemManager();
         try {
-            FileObject fileObject = fileService.getPreferredBusinessTarGZ(bizStoreId.getText());
+            manager.init();
+            FileObject fileObject = fileService.getPreferredBusinessTarGZ(bizStoreId.getText(), manager);
             if (fileObject != null && fileObject.getContent() != null) {
                 response.setHeader("Content-disposition", "attachment; filename=\"" + com.noqapp.common.utils.FileUtil.getFileName(fileObject) + "\"");
                 response.setContentType("application/gzip");
@@ -240,10 +247,14 @@ public class PreferredStoreController {
             response.setContentType("application/gzip");
             response.setHeader("Content-Disposition", String.format("attachment; filename=%s", ""));
             response.setContentLength(0);
+        } catch (FileSystemException e) {
+            LOG.error("Failed to get directory={} reason={}", PREFERRED_STORE + "/" + bizStoreId, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
         } catch (Exception e) {
             LOG.error("Failed getting preferred store qid={} bizStoreId={} message={}", qid, bizStoreId.getText(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
         } finally {
+            manager.close();
             apiHealthService.insert(
                 "/api/m/h/preferredStore/file/{codeQR}/{bizStoreId}",
                 "file",
