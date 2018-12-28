@@ -4,6 +4,7 @@ import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+import static com.noqapp.service.FtpService.PREFERRED_STORE;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
@@ -15,9 +16,13 @@ import com.noqapp.medical.domain.MasterLabEntity;
 import com.noqapp.medical.domain.json.JsonMasterLab;
 import com.noqapp.medical.service.MasterLabService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.service.FtpService;
 
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileUtil;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,8 +110,10 @@ public class MasterLabController {
             return;
         }
 
+        DefaultFileSystemManager manager = new StandardFileSystemManager();
         try {
-            FileObject fileObject = masterLabService.getMasterTarGZ();
+            manager.init();
+            FileObject fileObject = masterLabService.getMasterTarGZ(manager);
             if (fileObject != null && fileObject.getContent() != null) {
                 response.setHeader("Content-disposition", "attachment; filename=\"" + com.noqapp.common.utils.FileUtil.getFileName(fileObject) + "\"");
                 response.setContentType("application/gzip");
@@ -124,10 +131,14 @@ public class MasterLabController {
             response.setContentType("application/gzip");
             response.setHeader("Content-Disposition", String.format("attachment; filename=%s", ""));
             response.setContentLength(0);
+        } catch (FileSystemException e) {
+            LOG.error("Failed to get directory={} reason={}", FtpService.MASTER_MEDICAL, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
         } catch (Exception e) {
             LOG.error("Failed getting lab qid={} message={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
         } finally {
+            manager.close();
             apiHealthService.insert(
                 "/api/m/h/lab/file",
                 "file",
