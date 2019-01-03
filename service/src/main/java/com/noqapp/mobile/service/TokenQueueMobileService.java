@@ -296,7 +296,7 @@ public class TokenQueueMobileService {
                 bizStoreElasticList.addBizStoreElastic(bizStoreElastic);
             }
 
-            LOG.info("{}", bizStoreElasticList);
+            LOG.debug("{}", bizStoreElasticList);
             return bizStoreElasticList;
         } catch (Exception e) {
             //TODO remove this catch
@@ -358,6 +358,7 @@ public class TokenQueueMobileService {
                 bizStoreElasticList.addBizStoreElastic(bizStoreElastic);
             }
 
+            LOG.debug("{}", bizStoreElasticList);
             return bizStoreElasticList;
         } catch (Exception e) {
             //TODO remove this catch

@@ -14,6 +14,7 @@ import com.noqapp.domain.json.JsonPurchaseOrderList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.medical.DailyFrequencyEnum;
+import com.noqapp.domain.types.medical.MedicationIntakeEnum;
 import com.noqapp.domain.types.medical.PharmacyCategoryEnum;
 import com.noqapp.medical.domain.json.JsonMedicalMedicine;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
@@ -157,7 +158,7 @@ class MedicalRecordControllerTest extends ITest {
             .setStrength("250mg")
             .setDailyFrequency(DailyFrequencyEnum.FD.getName())
             .setCourse("5")
-            .setMedicationWithFood("With Food")
+            .setMedicationIntake(MedicationIntakeEnum.AF.getDescription())
             .setPharmacyCategory(PharmacyCategoryEnum.TA.getName());
 
         JsonMedicalMedicine jsonMedicalMedicine2 = new JsonMedicalMedicine()
@@ -165,7 +166,7 @@ class MedicalRecordControllerTest extends ITest {
             .setStrength("250 liter")
             .setDailyFrequency("10 times a day")
             .setCourse("5")
-            .setMedicationWithFood("With Food")
+            .setMedicationIntake(MedicationIntakeEnum.AF.getDescription())
             .setPharmacyCategory("Hot Syrup");
 
         jsonMedicalRecord
