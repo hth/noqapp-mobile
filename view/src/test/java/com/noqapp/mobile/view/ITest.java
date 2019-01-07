@@ -78,6 +78,8 @@ import com.noqapp.repository.PreferredBusinessManager;
 import com.noqapp.repository.PreferredBusinessManagerImpl;
 import com.noqapp.repository.ProfessionalProfileManager;
 import com.noqapp.repository.ProfessionalProfileManagerImpl;
+import com.noqapp.repository.PublishArticleManager;
+import com.noqapp.repository.PublishArticleManagerImpl;
 import com.noqapp.repository.PurchaseOrderManager;
 import com.noqapp.repository.PurchaseOrderManagerImpl;
 import com.noqapp.repository.PurchaseOrderManagerJDBC;
@@ -239,6 +241,7 @@ public class ITest extends RealMongoForITest {
     protected PreferredBusinessManager preferredBusinessManager;
     protected PreferredBusinessService preferredBusinessService;
     protected ScheduledTaskManager scheduledTaskManager;
+    protected PublishArticleManager publishArticleManager;
 
     protected BusinessCustomerManager businessCustomerManager;
     protected BusinessCustomerService businessCustomerService;
@@ -435,6 +438,7 @@ public class ITest extends RealMongoForITest {
 
         storeCategoryManager = new StoreCategoryManagerImpl(getMongoTemplate());
         storeCategoryService = new StoreCategoryService(storeCategoryManager, storeProductManager);
+        publishArticleManager = new PublishArticleManagerImpl(getMongoTemplate());
 
         fileService = new FileService(
             192, 192, 300, 150,
@@ -444,6 +448,7 @@ public class ITest extends RealMongoForITest {
             bizNameManager,
             bizStoreManager,
             storeProductManager,
+            publishArticleManager,
             bizService,
             storeCategoryService
         );
