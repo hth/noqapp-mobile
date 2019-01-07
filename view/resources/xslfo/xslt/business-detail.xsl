@@ -53,7 +53,7 @@
                               text-align="center"
                               space-after="20mm">
                         <fo:block>
-                            <fo:inline color="grey">&#169; &#174; 2018 NoQueue</fo:inline>
+                            <fo:inline color="grey">&#169; &#174; 2019 NoQueue</fo:inline>
                         </fo:block>
                     </fo:block>
                     <fo:block border-bottom-width="0.05pt"
