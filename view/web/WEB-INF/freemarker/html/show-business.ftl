@@ -24,7 +24,7 @@
             <br>
             <br>
             <img src="${https}://${domain}/static2/internal/img/logo_under_qr.png" alt="NoQueue Inc"/>
-            <div style="font-size: smaller">&copy; &reg; 2018 NoQueue</div>
+            <div style="font-size: smaller">&copy; &reg; 2019 NoQueue</div>
             <br>
             <h3><span style="color: black">Download NoQApp</span></h3>
             <div class="download-app-icon" style="background: white">
