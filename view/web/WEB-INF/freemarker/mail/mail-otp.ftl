@@ -50,7 +50,7 @@
 
         <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear ${profileName},</strong></p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-            To confirm your email address, please enter the OTP below in your screen
+            To confirm your ${message}, please enter the OTP below in your screen
             <span style="padding: 15px; display: block; font-size: x-large; color: black; font-weight: bold; font-family: 'Roboto', sans-serif">${mailOTP}</span>
             Code is case sensitive. This code expires in 15 minutes.
         </p>
