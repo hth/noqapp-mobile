@@ -1,11 +1,13 @@
 package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.PublishArticleEntity;
 import com.noqapp.domain.json.JsonReviewList;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.JsonFeed;
 import com.noqapp.mobile.domain.JsonFeedList;
+import com.noqapp.service.PublishArticleService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 
 /**
  * hitender
@@ -36,10 +39,15 @@ public class FeedController {
 
     private static final Logger LOG = LoggerFactory.getLogger(FeedController.class);
 
+    private PublishArticleService publishArticleService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public FeedController(ApiHealthService apiHealthService) {
+    public FeedController(
+        PublishArticleService publishArticleService,
+        ApiHealthService apiHealthService
+    ) {
+        this.publishArticleService = publishArticleService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -81,6 +89,17 @@ public class FeedController {
     /** This is a temp code. */
     private JsonFeedList getFeedObjs() {
         JsonFeedList jsonFeedList = new JsonFeedList();
+        List<PublishArticleEntity> publishArticles = publishArticleService.getLatestArticle();
+        for (PublishArticleEntity publishArticle : publishArticles) {
+            jsonFeedList.addJsonFeed(
+                new JsonFeed()
+                    .setTitle(publishArticle.getTitle())
+                    .setImageUrl(publishArticle.getId() + "/" + publishArticle.getBannerImage())
+                    .setContentId(publishArticle.getId())
+                    .setContent(publishArticle.getContent())
+            );
+        }
+
 //        jsonFeedList.addJsonFeed(new JsonFeed()
 //            .setTitle("Being Emotionally Healthy")
 //            .setImageUrl("https://noqapp.com/imgs/appmages/eyes/single-blue-eye.jpg")
