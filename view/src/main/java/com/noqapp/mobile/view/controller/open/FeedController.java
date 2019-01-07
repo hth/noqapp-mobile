@@ -89,7 +89,7 @@ public class FeedController {
     /** This is a temp code. */
     private JsonFeedList getFeedObjs() {
         JsonFeedList jsonFeedList = new JsonFeedList();
-        List<PublishArticleEntity> publishArticles = publishArticleService.getLatestArticle();
+        List<PublishArticleEntity> publishArticles = publishArticleService.getLatestArticles();
         for (PublishArticleEntity publishArticle : publishArticles) {
             jsonFeedList.addJsonFeed(
                 new JsonFeed()
