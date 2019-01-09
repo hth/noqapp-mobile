@@ -32,10 +32,10 @@ import javax.servlet.http.HttpServletResponse;
  * 3/26/18 3:48 PM
  */
 @SuppressWarnings({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @RestController
 @RequestMapping(value = "/api/c/h/medicalRecord")
@@ -48,9 +48,9 @@ public class MedicalRecordAPIController {
 
     @Autowired
     public MedicalRecordAPIController(
-            AuthenticateMobileService authenticateMobileService,
-            MedicalRecordService medicalRecordService,
-            ApiHealthService apiHealthService
+        AuthenticateMobileService authenticateMobileService,
+        MedicalRecordService medicalRecordService,
+        ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.medicalRecordService = medicalRecordService;
@@ -58,18 +58,19 @@ public class MedicalRecordAPIController {
     }
 
     @GetMapping(
-            value = "/fetch",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = {"/fetch", "/history"},
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String fetch(
-            @RequestHeader("X-R-MAIL")
-            ScrubbedInput mail,
+    public String history(
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.debug("Medical Record Fetch mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -82,20 +83,53 @@ public class MedicalRecordAPIController {
             return medicalRecordService.populateMedicalHistory(qid).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting medical record qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                    "/fetch",
-                    "fetch",
-                    MedicalRecordAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/fetch",
-                    "fetch",
-                    MedicalRecordAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/fetch",
+                "fetch",
+                MedicalRecordAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @GetMapping(
+        value = "/physicalHistory",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String physicalHistory(
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.debug("Medical Record Fetch mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            return medicalRecordService.populateMedicalPhysicalHistory(qid).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting medical physical record qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/physicalHistory",
+                "physicalHistory",
+                MedicalRecordAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }
