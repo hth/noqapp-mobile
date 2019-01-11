@@ -14,9 +14,12 @@ import com.noqapp.domain.json.JsonPurchaseOrderList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.medical.DailyFrequencyEnum;
+import com.noqapp.domain.types.medical.LabCategoryEnum;
 import com.noqapp.domain.types.medical.MedicationIntakeEnum;
 import com.noqapp.domain.types.medical.PharmacyCategoryEnum;
 import com.noqapp.medical.domain.json.JsonMedicalMedicine;
+import com.noqapp.medical.domain.json.JsonMedicalRadiology;
+import com.noqapp.medical.domain.json.JsonMedicalRadiologyList;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.domain.json.JsonMedicalRecordList;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
@@ -129,6 +132,13 @@ class MedicalRecordControllerTest extends ITest {
 
         JsonMedicalRecordList jsonMedicalRecordList = new ObjectMapper().readValue(response, JsonMedicalRecordList.class);
         assertEquals(1, jsonMedicalRecordList.getJsonMedicalRecords().size());
+
+        JsonMedicalRecord jsonMedicalRecord = jsonMedicalRecordList.getJsonMedicalRecords().get(0);
+        assertEquals(1, jsonMedicalRecord.getMedicalRadiologyLists().size());
+        assertEquals(2, jsonMedicalRecord.getMedicalMedicines().size());
+
+        JsonMedicalRadiologyList jsonMedicalRadiologyList = jsonMedicalRecord.getMedicalRadiologyLists().get(0);
+        assertEquals(2, jsonMedicalRadiologyList.getJsonMedicalRadiologies().size());
     }
 
     private JsonMedicalRecord populateForMedicalVisit() {
@@ -137,6 +147,8 @@ class MedicalRecordControllerTest extends ITest {
         BizStoreEntity bizStoreDoctor = bizService.findOneBizStore(bizNameHospital.getId());
         BizNameEntity bizNamePharmacy = bizService.findByPhone("9118000000011");
         BizStoreEntity bizStorePharmacy = bizService.findOneBizStore(bizNamePharmacy.getId());
+        BizNameEntity bizNameHealthService = bizService.findByPhone("9118000000161");
+        BizStoreEntity bizStoreXRAY= bizService.findOneBizStore(bizNameHealthService.getId());
 
         JsonMedicalRecord jsonMedicalRecord = new JsonMedicalRecord();
         jsonMedicalRecord.setCodeQR(bizStoreDoctor.getCodeQR());
@@ -173,6 +185,16 @@ class MedicalRecordControllerTest extends ITest {
             .addMedicine(jsonMedicalMedicine1)
             .addMedicine(jsonMedicalMedicine2)
             .setStoreIdPharmacy(bizStorePharmacy.getId());
+
+        JsonMedicalRadiologyList jsonMedicalRadiologyList = new JsonMedicalRadiologyList()
+            .setLabCategory(LabCategoryEnum.XRAY)
+            .setBizStoreId(bizStoreXRAY.getId());
+
+        jsonMedicalRadiologyList
+            .addJsonMedicalRadiologies(new JsonMedicalRadiology().setName("Bone XRAY"))
+            .addJsonMedicalRadiologies(new JsonMedicalRadiology().setName("Head XRAY"));
+
+        jsonMedicalRecord.addMedicalRadiologyLists(jsonMedicalRadiologyList);
 
         return jsonMedicalRecord;
     }
