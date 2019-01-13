@@ -403,9 +403,4 @@ public class AccountMobileService {
         GE, //Gender            //TODO add this to token merchant registration
         TZ, //TimeZone          //TODO add this to token merchant registration
     }
-
-    //TODO(hth) include height
-    public enum MEDICAL_PROFILE {
-        BT  //BloodType
-    }
 }

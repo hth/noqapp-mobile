@@ -500,7 +500,7 @@ public class TokenQueueAPIController {
         }
     }
 
-    static boolean authorizeRequest(HttpServletResponse response, String qid) throws IOException {
+    public static boolean authorizeRequest(HttpServletResponse response, String qid) throws IOException {
         if (null == qid) {
             LOG.warn("Login required qid={}", qid);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
