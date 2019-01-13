@@ -26,6 +26,7 @@ import com.noqapp.domain.types.catgeory.MedicalDepartmentEnum;
 import com.noqapp.health.repository.ApiHealthNowManager;
 import com.noqapp.health.repository.ApiHealthNowManagerImpl;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.domain.UserMedicalProfileHistoryEntity;
 import com.noqapp.medical.repository.MedicalMedicationManager;
 import com.noqapp.medical.repository.MedicalMedicationManagerImpl;
 import com.noqapp.medical.repository.MedicalMedicineManager;
@@ -42,6 +43,7 @@ import com.noqapp.medical.repository.MedicalRadiologyTestManager;
 import com.noqapp.medical.repository.MedicalRadiologyTestManagerImpl;
 import com.noqapp.medical.repository.MedicalRecordManager;
 import com.noqapp.medical.repository.MedicalRecordManagerImpl;
+import com.noqapp.medical.repository.UserMedicalProfileHistoryManager;
 import com.noqapp.medical.repository.UserMedicalProfileManager;
 import com.noqapp.medical.repository.UserMedicalProfileManagerImpl;
 import com.noqapp.medical.service.MedicalRecordService;
@@ -239,6 +241,7 @@ public class ITest extends RealMongoForITest {
     protected BusinessUserManager businessUserManager;
     protected ProfessionalProfileManager professionalProfileManager;
     protected UserMedicalProfileManager userMedicalProfileManager;
+    protected UserMedicalProfileHistoryManager userMedicalProfileHistoryManager;
     protected StoreCategoryManager storeCategoryManager;
     protected PreferredBusinessManager preferredBusinessManager;
     protected PreferredBusinessService preferredBusinessService;
@@ -290,7 +293,7 @@ public class ITest extends RealMongoForITest {
         deviceType = DeviceTypeEnum.A.getName();
         model = "Model";
         osVersion = "OS-Version";
-        appVersion = "1.2.100";
+        appVersion = "1.2.200";
 
         userAccountManager = new UserAccountManagerImpl(getMongoTemplate());
         userAuthenticationManager = new UserAuthenticationManagerImpl(getMongoTemplate());
@@ -315,7 +318,7 @@ public class ITest extends RealMongoForITest {
         generateUserIdService = new GenerateUserIdService(generateUserIdManager);
         emailValidateService = new EmailValidateService(emailValidateManager);
         inviteService = new InviteService(inviteManager);
-        userMedicalProfileService = new UserMedicalProfileService(userMedicalProfileManager);
+        userMedicalProfileService = new UserMedicalProfileService(userMedicalProfileManager, userMedicalProfileHistoryManager);
 
         accountService = new AccountService(
             5,
@@ -551,7 +554,8 @@ public class ITest extends RealMongoForITest {
             bizStoreManager,
             queueManager,
             businessUserStoreService,
-            purchaseOrderService
+            purchaseOrderService,
+            userMedicalProfileService
         );
 
         medicalRecordMobileService = new MedicalRecordMobileService(medicalRecordService);

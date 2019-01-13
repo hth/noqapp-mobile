@@ -12,6 +12,7 @@ import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonPurchaseOrderList;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.json.medical.JsonUserMedicalProfile;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.medical.DailyFrequencyEnum;
 import com.noqapp.domain.types.medical.LabCategoryEnum;
@@ -150,17 +151,21 @@ class MedicalRecordControllerTest extends ITest {
         BizNameEntity bizNameHealthService = bizService.findByPhone("9118000000161");
         BizStoreEntity bizStoreXRAY= bizService.findOneBizStore(bizNameHealthService.getId());
 
-        JsonMedicalRecord jsonMedicalRecord = new JsonMedicalRecord();
+        JsonMedicalRecord jsonMedicalRecord = new JsonMedicalRecord()
+            .setJsonUserMedicalProfile(new JsonUserMedicalProfile());
+
         jsonMedicalRecord.setCodeQR(bizStoreDoctor.getCodeQR());
         jsonMedicalRecord.setDiagnosedById(queueManager_Doctor_UserProfile.getQueueUserId());
         jsonMedicalRecord.setRecordReferenceId(CommonUtil.generateHexFromObjectId());
         jsonMedicalRecord.setQueueUserId(client.getQueueUserId());
 
-        //TODO add medicine and pathology
-        jsonMedicalRecord.setChiefComplain("Heart Ache")
+        jsonMedicalRecord.getJsonUserMedicalProfile()
             .setPastHistory("Some History")
             .setFamilyHistory("Family History")
-            .setKnownAllergies("This is known allergy")
+            .setKnownAllergies("This is known allergy");
+
+        //TODO add medicine and pathology
+        jsonMedicalRecord.setChiefComplain("Heart Ache")
             .setExamination("Examination is")
             .setClinicalFinding("I found this")
             .setProvisionalDifferentialDiagnosis("My finding is");
