@@ -90,7 +90,7 @@ public class MedicalRecordController {
      * When client starts to serve for first time or re-start after serving the last in the queue.
      */
     @PostMapping(
-            value = "/add",
+            value = {"/add", "/update"},
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String add(
@@ -218,7 +218,7 @@ public class MedicalRecordController {
     }
 
     @PostMapping(
-        value = "/fetch",
+        value = {"/fetch", "/historical"},
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String fetch(
