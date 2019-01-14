@@ -155,6 +155,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import okhttp3.OkHttpClient;
 
 import java.io.IOException;
@@ -162,6 +163,7 @@ import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
@@ -267,6 +269,7 @@ public class ITest extends RealMongoForITest {
     private MockEnvironment mockEnvironment;
 
     private WebConnectorService webConnectorService;
+    private StanfordCoreNLP stanfordCoreNLP;
     @Mock protected ExternalService externalService;
     @Mock protected QueueManagerJDBC queueManagerJDBC;
     @Mock protected PurchaseOrderManagerJDBC purchaseOrderManagerJDBC;
@@ -288,6 +291,10 @@ public class ITest extends RealMongoForITest {
         didQueueSupervisor = UUID.randomUUID().toString();
         mockEnvironment = new MockEnvironment();
         mockEnvironment.setProperty("build.env", "sandbox");
+
+        Properties props = new Properties();
+        props.setProperty("annotators", "tokenize, ssplit, pos, lemma, parse, sentiment");
+        stanfordCoreNLP = new StanfordCoreNLP(props);
 
         fcmToken = UUID.randomUUID().toString();
         deviceType = DeviceTypeEnum.A.getName();
@@ -503,7 +510,8 @@ public class ITest extends RealMongoForITest {
             deviceService,
             queueManagerJDBC,
             storeHourManager,
-            queueService
+            queueService,
+            stanfordCoreNLP
         );
 
         accountClientController = new AccountClientController(

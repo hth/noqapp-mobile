@@ -1,5 +1,7 @@
 package com.noqapp.mobile.view.controller.open;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -14,12 +16,14 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
+import com.noqapp.domain.types.SentimentTypeEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.mobile.domain.body.client.QueueReview;
 import com.noqapp.mobile.view.ITest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.awaitility.Duration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -78,8 +82,8 @@ class ReviewControllerITest extends ITest {
     }
 
     @Test
-    @DisplayName("Service when completed")
-    void service() throws IOException {
+    @DisplayName("Review after service when completed")
+    void queueReview() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
@@ -138,8 +142,15 @@ class ReviewControllerITest extends ITest {
 
         /* Check for submitted review. */
         QueueEntity queueAfterService = queueManager.findOne(bizStore.getCodeQR(), jsonToken.getToken());
+        while (queueAfterService.getSentimentType() == null) {
+            await()
+                .atLeast(Duration.ONE_HUNDRED_MILLISECONDS)
+                .atMost(Duration.TEN_SECONDS);
+            queueAfterService = queueManager.findOne(bizStore.getCodeQR(), jsonToken.getToken());
+        }
         assertEquals(QueueUserStateEnum.S, queueAfterService.getQueueUserState());
         assertEquals(did, queueAfterService.getDid());
+        assertEquals(SentimentTypeEnum.P, queueAfterService.getSentimentType());
     }
 
     private void submitReview(BizStoreEntity bizStore, JsonToken jsonToken) throws IOException {
@@ -148,7 +159,7 @@ class ReviewControllerITest extends ITest {
                 .setToken(jsonToken.getToken())
                 .setRatingCount(5)
                 .setHoursSaved(1)
-                .setReview("This is review");
+                .setReview("This is a good review");
 
         /* Fails to update as its still under Queued state. */
         String response = reviewController.queue(

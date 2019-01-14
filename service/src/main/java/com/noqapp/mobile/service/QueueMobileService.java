@@ -19,6 +19,7 @@ import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.domain.types.SentimentTypeEnum;
 import com.noqapp.mobile.domain.JsonModifyQueue;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.QueueManager;
@@ -38,6 +39,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import edu.stanford.nlp.ling.CoreAnnotations;
+import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
+import edu.stanford.nlp.util.CoreMap;
 
 import java.time.DayOfWeek;
 import java.time.ZonedDateTime;
@@ -62,6 +69,7 @@ public class QueueMobileService {
     private QueueManagerJDBC queueManagerJDBC;
     private StoreHourManager storeHourManager;
     private QueueService queueService;
+    private StanfordCoreNLP stanfordCoreNLP;
 
     private ExecutorService executorService;
 
@@ -73,7 +81,8 @@ public class QueueMobileService {
         DeviceService deviceService,
         QueueManagerJDBC queueManagerJDBC,
         StoreHourManager storeHourManager,
-        QueueService queueService
+        QueueService queueService,
+        StanfordCoreNLP stanfordCoreNLP
     ) {
         this.queueManager = queueManager;
         this.tokenQueueMobileService = tokenQueueMobileService;
@@ -82,6 +91,7 @@ public class QueueMobileService {
         this.queueManagerJDBC = queueManagerJDBC;
         this.storeHourManager = storeHourManager;
         this.queueService = queueService;
+        this.stanfordCoreNLP = stanfordCoreNLP;
 
         this.executorService = newCachedThreadPool();
     }
@@ -344,13 +354,22 @@ public class QueueMobileService {
      * Submitting review.
      */
     private void reviewingService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved, String review) {
-        boolean reviewSubmitStatus = queueManager.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved, review);
+        SentimentTypeEnum sentimentType = null;
+        if (StringUtils.isNotBlank(review)) {
+            Annotation annotation = stanfordCoreNLP.process(review);
+            List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
+            for (CoreMap sentence : sentences) {
+                String sentiment = sentence.get(SentimentCoreAnnotations.SentimentClass.class);
+                sentimentType = SentimentTypeEnum.byDescription(sentiment);
+            }
+        }
+        boolean reviewSubmitStatus = queueManager.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved, review, sentimentType);
         if (!reviewSubmitStatus) {
             //TODO(hth) make sure for Guardian this is taken care. Right now its ignore "GQ" add to MySQL Table
-            reviewSubmitStatus = reviewHistoricalService(codeQR, token, did, qid, ratingCount, hoursSaved, review);
+            reviewSubmitStatus = reviewHistoricalService(codeQR, token, did, qid, ratingCount, hoursSaved, review, sentimentType);
         }
 
-        LOG.info("Review update status={} codeQR={} token={} ratingCount={} hoursSaved={} did={} qid={} review={}",
+        LOG.info("Review update status={} codeQR={} token={} ratingCount={} hoursSaved={} did={} qid={} review={} sentimentType={}",
             reviewSubmitStatus,
             codeQR,
             token,
@@ -358,7 +377,8 @@ public class QueueMobileService {
             hoursSaved,
             did,
             qid,
-            review);
+            review,
+            sentimentType);
     }
 
     private boolean reviewHistoricalService(
@@ -368,10 +388,11 @@ public class QueueMobileService {
         String qid,
         int ratingCount,
         int hoursSaved,
-        String review
+        String review,
+        SentimentTypeEnum sentimentType
     ) {
         //TODO(hth) when adding new review increase ratingCount. Make sure when editing review, do not increase count.
-        return queueManagerJDBC.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved, review);
+        return queueManagerJDBC.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved, review, sentimentType);
     }
 
     public TokenQueueEntity getTokenQueueByCodeQR(String codeQR) {
