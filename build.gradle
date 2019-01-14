@@ -536,7 +536,7 @@ task prepWar(dependsOn: [
         copy {
             if (env == 'prod') {
                 if (geoDBProd.exists()) {
-                    from geoDBProdFileLocation;
+                    from geoDBProdFileLocation
                 } else {
                     throw new Exception("Required GeoLite file does not exists: $geoDBProdFileLocation.canonicalPath")
                 }
@@ -544,7 +544,7 @@ task prepWar(dependsOn: [
 
             if (env == 'sandbox') {
                 if (geoDBTest.exists()) {
-                    from geoDBTestFileLocation;
+                    from geoDBTestFileLocation
                 } else {
                     throw new Exception("Required GeoLite file does not exists: $geoDBTestFileLocation.canonicalPath")
                 }
