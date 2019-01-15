@@ -135,6 +135,7 @@ import com.noqapp.service.FtpService;
 import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.MailService;
+import com.noqapp.service.NLPService;
 import com.noqapp.service.PreferredBusinessService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.PurchaseOrderService;
@@ -259,6 +260,7 @@ public class ITest extends RealMongoForITest {
     protected BizStoreElasticService bizStoreElasticService;
     protected TransactionService transactionService;
     protected MedicalRecordMobileService medicalRecordMobileService;
+    protected NLPService nlpService;
 
     protected ApiHealthService apiHealthService;
     protected ApiHealthNowManager apiHealthNowManager;
@@ -326,6 +328,7 @@ public class ITest extends RealMongoForITest {
         emailValidateService = new EmailValidateService(emailValidateManager);
         inviteService = new InviteService(inviteManager);
         userMedicalProfileService = new UserMedicalProfileService(userMedicalProfileManager, userMedicalProfileHistoryManager);
+        nlpService = new NLPService(stanfordCoreNLP);
 
         accountService = new AccountService(
             5,
@@ -511,7 +514,7 @@ public class ITest extends RealMongoForITest {
             queueManagerJDBC,
             storeHourManager,
             queueService,
-            stanfordCoreNLP
+            nlpService
         );
 
         accountClientController = new AccountClientController(
