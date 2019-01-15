@@ -53,7 +53,7 @@
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             Store: ${storeName}<br/>
             Reviewer: ${reviewerName}<br/>
-            Phone: ${reviewerName}<br/>
+            Phone: ${reviewerPhone}<br/><br/>
 
             Rating: ${ratingCount}<br/>
             Hour Saved: ${hourSaved}<br/>
