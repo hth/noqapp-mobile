@@ -148,6 +148,7 @@ public class MasterLabController {
         }
     }
 
+    /** Adds data to master data. */
     @PostMapping(
         value = "/add",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
