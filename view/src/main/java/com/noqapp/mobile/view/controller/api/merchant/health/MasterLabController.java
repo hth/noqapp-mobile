@@ -148,7 +148,8 @@ public class MasterLabController {
         }
     }
 
-    /** Adds data to master data. */
+    /** Adds data to master data. We need not use this. */
+    @Deprecated
     @PostMapping(
         value = "/add",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
