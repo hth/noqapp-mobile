@@ -1,6 +1,5 @@
 package com.noqapp.mobile.service;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.DateUtil.DAY.TODAY;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
@@ -16,7 +15,6 @@ import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueHistoricalList;
 import com.noqapp.domain.json.JsonQueuePersonList;
-import com.noqapp.domain.json.JsonReview;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
@@ -25,7 +23,6 @@ import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.SentimentTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.domain.JsonModifyQueue;
-import com.noqapp.mobile.domain.mail.ChangeMailOTP;
 import com.noqapp.mobile.domain.mail.ReviewSentiment;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.BusinessUserManager;
@@ -34,7 +31,6 @@ import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
-import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.NLPService;
 import com.noqapp.service.QueueService;
 
@@ -53,12 +49,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
-import edu.stanford.nlp.ling.CoreAnnotations;
-import edu.stanford.nlp.pipeline.Annotation;
-import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
-import edu.stanford.nlp.util.CoreMap;
 
 import java.time.DayOfWeek;
 import java.time.ZonedDateTime;
@@ -98,17 +88,17 @@ public class QueueMobileService {
         String negativeReview,
 
         QueueManager queueManager,
-        TokenQueueMobileService tokenQueueMobileService,
-        BizService bizService,
-        DeviceService deviceService,
         QueueManagerJDBC queueManagerJDBC,
         StoreHourManager storeHourManager,
-        QueueService queueService,
-        NLPService nlpService,
-        WebConnectorService webConnectorService,
         BusinessUserManager businessUserManager,
-        UserProfileManager userProfileManager
-    ) {
+        UserProfileManager userProfileManager,
+        BizService bizService,
+        DeviceService deviceService,
+        NLPService nlpService,
+        QueueService queueService,
+        TokenQueueMobileService tokenQueueMobileService,
+        WebConnectorService webConnectorService
+        ) {
         this.negativeReview = negativeReview;
 
         this.queueManager = queueManager;

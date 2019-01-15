@@ -507,14 +507,18 @@ public class ITest extends RealMongoForITest {
             apiHealthService);
 
         queueMobileService = new QueueMobileService(
+            "/webapi/mobile/mail/negativeReview.htm",
             queueManager,
-            tokenQueueMobileService,
-            bizService,
-            deviceService,
             queueManagerJDBC,
             storeHourManager,
+            businessUserManager,
+            userProfileManager,
+            bizService,
+            deviceService,
+            nlpService,
             queueService,
-            nlpService
+            tokenQueueMobileService,
+            webConnectorService
         );
 
         accountClientController = new AccountClientController(
