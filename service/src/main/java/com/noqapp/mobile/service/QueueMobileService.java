@@ -1,5 +1,6 @@
 package com.noqapp.mobile.service;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.DateUtil.DAY.TODAY;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
@@ -7,6 +8,7 @@ import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.Validate;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.BusinessUserEntity;
 import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.StoreHourEntity;
@@ -14,22 +16,32 @@ import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueHistoricalList;
 import com.noqapp.domain.json.JsonQueuePersonList;
+import com.noqapp.domain.json.JsonReview;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.SentimentTypeEnum;
+import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.domain.JsonModifyQueue;
+import com.noqapp.mobile.domain.mail.ChangeMailOTP;
+import com.noqapp.mobile.domain.mail.ReviewSentiment;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
+import com.noqapp.repository.BusinessUserManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
+import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
+import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.NLPService;
 import com.noqapp.service.QueueService;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import org.joda.time.DateTime;
 
@@ -37,6 +49,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -63,6 +76,8 @@ import java.util.concurrent.ExecutorService;
 public class QueueMobileService {
     private static final Logger LOG = LoggerFactory.getLogger(QueueMobileService.class);
 
+    private String negativeReview;
+
     private QueueManager queueManager;
     private TokenQueueMobileService tokenQueueMobileService;
     private BizService bizService;
@@ -71,11 +86,17 @@ public class QueueMobileService {
     private StoreHourManager storeHourManager;
     private QueueService queueService;
     private NLPService nlpService;
+    private WebConnectorService webConnectorService;
+    private BusinessUserManager businessUserManager;
+    private UserProfileManager userProfileManager;
 
     private ExecutorService executorService;
 
     @Autowired
     public QueueMobileService(
+        @Value("${mailChange:/webapi/mobile/mail/negativeReview.htm}")
+        String negativeReview,
+
         QueueManager queueManager,
         TokenQueueMobileService tokenQueueMobileService,
         BizService bizService,
@@ -83,8 +104,13 @@ public class QueueMobileService {
         QueueManagerJDBC queueManagerJDBC,
         StoreHourManager storeHourManager,
         QueueService queueService,
-        NLPService nlpService
+        NLPService nlpService,
+        WebConnectorService webConnectorService,
+        BusinessUserManager businessUserManager,
+        UserProfileManager userProfileManager
     ) {
+        this.negativeReview = negativeReview;
+
         this.queueManager = queueManager;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.bizService = bizService;
@@ -93,6 +119,9 @@ public class QueueMobileService {
         this.storeHourManager = storeHourManager;
         this.queueService = queueService;
         this.nlpService = nlpService;
+        this.webConnectorService = webConnectorService;
+        this.businessUserManager = businessUserManager;
+        this.userProfileManager = userProfileManager;
 
         this.executorService = newCachedThreadPool();
     }
@@ -361,6 +390,7 @@ public class QueueMobileService {
             //TODO(hth) make sure for Guardian this is taken care. Right now its ignore "GQ" add to MySQL Table
             reviewSubmitStatus = reviewHistoricalService(codeQR, token, did, qid, ratingCount, hoursSaved, review, sentimentType);
         }
+        sendMailWhenSentimentIsNegative(codeQR, token, ratingCount, hoursSaved, review, sentimentType);
 
         LOG.info("Review update status={} codeQR={} token={} ratingCount={} hoursSaved={} did={} qid={} review={} sentimentType={}",
             reviewSubmitStatus,
@@ -372,6 +402,27 @@ public class QueueMobileService {
             qid,
             review,
             sentimentType);
+    }
+
+    private void sendMailWhenSentimentIsNegative(String codeQR, int token, int ratingCount, int hoursSaved, String review, SentimentTypeEnum sentimentType) {
+        if (SentimentTypeEnum.N == sentimentType) {
+            BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
+            List<BusinessUserEntity> businessUsers = businessUserManager.getAllForBusiness(bizStore.getBizName().getId(), UserLevelEnum.M_ADMIN);
+
+            QueueEntity queue = queueManager.findOne(codeQR, token);
+            for (BusinessUserEntity businessUser : businessUsers) {
+                sendMailWhenNegativeReview(
+                    queue.getDisplayName(),
+                    queue.getCustomerName(),
+                    queue.getCustomerPhone(),
+                    ratingCount,
+                    hoursSaved,
+                    review,
+                    sentimentType.getName(),
+                    userProfileManager.findByQueueUserId(businessUser.getQueueUserId()).getEmail(),
+                    HttpClientBuilder.create().build());
+            }
+        }
     }
 
     private boolean reviewHistoricalService(
@@ -457,5 +508,29 @@ public class QueueMobileService {
 
     public JsonQueueHistoricalList findAllHistoricalQueueAsJson(String qid) {
         return queueService.findAllHistoricalQueueAsJson(qid);
+    }
+
+    private boolean sendMailWhenNegativeReview(
+        String storeName,
+        String reviewerName,
+        String reviewerPhone,
+        int ratingCount,
+        int hourSaved,
+        String review,
+        String sentiment,
+        String sentimentWatcherEmail,
+        HttpClient httpClient
+    ) {
+        LOG.debug("sentiment {} {} {} {} {}", storeName, reviewerPhone, ratingCount, hourSaved, review);
+        HttpPost httpPost = webConnectorService.getHttpPost(negativeReview, httpClient);
+        if (null == httpPost) {
+            LOG.warn("failed connecting, reason={}", webConnectorService.getNoResponseFromWebServer());
+            return false;
+        }
+
+        webConnectorService.setEntityWithGson(
+            ReviewSentiment.newInstance(storeName, reviewerName, reviewerPhone, ratingCount, hourSaved, review, sentiment, sentimentWatcherEmail),
+            httpPost);
+        return webConnectorService.invokeHttpPost(httpClient, httpPost);
     }
 }

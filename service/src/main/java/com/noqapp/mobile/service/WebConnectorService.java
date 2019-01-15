@@ -37,9 +37,11 @@ import java.io.IOException;
 })
 @Service
 public class WebConnectorService {
-    public static final int HTTP_STATUS_200 = 200;
-    public static final int HTTP_STATUS_300 = 300;
     private static final Logger LOG = LoggerFactory.getLogger(WebConnectorService.class);
+
+    static final int HTTP_STATUS_200 = 200;
+    static final int HTTP_STATUS_300 = 300;
+
     private String apiMobileGetPath;
     private String noResponseFromWebServer;
     private String webApiAccessToken;
@@ -82,7 +84,7 @@ public class WebConnectorService {
      * @param httpClient
      * @return
      */
-    protected HttpPost getHttpPost(String endPoint, HttpClient httpClient) {
+    HttpPost getHttpPost(String endPoint, HttpClient httpClient) {
         Header header = getCSRFToken(webApiAccessToken, httpClient);
         LOG.debug("CSRF received from Web header={}", header);
         if (header == null) {
