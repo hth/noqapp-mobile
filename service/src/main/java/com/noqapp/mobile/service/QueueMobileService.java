@@ -26,6 +26,7 @@ import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.service.BizService;
+import com.noqapp.service.NLPService;
 import com.noqapp.service.QueueService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -69,7 +70,7 @@ public class QueueMobileService {
     private QueueManagerJDBC queueManagerJDBC;
     private StoreHourManager storeHourManager;
     private QueueService queueService;
-    private StanfordCoreNLP stanfordCoreNLP;
+    private NLPService nlpService;
 
     private ExecutorService executorService;
 
@@ -82,7 +83,7 @@ public class QueueMobileService {
         QueueManagerJDBC queueManagerJDBC,
         StoreHourManager storeHourManager,
         QueueService queueService,
-        StanfordCoreNLP stanfordCoreNLP
+        NLPService nlpService
     ) {
         this.queueManager = queueManager;
         this.tokenQueueMobileService = tokenQueueMobileService;
@@ -91,7 +92,7 @@ public class QueueMobileService {
         this.queueManagerJDBC = queueManagerJDBC;
         this.storeHourManager = storeHourManager;
         this.queueService = queueService;
-        this.stanfordCoreNLP = stanfordCoreNLP;
+        this.nlpService = nlpService;
 
         this.executorService = newCachedThreadPool();
     }
@@ -354,15 +355,7 @@ public class QueueMobileService {
      * Submitting review.
      */
     private void reviewingService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved, String review) {
-        SentimentTypeEnum sentimentType = null;
-        if (StringUtils.isNotBlank(review)) {
-            Annotation annotation = stanfordCoreNLP.process(review);
-            List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
-            for (CoreMap sentence : sentences) {
-                String sentiment = sentence.get(SentimentCoreAnnotations.SentimentClass.class);
-                sentimentType = SentimentTypeEnum.byDescription(sentiment);
-            }
-        }
+        SentimentTypeEnum sentimentType = nlpService.computeSentiment(review);
         boolean reviewSubmitStatus = queueManager.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved, review, sentimentType);
         if (!reviewSubmitStatus) {
             //TODO(hth) make sure for Guardian this is taken care. Right now its ignore "GQ" add to MySQL Table

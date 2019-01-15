@@ -144,8 +144,8 @@ class ReviewControllerITest extends ITest {
         QueueEntity queueAfterService = queueManager.findOne(bizStore.getCodeQR(), jsonToken.getToken());
         while (queueAfterService.getSentimentType() == null) {
             await()
-                .atLeast(Duration.ONE_HUNDRED_MILLISECONDS)
-                .atMost(Duration.TEN_SECONDS);
+                .atLeast(Duration.FIVE_HUNDRED_MILLISECONDS)
+                .atMost(Duration.FIVE_SECONDS);
             queueAfterService = queueManager.findOne(bizStore.getCodeQR(), jsonToken.getToken());
         }
         assertEquals(QueueUserStateEnum.S, queueAfterService.getQueueUserState());
