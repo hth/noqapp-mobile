@@ -98,7 +98,7 @@ public class QueueMobileService {
         QueueService queueService,
         TokenQueueMobileService tokenQueueMobileService,
         WebConnectorService webConnectorService
-        ) {
+    ) {
         this.negativeReview = negativeReview;
 
         this.queueManager = queueManager;
@@ -408,7 +408,7 @@ public class QueueMobileService {
                     ratingCount,
                     hoursSaved,
                     review,
-                    sentimentType.getName(),
+                    sentimentType.getDescription(),
                     userProfileManager.findByQueueUserId(businessUser.getQueueUserId()).getEmail(),
                     HttpClientBuilder.create().build());
             }

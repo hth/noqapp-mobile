@@ -1096,7 +1096,7 @@ public class ITest extends RealMongoForITest {
         bizService.insertAll(storeHours);
 
         /* Create Queue. */
-        tokenQueueService.createUpdate(bizStore.getCodeQR(), bizStore.getTopic(), bizStore.getDisplayName(), bizStore.getBusinessType());
+        tokenQueueService.createUpdate(bizStore);
 
         /* Add Queue Admin, Queue Supervisor, Queue Manager to Business and Store. */
         BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
@@ -1198,7 +1198,7 @@ public class ITest extends RealMongoForITest {
         bizService.insertAll(storeHours);
 
         /* Create Queue. */
-        tokenQueueService.createUpdate(bizStore.getCodeQR(), bizStore.getTopic(), bizStore.getDisplayName(), bizStore.getBusinessType());
+        tokenQueueService.createUpdate(bizStore);
 
         /* Add Queue Admin, Queue Supervisor, Queue Manager to Business and Store. */
         BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
@@ -1292,7 +1292,7 @@ public class ITest extends RealMongoForITest {
         bizService.insertAll(storeHours);
 
         /* Create Queue. */
-        tokenQueueService.createUpdate(bizStore.getCodeQR(), bizStore.getTopic(), bizStore.getDisplayName(), bizStore.getBusinessType());
+        tokenQueueService.createUpdate(bizStore);
 
         /* Add Queue Admin, Queue Supervisor, Queue Manager to Business and Store. */
         BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
@@ -1386,7 +1386,7 @@ public class ITest extends RealMongoForITest {
         bizService.insertAll(storeHours);
 
         /* Create Queue. */
-        tokenQueueService.createUpdate(bizStore.getCodeQR(), bizStore.getTopic(), bizStore.getDisplayName(), bizStore.getBusinessType());
+        tokenQueueService.createUpdate(bizStore);
 
         /* Add Queue Admin, Queue Supervisor, Queue Manager to Business and Store. */
         BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
