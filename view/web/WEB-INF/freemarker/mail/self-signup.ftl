@@ -51,19 +51,16 @@
         <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear ${to},</strong></p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             You've entered ${contact_email} as the contact email address for your NoQApp ID. To complete the process, we
-            just need to verify that this email address belongs to you. Simply click the link below and sign in using
-            your
+            just need to verify that this email address belongs to you. Simply click the link below and sign in using your
             NoQApp ID and password.
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-            <a href="${https}://${domain}/open/validate.htm?authenticationKey=${link}"
-                    style="padding:8px 15px; background:#ff1c79; color:#fff; text-decoration: none">Activate Account</a>
+            <a href="${https}://${domain}/open/validate.htm?authenticationKey=${link}" style="padding:8px 15px; background:#ff1c79; color:#fff; text-decoration: none">Activate Account</a>
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             <strong>Wondering why you got this email?</strong>
             It's sent when someone sign's up or changes a contact email address for a NoQApp account. If you didn't do
-            this,
-            don't worry. Your email address cannot be used as a contact address with NoQueue's NoQApp without your
+            this, don't worry. Your email address cannot be used as a contact address with NoQueue's NoQApp without your
             verification.
         </p>
         <p style="font-family: 'Roboto', sans-serif;">
@@ -75,9 +72,7 @@
 
     <div class="qr-footer" style="font-size:12px; background:#dadada; padding:15px;">
         TM and Copyright &copy; 2019 NoQueue Inc. Sunnyvale, CA 94089, USA.<br/>
-        All Rights Reserved &nbsp; | &nbsp; <a href="${parentHost}/privacy.html"
-                style="color:#222; text-decoration:none">Privacy Policy</a> &nbsp; |
-        &nbsp; <a href="${parentHost}/terms.html" style="color:#222; text-decoration:none">Terms</a><br/>
+        All Rights Reserved &nbsp; | &nbsp; <a href="${parentHost}/privacy.html" style="color:#222; text-decoration:none">Privacy Policy</a> &nbsp; |&nbsp; <a href="${parentHost}/terms.html" style="color:#222; text-decoration:none">Terms</a><br/>
         S:${ftlDateTime?iso("PST")}
     </div>
 </div>
