@@ -29,25 +29,25 @@ public enum LowestSupportedAppEnum {
         "1.2.165",                      //Latest App Version on Play Store
         "Version Android Client"),
 
-    VACH("1.2.120",                     //Oldest Supported App Version in String
+    VACH("1.2.140",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQCH,
         "1.2.165",                      //Latest App Version on Play Store
         "Version Android Client HealthCare"),
 
-    VAMS("1.2.160",                     //Oldest Supported App Version in String
+    VAMS("1.2.163",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMS,
         "1.2.165",                      //Latest App Version on Play Store
         "Version Android Merchant Store"),
 
-    VAMH("1.2.160",                     //Oldest Supported App Version in String
+    VAMH("1.2.163",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMH,
         "1.2.165",                      //Latest App Version on Play Store
         "Version Android Merchant HealthCare"),
 
-    VAMT("1.2.160",                     //Oldest Supported App Version in String
+    VAMT("1.2.163",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMT,
         "1.2.165",                      //Latest App Version on Play Store
