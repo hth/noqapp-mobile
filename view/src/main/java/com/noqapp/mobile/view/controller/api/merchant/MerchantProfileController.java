@@ -62,14 +62,14 @@ import javax.servlet.http.HttpServletResponse;
  * User: hitender
  * Date: 4/19/17 10:23 AM
  */
-@SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+@SuppressWarnings({
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/api/m/profile")
+@RequestMapping(value = "/api/m/profile")
 public class MerchantProfileController {
     private static final Logger LOG = LoggerFactory.getLogger(MerchantProfileController.class);
 
@@ -85,15 +85,15 @@ public class MerchantProfileController {
 
     @Autowired
     public MerchantProfileController(
-            AuthenticateMobileService authenticateMobileService,
-            UserProfilePreferenceService userProfilePreferenceService,
-            BusinessUserStoreService businessUserStoreService,
-            ProfileCommonHelper profileCommonHelper,
-            ProfessionalProfileService professionalProfileService,
-            ApiHealthService apiHealthService,
-            ImageValidator imageValidator,
-            DeviceService deviceService,
-            AccountMobileService accountMobileService
+        AuthenticateMobileService authenticateMobileService,
+        UserProfilePreferenceService userProfilePreferenceService,
+        BusinessUserStoreService businessUserStoreService,
+        ProfileCommonHelper profileCommonHelper,
+        ProfessionalProfileService professionalProfileService,
+        ApiHealthService apiHealthService,
+        ImageValidator imageValidator,
+        DeviceService deviceService,
+        AccountMobileService accountMobileService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
@@ -108,26 +108,26 @@ public class MerchantProfileController {
 
     /** Fetch merchant profile also register device with qid after login. */
     @GetMapping(
-            value = "/fetch",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/fetch",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String fetch(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput dt,
 
-            @RequestHeader (value = "X-R-AF", required = false, defaultValue = "NQMT")
-            ScrubbedInput appFlavor,
+        @RequestHeader(value = "X-R-AF", required = false, defaultValue = "NQMT")
+        ScrubbedInput appFlavor,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -137,7 +137,7 @@ public class MerchantProfileController {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
-        
+
         try {
             UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
             switch (userProfile.getLevel()) {
@@ -182,14 +182,14 @@ public class MerchantProfileController {
             }
 
             return new JsonMerchant()
-                    .setJsonProfile(jsonProfile)
-                    .setJsonProfessionalProfile(jsonProfessionalProfile)
-                    .setTopics(jsonTopics).asJson();
+                .setJsonProfile(jsonProfile)
+                .setJsonProfessionalProfile(jsonProfessionalProfile)
+                .setTopics(jsonTopics).asJson();
         } catch (JsonMappingException e) {
             LOG.error("Failed fetching profile qid={} reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
-        } catch(AccountNotActiveException e) {
+        } catch (AccountNotActiveException e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
@@ -199,52 +199,52 @@ public class MerchantProfileController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/fetch",
-                    "fetch",
-                    MerchantProfileController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/fetch",
+                "fetch",
+                MerchantProfileController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
     @PostMapping(
-            value = "/update",
-            headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/update",
+        headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String update(
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String updateProfileJson,
+        @RequestBody
+        String updateProfileJson,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         return profileCommonHelper.updateProfile(mail, auth, updateProfileJson, response);
     }
 
     @PostMapping(
-            value = "/updateProfessionalProfile",
-            headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/updateProfessionalProfile",
+        headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String updateProfessionalProfile(
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            JsonProfessionalProfile jsonProfessionalProfile,
+        @RequestBody
+        JsonProfessionalProfile jsonProfessionalProfile,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -264,31 +264,31 @@ public class MerchantProfileController {
         }
     }
 
-    @RequestMapping (
-            method = RequestMethod.POST,
-            value = "/upload",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/upload",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String upload(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput dt,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestPart("file")
-            MultipartFile multipartFile,
+        @RequestPart("file")
+        MultipartFile multipartFile,
 
-            @RequestPart("profileImageOfQid")
-            String profileImageOfQid,
+        @RequestPart("profileImageOfQid")
+        String profileImageOfQid,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         Map<String, String> errors = imageValidator.validate(multipartFile);
         if (!errors.isEmpty()) {
@@ -296,16 +296,16 @@ public class MerchantProfileController {
         }
 
         return profileCommonHelper.uploadProfileImage(
-                did.getText(),
-                dt.getText(),
-                mail.getText(),
-                auth.getText(),
-                new ScrubbedInput(profileImageOfQid).getText(),
-                multipartFile,
-                response);
+            did.getText(),
+            dt.getText(),
+            mail.getText(),
+            auth.getText(),
+            new ScrubbedInput(profileImageOfQid).getText(),
+            multipartFile,
+            response);
     }
 
-    @PostMapping (
+    @PostMapping(
         value = "/remove",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -313,13 +313,13 @@ public class MerchantProfileController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         @RequestBody
@@ -338,28 +338,28 @@ public class MerchantProfileController {
     }
 
     /** Add suggestions back to merchant's professional profile. */
-    @RequestMapping (
-            method = RequestMethod.POST,
-            value = "/intellisense",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/intellisense",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String intellisense(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String professionalProfileJson,
+        @RequestBody
+        String professionalProfileJson,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -389,11 +389,11 @@ public class MerchantProfileController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/intellisense",
-                    "intellisense",
-                    MerchantProfileController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/intellisense",
+                "intellisense",
+                MerchantProfileController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }

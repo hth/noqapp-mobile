@@ -93,7 +93,7 @@ public class MedicalRecordController {
             value = {"/add", "/update"},
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String add(
+    public String update(
             @RequestHeader("X-R-DID")
             ScrubbedInput did,
 
@@ -147,8 +147,8 @@ public class MedicalRecordController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/add",
-                    "add",
+                    "/update",
+                    "update",
                     MedicalRecordController.class.getName(),
                     Duration.between(start, Instant.now()),
                     methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
@@ -221,7 +221,7 @@ public class MedicalRecordController {
         value = {"/fetch", "/historical"},
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String fetch(
+    public String historical(
         @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
@@ -258,8 +258,8 @@ public class MedicalRecordController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/fetch",
-                "fetch",
+                "/historical",
+                "historical",
                 MedicalRecordAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
