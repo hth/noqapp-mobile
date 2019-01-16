@@ -79,12 +79,12 @@ class MedicalRecordControllerTest extends ITest {
         queueManager_Doctor_UserProfile = accountService.checkUserExistsByPhone("9118000000032");
     }
 
-    @DisplayName("Add medical record")
+    @DisplayName("Update medical record")
     @Test
-    void add() throws IOException {
+    void update() throws IOException {
         UserAccountEntity userAccount = accountService.findByQueueUserId(queueManager_Doctor_UserProfile.getQueueUserId());
         JsonMedicalRecord jsonMedicalRecord = populateForMedicalVisit();
-        String response = medicalRecordController.add(
+        String response = medicalRecordController.update(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(userAccount.getUserId()),
@@ -117,14 +117,14 @@ class MedicalRecordControllerTest extends ITest {
         assertEquals(1, jsonPurchaseOrderList.getPurchaseOrders().size());
     }
 
-    @DisplayName("Fetch existing medical records")
+    @DisplayName("Historical existing medical records")
     @Test
-    void fetch() throws IOException {
+    void historical() throws IOException {
         UserAccountEntity userAccount = accountService.findByQueueUserId(queueManager_Doctor_UserProfile.getQueueUserId());
         UserProfileEntity client = accountService.checkUserExistsByPhone("9118000000001");
 
         FindMedicalProfile findMedicalProfile = new FindMedicalProfile().setCodeQR(bizStore.getCodeQR()).setQueueUserId(client.getQueueUserId());
-        String response = medicalRecordController.fetch(
+        String response = medicalRecordController.historical(
             new ScrubbedInput(userAccount.getUserId()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
             findMedicalProfile,
