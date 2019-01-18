@@ -160,7 +160,7 @@ public class SearchBusinessStoreController {
             ScrubbedInput dt,
 
             @RequestBody
-            String bodyJson,
+            SearchStoreQuery searchStoreQuery,
 
             HttpServletRequest request
     ) {
@@ -169,37 +169,29 @@ public class SearchBusinessStoreController {
         LOG.info("NearMe invoked did={} dt={}", did, dt);
 
         try {
-            Map<String, ScrubbedInput> map;
-            try {
-                map = ParseJsonStringToMap.jsonStringToMap(bodyJson);
-            } catch (IOException e) {
-                LOG.error("Could not parse json={} reason={}", bodyJson, e.getLocalizedMessage(), e);
-                return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
-            }
-
             String cityName = null;
-            if (map.containsKey("cityName") && StringUtils.isNotBlank(map.get("cityName").getText())) {
-                cityName = map.get("cityName").getText();
+            if (StringUtils.isNotBlank(searchStoreQuery.getCityName())) {
+                cityName = searchStoreQuery.getCityName();
             }
 
             String lat = null;
-            if (map.containsKey("lat") && StringUtils.isNotBlank(map.get("lng").getText())) {
-                lat = map.get("lat").getText();
+            if (StringUtils.isNotBlank(searchStoreQuery.getLatitude())) {
+                lat = searchStoreQuery.getLatitude();
             }
 
             String lng  = null;
-            if (map.containsKey("lng") && StringUtils.isNotBlank(map.get("lng").getText())) {
-                lng = map.get("lng").getText();
+            if (StringUtils.isNotBlank(searchStoreQuery.getLongitude())) {
+                lng = searchStoreQuery.getLongitude();
             }
 
             String filters = null;
-            if (map.containsKey("filters") && StringUtils.isNotBlank(map.get("filters").getText())) {
-                filters = map.get("filters").getText();
+            if (StringUtils.isNotBlank(searchStoreQuery.getFilters())) {
+                filters = searchStoreQuery.getFilters();
             }
 
             String scrollId = null;
-            if (map.containsKey("scrollId") && StringUtils.isNotBlank(map.get("scrollId").getText())) {
-                scrollId = map.get("scrollId").getText();
+            if (StringUtils.isNotBlank(searchStoreQuery.getScrollId())) {
+                scrollId = searchStoreQuery.getScrollId();
             }
 
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
