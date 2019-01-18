@@ -7,6 +7,7 @@ import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.mobile.domain.body.client.SearchStoreQuery;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.GeoIP;
@@ -72,7 +73,7 @@ public class SearchBusinessStoreController {
             ScrubbedInput dt,
 
             @RequestBody
-            String bodyJson,
+            SearchStoreQuery searchStoreQuery,
 
             HttpServletRequest request
     ) {
@@ -81,41 +82,34 @@ public class SearchBusinessStoreController {
         LOG.info("Searching for did={} dt={}", did, dt);
 
         try {
-            Map<String, ScrubbedInput> map;
-            try {
-                map = ParseJsonStringToMap.jsonStringToMap(bodyJson);
-            } catch (IOException e) {
-                LOG.error("Could not parse json={} reason={}", bodyJson, e.getLocalizedMessage(), e);
-                return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
+            String cityName = null;
+            if (StringUtils.isNotBlank(searchStoreQuery.getCityName())) {
+                cityName = searchStoreQuery.getCityName();
             }
 
-            String query = map.get("q").getText();
-            String cityName = null;
-            if (map.containsKey("cityName") && StringUtils.isNotBlank(map.get("cityName").getText())) {
-                cityName = map.get("cityName").getText();
-            }
             String lat = null;
-            if (map.containsKey("lat") && StringUtils.isNotBlank(map.get("lng").getText())) {
-                lat = map.get("lat").getText();
+            if (StringUtils.isNotBlank(searchStoreQuery.getLatitude())) {
+                lat = searchStoreQuery.getLatitude();
             }
 
             String lng  = null;
-            if (map.containsKey("lng") && StringUtils.isNotBlank(map.get("lng").getText())) {
-                lng = map.get("lng").getText();
+            if (StringUtils.isNotBlank(searchStoreQuery.getLongitude())) {
+                lng = searchStoreQuery.getLongitude();
             }
 
             String filters = null;
-            if (map.containsKey("filters") && StringUtils.isNotBlank(map.get("filters").getText())) {
-                filters = map.get("filters").getText();
+            if (StringUtils.isNotBlank(searchStoreQuery.getFilters())) {
+                filters = searchStoreQuery.getFilters();
             }
 
             String scrollId = null;
-            if (map.containsKey("scrollId") && StringUtils.isNotBlank(map.get("scrollId").getText())) {
-                scrollId = map.get("scrollId").getText();
+            if (StringUtils.isNotBlank(searchStoreQuery.getScrollId())) {
+                scrollId = searchStoreQuery.getScrollId();
             }
 
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.info("Searching query={} cityName={} lat={} lng={} filters={} ipAddress={}", query, cityName, lat, lng, filters, ipAddress);
+            LOG.info("Searching query={} cityName={} lat={} lng={} filters={} ipAddress={}",
+                searchStoreQuery.getQuery(), cityName, lat, lng, filters, ipAddress);
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(cityName, lat, lng, ipAddress, bizStoreElasticList);
@@ -126,7 +120,7 @@ public class SearchBusinessStoreController {
             }
 
             return bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(
-                    query,
+                    searchStoreQuery.getQuery(),
                     cityName,
                     geoHash,
                     filters,
