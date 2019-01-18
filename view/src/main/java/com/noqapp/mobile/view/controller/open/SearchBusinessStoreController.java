@@ -11,6 +11,7 @@ import com.noqapp.mobile.domain.body.client.SearchStoreQuery;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.GeoIP;
+import com.noqapp.search.elastic.json.ElasticBizStoreSource;
 import com.noqapp.search.elastic.service.BizStoreElasticService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 
@@ -20,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,16 +52,22 @@ import javax.servlet.http.HttpServletRequest;
 public class SearchBusinessStoreController {
     private static final Logger LOG = LoggerFactory.getLogger(SearchBusinessStoreController.class);
 
+    private boolean useRestHighLevel;
     private BizStoreElasticService bizStoreElasticService;
     private GeoIPLocationService geoIPLocationService;
     private ApiHealthService apiHealthService;
 
     @Autowired
     public SearchBusinessStoreController(
+            @Value("${Search.useRestHighLevel:false}")
+            boolean useRestHighLevel,
+
             BizStoreElasticService bizStoreElasticService,
             GeoIPLocationService geoIPLocationService,
             ApiHealthService apiHealthService
     ) {
+        this.useRestHighLevel = useRestHighLevel;
+
         this.bizStoreElasticService = bizStoreElasticService;
         this.geoIPLocationService = geoIPLocationService;
         this.apiHealthService = apiHealthService;
@@ -79,9 +88,10 @@ public class SearchBusinessStoreController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Searching for did={} dt={}", did, dt);
+        LOG.info("Searching for {} did={} dt={}", searchStoreQuery.getQuery(), did, dt);
 
         try {
+            String query = searchStoreQuery.getQuery();
             String cityName = null;
             if (StringUtils.isNotBlank(searchStoreQuery.getCityName())) {
                 cityName = searchStoreQuery.getCityName();
@@ -108,8 +118,7 @@ public class SearchBusinessStoreController {
             }
 
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.info("Searching query={} cityName={} lat={} lng={} filters={} ipAddress={}",
-                searchStoreQuery.getQuery(), cityName, lat, lng, filters, ipAddress);
+            LOG.info("Searching query={} cityName={} lat={} lng={} filters={} ipAddress={}", query, cityName, lat, lng, filters, ipAddress);
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(cityName, lat, lng, ipAddress, bizStoreElasticList);
@@ -119,13 +128,12 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
 
-            return bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(
-                    searchStoreQuery.getQuery(),
-                    cityName,
-                    geoHash,
-                    filters,
-                    scrollId).asJson();
-            //return bizStoreElasticList.populateBizStoreElasticSet(elasticBizStoreSources).asJson();
+            if (useRestHighLevel) {
+                return bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(query, cityName, geoHash, filters, scrollId).asJson();
+            } else {
+                List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(query, geoHash);
+                return bizStoreElasticList.populateBizStoreElasticSet(elasticBizStoreSources).asJson();
+            }
         } catch (Exception e) {
             LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
