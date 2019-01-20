@@ -471,19 +471,22 @@ public class ITest extends RealMongoForITest {
         storeProductService = new StoreProductService(storeProductManager, bizStoreManager, fileService, transactionService);
         purchaseOrderService = new PurchaseOrderService(
             bizStoreManager,
-            tokenQueueService,
+            businessUserManager,
             storeHourManager,
-            storeProductService,
             purchaseOrderManager,
             purchaseOrderManagerJDBC,
             purchaseOrderProductManager,
             purchaseOrderProductManagerJDBC,
-            userAddressService,
-            firebaseMessageService,
             registeredDeviceManager,
             tokenQueueManager,
+            storeProductService,
+            tokenQueueService,
+            userAddressService,
+            firebaseMessageService,
             accountService,
-            transactionService
+            transactionService,
+            nlpService,
+            mailService
         );
         purchaseOrderMobileService = new PurchaseOrderMobileService(purchaseOrderService);
 
