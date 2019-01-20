@@ -1,12 +1,8 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-
-import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.SearchStoreQuery;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
@@ -29,11 +25,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -92,36 +86,18 @@ public class SearchBusinessStoreController {
 
         try {
             String query = searchStoreQuery.getQuery();
-            String cityName = null;
-            if (StringUtils.isNotBlank(searchStoreQuery.getCityName())) {
-                cityName = searchStoreQuery.getCityName();
-            }
-
-            String lat = null;
-            if (StringUtils.isNotBlank(searchStoreQuery.getLatitude())) {
-                lat = searchStoreQuery.getLatitude();
-            }
-
-            String lng  = null;
-            if (StringUtils.isNotBlank(searchStoreQuery.getLongitude())) {
-                lng = searchStoreQuery.getLongitude();
-            }
-
-            String filters = null;
-            if (StringUtils.isNotBlank(searchStoreQuery.getFilters())) {
-                filters = searchStoreQuery.getFilters();
-            }
-
-            String scrollId = null;
-            if (StringUtils.isNotBlank(searchStoreQuery.getScrollId())) {
-                scrollId = searchStoreQuery.getScrollId();
-            }
 
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.info("Searching query={} cityName={} lat={} lng={} filters={} ipAddress={}", query, cityName, lat, lng, filters, ipAddress);
+            LOG.info("Searching query={} cityName={} lat={} lng={} filters={} ipAddress={}",
+                query,
+                searchStoreQuery.getCityName(),
+                searchStoreQuery.getLatitude(),
+                searchStoreQuery.getLongitude(),
+                searchStoreQuery.getFilters(),
+                ipAddress);
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
-            GeoIP geoIp = getGeoIP(cityName, lat, lng, ipAddress, bizStoreElasticList);
+            GeoIP geoIp = getGeoIP(searchStoreQuery.getCityName(), searchStoreQuery.getLatitude(), searchStoreQuery.getLongitude(), ipAddress, bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
             if (StringUtils.isBlank(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
@@ -129,7 +105,12 @@ public class SearchBusinessStoreController {
             }
 
             if (useRestHighLevel) {
-                return bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(query, cityName, geoHash, filters, scrollId).asJson();
+                return bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(
+                    query,
+                    searchStoreQuery.getCityName(),
+                    geoHash,
+                    searchStoreQuery.getFilters(),
+                    searchStoreQuery.getScrollId()).asJson();
             } else {
                 List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(query, geoHash);
                 return bizStoreElasticList.populateBizStoreElasticSet(elasticBizStoreSources).asJson();
@@ -160,7 +141,7 @@ public class SearchBusinessStoreController {
             ScrubbedInput dt,
 
             @RequestBody
-            String bodyJson,
+            SearchStoreQuery searchStoreQuery,
 
             HttpServletRequest request
     ) {
@@ -169,44 +150,16 @@ public class SearchBusinessStoreController {
         LOG.info("NearMe invoked did={} dt={}", did, dt);
 
         try {
-            Map<String, ScrubbedInput> map;
-            try {
-                map = ParseJsonStringToMap.jsonStringToMap(bodyJson);
-            } catch (IOException e) {
-                LOG.error("Could not parse json={} reason={}", bodyJson, e.getLocalizedMessage(), e);
-                return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
-            }
-
-            String cityName = null;
-            if (map.containsKey("cityName") && StringUtils.isNotBlank(map.get("cityName").getText())) {
-                cityName = map.get("cityName").getText();
-            }
-
-            String lat = null;
-            if (map.containsKey("lat") && StringUtils.isNotBlank(map.get("lng").getText())) {
-                lat = map.get("lat").getText();
-            }
-
-            String lng  = null;
-            if (map.containsKey("lng") && StringUtils.isNotBlank(map.get("lng").getText())) {
-                lng = map.get("lng").getText();
-            }
-
-            String filters = null;
-            if (map.containsKey("filters") && StringUtils.isNotBlank(map.get("filters").getText())) {
-                filters = map.get("filters").getText();
-            }
-
-            String scrollId = null;
-            if (map.containsKey("scrollId") && StringUtils.isNotBlank(map.get("scrollId").getText())) {
-                scrollId = map.get("scrollId").getText();
-            }
-
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.info("NearMe cityName={} lat={} lng={} filters={} ipAddress={}", cityName, lat, lng, filters, ipAddress);
+            LOG.info("NearMe cityName={} lat={} lng={} filters={} ipAddress={}",
+                searchStoreQuery.getCityName(),
+                searchStoreQuery.getLatitude(),
+                searchStoreQuery.getLongitude(),
+                searchStoreQuery.getFilters(),
+                ipAddress);
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
-            GeoIP geoIp = getGeoIP(cityName, lat, lng, ipAddress, bizStoreElasticList);
+            GeoIP geoIp = getGeoIP(searchStoreQuery.getCityName(), searchStoreQuery.getLatitude(), searchStoreQuery.getLongitude(), ipAddress, bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
             if (StringUtils.isBlank(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
@@ -232,7 +185,7 @@ public class SearchBusinessStoreController {
 //                hits ++;
 //            }
             /* End of DSL query. */
-            return bizStoreElasticService.nearMeSearch(geoHash, scrollId).asJson();
+            return bizStoreElasticService.nearMeSearch(geoHash, searchStoreQuery.getScrollId()).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
