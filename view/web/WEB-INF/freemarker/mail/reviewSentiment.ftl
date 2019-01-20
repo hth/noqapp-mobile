@@ -56,7 +56,9 @@
             Phone: ${reviewerPhone}<br/><br/>
 
             Rating: ${ratingCount}<br/>
+            <#if hourSaved??>
             Hour Saved: ${hourSaved}<br/>
+            </#if>
             Review: ${review}<br/>
         </p>
         <p style="font-family: 'Roboto', sans-serif;">
