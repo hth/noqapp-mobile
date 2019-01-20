@@ -1,12 +1,8 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-
-import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.SearchStoreQuery;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
@@ -29,11 +25,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -59,7 +53,7 @@ public class SearchBusinessStoreController {
 
     @Autowired
     public SearchBusinessStoreController(
-            @Value("${Search.useRestHighLevel:true}")
+            @Value("${Search.useRestHighLevel:false}")
             boolean useRestHighLevel,
 
             BizStoreElasticService bizStoreElasticService,
@@ -111,7 +105,7 @@ public class SearchBusinessStoreController {
             }
 
             if (useRestHighLevel) {
-                return bizStoreElasticService.executeSearchOnBizStoreUsingRestClient1(
+                return bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(
                     query,
                     searchStoreQuery.getCityName(),
                     geoHash,
