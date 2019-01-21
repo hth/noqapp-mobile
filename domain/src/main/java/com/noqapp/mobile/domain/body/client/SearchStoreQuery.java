@@ -1,5 +1,7 @@
 package com.noqapp.mobile.domain.body.client;
 
+import com.noqapp.common.utils.ScrubbedInput;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,74 +28,74 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class SearchStoreQuery {
 
     @JsonProperty("q")
-    private String query;
+    private ScrubbedInput query;
 
     @JsonProperty("cityName")
-    private String cityName;
+    private ScrubbedInput cityName;
 
     @JsonProperty("lat")
-    private String latitude;
+    private ScrubbedInput latitude;
 
     @JsonProperty("lng")
-    private String longitude;
+    private ScrubbedInput longitude;
 
     @JsonProperty("scrollId")
-    private String scrollId;
+    private ScrubbedInput scrollId;
 
     /* Apply specific filter on fields set on app, like city. */
     @JsonProperty("filters")
-    private String filters;
+    private ScrubbedInput filters;
 
-    public String getQuery() {
+    public ScrubbedInput getQuery() {
         return query;
     }
 
-    public SearchStoreQuery setQuery(String query) {
+    public SearchStoreQuery setQuery(ScrubbedInput query) {
         this.query = query;
         return this;
     }
 
-    public String getCityName() {
+    public ScrubbedInput getCityName() {
         return cityName;
     }
 
-    public SearchStoreQuery setCityName(String cityName) {
+    public SearchStoreQuery setCityName(ScrubbedInput cityName) {
         this.cityName = cityName;
         return this;
     }
 
-    public String getLatitude() {
+    public ScrubbedInput getLatitude() {
         return latitude;
     }
 
-    public SearchStoreQuery setLatitude(String latitude) {
+    public SearchStoreQuery setLatitude(ScrubbedInput latitude) {
         this.latitude = latitude;
         return this;
     }
 
-    public String getLongitude() {
+    public ScrubbedInput getLongitude() {
         return longitude;
     }
 
-    public SearchStoreQuery setLongitude(String longitude) {
+    public SearchStoreQuery setLongitude(ScrubbedInput longitude) {
         this.longitude = longitude;
         return this;
     }
 
-    public String getFilters() {
+    public ScrubbedInput getFilters() {
         return filters;
     }
 
-    public SearchStoreQuery setFilters(String filters) {
+    public SearchStoreQuery setFilters(ScrubbedInput filters) {
         this.filters = filters;
         return this;
     }
 
-    public String getScrollId() {
+    public ScrubbedInput getScrollId() {
         return scrollId;
     }
 
-    public SearchStoreQuery setScrollId(String scrollId) {
+    public SearchStoreQuery setScrollId(ScrubbedInput scrollId) {
         this.scrollId = scrollId;
         return this;
     }

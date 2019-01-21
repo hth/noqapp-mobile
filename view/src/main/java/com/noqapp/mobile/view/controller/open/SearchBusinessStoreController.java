@@ -85,8 +85,7 @@ public class SearchBusinessStoreController {
         LOG.info("Searching for {} did={} dt={}", searchStoreQuery.getQuery(), did, dt);
 
         try {
-            String query = searchStoreQuery.getQuery();
-
+            String query = searchStoreQuery.getQuery().getText();
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.info("Searching query={} cityName={} lat={} lng={} filters={} ipAddress={}",
                 query,
@@ -97,7 +96,12 @@ public class SearchBusinessStoreController {
                 ipAddress);
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
-            GeoIP geoIp = getGeoIP(searchStoreQuery.getCityName(), searchStoreQuery.getLatitude(), searchStoreQuery.getLongitude(), ipAddress, bizStoreElasticList);
+            GeoIP geoIp = getGeoIP(
+                searchStoreQuery.getCityName().getText(),
+                searchStoreQuery.getLatitude().getText(),
+                searchStoreQuery.getLongitude().getText(),
+                ipAddress,
+                bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
             if (StringUtils.isBlank(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
@@ -107,10 +111,10 @@ public class SearchBusinessStoreController {
             if (useRestHighLevel) {
                 return bizStoreElasticService.executeSearchOnBizStoreUsingRestClient(
                     query,
-                    searchStoreQuery.getCityName(),
+                    searchStoreQuery.getCityName().getText(),
                     geoHash,
-                    searchStoreQuery.getFilters(),
-                    searchStoreQuery.getScrollId()).asJson();
+                    searchStoreQuery.getFilters().getText(),
+                    searchStoreQuery.getScrollId().getText()).asJson();
             } else {
                 List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(query, geoHash);
                 return bizStoreElasticList.populateBizStoreElasticSet(elasticBizStoreSources).asJson();
@@ -159,7 +163,12 @@ public class SearchBusinessStoreController {
                 ipAddress);
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
-            GeoIP geoIp = getGeoIP(searchStoreQuery.getCityName(), searchStoreQuery.getLatitude(), searchStoreQuery.getLongitude(), ipAddress, bizStoreElasticList);
+            GeoIP geoIp = getGeoIP(
+                searchStoreQuery.getCityName().getText(),
+                searchStoreQuery.getLatitude().getText(),
+                searchStoreQuery.getLongitude().getText(),
+                ipAddress,
+                bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
             if (StringUtils.isBlank(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
@@ -185,7 +194,7 @@ public class SearchBusinessStoreController {
 //                hits ++;
 //            }
             /* End of DSL query. */
-            return bizStoreElasticService.nearMeSearch(geoHash, searchStoreQuery.getScrollId()).asJson();
+            return bizStoreElasticService.nearMeSearch(geoHash, searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
