@@ -91,15 +91,15 @@ public class ClientProfileAPIController {
 
     @Autowired
     public ClientProfileAPIController(
-            AuthenticateMobileService authenticateMobileService,
-            UserProfilePreferenceService userProfilePreferenceService,
-            ApiHealthService apiHealthService,
-            AccountClientValidator accountClientValidator,
-            AccountMobileService accountMobileService,
-            UserAddressService userAddressService,
-            UserMedicalProfileService userMedicalProfileService,
-            ProfileCommonHelper profileCommonHelper,
-            ImageValidator imageValidator
+        AuthenticateMobileService authenticateMobileService,
+        UserProfilePreferenceService userProfilePreferenceService,
+        ApiHealthService apiHealthService,
+        AccountClientValidator accountClientValidator,
+        AccountMobileService accountMobileService,
+        UserAddressService userAddressService,
+        UserMedicalProfileService userMedicalProfileService,
+        ProfileCommonHelper profileCommonHelper,
+        ImageValidator imageValidator
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.userProfilePreferenceService = userProfilePreferenceService;
@@ -113,17 +113,17 @@ public class ClientProfileAPIController {
     }
 
     @GetMapping(
-            value = "/fetch",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/fetch",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String fetch(
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -156,22 +156,22 @@ public class ClientProfileAPIController {
 
     /** Update profile does not change phone number or email address. */
     @PostMapping(
-            value = "/update",
-            headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/update",
+        headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String update(
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String updateProfileJson,
+        @RequestBody
+        String updateProfileJson,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         return profileCommonHelper.updateProfile(mail, auth, updateProfileJson, response);
     }
@@ -274,20 +274,20 @@ public class ClientProfileAPIController {
 
     /** Migrate Phone number. */
     @PostMapping(
-            value="/migrate",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value="/migrate",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String migrate(
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String registrationJson,
+        @RequestBody
+        String registrationJson,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -512,17 +512,17 @@ public class ClientProfileAPIController {
 
     /** Get all user addresses. */
     @GetMapping(
-            value = "/address",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/address",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String address(
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -551,20 +551,20 @@ public class ClientProfileAPIController {
 
     /** Add user address. */
     @PostMapping(
-            value = "/address/add",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/address/add",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String addressAdd(
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String jsonUserAddressBody,
+        @RequestBody
+        String jsonUserAddressBody,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -614,20 +614,20 @@ public class ClientProfileAPIController {
 
     /** Delete user address. */
     @PostMapping(
-            value = "/address/delete",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/address/delete",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String addressDelete(
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String jsonUserAddressBody,
+        @RequestBody
+        String jsonUserAddressBody,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -673,31 +673,30 @@ public class ClientProfileAPIController {
         }
     }
 
-    @RequestMapping (
-            method = RequestMethod.POST,
-            value = "/upload",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    @PostMapping (
+        value = "/upload",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String upload(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestPart("file")
-            MultipartFile multipartFile,
+        @RequestPart("file")
+        MultipartFile multipartFile,
 
-            @RequestPart("profileImageOfQid")
-            String profileImageOfQid,
+        @RequestPart("profileImageOfQid")
+        String profileImageOfQid,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         Map<String, String> errors = imageValidator.validate(multipartFile);
         if (!errors.isEmpty()) {

@@ -49,11 +49,11 @@ import javax.servlet.http.HttpServletResponse;
  * User: hitender
  * Date: 7/14/18 12:09 AM
  */
-@SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+@SuppressWarnings({
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @RestController
 @RequestMapping(value = "/api/c/h/medicalProfile")
@@ -67,11 +67,11 @@ public class UserMedicalProfileController {
     private ApiHealthService apiHealthService;
 
     public UserMedicalProfileController(
-            AuthenticateMobileService authenticateMobileService,
-            UserMedicalProfileValidator userMedicalProfileValidator,
-            AccountMobileService accountMobileService,
-            UserMedicalProfileService userMedicalProfileService,
-            ApiHealthService apiHealthService
+        AuthenticateMobileService authenticateMobileService,
+        UserMedicalProfileValidator userMedicalProfileValidator,
+        AccountMobileService accountMobileService,
+        UserMedicalProfileService userMedicalProfileService,
+        ApiHealthService apiHealthService
     ) {
         this.userMedicalProfileValidator = userMedicalProfileValidator;
         this.authenticateMobileService = authenticateMobileService;
@@ -82,22 +82,22 @@ public class UserMedicalProfileController {
 
     /* Update Medical Profile of user. */
     @PostMapping(
-            value = "/updateUserMedicalProfile",
-            headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/updateUserMedicalProfile",
+        headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String updateUserMedicalProfile(
-            @RequestHeader("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            JsonUserMedicalProfile jsonUserMedicalProfile,
+        @RequestBody
+        JsonUserMedicalProfile jsonUserMedicalProfile,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -119,7 +119,7 @@ public class UserMedicalProfileController {
             userMedicalProfile.setBloodType(jsonUserMedicalProfile.getBloodType());
             userMedicalProfileService.save(userMedicalProfile);
             return accountMobileService.getProfileAsJson(qid).asJson();
-        } catch(AccountNotActiveException e) {
+        } catch (AccountNotActiveException e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
@@ -129,11 +129,11 @@ public class UserMedicalProfileController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/updateUserMedicalProfile",
-                    "updateUserMedicalProfile",
-                    UserMedicalProfileController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/updateUserMedicalProfile",
+                "updateUserMedicalProfile",
+                UserMedicalProfileController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }

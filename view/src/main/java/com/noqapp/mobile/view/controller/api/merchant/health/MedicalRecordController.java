@@ -69,12 +69,12 @@ public class MedicalRecordController {
 
     @Autowired
     public MedicalRecordController(
-            AuthenticateMobileService authenticateMobileService,
-            ApiHealthService apiHealthService,
-            MedicalRecordService medicalRecordService,
-            BusinessUserStoreService businessUserStoreService,
-            BizService bizService,
-            MedicalRecordMobileService medicalRecordMobileService
+        AuthenticateMobileService authenticateMobileService,
+        ApiHealthService apiHealthService,
+        MedicalRecordService medicalRecordService,
+        BusinessUserStoreService businessUserStoreService,
+        BizService bizService,
+        MedicalRecordMobileService medicalRecordMobileService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.apiHealthService = apiHealthService;
@@ -90,26 +90,26 @@ public class MedicalRecordController {
      * When client starts to serve for first time or re-start after serving the last in the queue.
      */
     @PostMapping(
-            value = {"/add", "/update"},
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/update",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String update(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            JsonMedicalRecord jsonMedicalRecord,
+        @RequestBody
+        JsonMedicalRecord jsonMedicalRecord,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -134,8 +134,8 @@ public class MedicalRecordController {
             BizStoreEntity bizStore = bizService.findByCodeQR(jsonMedicalRecord.getCodeQR());
             if (bizStore.getBusinessType() != BusinessTypeEnum.DO && bizStore.getBizName().getBusinessType() != BusinessTypeEnum.DO) {
                 LOG.error("Failed as its not a Doctor or Hospital business type, found store={} biz={}",
-                        bizStore.getBusinessType(),
-                        bizStore.getBizName().getBusinessType());
+                    bizStore.getBusinessType(),
+                    bizStore.getBizName().getBusinessType());
                 return getErrorReason("Business not authorized to add medical record", BUSINESS_NOT_AUTHORIZED);
             }
 
@@ -147,11 +147,11 @@ public class MedicalRecordController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/update",
-                    "update",
-                    MedicalRecordController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/update",
+                "update",
+                MedicalRecordController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -218,7 +218,7 @@ public class MedicalRecordController {
     }
 
     @PostMapping(
-        value = {"/fetch", "/historical"},
+        value = "/historical",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String historical(
