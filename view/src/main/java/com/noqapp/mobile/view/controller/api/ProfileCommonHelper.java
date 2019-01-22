@@ -70,12 +70,12 @@ public class ProfileCommonHelper {
 
     @Autowired
     public ProfileCommonHelper(
-            AuthenticateMobileService authenticateMobileService,
-            AccountClientValidator accountClientValidator,
-            AccountMobileService accountMobileService,
-            FileService fileService,
-            ProfessionalProfileValidator professionalProfileValidator,
-            ApiHealthService apiHealthService
+        AuthenticateMobileService authenticateMobileService,
+        AccountClientValidator accountClientValidator,
+        AccountMobileService accountMobileService,
+        FileService fileService,
+        ProfessionalProfileValidator professionalProfileValidator,
+        ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.accountClientValidator = accountClientValidator;
@@ -112,13 +112,13 @@ public class ProfileCommonHelper {
             if (map.isEmpty()) {
                 /* Validation failure as there is no data in the map. */
                 return ErrorEncounteredJson.toJson(accountClientValidator.validate(
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null));
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null));
             } else {
                 Set<String> unknownKeys = invalidElementsInMapDuringUpdate(map);
                 if (!unknownKeys.isEmpty()) {
@@ -154,31 +154,30 @@ public class ProfileCommonHelper {
                 ScrubbedInput timeZone = map.get(AccountMobileService.ACCOUNT_UPDATE.TZ.name());
 
                 errors = accountClientValidator.validate(
-                        phone,
-                        map.get(AccountMobileService.ACCOUNT_UPDATE.FN.name()).getText(),
-                        userProfile.getEmail(),
-                        birthday.getText(),
-                        gender,
-                        countryShortName,
-                        timeZone.getText()
-                );
+                    phone,
+                    map.get(AccountMobileService.ACCOUNT_UPDATE.FN.name()).getText(),
+                    userProfile.getEmail(),
+                    birthday.getText(),
+                    gender,
+                    countryShortName,
+                    timeZone.getText());
 
                 if (!errors.isEmpty()) {
                     return ErrorEncounteredJson.toJson(errors);
                 }
 
                 RegisterUser registerUser = new RegisterUser()
-                        .setEmail(new ScrubbedInput(userProfile.getEmail()))
-                        .setQueueUserId(qid)
-                        .setFirstName(new ScrubbedInput(firstName))
-                        .setLastName(new ScrubbedInput(lastName))
-                        .setAddress(address)
-                        .setAddressOrigin(StringUtils.isBlank(address.getText()) ? null : AddressOriginEnum.S)
-                        .setBirthday(birthday)
-                        .setGender(GenderEnum.valueOf(gender))
-                        .setCountryShortName(new ScrubbedInput(countryShortName))
-                        .setTimeZone(timeZone)
-                        .setPhone(new ScrubbedInput(phone));
+                    .setEmail(new ScrubbedInput(userProfile.getEmail()))
+                    .setQueueUserId(qid)
+                    .setFirstName(new ScrubbedInput(firstName))
+                    .setLastName(new ScrubbedInput(lastName))
+                    .setAddress(address)
+                    .setAddressOrigin(StringUtils.isBlank(address.getText()) ? null : AddressOriginEnum.S)
+                    .setBirthday(birthday)
+                    .setGender(GenderEnum.valueOf(gender))
+                    .setCountryShortName(new ScrubbedInput(countryShortName))
+                    .setTimeZone(timeZone)
+                    .setPhone(new ScrubbedInput(phone));
                 accountMobileService.updateUserProfile(registerUser, userProfile.getEmail());
             }
 
@@ -193,11 +192,11 @@ public class ProfileCommonHelper {
             return DeviceController.getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/updateProfile",
-                    "updateProfile",
-                    ProfileCommonHelper.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/updateProfile",
+                "updateProfile",
+                ProfileCommonHelper.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -224,10 +223,10 @@ public class ProfileCommonHelper {
     }
 
     public String updateProfile(
-            ScrubbedInput mail,
-            ScrubbedInput auth,
-            String updateProfileJson,
-            HttpServletResponse response
+        ScrubbedInput mail,
+        ScrubbedInput auth,
+        String updateProfileJson,
+        HttpServletResponse response
     ) throws IOException {
         LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
         String qidOfSubmitter = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -263,13 +262,13 @@ public class ProfileCommonHelper {
     }
 
     public String uploadProfileImage(
-            String did,
-            String dt,
-            String mail,
-            String auth,
-            String profileImageOfQid,
-            MultipartFile multipartFile,
-            HttpServletResponse response
+        String did,
+        String dt,
+        String mail,
+        String auth,
+        String profileImageOfQid,
+        MultipartFile multipartFile,
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = false;
         Instant start = Instant.now();
@@ -300,11 +299,11 @@ public class ProfileCommonHelper {
             return new JsonResponse(false).asJson();
         } finally {
             apiHealthService.insert(
-                    "/upload",
-                    "upload",
-                    ClientProfileAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/upload",
+                "upload",
+                ClientProfileAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
