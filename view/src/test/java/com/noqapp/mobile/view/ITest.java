@@ -45,6 +45,7 @@ import com.noqapp.medical.repository.MedicalRecordManagerImpl;
 import com.noqapp.medical.repository.UserMedicalProfileHistoryManager;
 import com.noqapp.medical.repository.UserMedicalProfileManager;
 import com.noqapp.medical.repository.UserMedicalProfileManagerImpl;
+import com.noqapp.medical.service.MedicalFileService;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.domain.body.client.Registration;
@@ -220,6 +221,7 @@ public class ITest extends RealMongoForITest {
     protected MedicalRadiologyManager medicalRadiologyManager;
     protected MedicalRadiologyTestManager medicalRadiologyTestManager;
     protected MedicalRecordService medicalRecordService;
+    protected MedicalFileService medicalFileService;
 
     protected TokenQueueManager tokenQueueManager;
     protected FirebaseMessageService firebaseMessageService;
@@ -577,6 +579,12 @@ public class ITest extends RealMongoForITest {
         );
 
         medicalRecordMobileService = new MedicalRecordMobileService(medicalRecordService);
+        medicalFileService = new MedicalFileService(
+            medicalRecordManager,
+            s3FileManager,
+            fileService,
+            ftpService
+        );
 
         registerUser();
         createBusinessDoctor("9118000000030");
