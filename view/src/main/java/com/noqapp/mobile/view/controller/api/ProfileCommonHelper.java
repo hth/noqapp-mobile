@@ -232,8 +232,6 @@ public class ProfileCommonHelper extends CommonHelper {
         return accountMobileService.updateProfessionalProfile(qidOfSubmitter, jsonProfessionalProfile);
     }
 
-
-
     private Set<String> invalidElementsInMapDuringUpdate(Map<String, ScrubbedInput> map) {
         Set<String> keys = new HashSet<>(map.keySet());
         List<AccountMobileService.ACCOUNT_UPDATE> enums = new ArrayList<>(Arrays.asList(AccountMobileService.ACCOUNT_UPDATE.values()));
