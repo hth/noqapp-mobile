@@ -8,6 +8,9 @@ import static com.noqapp.service.FtpService.PREFERRED_STORE;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.BusinessUserStoreEntity;
+import com.noqapp.domain.json.JsonPreferredBusinessBucket;
+import com.noqapp.domain.json.JsonPreferredBusinessList;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -31,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +43,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -177,6 +183,59 @@ public class PreferredStoreController {
         } finally {
             apiHealthService.insert(
                 "/api/m/h/preferredStore/{codeQR}",
+                "getAllPreferredStores",
+                PreferredStoreController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Gets all preferred business stores. */
+    @GetMapping(
+        value = "/all",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String getAllPreferredStores(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Fetch mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/h/preferredStore/all by {} mail={}", qid, mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            JsonPreferredBusinessBucket jsonPreferredBusinessBucket = new JsonPreferredBusinessBucket();
+            List<BusinessUserStoreEntity> businessUserStores = businessUserStoreService.findAllStoreQueueAssociated(qid);
+            for (BusinessUserStoreEntity businessUserStore : businessUserStores) {
+                BizStoreEntity bizStore = bizService.findByCodeQR(businessUserStore.getCodeQR());
+                JsonPreferredBusinessList jsonPreferredBusinessList = preferredBusinessService.findAllAsJson(bizStore);
+                jsonPreferredBusinessBucket.addJsonPreferredBusinessList(jsonPreferredBusinessList);
+            }
+            return jsonPreferredBusinessBucket.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting all preferred store qid={} message={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/api/m/h/preferredStore/all",
                 "getAllPreferredStores",
                 PreferredStoreController.class.getName(),
                 Duration.between(start, Instant.now()),
