@@ -18,6 +18,7 @@ import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.view.ITest;
+import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
@@ -43,6 +44,7 @@ class MerchantProfileControllerITest extends ITest {
 
     private ImageValidator imageValidator;
     private ProfileCommonHelper profileCommonHelper;
+    private ImageCommonHelper imageCommonHelper;
     private MerchantProfileController merchantProfileController;
     private ProfessionalProfileValidator professionalProfileValidator;
 
@@ -55,8 +57,15 @@ class MerchantProfileControllerITest extends ITest {
             authenticateMobileService,
             accountClientValidator,
             accountMobileService,
-            fileService,
             professionalProfileValidator,
+            apiHealthService
+        );
+
+        imageCommonHelper = new ImageCommonHelper(
+            accountMobileService,
+            authenticateMobileService,
+            fileService,
+            medicalFileService,
             apiHealthService
         );
 
@@ -67,6 +76,7 @@ class MerchantProfileControllerITest extends ITest {
             profileCommonHelper,
             professionalProfileService,
             apiHealthService,
+            imageCommonHelper,
             imageValidator,
             deviceService,
             accountMobileService
