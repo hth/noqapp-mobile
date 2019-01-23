@@ -26,7 +26,6 @@ import com.noqapp.domain.types.catgeory.MedicalDepartmentEnum;
 import com.noqapp.health.repository.ApiHealthNowManager;
 import com.noqapp.health.repository.ApiHealthNowManagerImpl;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.medical.domain.UserMedicalProfileHistoryEntity;
 import com.noqapp.medical.repository.MedicalMedicationManager;
 import com.noqapp.medical.repository.MedicalMedicationManagerImpl;
 import com.noqapp.medical.repository.MedicalMedicineManager;

@@ -17,10 +17,13 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.service.MedicalRecordService;
+import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.MedicalRecordMobileService;
+import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.controller.api.client.health.MedicalRecordAPIController;
+import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 
@@ -37,11 +40,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -66,6 +72,8 @@ public class MedicalRecordController {
     private BusinessUserStoreService businessUserStoreService;
     private BizService bizService;
     private MedicalRecordMobileService medicalRecordMobileService;
+    private ProfileCommonHelper profileCommonHelper;
+    private ImageValidator imageValidator;
 
     @Autowired
     public MedicalRecordController(
@@ -74,7 +82,9 @@ public class MedicalRecordController {
         MedicalRecordService medicalRecordService,
         BusinessUserStoreService businessUserStoreService,
         BizService bizService,
-        MedicalRecordMobileService medicalRecordMobileService
+        MedicalRecordMobileService medicalRecordMobileService,
+        ProfileCommonHelper profileCommonHelper,
+        ImageValidator imageValidator
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.apiHealthService = apiHealthService;
@@ -82,6 +92,8 @@ public class MedicalRecordController {
         this.businessUserStoreService = businessUserStoreService;
         this.bizService = bizService;
         this.medicalRecordMobileService = medicalRecordMobileService;
+        this.profileCommonHelper = profileCommonHelper;
+        this.imageValidator = imageValidator;
     }
 
     /**
@@ -318,4 +330,45 @@ public class MedicalRecordController {
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
+
+    @PostMapping (
+        value = "/appendImage",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String appendImage(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestPart("file")
+        MultipartFile multipartFile,
+
+        @RequestPart("recordReferenceId")
+        String recordReferenceId,
+
+        HttpServletResponse response
+    ) throws IOException {
+        Map<String, String> errors = imageValidator.validate(multipartFile, ImageValidator.SUPPORTED_FILE.IMAGE_AND_PDF);
+        if (!errors.isEmpty()) {
+            return ErrorEncounteredJson.toJson(errors);
+        }
+
+        return profileCommonHelper.uploadMedicalRecordImage(
+            did.getText(),
+            dt.getText(),
+            mail.getText(),
+            auth.getText(),
+            new ScrubbedInput(recordReferenceId).getText(),
+            multipartFile,
+            response);
+    }
+
 }

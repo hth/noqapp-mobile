@@ -26,6 +26,7 @@ import com.noqapp.medical.domain.json.JsonMedicalRecordList;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
+import com.noqapp.mobile.view.validator.ImageValidator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -52,16 +53,19 @@ class MedicalRecordControllerTest extends ITest {
 
     private BizStoreEntity bizStore;
     private UserProfileEntity queueManager_Doctor_UserProfile;
+    private ImageValidator imageValidator;
 
     @BeforeEach
     void setUp() {
+        imageValidator = new ImageValidator();
         this.medicalRecordController = new MedicalRecordController(
             authenticateMobileService,
             apiHealthService,
             medicalRecordService,
             businessUserStoreService,
             bizService,
-            medicalRecordMobileService
+            medicalRecordMobileService,
+            imageValidator
         );
 
         this.purchaseOrderController = new PurchaseOrderController(

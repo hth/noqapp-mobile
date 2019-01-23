@@ -18,6 +18,7 @@ import com.noqapp.domain.types.AddressOriginEnum;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.service.MedicalFileService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.service.AccountMobileService;
@@ -65,6 +66,7 @@ public class ProfileCommonHelper {
     private AccountClientValidator accountClientValidator;
     private AccountMobileService accountMobileService;
     private FileService fileService;
+    private MedicalFileService medicalFileService;
     private ProfessionalProfileValidator professionalProfileValidator;
     private ApiHealthService apiHealthService;
 
@@ -74,6 +76,7 @@ public class ProfileCommonHelper {
         AccountClientValidator accountClientValidator,
         AccountMobileService accountMobileService,
         FileService fileService,
+        MedicalFileService medicalFileService,
         ProfessionalProfileValidator professionalProfileValidator,
         ApiHealthService apiHealthService
     ) {
@@ -81,6 +84,7 @@ public class ProfileCommonHelper {
         this.accountClientValidator = accountClientValidator;
         this.accountMobileService = accountMobileService;
         this.fileService = fileService;
+        this.medicalFileService = medicalFileService;
         this.professionalProfileValidator = professionalProfileValidator;
         this.apiHealthService = apiHealthService;
     }
@@ -347,6 +351,47 @@ public class ProfileCommonHelper {
         }
     }
 
+    public String uploadMedicalRecordImage(
+        String did,
+        String dt,
+        String mail,
+        String auth,
+        String recordReferenceId,
+        MultipartFile multipartFile,
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = false;
+        Instant start = Instant.now();
+        LOG.info("Profile Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail, auth);
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (multipartFile.isEmpty()) {
+            LOG.error("File name missing in request or no file uploaded");
+            return ErrorEncounteredJson.toJson("File missing in request or no file uploaded.", MOBILE_UPLOAD);
+        }
+
+        try {
+            processMedicalImage(recordReferenceId, multipartFile);
+            methodStatusSuccess = true;
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed uploading profile image reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonResponse(false).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/upload",
+                "upload",
+                ClientProfileAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
     private Set<String> invalidElementsInMapDuringUpdate(Map<String, ScrubbedInput> map) {
         Set<String> keys = new HashSet<>(map.keySet());
         List<AccountMobileService.ACCOUNT_UPDATE> enums = new ArrayList<>(Arrays.asList(AccountMobileService.ACCOUNT_UPDATE.values()));
@@ -363,6 +408,20 @@ public class ProfileCommonHelper {
         if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
             fileService.addProfileImage(
                 qid,
+                FileUtil.createRandomFilenameOf24Chars() + FileUtil.getImageFileExtension(multipartFile.getOriginalFilename(), mimeType),
+                bufferedImage);
+        } else {
+            LOG.error("Failed mime mismatch found={} sentMime={}", mimeType, multipartFile.getContentType());
+            throw new RuntimeException("Mime type mismatch");
+        }
+    }
+
+    private void processMedicalImage(String recordReferenceId, MultipartFile multipartFile) throws IOException {
+        BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
+        String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
+        if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
+            medicalFileService.addMedicalImage(
+                recordReferenceId,
                 FileUtil.createRandomFilenameOf24Chars() + FileUtil.getImageFileExtension(multipartFile.getOriginalFilename(), mimeType),
                 bufferedImage);
         } else {

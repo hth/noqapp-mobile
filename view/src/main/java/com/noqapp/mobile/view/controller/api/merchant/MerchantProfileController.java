@@ -290,7 +290,7 @@ public class MerchantProfileController {
 
         HttpServletResponse response
     ) throws IOException {
-        Map<String, String> errors = imageValidator.validate(multipartFile);
+        Map<String, String> errors = imageValidator.validate(multipartFile, ImageValidator.SUPPORTED_FILE.IMAGE);
         if (!errors.isEmpty()) {
             return ErrorEncounteredJson.toJson(errors);
         }
