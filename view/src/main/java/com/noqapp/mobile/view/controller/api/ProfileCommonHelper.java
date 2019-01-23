@@ -24,6 +24,7 @@ import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.client.ClientProfileAPIController;
+import com.noqapp.mobile.view.controller.api.merchant.health.MedicalRecordController;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
@@ -384,9 +385,9 @@ public class ProfileCommonHelper {
             return new JsonResponse(false).asJson();
         } finally {
             apiHealthService.insert(
-                "/upload",
-                "upload",
-                ClientProfileAPIController.class.getName(),
+                "/appendImage",
+                "appendImage",
+                MedicalRecordController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
