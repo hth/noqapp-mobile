@@ -26,6 +26,7 @@ import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
@@ -87,6 +88,7 @@ public class ClientProfileAPIController {
     private UserAddressService userAddressService;
     private UserMedicalProfileService userMedicalProfileService;
     private ProfileCommonHelper profileCommonHelper;
+    private ImageCommonHelper imageCommonHelper;
     private ImageValidator imageValidator;
 
     @Autowired
@@ -99,6 +101,7 @@ public class ClientProfileAPIController {
         UserAddressService userAddressService,
         UserMedicalProfileService userMedicalProfileService,
         ProfileCommonHelper profileCommonHelper,
+        ImageCommonHelper imageCommonHelper,
         ImageValidator imageValidator
     ) {
         this.authenticateMobileService = authenticateMobileService;
@@ -108,7 +111,7 @@ public class ClientProfileAPIController {
         this.accountMobileService = accountMobileService;
         this.userAddressService = userAddressService;
         this.userMedicalProfileService = userMedicalProfileService;
-        this.profileCommonHelper = profileCommonHelper;
+        this.imageCommonHelper = imageCommonHelper;
         this.imageValidator = imageValidator;
     }
 
@@ -703,7 +706,7 @@ public class ClientProfileAPIController {
             return ErrorEncounteredJson.toJson(errors);
         }
 
-        return profileCommonHelper.uploadProfileImage(
+        return imageCommonHelper.uploadProfileImage(
             did.getText(),
             dt.getText(),
             mail.getText(),
@@ -735,7 +738,7 @@ public class ClientProfileAPIController {
 
         HttpServletResponse response
     ) throws IOException {
-        return profileCommonHelper.removeProfileImage(
+        return imageCommonHelper.removeProfileImage(
             did.getText(),
             dt.getText(),
             mail.getText(),
