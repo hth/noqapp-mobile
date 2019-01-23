@@ -4,31 +4,24 @@ import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 
-import com.noqapp.common.utils.FileUtil;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.flow.RegisterUser;
 import com.noqapp.domain.json.JsonProfessionalProfile;
-import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.AddressOriginEnum;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.medical.service.MedicalFileService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.view.controller.api.client.ClientProfileAPIController;
-import com.noqapp.mobile.view.controller.api.merchant.health.MedicalRecordController;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
-import com.noqapp.service.FileService;
 import com.noqapp.social.exception.AccountNotActiveException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,9 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
@@ -60,14 +51,12 @@ import javax.servlet.http.HttpServletResponse;
  * 6/12/18 1:59 AM
  */
 @Controller
-public class ProfileCommonHelper {
+public class ProfileCommonHelper extends CommonHelper {
     private static final Logger LOG = LoggerFactory.getLogger(ProfileCommonHelper.class);
 
     private AuthenticateMobileService authenticateMobileService;
     private AccountClientValidator accountClientValidator;
     private AccountMobileService accountMobileService;
-    private FileService fileService;
-    private MedicalFileService medicalFileService;
     private ProfessionalProfileValidator professionalProfileValidator;
     private ApiHealthService apiHealthService;
 
@@ -76,16 +65,13 @@ public class ProfileCommonHelper {
         AuthenticateMobileService authenticateMobileService,
         AccountClientValidator accountClientValidator,
         AccountMobileService accountMobileService,
-        FileService fileService,
-        MedicalFileService medicalFileService,
         ProfessionalProfileValidator professionalProfileValidator,
         ApiHealthService apiHealthService
     ) {
+        super(accountMobileService);
         this.authenticateMobileService = authenticateMobileService;
         this.accountClientValidator = accountClientValidator;
         this.accountMobileService = accountMobileService;
-        this.fileService = fileService;
-        this.medicalFileService = medicalFileService;
         this.professionalProfileValidator = professionalProfileValidator;
         this.apiHealthService = apiHealthService;
     }
@@ -205,27 +191,7 @@ public class ProfileCommonHelper {
         }
     }
 
-    /**
-     * Check if the person is self or a guardian of the dependent.
-     *
-     * @param qidOfSubmitter    Guardian
-     * @param qid               Qid of the person who's record is being modified
-     * @return
-     */
-    private UserProfileEntity checkSelfOrDependent(String qidOfSubmitter, String qid) {
-        UserProfileEntity userProfile = accountMobileService.findProfileByQueueUserId(qid);
-        if (!qidOfSubmitter.equalsIgnoreCase(userProfile.getQueueUserId())) {
-            UserProfileEntity userProfileGuardian = accountMobileService.checkUserExistsByPhone(userProfile.getGuardianPhone());
 
-            if (!qidOfSubmitter.equalsIgnoreCase(userProfileGuardian.getQueueUserId())) {
-                LOG.info("Profile user does not match with QID of submitter nor is a guardian {} {}",
-                        qidOfSubmitter,
-                        userProfileGuardian.getQueueUserId());
-                return null;
-            }
-        }
-        return userProfile;
-    }
 
     public String updateProfile(
         ScrubbedInput mail,
@@ -266,132 +232,7 @@ public class ProfileCommonHelper {
         return accountMobileService.updateProfessionalProfile(qidOfSubmitter, jsonProfessionalProfile);
     }
 
-    public String uploadProfileImage(
-        String did,
-        String dt,
-        String mail,
-        String auth,
-        String profileImageOfQid,
-        MultipartFile multipartFile,
-        HttpServletResponse response
-    ) throws IOException {
-        boolean methodStatusSuccess = false;
-        Instant start = Instant.now();
-        LOG.info("Profile Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getQueueUserId(mail, auth);
-        if (null == qid) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
 
-        if (null == checkSelfOrDependent(qid, profileImageOfQid)) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        if (multipartFile.isEmpty()) {
-            LOG.error("File name missing in request or no file uploaded");
-            return ErrorEncounteredJson.toJson("File missing in request or no file uploaded.", MOBILE_UPLOAD);
-        }
-
-        try {
-            processProfileImage(profileImageOfQid, multipartFile);
-            methodStatusSuccess = true;
-            return new JsonResponse(true).asJson();
-        } catch (Exception e) {
-            LOG.error("Failed uploading profile image reason={}", e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return new JsonResponse(false).asJson();
-        } finally {
-            apiHealthService.insert(
-                "/upload",
-                "upload",
-                ClientProfileAPIController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
-    public String removeProfileImage(
-        String did,
-        String dt,
-        String mail,
-        String auth,
-        String profileImageOfQid,
-        HttpServletResponse response
-    ) throws IOException {
-        boolean methodStatusSuccess = false;
-        Instant start = Instant.now();
-        LOG.info("Profile Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getQueueUserId(mail, auth);
-        if (null == qid) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        if (null == checkSelfOrDependent(qid, profileImageOfQid)) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        try {
-            fileService.removeProfileImage(qid);
-            methodStatusSuccess = true;
-            return new JsonResponse(true).asJson();
-        } catch (Exception e) {
-            LOG.error("Failed removing profile image reason={}", e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return new JsonResponse(false).asJson();
-        } finally {
-            apiHealthService.insert(
-                "/removeProfileImage",
-                "removeProfileImage",
-                ClientProfileAPIController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
-    public String uploadMedicalRecordImage(
-        String did,
-        String dt,
-        String mail,
-        String auth,
-        String recordReferenceId,
-        MultipartFile multipartFile,
-        HttpServletResponse response
-    ) throws IOException {
-        boolean methodStatusSuccess = false;
-        Instant start = Instant.now();
-        LOG.info("Profile Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getQueueUserId(mail, auth);
-        if (null == qid) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        if (multipartFile.isEmpty()) {
-            LOG.error("File name missing in request or no file uploaded");
-            return ErrorEncounteredJson.toJson("File missing in request or no file uploaded.", MOBILE_UPLOAD);
-        }
-
-        try {
-            processMedicalImage(recordReferenceId, multipartFile);
-            methodStatusSuccess = true;
-            return new JsonResponse(true).asJson();
-        } catch (Exception e) {
-            LOG.error("Failed uploading profile image reason={}", e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return new JsonResponse(false).asJson();
-        } finally {
-            apiHealthService.insert(
-                "/appendImage",
-                "appendImage",
-                MedicalRecordController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
 
     private Set<String> invalidElementsInMapDuringUpdate(Map<String, ScrubbedInput> map) {
         Set<String> keys = new HashSet<>(map.keySet());
@@ -401,33 +242,5 @@ public class ProfileCommonHelper {
         }
 
         return keys;
-    }
-
-    private void processProfileImage(String qid, MultipartFile multipartFile) throws IOException {
-        BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
-        String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
-        if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
-            fileService.addProfileImage(
-                qid,
-                FileUtil.createRandomFilenameOf24Chars() + FileUtil.getImageFileExtension(multipartFile.getOriginalFilename(), mimeType),
-                bufferedImage);
-        } else {
-            LOG.error("Failed mime mismatch found={} sentMime={}", mimeType, multipartFile.getContentType());
-            throw new RuntimeException("Mime type mismatch");
-        }
-    }
-
-    private void processMedicalImage(String recordReferenceId, MultipartFile multipartFile) throws IOException {
-        BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
-        String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
-        if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
-            medicalFileService.addMedicalImage(
-                recordReferenceId,
-                FileUtil.createRandomFilenameOf24Chars() + FileUtil.getImageFileExtension(multipartFile.getOriginalFilename(), mimeType),
-                bufferedImage);
-        } else {
-            LOG.error("Failed mime mismatch found={} sentMime={}", mimeType, multipartFile.getContentType());
-            throw new RuntimeException("Mime type mismatch");
-        }
     }
 }

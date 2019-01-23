@@ -25,6 +25,8 @@ import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.domain.json.JsonMedicalRecordList;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.view.ITest;
+import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
+import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.mobile.view.validator.ImageValidator;
 
@@ -48,6 +50,7 @@ import java.util.concurrent.Callable;
 @Tag("api")
 class MedicalRecordControllerTest extends ITest {
 
+    private ImageCommonHelper imageCommonHelper;
     private MedicalRecordController medicalRecordController;
     private PurchaseOrderController purchaseOrderController;
 
@@ -58,6 +61,14 @@ class MedicalRecordControllerTest extends ITest {
     @BeforeEach
     void setUp() {
         imageValidator = new ImageValidator();
+        imageCommonHelper = new ImageCommonHelper(
+            accountMobileService,
+            authenticateMobileService,
+            fileService,
+            medicalFileService,
+            apiHealthService
+        );
+
         this.medicalRecordController = new MedicalRecordController(
             authenticateMobileService,
             apiHealthService,
@@ -65,6 +76,7 @@ class MedicalRecordControllerTest extends ITest {
             businessUserStoreService,
             bizService,
             medicalRecordMobileService,
+            imageCommonHelper,
             imageValidator
         );
 

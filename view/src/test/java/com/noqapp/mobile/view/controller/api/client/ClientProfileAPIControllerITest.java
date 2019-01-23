@@ -12,6 +12,7 @@ import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.body.client.MigrateProfile;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.view.ITest;
+import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
@@ -36,6 +37,7 @@ import java.io.IOException;
 class ClientProfileAPIControllerITest extends ITest {
 
     private ProfileCommonHelper profileCommonHelper;
+    private ImageCommonHelper imageCommonHelper;
     private ClientProfileAPIController clientProfileAPIController;
     private ProfessionalProfileValidator professionalProfileValidator;
 
@@ -46,9 +48,15 @@ class ClientProfileAPIControllerITest extends ITest {
             authenticateMobileService,
             accountClientValidator,
             accountMobileService,
+            professionalProfileValidator,
+            apiHealthService
+        );
+
+        imageCommonHelper = new ImageCommonHelper(
+            accountMobileService,
+            authenticateMobileService,
             fileService,
             medicalFileService,
-            professionalProfileValidator,
             apiHealthService
         );
 
@@ -61,6 +69,7 @@ class ClientProfileAPIControllerITest extends ITest {
             userAddressService,
             userMedicalProfileService,
             profileCommonHelper,
+            imageCommonHelper,
             new ImageValidator()
         );
     }

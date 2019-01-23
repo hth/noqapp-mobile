@@ -21,6 +21,7 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.MedicalRecordMobileService;
+import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.controller.api.client.health.MedicalRecordAPIController;
 import com.noqapp.mobile.view.validator.ImageValidator;
@@ -72,7 +73,7 @@ public class MedicalRecordController {
     private BusinessUserStoreService businessUserStoreService;
     private BizService bizService;
     private MedicalRecordMobileService medicalRecordMobileService;
-    private ProfileCommonHelper profileCommonHelper;
+    private ImageCommonHelper imageCommonHelper;
     private ImageValidator imageValidator;
 
     @Autowired
@@ -83,7 +84,7 @@ public class MedicalRecordController {
         BusinessUserStoreService businessUserStoreService,
         BizService bizService,
         MedicalRecordMobileService medicalRecordMobileService,
-        ProfileCommonHelper profileCommonHelper,
+        ImageCommonHelper imageCommonHelper,
         ImageValidator imageValidator
     ) {
         this.authenticateMobileService = authenticateMobileService;
@@ -92,7 +93,7 @@ public class MedicalRecordController {
         this.businessUserStoreService = businessUserStoreService;
         this.bizService = bizService;
         this.medicalRecordMobileService = medicalRecordMobileService;
-        this.profileCommonHelper = profileCommonHelper;
+        this.imageCommonHelper = imageCommonHelper;
         this.imageValidator = imageValidator;
     }
 
@@ -361,7 +362,7 @@ public class MedicalRecordController {
             return ErrorEncounteredJson.toJson(errors);
         }
 
-        return profileCommonHelper.uploadMedicalRecordImage(
+        return imageCommonHelper.uploadMedicalRecordImage(
             did.getText(),
             dt.getText(),
             mail.getText(),
@@ -370,5 +371,4 @@ public class MedicalRecordController {
             multipartFile,
             response);
     }
-
 }
