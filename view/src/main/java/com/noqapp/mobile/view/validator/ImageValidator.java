@@ -4,6 +4,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPL
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD_EXCEED_SIZE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD_NO_SIZE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD_UNSUPPORTED_FORMAT;
+import static com.noqapp.mobile.view.validator.ImageValidator.SUPPORTED_FILE.IMAGE_AND_PDF;
 
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +32,12 @@ import java.util.Map;
 public class ImageValidator {
     private static final Logger LOG = LoggerFactory.getLogger(ImageValidator.class);
 
-    public Map<String, String> validate(MultipartFile file) {
+    private String[] supportedFormat = new String[]{"image/jpg", "image/jpeg", "image/png"};
+    private String[] supportedPDFFormat = new String[]{"image/jpg", "image/jpeg", "image/png", "application/pdf"};
+
+    public enum SUPPORTED_FILE {IMAGE, IMAGE_AND_PDF}
+
+    public Map<String, String> validate(MultipartFile file, SUPPORTED_FILE supportedFile) {
         Map<String, String> errors = new HashMap<>();
         try {
             if (file.isEmpty() || file.getSize() == 0) {
@@ -41,9 +48,16 @@ public class ImageValidator {
             }
 
             String s = file.getContentType().toLowerCase();
-            if (!s.equals("image/jpg") && !s.equals("image/jpeg") && !s.equals("image/png")) {
-                LOG.error("Supported file formats are jpg/png");
-                errors.put(ErrorEncounteredJson.REASON, "Supported file formats are jpg/png");
+            boolean contains = Arrays.asList(supportedFile == IMAGE_AND_PDF ? supportedPDFFormat : supportedFormat).contains(s);
+            if (!contains) {
+                String filesSupportedFormat;
+                if (supportedFile == IMAGE_AND_PDF) {
+                    filesSupportedFormat = "jpg/png/pdf";
+                } else {
+                    filesSupportedFormat = "jpg/png";
+                }
+                LOG.error("Supported file formats are {}", filesSupportedFormat);
+                errors.put(ErrorEncounteredJson.REASON, "Supported file formats are " + filesSupportedFormat);
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, MOBILE_UPLOAD_UNSUPPORTED_FORMAT.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, MOBILE_UPLOAD_UNSUPPORTED_FORMAT.getCode());
             }
