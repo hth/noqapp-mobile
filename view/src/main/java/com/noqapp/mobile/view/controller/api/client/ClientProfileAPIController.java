@@ -111,6 +111,7 @@ public class ClientProfileAPIController {
         this.accountMobileService = accountMobileService;
         this.userAddressService = userAddressService;
         this.userMedicalProfileService = userMedicalProfileService;
+        this.profileCommonHelper = profileCommonHelper;
         this.imageCommonHelper = imageCommonHelper;
         this.imageValidator = imageValidator;
     }

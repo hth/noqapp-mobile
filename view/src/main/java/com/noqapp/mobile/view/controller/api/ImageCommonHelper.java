@@ -186,9 +186,7 @@ public class ImageCommonHelper extends CommonHelper {
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
-
-
-
+    
     private void processProfileImage(String qid, MultipartFile multipartFile) throws IOException {
         BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
         String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
