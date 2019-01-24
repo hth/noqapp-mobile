@@ -6,10 +6,15 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.client.SearchStoreQuery;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
+import com.noqapp.search.elastic.domain.SearchBizStoreElastic;
+import com.noqapp.search.elastic.domain.SearchBizStoreElasticList;
 import com.noqapp.search.elastic.helper.GeoIP;
 import com.noqapp.search.elastic.json.ElasticBizStoreSource;
+import com.noqapp.search.elastic.json.ElasticSource;
+import com.noqapp.search.elastic.json.SearchElasticBizStoreSource;
 import com.noqapp.search.elastic.service.BizStoreElasticService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
+import com.noqapp.search.elastic.service.SearchBizStoreElasticService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -48,6 +53,7 @@ public class SearchBusinessStoreController {
 
     private boolean useRestHighLevel;
     private BizStoreElasticService bizStoreElasticService;
+    private SearchBizStoreElasticService searchBizStoreElasticService;
     private GeoIPLocationService geoIPLocationService;
     private ApiHealthService apiHealthService;
 
@@ -57,12 +63,14 @@ public class SearchBusinessStoreController {
             boolean useRestHighLevel,
 
             BizStoreElasticService bizStoreElasticService,
+            SearchBizStoreElasticService searchBizStoreElasticService,
             GeoIPLocationService geoIPLocationService,
             ApiHealthService apiHealthService
     ) {
         this.useRestHighLevel = useRestHighLevel;
 
         this.bizStoreElasticService = bizStoreElasticService;
+        this.searchBizStoreElasticService = searchBizStoreElasticService;
         this.geoIPLocationService = geoIPLocationService;
         this.apiHealthService = apiHealthService;
     }
@@ -95,7 +103,7 @@ public class SearchBusinessStoreController {
                 searchStoreQuery.getFilters(),
                 ipAddress);
 
-            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
+            SearchBizStoreElasticList bizStoreElasticList = new SearchBizStoreElasticList();
             GeoIP geoIp = getGeoIP(
                 searchStoreQuery.getCityName().getText(),
                 searchStoreQuery.getLatitude().getText(),
@@ -116,7 +124,7 @@ public class SearchBusinessStoreController {
                     searchStoreQuery.getFilters().getText(),
                     searchStoreQuery.getScrollId().getText()).asJson();
             } else {
-                List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(query, geoHash);
+                List<SearchElasticBizStoreSource> elasticBizStoreSources = searchBizStoreElasticService.createBizStoreSearchDSLQuery(query, geoHash);
                 return bizStoreElasticList.populateBizStoreElasticSet(elasticBizStoreSources).asJson();
             }
         } catch (Exception e) {
@@ -221,6 +229,23 @@ public class SearchBusinessStoreController {
         } else {
             geoIp = geoIPLocationService.getLocation(ipAddress);
             bizStoreElasticList.setCityName(geoIp.getCityName());
+            LOG.info("City={} based on ip={}", geoIp.getCityName(), ipAddress);
+        }
+        return geoIp;
+    }
+
+    private GeoIP getGeoIP(String cityName, String lat, String lng, String ipAddress, SearchBizStoreElasticList searchBizStoreElasticList) {
+        GeoIP geoIp;
+        if (StringUtils.isNotBlank(cityName)) {
+            //TODO search based on city when lat lng is disabled
+            geoIp = new GeoIP(ipAddress, "", Double.valueOf(lat), Double.valueOf(lng));
+            searchBizStoreElasticList.setCityName(cityName);
+        } else if (StringUtils.isNotBlank(lng) && StringUtils.isNotBlank(lat)) {
+            geoIp = new GeoIP(ipAddress, "", Double.valueOf(lat), Double.valueOf(lng));
+            searchBizStoreElasticList.setCityName(geoIp.getCityName());
+        } else {
+            geoIp = geoIPLocationService.getLocation(ipAddress);
+            searchBizStoreElasticList.setCityName(geoIp.getCityName());
             LOG.info("City={} based on ip={}", geoIp.getCityName(), ipAddress);
         }
         return geoIp;
