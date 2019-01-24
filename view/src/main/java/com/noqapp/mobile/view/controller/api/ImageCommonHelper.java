@@ -155,7 +155,7 @@ public class ImageCommonHelper extends CommonHelper {
     ) throws IOException {
         boolean methodStatusSuccess = false;
         Instant start = Instant.now();
-        LOG.info("Profile Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
+        LOG.info("Medical Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail, auth);
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -172,7 +172,7 @@ public class ImageCommonHelper extends CommonHelper {
             methodStatusSuccess = true;
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
-            LOG.error("Failed uploading profile image reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed uploading medical image reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new JsonResponse(false).asJson();
         } finally {
