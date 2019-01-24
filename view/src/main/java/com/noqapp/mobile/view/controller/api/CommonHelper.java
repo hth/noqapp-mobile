@@ -15,7 +15,7 @@ abstract class CommonHelper {
 
     private AccountMobileService accountMobileService;
 
-    public CommonHelper(AccountMobileService accountMobileService) {
+    CommonHelper(AccountMobileService accountMobileService) {
         this.accountMobileService = accountMobileService;
     }
 
