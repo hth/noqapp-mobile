@@ -572,7 +572,6 @@ public class ITest extends RealMongoForITest {
             userProfileManager,
             bizStoreManager,
             queueManager,
-            professionalProfileManager,
             businessUserStoreService,
             purchaseOrderService,
             userMedicalProfileService
