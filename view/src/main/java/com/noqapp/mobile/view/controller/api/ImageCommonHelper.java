@@ -185,6 +185,42 @@ public class ImageCommonHelper extends CommonHelper {
         }
     }
 
+    public String removeMedicalImage(
+        String did,
+        String dt,
+        String mail,
+        String auth,
+        String recordReferenceId,
+        String filename,
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = false;
+        Instant start = Instant.now();
+        LOG.info("Remove medical image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail, auth);
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            medicalFileService.removeMedicalImage(qid, recordReferenceId, filename);
+            methodStatusSuccess = true;
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed removing medical image reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonResponse(false).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/removeImage",
+                "removeImage",
+                MedicalRecordController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
     private void processProfileImage(String qid, MultipartFile multipartFile) throws IOException {
         BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
         String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
