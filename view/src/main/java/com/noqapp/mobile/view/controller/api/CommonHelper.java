@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * hitender
  * 2019-01-23 15:44
  */
-public class CommonHelper {
+abstract class CommonHelper {
     private static final Logger LOG = LoggerFactory.getLogger(CommonHelper.class);
 
     private AccountMobileService accountMobileService;

@@ -14,8 +14,6 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.client.ClientProfileAPIController;
 import com.noqapp.mobile.view.controller.api.merchant.health.MedicalRecordController;
-import com.noqapp.mobile.view.validator.AccountClientValidator;
-import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
 import com.noqapp.service.FileService;
 
 import org.slf4j.Logger;

@@ -593,7 +593,7 @@ public class ITest extends RealMongoForITest {
         populateRestaurantWithProducts("9118000000021");
     }
 
-    private void registerUser() throws IOException {
+    private void registerUser() {
         /* System Users. Like Admin, Supervisor. */
         addSystemUsers();
 
