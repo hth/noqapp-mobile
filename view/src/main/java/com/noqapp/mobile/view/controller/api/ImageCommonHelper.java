@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 public class ImageCommonHelper extends CommonHelper {
-    private static final Logger LOG = LoggerFactory.getLogger(ProfileCommonHelper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ImageCommonHelper.class);
 
     private AuthenticateMobileService authenticateMobileService;
     private FileService fileService;
