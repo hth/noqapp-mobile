@@ -6,6 +6,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.BUSINESS_N
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ACCESS_DENIED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_DOES_NOT_EXISTS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ENTRY_DENIED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -432,6 +433,45 @@ public class MedicalRecordController {
             auth.getText(),
             new ScrubbedInput(recordReferenceId).getText(),
             multipartFile,
+            response);
+    }
+
+    @PostMapping (
+        value = "/removeImage",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String removeImage(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonMedicalRecord mr,
+
+        HttpServletResponse response
+    ) throws IOException {
+        String filename;
+        if (null == mr.getImages() || mr.getImages().isEmpty()) {
+            return ErrorEncounteredJson.toJson("No image selected for deletion", MOBILE);
+        } else {
+            filename = mr.getImages().get(0);
+        }
+
+        return imageCommonHelper.removeMedicalImage(
+            did.getText(),
+            dt.getText(),
+            mail.getText(),
+            auth.getText(),
+            new ScrubbedInput(mr.getRecordReferenceId()).getText(),
+            filename,
             response);
     }
 }
