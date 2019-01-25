@@ -170,7 +170,6 @@ public class ImageCommonHelper extends CommonHelper {
         try {
             String filename = processMedicalImage(recordReferenceId, multipartFile);
             methodStatusSuccess = true;
-            LOG.debug("Image uploaded={}", filename);
             return new JsonResponse(true, filename).asJson();
         } catch (Exception e) {
             LOG.error("Failed uploading medical image reason={}", e.getLocalizedMessage(), e);
