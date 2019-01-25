@@ -168,9 +168,10 @@ public class ImageCommonHelper extends CommonHelper {
         }
 
         try {
-            processMedicalImage(recordReferenceId, multipartFile);
+            String filename = processMedicalImage(recordReferenceId, multipartFile);
             methodStatusSuccess = true;
-            return new JsonResponse(true).asJson();
+            LOG.debug("Image uploaded={}", filename);
+            return new JsonResponse(true, filename).asJson();
         } catch (Exception e) {
             LOG.error("Failed uploading medical image reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -235,14 +236,13 @@ public class ImageCommonHelper extends CommonHelper {
         }
     }
 
-    private void processMedicalImage(String recordReferenceId, MultipartFile multipartFile) throws IOException {
+    private String processMedicalImage(String recordReferenceId, MultipartFile multipartFile) throws IOException {
         BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
         String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
         if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
-            medicalFileService.addMedicalImage(
-                recordReferenceId,
-                FileUtil.createRandomFilenameOf24Chars() + FileUtil.getImageFileExtension(multipartFile.getOriginalFilename(), mimeType),
-                bufferedImage);
+            String filename = FileUtil.createRandomFilenameOf24Chars() + FileUtil.getImageFileExtension(multipartFile.getOriginalFilename(), mimeType);
+            medicalFileService.addMedicalImage(recordReferenceId, filename, bufferedImage);
+            return filename;
         } else {
             LOG.error("Failed mime mismatch found={} sentMime={}", mimeType, multipartFile.getContentType());
             throw new RuntimeException("Mime type mismatch");
