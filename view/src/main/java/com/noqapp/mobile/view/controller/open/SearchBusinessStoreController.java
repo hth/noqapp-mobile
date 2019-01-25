@@ -103,13 +103,13 @@ public class SearchBusinessStoreController {
                 searchStoreQuery.getFilters(),
                 ipAddress);
 
-            SearchBizStoreElasticList bizStoreElasticList = new SearchBizStoreElasticList();
+            SearchBizStoreElasticList searchBizStoreElasticList = new SearchBizStoreElasticList();
             GeoIP geoIp = getGeoIP(
                 searchStoreQuery.getCityName().getText(),
                 searchStoreQuery.getLatitude().getText(),
                 searchStoreQuery.getLongitude().getText(),
                 ipAddress,
-                bizStoreElasticList);
+                searchBizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
             if (StringUtils.isBlank(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
@@ -125,7 +125,7 @@ public class SearchBusinessStoreController {
                     searchStoreQuery.getScrollId().getText()).asJson();
             } else {
                 List<SearchElasticBizStoreSource> elasticBizStoreSources = searchBizStoreElasticService.createBizStoreSearchDSLQuery(query, geoHash);
-                return bizStoreElasticList.populateBizStoreElasticSet(elasticBizStoreSources).asJson();
+                return searchBizStoreElasticList.populateSearchBizStoreElasticArray(elasticBizStoreSources).asJson();
             }
         } catch (Exception e) {
             LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
