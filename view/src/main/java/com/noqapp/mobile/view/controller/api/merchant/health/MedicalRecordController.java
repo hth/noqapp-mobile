@@ -336,7 +336,7 @@ public class MedicalRecordController {
 
     /** Retrieve record before adding. */
     @GetMapping(
-        value = "/exists",
+        value = "/exists/{codeQR}/{recordReferenceId}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String exists(
@@ -352,8 +352,11 @@ public class MedicalRecordController {
         @RequestHeader ("X-R-AUTH")
         ScrubbedInput auth,
 
-        @RequestBody
-        JsonMedicalRecord mr,
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
+
+        @PathVariable("recordReferenceId")
+        ScrubbedInput recordReferenceId,
 
         HttpServletResponse response
     ) throws IOException {
@@ -368,22 +371,23 @@ public class MedicalRecordController {
         }
 
         try {
-            if (StringUtils.isBlank(mr.getCodeQR())) {
-                LOG.warn("Not a valid codeQR={} qid={}", mr.getCodeQR(), qid);
+            if (StringUtils.isBlank(codeQR.getText())) {
+                LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(qid, mr.getCodeQR())) {
+            } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
                 LOG.info("Your are not authorized to access medical record mail={}", mail);
                 return getErrorReason("Your are not authorized to access medical record", MEDICAL_RECORD_ACCESS_DENIED);
             }
 
-            JsonMedicalRecord jsonMedicalRecord = medicalRecordService.findMedicalRecord(mr.getCodeQR(), mr.getRecordReferenceId());
+            JsonMedicalRecord jsonMedicalRecord = medicalRecordService.findMedicalRecord(codeQR.getText(), recordReferenceId.getText());
             if (null == jsonMedicalRecord) {
                 return getErrorReason("No such medical record exists", MEDICAL_RECORD_DOES_NOT_EXISTS);
             }
 
             return jsonMedicalRecord.asJson();
         } catch (Exception e) {
-            LOG.error("Failed accessing medical record json={} qid={} message={}", mr, qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed accessing medical record codeQR={} recordReferenceId={} qid={} message={}",
+                codeQR.getText(), recordReferenceId.getText(), qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
