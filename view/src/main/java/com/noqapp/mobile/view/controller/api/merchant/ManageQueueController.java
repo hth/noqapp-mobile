@@ -693,7 +693,7 @@ public class ManageQueueController {
             ScrubbedInput auth,
 
             @RequestBody
-            String requestBodyJson,
+            JsonBusinessCustomerLookup businessCustomerLookup,
 
             HttpServletResponse response
     ) throws IOException {
@@ -708,10 +708,6 @@ public class ManageQueueController {
         }
 
         try {
-            JsonBusinessCustomerLookup businessCustomerLookup = new ObjectMapper().readValue(
-                    requestBodyJson,
-                    JsonBusinessCustomerLookup.class);
-
             if (StringUtils.isBlank(businessCustomerLookup.getCodeQR())) {
                 LOG.warn("Not a valid codeQR={} qid={}", businessCustomerLookup.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
@@ -796,7 +792,7 @@ public class ManageQueueController {
             ScrubbedInput auth,
 
             @RequestBody
-            String requestBodyJson,
+            ChangeUserInQueue changeUserInQueue,
 
             HttpServletResponse response
     ) throws IOException {
@@ -811,10 +807,6 @@ public class ManageQueueController {
         }
 
         try {
-            ChangeUserInQueue changeUserInQueue = new ObjectMapper().readValue(
-                    requestBodyJson,
-                    ChangeUserInQueue.class);
-
             if (StringUtils.isBlank(changeUserInQueue.getCodeQR())) {
                 LOG.warn("Not a valid codeQR={} qid={}", changeUserInQueue.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
