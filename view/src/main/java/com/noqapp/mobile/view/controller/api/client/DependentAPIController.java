@@ -48,7 +48,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -78,12 +77,12 @@ public class DependentAPIController {
 
     @Autowired
     public DependentAPIController(
-            AccountService accountService,
-            AccountMobileService accountMobileService,
-            AccountClientValidator accountClientValidator,
-            DeviceService deviceService,
-            AuthenticateMobileService authenticateMobileService,
-            ApiHealthService apiHealthService
+        AccountService accountService,
+        AccountMobileService accountMobileService,
+        AccountClientValidator accountClientValidator,
+        DeviceService deviceService,
+        AuthenticateMobileService authenticateMobileService,
+        ApiHealthService apiHealthService
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
@@ -95,26 +94,26 @@ public class DependentAPIController {
 
     /** Add dependent. */
     @PostMapping(
-            value = "/add",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/add",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String add(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String registrationJson,
+        @RequestBody
+        String registrationJson,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -272,11 +271,11 @@ public class DependentAPIController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/add",
-                    "add",
-                    DependentAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/add",
+                "add",
+                DependentAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }
