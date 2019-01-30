@@ -71,14 +71,14 @@ import javax.servlet.http.HttpServletResponse;
  * User: hitender
  * Date: 1/9/17 10:15 AM
  */
-@SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+@SuppressWarnings({
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/api/m/mq")
+@RequestMapping(value = "/api/m/mq")
 public class ManageQueueController {
     private static final Logger LOG = LoggerFactory.getLogger(ManageQueueController.class);
 
@@ -95,18 +95,18 @@ public class ManageQueueController {
 
     @Autowired
     public ManageQueueController(
-            @Value("${ManageQueueController.counterNameLength}")
-            int counterNameLength,
+        @Value("${ManageQueueController.counterNameLength}")
+        int counterNameLength,
 
-            AuthenticateMobileService authenticateMobileService,
-            QueueService queueService,
-            QueueMobileService queueMobileService,
-            BusinessUserStoreService businessUserStoreService,
-            TokenQueueService tokenQueueService,
-            TokenQueueMobileService tokenQueueMobileService,
-            AccountService accountService,
-            BusinessCustomerService businessCustomerService,
-            ApiHealthService apiHealthService
+        AuthenticateMobileService authenticateMobileService,
+        QueueService queueService,
+        QueueMobileService queueMobileService,
+        BusinessUserStoreService businessUserStoreService,
+        TokenQueueService tokenQueueService,
+        TokenQueueMobileService tokenQueueMobileService,
+        AccountService accountService,
+        BusinessCustomerService businessCustomerService,
+        ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
         this.authenticateMobileService = authenticateMobileService;
@@ -121,23 +121,23 @@ public class ManageQueueController {
     }
 
     @GetMapping(
-            value = "/queues",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/queues",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String getQueues(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -159,11 +159,11 @@ public class ManageQueueController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/queues",
-                    "getQueues",
-                    ManageQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/queues",
+                "getQueues",
+                ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -173,26 +173,26 @@ public class ManageQueueController {
      * When client starts to serve for first time or re-start after serving the last in the queue.
      */
     @PostMapping(
-            value = "/served",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/served",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String served(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String requestBodyJson,
+        @RequestBody
+        String requestBodyJson,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -296,38 +296,38 @@ public class ManageQueueController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/served",
-                    "served",
-                    ManageQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/served",
+                "served",
+                ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
     /**
      * Most called during refresh or reload of the app.
      */
-    @GetMapping (
-            value = "/queue/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    @GetMapping(
+        value = "/queue/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String getQueue(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -362,47 +362,47 @@ public class ManageQueueController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/queue/{codeQR}",
-                    "getQueue",
-                    ManageQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/queue/{codeQR}",
+                "getQueue",
+                ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
     /**
      * List all clients in queue.
      */
-    @PostMapping (
-            value = "/showClients/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    @PostMapping(
+        value = "/showClients/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String showClients(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Clients shown for codeQR={} request from mail={} did={} deviceType={} auth={}",
-                codeQR,
-                mail,
-                did,
-                deviceType,
-                AUTH_KEY_HIDDEN);
+            codeQR,
+            mail,
+            did,
+            deviceType,
+            AUTH_KEY_HIDDEN);
 
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
@@ -428,35 +428,35 @@ public class ManageQueueController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/showClients/{codeQR}",
-                    "showClients",
-                    ManageQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/showClients/{codeQR}",
+                "showClients",
+                ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
     /**
      * List all registered clients from history. None registered clients are never shown.
      */
-    @PostMapping (
+    @PostMapping(
         value = "/showClients/{codeQR}/historical",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String showClientsHistorical(
-        @RequestHeader ("X-R-DID")
+        @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput deviceType,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
-        @PathVariable ("codeQR")
+        @PathVariable("codeQR")
         ScrubbedInput codeQR,
 
         HttpServletResponse response
@@ -505,27 +505,27 @@ public class ManageQueueController {
     /**
      * Acquire specific token not in order. Send message of being served next to the owner of the token.
      */
-    @PostMapping (
-            value = "/acquire",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    @PostMapping(
+        value = "/acquire",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String acquire(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String requestBodyJson,
+        @RequestBody
+        String requestBodyJson,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -603,38 +603,38 @@ public class ManageQueueController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/acquire",
-                    "acquire",
-                    ManageQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/acquire",
+                "acquire",
+                ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
     /**
      * When person walks in without phone or app. Merchant is capable of giving out token to walk-ins.
      */
-    @PostMapping (
-            value = "/dispenseToken/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    @PostMapping(
+        value = "/dispenseToken/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String dispenseTokenWithoutClientInfo(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -654,48 +654,48 @@ public class ManageQueueController {
 
         try {
             return tokenQueueMobileService.joinQueue(
-                    codeQR.getText(),
-                    CommonUtil.appendRandomToDeviceId(did.getText()),
-                    bizStore.getAverageServiceTime(),
-                    TokenServiceEnum.M).asJson();
+                codeQR.getText(),
+                CommonUtil.appendRandomToDeviceId(did.getText()),
+                bizStore.getAverageServiceTime(),
+                TokenServiceEnum.M).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/dispenseToken/{codeQR}",
-                    "dispenseTokenWithoutClientInfo",
-                    ManageQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/dispenseToken/{codeQR}",
+                "dispenseTokenWithoutClientInfo",
+                ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
     /**
      * When person walks in without phone or app. Merchant is capable of giving out token to walk-ins.
      */
-    @PostMapping (
-            value = "/dispenseToken",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    @PostMapping(
+        value = "/dispenseToken",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String dispenseTokenWithClientInfo(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String requestBodyJson,
+        @RequestBody
+        JsonBusinessCustomerLookup businessCustomerLookup,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -708,10 +708,6 @@ public class ManageQueueController {
         }
 
         try {
-            JsonBusinessCustomerLookup businessCustomerLookup = new ObjectMapper().readValue(
-                    requestBodyJson,
-                    JsonBusinessCustomerLookup.class);
-
             if (StringUtils.isBlank(businessCustomerLookup.getCodeQR())) {
                 LOG.warn("Not a valid codeQR={} qid={}", businessCustomerLookup.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
@@ -732,14 +728,14 @@ public class ManageQueueController {
                 userProfile = accountService.checkUserExistsByPhone(businessCustomerLookup.getCustomerPhone());
             } else if (StringUtils.isNotBlank(businessCustomerLookup.getBusinessCustomerId())) {
                 userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(
-                        businessCustomerLookup.getBusinessCustomerId(),
-                        bizStore.getBizName().getId());
+                    businessCustomerLookup.getBusinessCustomerId(),
+                    bizStore.getBizName().getId());
             }
 
             if (null == userProfile) {
                 LOG.info("Failed joining queue as no user found with phone={} businessCustomerId={}",
-                        businessCustomerLookup.getCustomerPhone(),
-                        businessCustomerLookup.getBusinessCustomerId());
+                    businessCustomerLookup.getCustomerPhone(),
+                    businessCustomerLookup.getBusinessCustomerId());
 
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
@@ -755,50 +751,50 @@ public class ManageQueueController {
             }
 
             return tokenQueueMobileService.joinQueue(
-                    businessCustomerLookup.getCodeQR(),
-                    CommonUtil.appendRandomToDeviceId(did.getText()),
-                    userProfile.getQueueUserId(),
-                    guardianQid,
-                    bizStore.getAverageServiceTime(),
-                    TokenServiceEnum.M).asJson();
+                businessCustomerLookup.getCodeQR(),
+                CommonUtil.appendRandomToDeviceId(did.getText()),
+                userProfile.getQueueUserId(),
+                guardianQid,
+                bizStore.getAverageServiceTime(),
+                TokenServiceEnum.M).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/dispenseToken",
-                    "dispenseTokenWithClientInfo",
-                    ManageQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/dispenseToken",
+                "dispenseTokenWithClientInfo",
+                ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
     /**
-     * Change the person in queue. 
+     * Change the person in queue.
      */
-    @PostMapping (
-            value = "/changeUserInQueue",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    @PostMapping(
+        value = "/changeUserInQueue",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String changeUserInQueue(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String requestBodyJson,
+        @RequestBody
+        ChangeUserInQueue changeUserInQueue,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -811,10 +807,6 @@ public class ManageQueueController {
         }
 
         try {
-            ChangeUserInQueue changeUserInQueue = new ObjectMapper().readValue(
-                    requestBodyJson,
-                    ChangeUserInQueue.class);
-
             if (StringUtils.isBlank(changeUserInQueue.getCodeQR())) {
                 LOG.warn("Not a valid codeQR={} qid={}", changeUserInQueue.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
@@ -837,10 +829,10 @@ public class ManageQueueController {
             }
 
             QueueEntity queue = queueService.changeUserInQueue(
-                    changeUserInQueue.getCodeQR(),
-                    changeUserInQueue.getTokenNumber(),
-                    changeUserInQueue.getExistingQueueUserId(),
-                    changeUserInQueue.getChangeToQueueUserId());
+                changeUserInQueue.getCodeQR(),
+                changeUserInQueue.getTokenNumber(),
+                changeUserInQueue.getExistingQueueUserId(),
+                changeUserInQueue.getChangeToQueueUserId());
             tokenQueueService.updateQueueWithUserDetail(changeUserInQueue.getCodeQR(), changeUserInQueue.getChangeToQueueUserId(), queue);
 
             return queueService.getQueuedPerson(queue.getQueueUserId(), queue.getCodeQR());
@@ -850,11 +842,11 @@ public class ManageQueueController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/dispenseToken",
-                    "dispenseTokenWithClientInfo",
-                    ManageQueueController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/dispenseToken",
+                "dispenseTokenWithClientInfo",
+                ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }
