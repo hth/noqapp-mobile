@@ -48,9 +48,9 @@ public class MerchantStatsController {
 
     @Autowired
     public MerchantStatsController(
-            QueueService queueService,
-            AuthenticateMobileService authenticateMobileService,
-            ApiHealthService apiHealthService
+        QueueService queueService,
+        AuthenticateMobileService authenticateMobileService,
+        ApiHealthService apiHealthService
     ) {
         this.queueService = queueService;
         this.authenticateMobileService = authenticateMobileService;
@@ -62,19 +62,19 @@ public class MerchantStatsController {
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String healthCare(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
