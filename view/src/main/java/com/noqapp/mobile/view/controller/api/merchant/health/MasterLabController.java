@@ -152,8 +152,8 @@ public class MasterLabController {
     @Deprecated
     @PostMapping(
         value = "/add",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
-    )public String add(
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    public String add(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -210,4 +210,51 @@ public class MasterLabController {
         }
     }
 
+    @PostMapping(
+        value = "/flag",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    public String flag(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonMasterLab jsonMasterLab,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Add medical record mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/h/lab/flag by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            masterLabService.flagData(jsonMasterLab.getProductName(), jsonMasterLab.getHealthCareService(), qid);
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed flagging medical data json={} qid={} message={}", jsonMasterLab.asJson(), qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/flag",
+                "flag",
+                MasterLabController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
 }
