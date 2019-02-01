@@ -99,6 +99,8 @@ import com.noqapp.repository.S3FileManager;
 import com.noqapp.repository.S3FileManagerImpl;
 import com.noqapp.repository.ScheduledTaskManager;
 import com.noqapp.repository.ScheduledTaskManagerImpl;
+import com.noqapp.repository.StatsBizStoreDailyManager;
+import com.noqapp.repository.StatsBizStoreDailyManagerImpl;
 import com.noqapp.repository.StoreCategoryManager;
 import com.noqapp.repository.StoreCategoryManagerImpl;
 import com.noqapp.repository.StoreHourManager;
