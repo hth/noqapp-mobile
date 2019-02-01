@@ -265,6 +265,7 @@ public class ITest extends RealMongoForITest {
 
     protected ApiHealthService apiHealthService;
     protected ApiHealthNowManager apiHealthNowManager;
+    protected StatsBizStoreDailyManager statsBizStoreDailyManager;
 
     protected GenerateUserIdManager generateUserIdManager;
 
@@ -324,6 +325,7 @@ public class ITest extends RealMongoForITest {
         businessUserManager = new BusinessUserManagerImpl(getMongoTemplate());
         queueManager = new QueueManagerImpl(getMongoTemplate());
         bizStoreManager = new BizStoreManagerImpl(getMongoTemplate());
+        statsBizStoreDailyManager = new StatsBizStoreDailyManagerImpl(getMongoTemplate());
 
         generateUserIdService = new GenerateUserIdService(generateUserIdManager);
         emailValidateService = new EmailValidateService(emailValidateManager);
@@ -434,7 +436,8 @@ public class ITest extends RealMongoForITest {
             queueManager,
             queueManagerJDBC,
             tokenQueueService,
-            businessUserStoreManager
+            businessUserStoreManager,
+            statsBizStoreDailyManager
         );
 
         bizService = new BizService(
