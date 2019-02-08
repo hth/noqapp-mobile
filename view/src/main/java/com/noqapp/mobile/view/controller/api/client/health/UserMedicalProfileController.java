@@ -113,7 +113,7 @@ public class UserMedicalProfileController {
             }
 
             UserMedicalProfileEntity userMedicalProfile = userMedicalProfileService.findOne(qid);
-            if (userMedicalProfile == null) {
+            if (null == userMedicalProfile) {
                 userMedicalProfile = new UserMedicalProfileEntity(qid);
             }
             userMedicalProfile.setBloodType(jsonUserMedicalProfile.getBloodType());
