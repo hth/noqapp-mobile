@@ -93,17 +93,6 @@ public enum LowestSupportedAppEnum {
         return supported;
     }
 
-    @Deprecated
-    public static LowestSupportedAppEnum findBasedOnDeviceType(DeviceTypeEnum deviceType) {
-        for (LowestSupportedAppEnum lowestSupportedApp : LowestSupportedAppEnum.values()) {
-            if (lowestSupportedApp.deviceType == deviceType) {
-                return lowestSupportedApp;
-            }
-        }
-
-        return null;
-    }
-
     public static LowestSupportedAppEnum findBasedOnDeviceType(DeviceTypeEnum deviceType, AppFlavorEnum appFlavor) {
         for (LowestSupportedAppEnum lowestSupportedApp : LowestSupportedAppEnum.values()) {
             if (lowestSupportedApp.deviceType == deviceType && lowestSupportedApp.appFlavor == appFlavor) {
