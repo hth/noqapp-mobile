@@ -47,7 +47,7 @@ buildscript {
     }
     dependencies {
         classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatformGradle"
-        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.5"
+        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:$spotbugsPluginGradle"
     }
 }
 
