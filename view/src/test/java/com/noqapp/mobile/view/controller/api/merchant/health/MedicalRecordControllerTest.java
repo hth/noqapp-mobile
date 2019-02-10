@@ -32,7 +32,6 @@ import com.noqapp.mobile.view.validator.ImageValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -113,7 +112,7 @@ class MedicalRecordControllerTest extends ITest {
     }
 
     @DisplayName("Check if order has been placed")
-    @Disabled
+    @Test
     void checkOrderPlaced() throws IOException {
         UserProfileEntity supervisorProfile = accountService.checkUserExistsByPhone("9118000000061");
         UserAccountEntity supervisorUserAccount = accountService.findByQueueUserId(supervisorProfile.getQueueUserId());
@@ -134,7 +133,7 @@ class MedicalRecordControllerTest extends ITest {
     }
 
     @DisplayName("Historical existing medical records")
-    @Disabled
+    @Test
     void historical() throws IOException {
         UserAccountEntity userAccount = accountService.findByQueueUserId(queueManager_Doctor_UserProfile.getQueueUserId());
         UserProfileEntity client = accountService.checkUserExistsByPhone("9118000000001");
