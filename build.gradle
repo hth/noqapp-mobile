@@ -46,7 +46,7 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatform"
+        classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatformGradle"
         classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.5"
     }
 }
