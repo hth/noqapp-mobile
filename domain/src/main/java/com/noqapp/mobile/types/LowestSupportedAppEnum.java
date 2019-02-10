@@ -23,7 +23,7 @@ public enum LowestSupportedAppEnum {
         "Version iPhone"),
     /* 1.1.10 is not released. */
 
-    VACL("1.2.160",                     //Oldest Supported App Version in String
+    VACL("1.2.170",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQCL,
         "1.2.198",                      //Latest App Version on Play Store
