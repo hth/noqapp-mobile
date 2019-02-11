@@ -57,7 +57,7 @@
             Abort Visit (Self Cancelled): ${totalAbort}<br/>
             New Clients/Patients: ${newCustomer}<br/>
             <#if timeOfService??>
-            Begin/End Service: ${timeOfService}<br/>
+            Time of Begin/End Service: ${timeOfService}<br/>
             </#if>
         <br/>
         Previously Visited Clients/Patients: ${clientsPreviouslyVisitedThisBusiness}<br/>
@@ -71,10 +71,14 @@
         </p>
         <#if timeOfServices??>
         <p>
-            Begin/End Service:<br/>
+            <strong>Time of Begin/End Service:</strong><br/>
+            <#if timeOfServices?has_content>
             <#list timeOfServices?keys as key>
                 &nbsp;&nbsp;${key} = ${timeOfServices[key]}<br/>
             </#list>
+            <#else>
+                No Data Available
+            </#if>
         </p>
         </#if>
         <p style="font-family: 'Roboto', sans-serif;">
@@ -85,9 +89,9 @@
 
     <div class="qr-footer" style="font-size:12px; background:#dadada; padding:15px;">
         TM and Copyright &copy; 2019 NoQueue Inc. Sunnyvale, CA 94089, USA.<br/>
-        All Rights Reserved &nbsp; | &nbsp; <a href="${parentHost}/privacy.html"
-                style="color:#222; text-decoration:none">Privacy Policy</a> &nbsp; |
-        &nbsp; <a href="${parentHost}/terms.html" style="color:#222; text-decoration:none">Terms</a><br/>
+        All Rights Reserved &nbsp;
+        | &nbsp; <a href="${parentHost}/privacy.html" style="color:#222; text-decoration:none">Privacy Policy</a> &nbsp;
+        | &nbsp; <a href="${parentHost}/terms.html" style="color:#222; text-decoration:none">Terms</a><br/>
     </div>
 </div>
 
