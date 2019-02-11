@@ -52,19 +52,19 @@
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             <strong>Yesterdays Status at ${parentHost}</strong> <br/>
             Business Approvals Pending ${awaitingBusinessApproval} <br/>
-                Registered New User ${registeredUser} <br/>
-                Registered New Devices ${deviceRegistered} <br/>
-                Registered New Android Devices ${androidDeviceRegistered} <br/>
-                Registered New iPhone Devices ${iPhoneDeviceRegistered} <br/>
+            Registered New User ${registeredUser} <br/>
+            Registered New Devices ${deviceRegistered} <br/>
+            Registered New Android Devices ${androidDeviceRegistered} <br/>
+            Registered New iPhone Devices ${iPhoneDeviceRegistered} <br/>
 
-                <br/>
-                Android Flavors Breakdown:<br/>
+            <br/>
+            Android Flavors Breakdown:<br/>
             <#list androidFlavoredDevices?keys as key>
                 &nbsp;&nbsp;${key} = ${androidFlavoredDevices[key]}<br/>
             </#list>
 
-                <br/>
-                Iphone Flavor Breakdown:<br/>
+            <br/>
+            Iphone Flavor Breakdown:<br/>
             <#list iPhoneFlavoredDevices?keys as key>
                 &nbsp;&nbsp;${key} = ${iPhoneFlavoredDevices[key]}<br/>
             </#list>

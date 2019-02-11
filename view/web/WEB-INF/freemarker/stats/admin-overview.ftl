@@ -52,21 +52,31 @@
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             <strong>Clients/Patients Visits</strong><br/>
             Clients/Patients: ${totalClient}<br/>
-        Serviced: ${totalServiced}<br/>
-        No Show (Skipped): ${totalNoShow}<br/>
-        Abort Visit (Self Cancelled): ${totalAbort}<br/>
-        New Clients/Patients: ${newCustomer}<br/>
+            Serviced: ${totalServiced}<br/>
+            No Show (Skipped): ${totalNoShow}<br/>
+            Abort Visit (Self Cancelled): ${totalAbort}<br/>
+            New Clients/Patients: ${newCustomer}<br/>
+            <#if timeOfService??>
+            Begin/End Service: ${timeOfService}<br/>
+            </#if>
         <br/>
         Previously Visited Clients/Patients: ${clientsPreviouslyVisitedThisBusiness}<br/>
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             <strong>Customer Reviews for yesterday</strong><br/>
             Total Rating: ${totalRating}<br/>
-        Clients/Patients Rated: ${totalCustomerRated}<br/>
+            Clients/Patients Rated: ${totalCustomerRated}<br/>
             Total Hour Saved for Clients/Patients: ${totalHoursSaved}hrs<br/>
             <br/>
-            (Note: This stats email is work in progress)
         </p>
+        <#if timeOfServices??>
+        <p>
+            Begin/End Service:<br/>
+            <#list timeOfServices?keys as key>
+                &nbsp;&nbsp;${key} = ${timeOfServices[key]}<br/>
+            </#list>
+        </p>
+        </#if>
         <p style="font-family: 'Roboto', sans-serif;">
             <strong>NoQueue Technologies</strong>
         </p>
