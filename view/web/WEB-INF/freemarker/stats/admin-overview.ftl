@@ -77,7 +77,7 @@
                 &nbsp;&nbsp;${key} = ${timeOfServices[key]}<br/>
             </#list>
             <#else>
-                No Data Available
+                &nbsp;&nbsp;No Data Available
             </#if>
         </p>
         </#if>
