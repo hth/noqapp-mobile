@@ -99,8 +99,6 @@ public class PurchaseOrderController {
     private ApiHealthService apiHealthService;
 
     private BizStoreManager bizStoreManager;
-    private MedicalPathologyManager medicalPathologyManager;
-    private MedicalRadiologyManager medicalRadiologyManager;
 
     @Autowired
     public PurchaseOrderController(
@@ -108,8 +106,6 @@ public class PurchaseOrderController {
         int counterNameLength,
 
         BizStoreManager bizStoreManager,
-        MedicalPathologyManager medicalPathologyManager,
-        MedicalRadiologyManager medicalRadiologyManager,
         ImageValidator imageValidator,
         ImageCommonHelper imageCommonHelper,
         AuthenticateMobileService authenticateMobileService,
@@ -122,8 +118,6 @@ public class PurchaseOrderController {
         this.counterNameLength = counterNameLength;
 
         this.bizStoreManager = bizStoreManager;
-        this.medicalPathologyManager = medicalPathologyManager;
-        this.medicalRadiologyManager = medicalRadiologyManager;
         this.imageValidator = imageValidator;
         this.imageCommonHelper = imageCommonHelper;
         this.authenticateMobileService = authenticateMobileService;
