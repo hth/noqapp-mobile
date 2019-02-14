@@ -81,6 +81,9 @@ class MedicalRecordControllerTest extends ITest {
 
         this.purchaseOrderController = new PurchaseOrderController(
             10,
+            bizStoreManager,
+            imageValidator,
+            imageCommonHelper,
             authenticateMobileService,
             businessUserStoreService,
             purchaseOrderService,
