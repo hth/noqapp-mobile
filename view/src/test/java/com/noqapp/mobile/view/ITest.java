@@ -585,6 +585,8 @@ public class ITest extends RealMongoForITest {
         medicalRecordMobileService = new MedicalRecordMobileService(medicalRecordService);
         medicalFileService = new MedicalFileService(
             medicalRecordManager,
+            medicalPathologyManager,
+            medicalRadiologyManager,
             s3FileManager,
             fileService,
             ftpService
