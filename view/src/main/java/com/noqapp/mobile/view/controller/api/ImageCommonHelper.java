@@ -6,6 +6,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPL
 
 import com.noqapp.common.utils.FileUtil;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.types.medical.LabCategoryEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.service.MedicalFileService;
@@ -221,6 +222,85 @@ public class ImageCommonHelper extends CommonHelper {
         }
     }
 
+    public String uploadLabImage(
+        String did,
+        String dt,
+        String mail,
+        String auth,
+        String transactionId,
+        LabCategoryEnum labCategory,
+        MultipartFile multipartFile,
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = false;
+        Instant start = Instant.now();
+        LOG.info("Medical Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail, auth);
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (multipartFile.isEmpty()) {
+            LOG.error("File name missing in request or no file uploaded");
+            return ErrorEncounteredJson.toJson("File missing in request or no file uploaded.", MOBILE_UPLOAD);
+        }
+
+        try {
+            String filename = processLabImage(transactionId, multipartFile, labCategory);
+            methodStatusSuccess = true;
+            return new JsonResponse(true, filename).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed uploading medical image reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonResponse(false).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/appendImage",
+                "appendImage",
+                MedicalRecordController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    public String removeLabImage(
+        String did,
+        String dt,
+        String mail,
+        String auth,
+        String transactionId,
+        String filename,
+        LabCategoryEnum labCategory,
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = false;
+        Instant start = Instant.now();
+        LOG.info("Remove medical image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail, auth);
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            medicalFileService.removeLabImage(qid, transactionId, filename, labCategory);
+            methodStatusSuccess = true;
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed removing medical image reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonResponse(false).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/removeImage",
+                "removeImage",
+                MedicalRecordController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
     private void processProfileImage(String qid, MultipartFile multipartFile) throws IOException {
         BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
         String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
@@ -241,6 +321,19 @@ public class ImageCommonHelper extends CommonHelper {
         if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
             String filename = FileUtil.createRandomFilenameOf24Chars() + FileUtil.getImageFileExtension(multipartFile.getOriginalFilename(), mimeType);
             medicalFileService.addMedicalImage(recordReferenceId, filename, bufferedImage);
+            return filename;
+        } else {
+            LOG.error("Failed mime mismatch found={} sentMime={}", mimeType, multipartFile.getContentType());
+            throw new RuntimeException("Mime type mismatch");
+        }
+    }
+
+    private String processLabImage(String transactionId, MultipartFile multipartFile, LabCategoryEnum labCategory) throws IOException {
+        BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
+        String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
+        if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
+            String filename = FileUtil.createRandomFilenameOf24Chars() + FileUtil.getImageFileExtension(multipartFile.getOriginalFilename(), mimeType);
+            medicalFileService.addLabImage(transactionId, filename, bufferedImage, labCategory);
             return filename;
         } else {
             LOG.error("Failed mime mismatch found={} sentMime={}", mimeType, multipartFile.getContentType());

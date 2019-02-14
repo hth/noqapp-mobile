@@ -3,6 +3,7 @@ package com.noqapp.mobile.view.controller.api.merchant.store;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
@@ -11,18 +12,34 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonPurchaseOrderList;
+import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
+import com.noqapp.domain.types.catgeory.HealthCareServiceEnum;
+import com.noqapp.domain.types.catgeory.MedicalDepartmentEnum;
+import com.noqapp.domain.types.medical.LabCategoryEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.domain.MedicalPathologyEntity;
+import com.noqapp.medical.domain.MedicalRadiologyEntity;
+import com.noqapp.medical.domain.json.JsonMedicalRecord;
+import com.noqapp.medical.repository.MedicalPathologyManager;
+import com.noqapp.medical.repository.MedicalRadiologyManager;
+import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.OrderServed;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
+import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
+import com.noqapp.mobile.view.validator.ImageValidator;
+import com.noqapp.repository.BizStoreManager;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
@@ -43,7 +60,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -68,6 +87,9 @@ public class PurchaseOrderController {
     private static final Logger LOG = LoggerFactory.getLogger(PurchaseOrderController.class);
 
     private int counterNameLength;
+
+    private ImageValidator imageValidator;
+    private ImageCommonHelper imageCommonHelper;
     private AuthenticateMobileService authenticateMobileService;
     private BusinessUserStoreService businessUserStoreService;
     private PurchaseOrderService purchaseOrderService;
@@ -75,11 +97,20 @@ public class PurchaseOrderController {
     private TokenQueueService tokenQueueService;
     private ApiHealthService apiHealthService;
 
+    private BizStoreManager bizStoreManager;
+    private MedicalPathologyManager medicalPathologyManager;
+    private MedicalRadiologyManager medicalRadiologyManager;
+
     @Autowired
     public PurchaseOrderController(
         @Value("${ManageQueueController.counterNameLength}")
         int counterNameLength,
 
+        BizStoreManager bizStoreManager,
+        MedicalPathologyManager medicalPathologyManager,
+        MedicalRadiologyManager medicalRadiologyManager,
+        ImageValidator imageValidator,
+        ImageCommonHelper imageCommonHelper,
         AuthenticateMobileService authenticateMobileService,
         BusinessUserStoreService businessUserStoreService,
         PurchaseOrderService purchaseOrderService,
@@ -88,6 +119,12 @@ public class PurchaseOrderController {
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
+
+        this.bizStoreManager = bizStoreManager;
+        this.medicalPathologyManager = medicalPathologyManager;
+        this.medicalRadiologyManager = medicalRadiologyManager;
+        this.imageValidator = imageValidator;
+        this.imageCommonHelper = imageCommonHelper;
         this.authenticateMobileService = authenticateMobileService;
         this.businessUserStoreService = businessUserStoreService;
         this.purchaseOrderService = purchaseOrderService;
@@ -572,5 +609,106 @@ public class PurchaseOrderController {
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
+    }
+
+    @PostMapping (
+        value = "/appendImage",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String appendImage(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestPart("file")
+        MultipartFile multipartFile,
+
+        @RequestPart("transactionId")
+        String transactionId,
+
+        HttpServletResponse response
+    ) throws IOException {
+        Map<String, String> errors = imageValidator.validate(multipartFile, ImageValidator.SUPPORTED_FILE.IMAGE_AND_PDF);
+        if (!errors.isEmpty()) {
+            return ErrorEncounteredJson.toJson(errors);
+        }
+
+        PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(transactionId);
+        if (null == purchaseOrder) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+            return null;
+        }
+
+        BizStoreEntity bizStore = bizStoreManager.getById(purchaseOrder.getBizStoreId());
+        if (bizStore.getBusinessType() == BusinessTypeEnum.HS) {
+            LabCategoryEnum labCategory = LabCategoryEnum.valueOf(bizStore.getBizCategoryId());
+            return imageCommonHelper.uploadLabImage(
+                did.getText(),
+                dt.getText(),
+                mail.getText(),
+                auth.getText(),
+                transactionId,
+                labCategory,
+                multipartFile,
+                response);
+        }
+
+        return new JsonResponse(false, null).asJson();
+    }
+
+    @PostMapping (
+        value = "/removeImage",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String removeImage(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestPart("transactionId")
+        String transactionId,
+
+        @RequestPart("filename")
+        String filename,
+
+        HttpServletResponse response
+    ) throws IOException {
+        PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(transactionId);
+        if (null == purchaseOrder) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+            return null;
+        }
+
+        BizStoreEntity bizStore = bizStoreManager.getById(purchaseOrder.getBizStoreId());
+        if (bizStore.getBusinessType() == BusinessTypeEnum.HS) {
+            LabCategoryEnum labCategory = LabCategoryEnum.valueOf(bizStore.getBizCategoryId());
+            return imageCommonHelper.removeLabImage(
+                did.getText(),
+                dt.getText(),
+                mail.getText(),
+                auth.getText(),
+                transactionId,
+                filename,
+                labCategory,
+                response);
+        }
+
+        return new JsonResponse(false).asJson();
     }
 }
