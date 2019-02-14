@@ -34,6 +34,7 @@ import com.noqapp.medical.repository.MedicalPathologyManager;
 import com.noqapp.medical.repository.MedicalRadiologyManager;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.OrderServed;
+import com.noqapp.mobile.domain.body.merchant.RemoveLabFile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
@@ -681,15 +682,12 @@ public class PurchaseOrderController {
         @RequestHeader ("X-R-AUTH")
         ScrubbedInput auth,
 
-        @RequestPart("transactionId")
-        String transactionId,
-
-        @RequestPart("filename")
-        String filename,
+        @RequestBody
+        RemoveLabFile removeLabFile,
 
         HttpServletResponse response
     ) throws IOException {
-        PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(transactionId);
+        PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(removeLabFile.getTransactionId());
         if (null == purchaseOrder) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
@@ -703,8 +701,8 @@ public class PurchaseOrderController {
                 dt.getText(),
                 mail.getText(),
                 auth.getText(),
-                transactionId,
-                filename,
+                removeLabFile.getTransactionId(),
+                removeLabFile.getFilename(),
                 labCategory,
                 response);
         }
