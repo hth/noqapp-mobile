@@ -631,6 +631,14 @@ public class PurchaseOrderController {
 
         HttpServletResponse response
     ) throws IOException {
+        LOG.info("Add image mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/appendImage by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
         Map<String, String> errors = imageValidator.validate(multipartFile, ImageValidator.SUPPORTED_FILE.IMAGE_AND_PDF);
         if (!errors.isEmpty()) {
             return ErrorEncounteredJson.toJson(errors);
@@ -681,6 +689,14 @@ public class PurchaseOrderController {
 
         HttpServletResponse response
     ) throws IOException {
+        LOG.info("Removed image mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/removeImage by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
         PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(removeLabFile.getTransactionId());
         if (null == purchaseOrder) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
