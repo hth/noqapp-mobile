@@ -234,7 +234,7 @@ public class ImageCommonHelper extends CommonHelper {
     ) throws IOException {
         boolean methodStatusSuccess = false;
         Instant start = Instant.now();
-        LOG.info("Medical Image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
+        LOG.info("Lab image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail, auth);
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -276,7 +276,7 @@ public class ImageCommonHelper extends CommonHelper {
     ) throws IOException {
         boolean methodStatusSuccess = false;
         Instant start = Instant.now();
-        LOG.info("Remove medical image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
+        LOG.info("Remove lab image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail, auth);
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
