@@ -15,6 +15,7 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.client.ClientProfileAPIController;
 import com.noqapp.mobile.view.controller.api.merchant.health.MedicalRecordController;
+import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.service.FileService;
 
 import org.slf4j.Logger;
@@ -222,7 +223,7 @@ public class ImageCommonHelper extends CommonHelper {
         }
     }
 
-    public String uploadLabImage(
+    public String uploadLabAttachment(
         String did,
         String dt,
         String mail,
@@ -234,7 +235,7 @@ public class ImageCommonHelper extends CommonHelper {
     ) throws IOException {
         boolean methodStatusSuccess = false;
         Instant start = Instant.now();
-        LOG.info("Lab image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
+        LOG.info("Lab attachment upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail, auth);
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -251,20 +252,20 @@ public class ImageCommonHelper extends CommonHelper {
             methodStatusSuccess = true;
             return new JsonResponse(true, filename).asJson();
         } catch (Exception e) {
-            LOG.error("Failed uploading medical image reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed uploading lab attachment reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new JsonResponse(false).asJson();
         } finally {
             apiHealthService.insert(
-                "/appendImage",
-                "appendImage",
-                MedicalRecordController.class.getName(),
+                "/addAttachment",
+                "addAttachment",
+                PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
-    public String removeLabImage(
+    public String removeLabAttachment(
         String did,
         String dt,
         String mail,
@@ -276,7 +277,7 @@ public class ImageCommonHelper extends CommonHelper {
     ) throws IOException {
         boolean methodStatusSuccess = false;
         Instant start = Instant.now();
-        LOG.info("Remove lab image upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
+        LOG.info("Remove lab attachment upload dt={} did={} mail={}, auth={}", dt, did, mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail, auth);
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -293,9 +294,9 @@ public class ImageCommonHelper extends CommonHelper {
             return new JsonResponse(false).asJson();
         } finally {
             apiHealthService.insert(
-                "/removeImage",
-                "removeImage",
-                MedicalRecordController.class.getName(),
+                "/removeAttachment",
+                "removeAttachment",
+                PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }

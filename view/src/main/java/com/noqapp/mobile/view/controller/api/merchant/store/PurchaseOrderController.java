@@ -2,8 +2,8 @@ package com.noqapp.mobile.view.controller.api.merchant.store;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ACCESS_DENIED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
@@ -22,8 +22,6 @@ import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
-import com.noqapp.domain.types.catgeory.HealthCareServiceEnum;
-import com.noqapp.domain.types.catgeory.MedicalDepartmentEnum;
 import com.noqapp.domain.types.medical.LabCategoryEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -34,7 +32,7 @@ import com.noqapp.medical.repository.MedicalPathologyManager;
 import com.noqapp.medical.repository.MedicalRadiologyManager;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.OrderServed;
-import com.noqapp.mobile.domain.body.merchant.RemoveLabFile;
+import com.noqapp.mobile.domain.body.merchant.LabFile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
@@ -99,6 +97,8 @@ public class PurchaseOrderController {
     private ApiHealthService apiHealthService;
 
     private BizStoreManager bizStoreManager;
+    private MedicalRadiologyManager medicalRadiologyManager;
+    private MedicalPathologyManager medicalPathologyManager;
 
     @Autowired
     public PurchaseOrderController(
@@ -106,6 +106,8 @@ public class PurchaseOrderController {
         int counterNameLength,
 
         BizStoreManager bizStoreManager,
+        MedicalRadiologyManager medicalRadiologyManager,
+        MedicalPathologyManager medicalPathologyManager,
         ImageValidator imageValidator,
         ImageCommonHelper imageCommonHelper,
         AuthenticateMobileService authenticateMobileService,
@@ -118,6 +120,8 @@ public class PurchaseOrderController {
         this.counterNameLength = counterNameLength;
 
         this.bizStoreManager = bizStoreManager;
+        this.medicalRadiologyManager = medicalRadiologyManager;
+        this.medicalPathologyManager = medicalPathologyManager;
         this.imageValidator = imageValidator;
         this.imageCommonHelper = imageCommonHelper;
         this.authenticateMobileService = authenticateMobileService;
@@ -607,10 +611,10 @@ public class PurchaseOrderController {
     }
 
     @PostMapping (
-        value = "/appendImage",
+        value = "/addAttachment",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String appendImage(
+    public String addAttachment(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -626,15 +630,15 @@ public class PurchaseOrderController {
         @RequestPart("file")
         MultipartFile multipartFile,
 
-        @RequestPart("transactionId")
+        @RequestPart("ti")
         String transactionId,
 
         HttpServletResponse response
     ) throws IOException {
-        LOG.info("Add image mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("Add attachment mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/appendImage by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/addAttachment by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -653,7 +657,7 @@ public class PurchaseOrderController {
         BizStoreEntity bizStore = bizStoreManager.getById(purchaseOrder.getBizStoreId());
         if (bizStore.getBusinessType() == BusinessTypeEnum.HS) {
             LabCategoryEnum labCategory = LabCategoryEnum.valueOf(bizStore.getBizCategoryId());
-            return imageCommonHelper.uploadLabImage(
+            return imageCommonHelper.uploadLabAttachment(
                 did.getText(),
                 dt.getText(),
                 mail.getText(),
@@ -668,10 +672,10 @@ public class PurchaseOrderController {
     }
 
     @PostMapping (
-        value = "/removeImage",
+        value = "/removeAttachment",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String removeImage(
+    public String removeAttachment(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -685,19 +689,19 @@ public class PurchaseOrderController {
         ScrubbedInput auth,
 
         @RequestBody
-        RemoveLabFile removeLabFile,
+        LabFile labFile,
 
         HttpServletResponse response
     ) throws IOException {
         LOG.info("Removed image mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/removeImage by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/removeAttachment by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
 
-        PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(removeLabFile.getTransactionId());
+        PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(labFile.getTransactionId());
         if (null == purchaseOrder) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
             return null;
@@ -706,17 +710,98 @@ public class PurchaseOrderController {
         BizStoreEntity bizStore = bizStoreManager.getById(purchaseOrder.getBizStoreId());
         if (bizStore.getBusinessType() == BusinessTypeEnum.HS) {
             LabCategoryEnum labCategory = LabCategoryEnum.valueOf(bizStore.getBizCategoryId());
-            return imageCommonHelper.removeLabImage(
+            return imageCommonHelper.removeLabAttachment(
                 did.getText(),
                 dt.getText(),
                 mail.getText(),
                 auth.getText(),
-                removeLabFile.getTransactionId(),
-                removeLabFile.getFilename(),
+                labFile.getTransactionId(),
+                labFile.getDeleteAttachment(),
                 labCategory,
                 response);
         }
 
         return new JsonResponse(false).asJson();
+    }
+
+    /** Retrieve record before adding. */
+    @PostMapping(
+        value = "/showAttachment",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String showAttachment(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        LabFile labFile,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Retrieve medical record mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/showAttachment by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(labFile.getTransactionId());
+            if (null == purchaseOrder) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+                return null;
+            }
+
+            BizStoreEntity bizStore = bizStoreManager.getById(purchaseOrder.getBizStoreId());
+            if(bizStore.getBusinessType() == BusinessTypeEnum.HS) {
+                LabCategoryEnum labCategory = LabCategoryEnum.valueOf(bizStore.getBizCategoryId());
+                switch (labCategory) {
+                    case MRI:
+                    case SONO:
+                    case XRAY:
+                    case SCAN:
+                    case SPEC:
+                        MedicalRadiologyEntity medicalRadiology = medicalRadiologyManager.findByTransactionId(labFile.getTransactionId());
+                        labFile
+                            .setRecordReferenceId(medicalRadiology.getId())
+                            .setFiles(medicalRadiology.getImages());
+                        break;
+                    case PATH:
+                        MedicalPathologyEntity medicalPathology = medicalPathologyManager.findByTransactionId(labFile.getTransactionId());
+                        labFile
+                            .setRecordReferenceId(medicalPathology.getId())
+                            .setFiles(medicalPathology.getImages());
+                        break;
+                    default:
+                        LOG.error("Reached unreachable condition {}", labCategory);
+                        throw new UnsupportedOperationException("Reached unreachable condition");
+                }
+            }
+
+            return labFile.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed accessing medical record json={} qid={} message={}", mr, qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/showAttachment",
+                "showAttachment",
+                PurchaseOrderController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
     }
 }
