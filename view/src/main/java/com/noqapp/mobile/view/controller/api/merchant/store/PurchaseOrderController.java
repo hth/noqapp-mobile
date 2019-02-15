@@ -749,7 +749,7 @@ public class PurchaseOrderController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Retrieve medical record mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        LOG.info("Show attachment mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/showAttachment by mail={}", mail);
@@ -792,7 +792,7 @@ public class PurchaseOrderController {
 
             return labFile.asJson();
         } catch (Exception e) {
-            LOG.error("Failed accessing medical record json={} qid={} message={}", mr, qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed showing attachment record json={} qid={} message={}", labFile.asJson(), qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
