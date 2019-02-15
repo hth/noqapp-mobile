@@ -87,57 +87,6 @@ public class PreferredStoreController {
         this.apiHealthService = apiHealthService;
     }
 
-    /** Gets all preferred business stores. Remove when lowest supported version is 1.2.200 */
-    @Deprecated
-    @GetMapping(
-            value = "/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
-    )
-    public String getAllPreferredStores(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
-
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
-
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
-
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
-
-            @PathVariable("codeQR")
-            ScrubbedInput codeQR,
-
-            HttpServletResponse response
-    ) throws IOException {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.info("Fetch mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/h/preferredStore/{codeQR} by {} mail={}", codeQR.getText(), mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        try {
-            BizStoreEntity bizStore = bizService.findByCodeQR(codeQR.getText());
-            return preferredBusinessService.findAllAsJson(bizStore).asJson();
-        } catch (Exception e) {
-            LOG.error("Failed getting preferred store qid={} code={} message={}", qid, codeQR.getText(), e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
-        } finally {
-            apiHealthService.insert(
-                "/api/m/h/preferredStore/{codeQR}",
-                "getAllPreferredStores",
-                PreferredStoreController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
     /** Gets all preferred business stores. */
     @GetMapping(
         value = "/all",
