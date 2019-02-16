@@ -6,6 +6,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.BUSINESS_N
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ACCESS_DENIED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_DOES_NOT_EXISTS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ENTRY_DENIED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_POPULATED_WITH_LAB;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
@@ -18,6 +19,7 @@ import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
+import com.noqapp.medical.exception.ExistingLabResultException;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
@@ -156,6 +158,10 @@ public class MedicalRecordController {
 
             medicalRecordService.addMedicalRecord(jsonMedicalRecord, qid);
             return new JsonResponse(true).asJson();
+        } catch (ExistingLabResultException e) {
+            LOG.error("Failed updating medical record with lab result json={} qid={} message={}", jsonMedicalRecord, qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Medical record has lab result. Delete to update.", MEDICAL_RECORD_POPULATED_WITH_LAB);
         } catch (Exception e) {
             LOG.error("Failed processing medical record json={} qid={} message={}", jsonMedicalRecord, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
