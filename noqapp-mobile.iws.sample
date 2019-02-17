@@ -13,9 +13,11 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce4aae21-7da1-43f7-90b2-27a3d8456c49" name="Default" comment="">
+    <list default="true" id="ce4aae21-7da1-43f7-90b2-27a3d8456c49" name="Default" comment="updated latest version">
       <change beforePath="$PROJECT_DIR$/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/environment/dev/dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/view/environment/dev/dev.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/health/UserMedicalProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/health/UserMedicalProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/ITest.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/ITest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/ManageQueueControllerITest.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/ManageQueueControllerITest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/view.iml" beforeDir="false" afterPath="$PROJECT_DIR$/view/view.iml" afterDir="false" />
     </list>
@@ -142,145 +144,98 @@
     <favorites_list name="noqapp-mobile" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.8825417">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/QueueMobileService.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="478">
-                  <caret line="408" column="31" lean-forward="true" selection-start-line="408" selection-start-column="31" selection-end-line="408" selection-end-column="31" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="e#18940#18941#0" expanded="true" />
-                    <element signature="e#21388#21389#0" expanded="true" />
-                    <element signature="e#21659#21660#0" expanded="true" />
-                    <element signature="e#22082#22083#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/health/MasterLabController.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="225">
-                  <caret line="65" column="31" lean-forward="true" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/mail/ReviewSentiment.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="379">
-                  <caret line="67" column="34" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/QueueEntity.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="178">
-                  <caret line="203" column="18" selection-start-line="203" selection-start-column="18" selection-end-line="203" selection-end-column="18" />
-                  <folding>
-                    <element signature="e#4072#4073#0" expanded="true" />
-                    <element signature="e#4106#4107#0" expanded="true" />
-                    <element signature="e#4761#4762#0" expanded="true" />
-                    <element signature="e#4796#4797#0" expanded="true" />
-                    <element signature="e#4968#4969#0" expanded="true" />
-                    <element signature="e#5004#5005#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/types/LowestSupportedAppEnum.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="749">
-                  <caret line="85" column="30" lean-forward="true" selection-start-line="85" selection-start-column="30" selection-end-line="85" selection-end-column="30" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/ITest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2750">
-                  <caret line="1098" column="47" selection-start-line="1098" selection-start-column="47" selection-end-line="1098" selection-end-column="47" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordControllerTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="494">
-                  <caret line="64" column="10" lean-forward="true" selection-start-line="64" selection-start-column="10" selection-end-line="64" selection-end-column="10" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/BusinessUserStoreService.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="238">
-                  <caret line="56" column="22" selection-start-line="56" selection-start-column="22" selection-end-line="56" selection-end-column="22" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/BusinessUserStoreManager.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="136">
-                  <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/BusinessUserManager.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="668">
-                  <caret line="60" column="29" selection-start-line="60" selection-start-column="29" selection-end-line="60" selection-end-column="29" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/ITest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="113">
-                  <caret line="504" selection-start-line="504" selection-end-line="505" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gradle.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="140">
+              <caret line="45" column="10" selection-start-line="45" selection-start-column="10" selection-end-line="45" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/exception/DeviceDetailMissingException.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/QueueMobileService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="467">
+              <caret line="428" column="37" lean-forward="true" selection-start-line="428" selection-start-column="37" selection-end-line="428" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/QueueManagerJDBC.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="449">
+              <caret line="44" column="12" selection-start-line="44" selection-start-column="12" selection-end-line="44" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/QueueManagerJDBCImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="416">
+              <caret line="269" column="43" lean-forward="true" selection-start-line="269" selection-start-column="43" selection-end-line="269" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jdbc/5.0.2.RELEASE/791175a228ad202bb8862203c1a9296dca0a93dd/spring-jdbc-5.0.2.RELEASE-sources.jar!/org/springframework/jdbc/core/JdbcTemplate.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="294">
+              <caret line="844" column="18" selection-start-line="844" selection-start-column="18" selection-end-line="844" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common/src/main/java/com/noqapp/mobile/common/util/MobileSystemErrorCodeEnum.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1054">
+              <caret line="62" lean-forward="true" selection-start-line="62" selection-end-line="62" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="247">
+              <caret line="163" column="98" lean-forward="true" selection-start-line="163" selection-start-column="98" selection-end-line="163" selection-end-column="98" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/client/ClientProfileAPIControllerITest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/client/DependentAPIControllerITest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="31" column="6" selection-start-line="31" selection-start-column="6" selection-end-line="31" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -295,36 +250,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>DataProtection</find>
-      <find>getDataVisibilities</find>
-      <find>weight</find>
-      <find>professionalProfileService</find>
-      <find>TN</find>
-      <find>historicalRecords</find>
-      <find>getJsonProfessionalProfileByQid</find>
-      <find>businessUserStoreManager</find>
-      <find>bizStoreManager</find>
-      <find>SYSTEM_ERROR</find>
-      <find>GRADLE_ENV</find>
-      <find>FilenameUtils.getExtension</find>
-      <find>getPreferredBusinessTarGZ</find>
-      <find>BizStoreElastic</find>
-      <find>BizStoreElasticList</find>
-      <find>Change mail</find>
-      <find>getMasterTarGZ</find>
-      <find>2018</find>
-      <find>2018 NoQueue</find>
-      <find>findByIds</find>
-      <find>Radio</find>
-      <find>createBusinessDoctor</find>
-      <find>9118000000030</find>
-      <find>addStoreUsersToPharmacy</find>
-      <find>userMedicalProfileService</find>
-      <find>awaitili</find>
+      <find>professionalProfileManager</find>
+      <find>profileCommonHelper</find>
+      <find>checkSelfOrDependent</find>
+      <find>ResponseBody</find>
+      <find>loader.</find>
+      <find>formVersion</find>
+      <find>MedicalRecordService</find>
+      <find>addMedicalImage</find>
+      <find>removeProfileImage</find>
+      <find>Failed uploading medical image reason</find>
+      <find>bizStoreElasticService</find>
+      <find>levelUp</find>
+      <find>createBizStoreSearchDSLQuery</find>
+      <find>accountClientController</find>
+      <find>masterLabService</find>
+      <find>QueueHistory.moveToRDBS</find>
+      <find>totalClient</find>
+      <find>findAllAsJson</find>
+      <find>`</find>
+      <find>@Depre</find>
       <find>await</find>
-      <find>mail</find>
-      <find>reviewShow</find>
-      <find>mailChange</find>
+      <find>juni</find>
+      <find>isSupportedWithFlavor_Success_NQCL</find>
+      <find>bizCategoryId</find>
+      <find>default:</find>
+      <find>medicalRe</find>
+      <find>@De</find>
+      <find>recordReferenceId</find>
+      <find>images</find>
+      <find>status</find>
     </findStrings>
     <replaceStrings>
       <replace>served</replace>
@@ -362,57 +317,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/ShowProfessionalProfileHTMLService.java" />
-        <option value="$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/tv/VigyaapanMobileService.java" />
-        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/json/tv/JsonVigyaapanTV.java" />
-        <option value="$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/ProfessionalProfileService.java" />
-        <option value="$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/AccountService.java" />
-        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/ManageQueueSettingController.java" />
-        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/MerchantProfileController.java" />
-        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/validator/ProfessionalProfileValidator.java" />
-        <option value="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/MerchantProfileControllerITest.java" />
-        <option value="$PROJECT_DIR$/deploy.gradle" />
-        <option value="$PROJECT_DIR$/../noqapp/common/src/main/java/com/noqapp/common/utils/FileUtil.java" />
-        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/health/PreferredStoreController.java" />
-        <option value="$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/FileService.java" />
-        <option value="$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/TokenQueueMobileService.java" />
-        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/FeedController.java" />
-        <option value="$PROJECT_DIR$/view/web/WEB-INF/jsp/isWorking.jsp" />
-        <option value="$PROJECT_DIR$/view/resources/xslfo/xslt/business-detail.xsl" />
-        <option value="$PROJECT_DIR$/view/web/WEB-INF/freemarker/html/show-business.ftl" />
-        <option value="$PROJECT_DIR$/view/web/WEB-INF/freemarker/html/show-business-blank.ftl" />
-        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/health/MedicalRecordAPIController.java" />
-        <option value="$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PurchaseOrderService.java" />
-        <option value="$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/domain/MedicalRecordEntity.java" />
-        <option value="$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/domain/MedicalPhysicalEntity.java" />
-        <option value="$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/domain/UserMedicalProfileHistoryEntity.java" />
-        <option value="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordControllerTest.java" />
-        <option value="$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/AccountMobileService.java" />
-        <option value="$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/UserMedicalProfileService.java" />
-        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/health/UserMedicalProfileController.java" />
-        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/PreferredBusinessEntity.java" />
+        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/PurchaseOrderManagerImpl.java" />
         <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/json/JsonPreferredBusiness.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/validator/ImageValidator.java" />
+        <option value="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/client/ClientProfileAPIControllerITest.java" />
+        <option value="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/MerchantProfileControllerITest.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/ProfileCommonHelper.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/ClientProfileAPIController.java" />
+        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/json/JsonPreferredBusinessList.java" />
+        <option value="$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/domain/json/JsonMedicalRecord.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/CommonHelper.java" />
+        <option value="$PROJECT_DIR$/../noqapp/search/src/main/java/com/noqapp/search/elastic/service/SearchBizStoreElasticService.java" />
+        <option value="$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/TokenQueueMobileService.java" />
+        <option value="$PROJECT_DIR$/../noqapp/search/src/main/java/com/noqapp/search/elastic/domain/BizStoreElasticList.java" />
+        <option value="$PROJECT_DIR$/../noqapp/search/src/main/java/com/noqapp/search/elastic/domain/SearchBizStoreElasticList.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/SearchBusinessStoreController.java" />
+        <option value="$PROJECT_DIR$/../noqapp/search/src/main/java/com/noqapp/search/elastic/service/BizStoreElasticService.java" />
+        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/json/JsonResponse.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/ManageQueueController.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/DependentAPIController.java" />
+        <option value="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/ManageQueueControllerITest.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/MerchantProfileController.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/MerchantStatsController.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/health/MasterLabController.java" />
+        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/json/JsonLatestAppVersion.java" />
+        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/stats/NewRepeatCustomers.java" />
+        <option value="$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/QueueService.java" />
+        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/StatsBizStoreDailyManagerImpl.java" />
+        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/StatsBizStoreDailyEntity.java" />
+        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/json/medical/JsonUserMedicalProfile.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/health/UserMedicalProfileController.java" />
         <option value="$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PreferredBusinessService.java" />
-        <option value="$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/domain/json/JsonMedicalRadiologyList.java" />
+        <option value="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/open/DeviceControllerITest.java" />
+        <option value="$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/repository/MedicalPathologyManager.java" />
+        <option value="$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/repository/MedicalPathologyManagerImpl.java" />
+        <option value="$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/repository/MedicalRadiologyManagerImpl.java" />
+        <option value="$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/repository/MedicalRadiologyManager.java" />
+        <option value="$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalFileService.java" />
+        <option value="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/ITest.java" />
+        <option value="$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/body/merchant/LabRemoveFile.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/health/PreferredStoreController.java" />
+        <option value="$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/body/merchant/RemoveLabFile.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/ImageCommonHelper.java" />
+        <option value="$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/body/merchant/LabFile.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/store/PurchaseOrderController.java" />
+        <option value="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordControllerTest.java" />
         <option value="$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java" />
-        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordController.java" />
-        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/ReviewAPIController.java" />
-        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/QueueManagerImpl.java" />
-        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/QueueManager.java" />
-        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/QueueManagerJDBC.java" />
-        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/QueueManagerJDBCImpl.java" />
+        <option value="$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/types/LowestSupportedAppEnum.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/gradle.properties" />
-        <option value="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/open/ReviewControllerITest.java" />
-        <option value="$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/types/SentimentTypeEnum.java" />
-        <option value="$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/NLPService.java" />
-        <option value="$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/WebConnectorService.java" />
-        <option value="$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/mail/ReviewSentiment.java" />
-        <option value="$PROJECT_DIR$/view/web/WEB-INF/freemarker/mail/reviewSentiment.ftl" />
-        <option value="$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/types/LowestSupportedAppEnum.java" />
-        <option value="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/ITest.java" />
-        <option value="$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/QueueMobileService.java" />
-        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/health/MasterLabController.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/noqapp/mobile/common/util/MobileSystemErrorCodeEnum.java" />
+        <option value="$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordController.java" />
       </list>
     </option>
   </component>
@@ -430,10 +385,10 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="157" />
-    <option name="y" value="24" />
-    <option name="width" value="1600" />
-    <option name="height" value="1000" />
+    <option name="x" value="163" />
+    <option name="y" value="23" />
+    <option name="width" value="1385" />
+    <option name="height" value="1045" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -442,43 +397,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="noqapp-mobile" type="58d84e3e:PackageViewProjectNode" />
-              <item name="view" type="eaaa3913:PackageViewModuleGroupNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="58d84e3e:PackageViewProjectNode" />
-              <item name="view" type="eaaa3913:PackageViewModuleGroupNode" />
-              <item name="view_test" type="616d4139:PackageViewModuleNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="58d84e3e:PackageViewProjectNode" />
-              <item name="view" type="eaaa3913:PackageViewModuleGroupNode" />
-              <item name="view_test" type="616d4139:PackageViewModuleNode" />
-              <item name="com.noqapp.mobile.view" type="1f31426a:PackageElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="58d84e3e:PackageViewProjectNode" />
-              <item name="view" type="eaaa3913:PackageViewModuleGroupNode" />
-              <item name="view_test" type="616d4139:PackageViewModuleNode" />
-              <item name="com.noqapp.mobile.view" type="1f31426a:PackageElementNode" />
-              <item name="controller" type="1f31426a:PackageElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="58d84e3e:PackageViewProjectNode" />
-              <item name="view" type="eaaa3913:PackageViewModuleGroupNode" />
-              <item name="view_test" type="616d4139:PackageViewModuleNode" />
-              <item name="com.noqapp.mobile.view" type="1f31426a:PackageElementNode" />
-              <item name="controller" type="1f31426a:PackageElementNode" />
-              <item name="api.merchant" type="1f31426a:PackageElementNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -729,6 +647,16 @@
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="exception" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
+              <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="service" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
               <item name="tv" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -759,12 +687,6 @@
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
               <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="view" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="noqapp-mobile" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="view" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
@@ -1118,141 +1040,65 @@
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="&lt; 11 &gt;" type="70bed36:NamedLibraryElementNode" />
             </path>
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="rt.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="&lt; 11 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java.base" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="rt.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="&lt; 11 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java.base" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="rt.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="&lt; 11 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java.base" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
+              <item name="io" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="noqapp-mobile" type="58d84e3e:PackageViewProjectNode" />
+              <item name="view" type="eaaa3913:PackageViewModuleGroupNode" />
             </path>
             <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="rt.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="reflect" type="462c0819:PsiDirectoryNode" />
+              <item name="noqapp-mobile" type="58d84e3e:PackageViewProjectNode" />
+              <item name="view" type="eaaa3913:PackageViewModuleGroupNode" />
+              <item name="view_test" type="616d4139:PackageViewModuleNode" />
             </path>
             <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="rt.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
+              <item name="noqapp-mobile" type="58d84e3e:PackageViewProjectNode" />
+              <item name="view" type="eaaa3913:PackageViewModuleGroupNode" />
+              <item name="view_test" type="616d4139:PackageViewModuleNode" />
+              <item name="com.noqapp.mobile.view" type="1f31426a:PackageElementNode" />
             </path>
             <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="rt.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-              <item name="concurrent" type="462c0819:PsiDirectoryNode" />
+              <item name="noqapp-mobile" type="58d84e3e:PackageViewProjectNode" />
+              <item name="view" type="eaaa3913:PackageViewModuleGroupNode" />
+              <item name="view_test" type="616d4139:PackageViewModuleNode" />
+              <item name="com.noqapp.mobile.view" type="1f31426a:PackageElementNode" />
+              <item name="controller" type="1f31426a:PackageElementNode" />
             </path>
             <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.noqapp:domain:1.3.0" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.noqapp:domain:1.3.0" type="70bed36:NamedLibraryElementNode" />
-              <item name="domain-1.3.0.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.noqapp:domain:1.3.0" type="70bed36:NamedLibraryElementNode" />
-              <item name="domain-1.3.0.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="noqapp" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.noqapp:domain:1.3.0" type="70bed36:NamedLibraryElementNode" />
-              <item name="domain-1.3.0.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="noqapp" type="462c0819:PsiDirectoryNode" />
-              <item name="domain" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.noqapp:domain:1.3.0" type="70bed36:NamedLibraryElementNode" />
-              <item name="domain-1.3.0.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="noqapp" type="462c0819:PsiDirectoryNode" />
-              <item name="domain" type="462c0819:PsiDirectoryNode" />
-              <item name="types" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.noqapp:domain:1.3.0" type="70bed36:NamedLibraryElementNode" />
-              <item name="domain-1.3.0.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="noqapp" type="462c0819:PsiDirectoryNode" />
-              <item name="repository" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.noqapp:service:1.3.0" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.noqapp:service:1.3.0" type="70bed36:NamedLibraryElementNode" />
-              <item name="service-1.3.0.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: com.noqapp:service:1.3.0" type="70bed36:NamedLibraryElementNode" />
-              <item name="service-1.3.0.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.awaitility:awaitility:3.1.5" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.awaitility:awaitility:3.1.5" type="70bed36:NamedLibraryElementNode" />
-              <item name="awaitility-3.1.5.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.awaitility:awaitility:3.1.5" type="70bed36:NamedLibraryElementNode" />
-              <item name="awaitility-3.1.5.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="awaitility" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="noqapp-mobile" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="Gradle: org.awaitility:awaitility:3.1.5" type="70bed36:NamedLibraryElementNode" />
-              <item name="awaitility-3.1.5.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="awaitility" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="noqapp-mobile" type="58d84e3e:PackageViewProjectNode" />
+              <item name="view" type="eaaa3913:PackageViewModuleGroupNode" />
+              <item name="view_test" type="616d4139:PackageViewModuleNode" />
+              <item name="com.noqapp.mobile.view" type="1f31426a:PackageElementNode" />
+              <item name="controller" type="1f31426a:PackageElementNode" />
+              <item name="api.merchant" type="1f31426a:PackageElementNode" />
             </path>
           </expand>
           <select />
@@ -1282,7 +1128,7 @@
     <property name="android.project.structure.last.selected" value="Project" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1547557894431" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550411363508" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="DDL Data Source&#10;MySQL" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
@@ -1293,7 +1139,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/view/web/WEB-INF/security/secure.xml" />
     <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15270709" />
     <property name="project.structure.side.proportion" value="0.25679228" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -1307,8 +1153,10 @@
       <recent name="com.noqapp.mobile.view.controller.open" />
       <recent name="com.noqapp.mobile.common.util" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.noqapp.mobile.view.controller.open" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/view/resources/elastic" />
+      <recent name="$PROJECT_DIR$/documentation/client" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view" />
@@ -1319,10 +1167,8 @@
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/view/resources/elastic" />
-      <recent name="$PROJECT_DIR$/documentation/client" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.noqapp.mobile.view.controller.open" />
     </key>
   </component>
   <component name="RestClientSettings">
@@ -3044,7 +2890,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.MedicalRecordControllerTest">
+  <component name="RunManager" selected="Tomcat Server.noqapp-mobile">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="DEPLOY" value="true" />
@@ -3229,6 +3075,55 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2" />
     </configuration>
+    <configuration name="AccountClientControllerITest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="view_test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.noqapp.mobile.view.controller.open.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.noqapp.mobile.view.controller.open" />
+      <option name="MAIN_CLASS_NAME" value="com.noqapp.mobile.view.controller.open.AccountClientControllerITest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DeviceControllerITest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="view_test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.noqapp.mobile.view.controller.open.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.noqapp.mobile.view.controller.open" />
+      <option name="MAIN_CLASS_NAME" value="com.noqapp.mobile.view.controller.open.DeviceControllerITest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ManageQueueControllerITest.changeUserInQueue" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="view_test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.noqapp.mobile.view.controller.api.merchant.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.noqapp.mobile.view.controller.api.merchant" />
+      <option name="MAIN_CLASS_NAME" value="com.noqapp.mobile.view.controller.api.merchant.ManageQueueControllerITest" />
+      <option name="METHOD_NAME" value="changeUserInQueue" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MedicalRecordControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="view_test" />
       <extension name="coverage">
@@ -3245,50 +3140,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ReviewControllerITest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MedicalRecordControllerTest.updateMultipleTimes" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="view_test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.noqapp.mobile.view.controller.open.*" />
+          <option name="PATTERN" value="com.noqapp.mobile.view.controller.api.merchant.health.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.noqapp.mobile.view.controller.open" />
-      <option name="MAIN_CLASS_NAME" value="com.noqapp.mobile.view.controller.open.ReviewControllerITest" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ReviewControllerITest.queueReview" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="view_test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.noqapp.mobile.view.controller.open.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.noqapp.mobile.view.controller.open" />
-      <option name="MAIN_CLASS_NAME" value="com.noqapp.mobile.view.controller.open.ReviewControllerITest" />
-      <option name="METHOD_NAME" value="queueReview" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ReviewControllerITest.service" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="view_test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.noqapp.mobile.view.controller.open.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.noqapp.mobile.view.controller.open" />
-      <option name="MAIN_CLASS_NAME" value="com.noqapp.mobile.view.controller.open.ReviewControllerITest" />
-      <option name="METHOD_NAME" value="service" />
+      <option name="PACKAGE_NAME" value="com.noqapp.mobile.view.controller.api.merchant.health" />
+      <option name="MAIN_CLASS_NAME" value="com.noqapp.mobile.view.controller.api.merchant.health.MedicalRecordControllerTest" />
+      <option name="METHOD_NAME" value="updateMultipleTimes" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
@@ -3297,21 +3159,6 @@
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="com.noqapp.mobile.view in view_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="view_test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.noqapp.mobile.view.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.noqapp.mobile.view" />
-      <option name="TEST_OBJECT" value="package" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -3338,8 +3185,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="noqapp-mobile" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.4" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="1.8">
+    <configuration name="noqapp-mobile" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.4" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="11">
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:9090/noqapp-mobile" />
+      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
+      <option name="UPDATE_CLASSES_ON_FRAME_DEACTIVATION" value="true" />
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="noqapp_mobile:war exploded">
@@ -3421,19 +3270,19 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.MedicalRecordControllerTest" />
-      <item itemvalue="JUnit.com.noqapp.mobile.view in view_test" />
+      <item itemvalue="JUnit.AccountClientControllerITest" />
+      <item itemvalue="JUnit.ManageQueueControllerITest.changeUserInQueue" />
+      <item itemvalue="JUnit.MedicalRecordControllerTest.updateMultipleTimes" />
+      <item itemvalue="JUnit.DeviceControllerITest" />
       <item itemvalue="Tomcat Server.noqapp-mobile" />
-      <item itemvalue="JUnit.ReviewControllerITest" />
-      <item itemvalue="JUnit.ReviewControllerITest.service" />
-      <item itemvalue="JUnit.ReviewControllerITest.queueReview" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DeviceControllerITest" />
+        <item itemvalue="JUnit.MedicalRecordControllerTest.updateMultipleTimes" />
         <item itemvalue="JUnit.MedicalRecordControllerTest" />
-        <item itemvalue="JUnit.ReviewControllerITest.queueReview" />
-        <item itemvalue="JUnit.ReviewControllerITest.service" />
-        <item itemvalue="JUnit.ReviewControllerITest" />
-        <item itemvalue="JUnit.com.noqapp.mobile.view in view_test" />
+        <item itemvalue="JUnit.ManageQueueControllerITest.changeUserInQueue" />
+        <item itemvalue="JUnit.AccountClientControllerITest" />
       </list>
     </recent_temporary>
   </component>
@@ -4333,258 +4182,50 @@
       <workItem from="1547381565307" duration="8098000" />
       <workItem from="1547443238527" duration="8763000" />
       <workItem from="1547487916740" duration="26940000" />
-    </task>
-    <task id="LOCAL-00096" summary="updated version">
-      <created>1543921657942</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1543921657942</updated>
-    </task>
-    <task id="LOCAL-00097" summary="removed gradle cache">
-      <created>1543926778754</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1543926778754</updated>
-    </task>
-    <task id="LOCAL-00098" summary="changed to elastic client">
-      <created>1543967553732</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1543967553732</updated>
-    </task>
-    <task id="LOCAL-00099" summary="fixed test">
-      <created>1543993713050</created>
-      <option name="number" value="00099" />
-      <option name="presentableId" value="LOCAL-00099" />
-      <option name="project" value="LOCAL" />
-      <updated>1543993713052</updated>
-    </task>
-    <task id="LOCAL-00100" summary="abort from any device">
-      <created>1544070399567</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1544070399568</updated>
-    </task>
-    <task id="LOCAL-00101" summary="added back missed did">
-      <created>1544070642776</created>
-      <option name="number" value="00101" />
-      <option name="presentableId" value="LOCAL-00101" />
-      <option name="project" value="LOCAL" />
-      <updated>1544070642776</updated>
-    </task>
-    <task id="LOCAL-00102" summary="return error message when record not found">
-      <created>1544074409904</created>
-      <option name="number" value="00102" />
-      <option name="presentableId" value="LOCAL-00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1544074409906</updated>
-    </task>
-    <task id="LOCAL-00103" summary="updated order activate error message">
-      <created>1544078755309</created>
-      <option name="number" value="00103" />
-      <option name="presentableId" value="LOCAL-00103" />
-      <option name="project" value="LOCAL" />
-      <updated>1544078755309</updated>
-    </task>
-    <task id="LOCAL-00104" summary="updated with new version available">
-      <created>1544078977084</created>
-      <option name="number" value="00104" />
-      <option name="presentableId" value="LOCAL-00104" />
-      <option name="project" value="LOCAL" />
-      <updated>1544078977084</updated>
-    </task>
-    <task id="LOCAL-00105" summary="clean up">
-      <created>1544590619332</created>
-      <option name="number" value="00105" />
-      <option name="presentableId" value="LOCAL-00105" />
-      <option name="project" value="LOCAL" />
-      <updated>1544590619332</updated>
-    </task>
-    <task id="LOCAL-00106" summary="changed image">
-      <created>1544687915647</created>
-      <option name="number" value="00106" />
-      <option name="presentableId" value="LOCAL-00106" />
-      <option name="project" value="LOCAL" />
-      <updated>1544687915648</updated>
-    </task>
-    <task id="LOCAL-00107" summary="added catch exception to show in log">
-      <created>1544723344106</created>
-      <option name="number" value="00107" />
-      <option name="presentableId" value="LOCAL-00107" />
-      <option name="project" value="LOCAL" />
-      <updated>1544723344107</updated>
-    </task>
-    <task id="LOCAL-00108" summary="added another feed">
-      <created>1544764636781</created>
-      <option name="number" value="00108" />
-      <option name="presentableId" value="LOCAL-00108" />
-      <option name="project" value="LOCAL" />
-      <updated>1544764636782</updated>
-    </task>
-    <task id="LOCAL-00109" summary="updated feed">
-      <created>1544770068388</created>
-      <option name="number" value="00109" />
-      <option name="presentableId" value="LOCAL-00109" />
-      <option name="project" value="LOCAL" />
-      <updated>1544770068388</updated>
-    </task>
-    <task id="LOCAL-00110" summary="fixed build">
-      <created>1544969809053</created>
-      <option name="number" value="00110" />
-      <option name="presentableId" value="LOCAL-00110" />
-      <option name="project" value="LOCAL" />
-      <updated>1544969809055</updated>
-    </task>
-    <task id="LOCAL-00111" summary="updated latest version">
-      <created>1545005184212</created>
-      <option name="number" value="00111" />
-      <option name="presentableId" value="LOCAL-00111" />
-      <option name="project" value="LOCAL" />
-      <updated>1545005184217</updated>
-    </task>
-    <task id="LOCAL-00112" summary="formatting">
-      <created>1545068642447</created>
-      <option name="number" value="00112" />
-      <option name="presentableId" value="LOCAL-00112" />
-      <option name="project" value="LOCAL" />
-      <updated>1545068642447</updated>
-    </task>
-    <task id="LOCAL-00113" summary="formatting">
-      <created>1545068738362</created>
-      <option name="number" value="00113" />
-      <option name="presentableId" value="LOCAL-00113" />
-      <option name="project" value="LOCAL" />
-      <updated>1545068738362</updated>
-    </task>
-    <task id="LOCAL-00114" summary="fixed build">
-      <created>1545106425806</created>
-      <option name="number" value="00114" />
-      <option name="presentableId" value="LOCAL-00114" />
-      <option name="project" value="LOCAL" />
-      <updated>1545106425806</updated>
-    </task>
-    <task id="LOCAL-00115" summary="added log">
-      <created>1545111842337</created>
-      <option name="number" value="00115" />
-      <option name="presentableId" value="LOCAL-00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1545111842337</updated>
-    </task>
-    <task id="LOCAL-00116" summary="fixed return Json instead of string">
-      <created>1545117086678</created>
-      <option name="number" value="00116" />
-      <option name="presentableId" value="LOCAL-00116" />
-      <option name="project" value="LOCAL" />
-      <updated>1545117086679</updated>
-    </task>
-    <task id="LOCAL-00117" summary="added null check condition">
-      <created>1545120544119</created>
-      <option name="number" value="00117" />
-      <option name="presentableId" value="LOCAL-00117" />
-      <option name="project" value="LOCAL" />
-      <updated>1545120544119</updated>
-    </task>
-    <task id="LOCAL-00118" summary="added initialization">
-      <created>1545128459144</created>
-      <option name="number" value="00118" />
-      <option name="presentableId" value="LOCAL-00118" />
-      <option name="project" value="LOCAL" />
-      <updated>1545128459144</updated>
-    </task>
-    <task id="LOCAL-00119" summary="clean up">
-      <created>1545137932689</created>
-      <option name="number" value="00119" />
-      <option name="presentableId" value="LOCAL-00119" />
-      <option name="project" value="LOCAL" />
-      <updated>1545137932689</updated>
-    </task>
-    <task id="LOCAL-00120" summary="fixed NPE">
-      <created>1545140774188</created>
-      <option name="number" value="00120" />
-      <option name="presentableId" value="LOCAL-00120" />
-      <option name="project" value="LOCAL" />
-      <updated>1545140774188</updated>
-    </task>
-    <task id="LOCAL-00121" summary="clean up">
-      <created>1545298374717</created>
-      <option name="number" value="00121" />
-      <option name="presentableId" value="LOCAL-00121" />
-      <option name="project" value="LOCAL" />
-      <updated>1545298374717</updated>
-    </task>
-    <task id="LOCAL-00122" summary="fixed Vigyaapan type">
-      <created>1545374178831</created>
-      <option name="number" value="00122" />
-      <option name="presentableId" value="LOCAL-00122" />
-      <option name="project" value="LOCAL" />
-      <updated>1545374178832</updated>
-    </task>
-    <task id="LOCAL-00123" summary="increased version">
-      <created>1545390357559</created>
-      <option name="number" value="00123" />
-      <option name="presentableId" value="LOCAL-00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1545390357559</updated>
-    </task>
-    <task id="LOCAL-00124" summary="increased latest release version">
-      <created>1545458345275</created>
-      <option name="number" value="00124" />
-      <option name="presentableId" value="LOCAL-00124" />
-      <option name="project" value="LOCAL" />
-      <updated>1545458345276</updated>
-    </task>
-    <task id="LOCAL-00125" summary="fixed build">
-      <created>1545657013354</created>
-      <option name="number" value="00125" />
-      <option name="presentableId" value="LOCAL-00125" />
-      <option name="project" value="LOCAL" />
-      <updated>1545657013354</updated>
-    </task>
-    <task id="LOCAL-00126" summary="fixed build">
-      <created>1545657044268</created>
-      <option name="number" value="00126" />
-      <option name="presentableId" value="LOCAL-00126" />
-      <option name="project" value="LOCAL" />
-      <updated>1545657044268</updated>
-    </task>
-    <task id="LOCAL-00127" summary="fixed validation">
-      <created>1545698110784</created>
-      <option name="number" value="00127" />
-      <option name="presentableId" value="LOCAL-00127" />
-      <option name="project" value="LOCAL" />
-      <updated>1545698110784</updated>
-    </task>
-    <task id="LOCAL-00128" summary="changed to object from string">
-      <created>1545698150395</created>
-      <option name="number" value="00128" />
-      <option name="presentableId" value="LOCAL-00128" />
-      <option name="project" value="LOCAL" />
-      <updated>1545698150395</updated>
-    </task>
-    <task id="LOCAL-00129" summary="fixed build">
-      <created>1545699398104</created>
-      <option name="number" value="00129" />
-      <option name="presentableId" value="LOCAL-00129" />
-      <option name="project" value="LOCAL" />
-      <updated>1545699398104</updated>
-    </task>
-    <task id="LOCAL-00130" summary="upgraded elastic">
-      <created>1545799825731</created>
-      <option name="number" value="00130" />
-      <option name="presentableId" value="LOCAL-00130" />
-      <option name="project" value="LOCAL" />
-      <updated>1545799825732</updated>
-    </task>
-    <task id="LOCAL-00131" summary="updated version">
-      <created>1545996353073</created>
-      <option name="number" value="00131" />
-      <option name="presentableId" value="LOCAL-00131" />
-      <option name="project" value="LOCAL" />
-      <updated>1545996353073</updated>
+      <workItem from="1547622653342" duration="4992000" />
+      <workItem from="1547783546478" duration="19833000" />
+      <workItem from="1547955755879" duration="17322000" />
+      <workItem from="1548044589077" duration="8695000" />
+      <workItem from="1548079518136" duration="7981000" />
+      <workItem from="1548130800829" duration="12060000" />
+      <workItem from="1548163868753" duration="322000" />
+      <workItem from="1548167482122" duration="2629000" />
+      <workItem from="1548217795460" duration="16913000" />
+      <workItem from="1548253008522" duration="7673000" />
+      <workItem from="1548302340693" duration="10265000" />
+      <workItem from="1548347384697" duration="10032000" />
+      <workItem from="1548388382265" duration="11807000" />
+      <workItem from="1548473010627" duration="5844000" />
+      <workItem from="1548656097928" duration="1287000" />
+      <workItem from="1548738378909" duration="8673000" />
+      <workItem from="1548775605275" duration="1651000" />
+      <workItem from="1548821796553" duration="2191000" />
+      <workItem from="1548830604990" duration="1252000" />
+      <workItem from="1548833982588" duration="595000" />
+      <workItem from="1548835507106" duration="904000" />
+      <workItem from="1548910611769" duration="8280000" />
+      <workItem from="1548943666245" duration="1732000" />
+      <workItem from="1548953942286" duration="3600000" />
+      <workItem from="1548995247696" duration="7921000" />
+      <workItem from="1549030555790" duration="23229000" />
+      <workItem from="1549278145262" duration="2637000" />
+      <workItem from="1549340921881" duration="2692000" />
+      <workItem from="1549549456832" duration="7944000" />
+      <workItem from="1549606031774" duration="6519000" />
+      <workItem from="1549635367323" duration="23089000" />
+      <workItem from="1549859441630" duration="2572000" />
+      <workItem from="1549973678725" duration="1809000" />
+      <workItem from="1549986429143" duration="1421000" />
+      <workItem from="1550053281051" duration="3130000" />
+      <workItem from="1550073384711" duration="944000" />
+      <workItem from="1550074473038" duration="2685000" />
+      <workItem from="1550118860875" duration="1241000" />
+      <workItem from="1550120232886" duration="14090000" />
+      <workItem from="1550193275843" duration="5236000" />
+      <workItem from="1550205096004" duration="3649000" />
+      <workItem from="1550253361792" duration="11916000" />
+      <workItem from="1550340965460" duration="1098000" />
+      <workItem from="1550342380028" duration="3697000" />
     </task>
     <task id="LOCAL-00132" summary="updated lib">
       <created>1546404789083</created>
@@ -4677,43 +4318,295 @@
       <option name="project" value="LOCAL" />
       <updated>1547555632511</updated>
     </task>
-    <option name="localTasksCounter" value="145" />
+    <task id="LOCAL-00145" summary="updated latest version">
+      <created>1547622875705</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1547622875707</updated>
+    </task>
+    <task id="LOCAL-00146" summary="updated latest version">
+      <created>1547622941325</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1547622941325</updated>
+    </task>
+    <task id="LOCAL-00147" summary="formatting">
+      <created>1547625136753</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1547625136753</updated>
+    </task>
+    <task id="LOCAL-00148" summary="changed name">
+      <created>1547625414764</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1547625414764</updated>
+    </task>
+    <task id="LOCAL-00149" summary="updated name">
+      <created>1547625506264</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1547625506264</updated>
+    </task>
+    <task id="LOCAL-00150" summary="reverted to make sure high level rest is not used">
+      <created>1548008389565</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1548008389566</updated>
+    </task>
+    <task id="LOCAL-00151" summary="formatting">
+      <created>1548008700776</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1548008700776</updated>
+    </task>
+    <task id="LOCAL-00152" summary="updated lowest supported version">
+      <created>1548054333581</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1548054333582</updated>
+    </task>
+    <task id="LOCAL-00153" summary="formatting">
+      <created>1548068745655</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1548068745655</updated>
+    </task>
+    <task id="LOCAL-00154" summary="formatting">
+      <created>1548068804237</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1548068804237</updated>
+    </task>
+    <task id="LOCAL-00155" summary="changed to use scrubbed input">
+      <created>1548069858026</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1548069858026</updated>
+    </task>
+    <task id="LOCAL-00156" summary="formatting">
+      <created>1548071024181</created>
+      <option name="number" value="00156" />
+      <option name="presentableId" value="LOCAL-00156" />
+      <option name="project" value="LOCAL" />
+      <updated>1548071024182</updated>
+    </task>
+    <task id="LOCAL-00157" summary="formatting">
+      <created>1548072185987</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1548072185987</updated>
+    </task>
+    <task id="LOCAL-00158" summary="formatting">
+      <created>1548156007416</created>
+      <option name="number" value="00158" />
+      <option name="presentableId" value="LOCAL-00158" />
+      <option name="project" value="LOCAL" />
+      <updated>1548156007416</updated>
+    </task>
+    <task id="LOCAL-00159" summary="optimized import">
+      <created>1548244535893</created>
+      <option name="number" value="00159" />
+      <option name="presentableId" value="LOCAL-00159" />
+      <option name="project" value="LOCAL" />
+      <updated>1548244535893</updated>
+    </task>
+    <task id="LOCAL-00160" summary="addded log">
+      <created>1548410803031</created>
+      <option name="number" value="00160" />
+      <option name="presentableId" value="LOCAL-00160" />
+      <option name="project" value="LOCAL" />
+      <updated>1548410803031</updated>
+    </task>
+    <task id="LOCAL-00161" summary="removed log">
+      <created>1548414318200</created>
+      <option name="number" value="00161" />
+      <option name="presentableId" value="LOCAL-00161" />
+      <option name="project" value="LOCAL" />
+      <updated>1548414318200</updated>
+    </task>
+    <task id="LOCAL-00162" summary="updated latest version">
+      <created>1548750711241</created>
+      <option name="number" value="00162" />
+      <option name="presentableId" value="LOCAL-00162" />
+      <option name="project" value="LOCAL" />
+      <updated>1548750711243</updated>
+    </task>
+    <task id="LOCAL-00163" summary="changed from string to correct json object">
+      <created>1548757889176</created>
+      <option name="number" value="00163" />
+      <option name="presentableId" value="LOCAL-00163" />
+      <option name="project" value="LOCAL" />
+      <updated>1548757889176</updated>
+    </task>
+    <task id="LOCAL-00164" summary="updated latest version">
+      <created>1548827964379</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1548827964380</updated>
+    </task>
+    <task id="LOCAL-00165" summary="updated PMD Version">
+      <created>1548829961546</created>
+      <option name="number" value="00165" />
+      <option name="presentableId" value="LOCAL-00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1548829961546</updated>
+    </task>
+    <task id="LOCAL-00166" summary="updated lowest supported version">
+      <created>1549280837088</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1549280837088</updated>
+    </task>
+    <task id="LOCAL-00167" summary="updated latest version">
+      <created>1549347571947</created>
+      <option name="number" value="00167" />
+      <option name="presentableId" value="LOCAL-00167" />
+      <option name="project" value="LOCAL" />
+      <updated>1549347571948</updated>
+    </task>
+    <task id="LOCAL-00168" summary="removed deprecated method">
+      <created>1549617062306</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1549617062307</updated>
+    </task>
+    <task id="LOCAL-00169" summary="updated latest version">
+      <created>1549617210671</created>
+      <option name="number" value="00169" />
+      <option name="presentableId" value="LOCAL-00169" />
+      <option name="project" value="LOCAL" />
+      <updated>1549617210672</updated>
+    </task>
+    <task id="LOCAL-00170" summary="updated latest supported version">
+      <created>1549974077182</created>
+      <option name="number" value="00170" />
+      <option name="presentableId" value="LOCAL-00170" />
+      <option name="project" value="LOCAL" />
+      <updated>1549974077182</updated>
+    </task>
+    <task id="LOCAL-00171" summary="fixed build">
+      <created>1549977520848</created>
+      <option name="number" value="00171" />
+      <option name="presentableId" value="LOCAL-00171" />
+      <option name="project" value="LOCAL" />
+      <updated>1549977520849</updated>
+    </task>
+    <task id="LOCAL-00172" summary="updated latest supported version">
+      <created>1550025245994</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1550025245994</updated>
+    </task>
+    <task id="LOCAL-00173" summary="clean up">
+      <created>1550143865192</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1550143865194</updated>
+    </task>
+    <task id="LOCAL-00174" summary="fixed build">
+      <created>1550145425083</created>
+      <option name="number" value="00174" />
+      <option name="presentableId" value="LOCAL-00174" />
+      <option name="project" value="LOCAL" />
+      <updated>1550145425084</updated>
+    </task>
+    <task id="LOCAL-00175" summary="removed deprecated code">
+      <created>1550194323187</created>
+      <option name="number" value="00175" />
+      <option name="presentableId" value="LOCAL-00175" />
+      <option name="project" value="LOCAL" />
+      <updated>1550194323188</updated>
+    </task>
+    <task id="LOCAL-00176" summary="updated latest version">
+      <created>1550200973220</created>
+      <option name="number" value="00176" />
+      <option name="presentableId" value="LOCAL-00176" />
+      <option name="project" value="LOCAL" />
+      <updated>1550200973220</updated>
+    </task>
+    <task id="LOCAL-00177" summary="fixed test">
+      <created>1550205395381</created>
+      <option name="number" value="00177" />
+      <option name="presentableId" value="LOCAL-00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1550205395382</updated>
+    </task>
+    <task id="LOCAL-00178" summary="updated lowest supported version">
+      <created>1550330601212</created>
+      <option name="number" value="00178" />
+      <option name="presentableId" value="LOCAL-00178" />
+      <option name="project" value="LOCAL" />
+      <updated>1550330601212</updated>
+    </task>
+    <task id="LOCAL-00179" summary="updated latest version">
+      <created>1550341325843</created>
+      <option name="number" value="00179" />
+      <option name="presentableId" value="LOCAL-00179" />
+      <option name="project" value="LOCAL" />
+      <updated>1550341325845</updated>
+    </task>
+    <task id="LOCAL-00180" summary="Added new error code">
+      <created>1550344133810</created>
+      <option name="number" value="00180" />
+      <option name="presentableId" value="LOCAL-00180" />
+      <option name="project" value="LOCAL" />
+      <updated>1550344133811</updated>
+    </task>
+    <option name="localTasksCounter" value="181" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="ReviewControllerITest_queueReview - 2019.01.15 at 01h 17m 08s.xml">
-      <configuration name="ReviewControllerITest.queueReview" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ReviewControllerITest_queueReview - 2019.01.15 at 01h 23m 30s.xml">
-      <configuration name="ReviewControllerITest.queueReview" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ReviewControllerITest_queueReview - 2019.01.15 at 01h 32m 10s.xml">
-      <configuration name="ReviewControllerITest.queueReview" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ReviewControllerITest_queueReview - 2019.01.15 at 01h 41m 46s.xml">
-      <configuration name="ReviewControllerITest.queueReview" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ReviewControllerITest_queueReview - 2019.01.15 at 01h 47m 12s.xml">
-      <configuration name="ReviewControllerITest.queueReview" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ReviewControllerITest_queueReview - 2019.01.15 at 02h 05m 38s.xml">
-      <configuration name="ReviewControllerITest.queueReview" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ReviewControllerITest_queueReview - 2019.01.15 at 02h 17m 15s.xml">
-      <configuration name="ReviewControllerITest.queueReview" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ReviewControllerITest_queueReview - 2019.01.15 at 09h 55m 10s.xml">
-      <configuration name="ReviewControllerITest.queueReview" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ReviewControllerITest_queueReview - 2019.01.15 at 10h 32m 14s.xml">
-      <configuration name="ReviewControllerITest.queueReview" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="MedicalRecordControllerTest - 2019.01.15 at 16h 30m 26s.xml">
+    <history-entry file="MedicalRecordControllerTest - 2019.02.10 at 02h 01m 50s.xml">
       <configuration name="MedicalRecordControllerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MedicalRecordControllerTest - 2019.02.10 at 02h 08m 59s.xml">
+      <configuration name="MedicalRecordControllerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MedicalRecordControllerTest - 2019.02.10 at 02h 32m 38s.xml">
+      <configuration name="MedicalRecordControllerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MedicalRecordControllerTest - 2019.02.10 at 02h 58m 14s.xml">
+      <configuration name="MedicalRecordControllerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MedicalRecordControllerTest - 2019.02.10 at 03h 31m 00s.xml">
+      <configuration name="MedicalRecordControllerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MedicalRecordControllerTest - 2019.02.10 at 08h 55m 30s.xml">
+      <configuration name="MedicalRecordControllerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MedicalRecordControllerTest - 2019.02.10 at 09h 06m 29s.xml">
+      <configuration name="MedicalRecordControllerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MedicalRecordControllerTest_updateMultipleTimes - 2019.02.10 at 10h 39m 04s.xml">
+      <configuration name="MedicalRecordControllerTest.updateMultipleTimes" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="DeviceControllerITest - 2019.02.12 at 18h 48m 05s.xml">
+      <configuration name="DeviceControllerITest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="DeviceControllerITest - 2019.02.12 at 19h 05m 49s.xml">
+      <configuration name="DeviceControllerITest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4560956000" />
+    <option name="totallyTimeSpent" value="4855008000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -4725,10 +4618,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="157" y="24" width="1600" height="1000" extended-state="0" />
-    <editor active="true" />
+    <frame x="163" y="23" width="1385" height="1045" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.28032038" visible="true" weight="0.21501926" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.28032038" weight="0.29709604" />
       <window_info id="Structure" order="1" sideWeight="0.71967965" side_tool="true" weight="0.29874423" />
       <window_info id="Nl-Palette" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -4737,30 +4629,31 @@
       <window_info id="Web" order="6" sideWeight="0.5060241" side_tool="true" weight="0.274184" />
       <window_info id="Favorites" order="7" sideWeight="0.50318474" side_tool="true" weight="0.26586434" />
       <window_info id="Capture Tool" order="8" />
+      <window_info id="Build Variants" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.7286517" weight="0.35254237" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8379822" weight="0.5457627" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.7286517" weight="0.3516129" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8379822" weight="0.54915255" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
-      <window_info anchor="bottom" id="Debug" order="5" sideWeight="0.8176505" weight="0.5938215" />
+      <window_info anchor="bottom" id="Debug" order="5" sideWeight="0.81707317" weight="0.5924731" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32590234" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.18146068" side_tool="true" weight="0.40389016" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.18292683" side_tool="true" weight="0.59322035" />
       <window_info anchor="bottom" id="Java Enterprise" order="8" sideWeight="0.497789" weight="0.32750583" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.3280255" />
       <window_info anchor="bottom" id="Application Servers" order="10" weight="0.3280255" />
-      <window_info anchor="bottom" id="Version Control" order="11" weight="0.31948882" />
-      <window_info anchor="bottom" id="Spring" order="12" weight="0.3286052" />
+      <window_info anchor="bottom" id="Version Control" order="11" weight="0.31864408" />
+      <window_info anchor="bottom" id="Spring" order="12" weight="0.32768363" />
       <window_info anchor="bottom" id="Gradle View" order="13" />
-      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.8185393" weight="0.40338984" />
+      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.8185393" weight="0.4032258" />
       <window_info anchor="bottom" id="Database Changes" order="15" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Build" order="16" sideWeight="0.81516856" weight="0.32265446" />
+      <window_info anchor="bottom" id="Build" order="16" sideWeight="0.81516856" weight="0.3220339" />
       <window_info anchor="bottom" id="Inspection Results" order="17" weight="0.3282887" />
       <window_info anchor="bottom" id="Thumbnails" order="18" weight="0.32908705" />
       <window_info anchor="bottom" id="REST Client" order="19" sideWeight="0.5666456" weight="0.40233546" />
       <window_info anchor="bottom" id="Docker" order="20" show_stripe_button="false" />
       <window_info anchor="right" id="Coverage" order="0" sideWeight="0.5040745" side_tool="true" weight="0.39881307" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Gradle" order="2" sideWeight="0.4959255" weight="0.29940516" />
+      <window_info anchor="right" id="Gradle" order="2" sideWeight="0.4959255" weight="0.29858527" />
       <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.24959128" />
       <window_info anchor="right" id="Palette" order="5" />
@@ -4775,7 +4668,7 @@
       <window_info anchor="right" id="Maven" order="14" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.28032038" visible="true" weight="0.21501926" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.28032038" visible="true" weight="0.29709604" />
       <window_info id="Structure" order="1" sideWeight="0.71967965" side_tool="true" weight="0.29874423" />
       <window_info id="Nl-Palette" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -4784,30 +4677,31 @@
       <window_info id="Web" order="6" sideWeight="0.5060241" side_tool="true" weight="0.274184" />
       <window_info id="Favorites" order="7" sideWeight="0.50318474" side_tool="true" weight="0.26586434" />
       <window_info id="Capture Tool" order="8" />
+      <window_info id="Build Variants" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.7286517" weight="0.35254237" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8379822" weight="0.5457666" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.7286517" weight="0.3516129" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8379822" weight="0.54915255" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
-      <window_info anchor="bottom" id="Debug" order="5" sideWeight="0.8176505" weight="0.5938215" />
+      <window_info anchor="bottom" id="Debug" order="5" sideWeight="0.81707317" weight="0.5924731" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32590234" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.18146068" side_tool="true" weight="0.40389016" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.18292683" side_tool="true" weight="0.59322035" />
       <window_info anchor="bottom" id="Java Enterprise" order="8" sideWeight="0.497789" weight="0.32750583" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.3280255" />
       <window_info anchor="bottom" id="Application Servers" order="10" weight="0.3280255" />
-      <window_info anchor="bottom" id="Version Control" order="11" weight="0.31948882" />
-      <window_info anchor="bottom" id="Spring" order="12" weight="0.3286052" />
+      <window_info anchor="bottom" id="Version Control" order="11" weight="0.31864408" />
+      <window_info anchor="bottom" id="Spring" order="12" weight="0.32768363" />
       <window_info anchor="bottom" id="Gradle View" order="13" />
-      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.8185393" weight="0.40338984" />
+      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.8185393" weight="0.4032258" />
       <window_info anchor="bottom" id="Database Changes" order="15" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Build" order="16" sideWeight="0.81516856" weight="0.32265446" />
+      <window_info anchor="bottom" id="Build" order="16" sideWeight="0.81516856" weight="0.3220339" />
       <window_info anchor="bottom" id="Inspection Results" order="17" weight="0.3282887" />
       <window_info anchor="bottom" id="Thumbnails" order="18" weight="0.32908705" />
       <window_info anchor="bottom" id="REST Client" order="19" sideWeight="0.5666456" weight="0.40233546" />
       <window_info anchor="bottom" id="Docker" order="20" show_stripe_button="false" />
       <window_info anchor="right" id="Coverage" order="0" sideWeight="0.5040745" side_tool="true" weight="0.39881307" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Gradle" order="2" sideWeight="0.4959255" weight="0.29940516" />
+      <window_info anchor="right" id="Gradle" order="2" sideWeight="0.4959255" weight="0.29858527" />
       <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.24959128" />
       <window_info anchor="right" id="Palette" order="5" />
@@ -4844,39 +4738,39 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="formatting" />
-    <MESSAGE value="added log" />
-    <MESSAGE value="fixed return Json instead of string" />
-    <MESSAGE value="added null check condition" />
-    <MESSAGE value="added initialization" />
-    <MESSAGE value="fixed NPE" />
-    <MESSAGE value="clean up" />
-    <MESSAGE value="fixed Vigyaapan type" />
-    <MESSAGE value="increased version" />
-    <MESSAGE value="increased latest release version" />
-    <MESSAGE value="fixed validation" />
-    <MESSAGE value="changed to object from string" />
-    <MESSAGE value="fixed build" />
-    <MESSAGE value="upgraded elastic" />
-    <MESSAGE value="updated lib" />
-    <MESSAGE value="changed to debug log" />
-    <MESSAGE value="updated text" />
-    <MESSAGE value="updated latest version" />
     <MESSAGE value="updated version" />
     <MESSAGE value="added api to get physical history" />
     <MESSAGE value="removed semicolon" />
     <MESSAGE value="added new mapping" />
     <MESSAGE value="added comment" />
-    <MESSAGE value="updated lowest supported version" />
     <MESSAGE value="marked method deprecated" />
-    <option name="LAST_COMMIT_MESSAGE" value="marked method deprecated" />
+    <MESSAGE value="changed name" />
+    <MESSAGE value="updated name" />
+    <MESSAGE value="reverted to make sure high level rest is not used" />
+    <MESSAGE value="changed to use scrubbed input" />
+    <MESSAGE value="formatting" />
+    <MESSAGE value="optimized import" />
+    <MESSAGE value="addded log" />
+    <MESSAGE value="removed log" />
+    <MESSAGE value="changed from string to correct json object" />
+    <MESSAGE value="updated PMD Version" />
+    <MESSAGE value="removed deprecated method" />
+    <MESSAGE value="updated latest supported version" />
+    <MESSAGE value="clean up" />
+    <MESSAGE value="fixed build" />
+    <MESSAGE value="removed deprecated code" />
+    <MESSAGE value="fixed test" />
+    <MESSAGE value="updated lowest supported version" />
+    <MESSAGE value="updated latest version" />
+    <MESSAGE value="Added new error code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added new error code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/MerchantProfileController.java</url>
-          <line>196</line>
+          <line>200</line>
           <properties />
           <option name="timeStamp" value="1149" />
         </line-breakpoint>
@@ -4888,69 +4782,57 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
-          <line>354</line>
+          <line>438</line>
           <properties />
           <option name="timeStamp" value="1153" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
-          <line>395</line>
+          <line>488</line>
           <properties />
           <option name="timeStamp" value="1154" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
-          <line>446</line>
+          <line>548</line>
           <properties />
           <option name="timeStamp" value="1155" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
-          <line>732</line>
+          <line>853</line>
           <properties />
           <option name="timeStamp" value="1157" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PurchaseOrderService.java</url>
-          <line>235</line>
+          <line>257</line>
           <properties />
           <option name="timeStamp" value="1158" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/transaction/TransactionService.java</url>
-          <line>67</line>
-          <properties />
-          <option name="timeStamp" value="1159" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordControllerTest.java</url>
-          <line>145</line>
+          <line>164</line>
           <properties />
           <option name="timeStamp" value="1161" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
-          <line>295</line>
+          <line>287</line>
           <properties />
           <option name="timeStamp" value="1162" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
-          <line>178</line>
+          <line>183</line>
           <properties />
           <option name="timeStamp" value="1164" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
-          <line>206</line>
+          <line>223</line>
           <properties />
           <option name="timeStamp" value="1165" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
-          <line>229</line>
-          <properties />
-          <option name="timeStamp" value="1166" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/UserMedicalProfileService.java</url>
@@ -4993,6 +4875,354 @@
           <line>144</line>
           <properties />
           <option name="timeStamp" value="1176" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/search/src/main/java/com/noqapp/search/elastic/service/BizStoreElasticService.java</url>
+          <line>190</line>
+          <properties />
+          <option name="timeStamp" value="1178" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
+          <line>209</line>
+          <properties />
+          <option name="timeStamp" value="1181" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
+          <line>201</line>
+          <properties />
+          <option name="timeStamp" value="1182" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
+          <line>867</line>
+          <properties />
+          <option name="timeStamp" value="1186" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PurchaseOrderService.java</url>
+          <line>341</line>
+          <properties />
+          <option name="timeStamp" value="1187" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PurchaseOrderService.java</url>
+          <line>315</line>
+          <properties />
+          <option name="timeStamp" value="1188" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PurchaseOrderService.java</url>
+          <line>273</line>
+          <properties />
+          <option name="timeStamp" value="1190" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PurchaseOrderService.java</url>
+          <line>155</line>
+          <properties />
+          <option name="timeStamp" value="1191" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PurchaseOrderService.java</url>
+          <line>313</line>
+          <properties />
+          <option name="timeStamp" value="1192" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PurchaseOrderService.java</url>
+          <line>365</line>
+          <properties />
+          <option name="timeStamp" value="1195" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
+          <line>596</line>
+          <properties />
+          <option name="timeStamp" value="1196" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
+          <line>614</line>
+          <properties />
+          <option name="timeStamp" value="1197" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
+          <line>634</line>
+          <properties />
+          <option name="timeStamp" value="1199" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
+          <line>338</line>
+          <properties />
+          <option name="timeStamp" value="1200" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
+          <line>517</line>
+          <properties />
+          <option name="timeStamp" value="1201" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/PurchaseOrderManagerImpl.java</url>
+          <line>99</line>
+          <properties />
+          <option name="timeStamp" value="1202" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PurchaseOrderService.java</url>
+          <line>463</line>
+          <properties />
+          <option name="timeStamp" value="1203" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PurchaseOrderService.java</url>
+          <line>469</line>
+          <properties />
+          <option name="timeStamp" value="1204" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
+          <line>367</line>
+          <properties />
+          <option name="timeStamp" value="1205" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/client/ClientProfileAPIControllerITest.java</url>
+          <line>96</line>
+          <properties />
+          <option name="timeStamp" value="1207" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/ProfileCommonHelper.java</url>
+          <line>201</line>
+          <properties />
+          <option name="timeStamp" value="1209" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/ClientProfileAPIController.java</url>
+          <line>179</line>
+          <properties />
+          <option name="timeStamp" value="1210" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/ProfileCommonHelper.java</url>
+          <line>209</line>
+          <properties />
+          <option name="timeStamp" value="1211" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/ProfileCommonHelper.java</url>
+          <line>87</line>
+          <properties />
+          <option name="timeStamp" value="1212" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/ImageCommonHelper.java</url>
+          <line>158</line>
+          <properties />
+          <option name="timeStamp" value="1213" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/ImageCommonHelper.java</url>
+          <line>157</line>
+          <properties />
+          <option name="timeStamp" value="1214" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/SearchBusinessStoreController.java</url>
+          <line>93</line>
+          <properties />
+          <option name="timeStamp" value="1217" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/SearchBusinessStoreController.java</url>
+          <line>92</line>
+          <properties />
+          <option name="timeStamp" value="1218" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/search/src/main/java/com/noqapp/search/elastic/json/ElasticHits.java</url>
+          <line>36</line>
+          <properties />
+          <option name="timeStamp" value="1222" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/search/src/main/java/com/noqapp/search/elastic/json/ElasticHits.java</url>
+          <line>40</line>
+          <properties />
+          <option name="timeStamp" value="1223" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/search/src/main/java/com/noqapp/search/elastic/domain/BizStoreElasticList.java</url>
+          <line>106</line>
+          <properties />
+          <option name="timeStamp" value="1224" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/search/src/main/java/com/noqapp/search/elastic/domain/BizStoreElasticList.java</url>
+          <line>113</line>
+          <properties />
+          <option name="timeStamp" value="1225" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/search/src/main/java/com/noqapp/search/elastic/domain/BizStoreElasticList.java</url>
+          <line>112</line>
+          <properties />
+          <option name="timeStamp" value="1226" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/search/src/main/java/com/noqapp/search/elastic/domain/BizStoreElasticList.java</url>
+          <line>108</line>
+          <properties />
+          <option name="timeStamp" value="1227" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/SearchBusinessStoreController.java</url>
+          <line>124</line>
+          <properties />
+          <option name="timeStamp" value="1228" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/health/PreferredStoreController.java</url>
+          <line>120</line>
+          <properties />
+          <option name="timeStamp" value="1230" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PreferredBusinessService.java</url>
+          <line>53</line>
+          <properties />
+          <option name="timeStamp" value="1233" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PreferredBusinessService.java</url>
+          <line>54</line>
+          <properties />
+          <option name="timeStamp" value="1234" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PreferredBusinessService.java</url>
+          <line>66</line>
+          <properties />
+          <option name="timeStamp" value="1237" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PreferredBusinessService.java</url>
+          <line>61</line>
+          <properties />
+          <option name="timeStamp" value="1238" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PreferredBusinessService.java</url>
+          <line>62</line>
+          <properties />
+          <option name="timeStamp" value="1239" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/DependentAPIController.java</url>
+          <line>238</line>
+          <properties />
+          <option name="timeStamp" value="1243" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/DependentAPIController.java</url>
+          <line>237</line>
+          <properties />
+          <option name="timeStamp" value="1244" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/ManageQueueControllerITest.java</url>
+          <line>689</line>
+          <properties />
+          <option name="timeStamp" value="1245" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/ManageQueueControllerITest.java</url>
+          <line>688</line>
+          <properties />
+          <option name="timeStamp" value="1246" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/ManageQueueControllerITest.java</url>
+          <line>672</line>
+          <properties />
+          <option name="timeStamp" value="1247" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/ManageQueueControllerITest.java</url>
+          <line>673</line>
+          <properties />
+          <option name="timeStamp" value="1248" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/ManageQueueControllerITest.java</url>
+          <line>679</line>
+          <properties />
+          <option name="timeStamp" value="1252" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/StatsBizStoreDailyManagerImpl.java</url>
+          <line>112</line>
+          <properties />
+          <option name="timeStamp" value="1272" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/StatsBizStoreDailyManagerImpl.java</url>
+          <line>126</line>
+          <properties />
+          <option name="timeStamp" value="1273" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/StatsBizStoreDailyManagerImpl.java</url>
+          <line>129</line>
+          <properties />
+          <option name="timeStamp" value="1275" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/repository/MedicalRecordManagerImpl.java</url>
+          <line>110</line>
+          <properties />
+          <option name="timeStamp" value="1276" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
+          <line>225</line>
+          <properties />
+          <option name="timeStamp" value="1277" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java</url>
+          <line>289</line>
+          <properties />
+          <option name="timeStamp" value="1278" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordControllerTest.java</url>
+          <line>144</line>
+          <properties />
+          <option name="timeStamp" value="1280" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordControllerTest.java</url>
+          <line>146</line>
+          <properties />
+          <option name="timeStamp" value="1281" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordControllerTest.java</url>
+          <line>153</line>
+          <properties />
+          <option name="timeStamp" value="1282" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordControllerTest.java</url>
+          <line>121</line>
+          <properties />
+          <option name="timeStamp" value="1284" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/BusinessUserStoreManager.java</url>
@@ -5051,403 +5281,393 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/json/JsonPreferredBusiness.java">
+    <entry file="file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/repository/MedicalRadiologyManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="625">
-          <caret line="64" column="11" selection-start-line="64" selection-start-column="11" selection-end-line="64" selection-end-column="11" />
+        <state relative-caret-position="272">
+          <caret line="20" column="26" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PreferredBusinessService.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.servlet/javax.servlet-api/3.1.0/ab3976d4574c48d22dc1abf6a9e8bd0fdf928223/javax.servlet-api-3.1.0-sources.jar!/javax/servlet/http/HttpServletResponse.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="56" selection-start-line="56" selection-end-line="57" />
-          <folding>
-            <element signature="e#1751#1752#0" expanded="true" />
-            <element signature="e#1817#1818#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="175">
+          <caret line="592" column="35" selection-start-line="592" selection-start-column="28" selection-end-line="592" selection-end-column="40" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/SearchBusinessStoreController.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/5.1.4.RELEASE/bc7c96711c0d7aa9a4c93a90cb8622814ad18fab/spring-webmvc-5.1.4.RELEASE-sources.jar!/org/springframework/web/servlet/handler/SimpleMappingExceptionResolver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="232" column="48" lean-forward="true" selection-start-line="232" selection-start-column="48" selection-end-line="232" selection-end-column="48" />
+        <state relative-caret-position="178">
+          <caret line="147" column="97" selection-start-line="147" selection-start-column="97" selection-end-line="147" selection-end-column="97" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/ReviewController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="91" column="28" selection-start-line="90" selection-start-column="16" selection-end-line="91" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/health/PreferredStoreController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="693">
-          <caret line="171" column="46" selection-start-line="171" selection-start-column="46" selection-end-line="171" selection-end-column="46" />
+        <state relative-caret-position="444">
+          <caret line="203" column="55" selection-start-line="203" selection-start-column="55" selection-end-line="203" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/body/merchant/ChangeUserInQueue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="27" column="53" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/store/StoreProductController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2261">
+          <caret line="173" column="62" selection-start-line="173" selection-start-column="62" selection-end-line="173" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/body/merchant/FindMedicalProfile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="32" column="17" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/BizService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3876">
+          <caret line="292" column="31" selection-start-line="292" selection-start-column="31" selection-end-line="292" selection-end-column="31" />
+          <folding>
+            <element signature="e#13182#13183#0" expanded="true" />
+            <element signature="e#13241#13242#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/domain/MedicalRadiologyEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/body/merchant/LabFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="42" column="37" selection-start-line="32" selection-start-column="4" selection-end-line="42" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1817#1818#0" expanded="true" />
+            <element signature="e#1857#1858#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/domain/json/JsonMedicalRecord.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1768">
+          <caret line="120" column="4" selection-start-line="120" selection-start-column="4" selection-end-line="121" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalFileService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="269" column="25" selection-start-line="269" selection-start-column="16" selection-end-line="269" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/ImageCommonHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="267" column="29" lean-forward="true" selection-start-line="267" selection-start-column="18" selection-end-line="267" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/store/PurchaseOrderController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2224">
+          <caret line="712" column="37" selection-start-line="712" selection-start-column="37" selection-end-line="712" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/open/StoreDetailControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="28" column="6" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/open/ReviewControllerITest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="42" column="6" selection-start-line="42" selection-start-column="6" selection-end-line="42" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/tv/ClientInQueueController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2720">
+          <caret line="193" column="40" selection-start-line="193" selection-start-column="40" selection-end-line="193" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/json/tv/JsonQueueTVList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="33" column="13" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/tv/VigyaapanMobileService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="799">
+          <caret line="71" column="27" selection-start-line="71" selection-start-column="27" selection-end-line="71" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/tv/VigyaapanController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2057">
+          <caret line="154" column="24" selection-start-line="154" selection-start-column="22" selection-end-line="154" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/body/tv/QueueDetail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/tv/QueueTVService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="773">
+          <caret line="101" column="22" selection-start-line="101" selection-start-column="22" selection-end-line="101" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/health/UserMedicalProfileController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="424">
+          <caret line="120" column="63" selection-start-line="120" selection-start-column="63" selection-end-line="120" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/domain/json/JsonMedicalPathology.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/PurchaseOrderManagerImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="355" column="31" selection-start-line="355" selection-start-column="31" selection-end-line="355" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/PurchaseOrderManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="599">
+          <caret line="66" column="24" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/types/QueueStatusEnum.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/types/PurchaseOrderStateEnum.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="4" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/PurchaseOrderService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="245" column="28" selection-start-line="245" selection-start-column="28" selection-end-line="245" selection-end-column="28" />
+          <folding>
+            <element signature="e#55632#55633#0" expanded="true" />
+            <element signature="e#55710#55711#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/domain/MedicalRecordEntity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2448">
-          <caret line="175" column="18" selection-start-line="175" selection-start-column="18" selection-end-line="175" selection-end-column="18" />
+        <state relative-caret-position="294">
+          <caret line="192" column="24" selection-start-line="192" selection-start-column="24" selection-end-line="192" selection-end-column="24" />
           <folding>
-            <element signature="e#4329#4330#0" expanded="true" />
-            <element signature="e#4371#4372#0" expanded="true" />
-            <element signature="e#4590#4591#0" expanded="true" />
-            <element signature="e#4631#4632#0" expanded="true" />
+            <element signature="e#4781#4782#0" expanded="true" />
+            <element signature="e#4822#4823#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/service/MedicalRecordService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8925">
-          <caret line="600" column="33" selection-start-line="600" selection-start-column="33" selection-end-line="600" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/domain/json/JsonMedicalRadiologyList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="33" column="22" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/domain/json/JsonMedicalRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1785">
-          <caret line="121" column="30" selection-start-line="121" selection-start-column="30" selection-end-line="121" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/domain/json/JsonMedicalPhysical.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="33" column="32" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/medical/src/main/java/com/noqapp/medical/domain/json/JsonMedicalMedicine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/search/src/main/java/com/noqapp/search/elastic/service/BizStoreElasticService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4352">
-          <caret line="317" column="31" selection-start-line="317" selection-start-column="31" selection-end-line="317" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2958">
-          <caret line="217" column="5" selection-start-line="217" selection-start-column="5" selection-end-line="217" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/health/MedicalRecordAPIController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="969">
-          <caret line="82" column="48" selection-start-line="82" selection-start-column="48" selection-end-line="82" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/json/medical/JsonUserMedicalProfile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="51" selection-start-line="51" selection-end-line="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deploy.gradle">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/QueueManagerJDBC.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="44" column="155" selection-start-line="44" selection-start-column="124" selection-end-line="44" selection-end-column="155" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/QueueManagerJDBCImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="260" column="13" selection-start-line="260" selection-start-column="13" selection-end-line="260" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="637">
-          <caret line="241" column="81" selection-start-line="241" selection-start-column="81" selection-end-line="241" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/ManageQueueControllerITest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="46" column="6" selection-start-line="46" selection-start-column="6" selection-end-line="46" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradle.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="679">
-          <caret line="77" column="16" selection-start-line="77" selection-start-column="16" selection-end-line="77" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.awaitility/awaitility/3.1.5/6f15f380edafb59cc670eb1eb0fe7ca73001861e/awaitility-3.1.5-sources.jar!/org/awaitility/core/ConditionFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="858" column="16" selection-start-line="858" selection-start-column="16" selection-end-line="858" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.awaitility/awaitility/3.1.5/6f15f380edafb59cc670eb1eb0fe7ca73001861e/awaitility-3.1.5-sources.jar!/org/awaitility/Duration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="47" column="33" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/open/ReviewControllerITest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="164" column="47" selection-start-line="164" selection-start-column="47" selection-end-line="164" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/types/SentimentTypeEnum.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="29" column="27" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
+        <state relative-caret-position="46">
+          <caret line="190" column="13" selection-start-line="190" selection-start-column="13" selection-end-line="190" selection-end-column="13" />
           <folding>
-            <element signature="e#651#652#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/client/ReviewAPIController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="111" column="53" selection-start-line="111" selection-start-column="53" selection-end-line="111" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/open/ReviewController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="94" column="52" selection-start-line="94" selection-start-column="52" selection-end-line="94" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/NLPService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="39" column="29" selection-start-line="39" selection-start-column="29" selection-end-line="39" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/PurchaseOrderMobileService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/TokenQueueMobileService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="253" column="29" selection-start-line="253" selection-start-column="29" selection-end-line="253" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/MailService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="40" column="8" selection-start-line="40" selection-start-column="8" selection-end-line="40" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/SocialAuthenticationService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="65" column="48" selection-start-line="65" selection-start-column="48" selection-end-line="65" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/QueueManagerImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="415" column="19" selection-start-line="415" selection-start-column="19" selection-end-line="415" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/QueueManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="114" column="12" selection-start-line="114" selection-start-column="12" selection-end-line="114" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/mail/ChangeMailOTP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
-          <folding>
-            <element signature="e#1058#1059#0" expanded="true" />
-            <element signature="e#1121#1122#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/mail/FeedbackMail.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/mail/SignupUserInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="39" column="33" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
-          <folding>
-            <element signature="e#1070#1071#0" expanded="true" />
-            <element signature="e#1130#1131#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/AccountMobileService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="232" column="66" selection-start-line="232" selection-start-column="66" selection-end-line="232" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#9111#9112#0" expanded="true" />
-            <element signature="e#9189#9190#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/web/WEB-INF/freemarker/html/show-business.ftl">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/web/WEB-INF/freemarker/mail/registration-status.ftl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-770" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/web/WEB-INF/freemarker/mail/reviewSentiment.ftl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="42" column="136" selection-start-line="42" selection-start-column="136" selection-end-line="42" selection-end-column="136" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/WebConnectorService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="86" column="20" selection-start-line="86" selection-start-column="13" selection-end-line="86" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/service/src/main/java/com/noqapp/service/BusinessUserStoreService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="56" column="22" selection-start-line="56" selection-start-column="22" selection-end-line="56" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/BusinessUserStoreManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/BusinessUserManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="668">
-          <caret line="60" column="29" selection-start-line="60" selection-start-column="29" selection-end-line="60" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/types/LowestSupportedAppEnum.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="749">
-          <caret line="85" column="30" lean-forward="true" selection-start-line="85" selection-start-column="30" selection-end-line="85" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/ITest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2750">
-          <caret line="1098" column="47" selection-start-line="1098" selection-start-column="47" selection-end-line="1098" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#35260#35261#0" expanded="true" />
+            <element signature="e#35384#35385#0" expanded="true" />
+            <element signature="e#35523#35524#0" expanded="true" />
+            <element signature="e#35666#35667#0" expanded="true" />
+            <element signature="e#36173#36174#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordControllerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="64" column="10" lean-forward="true" selection-start-line="64" selection-start-column="10" selection-end-line="64" selection-end-column="10" />
+        <state relative-caret-position="371">
+          <caret line="88" column="38" selection-start-line="88" selection-start-column="38" selection-end-line="88" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/domain/QueueEntity.java">
+    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalUserProfileControllerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="203" column="18" selection-start-line="203" selection-start-column="18" selection-end-line="203" selection-end-column="18" />
+        <state relative-caret-position="126">
+          <caret line="30" column="6" selection-start-line="30" selection-start-column="6" selection-end-line="30" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/client/HistoricalAPIControllerITest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="41" column="6" selection-start-line="41" selection-start-column="6" selection-end-line="41" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/client/FeedbackAPIControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="71" column="105" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/client/PurchaseOrderAPIControllerITest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="43" column="15" selection-start-line="43" selection-start-column="15" selection-end-line="43" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/types/LowestSupportedAppEnum.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="35" column="24" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="24" />
           <folding>
-            <element signature="e#4072#4073#0" expanded="true" />
-            <element signature="e#4106#4107#0" expanded="true" />
-            <element signature="e#4761#4762#0" expanded="true" />
-            <element signature="e#4796#4797#0" expanded="true" />
-            <element signature="e#4968#4969#0" expanded="true" />
-            <element signature="e#5004#5005#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#2991#2992#0" expanded="true" />
+            <element signature="e#3030#3031#0" expanded="true" />
+            <element signature="e#3073#3074#0" expanded="true" />
+            <element signature="e#3112#3113#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/domain/src/main/java/com/noqapp/mobile/domain/mail/ReviewSentiment.java">
+    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/ITest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="67" column="34" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
+        <state relative-caret-position="4760">
+          <caret line="450" column="28" selection-start-line="450" selection-start-column="28" selection-end-line="450" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deploy.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4522">
+          <caret line="266" column="27" selection-start-line="266" selection-start-column="27" selection-end-line="266" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/client/ClientProfileAPIControllerITest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/test/java/com/noqapp/mobile/view/controller/api/client/DependentAPIControllerITest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="31" column="6" selection-start-line="31" selection-start-column="6" selection-end-line="31" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradle.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="45" column="10" selection-start-line="45" selection-start-column="10" selection-end-line="45" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/health/MedicalRecordController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="163" column="98" lean-forward="true" selection-start-line="163" selection-start-column="98" selection-end-line="163" selection-end-column="98" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/noqapp/mobile/common/util/MobileSystemErrorCodeEnum.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1054">
+          <caret line="62" lean-forward="true" selection-start-line="62" selection-end-line="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/exception/DeviceDetailMissingException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/service/src/main/java/com/noqapp/mobile/service/QueueMobileService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="408" column="31" lean-forward="true" selection-start-line="408" selection-start-column="31" selection-end-line="408" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#18940#18941#0" expanded="true" />
-            <element signature="e#21388#21389#0" expanded="true" />
-            <element signature="e#21659#21660#0" expanded="true" />
-            <element signature="e#22082#22083#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="467">
+          <caret line="428" column="37" lean-forward="true" selection-start-line="428" selection-start-column="37" selection-end-line="428" selection-end-column="37" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/java/com/noqapp/mobile/view/controller/api/merchant/health/MasterLabController.java">
+    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/QueueManagerJDBC.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="65" column="31" lean-forward="true" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="449">
+          <caret line="44" column="12" selection-start-line="44" selection-start-column="12" selection-end-line="44" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../noqapp/domain/src/main/java/com/noqapp/repository/QueueManagerJDBCImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="269" column="43" lean-forward="true" selection-start-line="269" selection-start-column="43" selection-end-line="269" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jdbc/5.0.2.RELEASE/791175a228ad202bb8862203c1a9296dca0a93dd/spring-jdbc-5.0.2.RELEASE-sources.jar!/org/springframework/jdbc/core/JdbcTemplate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="844" column="18" selection-start-line="844" selection-start-column="18" selection-end-line="844" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -5474,7 +5694,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.42648402" />
+                <option value="0.25679228" />
               </list>
             </option>
           </splitter-proportions>
@@ -5511,6 +5731,7 @@
             <option name="proportions">
               <list>
                 <option value="0.25679228" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -5518,7 +5739,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Gradle: aopalliance:aopalliance:1.0</last-edited>
+          <last-edited>Gradle: org.objenesis:objenesis:2.6</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
