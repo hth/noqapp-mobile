@@ -145,6 +145,8 @@ class MedicalRecordControllerTest extends ITest {
 
         FindMedicalProfile findMedicalProfile = new FindMedicalProfile().setCodeQR(bizStore.getCodeQR()).setQueueUserId(client.getQueueUserId());
         String response = medicalRecordController.historical(
+            new ScrubbedInput("12345-A"),
+            new ScrubbedInput(DeviceTypeEnum.A.getName()),
             new ScrubbedInput(userAccount.getUserId()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
             findMedicalProfile,
