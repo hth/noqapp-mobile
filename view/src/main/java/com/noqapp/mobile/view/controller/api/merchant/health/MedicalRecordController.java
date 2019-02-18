@@ -246,6 +246,12 @@ public class MedicalRecordController {
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String historical(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
         @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
@@ -259,7 +265,7 @@ public class MedicalRecordController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.debug("Client medical record fetch mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        LOG.debug("Client medical record fetch mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/m/h/medicalRecord/historical by mail={}", mail);
@@ -295,7 +301,13 @@ public class MedicalRecordController {
         value = "/updateObservation",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String addObservation(
+    public String updateObservation(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
         @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
@@ -309,7 +321,8 @@ public class MedicalRecordController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Follow up shown for codeQR={} request from mail={} auth={}", labFile.getRecordReferenceId(), mail, AUTH_KEY_HIDDEN);
+        LOG.info("Update observation for id={} lab={} from mail={} did={} deviceType={} auth={}",
+            labFile.getRecordReferenceId(), labFile.getLabCategory(), mail, did, deviceType, AUTH_KEY_HIDDEN);
 
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
