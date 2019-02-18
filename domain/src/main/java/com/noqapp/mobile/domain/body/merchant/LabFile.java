@@ -1,6 +1,7 @@
 package com.noqapp.mobile.domain.body.merchant;
 
 import com.noqapp.common.utils.AbstractDomain;
+import com.noqapp.domain.types.medical.LabCategoryEnum;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -42,6 +43,13 @@ public class LabFile extends AbstractDomain {
     @JsonProperty("rr")
     private String recordReferenceId;
 
+    /** Doctors observation. */
+    @JsonProperty("ob")
+    private String observation;
+
+    @JsonProperty("lc")
+    private LabCategoryEnum labCategory;
+
     public String getTransactionId() {
         return transactionId;
     }
@@ -75,6 +83,24 @@ public class LabFile extends AbstractDomain {
 
     public LabFile setRecordReferenceId(String recordReferenceId) {
         this.recordReferenceId = recordReferenceId;
+        return this;
+    }
+
+    public String getObservation() {
+        return observation;
+    }
+
+    public LabFile setObservation(String observation) {
+        this.observation = observation;
+        return this;
+    }
+
+    public LabCategoryEnum getLabCategory() {
+        return labCategory;
+    }
+
+    public LabFile setLabCategory(LabCategoryEnum labCategory) {
+        this.labCategory = labCategory;
         return this;
     }
 }

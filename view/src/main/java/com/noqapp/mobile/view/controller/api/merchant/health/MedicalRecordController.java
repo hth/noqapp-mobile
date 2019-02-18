@@ -18,11 +18,14 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.domain.MedicalPathologyEntity;
+import com.noqapp.medical.domain.MedicalRadiologyEntity;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.exception.ExistingLabResultException;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
+import com.noqapp.mobile.domain.body.merchant.LabFile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.MedicalRecordMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
@@ -259,6 +262,7 @@ public class MedicalRecordController {
         LOG.debug("Client medical record fetch mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/h/medicalRecord/historical by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -281,6 +285,66 @@ public class MedicalRecordController {
             apiHealthService.insert(
                 "/historical",
                 "historical",
+                MedicalRecordAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping(
+        value = "/updateObservation",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String addObservation(
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        LabFile labFile,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Follow up shown for codeQR={} request from mail={} auth={}", labFile.getRecordReferenceId(), mail, AUTH_KEY_HIDDEN);
+
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/h/medicalRecord/updateObservation by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            switch (labFile.getLabCategory()) {
+                case SPEC:
+                case SCAN:
+                case XRAY:
+                case SONO:
+                case MRI:
+                    medicalRecordService.updateRadiologyObservation(labFile.getRecordReferenceId(), labFile.getObservation());
+                    break;
+                case PATH:
+                    medicalRecordService.updatePathologyObservation(labFile.getRecordReferenceId(), labFile.getObservation());
+                    break;
+                default:
+                    LOG.error("Reached unsupported lab category");
+                    throw new UnsupportedOperationException("Reached unsupported lab category " + labFile.getLabCategory().getDescription());
+            }
+
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed updating lab observation qid={}, id={} labCategory={} reason={}",
+                qid, labFile.getRecordReferenceId(), labFile.getLabCategory(), e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/updateObservation",
+                "updateObservation",
                 MedicalRecordAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
