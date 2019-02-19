@@ -105,7 +105,7 @@ public class MasterLabController {
         }
 
         UserAccountEntity userAccount = authenticateMobileService.findByQueueUserId(qid);
-        if (!userAccount.getRoles().contains(ROLE_S_MANAGER) || !userAccount.getRoles().contains(ROLE_Q_SUPERVISOR)) {
+        if (!userAccount.getRoles().contains(ROLE_S_MANAGER) && !userAccount.getRoles().contains(ROLE_Q_SUPERVISOR)) {
             LOG.info("Your are not authorized to get file for as roles not match mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return;
