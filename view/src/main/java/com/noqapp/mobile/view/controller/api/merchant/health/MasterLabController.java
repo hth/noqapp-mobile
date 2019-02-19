@@ -2,9 +2,10 @@ package com.noqapp.mobile.view.controller.api.merchant.health;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.domain.types.RoleEnum.ROLE_Q_SUPERVISOR;
+import static com.noqapp.domain.types.RoleEnum.ROLE_S_MANAGER;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
-import static com.noqapp.service.FtpService.PREFERRED_STORE;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
@@ -104,7 +105,7 @@ public class MasterLabController {
         }
 
         UserAccountEntity userAccount = authenticateMobileService.findByQueueUserId(qid);
-        if (!userAccount.getRoles().contains(RoleEnum.ROLE_S_MANAGER)) {
+        if (!userAccount.getRoles().contains(ROLE_S_MANAGER) || !userAccount.getRoles().contains(ROLE_Q_SUPERVISOR)) {
             LOG.info("Your are not authorized to get file for as roles not match mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return;
@@ -182,7 +183,7 @@ public class MasterLabController {
         }
 
         UserAccountEntity userAccount = authenticateMobileService.findByQueueUserId(qid);
-        if (!userAccount.getRoles().contains(RoleEnum.ROLE_S_MANAGER)) {
+        if (!userAccount.getRoles().contains(ROLE_S_MANAGER)) {
             LOG.info("Your are not authorized to get file for as roles not match mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
