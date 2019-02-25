@@ -151,7 +151,7 @@ public class ManageQueueController {
 
         try {
             JsonTopicList topics = new JsonTopicList();
-            topics.setTopics(businessUserStoreService.getQueues(qid));
+            topics.setTopics(businessUserStoreService.getAssignedTokenAndQueues(qid));
             return topics.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
