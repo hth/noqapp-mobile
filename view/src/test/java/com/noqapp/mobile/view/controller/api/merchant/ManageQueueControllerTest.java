@@ -151,7 +151,7 @@ class ManageQueueControllerTest {
     @Test
     void queues_exception() throws Exception {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("rid");
-        doThrow(new RuntimeException()).when(businessUserStoreService).getQueues(anyString());
+        doThrow(new RuntimeException()).when(businessUserStoreService).getAssignedTokenAndQueues(anyString());
 
         String responseJson = manageQueueController.getQueues(
                 new ScrubbedInput(""),
@@ -168,7 +168,7 @@ class ManageQueueControllerTest {
     @Test
     void queues_pass() throws Exception {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("rid");
-        when(businessUserStoreService.getQueues(anyString())).thenReturn(topics);
+        when(businessUserStoreService.getAssignedTokenAndQueues(anyString())).thenReturn(topics);
         String responseJson = manageQueueController.getQueues(
                 new ScrubbedInput(""),
                 new ScrubbedInput(DeviceTypeEnum.A.getName()),
