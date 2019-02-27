@@ -705,12 +705,6 @@ public class PurchaseOrderController {
         if (authorizeRequest(response, qid)) return null;
 
         try {
-            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(jsonPurchaseOrder.getCodeQR());
-            if (null == bizStore) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
-                return null;
-            }
-            jsonPurchaseOrder.setBizStoreId(bizStore.getId());
             purchaseOrderService.createOrder(jsonPurchaseOrder, did.getText(), TokenServiceEnum.C);
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
             return jsonPurchaseOrder.asJson();
