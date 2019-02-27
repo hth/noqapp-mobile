@@ -410,7 +410,7 @@ public class PurchaseOrderController {
                     break;
                 default:
                     //TODO(hth) remind apps to call state of the queue when failure is encountered as state might have changed. Update app with this state.
-                    LOG.warn("Un-supported condition reached for acquiring token={} when queueState={}, supports only queueState=Next", servedNumber, tokenQueue.getQueueStatus());
+                    LOG.error("Un-supported condition reached for acquiring token={} when queueState={}, supports only queueState=Next", servedNumber, tokenQueue.getQueueStatus());
                     throw new UnsupportedOperationException("Reached unsupported condition for QueueState " + tokenQueue.getQueueStatus().getDescription());
             }
 
