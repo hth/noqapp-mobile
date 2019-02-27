@@ -2,12 +2,20 @@ package com.noqapp.mobile.view.controller.api.merchant.store;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ACCESS_DENIED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRICE_MISMATCH;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_OFFLINE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_PREVENT_JOIN;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_TEMP_DAY_CLOSED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
+import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ParseJsonStringToMap;
@@ -15,6 +23,9 @@ import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.TokenQueueEntity;
+import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonBusinessCustomerLookup;
+import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
@@ -33,17 +44,31 @@ import com.noqapp.medical.repository.MedicalRadiologyManager;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.OrderServed;
 import com.noqapp.mobile.domain.body.merchant.LabFile;
+import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
+import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
+import com.noqapp.mobile.view.controller.api.client.ClientProfileAPIController;
+import com.noqapp.mobile.view.controller.api.client.PurchaseOrderAPIController;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
+import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.repository.BizStoreManager;
+import com.noqapp.service.AccountService;
+import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
+import com.noqapp.service.exceptions.PriceMismatchException;
+import com.noqapp.service.exceptions.StoreDayClosedException;
+import com.noqapp.service.exceptions.StoreInActiveException;
+import com.noqapp.service.exceptions.StorePreventJoiningException;
+import com.noqapp.service.exceptions.StoreTempDayClosedException;
+import com.noqapp.social.exception.AccountNotActiveException;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -54,6 +79,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,6 +92,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -94,6 +121,10 @@ public class PurchaseOrderController {
     private PurchaseOrderService purchaseOrderService;
     private QueueMobileService queueMobileService;
     private TokenQueueService tokenQueueService;
+    private AccountMobileService accountMobileService;
+    private TokenQueueMobileService tokenQueueMobileService;
+    private AccountService accountService;
+    private BusinessCustomerService businessCustomerService;
     private ApiHealthService apiHealthService;
 
     private BizStoreManager bizStoreManager;
@@ -115,6 +146,10 @@ public class PurchaseOrderController {
         PurchaseOrderService purchaseOrderService,
         QueueMobileService queueMobileService,
         TokenQueueService tokenQueueService,
+        AccountMobileService accountMobileService,
+        TokenQueueMobileService tokenQueueMobileService,
+        AccountService accountService,
+        BusinessCustomerService businessCustomerService,
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -129,6 +164,10 @@ public class PurchaseOrderController {
         this.purchaseOrderService = purchaseOrderService;
         this.queueMobileService = queueMobileService;
         this.tokenQueueService = tokenQueueService;
+        this.accountMobileService = accountMobileService;
+        this.tokenQueueMobileService = tokenQueueMobileService;
+        this.accountService = accountService;
+        this.businessCustomerService = businessCustomerService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -546,6 +585,154 @@ public class PurchaseOrderController {
                 "/actionOnOrder",
                 "actionOnOrder",
                 ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping(
+        value = "/findCustomer",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String fetch(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonBusinessCustomerLookup businessCustomerLookup,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Find Customer API for did={} dt={}", did, dt);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        try {
+            if (StringUtils.isBlank(businessCustomerLookup.getCodeQR())) {
+                LOG.warn("Not a valid codeQR={} qid={}", businessCustomerLookup.getCodeQR(), qid);
+                return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+            } else if (!businessUserStoreService.hasAccess(qid, businessCustomerLookup.getCodeQR())) {
+                LOG.info("Un-authorized store access to /api/m/mq/dispenseToken by mail={}", mail);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+                return null;
+            }
+
+            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(businessCustomerLookup.getCodeQR());
+            if (null == bizStore) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
+                return null;
+            }
+
+            UserProfileEntity userProfile = null;
+            if (StringUtils.isNotBlank(businessCustomerLookup.getCustomerPhone())) {
+                userProfile = accountService.checkUserExistsByPhone(businessCustomerLookup.getCustomerPhone());
+            } else if (StringUtils.isNotBlank(businessCustomerLookup.getBusinessCustomerId())) {
+                userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(
+                    businessCustomerLookup.getBusinessCustomerId(),
+                    bizStore.getBizName().getId());
+            }
+
+            if (null == userProfile) {
+                LOG.info("Failed joining queue as no user found with phone={} businessCustomerId={}",
+                    businessCustomerLookup.getCustomerPhone(),
+                    businessCustomerLookup.getBusinessCustomerId());
+
+                Map<String, String> errors = new HashMap<>();
+                errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
+                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), businessCustomerLookup.getCustomerPhone());
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
+                return ErrorEncounteredJson.toJson(errors);
+            }
+
+            return accountMobileService.getProfileAsJson(userProfile.getQueueUserId()).asJson();
+        } catch(AccountNotActiveException e) {
+            LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
+        } catch (Exception e) {
+            LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/fetch",
+                "fetch",
+                ClientProfileAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Add purchase when merchant presses confirm. */
+    @PostMapping(
+        value = "/purchase",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String purchase(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonPurchaseOrder jsonPurchaseOrder,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Purchase Order API for did={} dt={}", did, dt);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        try {
+            purchaseOrderService.createOrder(jsonPurchaseOrder, did.getText(), TokenServiceEnum.C);
+            LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
+            return jsonPurchaseOrder.asJson();
+        } catch (StoreInActiveException e) {
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
+            return ErrorEncounteredJson.toJson("Store is offline", STORE_OFFLINE);
+        } catch (StoreDayClosedException e) {
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
+            return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
+        } catch (StoreTempDayClosedException e) {
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
+            return ErrorEncounteredJson.toJson("Store is temporary closed", STORE_TEMP_DAY_CLOSED);
+        } catch (StorePreventJoiningException e) {
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
+            return ErrorEncounteredJson.toJson("Store is not accepting new orders", STORE_PREVENT_JOIN);
+        } catch(PriceMismatchException e) {
+            LOG.error("Prices have changed since added to cart reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Prices have changed since added to cart", PURCHASE_ORDER_PRICE_MISMATCH);
+        } catch (Exception e) {
+            LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return jsonPurchaseOrder.asJson();
+        } finally {
+            apiHealthService.insert(
+                "/purchase",
+                "purchase",
+                PurchaseOrderAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
