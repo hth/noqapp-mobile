@@ -623,7 +623,7 @@ public class PurchaseOrderController {
                 LOG.warn("Not a valid codeQR={} qid={}", businessCustomerLookup.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
             } else if (!businessUserStoreService.hasAccess(qid, businessCustomerLookup.getCodeQR())) {
-                LOG.info("Un-authorized store access to /api/m/mq/dispenseToken by mail={}", mail);
+                LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/findCustomer by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
@@ -644,7 +644,7 @@ public class PurchaseOrderController {
             }
 
             if (null == userProfile) {
-                LOG.info("Failed joining queue as no user found with phone={} businessCustomerId={}",
+                LOG.info("Failed as no user found with phone={} businessCustomerId={}",
                     businessCustomerLookup.getCustomerPhone(),
                     businessCustomerLookup.getBusinessCustomerId());
 
@@ -667,9 +667,9 @@ public class PurchaseOrderController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/fetch",
-                "fetch",
-                ClientProfileAPIController.class.getName(),
+                "/findCustomer",
+                "findCustomer",
+                PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -732,7 +732,7 @@ public class PurchaseOrderController {
             apiHealthService.insert(
                 "/purchase",
                 "purchase",
-                PurchaseOrderAPIController.class.getName(),
+                PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
