@@ -73,9 +73,9 @@ public class PurchaseOrderAPIController {
 
     @Autowired
     public PurchaseOrderAPIController(
-            PurchaseOrderService purchaseOrderService,
-            ApiHealthService apiHealthService,
-            AuthenticateMobileService authenticateMobileService
+        PurchaseOrderService purchaseOrderService,
+        ApiHealthService apiHealthService,
+        AuthenticateMobileService authenticateMobileService
     ) {
         this.purchaseOrderService = purchaseOrderService;
         this.apiHealthService = apiHealthService;
@@ -88,37 +88,28 @@ public class PurchaseOrderAPIController {
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String purchase(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String bodyJson,
+        @RequestBody
+        JsonPurchaseOrder jsonPurchaseOrder,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Purchase Order API for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
-
-        JsonPurchaseOrder jsonPurchaseOrder;
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            jsonPurchaseOrder = mapper.readValue(bodyJson, JsonPurchaseOrder.class);
-        } catch (IOException e) {
-            LOG.error("Could not parse json={} reason={}", bodyJson, e.getLocalizedMessage(), e);
-            return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
-        }
 
         try {
             purchaseOrderService.createOrder(jsonPurchaseOrder, qid, did.getText(), TokenServiceEnum.C);
@@ -156,26 +147,26 @@ public class PurchaseOrderAPIController {
 
     /** Cancel placed order. */
     @PostMapping(
-            value = "/cancel",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/cancel",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String cancel(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            JsonPurchaseOrder jsonPurchaseOrder,
+        @RequestBody
+        JsonPurchaseOrder jsonPurchaseOrder,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
