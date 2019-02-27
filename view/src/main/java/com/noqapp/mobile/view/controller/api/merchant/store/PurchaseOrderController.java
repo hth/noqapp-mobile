@@ -594,7 +594,7 @@ public class PurchaseOrderController {
         value = "/findCustomer",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String fetch(
+    public String findCustomer(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
