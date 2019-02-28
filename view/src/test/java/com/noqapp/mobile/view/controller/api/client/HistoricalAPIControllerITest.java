@@ -83,7 +83,7 @@ class HistoricalAPIControllerITest extends ITest {
                 new ScrubbedInput(deviceType),
                 new ScrubbedInput(userProfile.getEmail()),
                 new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                jsonPurchaseOrder.asJson(),
+                jsonPurchaseOrder,
                 httpServletResponse
         );
         JsonPurchaseOrder jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
