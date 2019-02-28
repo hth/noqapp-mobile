@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view;
 
+import com.noqapp.common.config.PaymentGatewayConfiguration;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
@@ -148,6 +149,7 @@ import com.noqapp.service.StoreProductService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
+import com.noqapp.service.payment.CashfreeService;
 import com.noqapp.service.transaction.TransactionService;
 
 import org.bson.types.ObjectId;
@@ -208,6 +210,7 @@ public class ITest extends RealMongoForITest {
     protected StoreProductService storeProductService;
     protected PurchaseOrderManager purchaseOrderManager;
     protected PurchaseOrderProductManager purchaseOrderProductManager;
+    protected CashfreeService cashfreeService;
     protected PurchaseOrderService purchaseOrderService;
     protected PurchaseOrderMobileService purchaseOrderMobileService;
     protected FileService fileService;
@@ -269,6 +272,7 @@ public class ITest extends RealMongoForITest {
     protected ApiHealthNowManager apiHealthNowManager;
     protected StatsBizStoreDailyManager statsBizStoreDailyManager;
 
+    protected PaymentGatewayConfiguration paymentGatewayConfiguration = new PaymentGatewayConfiguration();
     protected GenerateUserIdManager generateUserIdManager;
 
     private AccountClientController accountClientController;
@@ -475,6 +479,7 @@ public class ITest extends RealMongoForITest {
         );
 
         storeProductService = new StoreProductService(storeProductManager, bizStoreManager, fileService, transactionService);
+        cashfreeService = new CashfreeService("", okHttpClient, paymentGatewayConfiguration);
         purchaseOrderService = new PurchaseOrderService(
             bizStoreManager,
             businessUserManager,
@@ -492,7 +497,8 @@ public class ITest extends RealMongoForITest {
             accountService,
             transactionService,
             nlpService,
-            mailService
+            mailService,
+            cashfreeService
         );
         purchaseOrderMobileService = new PurchaseOrderMobileService(purchaseOrderService);
 
