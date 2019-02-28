@@ -14,8 +14,8 @@ import com.noqapp.domain.json.JsonPurchaseOrderProduct;
 import com.noqapp.domain.json.JsonQueueHistoricalList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
-import com.noqapp.domain.types.DeliveryTypeEnum;
-import com.noqapp.domain.types.PaymentTypeEnum;
+import com.noqapp.domain.types.DeliveryModeEnum;
+import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.view.ITest;
@@ -183,8 +183,8 @@ class HistoricalAPIControllerITest extends ITest {
                 .setBusinessType(bizStore.getBusinessType())
                 .setCustomerName(userProfile.getName())
                 .setCustomerPhone(userProfile.getPhone())
-                .setDeliveryType(DeliveryTypeEnum.TO)
-                .setPaymentType(PaymentTypeEnum.CA)
+                .setDeliveryMode(DeliveryModeEnum.TO)
+                .setPaymentMode(PaymentModeEnum.CA)
                 .setStoreDiscount(bizStore.getDiscount())
                 .setOrderPrice(String.valueOf(orderPrice));
     }
