@@ -332,7 +332,7 @@ public class PurchaseOrderAPIController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Order detail request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
+        LOG.info("Cashfree notification request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/c/purchaseOrder/cf/notify by mail={}", mail);
