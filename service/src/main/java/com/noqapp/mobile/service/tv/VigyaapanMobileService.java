@@ -112,6 +112,7 @@ public class VigyaapanMobileService {
         }
     }
 
+    //TODO implement bizNameId
     public JsonVigyaapanTVList getAllVigyaapanForBusiness(String bizNameId) {
         JsonVigyaapanTVList jsonVigyaapanTVList = new JsonVigyaapanTVList();
 
