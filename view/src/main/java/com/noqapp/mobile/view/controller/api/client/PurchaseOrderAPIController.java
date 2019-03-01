@@ -228,7 +228,8 @@ public class PurchaseOrderAPIController {
         try {
             JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.activateOrderByClient(
                 jsonPurchaseOrderHistorical.getQueueUserId(),
-                jsonPurchaseOrderHistorical.getTransactionId());
+                jsonPurchaseOrderHistorical.getTransactionId(),
+                did);
 
             LOG.info("Order activated Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
             return jsonPurchaseOrderResponse.asJson();
