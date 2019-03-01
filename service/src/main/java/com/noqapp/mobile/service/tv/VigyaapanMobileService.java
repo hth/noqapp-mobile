@@ -89,9 +89,7 @@ public class VigyaapanMobileService {
                     .setVigyaapanType(VigyaapanTypeEnum.GI);
             case MV:
                 imageUrls = new LinkedList<String>() {{
-                    add("https://pbs.twimg.com/media/C6QQND6WUAAjhA6.jpg");
-                    add("https://i.pinimg.com/originals/2c/2c/da/2c2cda9b80b0a71c2ea2f7d360122164.jpg");
-                    add("https://i.pinimg.com/originals/81/56/11/815611f15aea20932f3cbf8040daa6c0.jpg");
+                    add("https://noqapp.com/imgs/appmages/garbhasanskar-ssd-march-2019.png");
                 }};
                 return new JsonVigyaapanTV()
                     .setVigyaapanId(UUID.randomUUID().toString())
