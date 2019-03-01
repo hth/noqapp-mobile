@@ -7,6 +7,7 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StatsVigyaapanStoreDailyEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.tv.JsonVigyaapanTV;
+import com.noqapp.domain.json.tv.JsonVigyaapanTVList;
 import com.noqapp.domain.types.VigyaapanTypeEnum;
 import com.noqapp.medical.domain.MedicalRecordEntity;
 import com.noqapp.medical.repository.MedicalRecordManager;
@@ -69,6 +70,7 @@ public class VigyaapanMobileService {
         }
     }
 
+    @Deprecated
     public JsonVigyaapanTV displayVigyaapan(VigyaapanTypeEnum vigyaapanType) {
         switch (vigyaapanType) {
             case DV:
@@ -89,9 +91,7 @@ public class VigyaapanMobileService {
                     .setVigyaapanType(VigyaapanTypeEnum.GI);
             case MV:
                 imageUrls = new LinkedList<String>() {{
-                    add("https://pbs.twimg.com/media/C6QQND6WUAAjhA6.jpg");
-                    add("https://i.pinimg.com/originals/2c/2c/da/2c2cda9b80b0a71c2ea2f7d360122164.jpg");
-                    add("https://i.pinimg.com/originals/81/56/11/815611f15aea20932f3cbf8040daa6c0.jpg");
+                    add("https://noqapp.com/imgs/appmages/garbhasanskar-ssd-march-2019.png");
                 }};
                 return new JsonVigyaapanTV()
                     .setVigyaapanId(UUID.randomUUID().toString())
@@ -100,11 +100,49 @@ public class VigyaapanMobileService {
             case PP:
             default:
                 MedicalRecordEntity medicalRecord = medicalRecordManager.findOne();
+                if (null == medicalRecord) {
+                    return new JsonVigyaapanTV()
+                        .setVigyaapanType(VigyaapanTypeEnum.PP);
+                }
                 JsonProfessionalProfile jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfile(medicalRecord.getDiagnosedById(), TV);
                 return new JsonVigyaapanTV()
                     .setVigyaapanId(medicalRecord.getCodeQR())
                     .setJsonProfessionalProfile(jsonProfessionalProfile)
                     .setVigyaapanType(VigyaapanTypeEnum.PP);
         }
+    }
+
+    public JsonVigyaapanTVList getAllVigyaapanForBusiness(String bizNameId) {
+        JsonVigyaapanTVList jsonVigyaapanTVList = new JsonVigyaapanTVList();
+
+        for (VigyaapanTypeEnum vigyaapanType : VigyaapanTypeEnum.values()) {
+            switch (vigyaapanType) {
+                case DV:
+                    break;
+                case GI:
+                    break;
+                case MV:
+                    List<String> imageUrls = new LinkedList<String>() {{
+                        add("https://noqapp.com/imgs/appmages/garbhasanskar-ssd-march-2019.png");
+                    }};
+                    jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
+                        .setVigyaapanId(UUID.randomUUID().toString())
+                        .setImageUrls(imageUrls)
+                        .setVigyaapanType(VigyaapanTypeEnum.MV));
+                    break;
+                case PP:
+                default:
+                    MedicalRecordEntity medicalRecord = medicalRecordManager.findOne();
+                    if (null != medicalRecord) {
+                        JsonProfessionalProfile jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfile(medicalRecord.getDiagnosedById(), TV);
+                        jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
+                            .setVigyaapanId(medicalRecord.getCodeQR())
+                            .setJsonProfessionalProfile(jsonProfessionalProfile)
+                            .setVigyaapanType(VigyaapanTypeEnum.PP));
+                    }
+            }
+        }
+
+        return jsonVigyaapanTVList;
     }
 }

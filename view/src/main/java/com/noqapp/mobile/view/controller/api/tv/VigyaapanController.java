@@ -7,7 +7,9 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.domain.types.VigyaapanTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -138,6 +140,10 @@ public class VigyaapanController {
         value = "/{vt}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
+    /**
+     * @Since 1.2.226
+     */
+    @Deprecated
     public String getVigyaapan(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
@@ -173,6 +179,59 @@ public class VigyaapanController {
 
         try {
             return vigyaapanMobileService.displayVigyaapan(VigyaapanTypeEnum.valueOf(vt.getText())).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting advt reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/{vt}",
+                "getVigyaapan",
+                VigyaapanController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Tag every time store profile is displayed. For example doctor is associated to store, hence mark store is displayed. */
+    @GetMapping(
+        value = "/all",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String getAllVigyaapan(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Get all advt for request from mail={} did={} deviceType={} auth={}",
+            mail,
+            did,
+            deviceType,
+            AUTH_KEY_HIDDEN);
+
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/tv/vigyaapan/all by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            /* Considering user to be Queue Supervisor. */
+            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findUserManagingStoreWithUserLevel(qid, UserLevelEnum.Q_SUPERVISOR);
+            return vigyaapanMobileService.getAllVigyaapanForBusiness(businessUserStore.getBizNameId()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting advt reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
