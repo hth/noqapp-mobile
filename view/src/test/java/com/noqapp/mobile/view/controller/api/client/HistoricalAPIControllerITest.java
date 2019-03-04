@@ -14,6 +14,7 @@ import com.noqapp.domain.json.JsonPurchaseOrderProduct;
 import com.noqapp.domain.json.JsonQueueHistoricalList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
 import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
@@ -87,6 +88,27 @@ class HistoricalAPIControllerITest extends ITest {
                 httpServletResponse
         );
         JsonPurchaseOrder jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
+
+        JsonCashfreeNotification jsonCashfreeNotification = new JsonCashfreeNotification()
+            .setxTime(null)
+            .setTxMsg("Success")
+            .setReferenceId("XXX-XXXX")
+            .setPaymentMode("CREDIT_CARD")
+            .setSignature("XXXXX")
+            .setOrderAmount(jsonPurchaseOrderResponse.getOrderPrice())
+            .setTxStatus("SUCCESS")
+            .setOrderId(jsonPurchaseOrderResponse.getTransactionId());
+
+        String jsonPurchaseOrderAsStringAfterNotifyingCF = purchaseOrderAPIController.cashfreeNotify(
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonCashfreeNotification,
+            httpServletResponse
+        );
+
+        JsonPurchaseOrder jsonPurchaseOrderCFResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsStringAfterNotifyingCF, JsonPurchaseOrder.class);
         String jsonPurchaseOrderCancelAsString = purchaseOrderAPIController.cancel(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
@@ -98,7 +120,7 @@ class HistoricalAPIControllerITest extends ITest {
 
         JsonPurchaseOrder jsonPurchaseOrderCancelResponse = new ObjectMapper().readValue(jsonPurchaseOrderCancelAsString, JsonPurchaseOrder.class);
         assertEquals("990", jsonPurchaseOrderCancelResponse.getOrderPrice());
-        assertEquals(PurchaseOrderStateEnum.VB, jsonPurchaseOrderCancelResponse.getPresentOrderState());
+        assertEquals(PurchaseOrderStateEnum.CO, jsonPurchaseOrderCancelResponse.getPresentOrderState());
 
         String orders = historicalAPIController.orders(
                 new ScrubbedInput(userProfile.getEmail()),
