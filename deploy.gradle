@@ -8,16 +8,9 @@ if (!hasProperty('fastEnabled')) {
 
 println "Building for environment: $env & fastEnabled: $fastEnabled"
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'org.hidetake:gradle-ssh-plugin:2.9.0'
-    }
+plugins {
+    id "org.hidetake.ssh" version "2.9.0"
 }
-
-apply plugin: 'org.hidetake.ssh'
 
 ssh.settings {
     dryRun = false
