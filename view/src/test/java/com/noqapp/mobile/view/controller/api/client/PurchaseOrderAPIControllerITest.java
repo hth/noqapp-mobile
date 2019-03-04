@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
@@ -11,6 +12,8 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderProduct;
 import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
+import com.noqapp.domain.json.payment.cashfree.JsonPurchaseOrderCF;
+import com.noqapp.domain.json.payment.cashfree.JsonPurchaseToken;
 import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
@@ -23,6 +26,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,6 +78,11 @@ class PurchaseOrderAPIControllerITest extends ITest {
     @Test
     void cancel() throws IOException {
         JsonPurchaseOrder jsonPurchaseOrder = createOrder();
+        JsonPurchaseToken jsonPurchaseToken = new JsonPurchaseToken()
+            .setStatus("Successful")
+            .setCftoken("XXXX");
+        when(cashfreeService.createTokenForPurchaseOrder(any())).thenReturn(jsonPurchaseToken);
+
         String jsonPurchaseOrderAsString = purchaseOrderAPIController.purchase(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
@@ -90,11 +99,11 @@ class PurchaseOrderAPIControllerITest extends ITest {
             .setReferenceId("XXX-XXXX")
             .setPaymentMode("CREDIT_CARD")
             .setSignature("XXXXX")
-            .setOrderAmount(jsonPurchaseOrderResponse.getJsonPurchaseToken().getOrderAmount())
+            .setOrderAmount(jsonPurchaseOrderResponse.getOrderPrice())
             .setTxStatus("SUCCESS")
             .setOrderId(jsonPurchaseOrderResponse.getTransactionId());
 
-        jsonPurchaseOrderAsString = purchaseOrderAPIController.cashfreeNotify(
+        String jsonPurchaseOrderAsStringAfterNotifyingCF = purchaseOrderAPIController.cashfreeNotify(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(userProfile.getEmail()),
@@ -103,7 +112,7 @@ class PurchaseOrderAPIControllerITest extends ITest {
             httpServletResponse
         );
 
-        jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
+        JsonPurchaseOrder jsonPurchaseOrderCFResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsStringAfterNotifyingCF, JsonPurchaseOrder.class);
         String jsonPurchaseOrderCancelAsString = purchaseOrderAPIController.cancel(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),

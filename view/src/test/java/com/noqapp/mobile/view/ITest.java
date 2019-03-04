@@ -155,8 +155,13 @@ import com.noqapp.service.transaction.TransactionService;
 import org.bson.types.ObjectId;
 
 import org.springframework.mock.env.MockEnvironment;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -164,6 +169,7 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import okhttp3.OkHttpClient;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -210,7 +216,6 @@ public class ITest extends RealMongoForITest {
     protected StoreProductService storeProductService;
     protected PurchaseOrderManager purchaseOrderManager;
     protected PurchaseOrderProductManager purchaseOrderProductManager;
-    protected CashfreeService cashfreeService;
     protected PurchaseOrderService purchaseOrderService;
     protected PurchaseOrderMobileService purchaseOrderMobileService;
     protected FileService fileService;
@@ -272,7 +277,6 @@ public class ITest extends RealMongoForITest {
     protected ApiHealthNowManager apiHealthNowManager;
     protected StatsBizStoreDailyManager statsBizStoreDailyManager;
 
-    protected PaymentGatewayConfiguration paymentGatewayConfiguration = new PaymentGatewayConfiguration();
     protected GenerateUserIdManager generateUserIdManager;
 
     private AccountClientController accountClientController;
@@ -290,6 +294,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected ElasticsearchClientConfiguration elasticsearchClientConfiguration;
     @Mock protected ElasticAdministrationService elasticAdministrationService;
     @Mock protected OkHttpClient okHttpClient;
+    @Mock protected CashfreeService cashfreeService;
 
     @BeforeAll
     public void globalISetup() throws IOException {
@@ -302,15 +307,15 @@ public class ITest extends RealMongoForITest {
         mockEnvironment = new MockEnvironment();
         mockEnvironment.setProperty("build.env", "sandbox");
 
-        Properties props = new Properties();
-        props.setProperty("annotators", "tokenize, ssplit, pos, lemma, parse, sentiment");
-        stanfordCoreNLP = new StanfordCoreNLP(props);
+        Properties nlpProperties = new Properties();
+        nlpProperties.setProperty("annotators", "tokenize, ssplit, pos, lemma, parse, sentiment");
+        stanfordCoreNLP = new StanfordCoreNLP(nlpProperties);
 
         fcmToken = UUID.randomUUID().toString();
         deviceType = DeviceTypeEnum.A.getName();
         model = "Model";
         osVersion = "OS-Version";
-        appVersion = "1.2.200";
+        appVersion = "1.2.250";
 
         userAccountManager = new UserAccountManagerImpl(getMongoTemplate());
         userAuthenticationManager = new UserAuthenticationManagerImpl(getMongoTemplate());
@@ -479,7 +484,6 @@ public class ITest extends RealMongoForITest {
         );
 
         storeProductService = new StoreProductService(storeProductManager, bizStoreManager, fileService, transactionService);
-        cashfreeService = new CashfreeService("", okHttpClient, paymentGatewayConfiguration);
         purchaseOrderService = new PurchaseOrderService(
             bizStoreManager,
             businessUserManager,

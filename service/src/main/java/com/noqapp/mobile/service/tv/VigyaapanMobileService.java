@@ -112,7 +112,7 @@ public class VigyaapanMobileService {
         }
     }
 
-    //TODO implement bizNameId
+    //TODO implement bizNameId to find latest medical record
     public JsonVigyaapanTVList getAllVigyaapanForBusiness(String bizNameId) {
         JsonVigyaapanTVList jsonVigyaapanTVList = new JsonVigyaapanTVList();
 

@@ -8,6 +8,7 @@ println "Building for environment: $env"
 
 ext {
     webInf = file('/WEB-INF')
+    freemarker = file("$webInf/freemarker")
     lib = file("$webInf/lib")
     javaClasses = file("$webInf/classes")
     conf = file("$javaClasses/conf")
