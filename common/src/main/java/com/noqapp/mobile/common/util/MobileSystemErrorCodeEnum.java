@@ -56,6 +56,9 @@ public enum MobileSystemErrorCodeEnum {
     PURCHASE_ORDER_ALREADY_CANCELLED("4209", ALERT),
     PURCHASE_ORDER_CANNOT_ACTIVATE("4210", ALERT),
 
+    /** Transaction. */
+    TRANSACTION_GATEWAY_DEFAULT("4500", ALERT),
+
     /** Mobile application related issue. */
     SEVERE("5000", ERROR),
     DEVICE_DETAIL_MISSING("5010", ERROR),
