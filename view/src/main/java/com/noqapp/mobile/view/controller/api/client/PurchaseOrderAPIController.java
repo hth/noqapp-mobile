@@ -2,7 +2,6 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_CANNOT_ACTIVATE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
@@ -13,15 +12,20 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_DAY_
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_OFFLINE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_PREVENT_JOIN;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_TEMP_DAY_CLOSED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.TRANSACTION_GATEWAY_DEFAULT;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderHistorical;
-import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
+import com.noqapp.domain.types.PaymentModeEnum;
+import com.noqapp.domain.types.PaymentStatusEnum;
+import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
+import com.noqapp.domain.types.cashfree.TxStatusEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
@@ -34,8 +38,6 @@ import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.StoreInActiveException;
 import com.noqapp.service.exceptions.StorePreventJoiningException;
 import com.noqapp.service.exceptions.StoreTempDayClosedException;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -341,7 +343,53 @@ public class PurchaseOrderAPIController {
         }
 
         try {
-            return new JsonResponse(true).asJson();
+            String transactionId = jsonCashfreeNotification.getOrderId();
+            PaymentStatusEnum paymentStatus;
+            PurchaseOrderStateEnum purchaseOrderState;
+            switch (TxStatusEnum.valueOf(jsonCashfreeNotification.getTxStatus())) {
+                case SUCCESS:
+                    paymentStatus = PaymentStatusEnum.PA;
+                    purchaseOrderState = PurchaseOrderStateEnum.PO;
+                    break;
+                case FAILED:
+                    paymentStatus = PaymentStatusEnum.PF;
+                    purchaseOrderState = PurchaseOrderStateEnum.FO;
+                    break;
+                case FLAGGED:
+                    paymentStatus = PaymentStatusEnum.FP;
+                    purchaseOrderState = PurchaseOrderStateEnum.FO;
+                    break;
+                case PENDING:
+                    paymentStatus = PaymentStatusEnum.PP;
+                    purchaseOrderState = PurchaseOrderStateEnum.FO;
+                    break;
+                case CANCELLED:
+                    paymentStatus = PaymentStatusEnum.PC;
+                    purchaseOrderState = PurchaseOrderStateEnum.FO;
+                    break;
+                default:
+                    LOG.error("Unknown field {}", jsonCashfreeNotification.getTxStatus());
+                    return getErrorReason("Unknown Transaction Field", TRANSACTION_GATEWAY_DEFAULT);
+            }
+
+            PaymentModeEnum paymentMode;
+            switch (jsonCashfreeNotification.getPaymentMode()) {
+                case "CREDIT_CARD":
+                    paymentMode = PaymentModeEnum.CC;
+                    break;
+                default:
+                    paymentMode = PaymentModeEnum.CC;
+                    LOG.error("Unknown field {}", jsonCashfreeNotification.getPaymentMode());
+            }
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.updateOnPaymentGatewayNotification(
+                transactionId,
+                jsonCashfreeNotification.getTxMsg(),
+                jsonCashfreeNotification.getReferenceId(),
+                paymentStatus,
+                purchaseOrderState,
+                paymentMode
+            );
+            return new JsonPurchaseOrder(purchaseOrder).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating with cashfree notification reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
