@@ -10,6 +10,7 @@ import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderProduct;
+import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
 import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
@@ -67,7 +68,7 @@ class PurchaseOrderAPIControllerITest extends ITest {
 
         JsonPurchaseOrder jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
         assertEquals("990", jsonPurchaseOrderResponse.getOrderPrice());
-        assertEquals(PurchaseOrderStateEnum.PO, jsonPurchaseOrderResponse.getPresentOrderState());
+        assertEquals(PurchaseOrderStateEnum.VB, jsonPurchaseOrderResponse.getPresentOrderState());
     }
 
     @Test
@@ -82,6 +83,27 @@ class PurchaseOrderAPIControllerITest extends ITest {
                 httpServletResponse
         );
         JsonPurchaseOrder jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
+
+        JsonCashfreeNotification jsonCashfreeNotification = new JsonCashfreeNotification()
+            .setxTime(null)
+            .setTxMsg("Success")
+            .setReferenceId("XXX-XXXX")
+            .setPaymentMode("CREDIT_CARD")
+            .setSignature("XXXXX")
+            .setOrderAmount(jsonPurchaseOrderResponse.getJsonPurchaseToken().getOrderAmount())
+            .setTxStatus("SUCCESS")
+            .setOrderId(jsonPurchaseOrderResponse.getTransactionId());
+
+        jsonPurchaseOrderAsString = purchaseOrderAPIController.cashfreeNotify(
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonCashfreeNotification,
+            httpServletResponse
+        );
+
+        jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
         String jsonPurchaseOrderCancelAsString = purchaseOrderAPIController.cancel(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),

@@ -98,7 +98,7 @@ class HistoricalAPIControllerITest extends ITest {
 
         JsonPurchaseOrder jsonPurchaseOrderCancelResponse = new ObjectMapper().readValue(jsonPurchaseOrderCancelAsString, JsonPurchaseOrder.class);
         assertEquals("990", jsonPurchaseOrderCancelResponse.getOrderPrice());
-        assertEquals(PurchaseOrderStateEnum.CO, jsonPurchaseOrderCancelResponse.getPresentOrderState());
+        assertEquals(PurchaseOrderStateEnum.VB, jsonPurchaseOrderCancelResponse.getPresentOrderState());
 
         String orders = historicalAPIController.orders(
                 new ScrubbedInput(userProfile.getEmail()),
