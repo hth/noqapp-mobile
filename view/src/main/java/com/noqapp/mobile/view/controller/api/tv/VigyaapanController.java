@@ -8,6 +8,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BusinessUserStoreEntity;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.domain.types.VigyaapanTypeEnum;
@@ -15,6 +16,7 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.tv.VigyaapanMobileService;
+import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessUserStoreService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -55,6 +57,7 @@ public class VigyaapanController {
     private VigyaapanMobileService vigyaapanMobileService;
     private BusinessUserStoreService businessUserStoreService;
     private AuthenticateMobileService authenticateMobileService;
+    private AccountService accountService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -62,11 +65,13 @@ public class VigyaapanController {
         VigyaapanMobileService vigyaapanMobileService,
         BusinessUserStoreService businessUserStoreService,
         AuthenticateMobileService authenticateMobileService,
+        AccountService accountService,
         ApiHealthService apiHealthService
     ) {
         this.vigyaapanMobileService = vigyaapanMobileService;
         this.businessUserStoreService = businessUserStoreService;
         this.authenticateMobileService = authenticateMobileService;
+        this.accountService = accountService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -229,8 +234,8 @@ public class VigyaapanController {
         }
 
         try {
-            /* Considering user to be Queue Supervisor. */
-            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findUserManagingStoreWithUserLevel(qid, UserLevelEnum.Q_SUPERVISOR);
+            UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
+            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findUserManagingStoreWithUserLevel(qid, userProfile.getLevel());
             return vigyaapanMobileService.getAllVigyaapanForBusiness(businessUserStore.getBizNameId()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting advt reason={}", e.getLocalizedMessage(), e);

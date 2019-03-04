@@ -174,7 +174,7 @@ public class PurchaseOrderAPIController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Purchase Order API for did={} dt={}", did, dt);
+        LOG.info("Cancel Order API for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
