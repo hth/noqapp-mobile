@@ -1,7 +1,8 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
@@ -12,8 +13,7 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderProduct;
 import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
-import com.noqapp.domain.json.payment.cashfree.JsonPurchaseOrderCF;
-import com.noqapp.domain.json.payment.cashfree.JsonPurchaseToken;
+import com.noqapp.domain.json.payment.cashfree.JsonResponseWithCFToken;
 import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
@@ -26,7 +26,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -78,10 +77,10 @@ class PurchaseOrderAPIControllerITest extends ITest {
     @Test
     void cancel() throws IOException {
         JsonPurchaseOrder jsonPurchaseOrder = createOrder();
-        JsonPurchaseToken jsonPurchaseToken = new JsonPurchaseToken()
+        JsonResponseWithCFToken jsonResponseWithCFToken = new JsonResponseWithCFToken()
             .setStatus("Successful")
             .setCftoken("XXXX");
-        when(cashfreeService.createTokenForPurchaseOrder(any())).thenReturn(jsonPurchaseToken);
+        when(cashfreeService.createTokenForPurchaseOrder(any())).thenReturn(jsonResponseWithCFToken);
 
         String jsonPurchaseOrderAsString = purchaseOrderAPIController.purchase(
                 new ScrubbedInput(did),
