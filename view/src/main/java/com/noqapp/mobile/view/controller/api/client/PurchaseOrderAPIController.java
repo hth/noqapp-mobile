@@ -88,8 +88,8 @@ public class PurchaseOrderAPIController {
 
     /** Add purchase when user presses confirm. */
     @PostMapping(
-            value = "/purchase",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/purchase",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String purchase(
         @RequestHeader("X-R-DID")
@@ -309,7 +309,7 @@ public class PurchaseOrderAPIController {
         }
     }
 
-    /** Cashfree transaction response. */
+    /** Cashfree transaction response sent to server. Based on cashfree, server updates order status */
     @PostMapping(
         value = "/cf/notify",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
