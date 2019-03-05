@@ -93,7 +93,7 @@ class PurchaseOrderAPIControllerITest extends ITest {
         JsonPurchaseOrder jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
 
         JsonCashfreeNotification jsonCashfreeNotification = new JsonCashfreeNotification()
-            .setxTime(null)
+            .setTxTime(null)
             .setTxMsg("Success")
             .setReferenceId("XXX-XXXX")
             .setPaymentMode("CREDIT_CARD")
