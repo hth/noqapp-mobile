@@ -436,7 +436,8 @@ public class ITest extends RealMongoForITest {
             getMongoTemplate(),
             purchaseOrderManager,
             purchaseOrderProductManager,
-            storeProductManager
+            storeProductManager,
+            cashfreeService
         );
 
         queueService = new QueueService(
