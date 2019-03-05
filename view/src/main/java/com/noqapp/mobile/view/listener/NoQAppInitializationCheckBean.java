@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.listener;
 
 import com.noqapp.common.config.FirebaseConfig;
 import com.noqapp.common.utils.CommonUtil;
+import com.noqapp.service.payment.PaymentGatewayService;
 
 import com.maxmind.geoip2.DatabaseReader;
 
@@ -43,20 +44,23 @@ public class NoQAppInitializationCheckBean {
     private FirebaseConfig firebaseConfig;
     private RestHighLevelClient restHighLevelClient;
     private DatabaseReader databaseReader;
+    private PaymentGatewayService paymentGatewayService;
 
     @Autowired
     public NoQAppInitializationCheckBean(
-            Environment environment,
-            DataSource dataSource,
-            FirebaseConfig firebaseConfig,
-            RestHighLevelClient restHighLevelClient,
-            DatabaseReader databaseReader
+        Environment environment,
+        DataSource dataSource,
+        FirebaseConfig firebaseConfig,
+        RestHighLevelClient restHighLevelClient,
+        DatabaseReader databaseReader,
+        PaymentGatewayService paymentGatewayService
     ) {
         this.environment = environment;
         this.dataSource = dataSource;
         this.firebaseConfig = firebaseConfig;
         this.restHighLevelClient = restHighLevelClient;
         this.databaseReader = databaseReader;
+        this.paymentGatewayService = paymentGatewayService;
     }
 
     @PostConstruct
@@ -106,6 +110,15 @@ public class NoQAppInitializationCheckBean {
                 databaseReader.getMetadata().getBinaryFormatMinorVersion(),
                 databaseReader.getMetadata().getBuildDate(),
                 databaseReader.getMetadata().getIpVersion());
+    }
+
+    @PostConstruct
+    public void checkPaymentGateway() {
+//        boolean cashfreeSuccess = paymentGatewayService.verifyCashfree();
+        if (!true) {
+            LOG.error("Cashfree Payment Gateway could not be verified");
+            throw new RuntimeException("Cashfree Payment Gateway could not be verified");
+        }
     }
 
     @PreDestroy
