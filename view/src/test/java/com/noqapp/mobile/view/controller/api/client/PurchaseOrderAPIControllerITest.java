@@ -13,10 +13,13 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderProduct;
 import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
+import com.noqapp.domain.json.payment.cashfree.JsonResponseRefund;
 import com.noqapp.domain.json.payment.cashfree.JsonResponseWithCFToken;
 import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
+import com.noqapp.domain.types.cashfree.PaymentModeCFEnum;
+import com.noqapp.domain.types.cashfree.TxStatusEnum;
 import com.noqapp.mobile.view.ITest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -96,10 +99,10 @@ class PurchaseOrderAPIControllerITest extends ITest {
             .setTxTime(null)
             .setTxMsg("Success")
             .setReferenceId("XXX-XXXX")
-            .setPaymentMode("CREDIT_CARD")
+            .setPaymentMode(PaymentModeCFEnum.CREDIT_CARD.getName())
             .setSignature("XXXXX")
             .setOrderAmount(jsonPurchaseOrderResponse.getOrderPrice())
-            .setTxStatus("SUCCESS")
+            .setTxStatus(TxStatusEnum.SUCCESS.getName())
             .setOrderId(jsonPurchaseOrderResponse.getTransactionId());
 
         String jsonPurchaseOrderAsStringAfterNotifyingCF = purchaseOrderAPIController.cashfreeNotify(
@@ -112,6 +115,7 @@ class PurchaseOrderAPIControllerITest extends ITest {
         );
 
         JsonPurchaseOrder jsonPurchaseOrderCFResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsStringAfterNotifyingCF, JsonPurchaseOrder.class);
+        when(cashfreeService.refundInitiatedByClient(any())).thenReturn(new JsonResponseRefund().setStatus("OK"));
         String jsonPurchaseOrderCancelAsString = purchaseOrderAPIController.cancel(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
