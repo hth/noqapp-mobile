@@ -47,6 +47,4 @@ public class ErrorEncounteredJson {
         errors.put("systemErrorCode", systemErrorCode.getCode());
         return toJson(errors);
     }
-
-
 }

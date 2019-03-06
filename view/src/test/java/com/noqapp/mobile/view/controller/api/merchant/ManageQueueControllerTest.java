@@ -24,6 +24,7 @@ import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -81,6 +82,7 @@ class ManageQueueControllerTest {
     @Mock private BusinessCustomerService businessCustomerService;
     @Mock private ScheduledTaskManager scheduledTaskManager;
     @Mock private TokenQueueMobileService tokenQueueMobileService;
+    @Mock private MedicalRecordService medicalRecordService;
 
     @Mock private HttpServletResponse response;
 
@@ -103,6 +105,7 @@ class ManageQueueControllerTest {
                 tokenQueueMobileService,
                 accountService,
                 businessCustomerService,
+                medicalRecordService,
                 apiHealthService);
 
         mapper = new ObjectMapper();
