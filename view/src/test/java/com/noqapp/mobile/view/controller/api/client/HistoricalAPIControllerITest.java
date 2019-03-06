@@ -1,6 +1,8 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
@@ -15,9 +17,12 @@ import com.noqapp.domain.json.JsonQueueHistoricalList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
+import com.noqapp.domain.json.payment.cashfree.JsonResponseRefund;
 import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
+import com.noqapp.domain.types.cashfree.PaymentModeCFEnum;
+import com.noqapp.domain.types.cashfree.TxStatusEnum;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.view.ITest;
 
@@ -93,10 +98,10 @@ class HistoricalAPIControllerITest extends ITest {
             .setTxTime(null)
             .setTxMsg("Success")
             .setReferenceId("XXX-XXXX")
-            .setPaymentMode("CREDIT_CARD")
+            .setPaymentMode(PaymentModeCFEnum.CREDIT_CARD.getName())
             .setSignature("XXXXX")
             .setOrderAmount(jsonPurchaseOrderResponse.getOrderPrice())
-            .setTxStatus("SUCCESS")
+            .setTxStatus(TxStatusEnum.SUCCESS.getName())
             .setOrderId(jsonPurchaseOrderResponse.getTransactionId());
 
         String jsonPurchaseOrderAsStringAfterNotifyingCF = purchaseOrderAPIController.cashfreeNotify(
@@ -109,6 +114,7 @@ class HistoricalAPIControllerITest extends ITest {
         );
 
         JsonPurchaseOrder jsonPurchaseOrderCFResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsStringAfterNotifyingCF, JsonPurchaseOrder.class);
+        when(cashfreeService.refundInitiatedByClient(any())).thenReturn(new JsonResponseRefund().setStatus("OK"));
         String jsonPurchaseOrderCancelAsString = purchaseOrderAPIController.cancel(
                 new ScrubbedInput(did),
                 new ScrubbedInput(deviceType),
