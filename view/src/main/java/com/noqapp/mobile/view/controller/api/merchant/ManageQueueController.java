@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.CHANGE_USER_IN_QUEUE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
@@ -21,11 +22,14 @@ import com.noqapp.domain.json.JsonBusinessCustomerLookup;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
+import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.domain.json.JsonMedicalRecord;
+import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.ChangeUserInQueue;
 import com.noqapp.mobile.service.AccountMobileService;
@@ -39,7 +43,6 @@ import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -91,6 +94,7 @@ public class ManageQueueController {
     private TokenQueueMobileService tokenQueueMobileService;
     private AccountService accountService;
     private BusinessCustomerService businessCustomerService;
+    private MedicalRecordService medicalRecordService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -106,6 +110,7 @@ public class ManageQueueController {
         TokenQueueMobileService tokenQueueMobileService,
         AccountService accountService,
         BusinessCustomerService businessCustomerService,
+        MedicalRecordService medicalRecordService,
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -117,6 +122,7 @@ public class ManageQueueController {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.accountService = accountService;
         this.businessCustomerService = businessCustomerService;
+        this.medicalRecordService = medicalRecordService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -828,12 +834,39 @@ public class ManageQueueController {
                 return getErrorReason("User already in queue", USER_ALREADY_IN_QUEUE);
             }
 
-            QueueEntity queue = queueService.changeUserInQueue(
-                changeUserInQueue.getCodeQR(),
-                changeUserInQueue.getTokenNumber(),
-                changeUserInQueue.getExistingQueueUserId(),
-                changeUserInQueue.getChangeToQueueUserId());
-            tokenQueueService.updateQueueWithUserDetail(changeUserInQueue.getCodeQR(), changeUserInQueue.getChangeToQueueUserId(), queue);
+            QueueEntity queue = null;
+            try {
+                queue = queueService.changeUserInQueue(
+                        changeUserInQueue.getCodeQR(),
+                        changeUserInQueue.getTokenNumber(),
+                        changeUserInQueue.getExistingQueueUserId(),
+                        changeUserInQueue.getChangeToQueueUserId());
+
+                /* Update changes in medical record. */
+                if (BusinessTypeEnum.HS == queue.getBusinessType()) {
+                    JsonMedicalRecord jsonMedicalRecord = medicalRecordService.findMedicalRecord(queue.getCodeQR(), queue.getRecordReferenceId());
+                    if (null != jsonMedicalRecord) {
+                        jsonMedicalRecord.setQueueUserId(changeUserInQueue.getChangeToQueueUserId());
+                        medicalRecordService.addMedicalRecord(jsonMedicalRecord, qid);
+                    }
+                }
+
+                /* Updated with user details. */
+                tokenQueueService.updateQueueWithUserDetail(changeUserInQueue.getCodeQR(), changeUserInQueue.getChangeToQueueUserId(), queue);
+            } catch (Exception e) {
+                LOG.error("Failed changing user, reverting {}", e.getLocalizedMessage(), e);
+                if (queue != null) {
+                    LOG.warn("Reverting changes to original");
+                    queueService.changeUserInQueue(
+                            changeUserInQueue.getCodeQR(),
+                            changeUserInQueue.getTokenNumber(),
+                            changeUserInQueue.getChangeToQueueUserId(),
+                            changeUserInQueue.getExistingQueueUserId());
+
+                    /* Send alert on change user failed. */
+                    return getErrorReason("Change user is not permitted", CHANGE_USER_IN_QUEUE);
+                }
+            }
 
             return queueService.getQueuedPerson(queue.getQueueUserId(), queue.getCodeQR());
         } catch (Exception e) {
