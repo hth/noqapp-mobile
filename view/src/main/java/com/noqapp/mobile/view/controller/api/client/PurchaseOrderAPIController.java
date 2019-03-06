@@ -40,6 +40,8 @@ import com.noqapp.service.exceptions.StoreInActiveException;
 import com.noqapp.service.exceptions.StorePreventJoiningException;
 import com.noqapp.service.exceptions.StoreTempDayClosedException;
 
+import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -344,6 +346,10 @@ public class PurchaseOrderAPIController {
         }
 
         try {
+            if (StringUtils.isBlank(jsonCashfreeNotification.getOrderId())) {
+                return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
+            }
+
             String transactionId = jsonCashfreeNotification.getOrderId();
             PaymentStatusEnum paymentStatus;
             PurchaseOrderStateEnum purchaseOrderState;
@@ -487,6 +493,10 @@ public class PurchaseOrderAPIController {
         }
 
         try {
+            if (StringUtils.isBlank(jsonPurchaseOrder.getTransactionId())) {
+                return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
+            }
+
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.updateOnCashPayment(
                 jsonPurchaseOrder.getTransactionId(),
                 "Cash Pay Client",
