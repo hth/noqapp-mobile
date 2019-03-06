@@ -478,7 +478,7 @@ public class PurchaseOrderAPIController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Pay cash request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
+        LOG.info("Pay as cash request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/c/purchaseOrder/payCash by mail={}", mail);
@@ -489,20 +489,20 @@ public class PurchaseOrderAPIController {
         try {
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.updateOnCashPayment(
                 jsonPurchaseOrder.getTransactionId(),
-                "Cash Payment Client",
+                "Cash Pay Client",
                 PaymentStatusEnum.PP,
                 PurchaseOrderStateEnum.PO,
                 PaymentModeEnum.CA
             );
             return new JsonPurchaseOrder(purchaseOrder).asJson();
         } catch (Exception e) {
-            LOG.error("Failed updating with cashfree notification reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed updating when client paying cash reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/cf/notify",
-                "cashfreeNotify",
+                "/payCash",
+                "payCash",
                 PurchaseOrderAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
