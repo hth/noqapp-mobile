@@ -2,10 +2,8 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.domain.BizStoreEntity.UNDER_SCORE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
@@ -62,6 +60,7 @@ class ManageQueueControllerITest extends ITest {
                 tokenQueueMobileService,
                 accountService,
                 businessCustomerService,
+                medicalRecordService,
                 apiHealthService
         );
 
