@@ -451,6 +451,62 @@ public class PurchaseOrderAPIController {
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
+    }
+
+    /** Cashfree transaction response sent to server. Based on cashfree, server updates order status */
+    @PostMapping(
+        value = "/payCash",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String payCash(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonPurchaseOrder jsonPurchaseOrder,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Pay as cash request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/c/purchaseOrder/payCash by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.updateOnCashPayment(
+                jsonPurchaseOrder.getTransactionId(),
+                "Cash Pay Client",
+                PaymentStatusEnum.PP,
+                PurchaseOrderStateEnum.PO,
+                PaymentModeEnum.CA
+            );
+            return new JsonPurchaseOrder(purchaseOrder).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed updating when client paying cash reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/payCash",
+                "payCash",
+                PurchaseOrderAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
 
     }
 }
