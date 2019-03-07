@@ -75,6 +75,7 @@ class PurchaseOrderAPIControllerITest extends ITest {
         JsonPurchaseOrder jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
         assertEquals("990", jsonPurchaseOrderResponse.getOrderPrice());
         assertEquals(PurchaseOrderStateEnum.VB, jsonPurchaseOrderResponse.getPresentOrderState());
+        assertEquals(jsonPurchaseOrder.getToken(), jsonPurchaseOrderResponse.getToken());
     }
 
     @Test
@@ -128,6 +129,7 @@ class PurchaseOrderAPIControllerITest extends ITest {
         JsonPurchaseOrder jsonPurchaseOrderCancelResponse = new ObjectMapper().readValue(jsonPurchaseOrderCancelAsString, JsonPurchaseOrder.class);
         assertEquals("990", jsonPurchaseOrderCancelResponse.getOrderPrice());
         assertEquals(PurchaseOrderStateEnum.CO, jsonPurchaseOrderCancelResponse.getPresentOrderState());
+        assertEquals(jsonPurchaseOrder.getToken(), jsonPurchaseOrderCancelResponse.getToken());
     }
 
     private JsonPurchaseOrder createOrder() {
