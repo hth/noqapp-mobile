@@ -47,10 +47,10 @@ public enum LowestSupportedAppEnum {
         "1.2.230",                      //Latest App Version on Play Store
         "Version Android Merchant HealthCare"),
 
-    VAMT("1.2.231",                     //Oldest Supported App Version in String
+    VAMT("1.2.233",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMT,
-        "1.2.231",                      //Latest App Version on Play Store
+        "1.2.233",                      //Latest App Version on Play Store
         "Version Android Merchant TV");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);

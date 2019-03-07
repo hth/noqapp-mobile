@@ -843,7 +843,7 @@ public class ManageQueueController {
                         changeUserInQueue.getChangeToQueueUserId());
 
                 /* Update changes in medical record. */
-                if (BusinessTypeEnum.HS == queue.getBusinessType()) {
+                if (BusinessTypeEnum.DO == queue.getBusinessType()) {
                     JsonMedicalRecord jsonMedicalRecord = medicalRecordService.findMedicalRecord(queue.getCodeQR(), queue.getRecordReferenceId());
                     if (null != jsonMedicalRecord) {
                         jsonMedicalRecord.setQueueUserId(changeUserInQueue.getChangeToQueueUserId());
