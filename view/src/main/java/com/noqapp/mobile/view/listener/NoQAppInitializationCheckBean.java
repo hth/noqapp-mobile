@@ -2,6 +2,8 @@ package com.noqapp.mobile.view.listener;
 
 import com.noqapp.common.config.FirebaseConfig;
 import com.noqapp.common.utils.CommonUtil;
+import com.noqapp.search.elastic.domain.BizStoreElastic;
+import com.noqapp.search.elastic.service.ElasticAdministrationService;
 import com.noqapp.service.payment.PaymentGatewayService;
 
 import com.maxmind.geoip2.DatabaseReader;
@@ -15,6 +17,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import org.elasticsearch.action.main.MainResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 
 import java.io.IOException;
@@ -43,6 +46,7 @@ public class NoQAppInitializationCheckBean {
     private DataSource dataSource;
     private FirebaseConfig firebaseConfig;
     private RestHighLevelClient restHighLevelClient;
+    private ElasticAdministrationService elasticAdministrationService;
     private DatabaseReader databaseReader;
     private PaymentGatewayService paymentGatewayService;
 
@@ -52,6 +56,7 @@ public class NoQAppInitializationCheckBean {
         DataSource dataSource,
         FirebaseConfig firebaseConfig,
         RestHighLevelClient restHighLevelClient,
+        ElasticAdministrationService elasticAdministrationService,
         DatabaseReader databaseReader,
         PaymentGatewayService paymentGatewayService
     ) {
@@ -59,6 +64,7 @@ public class NoQAppInitializationCheckBean {
         this.dataSource = dataSource;
         this.firebaseConfig = firebaseConfig;
         this.restHighLevelClient = restHighLevelClient;
+        this.elasticAdministrationService = elasticAdministrationService;
         this.databaseReader = databaseReader;
         this.paymentGatewayService = paymentGatewayService;
     }
@@ -84,12 +90,12 @@ public class NoQAppInitializationCheckBean {
     @PostConstruct
     public void checkElasticConnection() {
         try {
-            if (!restHighLevelClient.ping(CommonUtil.getMeSomeHeader())) {
+            if (!restHighLevelClient.ping(RequestOptions.DEFAULT)) {
                 LOG.error("Elastic on Mobile could not be connected");
                 throw new RuntimeException("Elastic on Mobile could not be connected");
             }
 
-            MainResponse mainResponse = restHighLevelClient.info(CommonUtil.getMeSomeHeader());
+            MainResponse mainResponse = restHighLevelClient.info(RequestOptions.DEFAULT);
             LOG.info("Elastic on Mobile {} connected clusterName={} nodeName={}\n  build={}\n  clusterUuid={}\n",
                     mainResponse.getVersion(),
                     mainResponse.getClusterName(),
