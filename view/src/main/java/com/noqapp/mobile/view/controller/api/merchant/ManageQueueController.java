@@ -847,7 +847,7 @@ public class ManageQueueController {
                     JsonMedicalRecord jsonMedicalRecord = medicalRecordService.findMedicalRecord(queue.getCodeQR(), queue.getRecordReferenceId());
                     if (null != jsonMedicalRecord) {
                         jsonMedicalRecord.setQueueUserId(changeUserInQueue.getChangeToQueueUserId());
-                        medicalRecordService.addMedicalRecord(jsonMedicalRecord, qid);
+                        medicalRecordService.changePatient(jsonMedicalRecord, qid);
                     }
                 }
 

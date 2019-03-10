@@ -294,6 +294,7 @@ public class PurchaseOrderAPIController {
         try {
             JsonPurchaseOrder jsonPurchaseOrder = purchaseOrderService.findBy(qid, orderDetail.getCodeQR(), orderDetail.getToken());
             if (null == jsonPurchaseOrder) {
+                LOG.error("No such order found {} codeQR={} token={}", qid, orderDetail.getCodeQR(), orderDetail.getToken());
                 return getErrorReason("No such order found", PURCHASE_ORDER_NOT_FOUND);
             }
 
