@@ -313,6 +313,62 @@ public class PurchaseOrderAPIController {
         }
     }
 
+    /** Generate Token to initiate transaction. */
+    @PostMapping(
+        value = "/payNow",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String payNow(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonPurchaseOrder jsonPurchaseOrder,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Cashfree notification request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/c/purchaseOrder/payNow by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(jsonPurchaseOrder.getTransactionId());
+        if (null == purchaseOrder) {
+            return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
+        }
+
+        try {
+            JsonPurchaseOrder jsonPurchaseOrderPopulated = new JsonPurchaseOrder(purchaseOrder);
+            purchaseOrderService.populateWithCFToken(jsonPurchaseOrderPopulated, purchaseOrder);
+            return jsonPurchaseOrderPopulated.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed populating with cashfree token reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/payNow",
+                "payNow",
+                PurchaseOrderAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
     /** Cashfree transaction response sent to server. Based on cashfree, server updates order status */
     @PostMapping(
         value = "/cf/notify",
