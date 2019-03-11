@@ -763,38 +763,22 @@ public class PurchaseOrderController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Purchase Order API for did={} dt={}", did, dt);
+        LOG.info("Purchase Order Partial Payment API for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
         try {
             purchaseOrderService.partialPayment(jsonPurchaseOrder, qid);
-            LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
+            LOG.info("Order Partial Payment Updated Successfully={}", jsonPurchaseOrder.getPresentOrderState());
             return jsonPurchaseOrder.asJson();
-        } catch (StoreInActiveException e) {
-            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
-            return ErrorEncounteredJson.toJson("Store is offline", STORE_OFFLINE);
-        } catch (StoreDayClosedException e) {
-            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
-            return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
-        } catch (StoreTempDayClosedException e) {
-            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
-            return ErrorEncounteredJson.toJson("Store is temporary closed", STORE_TEMP_DAY_CLOSED);
-        } catch (StorePreventJoiningException e) {
-            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
-            return ErrorEncounteredJson.toJson("Store is not accepting new orders", STORE_PREVENT_JOIN);
-        } catch(PriceMismatchException e) {
-            LOG.error("Prices have changed since added to cart reason={}", e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return ErrorEncounteredJson.toJson("Prices have changed since added to cart", PURCHASE_ORDER_PRICE_MISMATCH);
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return jsonPurchaseOrder.asJson();
         } finally {
             apiHealthService.insert(
-                "/purchase",
-                "purchase",
+                "/partialPayment",
+                "partialPayment",
                 PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
