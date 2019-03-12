@@ -890,6 +890,9 @@ public class PurchaseOrderController {
         }
     }
 
+    /**
+     * @since 1.2.235. Stopped upload of file from Merchant Store.
+     */
     @PostMapping (
         value = "/addAttachment",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -948,6 +951,9 @@ public class PurchaseOrderController {
         return new JsonResponse(false, null).asJson();
     }
 
+    /**
+     * @since 1.2.235. Stopped upload of file from Merchant Store.
+     */
     @PostMapping (
         value = "/removeAttachment",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -998,7 +1004,10 @@ public class PurchaseOrderController {
         return new JsonResponse(false).asJson();
     }
 
-    /** Retrieve record before adding. */
+    /**
+     * Retrieve record before adding.
+     * @since 1.2.235. Stopped upload of file from Merchant Store.
+     */
     @PostMapping(
         value = "/showAttachment",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
