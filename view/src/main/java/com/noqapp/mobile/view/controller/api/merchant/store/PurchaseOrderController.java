@@ -6,6 +6,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_IN
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ACCESS_DENIED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ORDER_PAYMENT_UPDATE_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRICE_MISMATCH;
@@ -772,9 +773,9 @@ public class PurchaseOrderController {
             LOG.info("Order partial payment updated successfully={}", jsonPurchaseOrder.getPresentOrderState());
             return jsonPurchaseOrder.asJson();
         } catch (Exception e) {
-            LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed processing partial payment on order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return jsonPurchaseOrder.asJson();
+            return ErrorEncounteredJson.toJson("Failed Updating Order Payment", ORDER_PAYMENT_UPDATE_FAILED);
         } finally {
             apiHealthService.insert(
                 "/partialPayment",
@@ -819,9 +820,9 @@ public class PurchaseOrderController {
             LOG.info("Order cash payment updated successfully={}", jsonPurchaseOrder.getPresentOrderState());
             return jsonPurchaseOrder.asJson();
         } catch (Exception e) {
-            LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed processing cash payment on order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return jsonPurchaseOrder.asJson();
+            return ErrorEncounteredJson.toJson("Failed Updating Order Payment", ORDER_PAYMENT_UPDATE_FAILED);
         } finally {
             apiHealthService.insert(
                 "/cashPayment",
