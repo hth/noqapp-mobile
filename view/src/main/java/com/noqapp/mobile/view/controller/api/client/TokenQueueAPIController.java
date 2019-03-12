@@ -508,4 +508,13 @@ public class TokenQueueAPIController {
         }
         return false;
     }
+
+    public static boolean authorizeRequest(HttpServletResponse response, String qid, String mail, String did, String api) throws IOException {
+        if (null == qid) {
+            LOG.warn("Un-authorized access to {} by {} {}", api, mail, did);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return true;
+        }
+        return false;
+    }
 }

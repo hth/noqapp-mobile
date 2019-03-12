@@ -197,19 +197,9 @@ public class PurchaseOrderController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Clients shown for codeQR={} request from mail={} did={} deviceType={} auth={}",
-            codeQR,
-            mail,
-            did,
-            deviceType,
-            AUTH_KEY_HIDDEN);
-
+        LOG.info("Show orders for codeQR={} request from mail={} did={} deviceType={}", codeQR, mail, did, deviceType);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/showOrders by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/showOrders")) return null;
 
         if (StringUtils.isBlank(codeQR.getText())) {
             LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
@@ -267,11 +257,7 @@ public class PurchaseOrderController {
         Instant start = Instant.now();
         LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/served by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/served")) return null;
 
         try {
             Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(requestBodyJson);
@@ -394,11 +380,7 @@ public class PurchaseOrderController {
         Instant start = Instant.now();
         LOG.info("Acquired mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/acquire")) return null;
 
         try {
             Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(requestBodyJson);
@@ -499,13 +481,9 @@ public class PurchaseOrderController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        LOG.info("Action on order mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/actionOnOrder by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/actionOnOrder")) return null;
 
         try {
             if (StringUtils.isBlank(orderServed.getCodeQR().getText())) {
@@ -615,9 +593,9 @@ public class PurchaseOrderController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Find Customer API for did={} dt={}", did, dt);
+        LOG.info("Find customer for did={} dt={} mail={}", did, dt, mail);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid)) return null;
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/findCustomer")) return null;
 
         try {
             if (StringUtils.isBlank(businessCustomerLookup.getCodeQR())) {
@@ -701,9 +679,15 @@ public class PurchaseOrderController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Purchase Order API for did={} dt={}", did, dt);
+        LOG.info("Purchase order for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid)) return null;
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/purchase")) return null;
+
+        if (!businessUserStoreService.hasAccess(qid, jsonPurchaseOrder.getCodeQR())) {
+            LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/purchase by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
 
         try {
             purchaseOrderService.createOrder(jsonPurchaseOrder, did.getText(), TokenServiceEnum.M);
@@ -764,9 +748,15 @@ public class PurchaseOrderController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Purchase Order Partial Payment API for did={} dt={}", did, dt);
+        LOG.info("Purchase order partial payment for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid)) return null;
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/partialPayment")) return null;
+
+        if (!businessUserStoreService.hasAccess(qid, jsonPurchaseOrder.getCodeQR())) {
+            LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/partialPayment by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
 
         try {
             purchaseOrderService.partialPayment(jsonPurchaseOrder, qid);
@@ -813,7 +803,13 @@ public class PurchaseOrderController {
         Instant start = Instant.now();
         LOG.info("Purchase Order Cash Payment API for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid)) return null;
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/removeAttachment")) return null;
+
+        if (!businessUserStoreService.hasAccess(qid, jsonPurchaseOrder.getCodeQR())) {
+            LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/cashPayment by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
 
         try {
             purchaseOrderService.cashPayment(jsonPurchaseOrder, qid);
@@ -858,10 +854,12 @@ public class PurchaseOrderController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
+        LOG.info("Cancel order mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/cancel by mail={}", mail);
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/cancel")) return null;
+
+        if (!businessUserStoreService.hasAccess(qid, orderServed.getCodeQR().getText())) {
+            LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/cancel by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -892,10 +890,14 @@ public class PurchaseOrderController {
         }
     }
 
+    /**
+     * @since 1.2.235. Stopped upload of file from Merchant Store.
+     */
     @PostMapping (
         value = "/addAttachment",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
+    @Deprecated
     public String addAttachment(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
@@ -919,11 +921,7 @@ public class PurchaseOrderController {
     ) throws IOException {
         LOG.info("Add attachment mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/addAttachment by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/addAttachment")) return null;
 
         Map<String, String> errors = imageValidator.validate(multipartFile, ImageValidator.SUPPORTED_FILE.IMAGE_AND_PDF);
         if (!errors.isEmpty()) {
@@ -953,10 +951,14 @@ public class PurchaseOrderController {
         return new JsonResponse(false, null).asJson();
     }
 
+    /**
+     * @since 1.2.235. Stopped upload of file from Merchant Store.
+     */
     @PostMapping (
         value = "/removeAttachment",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
+    @Deprecated
     public String removeAttachment(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
@@ -977,11 +979,7 @@ public class PurchaseOrderController {
     ) throws IOException {
         LOG.info("Removed image mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/removeAttachment by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/removeAttachment")) return null;
 
         PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(labFile.getTransactionId());
         if (null == purchaseOrder) {
@@ -1006,11 +1004,15 @@ public class PurchaseOrderController {
         return new JsonResponse(false).asJson();
     }
 
-    /** Retrieve record before adding. */
+    /**
+     * Retrieve record before adding.
+     * @since 1.2.235. Stopped upload of file from Merchant Store.
+     */
     @PostMapping(
         value = "/showAttachment",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
+    @Deprecated
     public String showAttachment(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
@@ -1033,11 +1035,7 @@ public class PurchaseOrderController {
         Instant start = Instant.now();
         LOG.info("Show attachment mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/s/purchaseOrder/showAttachment by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/showAttachment")) return null;
 
         try {
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(labFile.getTransactionId());
