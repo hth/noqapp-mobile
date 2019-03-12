@@ -1,5 +1,6 @@
 package com.noqapp.mobile.service.tv;
 
+import static com.noqapp.common.utils.AbstractDomain.ISO8601_FMT;
 import static com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE.*;
 
 import com.noqapp.common.utils.DateUtil;
@@ -16,6 +17,8 @@ import com.noqapp.repository.StatsVigyaapanStoreDailyManager;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,8 +26,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 
 /**
@@ -111,7 +118,7 @@ public class VigyaapanMobileService {
                     .setVigyaapanType(VigyaapanTypeEnum.PP);
         }
     }
-    
+
     public JsonVigyaapanTVList getAllVigyaapanForBusiness(String bizNameId) {
         JsonVigyaapanTVList jsonVigyaapanTVList = new JsonVigyaapanTVList();
 
@@ -128,7 +135,9 @@ public class VigyaapanMobileService {
                     jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
                         .setVigyaapanId(UUID.randomUUID().toString())
                         .setImageUrls(imageUrls)
-                        .setVigyaapanType(VigyaapanTypeEnum.MV));
+                        .setVigyaapanType(VigyaapanTypeEnum.MV)
+                        .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 16 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                    );
                     break;
                 case PP:
                 default:
