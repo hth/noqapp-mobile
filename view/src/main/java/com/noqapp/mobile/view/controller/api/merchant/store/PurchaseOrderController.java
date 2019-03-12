@@ -753,9 +753,9 @@ public class PurchaseOrderController {
         }
 
         try {
-            purchaseOrderService.partialPayment(jsonPurchaseOrder, qid);
-            LOG.info("Order partial payment updated successfully={}", jsonPurchaseOrder.getPresentOrderState());
-            return jsonPurchaseOrder.asJson();
+            JsonPurchaseOrder jsonPurchaseOrderUpdated = purchaseOrderService.partialPayment(jsonPurchaseOrder, qid);
+            LOG.info("Order partial payment updated successfully={}", jsonPurchaseOrderUpdated);
+            return jsonPurchaseOrderUpdated.asJson();
         } catch (Exception e) {
             LOG.error("Failed processing partial payment on order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -806,9 +806,9 @@ public class PurchaseOrderController {
         }
 
         try {
-            purchaseOrderService.cashPayment(jsonPurchaseOrder, qid);
-            LOG.info("Order cash payment updated successfully={}", jsonPurchaseOrder.getPresentOrderState());
-            return jsonPurchaseOrder.asJson();
+            JsonPurchaseOrder jsonPurchaseOrderUpdated = purchaseOrderService.cashPayment(jsonPurchaseOrder, qid);
+            LOG.info("Order cash payment updated successfully={}", jsonPurchaseOrderUpdated);
+            return jsonPurchaseOrderUpdated.asJson();
         } catch (Exception e) {
             LOG.error("Failed processing cash payment on order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
