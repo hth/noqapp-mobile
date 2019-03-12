@@ -738,7 +738,7 @@ public class PurchaseOrderController {
         }
     }
 
-    /** Add purchase when merchant presses confirm. */
+    /** When merchant accepts partial cash payment. */
     @PostMapping(
         value = "/partialPayment",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -769,7 +769,7 @@ public class PurchaseOrderController {
 
         try {
             purchaseOrderService.partialPayment(jsonPurchaseOrder, qid);
-            LOG.info("Order Partial Payment Updated Successfully={}", jsonPurchaseOrder.getPresentOrderState());
+            LOG.info("Order partial payment updated successfully={}", jsonPurchaseOrder.getPresentOrderState());
             return jsonPurchaseOrder.asJson();
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
@@ -779,6 +779,53 @@ public class PurchaseOrderController {
             apiHealthService.insert(
                 "/partialPayment",
                 "partialPayment",
+                PurchaseOrderController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** When merchant accepts cash. */
+    @PostMapping(
+        value = "/cashPayment",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String cashPayment(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonPurchaseOrder jsonPurchaseOrder,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Purchase Order Cash Payment API for did={} dt={}", did, dt);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        try {
+            purchaseOrderService.cashPayment(jsonPurchaseOrder, qid);
+            LOG.info("Order cash payment updated successfully={}", jsonPurchaseOrder.getPresentOrderState());
+            return jsonPurchaseOrder.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return jsonPurchaseOrder.asJson();
+        } finally {
+            apiHealthService.insert(
+                "/cashPayment",
+                "cashPayment",
                 PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
