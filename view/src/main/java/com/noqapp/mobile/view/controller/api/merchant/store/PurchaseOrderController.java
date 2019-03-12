@@ -3,7 +3,6 @@ package com.noqapp.mobile.view.controller.api.merchant.store;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ACCESS_DENIED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ORDER_PAYMENT_UPDATE_FAILED;
@@ -39,19 +38,16 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.MedicalPathologyEntity;
 import com.noqapp.medical.domain.MedicalRadiologyEntity;
-import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.repository.MedicalPathologyManager;
 import com.noqapp.medical.repository.MedicalRadiologyManager;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.domain.body.merchant.OrderServed;
 import com.noqapp.mobile.domain.body.merchant.LabFile;
+import com.noqapp.mobile.domain.body.merchant.OrderServed;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
-import com.noqapp.mobile.view.controller.api.client.ClientProfileAPIController;
-import com.noqapp.mobile.view.controller.api.client.PurchaseOrderAPIController;
 import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.ImageValidator;
@@ -69,7 +65,6 @@ import com.noqapp.service.exceptions.StoreTempDayClosedException;
 import com.noqapp.social.exception.AccountNotActiveException;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -80,7 +75,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -869,7 +863,7 @@ public class PurchaseOrderController {
                 return getErrorReason("Order already cancelled", PURCHASE_ORDER_ALREADY_CANCELLED);
             }
 
-            JsonPurchaseOrderList jsonPurchaseOrderList = purchaseOrderService.cancelOrderByMerchant(orderServed.getCodeQR().getText(), orderServed.getServedNumber());
+            JsonPurchaseOrderList jsonPurchaseOrderList = purchaseOrderService.cancelOrderByMerchant(orderServed.getCodeQR().getText(), orderServed.getTransactionId());
             LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderList.getPurchaseOrders().get(0).getPresentOrderState());
             return jsonPurchaseOrderList.asJson();
         } catch (Exception e) {

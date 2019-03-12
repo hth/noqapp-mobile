@@ -35,6 +35,9 @@ public class OrderServed extends AbstractDomain {
     @JsonProperty("t")
     private int servedNumber;
 
+    @JsonProperty ("ti")
+    private String transactionId;
+
     @JsonProperty("p")
     private PurchaseOrderStateEnum purchaseOrderState;
 
@@ -58,6 +61,15 @@ public class OrderServed extends AbstractDomain {
 
     public void setServedNumber(int servedNumber) {
         this.servedNumber = servedNumber;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public OrderServed setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+        return this;
     }
 
     public PurchaseOrderStateEnum getPurchaseOrderState() {
