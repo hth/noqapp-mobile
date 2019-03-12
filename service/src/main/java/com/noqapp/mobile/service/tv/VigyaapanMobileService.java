@@ -111,8 +111,7 @@ public class VigyaapanMobileService {
                     .setVigyaapanType(VigyaapanTypeEnum.PP);
         }
     }
-
-    //TODO implement bizNameId to find latest medical record
+    
     public JsonVigyaapanTVList getAllVigyaapanForBusiness(String bizNameId) {
         JsonVigyaapanTVList jsonVigyaapanTVList = new JsonVigyaapanTVList();
 
@@ -133,7 +132,7 @@ public class VigyaapanMobileService {
                     break;
                 case PP:
                 default:
-                    MedicalRecordEntity medicalRecord = medicalRecordManager.findOne();
+                    MedicalRecordEntity medicalRecord = medicalRecordManager.findByBizNameId(bizNameId);
                     if (null != medicalRecord) {
                         JsonProfessionalProfile jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfile(medicalRecord.getDiagnosedById(), TV);
                         jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
