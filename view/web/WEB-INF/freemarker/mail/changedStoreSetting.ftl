@@ -70,6 +70,15 @@
                 <strong>Scheduled: ${scheduledClose}</strong><br/>
             </#if>
         </p>
+
+        <#if businessTypeMessageOrgin == "O">
+        <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
+            Service Charge: ${productPrice}<br/>
+            Cancellation Charge: ${cancellationPrice}<br/>
+            Service Payment: ${servicePayment}<br/>
+        </p>
+        </#if>
+
         <table style="background-color: lightgrey">
             <tr>
                 <td style=" padding: 25px">
