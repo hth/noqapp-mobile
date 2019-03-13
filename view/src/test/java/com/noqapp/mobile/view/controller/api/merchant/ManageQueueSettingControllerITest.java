@@ -91,7 +91,7 @@ class ManageQueueSettingControllerITest extends ITest {
 
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
         UserAccountEntity queueUserAccount = accountService.findByQueueUserId(queueSupervisorUserProfile.getQueueUserId());
-        String queueStateResponse = manageQueueSettingController.queueStateModify(
+        String queueStateResponse = manageQueueSettingController.modify(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
@@ -116,7 +116,7 @@ class ManageQueueSettingControllerITest extends ITest {
             .setAvailableTokenCount(0)
             .setStoreActionType(ActionTypeEnum.ACTIVE);
 
-        manageQueueSettingController.queueStateModify(
+        manageQueueSettingController.modify(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
