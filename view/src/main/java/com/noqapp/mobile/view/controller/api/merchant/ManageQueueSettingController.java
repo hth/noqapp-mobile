@@ -273,7 +273,7 @@ public class ManageQueueSettingController {
         value = "/modify",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String queueStateModify(
+    public String modify(
         @RequestHeader ("X-R-DID")
         ScrubbedInput did,
 
@@ -396,7 +396,7 @@ public class ManageQueueSettingController {
         } finally {
             apiHealthService.insert(
                 "/modify",
-                "queueStateModify",
+                "modify",
                 ManageQueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
