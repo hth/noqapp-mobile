@@ -192,8 +192,7 @@ public class PurchaseOrderAPIController {
             LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
             return jsonPurchaseOrderResponse.asJson();
         } catch(PurchaseOrderPartialException e) {
-            LOG.error("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
+            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
             return getErrorReason(
                 "Cannot cancel as partial payment is done via cash. Go to merchant for cancellation. Cash payment will be performed by merchant.",
                 PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY);
