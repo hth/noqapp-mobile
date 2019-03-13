@@ -1,9 +1,11 @@
 package com.noqapp.mobile.domain;
 
 import com.noqapp.common.utils.AbstractDomain;
+import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.ScheduledTaskEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.types.ActionTypeEnum;
+import com.noqapp.domain.types.ServicePaymentEnum;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -75,6 +77,15 @@ public class JsonModifyQueue extends AbstractDomain {
     @JsonProperty ("scUn")
     private String scheduledUntilDay;
 
+    @JsonProperty("pp")
+    private int productPrice;
+
+    @JsonProperty("cp")
+    private int cancellationPrice;
+
+    @JsonProperty("sp")
+    private ServicePaymentEnum servicePayment;
+
     @JsonProperty("sa")
     private ActionTypeEnum storeActionType;
 
@@ -86,6 +97,7 @@ public class JsonModifyQueue extends AbstractDomain {
         StoreHourEntity storeHour,
         int availableTokenCount,
         ActionTypeEnum storeActionType,
+        BizStoreEntity bizStore,
         ScheduledTaskEntity scheduledTask
     ) {
         this.codeQR = codeQR;
@@ -99,6 +111,36 @@ public class JsonModifyQueue extends AbstractDomain {
         this.preventJoining = storeHour.isPreventJoining();
         this.availableTokenCount = availableTokenCount;
         this.storeActionType = storeActionType;
+        this.productPrice = bizStore.getProductPrice();
+        this.cancellationPrice = bizStore.getCancellationPrice();
+        this.servicePayment = bizStore.getServicePayment();
+
+        if (null != scheduledTask) {
+            scheduledFromDay = scheduledTask.getFrom();
+            scheduledUntilDay = scheduledTask.getUntil();
+        }
+    }
+
+    public JsonModifyQueue(
+        String codeQR,
+        StoreHourEntity storeHour,
+        BizStoreEntity bizStore,
+        ScheduledTaskEntity scheduledTask
+    ) {
+        this.codeQR = codeQR;
+        this.tokenAvailableFrom = storeHour.getTokenAvailableFrom();
+        this.startHour = storeHour.getStartHour();
+        this.tokenNotAvailableFrom = storeHour.getTokenNotAvailableFrom();
+        this.endHour = storeHour.getEndHour();
+        this.delayedInMinutes = storeHour.getDelayedInMinutes();
+        this.dayClosed = storeHour.isDayClosed();
+        this.tempDayClosed = storeHour.isTempDayClosed();
+        this.preventJoining = storeHour.isPreventJoining();
+        this.availableTokenCount = bizStore.getAvailableTokenCount();
+        this.storeActionType = bizStore.isActive() ? ActionTypeEnum.ACTIVE : ActionTypeEnum.INACTIVE;
+        this.productPrice = bizStore.getProductPrice();
+        this.cancellationPrice = bizStore.getCancellationPrice();
+        this.servicePayment = bizStore.getServicePayment();
 
         if (null != scheduledTask) {
             scheduledFromDay = scheduledTask.getFrom();
@@ -220,6 +262,33 @@ public class JsonModifyQueue extends AbstractDomain {
 
     public JsonModifyQueue setStoreActionType(ActionTypeEnum storeActionType) {
         this.storeActionType = storeActionType;
+        return this;
+    }
+
+    public int getProductPrice() {
+        return productPrice;
+    }
+
+    public JsonModifyQueue setProductPrice(int productPrice) {
+        this.productPrice = productPrice;
+        return this;
+    }
+
+    public int getCancellationPrice() {
+        return cancellationPrice;
+    }
+
+    public JsonModifyQueue setCancellationPrice(int cancellationPrice) {
+        this.cancellationPrice = cancellationPrice;
+        return this;
+    }
+
+    public ServicePaymentEnum getServicePayment() {
+        return servicePayment;
+    }
+
+    public JsonModifyQueue setServicePayment(ServicePaymentEnum servicePayment) {
+        this.servicePayment = servicePayment;
         return this;
     }
 

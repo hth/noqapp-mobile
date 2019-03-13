@@ -162,6 +162,7 @@ public class ManageQueueSettingController {
                 storeHour,
                 bizStore.getAvailableTokenCount(),
                 bizStore.isActive() ? ActionTypeEnum.ACTIVE : ActionTypeEnum.INACTIVE,
+                bizStore,
                 scheduledTask).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
@@ -251,6 +252,7 @@ public class ManageQueueSettingController {
                 storeHour,
                 bizStore.getAvailableTokenCount(),
                 bizStore.isActive() ? ActionTypeEnum.ACTIVE : ActionTypeEnum.INACTIVE,
+                bizStore,
                 null).asJson();
         } catch (Exception e) {
             LOG.error("Failed removing schedule from queues reason={}", e.getLocalizedMessage(), e);
@@ -385,6 +387,7 @@ public class ManageQueueSettingController {
                 storeHour,
                 modifyQueue.getAvailableTokenCount(),
                 bizStore.isActive() ? ActionTypeEnum.ACTIVE : ActionTypeEnum.INACTIVE,
+                bizStore,
                 scheduledTask).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
@@ -398,6 +401,84 @@ public class ManageQueueSettingController {
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
+    }
+
+    /** Modifies queue service cost. */
+    @PostMapping (
+        value = "/serviceCost",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String serviceCost(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonModifyQueue modifyQueue,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Service cost for queue associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/mq/serviceCost by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (StringUtils.isBlank(modifyQueue.getCodeQR())) {
+            LOG.warn("Not a valid codeQR={} qid={}", modifyQueue.getCodeQR(), qid);
+            return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+        } else if (!businessUserStoreService.hasAccess(qid, modifyQueue.getCodeQR())) {
+            LOG.info("Un-authorized store access to /api/m/mq/serviceCost by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            BizStoreEntity bizStore = bizService.updateServiceCost(
+                modifyQueue.getCodeQR(),
+                modifyQueue.getProductPrice(),
+                modifyQueue.getCancellationPrice(),
+                modifyQueue.getServicePayment());
+
+            ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(modifyQueue);
+            StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(modifyQueue);
+
+            /* Send email when store setting changes. */
+            String changeInitiateReason = "Modified Store Detail from App, modified by " +  accountService.findProfileByQueueUserId(qid).getEmail();
+            bizService.sendMailWhenStoreSettingHasChanged(storeHour.getBizStoreId(), changeInitiateReason);
+
+            return new JsonModifyQueue(
+                modifyQueue.getCodeQR(),
+                storeHour,
+                modifyQueue.getAvailableTokenCount(),
+                bizStore.isActive() ? ActionTypeEnum.ACTIVE : ActionTypeEnum.INACTIVE,
+                bizStore,
+                scheduledTask).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/serviceCost",
+                "serviceCost",
+                ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+
     }
 
     private void updateChangesMadeOnElastic(BizStoreEntity bizStore) {
