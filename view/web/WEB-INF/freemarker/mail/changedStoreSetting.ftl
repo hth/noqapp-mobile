@@ -73,9 +73,10 @@
 
         <#if businessTypeMessageOrgin == "Q">
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
+            <strong>Service Charge at joining of ${displayName}</strong><br/>
+            Service Payment: ${servicePayment}<br/>
             Service Charge: ${productPrice}<br/>
             Cancellation Charge: ${cancellationPrice}<br/>
-            Service Payment: ${servicePayment}<br/>
         </p>
         </#if>
 
