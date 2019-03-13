@@ -71,7 +71,7 @@
             </#if>
         </p>
 
-        <#if businessTypeMessageOrgin == "O">
+        <#if businessTypeMessageOrgin == "Q">
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             Service Charge: ${productPrice}<br/>
             Cancellation Charge: ${cancellationPrice}<br/>
