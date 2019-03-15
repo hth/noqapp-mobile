@@ -455,8 +455,10 @@ public class ManageQueueSettingController {
             ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(modifyQueue);
             StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(modifyQueue);
 
+            updateChangesMadeOnElastic(bizStore);
+
             /* Send email when store setting changes. */
-            String changeInitiateReason = "Modified Store Detail from App, modified by " +  accountService.findProfileByQueueUserId(qid).getEmail();
+            String changeInitiateReason = "Modified Service Price from App, modified by " +  accountService.findProfileByQueueUserId(qid).getEmail();
             bizService.sendMailWhenStoreSettingHasChanged(storeHour.getBizStoreId(), changeInitiateReason);
 
             return new JsonModifyQueue(
