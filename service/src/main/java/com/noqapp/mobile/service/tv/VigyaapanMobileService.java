@@ -140,11 +140,21 @@ public class VigyaapanMobileService {
                     );
 
                     List<String> imageUrls1 = new LinkedList<String>() {{
-                        add("https://pixabay.com/photos/road-forest-season-autumn-fall-1072823/");
+                        add("https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_960_720.jpg");
                     }};
                     jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
                         .setVigyaapanId(UUID.randomUUID().toString())
                         .setImageUrls(imageUrls1)
+                        .setVigyaapanType(VigyaapanTypeEnum.MV)
+                        .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 20 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                    );
+
+                    List<String> imageUrls2 = new LinkedList<String>() {{
+                        add("https://cdn.pixabay.com/photo/2013/11/28/10/36/road-220058_960_720.jpg");
+                    }};
+                    jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
+                        .setVigyaapanId(UUID.randomUUID().toString())
+                        .setImageUrls(imageUrls2)
                         .setVigyaapanType(VigyaapanTypeEnum.MV)
                         .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 20 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
                     );
