@@ -127,36 +127,35 @@ public class VigyaapanMobileService {
                 case DV:
                     break;
                 case GI:
+                    List<String> imageUrls = new LinkedList<String>() {{
+                        add("https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_960_720.jpg");
+                    }};
+                    jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
+                        .setVigyaapanId(UUID.randomUUID().toString())
+                        .setImageUrls(imageUrls)
+                        .setVigyaapanType(VigyaapanTypeEnum.MV)
+                        .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 20 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                    );
+
+                    imageUrls = new LinkedList<String>() {{
+                        add("https://cdn.pixabay.com/photo/2013/11/28/10/36/road-220058_960_720.jpg");
+                    }};
+                    jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
+                        .setVigyaapanId(UUID.randomUUID().toString())
+                        .setImageUrls(imageUrls)
+                        .setVigyaapanType(VigyaapanTypeEnum.MV)
+                        .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 20 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                    );
                     break;
                 case MV:
-                    List<String> imageUrls = new LinkedList<String>() {{
+                    imageUrls = new LinkedList<String>() {{
                         add("https://noqapp.com/imgs/appmages/garbhasanskar-ssd-march-2019.png");
                     }};
                     jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
                         .setVigyaapanId(UUID.randomUUID().toString())
                         .setImageUrls(imageUrls)
                         .setVigyaapanType(VigyaapanTypeEnum.MV)
-                        .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 10 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                    );
-
-                    List<String> imageUrls1 = new LinkedList<String>() {{
-                        add("https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_960_720.jpg");
-                    }};
-                    jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
-                        .setVigyaapanId(UUID.randomUUID().toString())
-                        .setImageUrls(imageUrls1)
-                        .setVigyaapanType(VigyaapanTypeEnum.MV)
-                        .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 20 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                    );
-
-                    List<String> imageUrls2 = new LinkedList<String>() {{
-                        add("https://cdn.pixabay.com/photo/2013/11/28/10/36/road-220058_960_720.jpg");
-                    }};
-                    jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
-                        .setVigyaapanId(UUID.randomUUID().toString())
-                        .setImageUrls(imageUrls2)
-                        .setVigyaapanType(VigyaapanTypeEnum.MV)
-                        .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 20 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                        .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 16 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
                     );
                     break;
                 case PP:
