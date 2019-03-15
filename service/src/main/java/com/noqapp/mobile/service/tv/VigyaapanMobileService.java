@@ -129,6 +129,7 @@ public class VigyaapanMobileService {
                 case GI:
                     List<String> imageUrls = new LinkedList<String>() {{
                         add("https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_960_720.jpg");
+                        add("http://cdn.theindianspot.com/wp-content/uploads/2017/01/19111807/MEATLESS-PROTEIN-SOURCE.jpg");
                     }};
                     jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
                         .setVigyaapanId(UUID.randomUUID().toString())
