@@ -136,7 +136,7 @@ public class VigyaapanMobileService {
                         .setVigyaapanId(UUID.randomUUID().toString())
                         .setImageUrls(imageUrls)
                         .setVigyaapanType(VigyaapanTypeEnum.MV)
-                        .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 10 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                        .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 16 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
                     );
                     break;
                 case PP:
