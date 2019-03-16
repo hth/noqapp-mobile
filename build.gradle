@@ -83,7 +83,9 @@ subprojects {
     }
 
     checkstyle {
+        toolVersion = '8.18'
         ignoreFailures = true
+        configDir = file("$rootProject.projectDir/config/checkstyle")
     }
 
     spotbugs {
