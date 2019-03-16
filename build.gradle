@@ -87,12 +87,12 @@ subprojects {
     }
 
     spotbugs {
-        toolVersion = '3.1.11'
+        toolVersion = '3.1.12'
     }
 
     pmd {
         ignoreFailures = true
-        toolVersion = '6.11.0'
+        toolVersion = '6.12.0'
 
         ruleSets = [
                 "java-basic",
