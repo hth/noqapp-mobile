@@ -47,7 +47,6 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatformGradle"
         classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:$spotbugsPluginGradle"
     }
 }
@@ -65,8 +64,7 @@ subprojects {
 
     apply plugin: 'checkstyle'  //for java code conventions, you can use sonar instead but it need DB
     apply plugin: 'pmd'
-    apply plugin: 'jacoco'      //for code coverage
-    apply plugin: 'org.junit.platform.gradle.plugin'
+    apply plugin: 'jacoco'      //for code coverage'
 
     compileJava {
         sourceCompatibility = 1.8
@@ -140,13 +138,6 @@ subprojects {
 
     jacoco {
         toolVersion = "0.8.3"
-        applyTo junitPlatformTest
-    }
-
-    junitPlatformTest {
-        jacoco {
-            destinationFile = file("${buildDir}/jacoco/test.exec")
-        }
     }
 
     repositories {
@@ -281,50 +272,23 @@ subprojects {
     }
 
     test {
-        systemProperty "spring.profiles.active", "$env"
-
-        // set heap size for the test JVM(s)
-        minHeapSize = "128m"
-        maxHeapSize = "512m"
-
-        // set JVM arguments for the test JVM(s)
-        jvmArgs '-XX:MaxPermSize=256m'
-
-        // listen to events in the test execution lifecycle
-        beforeTest { descriptor ->
-            logger.lifecycle("Running test: $descriptor")
-        }
-
-        // listen to standard out and standard error of the test JVM(s)
-        onOutput { descriptor, event ->
-            logger.lifecycle("Test: $descriptor produced standard out/err: $event.message")
-        }
-
-        filter {
-            //specific test class, wildcard for packages
-            includeTestsMatching "*.*Test"
-        }
-
+        useJUnitPlatform()
+        failFast = true
         testLogging {
-            // false when hiding system.out logs
-            showStandardStreams = false
-
-            // set options for log level LIFECYCLE
-            events "failed"
-            exceptionFormat "short"
-
-            // set options for log level DEBUG
-            debug {
-                events "started", "skipped", "failed"
-                exceptionFormat "full"
+            events 'PASSED', 'FAILED', 'SKIPPED'
+        }
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                println "\nTest result: ${result.resultType}"
+                println "Test summary: ${result.testCount} tests completed, " +
+                        "${result.successfulTestCount} succeeded, " +
+                        "${result.failedTestCount} failed, " +
+                        "${result.skippedTestCount} skipped"
             }
+        }
 
-            // remove standard output/error logging from --info builds
-            // by assigning only 'failed' and 'skipped' events
-            info.events = ["failed", "skipped"]
-
-            // Disable the test report for the individual test task
-            reports.html.enabled = false
+        jacoco {
+            destinationFile = file("${buildDir}/jacoco/test.exec")
         }
     }
 
