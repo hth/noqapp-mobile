@@ -566,7 +566,7 @@ task clean(type: Delete) {
 }
 
 task war(type: War, dependsOn: prepWar) {
-    archiveName = "noqapp-mobile-$env" + "." + project.version.toString()
+    archiveName = "noqapp-mobile-$env" + "." + project.version.toString() + ".war"
     println "WAR file $archiveName"
     from warDir
     version ""
