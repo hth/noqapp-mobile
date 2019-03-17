@@ -14,7 +14,6 @@ ext {
     conf = file("$javaClasses/conf")
     xslfo = file("$javaClasses/xslfo")
     geo_db = file("$javaClasses/geo_db")
-    images = file("$javaClasses/images")
 
     warDir = file("$buildDir/explodedWar/$env")
     warWebInfDir = file("$warDir$webInf")
@@ -23,7 +22,6 @@ ext {
     warConfDir = file("$warDir$conf")
     warXslfoDir = file("$warDir$xslfo")
     warGeoDBDir = file("$warDir$geo_db")
-    warWebInfClassesImagesDir = file("$warDir$images")
 
     unzipDir = file("${buildDir}/unpacked/dist")
     unzipLibDir = file("$unzipDir$lib")
@@ -438,7 +436,6 @@ task prepWar(dependsOn: [
         copy {
             from 'view/web'
             into warDir
-            exclude '**/*.classes'
         }
 
         copy {
@@ -531,8 +528,7 @@ task prepWar(dependsOn: [
 
             into warGeoDBDir
         }
-
-
+        
         copy {
             from "view/environment/$env/logback.xml"
             from 'view/resources/conf/messages.properties'
@@ -542,11 +538,6 @@ task prepWar(dependsOn: [
         copy {
             from "view/environment/$env/noqapp-mobile-servlet.xml"
             into warWebInfDir
-        }
-
-        copy {
-            from 'view/web/static/images'
-            into warWebInfClassesImagesDir
         }
 
         copy {
@@ -567,7 +558,6 @@ task clean(type: Delete) {
 
 task war(type: War, dependsOn: prepWar) {
     archiveName = "noqapp-mobile-$env" + "." + project.version.toString() + ".war"
-    println "WAR file $archiveName"
     from warDir
     version ""
     destinationDir = file("$buildDir/war/$env")
