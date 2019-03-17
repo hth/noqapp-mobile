@@ -566,11 +566,13 @@ task clean(type: Delete) {
 }
 
 task war(type: War, dependsOn: prepWar) {
+    archiveName = "noqapp-mobile-$env"
     doFirst {
         if (env == 'sandbox' || env == 'prod') {
-            baseName = "noqapp-mobile-$env." + project.version.toString()
+            archiveName = archiveName + "." + project.version.toString()
+            println "WAR file $archiveName"
         } else if (env == 'dev') {
-            baseName = "noqapp-mobile-$env"
+            println "WAR file $archiveName"
         } else {
             throw new Exception("Undefined env: $env")
         }
