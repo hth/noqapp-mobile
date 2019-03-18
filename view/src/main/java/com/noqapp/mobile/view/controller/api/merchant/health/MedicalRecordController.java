@@ -508,7 +508,7 @@ public class MedicalRecordController {
 
         HttpServletResponse response
     ) throws IOException {
-        Map<String, String> errors = imageValidator.validate(multipartFile, ImageValidator.SUPPORTED_FILE.IMAGE_AND_PDF);
+        Map<String, String> errors = imageValidator.validate(multipartFile, ImageValidator.SUPPORTED_FILE.IMAGE);
         if (!errors.isEmpty()) {
             return ErrorEncounteredJson.toJson(errors);
         }
