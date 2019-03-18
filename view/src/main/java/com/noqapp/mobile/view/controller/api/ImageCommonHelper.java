@@ -248,7 +248,7 @@ public class ImageCommonHelper extends CommonHelper {
         }
 
         try {
-            String filename = medicalFileService.processLabImage(transactionId, multipartFile, labCategory);
+            String filename = medicalFileService.processLabReport(transactionId, multipartFile, labCategory);
             methodStatusSuccess = true;
             return new JsonResponse(true, filename).asJson();
         } catch (Exception e) {
