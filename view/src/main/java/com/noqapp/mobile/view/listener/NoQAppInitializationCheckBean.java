@@ -109,6 +109,16 @@ public class NoQAppInitializationCheckBean {
     }
 
     @PostConstruct
+    public void checkElasticIndex() {
+        if (!elasticAdministrationService.doesIndexExists(BizStoreElastic.INDEX)) {
+            LOG.error("Elastic Index not found {}", BizStoreElastic.INDEX);
+            throw new RuntimeException("Elastic Index not found");
+        } else {
+            LOG.info("Elastic Index={} found", BizStoreElastic.INDEX);
+        }
+    }
+
+    @PostConstruct
     public void checkGeoLite() {
         LOG.info("{} major={} minor={}\n  buildDate={}\n  ipVersion={}\n ",
                 databaseReader.getMetadata().getDatabaseType(),
