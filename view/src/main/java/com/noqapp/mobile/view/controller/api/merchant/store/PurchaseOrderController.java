@@ -9,6 +9,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ORDER_PAYM
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRICE_MISMATCH;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRODUCT_NOT_FOUND;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_OFFLINE;
@@ -58,6 +59,7 @@ import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.exceptions.PriceMismatchException;
+import com.noqapp.service.exceptions.PurchaseOrderProductNFException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.StoreInActiveException;
 import com.noqapp.service.exceptions.StorePreventJoiningException;
@@ -711,6 +713,62 @@ public class PurchaseOrderController {
             apiHealthService.insert(
                 "/purchase",
                 "purchase",
+                PurchaseOrderController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Modify order that was zero value. */
+    @PostMapping(
+        value = "/modify",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String modify(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonPurchaseOrder jsonPurchaseOrder,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Modify purchase order for did={} dt={}", did, dt);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/modify")) return null;
+
+        if (!businessUserStoreService.hasAccess(qid, jsonPurchaseOrder.getCodeQR())) {
+            LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/modify by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            JsonPurchaseOrder jsonPurchaseOrderUpdated = purchaseOrderService.modifyOrder(jsonPurchaseOrder, did.getText(), TokenServiceEnum.M);
+            LOG.info("Order modified Successfully={}", jsonPurchaseOrderUpdated.getPresentOrderState());
+            return jsonPurchaseOrderUpdated.asJson();
+        } catch (PurchaseOrderProductNFException e) {
+            LOG.warn("Purchase Order Product not found reason={}", e.getLocalizedMessage());
+            return ErrorEncounteredJson.toJson("Purchase Order Product Not Found", PURCHASE_ORDER_PRODUCT_NOT_FOUND);
+        } catch (Exception e) {
+            LOG.error("Failed modifying purchase order product reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return jsonPurchaseOrder.asJson();
+        } finally {
+            apiHealthService.insert(
+                "/modify",
+                "modify",
                 PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
