@@ -708,7 +708,7 @@ public class PurchaseOrderController {
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return jsonPurchaseOrder.asJson();
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
                 "/purchase",
@@ -764,7 +764,7 @@ public class PurchaseOrderController {
         } catch (Exception e) {
             LOG.error("Failed modifying purchase order product reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return jsonPurchaseOrder.asJson();
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
                 "/modify",
