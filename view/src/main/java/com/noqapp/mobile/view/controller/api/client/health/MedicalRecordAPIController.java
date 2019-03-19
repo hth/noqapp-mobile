@@ -58,7 +58,7 @@ public class MedicalRecordAPIController {
     }
 
     @GetMapping(
-        value = {"/fetch", "/history"},
+        value = "/history",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String history(

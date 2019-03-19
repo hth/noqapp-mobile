@@ -223,7 +223,7 @@ public class ImageCommonHelper extends CommonHelper {
         }
     }
 
-    public String uploadLabAttachment(
+    public String processReport(
         String did,
         String dt,
         String mail,
@@ -248,7 +248,7 @@ public class ImageCommonHelper extends CommonHelper {
         }
 
         try {
-            String filename = medicalFileService.processLabReport(transactionId, multipartFile, labCategory);
+            String filename = medicalFileService.processReport(transactionId, multipartFile, labCategory);
             methodStatusSuccess = true;
             return new JsonResponse(true, filename).asJson();
         } catch (Exception e) {
@@ -265,7 +265,7 @@ public class ImageCommonHelper extends CommonHelper {
         }
     }
 
-    public String removeLabAttachment(
+    public String removeReport(
         String did,
         String dt,
         String mail,
@@ -285,7 +285,7 @@ public class ImageCommonHelper extends CommonHelper {
         }
 
         try {
-            medicalFileService.removeLabImage(qid, transactionId, filename, labCategory);
+            medicalFileService.removeReport(qid, transactionId, filename, labCategory);
             methodStatusSuccess = true;
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
