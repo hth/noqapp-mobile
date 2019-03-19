@@ -931,7 +931,7 @@ public class PurchaseOrderController {
         BizStoreEntity bizStore = bizStoreManager.getById(purchaseOrder.getBizStoreId());
         if (bizStore.getBusinessType() == BusinessTypeEnum.HS) {
             LabCategoryEnum labCategory = LabCategoryEnum.valueOf(bizStore.getBizCategoryId());
-            return imageCommonHelper.uploadLabAttachment(
+            return imageCommonHelper.processReport(
                 did.getText(),
                 dt.getText(),
                 mail.getText(),
@@ -984,7 +984,7 @@ public class PurchaseOrderController {
         BizStoreEntity bizStore = bizStoreManager.getById(purchaseOrder.getBizStoreId());
         if (bizStore.getBusinessType() == BusinessTypeEnum.HS) {
             LabCategoryEnum labCategory = LabCategoryEnum.valueOf(bizStore.getBizCategoryId());
-            return imageCommonHelper.removeLabAttachment(
+            return imageCommonHelper.removeReport(
                 did.getText(),
                 dt.getText(),
                 mail.getText(),
