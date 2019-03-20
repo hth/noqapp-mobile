@@ -775,12 +775,12 @@ public class PurchaseOrderController {
         }
     }
 
-    /** When merchant accepts partial cash payment. */
+    /** When merchant accepts partial payment at counter. */
     @PostMapping(
-        value = "/partialPayment",
+        value = "/partialCounterPayment",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String partialPayment(
+    public String partialCounterPayment(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -802,16 +802,16 @@ public class PurchaseOrderController {
         Instant start = Instant.now();
         LOG.info("Purchase order partial payment for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/partialPayment")) return null;
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/partialCounterPayment")) return null;
 
         if (!businessUserStoreService.hasAccess(qid, jsonPurchaseOrder.getCodeQR())) {
-            LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/partialPayment by mail={}", mail);
+            LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/partialCounterPayment by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
 
         try {
-            JsonPurchaseOrder jsonPurchaseOrderUpdated = purchaseOrderService.partialPayment(jsonPurchaseOrder, qid);
+            JsonPurchaseOrder jsonPurchaseOrderUpdated = purchaseOrderService.partialCounterPayment(jsonPurchaseOrder, qid);
             LOG.info("Order partial payment updated successfully={}", jsonPurchaseOrderUpdated);
             return jsonPurchaseOrderUpdated.asJson();
         } catch (Exception e) {
@@ -820,20 +820,20 @@ public class PurchaseOrderController {
             return ErrorEncounteredJson.toJson("Failed Updating Order Payment", ORDER_PAYMENT_UPDATE_FAILED);
         } finally {
             apiHealthService.insert(
-                "/partialPayment",
-                "partialPayment",
+                "/partialCounterPayment",
+                "partialCounterPayment",
                 PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
-    /** When merchant accepts cash. */
+    /** When payment is performed at counter via external means. */
     @PostMapping(
-        value = "/cashPayment",
+        value = "/counterPayment",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String cashPayment(
+    public String counterPayment(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -855,17 +855,17 @@ public class PurchaseOrderController {
         Instant start = Instant.now();
         LOG.info("Purchase Order Cash Payment API for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/removeAttachment")) return null;
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/counterPayment")) return null;
 
         if (!businessUserStoreService.hasAccess(qid, jsonPurchaseOrder.getCodeQR())) {
-            LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/cashPayment by mail={}", mail);
+            LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/counterPayment by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
 
         try {
-            JsonPurchaseOrder jsonPurchaseOrderUpdated = purchaseOrderService.cashPayment(jsonPurchaseOrder, qid);
-            LOG.info("Order cash payment updated successfully={}", jsonPurchaseOrderUpdated);
+            JsonPurchaseOrder jsonPurchaseOrderUpdated = purchaseOrderService.counterPayment(jsonPurchaseOrder, qid);
+            LOG.info("Order counter payment updated successfully={}", jsonPurchaseOrderUpdated);
             return jsonPurchaseOrderUpdated.asJson();
         } catch (Exception e) {
             LOG.error("Failed processing cash payment on order reason={}", e.getLocalizedMessage(), e);
@@ -873,8 +873,8 @@ public class PurchaseOrderController {
             return ErrorEncounteredJson.toJson("Failed Updating Order Payment", ORDER_PAYMENT_UPDATE_FAILED);
         } finally {
             apiHealthService.insert(
-                "/cashPayment",
-                "cashPayment",
+                "/counterPayment",
+                "counterPayment",
                 PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);

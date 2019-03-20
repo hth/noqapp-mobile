@@ -500,6 +500,7 @@ public class PurchaseOrderAPIController {
                     LOG.error("Unknown field {}", jsonCashfreeNotification.getPaymentMode());
                     throw new UnsupportedOperationException("Reached unsupported payment mode");
             }
+            //TODO try appending transaction message
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.updateOnPaymentGatewayNotification(
                 transactionId,
                 jsonCashfreeNotification.getTxMsg(),
