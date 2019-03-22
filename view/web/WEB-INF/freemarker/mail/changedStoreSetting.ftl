@@ -74,7 +74,9 @@
         <#if businessTypeMessageOrigin == "Q">
             <#if paymentForService??>
                 <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-                    ${paymentForService}<br/>
+                    <b>Payment Settings turned off</b><br/>
+                    Payment settings helps clients/patients see your service charge. Helps you get paid before service is offered.<br/>
+                    It can be turned on under Queue Settings.</br>
                 </p>
             <#else>
                 <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
