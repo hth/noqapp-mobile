@@ -60,6 +60,9 @@ public enum MobileSystemErrorCodeEnum {
     ORDER_PAYMENT_UPDATE_FAILED("4211", ALERT),
     PURCHASE_ORDER_PRODUCT_NOT_FOUND("4212", ALERT),
 
+    /** Queue. */
+    QUEUE_JOIN_FAILED_FOR_PAYMENT("4304", ERROR),
+
     /** Transaction. */
     TRANSACTION_GATEWAY_DEFAULT("4500", ALERT),
 

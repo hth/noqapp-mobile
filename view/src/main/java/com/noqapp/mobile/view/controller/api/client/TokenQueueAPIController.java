@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_JOIN_FAILED_FOR_PAYMENT;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_NO_LONGER_EXISTS;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -409,13 +410,18 @@ public class TokenQueueAPIController {
 
         try {
             LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
-            return tokenQueueMobileService.joinQueue(
-                joinQueue.getCodeQR(),
-                did.getText(),
-                joinQueue.getQueueUserId(),
-                joinQueue.getGuardianQid(),
-                bizStore.getAverageServiceTime(),
-                TokenServiceEnum.C).asJson();
+
+            if (!bizStore.isEnabledPayment()) {
+                return tokenQueueMobileService.joinQueue(
+                    joinQueue.getCodeQR(),
+                    did.getText(),
+                    joinQueue.getQueueUserId(),
+                    joinQueue.getGuardianQid(),
+                    bizStore.getAverageServiceTime(),
+                    TokenServiceEnum.C).asJson();
+            }
+
+            return getErrorReason("Missing Payment For Service", QUEUE_JOIN_FAILED_FOR_PAYMENT);
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
@@ -429,6 +435,68 @@ public class TokenQueueAPIController {
             apiHealthService.insert(
                 "/queue",
                 "joinQueue",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
+        }
+    }
+
+    /** Join the queue when payment is requested. */
+    @PostMapping (
+        value = "/payBeforeQueue",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String payBeforeQueue(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JoinQueue joinQueue,
+
+        HttpServletResponse response
+    ) throws IOException {
+        Instant start = Instant.now();
+        LOG.info("Join payBeforeQueue did={} dt={}", did, deviceType);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(joinQueue.getCodeQR());
+        if (null == bizStore) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
+            return null;
+        }
+
+        try {
+            LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
+            return tokenQueueMobileService.joinQueue(
+                joinQueue.getCodeQR(),
+                did.getText(),
+                joinQueue.getQueueUserId(),
+                joinQueue.getGuardianQid(),
+                bizStore.getAverageServiceTime(),
+                TokenServiceEnum.C).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                "/payBeforeQueue",
+                "payBeforeQueue",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/payBeforeQueue",
+                "payBeforeQueue",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 HealthStatusEnum.G);
