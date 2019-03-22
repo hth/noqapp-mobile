@@ -69,11 +69,11 @@ public class TokenQueueAPIController {
 
     @Autowired
     public TokenQueueAPIController(
-            TokenQueueMobileService tokenQueueMobileService,
-            QueueMobileService queueMobileService,
-            AuthenticateMobileService authenticateMobileService,
-            PurchaseOrderService purchaseOrderService,
-            ApiHealthService apiHealthService
+        TokenQueueMobileService tokenQueueMobileService,
+        QueueMobileService queueMobileService,
+        AuthenticateMobileService authenticateMobileService,
+        PurchaseOrderService purchaseOrderService,
+        ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
@@ -97,22 +97,22 @@ public class TokenQueueAPIController {
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String getQueueState(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable ("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
         LOG.info("On scan get state did={} dt={} codeQR={}", did, deviceType, codeQR);
@@ -156,26 +156,26 @@ public class TokenQueueAPIController {
 
     /** Get all state of queue at a Business when one QR Code is scanned. */
     @GetMapping (
-            value = "/v1/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/v1/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String getAllQueueState(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable ("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
         LOG.info("On scan get all state did={} dt={} codeQR={}", did, deviceType, codeQR);
@@ -192,41 +192,41 @@ public class TokenQueueAPIController {
         } catch (Exception e) {
             LOG.error("Failed getting all queue state qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
-                    "/v1/{codeQR}",
-                    "getAllQueueState",
-                    TokenQueueAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+                "/v1/{codeQR}",
+                "getAllQueueState",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/v1/{codeQR}",
-                    "getAllQueueState",
-                    TokenQueueAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/v1/{codeQR}",
+                "getAllQueueState",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
         }
     }
 
     /** Get all the queues user has token from. In short all the queues user has joined AND/OR all placed orders. */
     @GetMapping (
-            value = "/queues",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/queues",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String getAllJoinedQueues(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
         LOG.info("All joined queue did={} dt={} mail={}", did, deviceType, mail);
@@ -240,19 +240,19 @@ public class TokenQueueAPIController {
         } catch (Exception e) {
             LOG.error("Failed getting queues qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
-                    "/queues",
-                    "getAllJoinedQueues",
-                    TokenQueueAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+                "/queues",
+                "getAllJoinedQueues",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/queues",
-                    "getAllJoinedQueues",
-                    TokenQueueAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/queues",
+                "getAllJoinedQueues",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
         }
     }
 
@@ -340,14 +340,14 @@ public class TokenQueueAPIController {
 
         try {
             JsonTokenAndQueueList jsonTokenAndQueues = queueMobileService.findHistoricalQueue(
-                    qid,
-                    did.getText(),
-                    DeviceTypeEnum.valueOf(deviceType.getText()),
-                    AppFlavorEnum.valueOf(appFlavor.getText()),
-                    parseTokenFCM.getTokenFCM(),
-                    parseTokenFCM.getModel(),
-                    parseTokenFCM.getOsVersion(),
-                    parseTokenFCM.getAppVersion());
+                qid,
+                did.getText(),
+                DeviceTypeEnum.valueOf(deviceType.getText()),
+                AppFlavorEnum.valueOf(appFlavor.getText()),
+                parseTokenFCM.getTokenFCM(),
+                parseTokenFCM.getModel(),
+                parseTokenFCM.getOsVersion(),
+                parseTokenFCM.getAppVersion());
             //TODO(hth) get old historical order, it just gets todays historical order
             jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllDeliveredHistoricalOrderAsJson(qid));
             return jsonTokenAndQueues.asJson();
@@ -357,46 +357,44 @@ public class TokenQueueAPIController {
         } catch (Exception e) {
             LOG.error("Failed getting history qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
-                    "/historical",
-                    "allHistoricalJoinedQueues",
-                    TokenQueueAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+                "/historical",
+                "allHistoricalJoinedQueues",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/historical",
-                    "allHistoricalJoinedQueues",
-                    TokenQueueAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/historical",
+                "allHistoricalJoinedQueues",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
         }
     }
 
-    /**
-     * Join the queue.
-     */
+    /** Join the queue. */
     @PostMapping (
-            value = "/queue",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/queue",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String joinQueue(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            JoinQueue joinQueue,
+        @RequestBody
+        JoinQueue joinQueue,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
         LOG.info("Join queue did={} dt={}", did, deviceType);
@@ -412,28 +410,28 @@ public class TokenQueueAPIController {
         try {
             LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
             return tokenQueueMobileService.joinQueue(
-                    joinQueue.getCodeQR(),
-                    did.getText(),
-                    joinQueue.getQueueUserId(),
-                    joinQueue.getGuardianQid(),
-                    bizStore.getAverageServiceTime(),
-                    TokenServiceEnum.C).asJson();
+                joinQueue.getCodeQR(),
+                did.getText(),
+                joinQueue.getQueueUserId(),
+                joinQueue.getGuardianQid(),
+                bizStore.getAverageServiceTime(),
+                TokenServiceEnum.C).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
-                    "/queue",
-                    "joinQueue",
-                    TokenQueueAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+                "/queue",
+                "joinQueue",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/queue",
-                    "joinQueue",
-                    TokenQueueAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/queue",
+                "joinQueue",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
         }
     }
 
@@ -448,26 +446,26 @@ public class TokenQueueAPIController {
      * @throws IOException
      */
     @PostMapping (
-            value = "/abort/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/abort/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String abortQueue(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable ("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
         LOG.info("Abort queue did={} dt={} codeQR={}", did, deviceType, codeQR);
@@ -484,19 +482,19 @@ public class TokenQueueAPIController {
         } catch (Exception e) {
             LOG.error("Failed aborting queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
-                    "/abort/{codeQR}",
-                    "abortQueue",
-                    TokenQueueAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+                "/abort/{codeQR}",
+                "abortQueue",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/abort/{codeQR}",
-                    "abortQueue",
-                    TokenQueueAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/abort/{codeQR}",
+                "abortQueue",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
         }
     }
 
