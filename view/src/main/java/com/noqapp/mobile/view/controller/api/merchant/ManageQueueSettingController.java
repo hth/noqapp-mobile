@@ -446,11 +446,16 @@ public class ManageQueueSettingController {
         }
 
         try {
-            BizStoreEntity bizStore = bizService.updateServiceCost(
-                modifyQueue.getCodeQR(),
-                modifyQueue.getProductPrice(),
-                modifyQueue.getCancellationPrice(),
-                modifyQueue.getServicePayment());
+            BizStoreEntity bizStore;
+            if (modifyQueue.isEnabledPayment()) {
+                bizStore = bizService.updateServiceCost(
+                    modifyQueue.getCodeQR(),
+                    modifyQueue.getProductPrice(),
+                    modifyQueue.getCancellationPrice(),
+                    modifyQueue.getServicePayment());
+            } else {
+                bizStore = bizService.disableServiceCost(modifyQueue.getCodeQR());
+            }
 
             ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(modifyQueue);
             StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(modifyQueue);

@@ -77,6 +77,9 @@ public class JsonModifyQueue extends AbstractDomain {
     @JsonProperty ("scUn")
     private String scheduledUntilDay;
 
+    @JsonProperty("ep")
+    private boolean enabledPayment;
+
     @JsonProperty("pp")
     private int productPrice;
 
@@ -262,6 +265,15 @@ public class JsonModifyQueue extends AbstractDomain {
 
     public JsonModifyQueue setStoreActionType(ActionTypeEnum storeActionType) {
         this.storeActionType = storeActionType;
+        return this;
+    }
+
+    public boolean isEnabledPayment() {
+        return enabledPayment;
+    }
+
+    public JsonModifyQueue setEnabledPayment(boolean enabledPayment) {
+        this.enabledPayment = enabledPayment;
         return this;
     }
 
