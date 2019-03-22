@@ -97,22 +97,22 @@ public class TokenQueueAPIController {
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String getQueueState(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable ("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
         LOG.info("On scan get state did={} dt={} codeQR={}", did, deviceType, codeQR);
@@ -156,26 +156,26 @@ public class TokenQueueAPIController {
 
     /** Get all state of queue at a Business when one QR Code is scanned. */
     @GetMapping (
-            value = "/v1/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/v1/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String getAllQueueState(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable ("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
         LOG.info("On scan get all state did={} dt={} codeQR={}", did, deviceType, codeQR);
@@ -210,23 +210,23 @@ public class TokenQueueAPIController {
 
     /** Get all the queues user has token from. In short all the queues user has joined AND/OR all placed orders. */
     @GetMapping (
-            value = "/queues",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/queues",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String getAllJoinedQueues(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
         LOG.info("All joined queue did={} dt={} mail={}", did, deviceType, mail);
@@ -377,26 +377,26 @@ public class TokenQueueAPIController {
      * Join the queue.
      */
     @PostMapping (
-            value = "/queue",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/queue",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String joinQueue(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            JoinQueue joinQueue,
+        @RequestBody
+        JoinQueue joinQueue,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
         LOG.info("Join queue did={} dt={}", did, deviceType);
@@ -448,26 +448,26 @@ public class TokenQueueAPIController {
      * @throws IOException
      */
     @PostMapping (
-            value = "/abort/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/abort/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String abortQueue(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable ("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
         LOG.info("Abort queue did={} dt={} codeQR={}", did, deviceType, codeQR);
