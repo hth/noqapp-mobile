@@ -321,6 +321,10 @@ public class JsonModifyQueue extends AbstractDomain {
             ", untilDay='" + untilDay + '\'' +
             ", scheduledFromDay='" + scheduledFromDay + '\'' +
             ", scheduledUntilDay='" + scheduledUntilDay + '\'' +
+            ", enabledPayment=" + enabledPayment +
+            ", productPrice=" + productPrice +
+            ", cancellationPrice=" + cancellationPrice +
+            ", servicePayment=" + servicePayment +
             ", storeActionType=" + storeActionType +
             '}';
     }
