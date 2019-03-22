@@ -114,6 +114,7 @@ public class JsonModifyQueue extends AbstractDomain {
         this.preventJoining = storeHour.isPreventJoining();
         this.availableTokenCount = availableTokenCount;
         this.storeActionType = storeActionType;
+        this.enabledPayment = bizStore.isEnabledPayment();
         this.productPrice = bizStore.getProductPrice();
         this.cancellationPrice = bizStore.getCancellationPrice();
         this.servicePayment = bizStore.getServicePayment();
@@ -141,6 +142,7 @@ public class JsonModifyQueue extends AbstractDomain {
         this.preventJoining = storeHour.isPreventJoining();
         this.availableTokenCount = bizStore.getAvailableTokenCount();
         this.storeActionType = bizStore.isActive() ? ActionTypeEnum.ACTIVE : ActionTypeEnum.INACTIVE;
+        this.enabledPayment = bizStore.isEnabledPayment();
         this.productPrice = bizStore.getProductPrice();
         this.cancellationPrice = bizStore.getCancellationPrice();
         this.servicePayment = bizStore.getServicePayment();
