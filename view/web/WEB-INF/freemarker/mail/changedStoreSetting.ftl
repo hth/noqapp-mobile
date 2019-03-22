@@ -72,12 +72,18 @@
         </p>
 
         <#if businessTypeMessageOrigin == "Q">
-        <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-            <strong>${displayName} service charge below:</strong><br/>
-            Service Payment: ${servicePayment}<br/>
-            Service Charge: ${productPrice}<br/>
-            Cancellation Charge: ${cancellationPrice}<br/>
-        </p>
+            <#if paymentForService??>
+                <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
+                    ${paymentForService}<br/>
+                </p>
+            <#else>
+                <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
+                    <strong>${displayName} service charge below:</strong><br/>
+                    Service Payment: ${servicePayment}<br/>
+                    Service Charge: ${productPrice}<br/>
+                    Cancellation Charge: ${cancellationPrice}<br/>
+                </p>
+            </#if>
         </#if>
 
         <table style="background-color: lightgrey">
