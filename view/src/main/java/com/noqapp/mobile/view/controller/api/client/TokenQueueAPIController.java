@@ -69,11 +69,11 @@ public class TokenQueueAPIController {
 
     @Autowired
     public TokenQueueAPIController(
-            TokenQueueMobileService tokenQueueMobileService,
-            QueueMobileService queueMobileService,
-            AuthenticateMobileService authenticateMobileService,
-            PurchaseOrderService purchaseOrderService,
-            ApiHealthService apiHealthService
+        TokenQueueMobileService tokenQueueMobileService,
+        QueueMobileService queueMobileService,
+        AuthenticateMobileService authenticateMobileService,
+        PurchaseOrderService purchaseOrderService,
+        ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
