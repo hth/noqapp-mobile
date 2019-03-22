@@ -428,7 +428,7 @@ public class ManageQueueSettingController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Service cost for queue associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        LOG.info("Service cost for queue associated with mail={} did={} deviceType={} auth={} {}", mail, did, deviceType, modifyQueue.asJson());
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/m/mq/serviceCost by mail={}", mail);
