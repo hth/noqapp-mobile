@@ -143,6 +143,7 @@ public class TokenQueueMobileService {
             .setRemoteJoinAvailable(bizStore.isRemoteJoin())
             .setAllowLoggedInUser(bizStore.isAllowLoggedInUser())
             .setAvailableTokenCount(bizStore.getAvailableTokenCount())
+            .setEnabledPayment(bizStore.isEnabledPayment())
             .setProductPrice(bizStore.getProductPrice())
             .setCancellationPrice(bizStore.getCancellationPrice())
             .setServicePayment(bizStore.getServicePayment())
@@ -385,6 +386,11 @@ public class TokenQueueMobileService {
     }
 
     public JsonToken joinQueue(String codeQR, String did, String qid, String guardianQid, long averageServiceTime, TokenServiceEnum tokenService) {
+        LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
+        return tokenQueueService.getNextToken(codeQR, did, qid, guardianQid, averageServiceTime, tokenService);
+    }
+
+    public JsonToken payBeforeJoinQueue(String codeQR, String did, String qid, String guardianQid, long averageServiceTime, TokenServiceEnum tokenService) {
         LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
         return tokenQueueService.getNextToken(codeQR, did, qid, guardianQid, averageServiceTime, tokenService);
     }
