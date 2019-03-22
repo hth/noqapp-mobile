@@ -62,7 +62,8 @@
             Additional Note or Famous For: ${famousFor}<br/><br/>
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-            Store/Queue: ${onlineOrOffline?then('Online', 'Offline')}<br/>
+            Store/Queue: <b>${onlineOrOffline?then('Online', 'Offline')}</b><br/>
+            When Online, store is visible to everyone. Offline store is not visible.<br/>
             <#if closedForToday??>
                 <strong>Temporary closed for today: ${closedForToday}</strong><br/>
             </#if>
@@ -75,15 +76,16 @@
             <#if paymentForService??>
                 <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
                     <b>Payment Settings turned off</b><br/>
-                    Payment settings helps clients/patients see your service charge. Helps you get paid before service is offered.<br/>
+                    Payment settings helps clients/patients see your service charge.<br/>
+                    Helps you get paid before service is offered.<br/>
                     It can be turned on under Queue Settings.</br>
                 </p>
             <#else>
                 <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
                     <strong>${displayName} service charge below:</strong><br/>
-                    Service Payment: ${servicePayment}<br/>
-                    Service Charge: ${productPrice}<br/>
-                    Cancellation Charge: ${cancellationPrice}<br/>
+                    Service Payment: <b>${servicePayment}</b><br/>
+                    Service Charge: <b>${productPrice}</b><br/>
+                    Cancellation Charge: </b>${cancellationPrice}</b><br/>
                 </p>
             </#if>
         </#if>
