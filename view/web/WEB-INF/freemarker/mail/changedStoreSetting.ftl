@@ -56,14 +56,14 @@
             Reason for Change was associated to: <strong>${changeInitiateReason}</strong>
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-            Remote Join: ${remoteJoin}<br/>
-            Allow only registered user: ${allowLoggedInUser}<br/>
-            Available Token: ${availableTokenCount}<br/>
-            Additional Note or Famous For: ${famousFor}<br/><br/>
+            Allows Remote Join from Home: ${remoteJoin}<br/>
+            Allows only registered users to join: ${allowLoggedInUser}<br/>
+            Number of Available Token: ${availableTokenCount}<br/>
+            Additional Note or Famous For: ${famousFor}<br/>
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             Store/Queue: <b>${onlineOrOffline?then('Online', 'Offline')}</b><br/>
-            When Online, store is visible to everyone. Offline store is not visible.<br/>
+            Online store is visible to everyone. Offline store is not visible.<br/>
             <#if closedForToday??>
                 <strong>Temporary closed for today: ${closedForToday}</strong><br/>
             </#if>
@@ -75,10 +75,10 @@
         <#if businessTypeMessageOrigin == "Q">
             <#if paymentForService??>
                 <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-                    <b>Payment Settings turned off</b><br/>
-                    Payment settings helps clients/patients see your service charge.<br/>
-                    Helps you get paid before service is offered.<br/>
-                    It can be turned on under Queue Settings.</br>
+                    <b>Payment Settings turned OFF</b><br/>
+                    Payment settings helps clients/patients to see your service charge.<br/>
+                    Helps you get paid before service is rendered.<br/>
+                    Payment can be turned ON under Queue Settings.<br/>
                 </p>
             <#else>
                 <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
