@@ -34,14 +34,14 @@ import javax.servlet.http.HttpServletResponse;
  * User: hitender
  * Date: 4/28/17 10:00 PM
  */
-@SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+@SuppressWarnings({
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/open/review")
+@RequestMapping(value = "/open/review")
 public class ReviewController {
     private static final Logger LOG = LoggerFactory.getLogger(ReviewController.class);
 
@@ -52,10 +52,10 @@ public class ReviewController {
 
     @Autowired
     public ReviewController(
-            TokenQueueMobileService tokenQueueMobileService,
-            QueueMobileService queueMobileService,
-            ReviewService reviewService,
-            ApiHealthService apiHealthService
+        TokenQueueMobileService tokenQueueMobileService,
+        QueueMobileService queueMobileService,
+        ReviewService reviewService,
+        ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
@@ -65,20 +65,20 @@ public class ReviewController {
 
     /** Add review to queue service. This includes today's service or historical queue service. */
     @PostMapping(
-            value = "/queue",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/queue",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String queue(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput dt,
 
-            @RequestBody
-            QueueReview queueReview,
+        @RequestBody
+        QueueReview queueReview,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -93,12 +93,13 @@ public class ReviewController {
             }
 
             reviewSuccess = queueMobileService.reviewService(
-                    queueReview.getCodeQR(),
-                    queueReview.getToken(),
-                    did.getText(), null,
-                    queueReview.getRatingCount(),
-                    queueReview.getHoursSaved(),
-                    queueReview.getReview());
+                queueReview.getCodeQR(),
+                queueReview.getToken(),
+                did.getText(),
+                null,
+                queueReview.getRatingCount(),
+                queueReview.getHoursSaved(),
+                queueReview.getReview());
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing review reason={}", e.getLocalizedMessage(), e);
@@ -120,10 +121,10 @@ public class ReviewController {
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String reviews(
-        @RequestHeader ("X-R-DID")
+        @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
         @PathVariable("codeQR")
@@ -171,10 +172,10 @@ public class ReviewController {
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String reviewsLevelUp(
-        @RequestHeader ("X-R-DID")
+        @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
         @PathVariable("codeQR")
