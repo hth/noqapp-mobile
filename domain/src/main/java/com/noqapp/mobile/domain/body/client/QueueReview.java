@@ -41,6 +41,9 @@ public class QueueReview extends AbstractDomain {
     @JsonProperty("rv")
     private String review;
 
+    @JsonProperty("qid")
+    private String queueUserId;
+
     public String getCodeQR() {
         return codeQR;
     }
@@ -83,6 +86,15 @@ public class QueueReview extends AbstractDomain {
 
     public QueueReview setReview(String review) {
         this.review = review;
+        return this;
+    }
+
+    public String getQueueUserId() {
+        return queueUserId;
+    }
+
+    public QueueReview setQueueUserId(String queueUserId) {
+        this.queueUserId = queueUserId;
         return this;
     }
 }

@@ -39,14 +39,14 @@ import javax.servlet.http.HttpServletResponse;
  * User: hitender
  * Date: 4/28/17 11:15 PM
  */
-@SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+@SuppressWarnings({
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/api/c/review")
+@RequestMapping(value = "/api/c/review")
 public class ReviewAPIController {
     private static final Logger LOG = LoggerFactory.getLogger(ReviewAPIController.class);
 
@@ -58,11 +58,11 @@ public class ReviewAPIController {
 
     @Autowired
     public ReviewAPIController(
-            AuthenticateMobileService authenticateMobileService,
-            TokenQueueMobileService tokenQueueMobileService,
-            QueueMobileService queueMobileService,
-            PurchaseOrderMobileService purchaseOrderMobileService,
-            ApiHealthService apiHealthService
+        AuthenticateMobileService authenticateMobileService,
+        TokenQueueMobileService tokenQueueMobileService,
+        QueueMobileService queueMobileService,
+        PurchaseOrderMobileService purchaseOrderMobileService,
+        ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.tokenQueueMobileService = tokenQueueMobileService;
@@ -75,26 +75,26 @@ public class ReviewAPIController {
      * Add review to service. This includes today's service or historical service.
      */
     @PostMapping(
-            value = "/queue",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/queue",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String queue(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput dt,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            QueueReview queueReview,
+        @RequestBody
+        QueueReview queueReview,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
         LOG.info("Queue Review API for did={} dt={}", did, dt);
@@ -110,30 +110,30 @@ public class ReviewAPIController {
             }
 
             reviewSuccess = queueMobileService.reviewService(
-                    queueReview.getCodeQR(),
-                    queueReview.getToken(),
-                    did.getText(),
-                    qid,
-                    queueReview.getRatingCount(),
-                    queueReview.getHoursSaved(),
-                    queueReview.getReview());
+                queueReview.getCodeQR(),
+                queueReview.getToken(),
+                did.getText(),
+                queueReview.getQueueUserId(),
+                queueReview.getRatingCount(),
+                queueReview.getHoursSaved(),
+                queueReview.getReview());
             return new JsonResponse(reviewSuccess).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing queue review reason={}", e.getLocalizedMessage(), e);
             apiHealthService.insert(
-                    "/service",
-                    "service",
-                    ReviewAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.F);
+                "/service",
+                "service",
+                ReviewAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
             return new JsonResponse(reviewSuccess).asJson();
         } finally {
             apiHealthService.insert(
-                    "/service",
-                    "service",
-                    ReviewAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    HealthStatusEnum.G);
+                "/service",
+                "service",
+                ReviewAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
         }
     }
 
@@ -145,16 +145,16 @@ public class ReviewAPIController {
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String order(
-        @RequestHeader ("X-R-DID")
+        @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         @RequestBody
