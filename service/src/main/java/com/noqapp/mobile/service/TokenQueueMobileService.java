@@ -4,11 +4,14 @@ import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
+import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonCategory;
+import com.noqapp.domain.json.JsonPurchaseOrder;
+import com.noqapp.domain.json.JsonPurchaseOrderProduct;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.json.JsonResponse;
@@ -17,6 +20,9 @@ import com.noqapp.domain.types.InvocationByEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.domain.types.UserLevelEnum;
+import com.noqapp.medical.domain.json.JsonMedicalRadiology;
+import com.noqapp.medical.domain.json.JsonMedicalRadiologyList;
+import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
@@ -27,6 +33,7 @@ import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.service.BizService;
 import com.noqapp.service.ProfessionalProfileService;
+import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -59,6 +66,7 @@ public class TokenQueueMobileService {
     private ProfessionalProfileService professionalProfileService;
     private UserProfileManager userProfileManager;
     private BusinessUserStoreManager businessUserStoreManager;
+    private PurchaseOrderService purchaseOrderService;
 
     @Autowired
     public TokenQueueMobileService(
@@ -68,7 +76,8 @@ public class TokenQueueMobileService {
         QueueManager queueManager,
         ProfessionalProfileService professionalProfileService,
         UserProfileManager userProfileManager,
-        BusinessUserStoreManager businessUserStoreManager
+        BusinessUserStoreManager businessUserStoreManager,
+        PurchaseOrderService purchaseOrderService
     ) {
         this.tokenQueueService = tokenQueueService;
         this.bizService = bizService;
@@ -77,6 +86,7 @@ public class TokenQueueMobileService {
         this.professionalProfileService = professionalProfileService;
         this.userProfileManager = userProfileManager;
         this.businessUserStoreManager = businessUserStoreManager;
+        this.purchaseOrderService = purchaseOrderService;
     }
 
     public JsonQueue findTokenState(String codeQR) {
@@ -391,8 +401,34 @@ public class TokenQueueMobileService {
     }
 
     public JsonToken payBeforeJoinQueue(String codeQR, String did, String qid, String guardianQid, long averageServiceTime, TokenServiceEnum tokenService) {
+        String purchaserQid = StringUtils.isBlank(guardianQid) ? qid : guardianQid;
+
+        JsonToken jsonToken = tokenQueueService.getNextToken(codeQR, did, qid, guardianQid, averageServiceTime, tokenService);
+        JsonPurchaseOrder jsonPurchaseOrder = createNewJsonPurchaseOrder(codeQR, purchaserQid, jsonToken);
         LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
-        return tokenQueueService.getNextToken(codeQR, did, qid, guardianQid, averageServiceTime, tokenService);
+        purchaseOrderService.createOrder(jsonPurchaseOrder, qid, did, tokenService);
+        jsonToken.setJsonPurchaseOrder(jsonPurchaseOrder);
+        return jsonToken;
+    }
+
+    private JsonPurchaseOrder createNewJsonPurchaseOrder(String codeQR, String purchaserQid, JsonToken jsonToken) {
+        BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
+        JsonPurchaseOrder jsonPurchaseOrder = new JsonPurchaseOrder()
+            .setBizStoreId(bizStore.getId())
+            .setCodeQR(bizStore.getCodeQR())
+            .setBusinessType(bizStore.getBusinessType())
+            .setOrderPrice(String.valueOf(bizStore.getProductPrice()))
+            .setQueueUserId(purchaserQid)
+            .setExpectedServiceBegin(jsonToken.getExpectedServiceBegin())
+            .setToken(jsonToken.getToken());
+
+        jsonPurchaseOrder.addJsonPurchaseOrderProduct(new JsonPurchaseOrderProduct()
+            .setProductId(bizStore.getId())
+            .setProductPrice(bizStore.getProductPrice())
+            .setProductQuantity(1)
+            .setProductName(bizStore.getDisplayName()));
+
+        return jsonPurchaseOrder;
     }
 
     public JsonToken joinQueue(String codeQR, String did, long averageServiceTime, TokenServiceEnum tokenService) {
