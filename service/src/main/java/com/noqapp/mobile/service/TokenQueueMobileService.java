@@ -16,6 +16,7 @@ import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.InvocationByEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
@@ -400,19 +401,20 @@ public class TokenQueueMobileService {
         return tokenQueueService.getNextToken(codeQR, did, qid, guardianQid, averageServiceTime, tokenService);
     }
 
-    public JsonToken payBeforeJoinQueue(String codeQR, String did, String qid, String guardianQid, long averageServiceTime, TokenServiceEnum tokenService) {
+    /** Invoke by client and hence has a token service as Client. */
+    public JsonToken payBeforeJoinQueue(String codeQR, String did, String qid, String guardianQid, BizStoreEntity bizStore) {
         String purchaserQid = StringUtils.isBlank(guardianQid) ? qid : guardianQid;
 
-        JsonToken jsonToken = tokenQueueService.getNextToken(codeQR, did, qid, guardianQid, averageServiceTime, tokenService);
-        JsonPurchaseOrder jsonPurchaseOrder = createNewJsonPurchaseOrder(codeQR, purchaserQid, jsonToken);
+        JsonToken jsonToken = tokenQueueService.getPaidNextToken(codeQR, did, qid, guardianQid, bizStore.getAverageServiceTime(), TokenServiceEnum.C);
+        JsonPurchaseOrder jsonPurchaseOrder = createNewJsonPurchaseOrder(purchaserQid, jsonToken, bizStore);
         LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
-        purchaseOrderService.createOrder(jsonPurchaseOrder, qid, did, tokenService);
+        purchaseOrderService.createOrder(jsonPurchaseOrder, qid, did, TokenServiceEnum.C);
         jsonToken.setJsonPurchaseOrder(jsonPurchaseOrder);
         return jsonToken;
     }
 
-    private JsonPurchaseOrder createNewJsonPurchaseOrder(String codeQR, String purchaserQid, JsonToken jsonToken) {
-        BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
+    private JsonPurchaseOrder createNewJsonPurchaseOrder(String purchaserQid, JsonToken jsonToken, BizStoreEntity bizStore) {
+        UserProfileEntity userProfile = userProfileManager.findByQueueUserId(purchaserQid);
         JsonPurchaseOrder jsonPurchaseOrder = new JsonPurchaseOrder()
             .setBizStoreId(bizStore.getId())
             .setCodeQR(bizStore.getCodeQR())
@@ -420,7 +422,9 @@ public class TokenQueueMobileService {
             .setOrderPrice(String.valueOf(bizStore.getProductPrice()))
             .setQueueUserId(purchaserQid)
             .setExpectedServiceBegin(jsonToken.getExpectedServiceBegin())
-            .setToken(jsonToken.getToken());
+            .setToken(jsonToken.getToken())
+            .setDeliveryMode(DeliveryModeEnum.QS)
+            .setDeliveryAddress(userProfile.getAddress());
 
         jsonPurchaseOrder.addJsonPurchaseOrderProduct(new JsonPurchaseOrderProduct()
             .setProductId(bizStore.getId())

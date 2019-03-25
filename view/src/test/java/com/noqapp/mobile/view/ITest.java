@@ -514,7 +514,8 @@ public class ITest extends RealMongoForITest {
             queueManager,
             professionalProfileService,
             userProfileManager,
-            businessUserStoreManager);
+            businessUserStoreManager,
+            purchaseOrderService);
 
         storeDetailService = new StoreDetailService(bizService, tokenQueueMobileService, storeProductService, storeCategoryService);
         bizStoreElasticManager = new BizStoreElasticManagerImpl(restHighLevelClient);

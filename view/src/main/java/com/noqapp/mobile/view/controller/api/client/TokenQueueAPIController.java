@@ -482,8 +482,7 @@ public class TokenQueueAPIController {
                 did.getText(),
                 joinQueue.getQueueUserId(),
                 joinQueue.getGuardianQid(),
-                bizStore.getAverageServiceTime(),
-                TokenServiceEnum.C).asJson();
+                bizStore).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
