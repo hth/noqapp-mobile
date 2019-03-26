@@ -455,7 +455,7 @@ public class TokenQueueAPIController {
         }
     }
 
-    /** Join the queue when payment is requested. */
+    /** Join the queue when their is pre-payment. */
     @PostMapping (
         value = "/payBeforeQueue",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -510,6 +510,66 @@ public class TokenQueueAPIController {
             apiHealthService.insert(
                 "/payBeforeQueue",
                 "payBeforeQueue",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
+        }
+    }
+
+    @PostMapping (
+        value = "/skipPayBeforeQueue",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String skipPayBeforeQueue(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JoinQueue joinQueue,
+
+        HttpServletResponse response
+    ) throws IOException {
+        Instant start = Instant.now();
+        LOG.info("Join skipPayBeforeQueue did={} dt={}", did, deviceType);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(joinQueue.getCodeQR());
+        if (null == bizStore) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
+            return null;
+        }
+
+        try {
+            LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
+            return tokenQueueMobileService.skipPayBeforeJoinQueue(
+                joinQueue.getCodeQR(),
+                did.getText(),
+                joinQueue.getQueueUserId(),
+                joinQueue.getGuardianQid(),
+                bizStore).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                "/skipPayBeforeQueue",
+                "skipPayBeforeQueue",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/skipPayBeforeQueue",
+                "skipPayBeforeQueue",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 HealthStatusEnum.G);
