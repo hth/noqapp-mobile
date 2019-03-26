@@ -1,18 +1,32 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_JOIN_FAILED_FOR_PAYMENT;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_JOIN_FAILED_PAYMENT_CALL_REQUEST;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_JOIN_PAYMENT_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_NO_LONGER_EXISTS;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.TRANSACTION_GATEWAY_DEFAULT;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.PurchaseOrderEntity;
+import com.noqapp.domain.json.JsonPurchaseOrder;
+import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
+import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.domain.types.PaymentModeEnum;
+import com.noqapp.domain.types.PaymentStatusEnum;
+import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
+import com.noqapp.domain.types.cashfree.PaymentModeCFEnum;
+import com.noqapp.domain.types.cashfree.TxStatusEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
@@ -421,7 +435,7 @@ public class TokenQueueAPIController {
                     TokenServiceEnum.C).asJson();
             }
 
-            return getErrorReason("Missing Payment For Service", QUEUE_JOIN_FAILED_FOR_PAYMENT);
+            return getErrorReason("Missing Payment For Service", QUEUE_JOIN_FAILED_PAYMENT_CALL_REQUEST);
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
@@ -502,16 +516,218 @@ public class TokenQueueAPIController {
         }
     }
 
-    /**
-     * Abort the queue. App should un-subscribe user from topic.
-     *
-     * @param did
-     * @param deviceType
-     * @param codeQR
-     * @param response
-     * @return
-     * @throws IOException
-     */
+    /** Cashfree transaction response sent to server. Based on cashfree, server updates order status */
+    @PostMapping(
+        value = "/cf/notify",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String cashfreeNotify(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonCashfreeNotification jsonCashfreeNotification,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Cashfree notification request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/c/token/cf/notify by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            if (StringUtils.isBlank(jsonCashfreeNotification.getOrderId())) {
+                return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
+            }
+
+            String transactionId = jsonCashfreeNotification.getOrderId();
+            PaymentStatusEnum paymentStatus;
+            PurchaseOrderStateEnum purchaseOrderState;
+            switch (TxStatusEnum.valueOf(jsonCashfreeNotification.getTxStatus())) {
+                case SUCCESS:
+                    paymentStatus = PaymentStatusEnum.PA;
+                    purchaseOrderState = PurchaseOrderStateEnum.PO;
+                    break;
+                case FAILED:
+                    paymentStatus = PaymentStatusEnum.PF;
+                    purchaseOrderState = PurchaseOrderStateEnum.FO;
+                    break;
+                case FLAGGED:
+                    paymentStatus = PaymentStatusEnum.FP;
+                    purchaseOrderState = PurchaseOrderStateEnum.FO;
+                    break;
+                case PENDING:
+                    paymentStatus = PaymentStatusEnum.PP;
+                    purchaseOrderState = PurchaseOrderStateEnum.FO;
+                    break;
+                case CANCELLED:
+                    paymentStatus = PaymentStatusEnum.PC;
+                    purchaseOrderState = PurchaseOrderStateEnum.FO;
+                    break;
+                default:
+                    LOG.error("Unknown field {}", jsonCashfreeNotification.getTxStatus());
+                    return getErrorReason("Unknown Transaction Field", TRANSACTION_GATEWAY_DEFAULT);
+            }
+
+            PaymentModeEnum paymentMode;
+            switch (PaymentModeCFEnum.valueOf(jsonCashfreeNotification.getPaymentMode())) {
+                case DEBIT_CARD:
+                    paymentMode = PaymentModeEnum.DC;
+                    break;
+                case CREDIT_CARD:
+                    paymentMode = PaymentModeEnum.CC;
+                    break;
+                case CREDIT_CARD_EMI:
+                    paymentMode = PaymentModeEnum.CCE;
+                    break;
+                case NET_BANKING:
+                    paymentMode = PaymentModeEnum.NTB;
+                    break;
+                case UPI:
+                    paymentMode = PaymentModeEnum.UPI;
+                    break;
+                case Paypal:
+                    paymentMode = PaymentModeEnum.PAL;
+                    break;
+                case PhonePe:
+                    paymentMode = PaymentModeEnum.PPE;
+                    break;
+                case Paytm:
+                    paymentMode = PaymentModeEnum.PTM;
+                    break;
+                case AmazonPay:
+                    paymentMode = PaymentModeEnum.AMZ;
+                    break;
+                case AIRTEL_MONEY:
+                    paymentMode = PaymentModeEnum.AIR;
+                    break;
+                case FreeCharge:
+                    paymentMode = PaymentModeEnum.FCH;
+                    break;
+                case MobiKwik:
+                    paymentMode = PaymentModeEnum.MKK;
+                    break;
+                case OLA:
+                    paymentMode = PaymentModeEnum.OLA;
+                    break;
+                case JioMoney:
+                    paymentMode = PaymentModeEnum.JIO;
+                    break;
+                case ZestMoney:
+                    paymentMode = PaymentModeEnum.ZST;
+                    break;
+                case Instacred:
+                    paymentMode = PaymentModeEnum.INS;
+                    break;
+                case LazyPay:
+                    paymentMode = PaymentModeEnum.LPY;
+                    break;
+                default:
+                    LOG.error("Unknown field {}", jsonCashfreeNotification.getPaymentMode());
+                    throw new UnsupportedOperationException("Reached unsupported payment mode");
+            }
+            //TODO try appending transaction message
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.updateOnPaymentGatewayNotification(
+                transactionId,
+                jsonCashfreeNotification.getTxMsg(),
+                jsonCashfreeNotification.getReferenceId(),
+                paymentStatus,
+                purchaseOrderState,
+                paymentMode
+            );
+
+            if (paymentStatus != PaymentStatusEnum.PA || purchaseOrder.getPresentOrderState() != PurchaseOrderStateEnum.PO) {
+                queueMobileService.deleteReferenceToTransactionId(purchaseOrder.getCodeQR(), purchaseOrder.getTransactionId());
+                return getErrorReason("Payment Failed", QUEUE_JOIN_PAYMENT_FAILED);
+            }
+
+            JsonToken jsonToken = tokenQueueMobileService.updateWhenPaymentSuccessful(purchaseOrder.getCodeQR(), purchaseOrder.getTransactionId())
+                .setJsonPurchaseOrder(new JsonPurchaseOrder(purchaseOrder));
+
+            return jsonToken.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed updating with cashfree notification reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/cf/notify",
+                "cashfreeNotify",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Cashfree transaction response sent to server. Based on cashfree, server updates order status */
+    @PostMapping(
+        value = "/cancelPayBeforeQueue",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String cancel(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonToken jsonToken,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Cashfree notification request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/c/token/cancelPayBeforeQueue by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            if (StringUtils.isBlank(jsonToken.getJsonPurchaseOrder().getTransactionId())) {
+                return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
+            }
+
+            queueMobileService.deleteReferenceToTransactionId(jsonToken.getCodeQR(), jsonToken.getJsonPurchaseOrder().getTransactionId());
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed updating with cashfree notification reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/cancelPayBeforeQueue",
+                "cancelPayBeforeQueue",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Abort the queue. App should un-subscribe user from topic. */
     @PostMapping (
         value = "/abort/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -567,7 +783,7 @@ public class TokenQueueAPIController {
 
     public static boolean authorizeRequest(HttpServletResponse response, String qid) throws IOException {
         if (null == qid) {
-            LOG.warn("Login required qid={}", qid);
+            LOG.warn("Login required qid is blank");
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return true;
         }
