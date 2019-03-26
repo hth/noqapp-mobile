@@ -711,7 +711,7 @@ public class TokenQueueAPIController {
             );
 
             if (paymentStatus != PaymentStatusEnum.PA || purchaseOrder.getPresentOrderState() != PurchaseOrderStateEnum.PO) {
-                queueMobileService.deleteReferenceToTransactionId(purchaseOrder.getCodeQR(), purchaseOrder.getTransactionId());
+                tokenQueueMobileService.deleteReferenceToTransactionId(purchaseOrder.getCodeQR(), purchaseOrder.getTransactionId());
                 return getErrorReason("Payment Failed", QUEUE_JOIN_PAYMENT_FAILED);
             }
 
@@ -771,7 +771,7 @@ public class TokenQueueAPIController {
                 return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
             }
 
-            queueMobileService.deleteReferenceToTransactionId(jsonToken.getCodeQR(), jsonToken.getJsonPurchaseOrder().getTransactionId());
+            tokenQueueMobileService.deleteReferenceToTransactionId(jsonToken.getCodeQR(), jsonToken.getJsonPurchaseOrder().getTransactionId());
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating with cashfree notification reason={}", e.getLocalizedMessage(), e);

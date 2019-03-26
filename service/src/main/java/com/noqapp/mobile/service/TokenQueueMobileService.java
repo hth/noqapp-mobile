@@ -502,4 +502,9 @@ public class TokenQueueMobileService {
             /* Using queue state C so that message goes to Client and Merchant. This setting if for broadcast. */
             QueueStatusEnum.C);
     }
+
+    public void deleteReferenceToTransactionId(String codeQR, String transactionId) {
+        queueManager.deleteReferenceToTransactionId(codeQR, transactionId);
+        //TODO mark as failed Order by client
+    }
 }
