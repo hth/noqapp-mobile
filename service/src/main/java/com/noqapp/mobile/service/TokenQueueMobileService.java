@@ -18,6 +18,7 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.InvocationByEnum;
+import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.domain.types.UserLevelEnum;
@@ -410,7 +411,12 @@ public class TokenQueueMobileService {
         LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
         purchaseOrderService.createOrder(jsonPurchaseOrder, qid, did, TokenServiceEnum.C);
         jsonToken.setJsonPurchaseOrder(jsonPurchaseOrder);
+        queueManager.updateWithTransactionId(codeQR, qid, jsonPurchaseOrder.getTransactionId());
         return jsonToken;
+    }
+
+    public JsonToken updateWhenPaymentSuccessful(String codeQR, String transactionId) {
+        return tokenQueueService.updateJsonToken(codeQR, transactionId);
     }
 
     private JsonPurchaseOrder createNewJsonPurchaseOrder(String purchaserQid, JsonToken jsonToken, BizStoreEntity bizStore) {
