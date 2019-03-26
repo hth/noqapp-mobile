@@ -678,7 +678,7 @@ public class TokenQueueAPIController {
         value = "/cancelPayBeforeQueue",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String cancel(
+    public String cancelPayBeforeQueue(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
