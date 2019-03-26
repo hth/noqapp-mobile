@@ -523,8 +523,4 @@ public class QueueMobileService {
             httpPost);
         return webConnectorService.invokeHttpPost(httpClient, httpPost);
     }
-
-    public void deleteReferenceToTransactionId(String codeQR, String transactionId) {
-        queueManager.deleteReferenceToTransactionId(codeQR, transactionId);
-    }
 }
