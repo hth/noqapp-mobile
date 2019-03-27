@@ -118,10 +118,6 @@ public class PurchaseOrderController {
     private PurchaseOrderService purchaseOrderService;
     private QueueMobileService queueMobileService;
     private TokenQueueService tokenQueueService;
-    private AccountMobileService accountMobileService;
-    private TokenQueueMobileService tokenQueueMobileService;
-    private AccountService accountService;
-    private BusinessCustomerService businessCustomerService;
     private ApiHealthService apiHealthService;
 
     private BizStoreManager bizStoreManager;
@@ -143,10 +139,6 @@ public class PurchaseOrderController {
         PurchaseOrderService purchaseOrderService,
         QueueMobileService queueMobileService,
         TokenQueueService tokenQueueService,
-        AccountMobileService accountMobileService,
-        TokenQueueMobileService tokenQueueMobileService,
-        AccountService accountService,
-        BusinessCustomerService businessCustomerService,
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -161,10 +153,6 @@ public class PurchaseOrderController {
         this.purchaseOrderService = purchaseOrderService;
         this.queueMobileService = queueMobileService;
         this.tokenQueueService = tokenQueueService;
-        this.accountMobileService = accountMobileService;
-        this.tokenQueueMobileService = tokenQueueMobileService;
-        this.accountService = accountService;
-        this.businessCustomerService = businessCustomerService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -560,91 +548,6 @@ public class PurchaseOrderController {
                 "/actionOnOrder",
                 "actionOnOrder",
                 ManageQueueController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
-    @PostMapping(
-        value = "/findCustomer",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
-    )
-    public String findCustomer(
-        @RequestHeader("X-R-DID")
-        ScrubbedInput did,
-
-        @RequestHeader ("X-R-DT")
-        ScrubbedInput dt,
-
-        @RequestHeader ("X-R-MAIL")
-        ScrubbedInput mail,
-
-        @RequestHeader ("X-R-AUTH")
-        ScrubbedInput auth,
-
-        @RequestBody
-        JsonBusinessCustomerLookup businessCustomerLookup,
-
-        HttpServletResponse response
-    ) throws IOException {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.info("Find customer for did={} dt={} mail={}", did, dt, mail);
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/findCustomer")) return null;
-
-        try {
-            if (StringUtils.isBlank(businessCustomerLookup.getCodeQR())) {
-                LOG.warn("Not a valid codeQR={} qid={}", businessCustomerLookup.getCodeQR(), qid);
-                return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(qid, businessCustomerLookup.getCodeQR())) {
-                LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/findCustomer by mail={}", mail);
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-                return null;
-            }
-
-            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(businessCustomerLookup.getCodeQR());
-            if (null == bizStore) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
-                return null;
-            }
-
-            UserProfileEntity userProfile = null;
-            if (StringUtils.isNotBlank(businessCustomerLookup.getCustomerPhone())) {
-                userProfile = accountService.checkUserExistsByPhone(businessCustomerLookup.getCustomerPhone());
-            } else if (StringUtils.isNotBlank(businessCustomerLookup.getBusinessCustomerId())) {
-                userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(
-                    businessCustomerLookup.getBusinessCustomerId(),
-                    bizStore.getBizName().getId());
-            }
-
-            if (null == userProfile) {
-                LOG.info("Failed as no user found with phone={} businessCustomerId={}",
-                    businessCustomerLookup.getCustomerPhone(),
-                    businessCustomerLookup.getBusinessCustomerId());
-
-                Map<String, String> errors = new HashMap<>();
-                errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
-                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), businessCustomerLookup.getCustomerPhone());
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
-                return ErrorEncounteredJson.toJson(errors);
-            }
-
-            return accountMobileService.getProfileAsJson(userProfile.getQueueUserId()).asJson();
-        } catch(AccountNotActiveException e) {
-            LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
-        } catch (Exception e) {
-            LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
-        } finally {
-            apiHealthService.insert(
-                "/findCustomer",
-                "findCustomer",
-                PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
