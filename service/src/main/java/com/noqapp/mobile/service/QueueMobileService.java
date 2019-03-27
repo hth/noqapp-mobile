@@ -6,8 +6,21 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.Validate;
-import com.noqapp.domain.*;
-import com.noqapp.domain.json.*;
+
+import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.BusinessUserEntity;
+import com.noqapp.domain.PurchaseOrderEntity;
+import com.noqapp.domain.QueueEntity;
+import com.noqapp.domain.RegisteredDeviceEntity;
+import com.noqapp.domain.StoreHourEntity;
+import com.noqapp.domain.TokenQueueEntity;
+import com.noqapp.domain.json.JsonPurchaseOrder;
+import com.noqapp.domain.json.JsonQueue;
+import com.noqapp.domain.json.JsonQueueHistoricalList;
+import com.noqapp.domain.json.JsonQueuePersonList;
+import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.json.JsonTokenAndQueue;
+import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.SentimentTypeEnum;
@@ -349,8 +362,13 @@ public class QueueMobileService {
                 LOG.debug("BizStore codeQR={} bizStoreId={}", queue.getCodeQR(), bizStore.getId());
                 JsonPurchaseOrder jsonPurchaseOrder = null;
                 if (StringUtils.isNotBlank(queue.getTransactionId())) {
-                    PurchaseOrderEntity purchaseOrder = purchaseOrderService.findHistoricalPurchaseOrder(queue.getQueueUserId(), queue.getTransactionId());
-                    jsonPurchaseOrder = purchaseOrderService.populateHistoricalJsonPurchaseOrder(purchaseOrder);
+                    PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(queue.getTransactionId());
+                    if (null == purchaseOrder) {
+                        purchaseOrder = purchaseOrderService.findHistoricalPurchaseOrder(queue.getQueueUserId(), queue.getTransactionId());
+                        jsonPurchaseOrder = purchaseOrderService.populateHistoricalJsonPurchaseOrder(purchaseOrder);
+                    } else {
+                        jsonPurchaseOrder = purchaseOrderService.populateJsonPurchaseOrder(purchaseOrder);
+                    }
                 }
                 JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(queue, bizStore, jsonPurchaseOrder);
                 jsonTokenAndQueues.add(jsonTokenAndQueue);
