@@ -1,12 +1,7 @@
 package com.noqapp.mobile.service;
 
-import com.noqapp.domain.BizNameEntity;
-import com.noqapp.domain.BizStoreEntity;
-import com.noqapp.domain.BusinessUserStoreEntity;
-import com.noqapp.domain.ProfessionalProfileEntity;
-import com.noqapp.domain.StoreHourEntity;
-import com.noqapp.domain.TokenQueueEntity;
-import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.*;
+import com.noqapp.domain.annotation.Mobile;
 import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonPurchaseOrder;
@@ -451,7 +446,22 @@ public class TokenQueueMobileService {
 
     public JsonResponse abortQueue(String codeQR, String did, String qid) {
         LOG.info("abortQueue codeQR={} did={} qid={}", codeQR, did, qid);
-        return tokenQueueService.abortQueue(codeQR, qid);
+        QueueEntity queue = queueManager.findToAbort(codeQR, qid);
+        if (queue == null) {
+            LOG.error("Not joined to queue qid={}, ignore abort", qid);
+            return new JsonResponse(false);
+        }
+
+        try {
+            queueManager.abort(queue.getId());
+            if (StringUtils.isNotBlank(queue.getTransactionId())) {
+                purchaseOrderService.cancelOrderByClient(qid, queue.getTransactionId());
+            }
+            return new JsonResponse(true);
+        } catch (Exception e) {
+            LOG.error("Abort failed {}", e.getLocalizedMessage(), e);
+            return new JsonResponse(false);
+        }
     }
 
     public BizService getBizService() {
