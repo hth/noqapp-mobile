@@ -32,6 +32,7 @@ import com.noqapp.repository.StoreHourManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.NLPService;
+import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -76,6 +77,7 @@ public class QueueMobileService {
     private StoreHourManager storeHourManager;
     private QueueService queueService;
     private NLPService nlpService;
+    private PurchaseOrderService purchaseOrderService;
     private WebConnectorService webConnectorService;
     private BusinessUserManager businessUserManager;
     private UserProfileManager userProfileManager;
@@ -95,6 +97,7 @@ public class QueueMobileService {
         BizService bizService,
         DeviceService deviceService,
         NLPService nlpService,
+        PurchaseOrderService purchaseOrderService,
         QueueService queueService,
         TokenQueueMobileService tokenQueueMobileService,
         WebConnectorService webConnectorService
@@ -109,6 +112,7 @@ public class QueueMobileService {
         this.storeHourManager = storeHourManager;
         this.queueService = queueService;
         this.nlpService = nlpService;
+        this.purchaseOrderService = purchaseOrderService;
         this.webConnectorService = webConnectorService;
         this.businessUserManager = businessUserManager;
         this.userProfileManager = userProfileManager;
@@ -116,6 +120,9 @@ public class QueueMobileService {
         this.executorService = newCachedThreadPool();
     }
 
+    /**
+     * Note: Since un-registered user, order will not be supported.
+     */
     public JsonTokenAndQueueList findAllJoinedQueues(String did) {
         if (StringUtils.isBlank(did)) {
             throw new RuntimeException("DID should not be blank");
@@ -140,7 +147,8 @@ public class QueueMobileService {
                 jsonToken.getToken(),
                 null,
                 jsonToken.getQueueStatus(),
-                jsonQueue);
+                jsonQueue,
+                null);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
 
@@ -168,12 +176,18 @@ public class QueueMobileService {
              */
             //JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, qid, queue.getGuardianQid(), 0, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
+            JsonPurchaseOrder jsonPurchaseOrder = null;
+            if (StringUtils.isNotBlank(queue.getTransactionId())) {
+                PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(queue.getTransactionId());
+                jsonPurchaseOrder = purchaseOrderService.populateJsonPurchaseOrder(purchaseOrder);
+            }
 
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
                 queue.getTokenNumber(),
                 queue.getQueueUserId(),
                 tokenQueueMobileService.findByCodeQR(queue.getCodeQR()).getQueueStatus(),
-                jsonQueue);
+                jsonQueue,
+                jsonPurchaseOrder);
             jsonTokenAndQueues.add(jsonTokenAndQueue);
         }
 
@@ -343,7 +357,12 @@ public class QueueMobileService {
                 /* Currently gets all hours for the week. Can be replaced with just the specific day. */
                 bizStore.setStoreHours(bizService.findAllStoreHours(bizStore.getId()));
                 LOG.debug("BizStore codeQR={} bizStoreId={}", queue.getCodeQR(), bizStore.getId());
-                JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(queue, bizStore);
+                JsonPurchaseOrder jsonPurchaseOrder = null;
+                if (StringUtils.isNotBlank(queue.getTransactionId())) {
+                    PurchaseOrderEntity purchaseOrder = purchaseOrderService.findHistoricalPurchaseOrder(queue.getQueueUserId(), queue.getTransactionId());
+                    jsonPurchaseOrder = purchaseOrderService.populateHistoricalJsonPurchaseOrder(purchaseOrder);
+                }
+                JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(queue, bizStore, jsonPurchaseOrder);
                 jsonTokenAndQueues.add(jsonTokenAndQueue);
             } catch (Exception e) {
                 LOG.error("Failed finding bizStore for codeQR={} reason={}", queue.getCodeQR(), e.getLocalizedMessage(), e);
