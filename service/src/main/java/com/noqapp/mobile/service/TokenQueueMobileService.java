@@ -401,7 +401,7 @@ public class TokenQueueMobileService {
         LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
         purchaseOrderService.createOrder(jsonPurchaseOrder, purchaserQid, did, TokenServiceEnum.C);
         jsonToken.setJsonPurchaseOrder(jsonPurchaseOrder);
-        queueManager.updateWithTransactionId(codeQR, purchaserQid, jsonPurchaseOrder.getTransactionId());
+        queueManager.updateWithTransactionId(codeQR, qid, jsonToken.getToken(), jsonPurchaseOrder.getTransactionId());
         return jsonToken;
     }
 
