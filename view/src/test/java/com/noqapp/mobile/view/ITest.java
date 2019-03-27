@@ -537,6 +537,7 @@ public class ITest extends RealMongoForITest {
             bizService,
             deviceService,
             nlpService,
+            purchaseOrderService,
             queueService,
             tokenQueueMobileService,
             webConnectorService
