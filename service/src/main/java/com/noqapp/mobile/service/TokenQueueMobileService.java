@@ -401,7 +401,7 @@ public class TokenQueueMobileService {
         LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
         purchaseOrderService.createOrder(jsonPurchaseOrder, purchaserQid, did, TokenServiceEnum.C);
         jsonToken.setJsonPurchaseOrder(jsonPurchaseOrder);
-        queueManager.updateWithTransactionId(codeQR, purchaserQid, jsonPurchaseOrder.getTransactionId());
+        queueManager.updateWithTransactionId(codeQR, qid, jsonToken.getToken(), jsonPurchaseOrder.getTransactionId());
         return jsonToken;
     }
 
@@ -455,7 +455,7 @@ public class TokenQueueMobileService {
         try {
             queueManager.abort(queue.getId());
             if (StringUtils.isNotBlank(queue.getTransactionId())) {
-                purchaseOrderService.cancelOrderByClient(qid, queue.getTransactionId());
+                purchaseOrderService.cancelOrderByClient(queue.getGuardianQid() == null ? qid : queue.getGuardianQid(), queue.getTransactionId());
             }
             return new JsonResponse(true);
         } catch (Exception e) {
