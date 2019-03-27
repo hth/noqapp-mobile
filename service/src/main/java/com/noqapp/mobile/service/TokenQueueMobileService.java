@@ -4,7 +4,6 @@ import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
-import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -18,13 +17,9 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.InvocationByEnum;
-import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.domain.types.UserLevelEnum;
-import com.noqapp.medical.domain.json.JsonMedicalRadiology;
-import com.noqapp.medical.domain.json.JsonMedicalRadiologyList;
-import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
@@ -409,9 +404,9 @@ public class TokenQueueMobileService {
         JsonToken jsonToken = tokenQueueService.getPaidNextToken(codeQR, did, qid, guardianQid, bizStore.getAverageServiceTime(), TokenServiceEnum.C);
         JsonPurchaseOrder jsonPurchaseOrder = createNewJsonPurchaseOrder(purchaserQid, jsonToken, bizStore);
         LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
-        purchaseOrderService.createOrder(jsonPurchaseOrder, qid, did, TokenServiceEnum.C);
+        purchaseOrderService.createOrder(jsonPurchaseOrder, purchaserQid, did, TokenServiceEnum.C);
         jsonToken.setJsonPurchaseOrder(jsonPurchaseOrder);
-        queueManager.updateWithTransactionId(codeQR, qid, jsonPurchaseOrder.getTransactionId());
+        queueManager.updateWithTransactionId(codeQR, purchaserQid, jsonPurchaseOrder.getTransactionId());
         return jsonToken;
     }
 
@@ -423,7 +418,9 @@ public class TokenQueueMobileService {
     }
 
     public JsonToken updateWhenPaymentSuccessful(String codeQR, String transactionId) {
-        return tokenQueueService.updateJsonToken(codeQR, transactionId);
+        JsonToken jsonToken = tokenQueueService.updateJsonToken(codeQR, transactionId);
+        purchaseOrderService.updatePurchaseOrderWithToken(jsonToken.getToken(), jsonToken.getExpectedServiceBegin(), transactionId);
+        return jsonToken;
     }
 
     private JsonPurchaseOrder createNewJsonPurchaseOrder(String purchaserQid, JsonToken jsonToken, BizStoreEntity bizStore) {
@@ -505,6 +502,6 @@ public class TokenQueueMobileService {
 
     public void deleteReferenceToTransactionId(String codeQR, String transactionId) {
         queueManager.deleteReferenceToTransactionId(codeQR, transactionId);
-        //TODO mark as failed Order by client
+        purchaseOrderService.deleteReferenceToTransactionId(transactionId);
     }
 }
