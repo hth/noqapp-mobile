@@ -498,7 +498,7 @@ public class TokenQueueAPIController {
                 joinQueue.getGuardianQid(),
                 bizStore).asJson();
 
-            LOG.debug("Pay Before Join Response={}", jsonTokenResponse);
+            LOG.info("Pay Before Join Response={}", jsonTokenResponse);
             return jsonTokenResponse;
         } catch (Exception e) {
             LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
@@ -561,7 +561,7 @@ public class TokenQueueAPIController {
                 joinQueue.getGuardianQid(),
                 bizStore).asJson();
 
-            LOG.debug("Skip Pay Before Join Response={}", jsonTokenResponse);
+            LOG.info("Skip Pay Before Join Response={}", jsonTokenResponse);
             return jsonTokenResponse;
         } catch (Exception e) {
             LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
