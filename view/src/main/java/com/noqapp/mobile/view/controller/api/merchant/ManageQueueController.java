@@ -853,6 +853,7 @@ public class ManageQueueController {
 
                 /* Updated with user details. */
                 tokenQueueService.updateQueueWithUserDetail(changeUserInQueue.getCodeQR(), changeUserInQueue.getChangeToQueueUserId(), queue);
+                return queueService.getQueuedPerson(queue.getQueueUserId(), queue.getCodeQR());
             } catch (Exception e) {
                 LOG.error("Failed changing user, reverting {}", e.getLocalizedMessage(), e);
                 if (queue != null) {
@@ -868,7 +869,8 @@ public class ManageQueueController {
                 }
             }
 
-            return queueService.getQueuedPerson(queue.getQueueUserId(), queue.getCodeQR());
+            /* Should not reach here. */
+            throw new RuntimeException("Reached Un-reachable condition");
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
