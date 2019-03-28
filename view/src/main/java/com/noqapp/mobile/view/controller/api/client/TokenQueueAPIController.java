@@ -490,16 +490,16 @@ public class TokenQueueAPIController {
         }
 
         try {
-            LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
-            String jsonTokenResponse =  tokenQueueMobileService.payBeforeJoinQueue(
+            LOG.info("Pay Before codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
+            JsonToken jsonToken =  tokenQueueMobileService.payBeforeJoinQueue(
                 joinQueue.getCodeQR(),
                 did.getText(),
                 joinQueue.getQueueUserId(),
                 joinQueue.getGuardianQid(),
-                bizStore).asJson();
+                bizStore);
 
-            LOG.info("Pay Before Join Response={}", jsonTokenResponse);
-            return jsonTokenResponse;
+            LOG.info("Pay Before Join Response {}", jsonToken.getJsonPurchaseOrder());
+            return jsonToken.asJson();
         } catch (Exception e) {
             LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
@@ -553,16 +553,16 @@ public class TokenQueueAPIController {
         }
 
         try {
-            LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
-            String jsonTokenResponse = tokenQueueMobileService.skipPayBeforeJoinQueue(
+            LOG.info("Skip Pay codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
+            JsonToken jsonToken = tokenQueueMobileService.skipPayBeforeJoinQueue(
                 joinQueue.getCodeQR(),
                 did.getText(),
                 joinQueue.getQueueUserId(),
                 joinQueue.getGuardianQid(),
-                bizStore).asJson();
+                bizStore);
 
-            LOG.info("Skip Pay Before Join Response={}", jsonTokenResponse);
-            return jsonTokenResponse;
+            LOG.info("Skip Pay Before Join Response {}", jsonToken.getJsonPurchaseOrder());
+            return jsonToken.asJson();
         } catch (Exception e) {
             LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
