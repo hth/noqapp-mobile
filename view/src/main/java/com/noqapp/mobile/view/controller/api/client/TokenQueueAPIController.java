@@ -793,6 +793,7 @@ public class TokenQueueAPIController {
         }
     }
 
+    /** Shows purchase order for queue in after join or at any time. */
     @GetMapping(
         value = "/purchaseOrder/{token}/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"

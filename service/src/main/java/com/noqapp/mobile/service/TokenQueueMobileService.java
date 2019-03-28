@@ -18,6 +18,7 @@ import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
+import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
@@ -55,6 +56,7 @@ public class TokenQueueMobileService {
     private BizService bizService;
     private TokenQueueManager tokenQueueManager;
     private QueueManager queueManager;
+    private QueueManagerJDBC queueManagerJDBC;
     private ProfessionalProfileService professionalProfileService;
     private UserProfileManager userProfileManager;
     private BusinessUserStoreManager businessUserStoreManager;
@@ -66,6 +68,7 @@ public class TokenQueueMobileService {
         BizService bizService,
         TokenQueueManager tokenQueueManager,
         QueueManager queueManager,
+        QueueManagerJDBC queueManagerJDBC,
         ProfessionalProfileService professionalProfileService,
         UserProfileManager userProfileManager,
         BusinessUserStoreManager businessUserStoreManager,
@@ -75,6 +78,7 @@ public class TokenQueueMobileService {
         this.bizService = bizService;
         this.tokenQueueManager = tokenQueueManager;
         this.queueManager = queueManager;
+        this.queueManagerJDBC = queueManagerJDBC;
         this.professionalProfileService = professionalProfileService;
         this.userProfileManager = userProfileManager;
         this.businessUserStoreManager = businessUserStoreManager;
@@ -445,11 +449,24 @@ public class TokenQueueMobileService {
     }
 
     public JsonPurchaseOrder findQueueThatHasTransaction(String codeQR, String qid, int token) {
+        boolean historical = false;
         QueueEntity queue = queueManager.findQueueThatHasTransaction(codeQR, qid, token);
-        JsonPurchaseOrder jsonPurchaseOrder = null;
-        if (null != queue) {
-            PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(queue.getTransactionId());
+        if (null == queue) {
+            queue = queueManagerJDBC.findQueueThatHasTransaction(codeQR, qid, token);
+            historical = true;
+        }
+
+        if (queue == null || StringUtils.isBlank(queue.getTransactionId())) {
+            return null;
+        }
+
+        JsonPurchaseOrder jsonPurchaseOrder;
+        if (historical) {
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.findHistoricalPurchaseOrder(qid, queue.getTransactionId());
             jsonPurchaseOrder = purchaseOrderService.populateHistoricalJsonPurchaseOrder(purchaseOrder);
+        } else {
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(queue.getTransactionId());
+            jsonPurchaseOrder = purchaseOrderService.populateJsonPurchaseOrder(purchaseOrder);
         }
 
         LOG.debug("Found purchase order for {} {} {}", codeQR, qid, jsonPurchaseOrder);
