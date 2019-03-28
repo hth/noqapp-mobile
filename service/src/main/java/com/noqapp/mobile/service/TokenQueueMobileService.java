@@ -444,6 +444,18 @@ public class TokenQueueMobileService {
         return joinQueue(codeQR, did, null, null, averageServiceTime, tokenService);
     }
 
+    public JsonPurchaseOrder findQueueThatHasTransaction(String codeQR, String qid, int token) {
+        QueueEntity queue = queueManager.findQueueThatHasTransaction(codeQR, qid, token);
+        JsonPurchaseOrder jsonPurchaseOrder = null;
+        if (null != queue) {
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(queue.getTransactionId());
+            jsonPurchaseOrder = purchaseOrderService.populateHistoricalJsonPurchaseOrder(purchaseOrder);
+        }
+
+        LOG.debug("Found purchase order for {} {} {}", codeQR, qid, jsonPurchaseOrder);
+        return jsonPurchaseOrder;
+    }
+
     public JsonResponse abortQueue(String codeQR, String did, String qid) {
         LOG.info("abortQueue codeQR={} did={} qid={}", codeQR, did, qid);
         QueueEntity queue = queueManager.findToAbort(codeQR, qid);
