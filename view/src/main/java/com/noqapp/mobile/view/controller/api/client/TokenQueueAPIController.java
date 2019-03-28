@@ -793,6 +793,68 @@ public class TokenQueueAPIController {
         }
     }
 
+    @GetMapping(
+        value = "/purchaseOrder/{token}/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String purchaseOrder(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @PathVariable ("token")
+        ScrubbedInput token,
+
+        @PathVariable ("codeQR")
+        ScrubbedInput codeQR,
+
+        HttpServletResponse response
+    ) throws IOException {
+        Instant start = Instant.now();
+        LOG.info("Find purchase order queue did={} dt={} codeQR={} token={}", did, dt, codeQR, token);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        if (!tokenQueueMobileService.getBizService().isValidCodeQR(codeQR.getText())) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+            return null;
+        }
+
+        try {
+            JsonPurchaseOrder jsonPurchaseOrder = tokenQueueMobileService.findQueueThatHasTransaction(codeQR.getText(), qid, Integer.parseInt(token.getText()));
+            if (null == jsonPurchaseOrder) {
+                LOG.warn("No order found for codeQR={} qid={} token={}", codeQR, qid, token);
+                getErrorReason("Could not find any order associated", PURCHASE_ORDER_NOT_FOUND);
+            }
+
+            return jsonPurchaseOrder.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed aborting queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                "/purchaseOrder/{token}/{codeQR}",
+                "purchaseOrder",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/purchaseOrder/{token}/{codeQR}",
+                "purchaseOrder",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
+        }
+    }
+
     /** Abort the queue. App should un-subscribe user from topic. */
     @PostMapping (
         value = "/abort/{codeQR}",
