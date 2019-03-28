@@ -551,12 +551,15 @@ public class TokenQueueAPIController {
 
         try {
             LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
-            return tokenQueueMobileService.skipPayBeforeJoinQueue(
+            String jsonTokenResponse = tokenQueueMobileService.skipPayBeforeJoinQueue(
                 joinQueue.getCodeQR(),
                 did.getText(),
                 joinQueue.getQueueUserId(),
                 joinQueue.getGuardianQid(),
                 bizStore).asJson();
+
+            LOG.debug("Skip Pay Before Join Response={}", jsonTokenResponse);
+            return jsonTokenResponse;
         } catch (Exception e) {
             LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
