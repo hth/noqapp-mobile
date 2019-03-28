@@ -18,6 +18,7 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonBusinessCustomer;
 import com.noqapp.domain.json.JsonBusinessCustomerLookup;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
@@ -699,7 +700,7 @@ public class ManageQueueController {
         ScrubbedInput auth,
 
         @RequestBody
-        JsonBusinessCustomerLookup businessCustomerLookup,
+        JsonBusinessCustomer businessCustomer,
 
         HttpServletResponse response
     ) throws IOException {
@@ -714,38 +715,41 @@ public class ManageQueueController {
         }
 
         try {
-            if (StringUtils.isBlank(businessCustomerLookup.getCodeQR())) {
-                LOG.warn("Not a valid codeQR={} qid={}", businessCustomerLookup.getCodeQR(), qid);
+            if (StringUtils.isBlank(businessCustomer.getCodeQR())) {
+                LOG.warn("Not a valid codeQR={} qid={}", businessCustomer.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(qid, businessCustomerLookup.getCodeQR())) {
+            } else if (!businessUserStoreService.hasAccess(qid, businessCustomer.getCodeQR())) {
                 LOG.info("Un-authorized store access to /api/m/mq/dispenseToken by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
 
-            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(businessCustomerLookup.getCodeQR());
+            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(businessCustomer.getCodeQR());
             if (null == bizStore) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
                 return null;
             }
 
             UserProfileEntity userProfile = null;
-            if (StringUtils.isNotBlank(businessCustomerLookup.getCustomerPhone())) {
-                userProfile = accountService.checkUserExistsByPhone(businessCustomerLookup.getCustomerPhone());
-            } else if (StringUtils.isNotBlank(businessCustomerLookup.getBusinessCustomerId())) {
-                userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(
-                    businessCustomerLookup.getBusinessCustomerId(),
-                    bizStore.getBizName().getId());
+            if (StringUtils.isNotBlank(businessCustomer.getCustomerPhone())) {
+                userProfile = accountService.checkUserExistsByPhone(businessCustomer.getCustomerPhone());
+                if (!userProfile.getQueueUserId().equalsIgnoreCase(businessCustomer.getQueueUserId())) {
+                    if (userProfile.getQidOfDependents().contains(businessCustomer.getQueueUserId())) {
+                        userProfile = accountService.findProfileByQueueUserId(businessCustomer.getQueueUserId());
+                    } else {
+                        userProfile = null;
+                    }
+                }
             }
 
             if (null == userProfile) {
                 LOG.info("Failed joining queue as no user found with phone={} businessCustomerId={}",
-                    businessCustomerLookup.getCustomerPhone(),
-                    businessCustomerLookup.getBusinessCustomerId());
+                    businessCustomer.getCustomerPhone(),
+                    businessCustomer.getBusinessCustomerId());
 
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
-                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), businessCustomerLookup.getCustomerPhone());
+                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), businessCustomer.getCustomerPhone());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
                 return ErrorEncounteredJson.toJson(errors);
@@ -757,7 +761,7 @@ public class ManageQueueController {
             }
 
             return tokenQueueMobileService.joinQueue(
-                businessCustomerLookup.getCodeQR(),
+                businessCustomer.getCodeQR(),
                 CommonUtil.appendRandomToDeviceId(did.getText()),
                 userProfile.getQueueUserId(),
                 guardianQid,
