@@ -10,6 +10,7 @@ import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.json.payment.cashfree.JsonResponseWithCFToken;
 import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.InvocationByEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
@@ -420,6 +421,23 @@ public class TokenQueueMobileService {
         JsonToken jsonToken = tokenQueueService.updateJsonToken(codeQR, transactionId);
         purchaseOrderService.updatePurchaseOrderWithToken(jsonToken.getToken(), jsonToken.getExpectedServiceBegin(), transactionId);
         return jsonToken;
+    }
+
+    public JsonResponseWithCFToken createTokenForPaymentGateway(String qid, String codeQR, String transactionId) {
+        QueueEntity queue = queueManager.findByTransactionId(codeQR, transactionId);
+        String purchaserQid = StringUtils.isBlank(queue.getGuardianQid()) ? queue.getQueueUserId() : queue.getGuardianQid();
+        if (!qid.equalsIgnoreCase(purchaserQid)) {
+            LOG.error("Something is not right for {} {} {}", qid, codeQR, transactionId);
+            return null;
+        }
+
+        PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(transactionId);
+        if (purchaseOrder.getQueueUserId().equalsIgnoreCase(qid)) {
+            return purchaseOrderService.createTokenForPurchaseOrder(purchaseOrder.orderPriceForTransaction(), purchaseOrder.getTransactionId());
+        }
+
+        LOG.error("Purchase Order qid mis-match for {} {} {}", qid, codeQR, transactionId);
+        return null;
     }
 
     private JsonPurchaseOrder createNewJsonPurchaseOrder(String purchaserQid, JsonToken jsonToken, BizStoreEntity bizStore) {

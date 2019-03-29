@@ -19,6 +19,7 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
+import com.noqapp.domain.json.payment.cashfree.JsonResponseWithCFToken;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.PaymentModeEnum;
@@ -733,6 +734,68 @@ public class TokenQueueAPIController {
             apiHealthService.insert(
                 "/cf/notify",
                 "cashfreeNotify",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping(
+        value = "/paymentInitiate",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String paymentInitiate(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonToken jsonToken,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Gateway token for initiating payment transaction through gateway from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/c/token/paymentInitiate by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            if (StringUtils.isBlank(jsonToken.getJsonPurchaseOrder().getTransactionId())) {
+                return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
+            }
+
+            if (tokenQueueMobileService.getBizService().isValidCodeQR(jsonToken.getCodeQR())) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
+                return null;
+            }
+
+            JsonResponseWithCFToken jsonResponseWithCFToken = tokenQueueMobileService.createTokenForPaymentGateway(qid, jsonToken.getCodeQR(), jsonToken.getJsonPurchaseOrder().getTransactionId());
+            if (null == jsonResponseWithCFToken) {
+                return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
+            }
+
+            return jsonResponseWithCFToken.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed gateway token for payment reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/paymentInitiate",
+                "paymentInitiate",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
