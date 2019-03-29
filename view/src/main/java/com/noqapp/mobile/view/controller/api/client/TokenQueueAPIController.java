@@ -777,7 +777,7 @@ public class TokenQueueAPIController {
                 return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
             }
 
-            if (tokenQueueMobileService.getBizService().isValidCodeQR(jsonPurchaseOrder.getCodeQR())) {
+            if (!tokenQueueMobileService.getBizService().isValidCodeQR(jsonPurchaseOrder.getCodeQR())) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
                 return null;
             }
