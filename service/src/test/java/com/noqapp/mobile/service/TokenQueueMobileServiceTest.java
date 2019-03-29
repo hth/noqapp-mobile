@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
+import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
@@ -27,6 +28,7 @@ class TokenQueueMobileServiceTest {
     @Mock private TokenQueueService tokenQueueService;
     @Mock private TokenQueueManager tokenQueueManager;
     @Mock private QueueManager queueManager;
+    @Mock private QueueManagerJDBC queueManagerJDBC;
     @Mock private ProfessionalProfileService professionalProfileService;
     @Mock private UserProfileManager userProfileManager;
     @Mock private BusinessUserStoreManager businessUserStoreManager;
@@ -42,6 +44,7 @@ class TokenQueueMobileServiceTest {
             bizService,
             tokenQueueManager,
             queueManager,
+            queueManagerJDBC,
             professionalProfileService,
             userProfileManager,
             businessUserStoreManager,
