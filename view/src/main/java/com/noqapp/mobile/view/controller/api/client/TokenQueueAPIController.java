@@ -758,7 +758,7 @@ public class TokenQueueAPIController {
         ScrubbedInput auth,
 
         @RequestBody
-        JsonToken jsonToken,
+        JsonPurchaseOrder jsonPurchaseOrder,
 
         HttpServletResponse response
     ) throws IOException {
@@ -773,16 +773,16 @@ public class TokenQueueAPIController {
         }
 
         try {
-            if (StringUtils.isBlank(jsonToken.getJsonPurchaseOrder().getTransactionId())) {
+            if (StringUtils.isBlank(jsonPurchaseOrder.getTransactionId())) {
                 return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
             }
 
-            if (tokenQueueMobileService.getBizService().isValidCodeQR(jsonToken.getCodeQR())) {
+            if (tokenQueueMobileService.getBizService().isValidCodeQR(jsonPurchaseOrder.getCodeQR())) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
                 return null;
             }
 
-            JsonResponseWithCFToken jsonResponseWithCFToken = tokenQueueMobileService.createTokenForPaymentGateway(qid, jsonToken.getCodeQR(), jsonToken.getJsonPurchaseOrder().getTransactionId());
+            JsonResponseWithCFToken jsonResponseWithCFToken = tokenQueueMobileService.createTokenForPaymentGateway(qid, jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId());
             if (null == jsonResponseWithCFToken) {
                 return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
             }
