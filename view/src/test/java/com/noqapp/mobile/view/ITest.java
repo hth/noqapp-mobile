@@ -449,7 +449,9 @@ public class ITest extends RealMongoForITest {
             queueManagerJDBC,
             tokenQueueService,
             businessUserStoreManager,
-            statsBizStoreDailyManager
+            statsBizStoreDailyManager,
+            purchaseOrderManager,
+            purchaseOrderProductManager
         );
 
         bizService = new BizService(
@@ -512,6 +514,7 @@ public class ITest extends RealMongoForITest {
             bizService,
             tokenQueueManager,
             queueManager,
+            queueManagerJDBC,
             professionalProfileService,
             userProfileManager,
             businessUserStoreManager,
