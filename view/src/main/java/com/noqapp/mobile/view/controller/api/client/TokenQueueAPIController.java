@@ -777,10 +777,10 @@ public class TokenQueueAPIController {
                 return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
             }
 
-//            if (tokenQueueMobileService.getBizService().isValidCodeQR(jsonPurchaseOrder.getCodeQR())) {
-//                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
-//                return null;
-//            }
+            if (!tokenQueueMobileService.getBizService().isValidCodeQR(jsonPurchaseOrder.getCodeQR())) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
+                return null;
+            }
 
             JsonResponseWithCFToken jsonResponseWithCFToken = tokenQueueMobileService.createTokenForPaymentGateway(qid, jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId());
             if (null == jsonResponseWithCFToken) {

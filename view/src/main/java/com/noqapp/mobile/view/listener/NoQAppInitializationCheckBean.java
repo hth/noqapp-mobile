@@ -42,13 +42,14 @@ import javax.sql.DataSource;
 public class NoQAppInitializationCheckBean {
     private static final Logger LOG = LoggerFactory.getLogger(NoQAppInitializationCheckBean.class);
 
-    private Environment environment;
     private DataSource dataSource;
     private FirebaseConfig firebaseConfig;
     private RestHighLevelClient restHighLevelClient;
     private ElasticAdministrationService elasticAdministrationService;
     private DatabaseReader databaseReader;
     private PaymentGatewayService paymentGatewayService;
+
+    private String buildEnvironment;
 
     @Autowired
     public NoQAppInitializationCheckBean(
@@ -60,7 +61,8 @@ public class NoQAppInitializationCheckBean {
         DatabaseReader databaseReader,
         PaymentGatewayService paymentGatewayService
     ) {
-        this.environment = environment;
+        this.buildEnvironment = environment.getProperty("build.env");
+
         this.dataSource = dataSource;
         this.firebaseConfig = firebaseConfig;
         this.restHighLevelClient = restHighLevelClient;
@@ -130,8 +132,8 @@ public class NoQAppInitializationCheckBean {
 
     @PostConstruct
     public void checkPaymentGateway() {
-//        boolean cashfreeSuccess = paymentGatewayService.verifyCashfree();
-        if (!true) {
+        boolean cashfreeSuccess = paymentGatewayService.verifyCashfree();
+        if (!cashfreeSuccess && buildEnvironment.equalsIgnoreCase("prod")) {
             LOG.error("Cashfree Payment Gateway could not be verified");
             throw new RuntimeException("Cashfree Payment Gateway could not be verified");
         }
@@ -139,7 +141,7 @@ public class NoQAppInitializationCheckBean {
 
     @PreDestroy
     public void applicationDestroy() {
-        LOG.info("Stopping Mobile Server for environment={}", environment.getProperty("build.env"));
+        LOG.info("Stopping Mobile Server for environment={}", buildEnvironment);
         LOG.info("****************** STOPPED ******************");
     }
 }
