@@ -932,8 +932,12 @@ public class ManageQueueController {
         }
 
         try {
-            JsonPurchaseOrder jsonPurchaseOrder = purchaseOrderService.counterPayment(jsonQueuedPerson.getJsonPurchaseOrder(), qid);
             QueueEntity queue = queueService.findQueuedOneByQid(jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getQueueUserId());
+            if (null == queue) {
+                LOG.error("Not found queue for {} {}", jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getQueueUserId());
+                return jsonQueuedPerson.asJson();
+            }
+            JsonPurchaseOrder jsonPurchaseOrder = purchaseOrderService.counterPayment(jsonQueuedPerson.getJsonPurchaseOrder(), qid);
             JsonQueuedPerson jsonQueuedPersonUpdated = queueService.getJsonQueuedPerson(queue);
             jsonQueuedPersonUpdated.setJsonPurchaseOrder(jsonPurchaseOrder);
             LOG.info("Order counter payment updated successfully={}", jsonPurchaseOrder);
