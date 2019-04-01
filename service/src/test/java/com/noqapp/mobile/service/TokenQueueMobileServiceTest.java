@@ -11,6 +11,7 @@ import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.ProfessionalProfileService;
+import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 
@@ -33,6 +34,7 @@ class TokenQueueMobileServiceTest {
     @Mock private UserProfileManager userProfileManager;
     @Mock private BusinessUserStoreManager businessUserStoreManager;
     @Mock private PurchaseOrderService purchaseOrderService;
+    @Mock private PurchaseOrderProductService purchaseOrderProductService;
 
     private TokenQueueMobileService tokenQueueMobileService;
 
@@ -48,7 +50,8 @@ class TokenQueueMobileServiceTest {
             professionalProfileService,
             userProfileManager,
             businessUserStoreManager,
-            purchaseOrderService);
+            purchaseOrderService,
+            purchaseOrderProductService);
     }
 
     @Test

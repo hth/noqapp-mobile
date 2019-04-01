@@ -35,6 +35,7 @@ import com.noqapp.repository.StoreHourManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.NLPService;
+import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 
@@ -84,6 +85,7 @@ public class QueueMobileService {
     private WebConnectorService webConnectorService;
     private BusinessUserManager businessUserManager;
     private UserProfileManager userProfileManager;
+    private PurchaseOrderProductService purchaseOrderProductService;
 
     private ExecutorService executorService;
 
@@ -101,6 +103,7 @@ public class QueueMobileService {
         DeviceService deviceService,
         NLPService nlpService,
         PurchaseOrderService purchaseOrderService,
+        PurchaseOrderProductService purchaseOrderProductService,
         QueueService queueService,
         TokenQueueMobileService tokenQueueMobileService,
         WebConnectorService webConnectorService
@@ -116,6 +119,7 @@ public class QueueMobileService {
         this.queueService = queueService;
         this.nlpService = nlpService;
         this.purchaseOrderService = purchaseOrderService;
+        this.purchaseOrderProductService = purchaseOrderProductService;
         this.webConnectorService = webConnectorService;
         this.businessUserManager = businessUserManager;
         this.userProfileManager = userProfileManager;
@@ -182,7 +186,7 @@ public class QueueMobileService {
             JsonPurchaseOrder jsonPurchaseOrder = null;
             if (StringUtils.isNotBlank(queue.getTransactionId())) {
                 PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(queue.getTransactionId());
-                jsonPurchaseOrder = purchaseOrderService.populateJsonPurchaseOrder(purchaseOrder);
+                jsonPurchaseOrder = purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder);
             }
 
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
@@ -365,9 +369,9 @@ public class QueueMobileService {
                     PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(queue.getTransactionId());
                     if (null == purchaseOrder) {
                         purchaseOrder = purchaseOrderService.findHistoricalPurchaseOrder(queue.getQueueUserId(), queue.getTransactionId());
-                        jsonPurchaseOrder = purchaseOrderService.populateHistoricalJsonPurchaseOrder(purchaseOrder);
+                        jsonPurchaseOrder = purchaseOrderProductService.populateHistoricalJsonPurchaseOrder(purchaseOrder);
                     } else {
-                        jsonPurchaseOrder = purchaseOrderService.populateJsonPurchaseOrder(purchaseOrder);
+                        jsonPurchaseOrder = purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder);
                     }
                 }
                 JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(queue, bizStore, jsonPurchaseOrder);
