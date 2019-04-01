@@ -141,6 +141,7 @@ import com.noqapp.service.MailService;
 import com.noqapp.service.NLPService;
 import com.noqapp.service.PreferredBusinessService;
 import com.noqapp.service.ProfessionalProfileService;
+import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.ReviewService;
@@ -217,6 +218,7 @@ public class ITest extends RealMongoForITest {
     protected PurchaseOrderManager purchaseOrderManager;
     protected PurchaseOrderProductManager purchaseOrderProductManager;
     protected PurchaseOrderService purchaseOrderService;
+    protected PurchaseOrderProductService purchaseOrderProductService;
     protected PurchaseOrderMobileService purchaseOrderMobileService;
     protected FileService fileService;
     protected S3FileManager s3FileManager;
@@ -417,6 +419,8 @@ public class ITest extends RealMongoForITest {
             queueManager
         );
 
+        purchaseOrderProductService = new PurchaseOrderProductService(purchaseOrderProductManager, purchaseOrderProductManagerJDBC);
+
         tokenQueueService = new TokenQueueService(
             tokenQueueManager,
             firebaseMessageService,
@@ -451,7 +455,9 @@ public class ITest extends RealMongoForITest {
             businessUserStoreManager,
             statsBizStoreDailyManager,
             purchaseOrderManager,
-            purchaseOrderProductManager
+            purchaseOrderProductManager,
+            purchaseOrderManagerJDBC,
+            purchaseOrderProductService
         );
 
         bizService = new BizService(
@@ -505,7 +511,8 @@ public class ITest extends RealMongoForITest {
             transactionService,
             nlpService,
             mailService,
-            cashfreeService
+            cashfreeService,
+            purchaseOrderProductService
         );
         purchaseOrderMobileService = new PurchaseOrderMobileService(purchaseOrderService);
 
@@ -518,7 +525,8 @@ public class ITest extends RealMongoForITest {
             professionalProfileService,
             userProfileManager,
             businessUserStoreManager,
-            purchaseOrderService);
+            purchaseOrderService,
+            purchaseOrderProductService);
 
         storeDetailService = new StoreDetailService(bizService, tokenQueueMobileService, storeProductService, storeCategoryService);
         bizStoreElasticManager = new BizStoreElasticManagerImpl(restHighLevelClient);
@@ -541,6 +549,7 @@ public class ITest extends RealMongoForITest {
             deviceService,
             nlpService,
             purchaseOrderService,
+            purchaseOrderProductService,
             queueService,
             tokenQueueMobileService,
             webConnectorService

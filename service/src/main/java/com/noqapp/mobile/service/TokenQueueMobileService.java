@@ -27,6 +27,7 @@ import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.service.BizService;
 import com.noqapp.service.ProfessionalProfileService;
+import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 
@@ -62,6 +63,7 @@ public class TokenQueueMobileService {
     private UserProfileManager userProfileManager;
     private BusinessUserStoreManager businessUserStoreManager;
     private PurchaseOrderService purchaseOrderService;
+    private PurchaseOrderProductService purchaseOrderProductService;
 
     @Autowired
     public TokenQueueMobileService(
@@ -73,7 +75,8 @@ public class TokenQueueMobileService {
         ProfessionalProfileService professionalProfileService,
         UserProfileManager userProfileManager,
         BusinessUserStoreManager businessUserStoreManager,
-        PurchaseOrderService purchaseOrderService
+        PurchaseOrderService purchaseOrderService,
+        PurchaseOrderProductService purchaseOrderProductService
     ) {
         this.tokenQueueService = tokenQueueService;
         this.bizService = bizService;
@@ -84,6 +87,7 @@ public class TokenQueueMobileService {
         this.userProfileManager = userProfileManager;
         this.businessUserStoreManager = businessUserStoreManager;
         this.purchaseOrderService = purchaseOrderService;
+        this.purchaseOrderProductService = purchaseOrderProductService;
     }
 
     public JsonQueue findTokenState(String codeQR) {
@@ -481,10 +485,10 @@ public class TokenQueueMobileService {
         JsonPurchaseOrder jsonPurchaseOrder;
         if (historical) {
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.findHistoricalPurchaseOrder(qid, queue.getTransactionId());
-            jsonPurchaseOrder = purchaseOrderService.populateHistoricalJsonPurchaseOrder(purchaseOrder);
+            jsonPurchaseOrder = purchaseOrderProductService.populateHistoricalJsonPurchaseOrder(purchaseOrder);
         } else {
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(queue.getTransactionId());
-            jsonPurchaseOrder = purchaseOrderService.populateJsonPurchaseOrder(purchaseOrder);
+            jsonPurchaseOrder = purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder);
         }
 
         LOG.debug("Found purchase order for {} {} {}", codeQR, qid, jsonPurchaseOrder);
