@@ -932,7 +932,7 @@ public class ManageQueueController {
         }
 
         try {
-            QueueEntity queue = queueService.findQueuedOneByQid(jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getQueueUserId());
+            QueueEntity queue = queueService.findByTransactionId(jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getQueueUserId());
             if (null == queue) {
                 LOG.error("Not found queue for {} {}", jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getQueueUserId());
                 return jsonQueuedPerson.asJson();
