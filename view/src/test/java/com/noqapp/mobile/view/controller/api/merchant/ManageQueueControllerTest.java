@@ -35,6 +35,8 @@ import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.PurchaseOrderProductService;
+import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
 
@@ -79,10 +81,9 @@ class ManageQueueControllerTest {
     @Mock private ApiHealthService apiHealthService;
     @Mock private BizService bizService;
     @Mock private AccountService accountService;
-    @Mock private BusinessCustomerService businessCustomerService;
-    @Mock private ScheduledTaskManager scheduledTaskManager;
     @Mock private TokenQueueMobileService tokenQueueMobileService;
     @Mock private MedicalRecordService medicalRecordService;
+    @Mock private PurchaseOrderService purchaseOrderService;
 
     @Mock private HttpServletResponse response;
 
@@ -104,7 +105,7 @@ class ManageQueueControllerTest {
                 tokenQueueService,
                 tokenQueueMobileService,
                 accountService,
-                businessCustomerService,
+                purchaseOrderService,
                 medicalRecordService,
                 apiHealthService);
 
