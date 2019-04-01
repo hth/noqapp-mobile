@@ -923,10 +923,10 @@ public class ManageQueueController {
         Instant start = Instant.now();
         LOG.info("Purchase Order Cash Payment API for did={} dt={}", did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/counterPayment")) return null;
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/mq/counterPayment")) return null;
 
         if (!businessUserStoreService.hasAccess(qid, jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR())) {
-            LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/counterPayment by mail={}", mail);
+            LOG.info("Un-authorized store access to /api/m/mq/counterPayment by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
