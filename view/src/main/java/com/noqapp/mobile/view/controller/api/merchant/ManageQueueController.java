@@ -6,9 +6,11 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.CHANGE_USE
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ORDER_PAYMENT_UPDATE_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_ALREADY_IN_QUEUE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
+import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.CommonUtil;
@@ -20,6 +22,9 @@ import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonBusinessCustomer;
 import com.noqapp.domain.json.JsonBusinessCustomerLookup;
+import com.noqapp.domain.json.JsonPurchaseOrder;
+import com.noqapp.domain.json.JsonQueue;
+import com.noqapp.domain.json.JsonQueuedPerson;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
@@ -37,9 +42,11 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
 
@@ -94,7 +101,7 @@ public class ManageQueueController {
     private TokenQueueService tokenQueueService;
     private TokenQueueMobileService tokenQueueMobileService;
     private AccountService accountService;
-    private BusinessCustomerService businessCustomerService;
+    private PurchaseOrderService purchaseOrderService;
     private MedicalRecordService medicalRecordService;
     private ApiHealthService apiHealthService;
 
@@ -110,7 +117,7 @@ public class ManageQueueController {
         TokenQueueService tokenQueueService,
         TokenQueueMobileService tokenQueueMobileService,
         AccountService accountService,
-        BusinessCustomerService businessCustomerService,
+        PurchaseOrderService purchaseOrderService,
         MedicalRecordService medicalRecordService,
         ApiHealthService apiHealthService
     ) {
@@ -122,7 +129,7 @@ public class ManageQueueController {
         this.tokenQueueService = tokenQueueService;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.accountService = accountService;
-        this.businessCustomerService = businessCustomerService;
+        this.purchaseOrderService = purchaseOrderService;
         this.medicalRecordService = medicalRecordService;
         this.apiHealthService = apiHealthService;
     }
@@ -884,6 +891,62 @@ public class ManageQueueController {
                 "/dispenseToken",
                 "dispenseTokenWithClientInfo",
                 ManageQueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** When payment is performed at counter via external means. */
+    @PostMapping(
+        value = "/counterPayment",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String counterPayment(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonQueuedPerson jsonQueuedPerson,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Purchase Order Cash Payment API for did={} dt={}", did, dt);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/counterPayment")) return null;
+
+        if (!businessUserStoreService.hasAccess(qid, jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR())) {
+            LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/counterPayment by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            JsonPurchaseOrder jsonPurchaseOrder = purchaseOrderService.counterPayment(jsonQueuedPerson.getJsonPurchaseOrder(), qid);
+            QueueEntity queue = queueService.findQueuedOneByQid(jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getQueueUserId());
+            JsonQueuedPerson jsonQueuedPersonUpdated = queueService.getJsonQueuedPerson(queue);
+            jsonQueuedPersonUpdated.setJsonPurchaseOrder(jsonPurchaseOrder);
+            LOG.info("Order counter payment updated successfully={}", jsonPurchaseOrder);
+            return jsonQueuedPersonUpdated.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed processing cash payment on order reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Failed Updating Order Payment", ORDER_PAYMENT_UPDATE_FAILED);
+        } finally {
+            apiHealthService.insert(
+                "/counterPayment",
+                "counterPayment",
+                PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
