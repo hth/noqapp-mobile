@@ -21,6 +21,7 @@ import com.noqapp.domain.json.payment.cashfree.JsonResponseWithCFToken;
 import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.InvocationByEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
+import com.noqapp.domain.types.SkipPaymentGatewayEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
@@ -424,12 +425,19 @@ public class TokenQueueMobileService {
         } else {
             LOG.info("Found exists purchaseOrder with transactionId={}", purchaseOrder.getTransactionId());
             jsonPurchaseOrder = new JsonPurchaseOrder(purchaseOrder);
+            JsonResponseWithCFToken jsonResponseWithCFToken = new JsonResponseWithCFToken()
+                .setSkipPaymentGateway(SkipPaymentGatewayEnum.YES);
+            jsonPurchaseOrder.setJsonResponseWithCFToken(jsonResponseWithCFToken);
         }
         jsonToken.setJsonPurchaseOrder(jsonPurchaseOrder);
         return jsonToken;
     }
 
-    /** Invoke by client and hence has a token service as Client. */
+    /**
+     * Invoke by client and hence has a token service as Client.
+     * Note: When client skips, the state is VB (Valid before purchase). PO when Paid. After skip, if client make a Paid API request, server
+     * sends VB then client is trying to pay when its should skip. Hence send SKIP CFToken.
+     */
     public JsonToken skipPayBeforeJoinQueue(String codeQR, String did, String qid, String guardianQid, BizStoreEntity bizStore) {
         JsonToken jsonToken = payBeforeJoinQueue(codeQR, did, qid, guardianQid, bizStore);
 
