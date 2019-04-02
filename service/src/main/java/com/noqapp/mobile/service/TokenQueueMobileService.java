@@ -1,7 +1,14 @@
 package com.noqapp.mobile.service;
 
-import com.noqapp.domain.*;
-import com.noqapp.domain.annotation.Mobile;
+import com.noqapp.domain.BizNameEntity;
+import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.BusinessUserStoreEntity;
+import com.noqapp.domain.ProfessionalProfileEntity;
+import com.noqapp.domain.PurchaseOrderEntity;
+import com.noqapp.domain.QueueEntity;
+import com.noqapp.domain.StoreHourEntity;
+import com.noqapp.domain.TokenQueueEntity;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonPurchaseOrder;
@@ -406,10 +413,19 @@ public class TokenQueueMobileService {
         String purchaserQid = StringUtils.isBlank(guardianQid) ? qid : guardianQid;
 
         JsonToken jsonToken = tokenQueueService.getPaidNextToken(codeQR, did, qid, guardianQid, bizStore.getAverageServiceTime(), TokenServiceEnum.C);
-        JsonPurchaseOrder jsonPurchaseOrder = createNewJsonPurchaseOrder(purchaserQid, jsonToken, bizStore);
-        LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
-        purchaseOrderService.createOrder(jsonPurchaseOrder, purchaserQid, did, TokenServiceEnum.C);
+
+        JsonPurchaseOrder jsonPurchaseOrder;
+        PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(jsonToken.getTransactionId());
+        if (null == purchaseOrder) {
+            jsonPurchaseOrder = createNewJsonPurchaseOrder(purchaserQid, jsonToken, bizStore);
+            LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
+            purchaseOrderService.createOrder(jsonPurchaseOrder, purchaserQid, did, TokenServiceEnum.C);
+        } else {
+            LOG.info("Found exists purchaseOrder with transactionId={}", purchaseOrder.getTransactionId());
+            jsonPurchaseOrder = new JsonPurchaseOrder(purchaseOrder);
+        }
         jsonToken.setJsonPurchaseOrder(jsonPurchaseOrder);
+
         queueManager.updateWithTransactionId(codeQR, qid, jsonToken.getToken(), jsonPurchaseOrder.getTransactionId());
         return jsonToken;
     }
