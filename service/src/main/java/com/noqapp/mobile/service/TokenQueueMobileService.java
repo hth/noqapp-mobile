@@ -432,8 +432,12 @@ public class TokenQueueMobileService {
     /** Invoke by client and hence has a token service as Client. */
     public JsonToken skipPayBeforeJoinQueue(String codeQR, String did, String qid, String guardianQid, BizStoreEntity bizStore) {
         JsonToken jsonToken = payBeforeJoinQueue(codeQR, did, qid, guardianQid, bizStore);
-        return updateWhenPaymentSuccessful(codeQR, jsonToken.getJsonPurchaseOrder().getTransactionId())
-            .setJsonPurchaseOrder(jsonToken.getJsonPurchaseOrder());
+
+        if (!purchaseOrderService.existsTransactionId(jsonToken.getTransactionId())) {
+            return updateWhenPaymentSuccessful(codeQR, jsonToken.getJsonPurchaseOrder().getTransactionId())
+                .setJsonPurchaseOrder(jsonToken.getJsonPurchaseOrder());
+        }
+        return jsonToken;
     }
 
     public JsonToken updateWhenPaymentSuccessful(String codeQR, String transactionId) {
