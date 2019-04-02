@@ -420,13 +420,12 @@ public class TokenQueueMobileService {
             jsonPurchaseOrder = createNewJsonPurchaseOrder(purchaserQid, jsonToken, bizStore);
             LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
             purchaseOrderService.createOrder(jsonPurchaseOrder, purchaserQid, did, TokenServiceEnum.C);
+            queueManager.updateWithTransactionId(codeQR, qid, jsonToken.getToken(), jsonPurchaseOrder.getTransactionId());
         } else {
             LOG.info("Found exists purchaseOrder with transactionId={}", purchaseOrder.getTransactionId());
             jsonPurchaseOrder = new JsonPurchaseOrder(purchaseOrder);
         }
         jsonToken.setJsonPurchaseOrder(jsonPurchaseOrder);
-
-        queueManager.updateWithTransactionId(codeQR, qid, jsonToken.getToken(), jsonPurchaseOrder.getTransactionId());
         return jsonToken;
     }
 
