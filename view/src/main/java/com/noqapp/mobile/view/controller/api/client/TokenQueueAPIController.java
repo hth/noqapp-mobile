@@ -98,16 +98,7 @@ public class TokenQueueAPIController {
         this.apiHealthService = apiHealthService;
     }
 
-    /**
-     * Get state of queue at the store.
-     *
-     * @param did
-     * @param deviceType
-     * @param codeQR
-     * @param response
-     * @return
-     * @throws IOException
-     */
+    /** Get state of queue at the store. */
     @GetMapping(
             value = "/{codeQR}",
             produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
