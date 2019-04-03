@@ -44,7 +44,7 @@
 
     <logger name="org.springframework" level="WARN" />
     <logger name="org.springframework.data.mongodb" level="WARN" />
-    <logger name="org.springframework.jdbc.core.JdbcTemplate" level="OFF" />
+    <logger name="org.springframework.jdbc.core.JdbcTemplate" level="TRACE" />
 
     <logger name="org.elasticsearch.client" level="WARN" />
     <logger name="okhttp3" level="WARN" />
