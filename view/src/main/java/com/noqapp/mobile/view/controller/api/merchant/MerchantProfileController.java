@@ -9,11 +9,14 @@ import static com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE.*;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonReview;
+import com.noqapp.domain.json.JsonReviewBucket;
+import com.noqapp.domain.json.JsonReviewList;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
@@ -56,12 +59,15 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -415,7 +421,7 @@ public class MerchantProfileController {
     }
 
     @GetMapping(
-        value = "/reviews/{codeQR}",
+        value = "/reviews",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String reviews(
@@ -431,9 +437,6 @@ public class MerchantProfileController {
         @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
-        @PathVariable("codeQR")
-        ScrubbedInput codeQR,
-
         HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
@@ -447,21 +450,21 @@ public class MerchantProfileController {
         }
 
         try {
-            if (!businessUserStoreService.hasAccessWithUserLevel(qid, codeQR.getText(), UserLevelEnum.S_MANAGER)) {
-                LOG.warn("Un-authorized access to /api/m/profile/reviews/${codeQR} by mail={}", mail);
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-                return null;
+            JsonReviewBucket jsonReviewBucket = new JsonReviewBucket();
+            List<BusinessUserStoreEntity> businessUserStores = businessUserStoreService.findAllStoreQueueAssociated(qid);
+            for (BusinessUserStoreEntity businessUserStore : businessUserStores) {
+                if (businessUserStore.getUserLevel() == UserLevelEnum.S_MANAGER) {
+                    BizStoreEntity bizStore = bizService.findByCodeQR(businessUserStore.getCodeQR());
+                    switch (bizStore.getBusinessType().getMessageOrigin()) {
+                        case O:
+                            jsonReviewBucket.addJsonReviewList(reviewService.findOrderReviews(businessUserStore.getCodeQR()));
+                        case Q:
+                            jsonReviewBucket.addJsonReviewList(reviewService.findQueueReviews(businessUserStore.getCodeQR()));
+                    }
+                }
             }
 
-            BizStoreEntity bizStore = bizService.findByCodeQR(codeQR.getText());
-            switch (bizStore.getBusinessType().getMessageOrigin()) {
-                case O:
-                    return reviewService.findOrderReviews(codeQR.getText()).asJson();
-                case Q:
-                    return reviewService.findQueueReviews(codeQR.getText()).asJson();
-            }
-
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+            return jsonReviewBucket.asJson();
         } catch (Exception e) {
             LOG.error("Failed updating intellisense qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
