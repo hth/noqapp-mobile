@@ -8,10 +8,12 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import static com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE.*;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.json.JsonReview;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
@@ -20,16 +22,21 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.JsonProfile;
+import com.noqapp.mobile.domain.body.client.QueueReview;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.DeviceService;
+import com.noqapp.mobile.service.PurchaseOrderMobileService;
+import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.ImageValidator;
+import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
+import com.noqapp.service.ReviewService;
 import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.social.exception.AccountNotActiveException;
 
@@ -42,6 +49,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -83,6 +91,8 @@ public class MerchantProfileController {
     private ImageCommonHelper imageCommonHelper;
     private ImageValidator imageValidator;
     private DeviceService deviceService;
+    private BizService bizService;
+    private ReviewService reviewService;
     private AccountMobileService accountMobileService;
 
     @Autowired
@@ -96,6 +106,8 @@ public class MerchantProfileController {
         ImageCommonHelper imageCommonHelper,
         ImageValidator imageValidator,
         DeviceService deviceService,
+        BizService bizService,
+        ReviewService reviewService,
         AccountMobileService accountMobileService
     ) {
         this.authenticateMobileService = authenticateMobileService;
@@ -107,6 +119,8 @@ public class MerchantProfileController {
         this.imageCommonHelper = imageCommonHelper;
         this.imageValidator = imageValidator;
         this.deviceService = deviceService;
+        this.bizService = bizService;
+        this.reviewService = reviewService;
         this.accountMobileService = accountMobileService;
     }
 
@@ -342,8 +356,7 @@ public class MerchantProfileController {
     }
 
     /** Add suggestions back to merchant's professional profile. */
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/intellisense",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -395,6 +408,133 @@ public class MerchantProfileController {
             apiHealthService.insert(
                 "/intellisense",
                 "intellisense",
+                MerchantProfileController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @GetMapping(
+        value = "/reviews/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String getReviews(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/profile/reviews/${codeQR} by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            if (!businessUserStoreService.hasAccessWithUserLevel(qid, codeQR.getText(), UserLevelEnum.S_MANAGER)) {
+                LOG.warn("Un-authorized access to /api/m/profile/reviews/${codeQR} by mail={}", mail);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+                return null;
+            }
+
+            BizStoreEntity bizStore = bizService.findByCodeQR(codeQR.getText());
+            switch (bizStore.getBusinessType().getMessageOrigin()) {
+                case O:
+                    return reviewService.findOrderReviews(codeQR.getText()).asJson();
+                case Q:
+                    return reviewService.findQueueReviews(codeQR.getText()).asJson();
+            }
+
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } catch (Exception e) {
+            LOG.error("Failed updating intellisense qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/reviews/${codeQR}",
+                "reviews",
+                MerchantProfileController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping(
+        value = "/flagReview/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String flagReview(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
+
+        @RequestBody
+        JsonReview jsonReview,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Served mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/profile/flagReview/${codeQR} by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            if (!businessUserStoreService.hasAccessWithUserLevel(qid, codeQR.getText(), UserLevelEnum.S_MANAGER)) {
+                LOG.warn("Un-authorized access to /api/m/profile/flagReview/${codeQR} by mail={}", mail);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+                return null;
+            }
+
+            BizStoreEntity bizStore = bizService.findByCodeQR(codeQR.getText());
+            switch (bizStore.getBusinessType().getMessageOrigin()) {
+                case O:
+                    reviewService.findOrderReviews(codeQR.getText()).asJson();
+                case Q:
+                    reviewService.findQueueReviews(codeQR.getText()).asJson();
+            }
+
+            return jsonReview.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed updating intellisense qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/flagReview/${codeQR}",
+                "flagReview",
                 MerchantProfileController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
