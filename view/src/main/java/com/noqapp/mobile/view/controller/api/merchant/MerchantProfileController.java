@@ -418,7 +418,7 @@ public class MerchantProfileController {
         value = "/reviews/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String getReviews(
+    public String reviews(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
