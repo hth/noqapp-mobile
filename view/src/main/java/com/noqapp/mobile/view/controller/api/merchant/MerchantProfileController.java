@@ -526,6 +526,7 @@ public class MerchantProfileController {
                     reviewService.findQueueReviews(codeQR.getText()).asJson();
             }
 
+            jsonReview.setReviewShow(false);
             return jsonReview.asJson();
         } catch (Exception e) {
             LOG.error("Failed updating intellisense qid={}, reason={}", qid, e.getLocalizedMessage(), e);
