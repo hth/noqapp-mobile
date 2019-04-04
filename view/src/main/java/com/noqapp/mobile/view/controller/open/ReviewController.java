@@ -200,7 +200,8 @@ public class ReviewController {
                     LOG.error("Should not reach here bizStoreId={} name={}", bizStore.getId(), bizStore.getDisplayName());
                     break;
                 case Q:
-                    return reviewService.findQueueLevelUpReviews(bizStore.getBizName().getId()).asJson();
+                    JsonReviewList jsonReviewList = reviewService.findQueueLevelUpReviews(bizStore.getBizName().getId());
+                    jsonReviewList.setCodeQR(codeQR.getText());
             }
 
             return new JsonReviewList().asJson();
