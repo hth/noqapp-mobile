@@ -146,9 +146,9 @@ public class ReviewController {
             BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(codeQR.getText());
             switch (bizStore.getBusinessType().getMessageOrigin()) {
                 case O:
-                    return reviewService.findOrderReviews(codeQR.getText(), bizStore.getDisplayName()).asJson();
+                    return reviewService.findOrderReviews(codeQR.getText()).asJson();
                 case Q:
-                    return reviewService.findQueueReviews(codeQR.getText(), bizStore.getDisplayName()).asJson();
+                    return reviewService.findQueueReviews(codeQR.getText()).asJson();
             }
 
             return new JsonReviewList().asJson();

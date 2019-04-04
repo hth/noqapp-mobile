@@ -79,6 +79,8 @@ class MerchantProfileControllerITest extends ITest {
             imageCommonHelper,
             imageValidator,
             deviceService,
+            bizService,
+            reviewService,
             accountMobileService
         );
     }

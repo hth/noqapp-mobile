@@ -5,6 +5,7 @@ import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.utils.DateUtil.DAY.TODAY;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_ACTION_NOT_PERMITTED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PRODUCT_PRICE_CANNOT_BE_ZERO;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -448,6 +449,11 @@ public class ManageQueueSettingController {
         try {
             BizStoreEntity bizStore;
             if (modifyQueue.isEnabledPayment()) {
+                if (modifyQueue.getProductPrice() >= 1) {
+                    LOG.warn("Price has to be greater than 1 {}", modifyQueue.getProductPrice());
+                    return getErrorReason("Price has to be greater than zero", PRODUCT_PRICE_CANNOT_BE_ZERO);
+                }
+
                 bizStore = bizService.updateServiceCost(
                     modifyQueue.getCodeQR(),
                     modifyQueue.getProductPrice(),
