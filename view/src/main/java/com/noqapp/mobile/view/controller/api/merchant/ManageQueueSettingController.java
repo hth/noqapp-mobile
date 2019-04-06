@@ -449,7 +449,7 @@ public class ManageQueueSettingController {
         try {
             BizStoreEntity bizStore;
             if (modifyQueue.isEnabledPayment()) {
-                if (modifyQueue.getProductPrice() >= 1) {
+                if (modifyQueue.getProductPrice() < 1) {
                     LOG.warn("Price has to be greater than 1 {}", modifyQueue.getProductPrice());
                     return getErrorReason("Price has to be greater than zero", PRODUCT_PRICE_CANNOT_BE_ZERO);
                 }

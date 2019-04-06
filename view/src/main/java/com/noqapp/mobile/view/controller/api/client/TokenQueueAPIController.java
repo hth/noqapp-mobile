@@ -488,7 +488,8 @@ public class TokenQueueAPIController {
                 did.getText(),
                 joinQueue.getQueueUserId(),
                 joinQueue.getGuardianQid(),
-                bizStore);
+                bizStore,
+                TokenServiceEnum.C);
 
             LOG.info("Pay Before Join Response {}", jsonToken.getJsonPurchaseOrder());
             return jsonToken.asJson();
@@ -551,7 +552,8 @@ public class TokenQueueAPIController {
                 did.getText(),
                 joinQueue.getQueueUserId(),
                 joinQueue.getGuardianQid(),
-                bizStore);
+                bizStore,
+                TokenServiceEnum.C);
 
             LOG.info("Skip Pay Before Join Response {}", jsonToken.getJsonPurchaseOrder());
             return jsonToken.asJson();
