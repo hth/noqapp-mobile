@@ -767,13 +767,23 @@ public class ManageQueueController {
                 guardianQid = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone()).getQueueUserId();
             }
 
-            return tokenQueueMobileService.joinQueue(
-                businessCustomer.getCodeQR(),
-                CommonUtil.appendRandomToDeviceId(did.getText()),
-                userProfile.getQueueUserId(),
-                guardianQid,
-                bizStore.getAverageServiceTime(),
-                TokenServiceEnum.M).asJson();
+            if (bizStore.isEnabledPayment()) {
+                return tokenQueueMobileService.skipPayBeforeJoinQueue(
+                    businessCustomer.getCodeQR(),
+                    CommonUtil.appendRandomToDeviceId(did.getText()),
+                    userProfile.getQueueUserId(),
+                    guardianQid,
+                    bizStore,
+                    TokenServiceEnum.M).asJson();
+            } else {
+                return tokenQueueMobileService.joinQueue(
+                    businessCustomer.getCodeQR(),
+                    CommonUtil.appendRandomToDeviceId(did.getText()),
+                    userProfile.getQueueUserId(),
+                    guardianQid,
+                    bizStore.getAverageServiceTime(),
+                    TokenServiceEnum.M).asJson();
+            }
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

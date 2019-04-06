@@ -410,10 +410,10 @@ public class TokenQueueMobileService {
     }
 
     /** Invoke by client and hence has a token service as Client. */
-    public JsonToken payBeforeJoinQueue(String codeQR, String did, String qid, String guardianQid, BizStoreEntity bizStore) {
+    public JsonToken payBeforeJoinQueue(String codeQR, String did, String qid, String guardianQid, BizStoreEntity bizStore, TokenServiceEnum tokenService) {
         String purchaserQid = StringUtils.isBlank(guardianQid) ? qid : guardianQid;
 
-        JsonToken jsonToken = tokenQueueService.getPaidNextToken(codeQR, did, qid, guardianQid, bizStore.getAverageServiceTime(), TokenServiceEnum.C);
+        JsonToken jsonToken = tokenQueueService.getPaidNextToken(codeQR, did, qid, guardianQid, bizStore.getAverageServiceTime(), tokenService);
 
         JsonPurchaseOrder jsonPurchaseOrder;
         PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(jsonToken.getTransactionId());
@@ -438,8 +438,8 @@ public class TokenQueueMobileService {
      * Note: When client skips, the state is VB (Valid before purchase). PO when Paid. After skip, if client make a Paid API request, server
      * sends VB then client is trying to pay when its should skip. Hence send SKIP CFToken.
      */
-    public JsonToken skipPayBeforeJoinQueue(String codeQR, String did, String qid, String guardianQid, BizStoreEntity bizStore) {
-        JsonToken jsonToken = payBeforeJoinQueue(codeQR, did, qid, guardianQid, bizStore);
+    public JsonToken skipPayBeforeJoinQueue(String codeQR, String did, String qid, String guardianQid, BizStoreEntity bizStore, TokenServiceEnum tokenService) {
+        JsonToken jsonToken = payBeforeJoinQueue(codeQR, did, qid, guardianQid, bizStore, tokenService);
 
         if (!purchaseOrderService.existsTransactionId(jsonToken.getTransactionId())) {
             return updateWhenPaymentSuccessful(codeQR, jsonToken.getJsonPurchaseOrder().getTransactionId())
