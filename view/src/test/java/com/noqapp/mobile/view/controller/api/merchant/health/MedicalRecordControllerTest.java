@@ -91,6 +91,7 @@ class MedicalRecordControllerTest extends ITest {
             purchaseOrderService,
             queueMobileService,
             tokenQueueService,
+            medicalRecordService,
             apiHealthService
         );
 
