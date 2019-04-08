@@ -3,6 +3,7 @@ package com.noqapp.mobile.view.controller.api.merchant.store;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.FAILED_PLACING_MEDICAL_ORDER_AS_INCORRECT_BUSINESS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ORDER_PAYMENT_UPDATE_FAILED;
@@ -19,6 +20,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_F
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
@@ -27,20 +29,29 @@ import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonBusinessCustomerLookup;
 import com.noqapp.domain.json.JsonPurchaseOrder;
+import com.noqapp.domain.json.JsonPurchaseOrderHealthCare;
 import com.noqapp.domain.json.JsonPurchaseOrderList;
+import com.noqapp.domain.json.JsonPurchaseOrderProduct;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
+import com.noqapp.domain.types.medical.FormVersionEnum;
 import com.noqapp.domain.types.medical.LabCategoryEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.MedicalPathologyEntity;
 import com.noqapp.medical.domain.MedicalRadiologyEntity;
+import com.noqapp.medical.domain.json.JsonMedicalPathology;
+import com.noqapp.medical.domain.json.JsonMedicalPathologyList;
+import com.noqapp.medical.domain.json.JsonMedicalRadiology;
+import com.noqapp.medical.domain.json.JsonMedicalRadiologyList;
+import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.repository.MedicalPathologyManager;
 import com.noqapp.medical.repository.MedicalRadiologyManager;
+import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.LabFile;
 import com.noqapp.mobile.domain.body.merchant.OrderServed;
@@ -118,6 +129,7 @@ public class PurchaseOrderController {
     private PurchaseOrderService purchaseOrderService;
     private QueueMobileService queueMobileService;
     private TokenQueueService tokenQueueService;
+    private MedicalRecordService medicalRecordService;
     private ApiHealthService apiHealthService;
 
     private BizStoreManager bizStoreManager;
@@ -139,6 +151,7 @@ public class PurchaseOrderController {
         PurchaseOrderService purchaseOrderService,
         QueueMobileService queueMobileService,
         TokenQueueService tokenQueueService,
+        MedicalRecordService medicalRecordService,
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -153,6 +166,7 @@ public class PurchaseOrderController {
         this.purchaseOrderService = purchaseOrderService;
         this.queueMobileService = queueMobileService;
         this.tokenQueueService = tokenQueueService;
+        this.medicalRecordService = medicalRecordService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -616,6 +630,117 @@ public class PurchaseOrderController {
             apiHealthService.insert(
                 "/purchase",
                 "purchase",
+                PurchaseOrderController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Add purchase when merchant presses confirm. */
+    @PostMapping(
+        value = "/medical/purchase",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String medicalPurchase(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonPurchaseOrder jsonPurchaseOrder,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Purchase order for did={} dt={}", did, dt);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/medical/purchase")) return null;
+
+        if (!businessUserStoreService.hasAccess(qid, jsonPurchaseOrder.getCodeQR())) {
+            LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/medical/purchase by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            BizStoreEntity bizStore = bizStoreManager.findByCodeQR(jsonPurchaseOrder.getCodeQR());
+            if (bizStore.getBusinessType() != BusinessTypeEnum.HS) {
+                LOG.error("Store of type {}, cannot create health care order", bizStore.getBusinessType());
+                return ErrorEncounteredJson.toJson("Cannot create this order", FAILED_PLACING_MEDICAL_ORDER_AS_INCORRECT_BUSINESS);
+            }
+
+            purchaseOrderService.createOrder(jsonPurchaseOrder, did.getText(), TokenServiceEnum.M);
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(jsonPurchaseOrder.getTransactionId());
+
+            JsonMedicalRecord jsonMedicalRecord = new JsonMedicalRecord();
+            jsonMedicalRecord.setRecordReferenceId(purchaseOrder.getId());
+            jsonMedicalRecord.setFormVersion(FormVersionEnum.MFD1);
+            jsonMedicalRecord.setQueueUserId(jsonPurchaseOrder.getQueueUserId());
+
+            switch (LabCategoryEnum.valueOf(bizStore.getBizCategoryId())) {
+                case SPEC:
+                case SCAN:
+                case XRAY:
+                case SONO:
+                case MRI:
+                    JsonMedicalRadiologyList jsonMedicalRadiologyList = new JsonMedicalRadiologyList();
+                    for (JsonPurchaseOrderProduct jsonPurchaseOrderProduct : jsonPurchaseOrder.getJsonPurchaseOrderProducts()) {
+                        JsonMedicalRadiology jsonMedicalRadiology = new JsonMedicalRadiology()
+                            .setName(jsonPurchaseOrderProduct.getProductName());
+                        jsonMedicalRadiologyList.addJsonMedicalRadiologies(jsonMedicalRadiology);
+                    }
+                    jsonMedicalRecord.addMedicalRadiologyLists(jsonMedicalRadiologyList);
+                    break;
+                case PATH:
+                    JsonMedicalPathologyList jsonMedicalPathologyList = new JsonMedicalPathologyList();
+                    for (JsonPurchaseOrderProduct jsonPurchaseOrderProduct : jsonPurchaseOrder.getJsonPurchaseOrderProducts()) {
+                        JsonMedicalPathology jsonMedicalPathology = new JsonMedicalPathology()
+                            .setName(jsonPurchaseOrderProduct.getProductName());
+                        jsonMedicalPathologyList.addJsonMedicalPathologies(jsonMedicalPathology);
+                    }
+                    jsonMedicalRecord.addMedicalPathologiesLists(jsonMedicalPathologyList);
+                    break;
+                default:
+                    LOG.error("Reached unsupported lab category {}", bizStore.getBizCategoryId());
+                    throw new UnsupportedOperationException("Reached unsupported lab category " + bizStore.getBizCategoryId());
+            }
+
+            medicalRecordService.addMedicalRecordWhenExternal(jsonMedicalRecord);
+            LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
+            return jsonPurchaseOrder.asJson();
+        } catch (StoreInActiveException e) {
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
+            return ErrorEncounteredJson.toJson("Store is offline", STORE_OFFLINE);
+        } catch (StoreDayClosedException e) {
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
+            return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
+        } catch (StoreTempDayClosedException e) {
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
+            return ErrorEncounteredJson.toJson("Store is temporary closed", STORE_TEMP_DAY_CLOSED);
+        } catch (StorePreventJoiningException e) {
+            LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
+            return ErrorEncounteredJson.toJson("Store is not accepting new orders", STORE_PREVENT_JOIN);
+        } catch(PriceMismatchException e) {
+            LOG.error("Prices have changed since added to cart reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Prices have changed since added to cart", PURCHASE_ORDER_PRICE_MISMATCH);
+        } catch (Exception e) {
+            LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/medical/purchase",
+                "medicalPurchase",
                 PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
