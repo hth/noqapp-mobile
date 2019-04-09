@@ -14,6 +14,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
+import com.noqapp.domain.common.DomainCommonUtil;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
@@ -645,63 +646,8 @@ public class TokenQueueAPIController {
             }
 
             PaymentModeEnum paymentMode;
-            if(new BigDecimal(jsonCashfreeNotification.getOrderAmount()).intValue() > 0) {
-                switch (PaymentModeCFEnum.valueOf(jsonCashfreeNotification.getPaymentMode())) {
-                    case DEBIT_CARD:
-                        paymentMode = PaymentModeEnum.DC;
-                        break;
-                    case CREDIT_CARD:
-                        paymentMode = PaymentModeEnum.CC;
-                        break;
-                    case CREDIT_CARD_EMI:
-                        paymentMode = PaymentModeEnum.CCE;
-                        break;
-                    case NET_BANKING:
-                        paymentMode = PaymentModeEnum.NTB;
-                        break;
-                    case UPI:
-                        paymentMode = PaymentModeEnum.UPI;
-                        break;
-                    case Paypal:
-                        paymentMode = PaymentModeEnum.PAL;
-                        break;
-                    case PhonePe:
-                        paymentMode = PaymentModeEnum.PPE;
-                        break;
-                    case Paytm:
-                        paymentMode = PaymentModeEnum.PTM;
-                        break;
-                    case AmazonPay:
-                        paymentMode = PaymentModeEnum.AMZ;
-                        break;
-                    case AIRTEL_MONEY:
-                        paymentMode = PaymentModeEnum.AIR;
-                        break;
-                    case FreeCharge:
-                        paymentMode = PaymentModeEnum.FCH;
-                        break;
-                    case MobiKwik:
-                        paymentMode = PaymentModeEnum.MKK;
-                        break;
-                    case OLA:
-                        paymentMode = PaymentModeEnum.OLA;
-                        break;
-                    case JioMoney:
-                        paymentMode = PaymentModeEnum.JIO;
-                        break;
-                    case ZestMoney:
-                        paymentMode = PaymentModeEnum.ZST;
-                        break;
-                    case Instacred:
-                        paymentMode = PaymentModeEnum.INS;
-                        break;
-                    case LazyPay:
-                        paymentMode = PaymentModeEnum.LPY;
-                        break;
-                    default:
-                        LOG.error("Unknown field {}", jsonCashfreeNotification.getPaymentMode());
-                        throw new UnsupportedOperationException("Reached unsupported payment mode");
-                }
+            if (new BigDecimal(jsonCashfreeNotification.getOrderAmount()).intValue() > 0) {
+                paymentMode = DomainCommonUtil.derivePaymentMode(jsonCashfreeNotification.getPaymentMode());
             } else {
                 paymentMode = PaymentModeEnum.CA;
                 jsonCashfreeNotification.setTxMsg("Cash Payment At Counter");
