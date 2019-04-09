@@ -645,7 +645,7 @@ public class TokenQueueAPIController {
             }
 
             PaymentModeEnum paymentMode;
-            if(new BigDecimal(jsonCashfreeNotification.getOrderAmount()).intValue() > 0) {
+            if (new BigDecimal(jsonCashfreeNotification.getOrderAmount()).intValue() > 0) {
                 switch (PaymentModeCFEnum.valueOf(jsonCashfreeNotification.getPaymentMode())) {
                     case DEBIT_CARD:
                         paymentMode = PaymentModeEnum.DC;
