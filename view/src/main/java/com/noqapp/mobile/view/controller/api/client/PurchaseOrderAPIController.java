@@ -443,7 +443,7 @@ public class PurchaseOrderAPIController {
                     purchaseOrderState = PurchaseOrderStateEnum.FO;
                     break;
                 case CANCELLED:
-                    paymentStatus = PaymentStatusEnum.PR;
+                    paymentStatus = PaymentStatusEnum.PC;
                     purchaseOrderState = PurchaseOrderStateEnum.FO;
                     break;
                 default:
