@@ -5,7 +5,7 @@ import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_CANNOT_ACTIVATE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_CASH_PAY;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_AS_EXTERNALLY_PAID;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRICE_MISMATCH;
@@ -28,7 +28,6 @@ import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PaymentStatusEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
-import com.noqapp.domain.types.cashfree.PaymentModeCFEnum;
 import com.noqapp.domain.types.cashfree.TxStatusEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -38,7 +37,7 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.exceptions.OrderFailedReActivationException;
 import com.noqapp.service.exceptions.PriceMismatchException;
-import com.noqapp.service.exceptions.PurchaseOrderRefundCashException;
+import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundPartialException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.StoreInActiveException;
@@ -194,11 +193,11 @@ public class PurchaseOrderAPIController {
             JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.cancelOrderByClient(qid, jsonPurchaseOrder.getTransactionId());
             LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
             return jsonPurchaseOrderResponse.asJson();
-        } catch(PurchaseOrderRefundCashException e) {
+        } catch(PurchaseOrderRefundExternalException e) {
             LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
             return getErrorReason(
-                "Cannot cancel as payment is done via cash. Go to merchant for cancellation. Cash payment will be performed by merchant.",
-                PURCHASE_ORDER_FAILED_TO_CANCEL_CASH_PAY);
+                "Payment is performed outside of NoQueue. Go to merchant for cancellation.",
+                PURCHASE_ORDER_FAILED_TO_CANCEL_AS_EXTERNALLY_PAID);
         } catch(PurchaseOrderRefundPartialException e) {
             LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
             return getErrorReason(

@@ -3,7 +3,7 @@ package com.noqapp.mobile.view.controller.api.client;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_CASH_PAY;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_AS_EXTERNALLY_PAID;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_JOIN_FAILED_PAYMENT_CALL_REQUEST;
@@ -29,7 +29,6 @@ import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PaymentStatusEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
-import com.noqapp.domain.types.cashfree.PaymentModeCFEnum;
 import com.noqapp.domain.types.cashfree.TxStatusEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -41,7 +40,7 @@ import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.service.PurchaseOrderService;
-import com.noqapp.service.exceptions.PurchaseOrderRefundCashException;
+import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundPartialException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -904,11 +903,13 @@ public class TokenQueueAPIController {
 
         try {
             return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), qid).asJson();
-        } catch (PurchaseOrderRefundCashException e) {
-            return getErrorReason("Cannot cancel as partial payment is done via cash. Go to merchant for cancellation. Cash payment will be performed by merchant.",
-                PURCHASE_ORDER_FAILED_TO_CANCEL_CASH_PAY);
+        } catch (PurchaseOrderRefundExternalException e) {
+            return getErrorReason(
+                "Payment is performed outside of NoQueue. Go to merchant for cancellation.",
+                PURCHASE_ORDER_FAILED_TO_CANCEL_AS_EXTERNALLY_PAID);
         } catch (PurchaseOrderRefundPartialException e) {
-            return getErrorReason("Cannot cancel cash payment. Go to merchant for cancellation. Cash payment will be performed by merchant.",
+            return getErrorReason(
+                "Cannot cancel cash payment. Go to merchant for cancellation. Cash payment will be performed by merchant.",
                 PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY);
         } catch (Exception e) {
             LOG.error("Failed aborting queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
