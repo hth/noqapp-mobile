@@ -107,8 +107,8 @@ public class TokenQueueAPIController {
 
     /** Get state of queue at the store. */
     @GetMapping(
-            value = "/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String getQueueState(
         @RequestHeader ("X-R-DID")
