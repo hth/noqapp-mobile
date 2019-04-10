@@ -38,7 +38,7 @@ import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
-import com.noqapp.service.exceptions.PurchaseOrderRefundCashException;
+import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundPartialException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -538,7 +538,7 @@ public class TokenQueueMobileService {
             }
             queueManager.abort(queue.getId());
             return new JsonResponse(true);
-        } catch (PurchaseOrderRefundPartialException | PurchaseOrderRefundCashException e) {
+        } catch (PurchaseOrderRefundPartialException | PurchaseOrderRefundExternalException e) {
             throw e;
         } catch (Exception e) {
             LOG.error("Abort failed reason={}", e.getLocalizedMessage(), e);
