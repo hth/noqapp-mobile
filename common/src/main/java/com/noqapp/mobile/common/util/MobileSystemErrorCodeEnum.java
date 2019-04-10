@@ -66,6 +66,7 @@ public enum MobileSystemErrorCodeEnum {
     /** Queue. */
     QUEUE_JOIN_FAILED_PAYMENT_CALL_REQUEST("4304", ERROR),
     QUEUE_JOIN_PAYMENT_FAILED("4305", ERROR),
+    QUEUE_NO_SERVICE_NO_PAY("4306", ERROR),
 
     /** Transaction. */
     TRANSACTION_GATEWAY_DEFAULT("4500", ALERT),
