@@ -3,6 +3,7 @@ package com.noqapp.mobile.view.controller.api.client;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_AS_EXTERNALLY_PAID;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
@@ -40,6 +41,7 @@ import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.service.PurchaseOrderService;
+import com.noqapp.service.exceptions.PurchaseOrderCancelException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundPartialException;
 
@@ -904,13 +906,18 @@ public class TokenQueueAPIController {
         try {
             return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), qid).asJson();
         } catch (PurchaseOrderRefundExternalException e) {
+            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
             return getErrorReason(
                 "Payment is performed outside of NoQueue. Go to merchant for cancellation.",
                 PURCHASE_ORDER_FAILED_TO_CANCEL_AS_EXTERNALLY_PAID);
         } catch (PurchaseOrderRefundPartialException e) {
+            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
             return getErrorReason(
                 "Cannot cancel cash payment. Go to merchant for cancellation. Cash payment will be performed by merchant.",
                 PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY);
+        } catch(PurchaseOrderCancelException e) {
+            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
+            return getErrorReason("Failed to cancel order", PURCHASE_ORDER_FAILED_TO_CANCEL);
         } catch (Exception e) {
             LOG.error("Failed aborting queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
