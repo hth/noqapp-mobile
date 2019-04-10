@@ -71,9 +71,7 @@ public class ReviewAPIController {
         this.apiHealthService = apiHealthService;
     }
 
-    /**
-     * Add review to service. This includes today's service or historical service.
-     */
+    /** Add review to service. This includes today's service or historical service. */
     @PostMapping(
         value = "/queue",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -137,9 +135,7 @@ public class ReviewAPIController {
         }
     }
 
-    /**
-     * Add review to service. This includes today's service or historical service.
-     */
+    /** Add review to service. This includes today's service or historical service. */
     @PostMapping(
         value = "/order",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
