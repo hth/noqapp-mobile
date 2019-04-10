@@ -30,12 +30,10 @@ import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
-import com.noqapp.repository.ScheduledTaskManager;
+import com.noqapp.mobile.view.controller.api.merchant.queue.QueueController;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
-import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
@@ -70,8 +68,8 @@ import javax.servlet.http.HttpServletResponse;
         "PMD.MethodArgumentCouldBeFinal",
         "PMD.LongVariable"
 })
-@DisplayName("Manage Queue")
-class ManageQueueControllerTest {
+@DisplayName("Queue")
+class QueueControllerTest {
 
     @Mock private AuthenticateMobileService authenticateMobileService;
     @Mock private QueueService queueService;
@@ -87,7 +85,7 @@ class ManageQueueControllerTest {
 
     @Mock private HttpServletResponse response;
 
-    private ManageQueueController manageQueueController;
+    private QueueController queueController;
     private TokenQueueEntity tokenQueue;
     private ObjectMapper mapper;
     private JsonTopicList jsonTopicList;
@@ -96,7 +94,7 @@ class ManageQueueControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        manageQueueController = new ManageQueueController(
+        queueController = new QueueController(
                 20,
                 authenticateMobileService,
                 queueService,
@@ -141,7 +139,7 @@ class ManageQueueControllerTest {
 
     @Test
     void queues_fail_authentication() throws Exception {
-        String responseJson = manageQueueController.getQueues(
+        String responseJson = queueController.getQueues(
                 new ScrubbedInput(""),
                 new ScrubbedInput(DeviceTypeEnum.A.getName()),
                 new ScrubbedInput(""),
@@ -157,7 +155,7 @@ class ManageQueueControllerTest {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("rid");
         doThrow(new RuntimeException()).when(businessUserStoreService).getAssignedTokenAndQueues(anyString());
 
-        String responseJson = manageQueueController.getQueues(
+        String responseJson = queueController.getQueues(
                 new ScrubbedInput(""),
                 new ScrubbedInput(DeviceTypeEnum.A.getName()),
                 new ScrubbedInput(""),
@@ -173,7 +171,7 @@ class ManageQueueControllerTest {
     void queues_pass() throws Exception {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("rid");
         when(businessUserStoreService.getAssignedTokenAndQueues(anyString())).thenReturn(topics);
-        String responseJson = manageQueueController.getQueues(
+        String responseJson = queueController.getQueues(
                 new ScrubbedInput(""),
                 new ScrubbedInput(DeviceTypeEnum.A.getName()),
                 new ScrubbedInput(""),
@@ -187,7 +185,7 @@ class ManageQueueControllerTest {
 
     @Test
     void served_fail_authentication() throws Exception {
-        String responseJson = manageQueueController.served(
+        String responseJson = queueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -202,7 +200,7 @@ class ManageQueueControllerTest {
     @Test
     void served_json_parsing_error() throws Exception {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
-        String responseJson = manageQueueController.served(
+        String responseJson = queueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -241,7 +239,7 @@ class ManageQueueControllerTest {
                 .setQueueStatus(QueueStatusEnum.D));
         when(tokenQueueService.findByCodeQR(anyString())).thenReturn(tokenQueue);
 
-        String responseJson = manageQueueController.served(
+        String responseJson = queueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -272,7 +270,7 @@ class ManageQueueControllerTest {
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
         when(queueService.updateAndGetNextInQueue(anyString(), anyInt(), ArgumentMatchers.any(QueueUserStateEnum.class), anyString(), anyString(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(new JsonToken("queuecode", BusinessTypeEnum.DO));
 
-        String responseJson = manageQueueController.served(
+        String responseJson = queueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -299,7 +297,7 @@ class ManageQueueControllerTest {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(false);
 
-        String responseJson = manageQueueController.served(
+        String responseJson = queueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -326,7 +324,7 @@ class ManageQueueControllerTest {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
 
-        String responseJson = manageQueueController.served(
+        String responseJson = queueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -353,7 +351,7 @@ class ManageQueueControllerTest {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
 
-        String responseJson = manageQueueController.served(
+        String responseJson = queueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -380,7 +378,7 @@ class ManageQueueControllerTest {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
 
-        String responseJson = manageQueueController.served(
+        String responseJson = queueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -411,7 +409,7 @@ class ManageQueueControllerTest {
         when(queueService.updateAndGetNextInQueue(anyString(), anyInt(), ArgumentMatchers.any(QueueUserStateEnum.class), anyString(), anyString(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(null);
         when(tokenQueueService.findByCodeQR(anyString())).thenReturn(tokenQueue);
 
-        String responseJson = manageQueueController.served(
+        String responseJson = queueController.served(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
@@ -439,7 +437,7 @@ class ManageQueueControllerTest {
         when(tokenQueueMobileService.getBizService().findByCodeQR(anyString())).thenReturn(new BizStoreEntity().setAverageServiceTime(100));
         when(tokenQueueMobileService.joinQueue(anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(jsonToken);
 
-        String responseJson = manageQueueController.dispenseTokenWithoutClientInfo(
+        String responseJson = queueController.dispenseTokenWithoutClientInfo(
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),
                 new ScrubbedInput(""),

@@ -16,16 +16,15 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.ScheduledTaskEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
-import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.ActionTypeEnum;
 import com.noqapp.domain.types.ScheduleTaskEnum;
-import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.JsonModifyQueue;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.mobile.view.controller.api.merchant.queue.QueueController;
 import com.noqapp.repository.ScheduledTaskManager;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.search.elastic.service.BizStoreElasticService;
@@ -55,7 +54,6 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.TimeZone;
-import java.util.concurrent.ExecutorService;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -173,7 +171,7 @@ public class ManageQueueSettingController {
             apiHealthService.insert(
                 "/state/{codeQR}",
                 "queueState",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -263,7 +261,7 @@ public class ManageQueueSettingController {
             apiHealthService.insert(
                 "/removeSchedule/{codeQR}",
                 "removeSchedule",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -398,7 +396,7 @@ public class ManageQueueSettingController {
             apiHealthService.insert(
                 "/modify",
                 "modify",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -487,7 +485,7 @@ public class ManageQueueSettingController {
             apiHealthService.insert(
                 "/serviceCost",
                 "serviceCost",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }

@@ -52,7 +52,7 @@ import com.noqapp.mobile.domain.body.merchant.OrderServed;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
-import com.noqapp.mobile.view.controller.api.merchant.ManageQueueController;
+import com.noqapp.mobile.view.controller.api.merchant.queue.QueueController;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.repository.BizStoreManager;
 import com.noqapp.service.BusinessUserStoreService;
@@ -330,7 +330,7 @@ public class PurchaseOrderController {
             apiHealthService.insert(
                 "/served",
                 "served",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -435,7 +435,7 @@ public class PurchaseOrderController {
             apiHealthService.insert(
                 "/acquire",
                 "acquire",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -548,7 +548,7 @@ public class PurchaseOrderController {
             apiHealthService.insert(
                 "/actionOnOrder",
                 "actionOnOrder",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
