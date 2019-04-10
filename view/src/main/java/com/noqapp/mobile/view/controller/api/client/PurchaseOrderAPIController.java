@@ -37,6 +37,7 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.exceptions.OrderFailedReActivationException;
 import com.noqapp.service.exceptions.PriceMismatchException;
+import com.noqapp.service.exceptions.PurchaseOrderCancelException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundPartialException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
@@ -203,6 +204,9 @@ public class PurchaseOrderAPIController {
             return getErrorReason(
                 "Cannot cancel as partial payment is done via cash. Go to merchant for cancellation. Cash payment will be performed by merchant.",
                 PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY);
+        } catch(PurchaseOrderCancelException e) {
+            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
+            return getErrorReason("Failed to cancel order", PURCHASE_ORDER_FAILED_TO_CANCEL);
         } catch (Exception e) {
             LOG.error("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
