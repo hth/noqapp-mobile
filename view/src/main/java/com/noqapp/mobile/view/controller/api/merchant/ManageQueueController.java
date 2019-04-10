@@ -961,8 +961,10 @@ public class ManageQueueController {
                 case I:
                 case N:
                 case A:
+                    LOG.error("Trying to accept payment on non serviced by qid={} for {} {}", qid, queue.getTransactionId(), queue.getQueueUserId());
                     return ErrorEncounteredJson.toJson("Cannot accept payment when not serviced", QUEUE_NO_SERVICE_NO_PAY);
             }
+
             JsonPurchaseOrder jsonPurchaseOrder = purchaseOrderService.counterPayment(jsonQueuedPerson.getJsonPurchaseOrder(), qid);
             JsonQueuedPerson jsonQueuedPersonUpdated = queueService.getJsonQueuedPerson(queue);
             jsonQueuedPersonUpdated.setJsonPurchaseOrder(jsonPurchaseOrder);
