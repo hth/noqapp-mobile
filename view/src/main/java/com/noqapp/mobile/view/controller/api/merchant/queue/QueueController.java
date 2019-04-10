@@ -1,4 +1,4 @@
-package com.noqapp.mobile.view.controller.api.merchant;
+package com.noqapp.mobile.view.controller.api.merchant.queue;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
@@ -24,10 +24,8 @@ import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonBusinessCustomer;
-import com.noqapp.domain.json.JsonBusinessCustomerLookup;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderList;
-import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueuedPerson;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
@@ -42,14 +40,12 @@ import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.ChangeUserInQueue;
-import com.noqapp.mobile.domain.body.merchant.OrderServed;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.service.AccountService;
-import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
@@ -95,8 +91,8 @@ import javax.servlet.http.HttpServletResponse;
 })
 @RestController
 @RequestMapping(value = "/api/m/mq")
-public class ManageQueueController {
-    private static final Logger LOG = LoggerFactory.getLogger(ManageQueueController.class);
+public class QueueController {
+    private static final Logger LOG = LoggerFactory.getLogger(QueueController.class);
 
     private int counterNameLength;
     private AuthenticateMobileService authenticateMobileService;
@@ -111,7 +107,7 @@ public class ManageQueueController {
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public ManageQueueController(
+    public QueueController(
         @Value("${ManageQueueController.counterNameLength}")
         int counterNameLength,
 
@@ -180,7 +176,7 @@ public class ManageQueueController {
             apiHealthService.insert(
                 "/queues",
                 "getQueues",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -317,7 +313,7 @@ public class ManageQueueController {
             apiHealthService.insert(
                 "/served",
                 "served",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -383,7 +379,7 @@ public class ManageQueueController {
             apiHealthService.insert(
                 "/queue/{codeQR}",
                 "getQueue",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -449,7 +445,7 @@ public class ManageQueueController {
             apiHealthService.insert(
                 "/showClients/{codeQR}",
                 "showClients",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -515,7 +511,7 @@ public class ManageQueueController {
             apiHealthService.insert(
                 "/showClients/{codeQR}/historical",
                 "showClientsHistorical",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -624,7 +620,7 @@ public class ManageQueueController {
             apiHealthService.insert(
                 "/acquire",
                 "acquire",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -685,7 +681,7 @@ public class ManageQueueController {
             apiHealthService.insert(
                 "/dispenseToken/{codeQR}",
                 "dispenseTokenWithoutClientInfo",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -797,7 +793,7 @@ public class ManageQueueController {
             apiHealthService.insert(
                 "/dispenseToken",
                 "dispenseTokenWithClientInfo",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -905,7 +901,7 @@ public class ManageQueueController {
             apiHealthService.insert(
                 "/dispenseToken",
                 "dispenseTokenWithClientInfo",
-                ManageQueueController.class.getName(),
+                QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
