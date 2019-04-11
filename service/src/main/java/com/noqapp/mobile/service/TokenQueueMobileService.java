@@ -39,6 +39,7 @@ import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.exceptions.PurchaseOrderCancelException;
+import com.noqapp.service.exceptions.PurchaseOrderFailException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundPartialException;
 
@@ -459,6 +460,13 @@ public class TokenQueueMobileService {
 
     public JsonResponseWithCFToken createTokenForPaymentGateway(String qid, String codeQR, String transactionId) {
         QueueEntity queue = queueManager.findByTransactionId(codeQR, transactionId);
+        switch (queue.getQueueUserState()) {
+            case I:
+            case N:
+            case A:
+                LOG.error("Trying to make payment on non serviced by qid={} for {} {}", qid, queue.getTransactionId(), queue.getQueueUserId());
+                throw new PurchaseOrderFailException("No payment needed when not served");
+        }
         String purchaserQid = StringUtils.isBlank(queue.getGuardianQid()) ? queue.getQueueUserId() : queue.getGuardianQid();
         if (!qid.equalsIgnoreCase(purchaserQid)) {
             LOG.error("Something is not right for {} {} {}", qid, codeQR, transactionId);
