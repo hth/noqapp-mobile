@@ -22,6 +22,7 @@ import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
+import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderList;
@@ -50,12 +51,14 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.LabFile;
 import com.noqapp.mobile.domain.body.merchant.OrderServed;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.merchant.queue.QueueController;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.repository.BizStoreManager;
 import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.FirebaseService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.exceptions.PriceMismatchException;
@@ -88,6 +91,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -117,6 +122,8 @@ public class PurchaseOrderController {
     private QueueMobileService queueMobileService;
     private TokenQueueService tokenQueueService;
     private MedicalRecordService medicalRecordService;
+    private DeviceService deviceService;
+    private FirebaseService firebaseService;
     private ApiHealthService apiHealthService;
 
     private BizStoreManager bizStoreManager;
@@ -139,6 +146,8 @@ public class PurchaseOrderController {
         QueueMobileService queueMobileService,
         TokenQueueService tokenQueueService,
         MedicalRecordService medicalRecordService,
+        DeviceService deviceService,
+        FirebaseService firebaseService,
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -154,6 +163,8 @@ public class PurchaseOrderController {
         this.queueMobileService = queueMobileService;
         this.tokenQueueService = tokenQueueService;
         this.medicalRecordService = medicalRecordService;
+        this.deviceService = deviceService;
+        this.firebaseService = firebaseService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -592,6 +603,14 @@ public class PurchaseOrderController {
         try {
             purchaseOrderService.createOrder(jsonPurchaseOrder, did.getText(), TokenServiceEnum.M);
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
+
+            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
+            TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrder.getCodeQR());
+            List<String> registeredTokens = new ArrayList<String>() {{
+                add(registeredDevice.getToken());
+            }};
+            firebaseService.subscribeToTopic(registeredTokens, tokenQueue.getTopic() + "_" + registeredDevice.getDeviceType().getName());
+
             return jsonPurchaseOrder.asJson();
         } catch (StoreInActiveException e) {
             LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
@@ -703,6 +722,14 @@ public class PurchaseOrderController {
 
             medicalRecordService.addMedicalRecordWhenExternal(jsonMedicalRecord);
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
+
+            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
+            TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrder.getCodeQR());
+            List<String> registeredTokens = new ArrayList<String>() {{
+                add(registeredDevice.getToken());
+            }};
+            firebaseService.subscribeToTopic(registeredTokens, tokenQueue.getTopic() + "_" + registeredDevice.getDeviceType().getName());
+
             return jsonPurchaseOrder.asJson();
         } catch (StoreInActiveException e) {
             LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
