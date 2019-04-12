@@ -21,6 +21,7 @@ import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.QueueEntity;
+import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonBusinessCustomer;
@@ -42,11 +43,13 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.ChangeUserInQueue;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.FirebaseService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
@@ -73,7 +76,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -104,6 +109,8 @@ public class QueueController {
     private AccountService accountService;
     private PurchaseOrderService purchaseOrderService;
     private MedicalRecordService medicalRecordService;
+    private DeviceService deviceService;
+    private FirebaseService firebaseService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -120,6 +127,8 @@ public class QueueController {
         AccountService accountService,
         PurchaseOrderService purchaseOrderService,
         MedicalRecordService medicalRecordService,
+        DeviceService deviceService,
+        FirebaseService firebaseService,
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -132,6 +141,8 @@ public class QueueController {
         this.accountService = accountService;
         this.purchaseOrderService = purchaseOrderService;
         this.medicalRecordService = medicalRecordService;
+        this.deviceService = deviceService;
+        this.firebaseService = firebaseService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -763,28 +774,44 @@ public class QueueController {
                 return ErrorEncounteredJson.toJson(errors);
             }
 
+            String didOfOwner;
             String guardianQid = null;
+            RegisteredDeviceEntity registeredDevice;
             if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
                 guardianQid = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone()).getQueueUserId();
+                registeredDevice = deviceService.findRecentDevice(guardianQid);
+                didOfOwner = DeviceService.getExistingDeviceId(registeredDevice, did.getText());
+            } else {
+                registeredDevice = deviceService.findRecentDevice(userProfile.getQueueUserId());
+                didOfOwner = DeviceService.getExistingDeviceId(registeredDevice, did.getText());
             }
 
+            TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(businessCustomer.getCodeQR());
+            List<String> registeredTokens = new ArrayList<String>() {{
+                add(registeredDevice.getToken());
+            }};
+            firebaseService.subscribeToTopic(registeredTokens, tokenQueue.getTopic() + "_" + registeredDevice.getDeviceType().getName());
+
+            JsonToken jsonToken;
             if (bizStore.isEnabledPayment()) {
-                return tokenQueueMobileService.skipPayBeforeJoinQueue(
+                jsonToken = tokenQueueMobileService.skipPayBeforeJoinQueue(
                     businessCustomer.getCodeQR(),
-                    CommonUtil.appendRandomToDeviceId(did.getText()),
+                    didOfOwner,
                     userProfile.getQueueUserId(),
                     guardianQid,
                     bizStore,
-                    TokenServiceEnum.M).asJson();
+                    TokenServiceEnum.M);
             } else {
-                return tokenQueueMobileService.joinQueue(
+                jsonToken = tokenQueueMobileService.joinQueue(
                     businessCustomer.getCodeQR(),
-                    CommonUtil.appendRandomToDeviceId(did.getText()),
+                    didOfOwner,
                     userProfile.getQueueUserId(),
                     guardianQid,
                     bizStore.getAverageServiceTime(),
-                    TokenServiceEnum.M).asJson();
+                    TokenServiceEnum.M);
             }
+
+            return jsonToken.asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
