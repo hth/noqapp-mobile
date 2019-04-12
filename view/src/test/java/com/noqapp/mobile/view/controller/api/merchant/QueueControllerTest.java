@@ -28,12 +28,14 @@ import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.queue.QueueController;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.FirebaseService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
@@ -62,11 +64,11 @@ import javax.servlet.http.HttpServletResponse;
  * User: hitender
  * Date: 1/11/17 12:32 AM
  */
-@SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+@SuppressWarnings({
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @DisplayName("Queue")
 class QueueControllerTest {
@@ -82,6 +84,8 @@ class QueueControllerTest {
     @Mock private TokenQueueMobileService tokenQueueMobileService;
     @Mock private MedicalRecordService medicalRecordService;
     @Mock private PurchaseOrderService purchaseOrderService;
+    @Mock private FirebaseService firebaseService;
+    @Mock private DeviceService deviceService;
 
     @Mock private HttpServletResponse response;
 
@@ -95,17 +99,19 @@ class QueueControllerTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
         queueController = new QueueController(
-                20,
-                authenticateMobileService,
-                queueService,
-                queueMobileService,
-                businessUserStoreService,
-                tokenQueueService,
-                tokenQueueMobileService,
-                accountService,
-                purchaseOrderService,
-                medicalRecordService,
-                apiHealthService);
+            20,
+            authenticateMobileService,
+            queueService,
+            queueMobileService,
+            businessUserStoreService,
+            tokenQueueService,
+            tokenQueueMobileService,
+            accountService,
+            purchaseOrderService,
+            medicalRecordService,
+            deviceService,
+            firebaseService,
+            apiHealthService);
 
         mapper = new ObjectMapper();
 
@@ -120,14 +126,14 @@ class QueueControllerTest {
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 
         JsonHour jsonHour = new JsonHour()
-                .setEndHour(2359)
-                .setStartHour(1)
-                .setDayOfWeek(dayOfWeek)
-                .setTokenAvailableFrom(1)
-                .setTokenNotAvailableFrom(2359)
-                .setDayClosed(false)
-                .setPreventJoining(false)
-                .setDelayedInMinutes(1);
+            .setEndHour(2359)
+            .setStartHour(1)
+            .setDayOfWeek(dayOfWeek)
+            .setTokenAvailableFrom(1)
+            .setTokenNotAvailableFrom(2359)
+            .setDayClosed(false)
+            .setPreventJoining(false)
+            .setDelayedInMinutes(1);
 
         JsonTopic topic = new JsonTopic(tokenQueue).setHour(jsonHour);
         topics = new ArrayList<>();
@@ -140,11 +146,11 @@ class QueueControllerTest {
     @Test
     void queues_fail_authentication() throws Exception {
         String responseJson = queueController.getQueues(
-                new ScrubbedInput(""),
-                new ScrubbedInput(DeviceTypeEnum.A.getName()),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                response);
+            new ScrubbedInput(""),
+            new ScrubbedInput(DeviceTypeEnum.A.getName()),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
         assertSame(null, responseJson);
@@ -156,11 +162,11 @@ class QueueControllerTest {
         doThrow(new RuntimeException()).when(businessUserStoreService).getAssignedTokenAndQueues(anyString());
 
         String responseJson = queueController.getQueues(
-                new ScrubbedInput(""),
-                new ScrubbedInput(DeviceTypeEnum.A.getName()),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                response);
+            new ScrubbedInput(""),
+            new ScrubbedInput(DeviceTypeEnum.A.getName()),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
         ErrorJsonList errorJsonList = mapper.readValue(responseJson, ErrorJsonList.class);
@@ -172,11 +178,11 @@ class QueueControllerTest {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("rid");
         when(businessUserStoreService.getAssignedTokenAndQueues(anyString())).thenReturn(topics);
         String responseJson = queueController.getQueues(
-                new ScrubbedInput(""),
-                new ScrubbedInput(DeviceTypeEnum.A.getName()),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                response);
+            new ScrubbedInput(""),
+            new ScrubbedInput(DeviceTypeEnum.A.getName()),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
         JsonTopicList jsonTopicList = mapper.readValue(responseJson, JsonTopicList.class);
@@ -186,12 +192,12 @@ class QueueControllerTest {
     @Test
     void served_fail_authentication() throws Exception {
         String responseJson = queueController.served(
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                "",
-                response);
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            "",
+            response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
         assertSame(null, responseJson);
@@ -201,15 +207,15 @@ class QueueControllerTest {
     void served_json_parsing_error() throws Exception {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
         String responseJson = queueController.served(
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                "",
-                response);
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            "",
+            response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
-                
+
         ErrorJsonList errorJsonList = mapper.readValue(responseJson, ErrorJsonList.class);
         assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.SEVERE.name());
     }
@@ -229,23 +235,23 @@ class QueueControllerTest {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
         when(queueService.updateAndGetNextInQueue(
-                anyString(),
-                anyInt(),
-                ArgumentMatchers.any(QueueUserStateEnum.class),
-                anyString(),
-                anyString(),
-                ArgumentMatchers.any(TokenServiceEnum.class))
+            anyString(),
+            anyInt(),
+            ArgumentMatchers.any(QueueUserStateEnum.class),
+            anyString(),
+            anyString(),
+            ArgumentMatchers.any(TokenServiceEnum.class))
         ).thenReturn(new JsonToken("queuecode", BusinessTypeEnum.DO)
-                .setQueueStatus(QueueStatusEnum.D));
+            .setQueueStatus(QueueStatusEnum.D));
         when(tokenQueueService.findByCodeQR(anyString())).thenReturn(tokenQueue);
 
         String responseJson = queueController.served(
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                jsonRequest,
-                response);
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            jsonRequest,
+            response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
         verify(businessUserStoreService, times(1)).hasAccess(any(String.class), any(String.class));
@@ -271,12 +277,12 @@ class QueueControllerTest {
         when(queueService.updateAndGetNextInQueue(anyString(), anyInt(), ArgumentMatchers.any(QueueUserStateEnum.class), anyString(), anyString(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(new JsonToken("queuecode", BusinessTypeEnum.DO));
 
         String responseJson = queueController.served(
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                jsonRequest,
-                response);
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            jsonRequest,
+            response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
 
@@ -298,12 +304,12 @@ class QueueControllerTest {
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(false);
 
         String responseJson = queueController.served(
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                jsonRequest,
-                response);
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            jsonRequest,
+            response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
         verify(businessUserStoreService, times(1)).hasAccess(any(String.class), any(String.class));
@@ -325,12 +331,12 @@ class QueueControllerTest {
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
 
         String responseJson = queueController.served(
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                jsonRequest,
-                response);
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            jsonRequest,
+            response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
 
@@ -352,12 +358,12 @@ class QueueControllerTest {
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
 
         String responseJson = queueController.served(
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                jsonRequest,
-                response);
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            jsonRequest,
+            response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
 
@@ -379,12 +385,12 @@ class QueueControllerTest {
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
 
         String responseJson = queueController.served(
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                jsonRequest,
-                response);
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            jsonRequest,
+            response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
 
@@ -410,12 +416,12 @@ class QueueControllerTest {
         when(tokenQueueService.findByCodeQR(anyString())).thenReturn(tokenQueue);
 
         String responseJson = queueController.served(
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                jsonRequest,
-                response);
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            jsonRequest,
+            response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
         verify(businessUserStoreService, times(1)).hasAccess(any(String.class), any(String.class));
@@ -438,12 +444,12 @@ class QueueControllerTest {
         when(tokenQueueMobileService.joinQueue(anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(jsonToken);
 
         String responseJson = queueController.dispenseTokenWithoutClientInfo(
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                response);
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
         verify(tokenQueueMobileService.getBizService(), times(1)).findByCodeQR(any(String.class));
