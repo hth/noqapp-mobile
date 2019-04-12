@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view;
 
+import com.noqapp.common.config.FirebaseConfig;
 import com.noqapp.common.config.PaymentGatewayConfiguration;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
@@ -134,6 +135,7 @@ import com.noqapp.service.EmailValidateService;
 import com.noqapp.service.ExternalService;
 import com.noqapp.service.FileService;
 import com.noqapp.service.FirebaseMessageService;
+import com.noqapp.service.FirebaseService;
 import com.noqapp.service.FtpService;
 import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
@@ -237,6 +239,7 @@ public class ITest extends RealMongoForITest {
 
     protected TokenQueueManager tokenQueueManager;
     protected FirebaseMessageService firebaseMessageService;
+    protected FirebaseService firebaseService;
     protected QueueManager queueManager;
 
     protected UserAccountManager userAccountManager;
@@ -297,6 +300,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected ElasticAdministrationService elasticAdministrationService;
     @Mock protected OkHttpClient okHttpClient;
     @Mock protected CashfreeService cashfreeService;
+    @Mock protected FirebaseConfig firebaseConfig;
 
     @BeforeAll
     public void globalISetup() throws IOException {
@@ -413,6 +417,7 @@ public class ITest extends RealMongoForITest {
         businessCustomerManager = new BusinessCustomerManagerImpl(getMongoTemplate());
         s3FileManager = new S3FileManagerImpl(getMongoTemplate());
         firebaseMessageService = new FirebaseMessageService("", okHttpClient);
+        firebaseService = new FirebaseService(firebaseConfig, userProfilePreferenceService);
         businessCustomerService = new BusinessCustomerService(
             businessCustomerManager,
             userProfileManager,
