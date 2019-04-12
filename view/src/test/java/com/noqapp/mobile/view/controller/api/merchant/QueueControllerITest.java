@@ -52,17 +52,19 @@ class QueueControllerITest extends ITest {
     @BeforeEach
     void setUp() {
         queueController = new QueueController(
-                20,
-                authenticateMobileService,
-                queueService,
-                queueMobileService,
-                businessUserStoreService,
-                tokenQueueService,
-                tokenQueueMobileService,
-                accountService,
-                purchaseOrderService,
-                medicalRecordService,
-                apiHealthService
+            20,
+            authenticateMobileService,
+            queueService,
+            queueMobileService,
+            businessUserStoreService,
+            tokenQueueService,
+            tokenQueueMobileService,
+            accountService,
+            purchaseOrderService,
+            medicalRecordService,
+            deviceService,
+            firebaseService,
+            apiHealthService
         );
 
         tokenQueueAPIController = new TokenQueueAPIController(

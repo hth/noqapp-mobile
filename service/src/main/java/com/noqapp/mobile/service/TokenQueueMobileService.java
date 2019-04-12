@@ -446,8 +446,9 @@ public class TokenQueueMobileService {
         JsonToken jsonToken = payBeforeJoinQueue(codeQR, did, qid, guardianQid, bizStore, tokenService);
 
         if (!purchaseOrderService.existsTransactionId(jsonToken.getTransactionId())) {
-            return updateWhenPaymentSuccessful(codeQR, jsonToken.getJsonPurchaseOrder().getTransactionId())
-                .setJsonPurchaseOrder(jsonToken.getJsonPurchaseOrder());
+            JsonToken jsonTokenUpdatedWithPayment = updateWhenPaymentSuccessful(codeQR, jsonToken.getJsonPurchaseOrder().getTransactionId());
+            jsonTokenUpdatedWithPayment.setJsonPurchaseOrder(jsonToken.getJsonPurchaseOrder());
+            return jsonTokenUpdatedWithPayment;
         }
         return jsonToken;
     }
