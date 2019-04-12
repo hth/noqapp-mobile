@@ -2,7 +2,9 @@ package com.noqapp.mobile.service;
 
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.domain.RegisteredDeviceEntity;
+import com.noqapp.domain.annotation.Mobile;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
@@ -87,31 +89,31 @@ public class DeviceService {
                     LOG.info("registered device for did={}", did);
                 } catch (DuplicateKeyException duplicateKeyException) {
                     LOG.warn("Its registered device, update existing with new details deviceType={} did={} qid={}", deviceType, did, qid);
-                    
+
                     /* Reset update date with create date to fetch all the possible historical data. */
                     boolean updateStatus = registeredDeviceManager.resetRegisteredDeviceWithNewDetails(
-                            registeredDevice.getDeviceId(),
-                            qid,
-                            deviceType,
-                            appFlavor,
-                            token,
-                            model,
-                            osVersion
-                    );
-                    LOG.info("existing registered device updateStatus={} with qid={} token={}", updateStatus, qid, token);
-                }
-            } else if (StringUtils.isNotBlank(token)) {
-                LOG.info("Updating registered device of deviceType={} appFlavor={} did={} qid={}", deviceType, appFlavor.getName(), did, qid);
-                boolean updateSuccess = registeredDeviceManager.updateDevice(
-                        registeredDevice.getId(),
                         registeredDevice.getDeviceId(),
                         qid,
                         deviceType,
                         appFlavor,
                         token,
                         model,
-                        osVersion,
-                        true);
+                        osVersion
+                    );
+                    LOG.info("existing registered device updateStatus={} with qid={} token={}", updateStatus, qid, token);
+                }
+            } else if (StringUtils.isNotBlank(token)) {
+                LOG.info("Updating registered device of deviceType={} appFlavor={} did={} qid={}", deviceType, appFlavor.getName(), did, qid);
+                boolean updateSuccess = registeredDeviceManager.updateDevice(
+                    registeredDevice.getId(),
+                    registeredDevice.getDeviceId(),
+                    qid,
+                    deviceType,
+                    appFlavor,
+                    token,
+                    model,
+                    osVersion,
+                    true);
                 LOG.info("updated registered device for did={} token={} updateSuccess={}", did, token, updateSuccess);
             }
         } catch (Exception e) {
@@ -149,5 +151,26 @@ public class DeviceService {
 
     void unsetQidForDevice(String id) {
         registeredDeviceManager.unsetQidForDevice(id);
+    }
+
+    public RegisteredDeviceEntity findRecentDevice(String qid) {
+        return registeredDeviceManager.findRecentDevice(qid);
+    }
+
+    public String getExistingDeviceId(String qid, String notUserDeviceId) {
+        RegisteredDeviceEntity registeredDevice = registeredDeviceManager.findRecentDevice(qid);
+        if (null == registeredDevice) {
+            return CommonUtil.appendRandomToDeviceId(notUserDeviceId);
+        } else {
+            return registeredDevice.getDeviceId();
+        }
+    }
+
+    public static String getExistingDeviceId(RegisteredDeviceEntity registeredDevice, String notUserDeviceId) {
+        if (null == registeredDevice) {
+            return CommonUtil.appendRandomToDeviceId(notUserDeviceId);
+        } else {
+            return registeredDevice.getDeviceId();
+        }
     }
 }
