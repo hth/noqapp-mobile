@@ -92,6 +92,8 @@ class MedicalRecordControllerTest extends ITest {
             queueMobileService,
             tokenQueueService,
             medicalRecordService,
+            deviceService,
+            firebaseService,
             apiHealthService
         );
 
@@ -172,7 +174,7 @@ class MedicalRecordControllerTest extends ITest {
         BizNameEntity bizNamePharmacy = bizService.findByPhone("9118000000011");
         BizStoreEntity bizStorePharmacy = bizService.findOneBizStore(bizNamePharmacy.getId());
         BizNameEntity bizNameHealthService = bizService.findByPhone("9118000000161");
-        BizStoreEntity bizStoreXRAY= bizService.findOneBizStore(bizNameHealthService.getId());
+        BizStoreEntity bizStoreXRAY = bizService.findOneBizStore(bizNameHealthService.getId());
 
         JsonMedicalRecord jsonMedicalRecord = new JsonMedicalRecord()
             .setJsonUserMedicalProfile(new JsonUserMedicalProfile());
