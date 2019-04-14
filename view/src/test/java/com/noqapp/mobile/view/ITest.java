@@ -558,6 +558,8 @@ public class ITest extends RealMongoForITest {
             purchaseOrderProductService,
             queueService,
             tokenQueueMobileService,
+            firebaseMessageService,
+            firebaseService,
             webConnectorService
         );
 

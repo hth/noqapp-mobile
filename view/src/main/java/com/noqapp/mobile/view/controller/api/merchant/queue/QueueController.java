@@ -15,6 +15,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_ALREA
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ParseJsonStringToMap;
@@ -49,7 +50,6 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.service.FirebaseService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
@@ -76,10 +76,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -110,8 +109,9 @@ public class QueueController {
     private PurchaseOrderService purchaseOrderService;
     private MedicalRecordService medicalRecordService;
     private DeviceService deviceService;
-    private FirebaseService firebaseService;
     private ApiHealthService apiHealthService;
+
+    private ExecutorService executorService;
 
     @Autowired
     public QueueController(
@@ -128,7 +128,6 @@ public class QueueController {
         PurchaseOrderService purchaseOrderService,
         MedicalRecordService medicalRecordService,
         DeviceService deviceService,
-        FirebaseService firebaseService,
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -142,8 +141,10 @@ public class QueueController {
         this.purchaseOrderService = purchaseOrderService;
         this.medicalRecordService = medicalRecordService;
         this.deviceService = deviceService;
-        this.firebaseService = firebaseService;
         this.apiHealthService = apiHealthService;
+
+        /* For executing in order of sequence. */
+        this.executorService = newSingleThreadExecutor();
     }
 
     @GetMapping(
@@ -774,29 +775,20 @@ public class QueueController {
                 return ErrorEncounteredJson.toJson(errors);
             }
 
-            String didOfOwner;
             String guardianQid = null;
             RegisteredDeviceEntity registeredDevice;
             if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
                 guardianQid = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone()).getQueueUserId();
                 registeredDevice = deviceService.findRecentDevice(guardianQid);
-                didOfOwner = DeviceService.getExistingDeviceId(registeredDevice, did.getText());
             } else {
                 registeredDevice = deviceService.findRecentDevice(userProfile.getQueueUserId());
-                didOfOwner = DeviceService.getExistingDeviceId(registeredDevice, did.getText());
             }
-
-            TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(businessCustomer.getCodeQR());
-            List<String> registeredTokens = new ArrayList<String>() {{
-                add(registeredDevice.getToken());
-            }};
-            firebaseService.subscribeToTopic(registeredTokens, tokenQueue.getTopic() + "_" + registeredDevice.getDeviceType().getName());
 
             JsonToken jsonToken;
             if (bizStore.isEnabledPayment()) {
                 jsonToken = tokenQueueMobileService.skipPayBeforeJoinQueue(
                     businessCustomer.getCodeQR(),
-                    didOfOwner,
+                    DeviceService.getExistingDeviceId(registeredDevice, did.getText()),
                     userProfile.getQueueUserId(),
                     guardianQid,
                     bizStore,
@@ -804,11 +796,19 @@ public class QueueController {
             } else {
                 jsonToken = tokenQueueMobileService.joinQueue(
                     businessCustomer.getCodeQR(),
-                    didOfOwner,
+                    DeviceService.getExistingDeviceId(registeredDevice, did.getText()),
                     userProfile.getQueueUserId(),
                     guardianQid,
                     bizStore.getAverageServiceTime(),
                     TokenServiceEnum.M);
+            }
+
+            if (null != registeredDevice) {
+                executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(businessCustomer.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType()));
+                executorService.execute(() -> queueMobileService.notifyClient(
+                    registeredDevice,
+                    "Joined " + bizStore.getDisplayName() + " Queue",
+                    "Your token number is " + jsonToken.getToken()));
             }
 
             return jsonToken.asJson();
