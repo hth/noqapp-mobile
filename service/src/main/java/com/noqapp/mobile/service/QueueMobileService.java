@@ -14,6 +14,8 @@ import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
+import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.common.ComposeMessagesForFCM;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueHistoricalList;
@@ -21,6 +23,7 @@ import com.noqapp.domain.json.JsonQueuePersonList;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
+import com.noqapp.domain.json.fcm.JsonMessage;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.SentimentTypeEnum;
@@ -34,6 +37,8 @@ import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
+import com.noqapp.service.FirebaseMessageService;
+import com.noqapp.service.FirebaseService;
 import com.noqapp.service.NLPService;
 import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
@@ -86,6 +91,8 @@ public class QueueMobileService {
     private BusinessUserManager businessUserManager;
     private UserProfileManager userProfileManager;
     private PurchaseOrderProductService purchaseOrderProductService;
+    private FirebaseMessageService firebaseMessageService;
+    private FirebaseService firebaseService;
 
     private ExecutorService executorService;
 
@@ -106,6 +113,8 @@ public class QueueMobileService {
         PurchaseOrderProductService purchaseOrderProductService,
         QueueService queueService,
         TokenQueueMobileService tokenQueueMobileService,
+        FirebaseMessageService firebaseMessageService,
+        FirebaseService firebaseService,
         WebConnectorService webConnectorService
     ) {
         this.negativeReview = negativeReview;
@@ -123,6 +132,8 @@ public class QueueMobileService {
         this.webConnectorService = webConnectorService;
         this.businessUserManager = businessUserManager;
         this.userProfileManager = userProfileManager;
+        this.firebaseMessageService = firebaseMessageService;
+        this.firebaseService = firebaseService;
 
         this.executorService = newCachedThreadPool();
     }
@@ -553,5 +564,31 @@ public class QueueMobileService {
             ReviewSentiment.newInstance(storeName, reviewerName, reviewerPhone, ratingCount, hourSaved, review, sentiment, sentimentWatcherEmail),
             httpPost);
         return webConnectorService.invokeHttpPost(httpClient, httpPost);
+    }
+
+    /** Sends personal message with all the current queue and orders. */
+    public void notifyClient(RegisteredDeviceEntity registeredDevice, String title, String body) {
+        if (null != registeredDevice) {
+            JsonTokenAndQueueList jsonTokenAndQueues = findAllJoinedQueues(registeredDevice.getQueueUserId(), registeredDevice.getDeviceId());
+            jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllOpenOrderAsJson(registeredDevice.getQueueUserId()));
+
+            JsonMessage jsonMessage = ComposeMessagesForFCM.composeMessage(
+                registeredDevice,
+                jsonTokenAndQueues.getTokenAndQueues(),
+                body,
+                title);
+            firebaseMessageService.messageToTopic(jsonMessage);
+        }
+    }
+
+    /** Subscribes client to a topic when merchant adds client to queue. */
+    public void autoSubscribeClientToTopic(String codeQR, String token, DeviceTypeEnum deviceType) {
+        if (StringUtils.isNotBlank(token)) {
+            TokenQueueEntity tokenQueue = tokenQueueMobileService.findByCodeQR(codeQR);
+            List<String> registeredTokens = new ArrayList<String>() {{
+                add(token);
+            }};
+            firebaseService.subscribeToTopic(registeredTokens, tokenQueue.getTopic() + "_" + deviceType.getName());
+        }
     }
 }

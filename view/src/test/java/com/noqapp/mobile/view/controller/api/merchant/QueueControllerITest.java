@@ -63,7 +63,6 @@ class QueueControllerITest extends ITest {
             purchaseOrderService,
             medicalRecordService,
             deviceService,
-            firebaseService,
             apiHealthService
         );
 

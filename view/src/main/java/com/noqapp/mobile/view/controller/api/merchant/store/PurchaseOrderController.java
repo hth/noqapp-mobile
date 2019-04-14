@@ -17,6 +17,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_PREV
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_TEMP_DAY_CLOSED;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
@@ -94,6 +95,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -129,6 +131,8 @@ public class PurchaseOrderController {
     private BizStoreManager bizStoreManager;
     private MedicalRadiologyManager medicalRadiologyManager;
     private MedicalPathologyManager medicalPathologyManager;
+
+    private ExecutorService executorService;
 
     @Autowired
     public PurchaseOrderController(
@@ -166,6 +170,9 @@ public class PurchaseOrderController {
         this.deviceService = deviceService;
         this.firebaseService = firebaseService;
         this.apiHealthService = apiHealthService;
+
+        /* For executing in order of sequence. */
+        this.executorService = newSingleThreadExecutor();
     }
 
     /** List all orders. */
@@ -605,11 +612,14 @@ public class PurchaseOrderController {
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
 
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
-            TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrder.getCodeQR());
-            List<String> registeredTokens = new ArrayList<String>() {{
-                add(registeredDevice.getToken());
-            }};
-            firebaseService.subscribeToTopic(registeredTokens, tokenQueue.getTopic() + "_" + registeredDevice.getDeviceType().getName());
+            if (null != registeredDevice) {
+                BizStoreEntity bizStore = bizStoreManager.findByCodeQR(jsonPurchaseOrder.getCodeQR());
+                executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(jsonPurchaseOrder.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType()));
+                executorService.execute(() -> queueMobileService.notifyClient(
+                    registeredDevice,
+                    "Order placed at " + bizStore.getDisplayName(),
+                    "Your order number is " + jsonPurchaseOrder.getToken()));
+            }
 
             return jsonPurchaseOrder.asJson();
         } catch (StoreInActiveException e) {
@@ -724,11 +734,12 @@ public class PurchaseOrderController {
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
 
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
-            TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrder.getCodeQR());
-            List<String> registeredTokens = new ArrayList<String>() {{
-                add(registeredDevice.getToken());
-            }};
-            firebaseService.subscribeToTopic(registeredTokens, tokenQueue.getTopic() + "_" + registeredDevice.getDeviceType().getName());
+            if (null != registeredDevice) {
+                executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(jsonPurchaseOrder.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType()));
+                executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
+                    "Order placed at " + bizStore.getDisplayName(),
+                    "Your order number is " + jsonPurchaseOrder.getToken()));
+            }
 
             return jsonPurchaseOrder.asJson();
         } catch (StoreInActiveException e) {

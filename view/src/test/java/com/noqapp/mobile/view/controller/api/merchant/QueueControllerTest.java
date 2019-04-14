@@ -110,7 +110,6 @@ class QueueControllerTest {
             purchaseOrderService,
             medicalRecordService,
             deviceService,
-            firebaseService,
             apiHealthService);
 
         mapper = new ObjectMapper();
