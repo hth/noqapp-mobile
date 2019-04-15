@@ -691,7 +691,8 @@ public class PurchaseOrderController {
                 return ErrorEncounteredJson.toJson("Cannot create this order", FAILED_PLACING_MEDICAL_ORDER_AS_INCORRECT_BUSINESS);
             }
 
-            purchaseOrderService.createOrder(jsonPurchaseOrder, did.getText(), TokenServiceEnum.M);
+            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
+            purchaseOrderService.createOrder(jsonPurchaseOrder, DeviceService.getExistingDeviceId(registeredDevice, did.getText()), TokenServiceEnum.M);
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(jsonPurchaseOrder.getTransactionId());
 
             JsonMedicalRecord jsonMedicalRecord = new JsonMedicalRecord();
@@ -732,8 +733,6 @@ public class PurchaseOrderController {
 
             /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
             executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
-
-            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
             if (null != registeredDevice) {
                 /* Subscribe and Notify client. */
                 executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(jsonPurchaseOrder.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType()));
