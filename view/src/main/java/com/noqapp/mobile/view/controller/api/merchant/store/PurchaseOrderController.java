@@ -605,11 +605,11 @@ public class PurchaseOrderController {
             purchaseOrderService.createOrder(jsonPurchaseOrder, did.getText(), TokenServiceEnum.M);
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
 
+            /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
+            executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
+
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
             if (null != registeredDevice) {
-                /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
-                executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
-
                 /* Subscribe and Notify client. */
                 BizStoreEntity bizStore = bizStoreManager.findByCodeQR(jsonPurchaseOrder.getCodeQR());
                 executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(jsonPurchaseOrder.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType()));
@@ -731,11 +731,11 @@ public class PurchaseOrderController {
             medicalRecordService.addMedicalRecordWhenExternal(jsonMedicalRecord);
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
 
+            /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
+            executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
+
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
             if (null != registeredDevice) {
-                /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
-                executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
-
                 /* Subscribe and Notify client. */
                 executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(jsonPurchaseOrder.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType()));
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
@@ -868,6 +868,18 @@ public class PurchaseOrderController {
         try {
             JsonPurchaseOrder jsonPurchaseOrderUpdated = purchaseOrderService.partialCounterPayment(jsonPurchaseOrder, qid);
             LOG.info("Order partial payment updated successfully={}", jsonPurchaseOrderUpdated);
+
+            /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
+            executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
+
+            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
+            if (null != registeredDevice) {
+                /* Subscribe and Notify client. */
+                executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
+                    "Partial payment applied",
+                    "Partial payment applied on counter to order number " + jsonPurchaseOrder.getToken()));
+            }
+
             return jsonPurchaseOrderUpdated.asJson();
         } catch (Exception e) {
             LOG.error("Failed processing partial payment on order reason={}", e.getLocalizedMessage(), e);
@@ -921,6 +933,17 @@ public class PurchaseOrderController {
         try {
             JsonPurchaseOrder jsonPurchaseOrderUpdated = purchaseOrderService.counterPayment(jsonPurchaseOrder, qid);
             LOG.info("Order counter payment updated successfully={}", jsonPurchaseOrderUpdated);
+
+            /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
+            executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
+
+            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
+            if (null != registeredDevice) {
+                executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
+                    "Paid at counter",
+                    "Payment applied to order number " + jsonPurchaseOrder.getToken()));
+            }
+
             return jsonPurchaseOrderUpdated.asJson();
         } catch (Exception e) {
             LOG.error("Failed processing cash payment on order reason={}", e.getLocalizedMessage(), e);
