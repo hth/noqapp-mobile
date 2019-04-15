@@ -733,6 +733,10 @@ public class PurchaseOrderController {
 
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
             if (null != registeredDevice) {
+                /* Send notification to merchant with this info. As there can be multiple merchants that needs notification for update. */
+                executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
+
+                /* Subscribe and Notify client. */
                 executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(jsonPurchaseOrder.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType()));
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
                     "Order placed at " + bizStore.getDisplayName(),
