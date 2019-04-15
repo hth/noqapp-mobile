@@ -1007,7 +1007,7 @@ public class PurchaseOrderController {
                 BizStoreEntity bizStore = bizStoreManager.findByCodeQR(jsonPurchaseOrderList.getPurchaseOrders().get(0).getCodeQR());
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
                     bizStore.getDisplayName() + " cancelled your order",
-                    "Your order number " +  jsonPurchaseOrderList.getPurchaseOrders().get(0).getToken() + " was cancelled");
+                    "Your order number " +  jsonPurchaseOrderList.getPurchaseOrders().get(0).getToken() + " was cancelled"));
             }
 
             return jsonPurchaseOrderList.asJson();
