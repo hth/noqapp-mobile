@@ -59,7 +59,6 @@ import com.noqapp.mobile.view.controller.api.merchant.queue.QueueController;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.repository.BizStoreManager;
 import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.service.FirebaseService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.exceptions.PriceMismatchException;
@@ -92,8 +91,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
@@ -125,7 +122,6 @@ public class PurchaseOrderController {
     private TokenQueueService tokenQueueService;
     private MedicalRecordService medicalRecordService;
     private DeviceService deviceService;
-    private FirebaseService firebaseService;
     private ApiHealthService apiHealthService;
 
     private BizStoreManager bizStoreManager;
@@ -151,7 +147,6 @@ public class PurchaseOrderController {
         TokenQueueService tokenQueueService,
         MedicalRecordService medicalRecordService,
         DeviceService deviceService,
-        FirebaseService firebaseService,
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -168,7 +163,6 @@ public class PurchaseOrderController {
         this.tokenQueueService = tokenQueueService;
         this.medicalRecordService = medicalRecordService;
         this.deviceService = deviceService;
-        this.firebaseService = firebaseService;
         this.apiHealthService = apiHealthService;
 
         /* For executing in order of sequence. */
