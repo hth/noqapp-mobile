@@ -93,7 +93,6 @@ class MedicalRecordControllerTest extends ITest {
             tokenQueueService,
             medicalRecordService,
             deviceService,
-            firebaseService,
             apiHealthService
         );
 
