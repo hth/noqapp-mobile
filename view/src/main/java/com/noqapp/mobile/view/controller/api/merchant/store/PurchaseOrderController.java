@@ -602,13 +602,12 @@ public class PurchaseOrderController {
         }
 
         try {
-            purchaseOrderService.createOrder(jsonPurchaseOrder, did.getText(), TokenServiceEnum.M);
+            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
+            purchaseOrderService.createOrder(jsonPurchaseOrder, DeviceService.getExistingDeviceId(registeredDevice, did.getText()), TokenServiceEnum.M);
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
 
             /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
             executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
-
-            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
             if (null != registeredDevice) {
                 /* Subscribe and Notify client. */
                 BizStoreEntity bizStore = bizStoreManager.findByCodeQR(jsonPurchaseOrder.getCodeQR());
