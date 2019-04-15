@@ -547,6 +547,8 @@ public class TokenQueueMobileService {
                 purchaseOrderService.cancelOrderByClient(queue.getGuardianQid() == null ? qid : queue.getGuardianQid(), queue.getTransactionId());
             }
             queueManager.abort(queue.getId());
+            /* Irrespective of Queue with order or without order, notify merchant of abort by just sending a refresh notification. */
+            tokenQueueService.forceRefreshOnSomeActivity(codeQR);
             return new JsonResponse(true);
         } catch (PurchaseOrderRefundPartialException | PurchaseOrderRefundExternalException | PurchaseOrderCancelException e) {
             throw e;
