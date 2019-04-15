@@ -553,7 +553,7 @@ public class QueueMobileService {
         String sentimentWatcherEmail,
         HttpClient httpClient
     ) {
-        LOG.debug("sentiment {} {} {} {} {}", storeName, reviewerPhone, ratingCount, hourSaved, review);
+        LOG.debug("Sentiment {} {} {} {} {}", storeName, reviewerPhone, ratingCount, hourSaved, review);
         HttpPost httpPost = webConnectorService.getHttpPost(negativeReview, httpClient);
         if (null == httpPost) {
             LOG.warn("failed connecting, reason={}", webConnectorService.getNoResponseFromWebServer());
