@@ -1002,7 +1002,7 @@ public class PurchaseOrderController {
             JsonPurchaseOrderList jsonPurchaseOrderList = purchaseOrderService.cancelOrderByMerchant(orderServed.getCodeQR().getText(), orderServed.getTransactionId());
             LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderList.getPurchaseOrders().get(0).getPresentOrderState());
 
-            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrderList.getPurchaseOrders().get(0).getQueueUserId());
+            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice( jsonPurchaseOrderList.getPurchaseOrders().get(0).getQueueUserId());
             if (null != registeredDevice) {
                 BizStoreEntity bizStore = bizStoreManager.findByCodeQR(jsonPurchaseOrderList.getPurchaseOrders().get(0).getCodeQR());
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
