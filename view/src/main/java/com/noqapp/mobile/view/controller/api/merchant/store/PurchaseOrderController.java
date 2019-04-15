@@ -607,7 +607,7 @@ public class PurchaseOrderController {
 
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
             if (null != registeredDevice) {
-                /* Send notification to merchant with this info. As there can be multiple merchants that needs notification for update. */
+                /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
                 executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
 
                 /* Subscribe and Notify client. */
@@ -733,7 +733,7 @@ public class PurchaseOrderController {
 
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
             if (null != registeredDevice) {
-                /* Send notification to merchant with this info. As there can be multiple merchants that needs notification for update. */
+                /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
                 executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
 
                 /* Subscribe and Notify client. */
