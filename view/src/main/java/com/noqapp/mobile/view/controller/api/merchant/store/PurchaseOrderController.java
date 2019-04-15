@@ -613,6 +613,9 @@ public class PurchaseOrderController {
                     registeredDevice,
                     "Order placed at " + bizStore.getDisplayName(),
                     "Your order number is " + jsonPurchaseOrder.getToken()));
+
+                /* Send notification to merchant with this info. As there can be multiple merchants that needs notification for update. */
+                executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
             }
 
             return jsonPurchaseOrder.asJson();
