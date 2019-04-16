@@ -1055,6 +1055,19 @@ public class QueueController {
                 jsonQueuedPerson.getJsonPurchaseOrder().getTransactionId(),
                 jsonQueuedPerson.getQueueUserId());
 
+            /* Abort when Refund is initiated by merchant. */
+            switch (queue.getQueueUserState()) {
+                case Q:
+                    tokenQueueMobileService.abort(queue.getId(), queue.getCodeQR());
+                    break;
+                case I:
+                case A:
+                case N:
+                    break;
+                default:
+                    LOG.error("Reached unsupported lab category {} transactionId={}", queue.getQueueUserState(), queue.getTransactionId());
+            }
+
             JsonQueuedPerson jsonQueuedPersonUpdated = queueService.getJsonQueuedPerson(queue);
             jsonQueuedPersonUpdated.setJsonPurchaseOrder(jsonPurchaseOrderList.getPurchaseOrders().get(0));
             return jsonQueuedPersonUpdated.asJson();
