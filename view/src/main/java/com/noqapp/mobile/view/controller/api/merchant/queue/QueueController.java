@@ -992,6 +992,17 @@ public class QueueController {
             JsonQueuedPerson jsonQueuedPersonUpdated = queueService.getJsonQueuedPerson(queue);
             jsonQueuedPersonUpdated.setJsonPurchaseOrder(jsonPurchaseOrder);
             LOG.info("Order counter payment updated successfully={}", jsonPurchaseOrder);
+
+            /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
+            executorService.execute(() -> tokenQueueService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR()));
+
+            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
+            if (null != registeredDevice) {
+                executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
+                    "Paid at counter",
+                    "Payment received for " + queue.getDisplayName()));
+            }
+
             return jsonQueuedPersonUpdated.asJson();
         } catch (Exception e) {
             LOG.error("Failed processing cash payment on order reason={}", e.getLocalizedMessage(), e);
