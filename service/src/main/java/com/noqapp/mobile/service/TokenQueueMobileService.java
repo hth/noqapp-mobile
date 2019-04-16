@@ -546,9 +546,7 @@ public class TokenQueueMobileService {
             if (StringUtils.isNotBlank(queue.getTransactionId())) {
                 purchaseOrderService.cancelOrderByClient(queue.getGuardianQid() == null ? qid : queue.getGuardianQid(), queue.getTransactionId());
             }
-            queueManager.abort(queue.getId());
-            /* Irrespective of Queue with order or without order, notify merchant of abort by just sending a refresh notification. */
-            tokenQueueService.forceRefreshOnSomeActivity(codeQR);
+            abort(queue.getId(), codeQR);
             return new JsonResponse(true);
         } catch (PurchaseOrderRefundPartialException | PurchaseOrderRefundExternalException | PurchaseOrderCancelException e) {
             throw e;
@@ -556,6 +554,12 @@ public class TokenQueueMobileService {
             LOG.error("Abort failed reason={}", e.getLocalizedMessage(), e);
             return new JsonResponse(false);
         }
+    }
+
+    public void abort(String id, String codeQR) {
+        queueManager.abort(id);
+        /* Irrespective of Queue with order or without order, notify merchant of abort by just sending a refresh notification. */
+        tokenQueueService.forceRefreshOnSomeActivity(codeQR);
     }
 
     public BizService getBizService() {
