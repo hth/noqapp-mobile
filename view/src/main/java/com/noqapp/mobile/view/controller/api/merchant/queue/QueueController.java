@@ -1092,7 +1092,7 @@ public class QueueController {
                     + jsonPurchaseOrderUpdated.getOrderPriceForDisplay() + " for " + queue.getDisplayName()
                     + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I ? "to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() : " at counter");
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
-                    "Refunded initiated by merchant",
+                    "Refund initiated by merchant",
                     body));
             }
 
