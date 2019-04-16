@@ -344,7 +344,7 @@ public class MedicalRecordController {
                     medicalRecordService.updatePathologyObservation(labFile.getRecordReferenceId(), labFile.getObservation());
                     break;
                 default:
-                    LOG.error("Reached unsupported lab category");
+                    LOG.error("Reached unsupported lab category {}", labFile.getLabCategory().getDescription());
                     throw new UnsupportedOperationException("Reached unsupported lab category " + labFile.getLabCategory().getDescription());
             }
 
