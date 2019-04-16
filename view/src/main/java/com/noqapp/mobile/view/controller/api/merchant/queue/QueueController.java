@@ -36,6 +36,7 @@ import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
+import com.noqapp.domain.types.TransactionViaEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
@@ -1018,7 +1019,12 @@ public class QueueController {
         }
     }
 
-    /** Cancel placed order. This initiates refund process. */
+    /**
+     * Cancel placed order. This initiates a refund process.
+     * Note: Merchant get two notification as it is sent by purchaseOrder when cancelled and the other one is due to Queue Aborted. Where as
+     * client receives one personal message on refund that mentions refund has been given at counter. Client message has to be saved in
+     * notification.
+     */
     @PostMapping(
         value = "/cancel",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -1077,6 +1083,17 @@ public class QueueController {
                     break;
                 default:
                     LOG.error("Reached unsupported lab category {} transactionId={}", queue.getQueueUserState(), queue.getTransactionId());
+            }
+
+            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrderList.getPurchaseOrders().get(0).getQueueUserId());
+            if (null != registeredDevice) {
+                JsonPurchaseOrder jsonPurchaseOrderUpdated = jsonPurchaseOrderList.getPurchaseOrders().get(0);
+                String body = "You have been refunded net total of "
+                    + jsonPurchaseOrderUpdated.getOrderPriceForDisplay() + " for " + queue.getDisplayName()
+                    + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I ? "to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() : " at counter");
+                executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
+                    "Refunded initiated by merchant",
+                    body));
             }
 
             JsonQueuedPerson jsonQueuedPersonUpdated = queueService.getJsonQueuedPerson(queue);
