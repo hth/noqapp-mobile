@@ -92,7 +92,7 @@ public class JsonModifyQueue extends AbstractDomain {
     @JsonProperty("fd")
     private int freeFollowupDays;
 
-    @JsonProperty("dd")
+    @JsonProperty("df")
     private int discountedFollowupDays;
 
     @JsonProperty("dp")
