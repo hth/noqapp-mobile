@@ -615,7 +615,8 @@ public class PurchaseOrderController {
                 executorService.execute(() -> queueMobileService.notifyClient(
                     registeredDevice,
                     "Order placed at " + bizStore.getDisplayName(),
-                    "Your order number is " + jsonPurchaseOrder.getToken()));
+                    "Your order number is " + jsonPurchaseOrder.getToken(),
+                    bizStore.getCodeQR()));
             }
 
             return jsonPurchaseOrder.asJson();
@@ -738,7 +739,8 @@ public class PurchaseOrderController {
                 executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(jsonPurchaseOrder.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType()));
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
                     "Order placed at " + bizStore.getDisplayName(),
-                    "Your order number is " + jsonPurchaseOrder.getToken()));
+                    "Your order number is " + jsonPurchaseOrder.getToken(),
+                    bizStore.getCodeQR()));
             }
 
             return jsonPurchaseOrder.asJson();
@@ -875,7 +877,8 @@ public class PurchaseOrderController {
                 /* Subscribe and Notify client. */
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
                     "Partial payment applied",
-                    "Partial payment applied on counter to order number " + jsonPurchaseOrder.getToken()));
+                    "Partial payment applied on counter to order number " + jsonPurchaseOrder.getToken(),
+                    jsonPurchaseOrder.getCodeQR()));
             }
 
             return jsonPurchaseOrderUpdated.asJson();
@@ -939,7 +942,8 @@ public class PurchaseOrderController {
             if (null != registeredDevice) {
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
                     "Paid at counter",
-                    "Payment applied to order number " + jsonPurchaseOrder.getToken()));
+                    "Payment applied to order number " + jsonPurchaseOrder.getToken(),
+                    jsonPurchaseOrder.getCodeQR()));
             }
 
             return jsonPurchaseOrderUpdated.asJson();

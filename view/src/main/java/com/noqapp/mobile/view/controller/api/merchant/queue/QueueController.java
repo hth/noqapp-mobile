@@ -809,7 +809,8 @@ public class QueueController {
                 executorService.execute(() -> queueMobileService.notifyClient(
                     registeredDevice,
                     "Joined " + bizStore.getDisplayName() + " Queue",
-                    "Your token number is " + jsonToken.getToken()));
+                    "Your token number is " + jsonToken.getToken(),
+                    bizStore.getCodeQR()));
             }
 
             return jsonToken.asJson();
@@ -1001,7 +1002,8 @@ public class QueueController {
             if (null != registeredDevice) {
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
                     "Paid at counter",
-                    "Payment received for " + queue.getDisplayName()));
+                    "Payment received for " + queue.getDisplayName(),
+                    jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR()));
             }
 
             return jsonQueuedPersonUpdated.asJson();
@@ -1093,7 +1095,8 @@ public class QueueController {
                     + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I ? "to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() : " at counter");
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
                     "Refund initiated by merchant",
-                    body));
+                    body,
+                    jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR()));
             }
 
             JsonQueuedPerson jsonQueuedPersonUpdated = queueService.getJsonQueuedPerson(queue);
