@@ -567,7 +567,7 @@ public class QueueMobileService {
     }
 
     /** Sends personal message with all the current queue and orders. */
-    public void notifyClient(RegisteredDeviceEntity registeredDevice, String title, String body) {
+    public void notifyClient(RegisteredDeviceEntity registeredDevice, String title, String body, String codeQR) {
         if (null != registeredDevice) {
             JsonTokenAndQueueList jsonTokenAndQueues = findAllJoinedQueues(registeredDevice.getQueueUserId(), registeredDevice.getDeviceId());
             jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllOpenOrderAsJson(registeredDevice.getQueueUserId()));
@@ -576,7 +576,8 @@ public class QueueMobileService {
                 registeredDevice,
                 jsonTokenAndQueues.getTokenAndQueues(),
                 body,
-                title);
+                title,
+                codeQR);
             firebaseMessageService.messageToTopic(jsonMessage);
         }
     }
