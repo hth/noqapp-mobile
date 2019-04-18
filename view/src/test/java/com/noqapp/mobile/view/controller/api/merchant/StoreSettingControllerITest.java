@@ -63,7 +63,7 @@ class StoreSettingControllerITest extends ITest {
 
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
         UserAccountEntity queueUserAccount = accountService.findByQueueUserId(queueSupervisorUserProfile.getQueueUserId());
-        String queueState = storeSettingController.queueState(
+        String storeState = storeSettingController.storeState(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
@@ -71,7 +71,7 @@ class StoreSettingControllerITest extends ITest {
             new ScrubbedInput(bizStore.getCodeQR()),
             httpServletResponse
         );
-        JsonModifyQueue jsonModifyQueue = new ObjectMapper().readValue(queueState, JsonModifyQueue.class);
+        JsonModifyQueue jsonModifyQueue = new ObjectMapper().readValue(storeState, JsonModifyQueue.class);
         assertFalse(jsonModifyQueue.isPreventJoining());
         assertFalse(jsonModifyQueue.isDayClosed());
         assertEquals(0, jsonModifyQueue.getAvailableTokenCount());

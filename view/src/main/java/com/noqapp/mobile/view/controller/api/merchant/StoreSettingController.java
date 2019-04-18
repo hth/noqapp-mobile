@@ -110,7 +110,7 @@ public class StoreSettingController {
         value = "/state/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String queueState(
+    public String storeState(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -170,7 +170,7 @@ public class StoreSettingController {
         } finally {
             apiHealthService.insert(
                 "/state/{codeQR}",
-                "queueState",
+                "storeState",
                 QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);

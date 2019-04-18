@@ -303,11 +303,11 @@ public class QueueController {
                     jsonToken = queueService.getNextInQueue(codeQR, goTo, did.getText());
 
                     /* Remove delay or any setting associated before starting of queue. */
-                    LOG.info("Resetting queue when queue status={}", tokenQueue.getQueueStatus());
+                    LOG.info("Resetting queue when queueStatus={}", tokenQueue.getQueueStatus());
                     tokenQueueService.resetQueueSettingWhenQueueStarts(codeQR);
                     break;
                 default:
-                    LOG.error("Reached unsupported condition queueState={}", tokenQueue.getQueueStatus());
+                    LOG.error("Reached unsupported condition queueStatus={}", tokenQueue.getQueueStatus());
                     throw new UnsupportedOperationException("Reached unsupported condition for QueueState " + tokenQueue.getQueueStatus().getDescription());
             }
 
@@ -606,7 +606,7 @@ public class QueueController {
             }
 
             TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(codeQR);
-            LOG.info("queueStatus received={} found={}, supports only queueState=Next", queueStatus, tokenQueue.getQueueStatus());
+            LOG.info("queueStatus received={} found={}, supports only queueStatus=Next", queueStatus, tokenQueue.getQueueStatus());
 
             JsonToken jsonToken;
             switch (tokenQueue.getQueueStatus()) {
@@ -615,8 +615,8 @@ public class QueueController {
                     break;
                 default:
                     //TODO(hth) remind apps to call state of the queue when failure is encountered as state might have changed. Update app with this state.
-                    LOG.error("Un-supported condition reached for acquiring token={} when queueState={}, supports only queueState=Next", servedNumber, tokenQueue.getQueueStatus());
-                    throw new UnsupportedOperationException("Reached unsupported condition for QueueState " + tokenQueue.getQueueStatus().getDescription());
+                    LOG.error("Un-supported condition reached for acquiring token={} when queueStatus={}, supports only queueStatus=Next", servedNumber, tokenQueue.getQueueStatus());
+                    throw new UnsupportedOperationException("Reached unsupported condition for QueueStatus " + tokenQueue.getQueueStatus().getDescription());
             }
 
             if (null == jsonToken) {
