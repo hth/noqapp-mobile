@@ -68,9 +68,9 @@ import javax.servlet.http.HttpServletResponse;
     "PMD.LongVariable"
 })
 @RestController
-@RequestMapping(value = "/api/m/mq")
-public class ManageQueueSettingController {
-    private static final Logger LOG = LoggerFactory.getLogger(ManageQueueSettingController.class);
+@RequestMapping(value = "/api/m/ss")
+public class StoreSettingController {
+    private static final Logger LOG = LoggerFactory.getLogger(StoreSettingController.class);
 
     private BizService bizService;
     private AccountService accountService;
@@ -83,7 +83,7 @@ public class ManageQueueSettingController {
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public ManageQueueSettingController(
+    public StoreSettingController(
         BizService bizService,
         AccountService accountService,
         QueueMobileService queueMobileService,
@@ -105,7 +105,7 @@ public class ManageQueueSettingController {
         this.apiHealthService = apiHealthService;
     }
 
-    /** Get existing state of the queue to change the settings. */
+    /** Get existing state of the store to change the settings. */
     @GetMapping(
         value = "/state/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -133,7 +133,7 @@ public class ManageQueueSettingController {
         LOG.info("Queue state associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/mq/state by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/ss/state by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -142,7 +142,7 @@ public class ManageQueueSettingController {
             LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
         } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
-            LOG.info("Un-authorized store access to /api/m/mq/state by mail={}", mail);
+            LOG.info("Un-authorized store access to /api/m/ss/state by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -205,7 +205,7 @@ public class ManageQueueSettingController {
         LOG.info("Remove schedule from queue associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/mq/removeSchedule by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/ss/removeSchedule by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -214,7 +214,7 @@ public class ManageQueueSettingController {
             LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
         } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
-            LOG.info("Un-authorized store access to /api/m/mq/removeSchedule by mail={}", mail);
+            LOG.info("Un-authorized store access to /api/m/ss/removeSchedule by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -295,7 +295,7 @@ public class ManageQueueSettingController {
         LOG.info("Modify queue associated with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/mq/modify by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/ss/modify by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -304,7 +304,7 @@ public class ManageQueueSettingController {
             LOG.warn("Not a valid codeQR={} qid={}", modifyQueue.getCodeQR(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
         } else if (!businessUserStoreService.hasAccess(qid, modifyQueue.getCodeQR())) {
-            LOG.info("Un-authorized store access to /api/m/mq/modify by mail={}", mail);
+            LOG.info("Un-authorized store access to /api/m/ss/modify by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -430,7 +430,7 @@ public class ManageQueueSettingController {
         LOG.info("Service cost for queue associated with mail={} did={} deviceType={} {}", mail, did, deviceType, modifyQueue.asJson());
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/mq/serviceCost by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/ss/serviceCost by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -439,7 +439,7 @@ public class ManageQueueSettingController {
             LOG.warn("Not a valid codeQR={} qid={}", modifyQueue.getCodeQR(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
         } else if (!businessUserStoreService.hasAccess(qid, modifyQueue.getCodeQR())) {
-            LOG.info("Un-authorized store access to /api/m/mq/serviceCost by mail={}", mail);
+            LOG.info("Un-authorized store access to /api/m/ss/serviceCost by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -456,7 +456,10 @@ public class ManageQueueSettingController {
                     modifyQueue.getCodeQR(),
                     modifyQueue.getProductPrice(),
                     modifyQueue.getCancellationPrice(),
-                    modifyQueue.getServicePayment());
+                    modifyQueue.getServicePayment(),
+                    modifyQueue.getFreeFollowupDays(),
+                    modifyQueue.getDiscountedFollowupDays(),
+                    modifyQueue.getDiscountedFollowupProductPrice());
             } else {
                 bizStore = bizService.disableServiceCost(modifyQueue.getCodeQR());
             }

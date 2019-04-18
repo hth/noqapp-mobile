@@ -89,6 +89,15 @@ public class JsonModifyQueue extends AbstractDomain {
     @JsonProperty("sp")
     private ServicePaymentEnum servicePayment;
 
+    @JsonProperty("fd")
+    private int freeFollowupDays;
+
+    @JsonProperty("dd")
+    private int discountedFollowupDays;
+
+    @JsonProperty("dp")
+    private int discountedFollowupProductPrice;
+
     @JsonProperty("sa")
     private ActionTypeEnum storeActionType;
 
@@ -118,6 +127,9 @@ public class JsonModifyQueue extends AbstractDomain {
         this.productPrice = bizStore.getProductPrice();
         this.cancellationPrice = bizStore.getCancellationPrice();
         this.servicePayment = bizStore.getServicePayment();
+        this.freeFollowupDays = bizStore.getFreeFollowupDays();
+        this.discountedFollowupDays = bizStore.getDiscountedFollowupDays();
+        this.discountedFollowupProductPrice = bizStore.getDiscountedFollowupProductPrice();
 
         if (null != scheduledTask) {
             scheduledFromDay = scheduledTask.getFrom();
@@ -146,6 +158,9 @@ public class JsonModifyQueue extends AbstractDomain {
         this.productPrice = bizStore.getProductPrice();
         this.cancellationPrice = bizStore.getCancellationPrice();
         this.servicePayment = bizStore.getServicePayment();
+        this.freeFollowupDays = bizStore.getFreeFollowupDays();
+        this.discountedFollowupDays = bizStore.getDiscountedFollowupDays();
+        this.discountedFollowupProductPrice = bizStore.getDiscountedFollowupProductPrice();
 
         if (null != scheduledTask) {
             scheduledFromDay = scheduledTask.getFrom();
@@ -303,6 +318,33 @@ public class JsonModifyQueue extends AbstractDomain {
 
     public JsonModifyQueue setServicePayment(ServicePaymentEnum servicePayment) {
         this.servicePayment = servicePayment;
+        return this;
+    }
+
+    public int getFreeFollowupDays() {
+        return freeFollowupDays;
+    }
+
+    public JsonModifyQueue setFreeFollowupDays(int freeFollowupDays) {
+        this.freeFollowupDays = freeFollowupDays;
+        return this;
+    }
+
+    public int getDiscountedFollowupDays() {
+        return discountedFollowupDays;
+    }
+
+    public JsonModifyQueue setDiscountedFollowupDays(int discountedFollowupDays) {
+        this.discountedFollowupDays = discountedFollowupDays;
+        return this;
+    }
+
+    public int getDiscountedFollowupProductPrice() {
+        return discountedFollowupProductPrice;
+    }
+
+    public JsonModifyQueue setDiscountedFollowupProductPrice(int discountedFollowupProductPrice) {
+        this.discountedFollowupProductPrice = discountedFollowupProductPrice;
         return this;
     }
 

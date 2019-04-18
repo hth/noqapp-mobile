@@ -47,7 +47,7 @@ class QueueControllerITest extends ITest {
 
     private QueueController queueController;
     private TokenQueueAPIController tokenQueueAPIController;
-    private ManageQueueSettingController manageQueueSettingController;
+    private StoreSettingController storeSettingController;
 
     @BeforeEach
     void setUp() {
@@ -74,7 +74,7 @@ class QueueControllerITest extends ITest {
             apiHealthService
         );
 
-        manageQueueSettingController = new ManageQueueSettingController(
+        storeSettingController = new StoreSettingController(
             bizService,
             accountService,
             queueMobileService,
@@ -553,7 +553,7 @@ class QueueControllerITest extends ITest {
 
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
         UserAccountEntity queueUserAccount = accountService.findByQueueUserId(queueSupervisorUserProfile.getQueueUserId());
-        String queueStateResponse = manageQueueSettingController.modify(
+        String queueStateResponse = storeSettingController.modify(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
@@ -632,7 +632,7 @@ class QueueControllerITest extends ITest {
             .setPreventJoining(false)
             .setAvailableTokenCount(0);
 
-        manageQueueSettingController.modify(
+        storeSettingController.modify(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),

@@ -12,7 +12,6 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.ActionTypeEnum;
 import com.noqapp.mobile.domain.JsonModifyQueue;
 import com.noqapp.mobile.view.ITest;
-import com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,13 +30,13 @@ import java.io.IOException;
 @DisplayName("Manage Queue Setting API")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
-class ManageQueueSettingControllerITest extends ITest {
+class StoreSettingControllerITest extends ITest {
 
-    private ManageQueueSettingController manageQueueSettingController;
+    private StoreSettingController storeSettingController;
 
     @BeforeEach
     void setUp() {
-        manageQueueSettingController = new ManageQueueSettingController(
+        storeSettingController = new StoreSettingController(
             bizService,
             accountService,
             queueMobileService,
@@ -64,7 +63,7 @@ class ManageQueueSettingControllerITest extends ITest {
 
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
         UserAccountEntity queueUserAccount = accountService.findByQueueUserId(queueSupervisorUserProfile.getQueueUserId());
-        String queueState = manageQueueSettingController.queueState(
+        String queueState = storeSettingController.queueState(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
@@ -91,7 +90,7 @@ class ManageQueueSettingControllerITest extends ITest {
 
         UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
         UserAccountEntity queueUserAccount = accountService.findByQueueUserId(queueSupervisorUserProfile.getQueueUserId());
-        String queueStateResponse = manageQueueSettingController.modify(
+        String queueStateResponse = storeSettingController.modify(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
@@ -116,7 +115,7 @@ class ManageQueueSettingControllerITest extends ITest {
             .setAvailableTokenCount(0)
             .setStoreActionType(ActionTypeEnum.ACTIVE);
 
-        manageQueueSettingController.modify(
+        storeSettingController.modify(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
