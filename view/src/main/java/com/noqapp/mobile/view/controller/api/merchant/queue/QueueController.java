@@ -1001,8 +1001,9 @@ public class QueueController {
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
             if (null != registeredDevice) {
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
-                    "Paid at counter",
-                    "Payment received for " + queue.getDisplayName(),
+                    "Paid at counter for " + queue.getDisplayName(),
+                    "Your order at " + queue.getDisplayName() + " number " + jsonPurchaseOrder.getToken()
+                        + " has been paid at the counter via " + jsonPurchaseOrder.getPaymentMode().getDescription(),
                     jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR()));
             }
 

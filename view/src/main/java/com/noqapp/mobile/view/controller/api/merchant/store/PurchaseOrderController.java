@@ -886,10 +886,11 @@ public class PurchaseOrderController {
 
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
             if (null != registeredDevice) {
-                /* Subscribe and Notify client. */
+                TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrder.getCodeQR());
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
-                    "Partial payment applied",
-                    "Partial payment applied on counter to order number " + jsonPurchaseOrder.getToken(),
+                    "Partial payment applied for " + tokenQueue.getDisplayName(),
+                    "Your order at " + tokenQueue.getDisplayName() + " number " + jsonPurchaseOrder.getToken()
+                        + " has been partially paid at the counter via " + jsonPurchaseOrder.getPaymentMode().getDescription(),
                     jsonPurchaseOrder.getCodeQR()));
             }
 
@@ -952,9 +953,11 @@ public class PurchaseOrderController {
 
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
             if (null != registeredDevice) {
+                TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrder.getCodeQR());
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
-                    "Paid at counter",
-                    "Payment applied to order number " + jsonPurchaseOrder.getToken(),
+                    "Paid at counter for " + tokenQueue.getDisplayName(),
+                    "Your order at " + tokenQueue.getDisplayName() + " number " + jsonPurchaseOrder.getToken()
+                        + " has been paid at the counter via " + jsonPurchaseOrder.getPaymentMode().getDescription(),
                     jsonPurchaseOrder.getCodeQR()));
             }
 
