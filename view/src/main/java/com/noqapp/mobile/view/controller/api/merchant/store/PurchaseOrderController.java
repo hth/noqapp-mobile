@@ -25,12 +25,14 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.TokenQueueEntity;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderList;
 import com.noqapp.domain.json.JsonPurchaseOrderProduct;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.BusinessTypeEnum;
+import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
@@ -58,6 +60,7 @@ import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.merchant.queue.QueueController;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.repository.BizStoreManager;
+import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
@@ -124,6 +127,7 @@ public class PurchaseOrderController {
     private DeviceService deviceService;
     private ApiHealthService apiHealthService;
 
+    private UserProfileManager userProfileManager;
     private BizStoreManager bizStoreManager;
     private MedicalRadiologyManager medicalRadiologyManager;
     private MedicalPathologyManager medicalPathologyManager;
@@ -135,6 +139,7 @@ public class PurchaseOrderController {
         @Value("${ManageQueueController.counterNameLength}")
         int counterNameLength,
 
+        UserProfileManager userProfileManager,
         BizStoreManager bizStoreManager,
         MedicalRadiologyManager medicalRadiologyManager,
         MedicalPathologyManager medicalPathologyManager,
@@ -151,6 +156,7 @@ public class PurchaseOrderController {
     ) {
         this.counterNameLength = counterNameLength;
 
+        this.userProfileManager = userProfileManager;
         this.bizStoreManager = bizStoreManager;
         this.medicalRadiologyManager = medicalRadiologyManager;
         this.medicalPathologyManager = medicalPathologyManager;
@@ -692,14 +698,20 @@ public class PurchaseOrderController {
                 return ErrorEncounteredJson.toJson("Cannot create this order", FAILED_PLACING_MEDICAL_ORDER_AS_INCORRECT_BUSINESS);
             }
 
+            UserProfileEntity userProfile = userProfileManager.findByQueueUserId(jsonPurchaseOrder.getQueueUserId());
+            jsonPurchaseOrder
+                .setDeliveryAddress(userProfile.getAddress())
+                .setDeliveryMode(DeliveryModeEnum.TO);
+
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
             purchaseOrderService.createOrder(jsonPurchaseOrder, DeviceService.getExistingDeviceId(registeredDevice, did.getText()), TokenServiceEnum.M);
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(jsonPurchaseOrder.getTransactionId());
 
-            JsonMedicalRecord jsonMedicalRecord = new JsonMedicalRecord();
-            jsonMedicalRecord.setRecordReferenceId(purchaseOrder.getId());
-            jsonMedicalRecord.setFormVersion(FormVersionEnum.MFD1);
-            jsonMedicalRecord.setQueueUserId(jsonPurchaseOrder.getQueueUserId());
+            JsonMedicalRecord jsonMedicalRecord = new JsonMedicalRecord()
+                .setRecordReferenceId(purchaseOrder.getId())
+                .setFormVersion(FormVersionEnum.MFD1)
+                .setQueueUserId(jsonPurchaseOrder.getQueueUserId())
+                .setCodeQR(bizStore.getCodeQR());
 
             switch (LabCategoryEnum.valueOf(bizStore.getBizCategoryId())) {
                 case SPEC:
@@ -729,7 +741,7 @@ public class PurchaseOrderController {
                     throw new UnsupportedOperationException("Reached unsupported lab category " + bizStore.getBizCategoryId());
             }
 
-            medicalRecordService.addMedicalRecordWhenExternal(jsonMedicalRecord);
+            medicalRecordService.addMedicalRecordWhenExternal(jsonMedicalRecord, purchaseOrder.getTransactionId());
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
 
             /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
