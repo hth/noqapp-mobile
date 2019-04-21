@@ -9,6 +9,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSO
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ORDER_PAYMENT_UPDATE_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_NOT_RE_STARTED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_NOT_STARTED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_NO_SERVICE_NO_PAY;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
@@ -617,6 +618,9 @@ public class QueueController {
                 case S:
                     LOG.info("Queue has not started qid={} queueStatus={} displayName={}", qid, queueStatus, tokenQueue.getDisplayName());
                     return getErrorReason("Click start button to begin", QUEUE_NOT_STARTED);
+                case R:
+                    LOG.info("Queue has not re-started qid={} queueStatus={} displayName={}", qid, queueStatus, tokenQueue.getDisplayName());
+                    return getErrorReason("Click continue button to begin", QUEUE_NOT_RE_STARTED);
                 default:
                     //TODO(hth) remind apps to call state of the queue when failure is encountered as state might have changed. Update app with this state.
                     LOG.error("Un-supported condition reached for acquiring token={} when queueStatus={}, supports only queueStatus=Next", servedNumber, tokenQueue.getQueueStatus());
