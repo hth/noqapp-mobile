@@ -10,6 +10,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_O
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRICE_MISMATCH;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRODUCT_NOT_FOUND;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_NOT_STARTED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_OFFLINE;
@@ -433,6 +434,9 @@ public class PurchaseOrderController {
                 case N:
                     jsonToken = purchaseOrderService.getThisAsNextInQueue(codeQR, goTo, did.getText(), servedNumber);
                     break;
+                case S:
+                    LOG.info("Queue has not started qid={} queueStatus={} displayName={}", qid, queueStatus, tokenQueue.getDisplayName());
+                    return getErrorReason("Click start button to begin", QUEUE_NOT_STARTED);
                 default:
                     //TODO(hth) remind apps to call state of the queue when failure is encountered as state might have changed. Update app with this state.
                     LOG.error("Un-supported condition reached for acquiring token={} when queueStatus={}, supports only queueStatus=Next", servedNumber, tokenQueue.getQueueStatus());
