@@ -159,6 +159,7 @@ public class QueueMobileService {
              */
             JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, null, null, 0, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
+            jsonQueue.setCreated(queue.getCreated());
 
             LOG.info("QID is {} should be null for did={}", queue.getQueueUserId(), did);
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
@@ -194,6 +195,8 @@ public class QueueMobileService {
              */
             //JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, qid, queue.getGuardianQid(), 0, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
+            jsonQueue.setCreated(queue.getCreated());
+
             JsonPurchaseOrder jsonPurchaseOrder = null;
             if (StringUtils.isNotBlank(queue.getTransactionId())) {
                 PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(queue.getTransactionId());
