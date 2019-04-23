@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.domain.BizStoreEntity.UNDER_SCORE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_NOT_STARTED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -18,6 +19,9 @@ import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
+import com.noqapp.mobile.common.util.ErrorJson;
+import com.noqapp.mobile.common.util.ErrorJsonList;
+import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.domain.JsonModifyQueue;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.domain.body.merchant.Served;
@@ -368,16 +372,17 @@ class QueueControllerITest extends ITest {
             .setQueueStatus(jsonTopic.getTopics().iterator().next().getQueueStatus())
             .setGoTo("Counter 1");
 
-        assertThrows(UnsupportedOperationException.class, () -> {
-            queueController.acquire(
-                new ScrubbedInput(didQueueSupervisor),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(queueUserAccount.getUserId()),
-                new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
-                served2Fail.asJson(),
-                httpServletResponse
-            );
-        });
+        String responseJson = queueController.acquire(
+            new ScrubbedInput(didQueueSupervisor),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(queueUserAccount.getUserId()),
+            new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
+            served2Fail.asJson(),
+            httpServletResponse
+        );
+
+        ErrorJsonList errorJsonList = new ObjectMapper().readValue(responseJson, ErrorJsonList.class);
+        assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.QUEUE_NOT_STARTED.name());
     }
 
     @Test
