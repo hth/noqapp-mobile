@@ -1097,7 +1097,15 @@ public class QueueController {
                     LOG.error("Reached unsupported lab category {} transactionId={}", queue.getQueueUserState(), queue.getTransactionId());
             }
 
-            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrderList.getPurchaseOrders().get(0).getQueueUserId());
+            UserProfileEntity userProfile = accountService.findProfileByQueueUserId(jsonQueuedPerson.getJsonPurchaseOrder().getQueueUserId());
+            RegisteredDeviceEntity registeredDevice;
+            if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
+                String guardianQid = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone()).getQueueUserId();
+                registeredDevice = deviceService.findRecentDevice(guardianQid);
+            } else {
+                registeredDevice = deviceService.findRecentDevice(userProfile.getQueueUserId());
+            }
+
             if (null != registeredDevice) {
                 JsonPurchaseOrder jsonPurchaseOrderUpdated = jsonPurchaseOrderList.getPurchaseOrders().get(0);
                 String body;

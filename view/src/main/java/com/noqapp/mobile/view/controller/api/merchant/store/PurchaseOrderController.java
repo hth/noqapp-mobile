@@ -1039,7 +1039,15 @@ public class PurchaseOrderController {
                 medicalRecordService.deleteReminisceOfTransactionId(jsonPurchaseOrderUpdated.getTransactionId());
             }
 
-            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrderUpdated.getQueueUserId());
+            UserProfileEntity userProfile = userProfileManager.findByQueueUserId(jsonPurchaseOrderUpdated.getQueueUserId());
+            RegisteredDeviceEntity registeredDevice;
+            if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
+                String guardianQid = userProfileManager.findOneByPhone(userProfile.getGuardianPhone()).getQueueUserId();
+                registeredDevice = deviceService.findRecentDevice(guardianQid);
+            } else {
+                registeredDevice = deviceService.findRecentDevice(userProfile.getQueueUserId());
+            }
+
             if (null != registeredDevice) {
                 TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrderUpdated.getCodeQR());
                 String body;
