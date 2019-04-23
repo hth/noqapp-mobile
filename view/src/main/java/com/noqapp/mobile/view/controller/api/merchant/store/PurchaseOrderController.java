@@ -1032,7 +1032,7 @@ public class PurchaseOrderController {
                 return getErrorReason("Order already cancelled", PURCHASE_ORDER_ALREADY_CANCELLED);
             }
 
-            JsonPurchaseOrderList jsonPurchaseOrderList = purchaseOrderService.cancelOrderByMerchant(orderServed.getCodeQR().getText(), orderServed.getTransactionId());
+            JsonPurchaseOrderList jsonPurchaseOrderList = purchaseOrderService.cancelOrderByMerchant(orderServed.getQueueUserId(), orderServed.getTransactionId());
             JsonPurchaseOrder jsonPurchaseOrderUpdated = jsonPurchaseOrderList.getPurchaseOrders().get(0);
             if (BusinessTypeEnum.HS == jsonPurchaseOrderUpdated.getBusinessType()) {
                 medicalRecordService.deleteReminisceOfTransactionId(jsonPurchaseOrderUpdated.getTransactionId());

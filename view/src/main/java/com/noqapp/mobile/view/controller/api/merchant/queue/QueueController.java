@@ -1075,7 +1075,7 @@ public class QueueController {
                 return getErrorReason("Order already cancelled", PURCHASE_ORDER_ALREADY_CANCELLED);
             }
 
-            JsonPurchaseOrderList jsonPurchaseOrderList = purchaseOrderService.cancelOrderByMerchant(jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getJsonPurchaseOrder().getTransactionId());
+            JsonPurchaseOrderList jsonPurchaseOrderList = purchaseOrderService.cancelOrderByMerchant(jsonQueuedPerson.getJsonPurchaseOrder().getQueueUserId(), jsonQueuedPerson.getJsonPurchaseOrder().getTransactionId());
             LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderList.getPurchaseOrders().get(0).getPresentOrderState());
 
             QueueEntity queue = queueService.findByTransactionId(

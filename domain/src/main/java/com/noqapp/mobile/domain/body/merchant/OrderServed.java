@@ -38,6 +38,9 @@ public class OrderServed extends AbstractDomain {
     @JsonProperty ("ti")
     private String transactionId;
 
+    @JsonProperty("qid")
+    private String queueUserId;
+
     @JsonProperty("p")
     private PurchaseOrderStateEnum purchaseOrderState;
 
@@ -69,6 +72,15 @@ public class OrderServed extends AbstractDomain {
 
     public OrderServed setTransactionId(String transactionId) {
         this.transactionId = transactionId;
+        return this;
+    }
+
+    public String getQueueUserId() {
+        return queueUserId;
+    }
+
+    public OrderServed setQueueUserId(String queueUserId) {
+        this.queueUserId = queueUserId;
         return this;
     }
 
