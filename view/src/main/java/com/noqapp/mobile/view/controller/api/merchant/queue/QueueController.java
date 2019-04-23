@@ -1100,7 +1100,10 @@ public class QueueController {
             if (null != registeredDevice) {
                 JsonPurchaseOrder jsonPurchaseOrderUpdated = jsonPurchaseOrderList.getPurchaseOrders().get(0);
                 String body = "You have been refunded net total of " + jsonPurchaseOrderUpdated.getOrderPriceForDisplay()
-                    + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I ? " to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() : " at counter");
+                    + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
+                    ? " to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription()
+                    : " at counter");
+
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
                     "Refund initiated by " + queue.getDisplayName(),
                     body,
