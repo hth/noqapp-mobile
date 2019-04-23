@@ -38,6 +38,7 @@ import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
+import com.noqapp.domain.types.TransactionViaEnum;
 import com.noqapp.domain.types.medical.FormVersionEnum;
 import com.noqapp.domain.types.medical.LabCategoryEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
@@ -1032,6 +1033,25 @@ public class PurchaseOrderController {
             }
 
             JsonPurchaseOrderList jsonPurchaseOrderList = purchaseOrderService.cancelOrderByMerchant(orderServed.getCodeQR().getText(), orderServed.getTransactionId());
+            JsonPurchaseOrder jsonPurchaseOrderUpdated = jsonPurchaseOrderList.getPurchaseOrders().get(0);
+            if (BusinessTypeEnum.HS == jsonPurchaseOrderUpdated.getBusinessType()) {
+                medicalRecordService.deleteReminisceOfTransactionId(jsonPurchaseOrderUpdated.getTransactionId());
+            }
+
+            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrderUpdated.getQueueUserId());
+            if (null != registeredDevice) {
+                TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrderUpdated.getCodeQR());
+                String body = "You have been refunded net total of " + jsonPurchaseOrderUpdated.getOrderPriceForDisplay()
+                    + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
+                    ? " to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription()
+                    : " at counter");
+
+                executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
+                    "Refund initiated by " + tokenQueue.getDisplayName(),
+                    body,
+                    jsonPurchaseOrderUpdated.getCodeQR()));
+            }
+
             LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderList.getPurchaseOrders().get(0).getPresentOrderState());
             return jsonPurchaseOrderList.asJson();
         } catch (Exception e) {
