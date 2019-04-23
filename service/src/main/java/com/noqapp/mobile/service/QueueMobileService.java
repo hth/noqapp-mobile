@@ -159,6 +159,8 @@ public class QueueMobileService {
              */
             JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, null, null, 0, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
+
+            /* Override the create date of TokenAndQueue. This date helps in sorting of client side to show active queue. */
             jsonQueue.setCreated(queue.getCreated());
 
             LOG.info("QID is {} should be null for did={}", queue.getQueueUserId(), did);
@@ -195,6 +197,8 @@ public class QueueMobileService {
              */
             //JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, qid, queue.getGuardianQid(), 0, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
+
+            /* Override the create date of TokenAndQueue. This date helps in sorting of client side to show active queue. */
             jsonQueue.setCreated(queue.getCreated());
 
             JsonPurchaseOrder jsonPurchaseOrder = null;
