@@ -1076,10 +1076,6 @@ public class QueueController {
             }
 
             JsonPurchaseOrderList jsonPurchaseOrderList = purchaseOrderService.cancelOrderByMerchant(jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getJsonPurchaseOrder().getTransactionId());
-            JsonPurchaseOrder jsonPurchaseOrderUpdated = jsonPurchaseOrderList.getPurchaseOrders().get(0);
-            if (BusinessTypeEnum.HS == jsonPurchaseOrderUpdated.getBusinessType()) {
-                medicalRecordService.deleteReminisceOfTransactionId(jsonPurchaseOrderUpdated.getTransactionId());
-            }
             LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderList.getPurchaseOrders().get(0).getPresentOrderState());
 
             QueueEntity queue = queueService.findByTransactionId(
@@ -1102,6 +1098,7 @@ public class QueueController {
 
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrderList.getPurchaseOrders().get(0).getQueueUserId());
             if (null != registeredDevice) {
+                JsonPurchaseOrder jsonPurchaseOrderUpdated = jsonPurchaseOrderList.getPurchaseOrders().get(0);
                 String body = "You have been refunded net total of " + jsonPurchaseOrderUpdated.getOrderPriceForDisplay()
                     + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I ? " to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() : " at counter");
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
