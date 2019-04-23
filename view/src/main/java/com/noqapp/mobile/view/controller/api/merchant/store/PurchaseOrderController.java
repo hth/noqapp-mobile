@@ -711,7 +711,14 @@ public class PurchaseOrderController {
                 .setDeliveryAddress(userProfile.getAddress())
                 .setDeliveryMode(DeliveryModeEnum.TO);
 
-            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
+            RegisteredDeviceEntity registeredDevice;
+            if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
+                String guardianQid = userProfileManager.findOneByPhone(userProfile.getGuardianPhone()).getQueueUserId();
+                registeredDevice = deviceService.findRecentDevice(guardianQid);
+            } else {
+                registeredDevice = deviceService.findRecentDevice(userProfile.getQueueUserId());
+            }
+
             purchaseOrderService.createOrder(jsonPurchaseOrder, DeviceService.getExistingDeviceId(registeredDevice, did.getText()), TokenServiceEnum.M);
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(jsonPurchaseOrder.getTransactionId());
 
