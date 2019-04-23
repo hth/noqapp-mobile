@@ -77,6 +77,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
@@ -1099,10 +1100,15 @@ public class QueueController {
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrderList.getPurchaseOrders().get(0).getQueueUserId());
             if (null != registeredDevice) {
                 JsonPurchaseOrder jsonPurchaseOrderUpdated = jsonPurchaseOrderList.getPurchaseOrders().get(0);
-                String body = "You have been refunded net total of " + jsonPurchaseOrderUpdated.getOrderPriceForDisplay()
-                    + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
-                    ? " to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription()
-                    : " at counter");
+                String body;
+                if (new BigDecimal(jsonPurchaseOrderUpdated.getOrderPriceForDisplay()).intValue() > 0) {
+                    body = "You have been refunded net total of " + jsonPurchaseOrderUpdated.getOrderPriceForDisplay()
+                        + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
+                        ? " to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription()
+                        : " at counter");
+                } else {
+                    body = "Refund initiated but there is nothing to refund. Refund is initiated when order is cancelled by merchant";
+                }
 
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
                     "Refund initiated by " + queue.getDisplayName(),
