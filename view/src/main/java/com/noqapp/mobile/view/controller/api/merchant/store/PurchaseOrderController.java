@@ -95,6 +95,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
@@ -1041,10 +1042,15 @@ public class PurchaseOrderController {
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrderUpdated.getQueueUserId());
             if (null != registeredDevice) {
                 TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrderUpdated.getCodeQR());
-                String body = "You have been refunded net total of " + jsonPurchaseOrderUpdated.getOrderPriceForDisplay()
-                    + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
-                    ? " to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription()
-                    : " at counter");
+                String body;
+                if (new BigDecimal(jsonPurchaseOrderUpdated.getOrderPriceForDisplay()).intValue() > 0) {
+                    body = "You have been refunded net total of " + jsonPurchaseOrderUpdated.getOrderPriceForDisplay()
+                        + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
+                        ? " to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription()
+                        : " at counter");
+                } else {
+                    body = "Refund initiated but there is nothing to refund. Refund is initiated when order is cancelled by merchant";
+                }
 
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
                     "Refund initiated by " + tokenQueue.getDisplayName(),
