@@ -133,7 +133,7 @@ public class NoQAppInitializationCheckBean {
     @PostConstruct
     public void checkPaymentGateway() {
         boolean cashfreeSuccess = paymentGatewayService.verifyCashfree();
-        if (!cashfreeSuccess && buildEnvironment.equalsIgnoreCase("prod")) {
+        if (!cashfreeSuccess) {
             LOG.error("Cashfree Payment Gateway could not be verified");
             throw new RuntimeException("Cashfree Payment Gateway could not be verified");
         }
