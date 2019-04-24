@@ -31,10 +31,10 @@ import java.util.concurrent.TimeUnit;
  * Date: 11/19/16 1:47 PM
  */
 @SuppressWarnings({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @Controller
 @RequestMapping(value = "/open")
@@ -42,9 +42,9 @@ public class IsWorkingController {
     private static final Logger LOG = LoggerFactory.getLogger(IsWorkingController.class);
 
     private final Cache<String, JsonSiteHealth> cache = CacheBuilder.newBuilder()
-            .maximumSize(1)
-            .expireAfterWrite(15, TimeUnit.MINUTES)
-            .build();
+        .maximumSize(1)
+        .expireAfterWrite(15, TimeUnit.MINUTES)
+        .build();
 
     private SiteHealthService siteHealthService;
     private ApiHealthService apiHealthService;
@@ -70,11 +70,11 @@ public class IsWorkingController {
      * @see <a href="http://axelfontaine.com/blog/http-head.html">http://axelfontaine.com/blog/http-head.html</a>
      */
     @RequestMapping(
-            value = "/isWorking",
-            method = {RequestMethod.GET, RequestMethod.HEAD},
-            produces = {
-                    MediaType.TEXT_HTML_VALUE + ";charset=UTF-8",
-            }
+        value = "/isWorking",
+        method = {RequestMethod.GET, RequestMethod.HEAD},
+        produces = {
+            MediaType.TEXT_HTML_VALUE + ";charset=UTF-8",
+        }
     )
     public String isWorking() {
         LOG.info("isWorking");
@@ -87,8 +87,8 @@ public class IsWorkingController {
      * @return
      */
     @GetMapping(
-            value = "/healthCheck",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/healthCheck",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -108,11 +108,11 @@ public class IsWorkingController {
         }
 
         apiHealthService.insert(
-                "/healthCheck",
-                "healthCheck",
-                IsWorkingController.class.getName(),
-                Duration.between(start, Instant.now()),
-                HealthStatusEnum.G);
+            "/healthCheck",
+            "healthCheck",
+            IsWorkingController.class.getName(),
+            Duration.between(start, Instant.now()),
+            HealthStatusEnum.G);
 
         return jsonSiteHealth.asJson();
     }
