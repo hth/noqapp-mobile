@@ -1108,18 +1108,20 @@ public class QueueController {
 
             if (null != registeredDevice) {
                 JsonPurchaseOrder jsonPurchaseOrderUpdated = jsonPurchaseOrderList.getPurchaseOrders().get(0);
-                String body;
+                String title, body;
                 if (new BigDecimal(jsonPurchaseOrderUpdated.getOrderPriceForDisplay()).intValue() > 0) {
+                    title = "Refund initiated by " + queue.getDisplayName();
                     body = "You have been refunded net total of " + jsonPurchaseOrderUpdated.getOrderPriceForDisplay()
                         + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
                         ? " to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription()
                         : " at counter");
                 } else {
-                    body = "Refund initiated but there is nothing to refund. Refund is initiated when order is cancelled by merchant";
+                    title = "Cancelled order by "  + queue.getDisplayName();
+                    body = "Your order was cancelled by merchant";
                 }
 
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
-                    "Refund initiated by " + queue.getDisplayName(),
+                    title,
                     body,
                     jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR()));
             }
