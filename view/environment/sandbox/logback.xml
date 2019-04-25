@@ -36,16 +36,6 @@
         </encoder>
     </appender>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>trace</level>
-        </filter>
-
-        <encoder>
-            <pattern>%C{46}.%M Message=%msg%n%ex{full}</pattern>
-        </encoder>
-    </appender>
-
     <logger name="com.noqapp" level="DEBUG" />
     <logger name="com.noqapp.mobile.web.filter.LogContextFilter" level="OFF" />
     <logger name="com.noqapp.mobile.service" level="DEBUG" />
