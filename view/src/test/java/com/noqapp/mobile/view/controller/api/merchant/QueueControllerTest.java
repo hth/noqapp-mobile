@@ -34,6 +34,7 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.queue.QueueController;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
+import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.FirebaseService;
 import com.noqapp.service.PurchaseOrderService;
@@ -81,6 +82,7 @@ class QueueControllerTest {
     @Mock private ApiHealthService apiHealthService;
     @Mock private BizService bizService;
     @Mock private AccountService accountService;
+    @Mock private BusinessCustomerService businessCustomerService;
     @Mock private TokenQueueMobileService tokenQueueMobileService;
     @Mock private MedicalRecordService medicalRecordService;
     @Mock private PurchaseOrderService purchaseOrderService;
@@ -107,6 +109,7 @@ class QueueControllerTest {
             tokenQueueService,
             tokenQueueMobileService,
             accountService,
+            businessCustomerService,
             purchaseOrderService,
             medicalRecordService,
             deviceService,

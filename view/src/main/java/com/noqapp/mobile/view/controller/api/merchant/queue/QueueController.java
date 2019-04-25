@@ -52,6 +52,7 @@ import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.service.AccountService;
+import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
@@ -110,6 +111,7 @@ public class QueueController {
     private TokenQueueService tokenQueueService;
     private TokenQueueMobileService tokenQueueMobileService;
     private AccountService accountService;
+    private BusinessCustomerService businessCustomerService;
     private PurchaseOrderService purchaseOrderService;
     private MedicalRecordService medicalRecordService;
     private DeviceService deviceService;
@@ -129,6 +131,7 @@ public class QueueController {
         TokenQueueService tokenQueueService,
         TokenQueueMobileService tokenQueueMobileService,
         AccountService accountService,
+        BusinessCustomerService businessCustomerService,
         PurchaseOrderService purchaseOrderService,
         MedicalRecordService medicalRecordService,
         DeviceService deviceService,
@@ -142,6 +145,7 @@ public class QueueController {
         this.tokenQueueService = tokenQueueService;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.accountService = accountService;
+        this.businessCustomerService = businessCustomerService;
         this.purchaseOrderService = purchaseOrderService;
         this.medicalRecordService = medicalRecordService;
         this.deviceService = deviceService;
@@ -770,6 +774,8 @@ public class QueueController {
                         userProfile = null;
                     }
                 }
+            } else if (StringUtils.isNotBlank(businessCustomer.getBusinessCustomerId())) {
+                userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(businessCustomer.getBusinessCustomerId(), bizStore.getBizName().getId());
             }
 
             if (null == userProfile) {
