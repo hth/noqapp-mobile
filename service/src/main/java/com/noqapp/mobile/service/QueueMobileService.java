@@ -406,13 +406,6 @@ public class QueueMobileService {
 
     /**
      * Since review can be done in background. Moved logic to thread.
-     *
-     * @param codeQR
-     * @param token
-     * @param did
-     * @param qid
-     * @param ratingCount
-     * @param hoursSaved
      */
     public boolean reviewService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved, String review) {
         executorService.submit(() -> reviewingService(codeQR, token, did, qid, ratingCount, hoursSaved, review));
