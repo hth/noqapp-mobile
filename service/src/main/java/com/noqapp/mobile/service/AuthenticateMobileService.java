@@ -43,8 +43,9 @@ public class AuthenticateMobileService {
             if (null == userAccount) {
                 return null;
             } else {
-                return userAccount.getUserAuthentication().getAuthenticationKey().equals(
-                        URLDecoder.decode(auth, "UTF-8")) ? userAccount : null;
+                return userAccount.getUserAuthentication().getAuthenticationKey().equals(URLDecoder.decode(auth, "UTF-8"))
+                    ? userAccount
+                    : null;
             }
         } catch (UnsupportedEncodingException e) {
             LOG.error("Auth decoding issue for user={}, reason={}", mail, e.getLocalizedMessage(), e);
