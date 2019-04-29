@@ -412,9 +412,7 @@ public class QueueMobileService {
         return true;
     }
 
-    /**
-     * Submitting review.
-     */
+    /** Submitting review. */
     private void reviewingService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved, String review) {
         SentimentTypeEnum sentimentType = nlpService.computeSentiment(review);
         boolean reviewSubmitStatus = queueManager.reviewService(codeQR, token, did, qid, ratingCount, hoursSaved, review, sentimentType);
