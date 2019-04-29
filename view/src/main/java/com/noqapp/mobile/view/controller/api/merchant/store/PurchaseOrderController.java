@@ -247,6 +247,8 @@ public class PurchaseOrderController {
         }
     }
 
+    //TODO add for history
+
     /**
      * When client is served by merchant.
      * And
@@ -1301,7 +1303,7 @@ public class PurchaseOrderController {
         value = "/receiptInfo",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String getBusinessInfo(
+    public String receiptInfo(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
