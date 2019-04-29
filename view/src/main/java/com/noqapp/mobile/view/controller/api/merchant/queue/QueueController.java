@@ -471,9 +471,7 @@ public class QueueController {
         }
     }
 
-    /**
-     * List all registered clients from history. None registered clients are never shown.
-     */
+    /** List all registered clients from history. Non registered clients are never shown. */
     @PostMapping(
         value = "/showClients/{codeQR}/historical",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
