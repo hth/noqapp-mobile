@@ -3,6 +3,7 @@ package com.noqapp.mobile.view.listener;
 import com.noqapp.common.config.FirebaseConfig;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
+import com.noqapp.search.elastic.service.BizStoreElasticService;
 import com.noqapp.search.elastic.service.ElasticAdministrationService;
 import com.noqapp.service.payment.PaymentGatewayService;
 
@@ -46,6 +47,7 @@ public class NoQAppInitializationCheckBean {
     private FirebaseConfig firebaseConfig;
     private RestHighLevelClient restHighLevelClient;
     private ElasticAdministrationService elasticAdministrationService;
+    private BizStoreElasticService bizStoreElasticService;
     private DatabaseReader databaseReader;
     private PaymentGatewayService paymentGatewayService;
 
@@ -58,6 +60,7 @@ public class NoQAppInitializationCheckBean {
         FirebaseConfig firebaseConfig,
         RestHighLevelClient restHighLevelClient,
         ElasticAdministrationService elasticAdministrationService,
+        BizStoreElasticService bizStoreElasticService,
         DatabaseReader databaseReader,
         PaymentGatewayService paymentGatewayService
     ) {
@@ -67,6 +70,7 @@ public class NoQAppInitializationCheckBean {
         this.firebaseConfig = firebaseConfig;
         this.restHighLevelClient = restHighLevelClient;
         this.elasticAdministrationService = elasticAdministrationService;
+        this.bizStoreElasticService = bizStoreElasticService;
         this.databaseReader = databaseReader;
         this.paymentGatewayService = paymentGatewayService;
     }
@@ -113,8 +117,15 @@ public class NoQAppInitializationCheckBean {
     @PostConstruct
     public void checkElasticIndex() {
         if (!elasticAdministrationService.doesIndexExists(BizStoreElastic.INDEX)) {
-            LOG.error("Elastic Index not found {}", BizStoreElastic.INDEX);
-            throw new RuntimeException("Elastic Index not found");
+            LOG.info("Elastic Index={} not found. Building Indexes... please wait", BizStoreElastic.INDEX);
+            boolean createdMappingSuccessfully = elasticAdministrationService.addMapping(
+                BizStoreElastic.INDEX,
+                BizStoreElastic.TYPE);
+
+            if (createdMappingSuccessfully) {
+                LOG.info("Created Index and Mapping successfully. Adding data to Index/Type");
+                bizStoreElasticService.addAllBizStoreToElastic();
+            }
         } else {
             LOG.info("Elastic Index={} found", BizStoreElastic.INDEX);
         }
