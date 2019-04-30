@@ -158,8 +158,6 @@ public class PurchaseOrderController {
         TokenQueueService tokenQueueService,
         MedicalRecordService medicalRecordService,
         DeviceService deviceService,
-        ProfessionalProfileService professionalProfileService,
-        PurchaseOrderProductService purchaseOrderProductService,
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
