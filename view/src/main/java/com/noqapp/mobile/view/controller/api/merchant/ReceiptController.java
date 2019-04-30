@@ -169,7 +169,7 @@ public class ReceiptController {
         } catch (Exception e) {
             LOG.error("Failed populating with receipt detail reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return receipt.asJson();
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
                 "/detail",
