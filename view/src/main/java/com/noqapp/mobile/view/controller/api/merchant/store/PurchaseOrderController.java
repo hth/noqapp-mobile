@@ -19,18 +19,15 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_PREV
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_TEMP_DAY_CLOSED;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
-import static com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE.PUBLIC;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
-import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderList;
 import com.noqapp.domain.json.JsonPurchaseOrderProduct;
@@ -42,7 +39,6 @@ import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.domain.types.TransactionViaEnum;
-import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.domain.types.medical.FormVersionEnum;
 import com.noqapp.domain.types.medical.LabCategoryEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
@@ -60,7 +56,6 @@ import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.LabFile;
 import com.noqapp.mobile.domain.body.merchant.OrderServed;
-import com.noqapp.mobile.domain.body.merchant.Receipt;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.service.QueueMobileService;
@@ -105,7 +100,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
@@ -137,8 +131,6 @@ public class PurchaseOrderController {
     private TokenQueueService tokenQueueService;
     private MedicalRecordService medicalRecordService;
     private DeviceService deviceService;
-    private ProfessionalProfileService professionalProfileService;
-    private PurchaseOrderProductService purchaseOrderProductService;
     private ApiHealthService apiHealthService;
 
     private UserProfileManager userProfileManager;
@@ -166,8 +158,6 @@ public class PurchaseOrderController {
         TokenQueueService tokenQueueService,
         MedicalRecordService medicalRecordService,
         DeviceService deviceService,
-        ProfessionalProfileService professionalProfileService,
-        PurchaseOrderProductService purchaseOrderProductService,
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -185,8 +175,6 @@ public class PurchaseOrderController {
         this.tokenQueueService = tokenQueueService;
         this.medicalRecordService = medicalRecordService;
         this.deviceService = deviceService;
-        this.professionalProfileService = professionalProfileService;
-        this.purchaseOrderProductService = purchaseOrderProductService;
         this.apiHealthService = apiHealthService;
 
         /* For executing in order of sequence. */
@@ -1293,87 +1281,6 @@ public class PurchaseOrderController {
             apiHealthService.insert(
                 "/showAttachment",
                 "showAttachment",
-                PurchaseOrderController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
-    @PostMapping(
-        value = "/receiptInfo",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
-    )
-    public String receiptInfo(
-        @RequestHeader("X-R-DID")
-        ScrubbedInput did,
-
-        @RequestHeader ("X-R-DT")
-        ScrubbedInput deviceType,
-
-        @RequestHeader("X-R-MAIL")
-        ScrubbedInput mail,
-
-        @RequestHeader("X-R-AUTH")
-        ScrubbedInput auth,
-
-        @RequestBody
-        Receipt receipt,
-
-        HttpServletResponse response
-    ) throws IOException {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.info("Review for did={} transactionId={} codeQR={}", did, receipt.getTransactionId(), receipt.getCodeQR());
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/receiptInfo")) return null;
-
-        try {
-            /* Required. */
-            BizStoreEntity bizStore = bizStoreManager.findByCodeQR(receipt.getCodeQR());
-            if (null == bizStore) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
-                return null;
-            }
-
-            receipt.setBusinessName(bizStore.getBizName().getBusinessName())
-                .setStoreAddress(bizStore.getAreaAndTown())
-                .setBusinessType(bizStore.getBusinessType())
-                .setStorePhone(bizStore.getPhone());
-
-            PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(receipt.getTransactionId());
-            if (null == purchaseOrder) {
-                purchaseOrder = purchaseOrderService.findHistoricalPurchaseOrder(receipt.getQueueUserId(), receipt.getTransactionId());
-                receipt.setJsonPurchaseOrder(purchaseOrderProductService.populateHistoricalJsonPurchaseOrder(purchaseOrder));
-            } else {
-                receipt.setJsonPurchaseOrder(purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder));
-            }
-
-            switch (bizStore.getBusinessType()) {
-                case DO:
-                    List<BusinessUserStoreEntity> businessUserStores = businessUserStoreService.findAllManagingStoreWithUserLevel(
-                        bizStore.getId(),
-                        UserLevelEnum.S_MANAGER);
-
-                    BusinessUserStoreEntity businessUserStore = businessUserStores.get(0);
-                    JsonProfessionalProfile jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfile(businessUserStore.getQueueUserId(), PUBLIC);
-                    receipt.setName(jsonProfessionalProfile.getName())
-                        .setEducation(jsonProfessionalProfile.getEducation())
-                        .setLicenses(jsonProfessionalProfile.getLicenses());
-
-                    break;
-                default:
-                    //Do Nothing
-            }
-
-            return receipt.asJson();
-        } catch (Exception e) {
-            LOG.error("Failed populating with receiptInfo reason={}", e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return receipt.asJson();
-        } finally {
-            apiHealthService.insert(
-                "/receiptInfo",
-                "receiptInfo",
                 PurchaseOrderController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
