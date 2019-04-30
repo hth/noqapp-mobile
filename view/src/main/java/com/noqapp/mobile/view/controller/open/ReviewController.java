@@ -202,6 +202,7 @@ public class ReviewController {
                 case Q:
                     JsonReviewList jsonReviewList = reviewService.findQueueLevelUpReviews(bizStore.getBizName().getId());
                     jsonReviewList.setCodeQR(codeQR.getText());
+                    return jsonReviewList.asJson();
             }
 
             return new JsonReviewList().asJson();
