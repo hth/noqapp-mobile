@@ -73,7 +73,7 @@ public class Receipt extends AbstractDomain {
     private List<JsonNameDatePair> licenses;
 
     /* Customer Detail. */
-    @JsonProperty("p")
+    @JsonProperty("jp")
     private JsonProfile jsonProfile;
 
     public String getCodeQR() {
