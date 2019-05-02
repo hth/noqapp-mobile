@@ -11,14 +11,18 @@ import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
+import com.noqapp.domain.UserAccountEntity;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.body.merchant.Receipt;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.repository.BizStoreManager;
+import com.noqapp.repository.UserProfileManager;
+import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.PurchaseOrderProductService;
@@ -48,7 +52,7 @@ import javax.servlet.http.HttpServletResponse;
  * User: hitender
  * Date: 2019-04-30 11:01
  */
-@SuppressWarnings ({
+@SuppressWarnings({
     "PMD.BeanMembersShouldSerialize",
     "PMD.LocalVariableCouldBeFinal",
     "PMD.MethodArgumentCouldBeFinal",
@@ -60,6 +64,7 @@ public class ReceiptController {
     private static final Logger LOG = LoggerFactory.getLogger(ReceiptController.class);
 
     private AuthenticateMobileService authenticateMobileService;
+    private AccountService accountService;
     private PurchaseOrderService purchaseOrderService;
     private BusinessUserStoreService businessUserStoreService;
     private ProfessionalProfileService professionalProfileService;
@@ -71,6 +76,7 @@ public class ReceiptController {
     @Autowired
     public ReceiptController(
         AuthenticateMobileService authenticateMobileService,
+        AccountService accountService,
         PurchaseOrderService purchaseOrderService,
         BusinessUserStoreService businessUserStoreService,
         ProfessionalProfileService professionalProfileService,
@@ -79,6 +85,7 @@ public class ReceiptController {
         BizStoreManager bizStoreManager
     ) {
         this.authenticateMobileService = authenticateMobileService;
+        this.accountService = accountService;
         this.purchaseOrderService = purchaseOrderService;
         this.businessUserStoreService = businessUserStoreService;
         this.professionalProfileService = professionalProfileService;
@@ -95,7 +102,7 @@ public class ReceiptController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput deviceType,
 
         @RequestHeader("X-R-MAIL")
@@ -141,12 +148,17 @@ public class ReceiptController {
                 purchaseOrder = purchaseOrderService.findHistoricalPurchaseOrder(receipt.getQueueUserId(), receipt.getTransactionId());
                 receipt.setJsonPurchaseOrder(purchaseOrderProductService.populateHistoricalJsonPurchaseOrder(purchaseOrder));
             } else {
-                if(purchaseOrder.getQueueUserId().equalsIgnoreCase(receipt.getQueueUserId())) {
+                if (purchaseOrder.getQueueUserId().equalsIgnoreCase(receipt.getQueueUserId())) {
                     receipt.setJsonPurchaseOrder(purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder));
                 } else {
                     return getErrorReason("Could not find user", USER_NOT_FOUND);
                 }
             }
+
+            UserAccountEntity userAccount = accountService.findByQueueUserId(purchaseOrder.getQueueUserId());
+            UserProfileEntity userProfile = accountService.findProfileByQueueUserId(purchaseOrder.getQueueUserId());
+            JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount);
+            receipt.setJsonProfile(jsonProfile);
 
             switch (bizStore.getBusinessType()) {
                 case DO:

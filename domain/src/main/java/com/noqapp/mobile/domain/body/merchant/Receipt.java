@@ -1,23 +1,16 @@
 package com.noqapp.mobile.domain.body.merchant;
 
 import com.noqapp.common.utils.AbstractDomain;
-import com.noqapp.common.utils.MathUtil;
 import com.noqapp.domain.json.JsonNameDatePair;
 import com.noqapp.domain.json.JsonPurchaseOrder;
-import com.noqapp.domain.json.JsonPurchaseOrderProduct;
 import com.noqapp.domain.types.BusinessTypeEnum;
-import com.noqapp.domain.types.PaymentModeEnum;
-import com.noqapp.domain.types.PaymentStatusEnum;
-import com.noqapp.domain.types.TransactionViaEnum;
+import com.noqapp.mobile.domain.JsonProfile;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -78,6 +71,10 @@ public class Receipt extends AbstractDomain {
     /* Required to mark as a valid profile. */
     @JsonProperty("li")
     private List<JsonNameDatePair> licenses;
+
+    /* Customer Detail. */
+    @JsonProperty("p")
+    private JsonProfile jsonProfile;
 
     public String getCodeQR() {
         return codeQR;
@@ -184,6 +181,15 @@ public class Receipt extends AbstractDomain {
 
     public Receipt setLicenses(List<JsonNameDatePair> licenses) {
         this.licenses = licenses;
+        return this;
+    }
+
+    public JsonProfile getJsonProfile() {
+        return jsonProfile;
+    }
+
+    public Receipt setJsonProfile(JsonProfile jsonProfile) {
+        this.jsonProfile = jsonProfile;
         return this;
     }
 }
