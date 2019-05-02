@@ -450,7 +450,7 @@ public class ITest extends RealMongoForITest {
         );
 
         queueService = new QueueService(
-            30,
+            5,
             userProfileManager,
             businessCustomerService,
             bizStoreManager,
@@ -498,6 +498,7 @@ public class ITest extends RealMongoForITest {
 
         storeProductService = new StoreProductService(storeProductManager, bizStoreManager, fileService, transactionService);
         purchaseOrderService = new PurchaseOrderService(
+            5,
             bizStoreManager,
             businessUserManager,
             storeHourManager,
