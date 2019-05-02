@@ -112,7 +112,7 @@ public class NoQAppInitializationCheckBean {
     @PostConstruct
     public void checkElasticIndex() {
         if (!elasticAdministrationService.doesIndexExists(BizStoreElastic.INDEX)) {
-            LOG.error("Elastic Index not found {}", BizStoreElastic.INDEX);
+            LOG.warn("Elastic Index not found {}", BizStoreElastic.INDEX);
         } else {
             LOG.info("Elastic Index={} found", BizStoreElastic.INDEX);
         }
