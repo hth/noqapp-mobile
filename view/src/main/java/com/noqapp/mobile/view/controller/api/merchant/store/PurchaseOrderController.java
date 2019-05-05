@@ -1117,7 +1117,7 @@ public class PurchaseOrderController {
             if (null != registeredDevice) {
                 TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrderUpdated.getCodeQR());
                 String title, body;
-                if (new BigDecimal(jsonPurchaseOrderUpdated.getOrderPriceForDisplay()).intValue() > 0) {
+                if (new BigDecimal(jsonPurchaseOrderUpdated.getOrderPriceForDisplay()).intValue() > 0 && jsonPurchaseOrderUpdated.getPaymentMode() != null) {
                     title = "Refund initiated by " + tokenQueue.getDisplayName();
                     body = "You have been refunded net total of " + jsonPurchaseOrderUpdated.getOrderPriceForDisplay()
                         + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
