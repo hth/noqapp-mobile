@@ -426,7 +426,7 @@ public class PurchaseOrderController {
 
     /**
      * Acquire specific token not in order. Send message of being served next to the owner of the token.
-     * This does not increment the serving number but silently notifies the customer of being served. 
+     * This does not increment the serving number but silently notifies the customer of being served.
      */
     @PostMapping (
         value = "/acquire",
@@ -777,7 +777,7 @@ public class PurchaseOrderController {
 
             UserProfileEntity userProfile = userProfileManager.findByQueueUserId(jsonPurchaseOrder.getQueueUserId());
             jsonPurchaseOrder
-                .setDeliveryAddress(userProfile.getAddress())
+                .setDeliveryAddress(jsonPurchaseOrder.getDeliveryAddress())
                 .setDeliveryMode(DeliveryModeEnum.TO);
 
             RegisteredDeviceEntity registeredDevice;
