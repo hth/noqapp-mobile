@@ -415,16 +415,14 @@ public class TokenQueueMobileService {
 
     /** Invoke by client and hence has a token service as Client. */
     public JsonToken payBeforeJoinQueue(String codeQR, String did, String qid, String guardianQid, BizStoreEntity bizStore, TokenServiceEnum tokenService) {
-        String purchaserQid = StringUtils.isBlank(guardianQid) ? qid : guardianQid;
-
         JsonToken jsonToken = tokenQueueService.getPaidNextToken(codeQR, did, qid, guardianQid, bizStore.getAverageServiceTime(), tokenService);
 
         JsonPurchaseOrder jsonPurchaseOrder;
         PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(jsonToken.getTransactionId());
         if (null == purchaseOrder) {
-            jsonPurchaseOrder = createNewJsonPurchaseOrder(purchaserQid, jsonToken, bizStore);
+            jsonPurchaseOrder = createNewJsonPurchaseOrder(qid, jsonToken, bizStore);
             LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
-            purchaseOrderService.createOrder(jsonPurchaseOrder, purchaserQid, did, TokenServiceEnum.C);
+            purchaseOrderService.createOrder(jsonPurchaseOrder, qid, did, TokenServiceEnum.C);
             queueManager.updateWithTransactionId(codeQR, qid, jsonToken.getToken(), jsonPurchaseOrder.getTransactionId());
         } else {
             LOG.info("Found exists purchaseOrder with transactionId={}", purchaseOrder.getTransactionId());
