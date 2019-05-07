@@ -776,9 +776,7 @@ public class PurchaseOrderController {
             }
 
             UserProfileEntity userProfile = userProfileManager.findByQueueUserId(jsonPurchaseOrder.getQueueUserId());
-            jsonPurchaseOrder
-                .setDeliveryAddress(jsonPurchaseOrder.getDeliveryAddress())
-                .setDeliveryMode(DeliveryModeEnum.TO);
+            jsonPurchaseOrder.setDeliveryMode(DeliveryModeEnum.TO);
 
             RegisteredDeviceEntity registeredDevice;
             if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
