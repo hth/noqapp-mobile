@@ -83,6 +83,9 @@ public final class JsonProfile extends AbstractDomain {
     @JsonProperty("av")
     private boolean accountValidated;
 
+    @JsonProperty ("mp")
+    private JsonUserMedicalProfile jsonUserMedicalProfile;
+
     /* Dependents can be anyone minor or other elderly family members. */
     @JsonProperty ("dp")
     private List<JsonProfile> dependents = new ArrayList<>();
@@ -199,6 +202,15 @@ public final class JsonProfile extends AbstractDomain {
 
     public boolean isAccountValidated() {
         return accountValidated;
+    }
+
+    public JsonUserMedicalProfile getJsonUserMedicalProfile() {
+        return jsonUserMedicalProfile;
+    }
+
+    public JsonProfile setJsonUserMedicalProfile(JsonUserMedicalProfile jsonUserMedicalProfile) {
+        this.jsonUserMedicalProfile = jsonUserMedicalProfile;
+        return this;
     }
 
     public List<JsonProfile> getDependents() {
