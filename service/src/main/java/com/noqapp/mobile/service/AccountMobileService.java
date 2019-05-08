@@ -57,7 +57,6 @@ public class AccountMobileService {
 
     private WebConnectorService webConnectorService;
     private AccountService accountService;
-    private UserMedicalProfileService userMedicalProfileService;
     private ProfessionalProfileService professionalProfileService;
     private UserAddressService userAddressService;
 
@@ -71,7 +70,6 @@ public class AccountMobileService {
 
         WebConnectorService webConnectorService,
         AccountService accountService,
-        UserMedicalProfileService userMedicalProfileService,
         ProfessionalProfileService professionalProfileService,
         UserAddressService userAddressService
     ) {
@@ -80,7 +78,6 @@ public class AccountMobileService {
 
         this.webConnectorService = webConnectorService;
         this.accountService = accountService;
-        this.userMedicalProfileService = userMedicalProfileService;
         this.professionalProfileService = professionalProfileService;
         this.userAddressService = userAddressService;
     }
@@ -256,7 +253,6 @@ public class AccountMobileService {
         UserProfileEntity userProfile = findProfileByQueueUserId(qid);
         JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
         JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount)
-            .setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid))
             .setJsonUserAddresses(jsonUserAddressList.getJsonUserAddresses());
 
         if (null != userProfile.getQidOfDependents()) {
