@@ -2,14 +2,21 @@ package com.noqapp.mobile.view.controller.api.client.health;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_PROFILE_DOES_NOT_EXISTS;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_DOES_NOT_EXISTS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.service.MedicalRecordService;
+import com.noqapp.mobile.domain.body.client.UserMedicalProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.repository.UserProfileManager;
+
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -89,44 +97,6 @@ public class MedicalRecordAPIController {
             apiHealthService.insert(
                 "/fetch",
                 "fetch",
-                MedicalRecordAPIController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
-    @GetMapping(
-        value = "/physicalHistory",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
-    )
-    public String physicalHistory(
-        @RequestHeader("X-R-MAIL")
-        ScrubbedInput mail,
-
-        @RequestHeader("X-R-AUTH")
-        ScrubbedInput auth,
-
-        HttpServletResponse response
-    ) throws IOException {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.debug("Medical Record Fetch mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        try {
-            return medicalRecordService.populateMedicalPhysicalHistory(qid).asJson();
-        } catch (Exception e) {
-            LOG.error("Failed getting medical physical record qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
-        } finally {
-            apiHealthService.insert(
-                "/physicalHistory",
-                "physicalHistory",
                 MedicalRecordAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
