@@ -86,6 +86,7 @@ public class ClientProfileAPIController {
     private AccountClientValidator accountClientValidator;
     private AccountMobileService accountMobileService;
     private UserAddressService userAddressService;
+    private UserMedicalProfileService userMedicalProfileService;
     private ProfileCommonHelper profileCommonHelper;
     private ImageCommonHelper imageCommonHelper;
     private ImageValidator imageValidator;
@@ -98,6 +99,7 @@ public class ClientProfileAPIController {
         AccountClientValidator accountClientValidator,
         AccountMobileService accountMobileService,
         UserAddressService userAddressService,
+        UserMedicalProfileService userMedicalProfileService,
         ProfileCommonHelper profileCommonHelper,
         ImageCommonHelper imageCommonHelper,
         ImageValidator imageValidator
@@ -108,6 +110,7 @@ public class ClientProfileAPIController {
         this.accountClientValidator = accountClientValidator;
         this.accountMobileService = accountMobileService;
         this.userAddressService = userAddressService;
+        this.userMedicalProfileService = userMedicalProfileService;
         this.profileCommonHelper = profileCommonHelper;
         this.imageCommonHelper = imageCommonHelper;
         this.imageValidator = imageValidator;
@@ -369,6 +372,7 @@ public class ClientProfileAPIController {
 
                 userProfile = userProfilePreferenceService.findByQueueUserId(userAccount.getQueueUserId());
                 JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount);
+                jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
 
                 if (null != userProfile.getQidOfDependents()) {
                     for (String qidOfDependent : userProfile.getQidOfDependents()) {
@@ -483,6 +487,7 @@ public class ClientProfileAPIController {
                 /* Note: Added temp mail directly, without updating profile data. */
                 userProfile.setEmail(mailMigrate);
                 JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount);
+                jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
 
                 if (null != userProfile.getQidOfDependents()) {
                     for (String qidOfDependent : userProfile.getQidOfDependents()) {
