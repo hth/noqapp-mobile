@@ -244,19 +244,20 @@ public class AccountMobileService {
             LOG.warn("Account In Active {} qid={}", userAccount.getAccountInactiveReason(), qid);
             throw new AccountNotActiveException("Account is blocked. Contact support.");
         }
-        return getProfileForMedicalAsJson(qid, userAccount);
-    }
-
-    public JsonProfile getProfileForMedicalAsJson(String qid) {
-        return getProfileForMedicalAsJson(qid, findByQueueUserId(qid));
+        return getProfileAsJson(qid, userAccount);
     }
 
     /** Medical profile should not care about inactive account. */
-    private JsonProfile getProfileForMedicalAsJson(String qid, UserAccountEntity userAccount) {
+    public JsonProfile getProfileForMedicalAsJson(String qid) {
+        JsonProfile jsonProfile = getProfileAsJson(qid, findByQueueUserId(qid));
+        jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
+        return jsonProfile;
+    }
+
+    private JsonProfile getProfileAsJson(String qid, UserAccountEntity userAccount) {
         UserProfileEntity userProfile = findProfileByQueueUserId(qid);
         JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
         JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount)
-            .setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid))
             .setJsonUserAddresses(jsonUserAddressList.getJsonUserAddresses());
 
         if (null != userProfile.getQidOfDependents()) {
