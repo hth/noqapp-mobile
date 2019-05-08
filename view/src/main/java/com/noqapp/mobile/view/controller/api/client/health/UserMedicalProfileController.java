@@ -16,7 +16,10 @@ import com.noqapp.domain.json.medical.JsonUserMedicalProfile;
 import com.noqapp.domain.types.medical.BloodTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.domain.MedicalPhysicalEntity;
 import com.noqapp.medical.domain.UserMedicalProfileEntity;
+import com.noqapp.medical.domain.json.JsonMedicalPhysical;
+import com.noqapp.medical.domain.json.JsonMedicalProfile;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
@@ -160,7 +163,7 @@ public class UserMedicalProfileController {
         ScrubbedInput auth,
 
         @RequestBody
-        JsonUserMedicalProfile jsonUserMedicalProfile,
+        UserMedicalProfile userMedicalProfile,
 
         HttpServletResponse response
     ) throws IOException {
@@ -172,18 +175,36 @@ public class UserMedicalProfileController {
 
         Map<String, String> errors;
         try {
-            errors = userMedicalProfileValidator.validate(jsonUserMedicalProfile.getBloodType());
+
+            String medicalProfileOfQueueUserId = null;
+            if (StringUtils.isBlank(userMedicalProfile.getGuardianQueueUserId()) && userMedicalProfile.getMedicalProfileOfQueueUserId().equalsIgnoreCase(qid)) {
+                medicalProfileOfQueueUserId = qid;
+            } else {
+                UserProfileEntity userProfile = userProfileManager.findByQueueUserId(qid);
+                if (userProfileManager.dependentExists(userMedicalProfile.getMedicalProfileOfQueueUserId(), userProfile.getPhone())) {
+                    medicalProfileOfQueueUserId = userMedicalProfile.getMedicalProfileOfQueueUserId();
+                }
+            }
+
+            errors = userMedicalProfileValidator.validate(userMedicalProfile.getJsonUserMedicalProfile().getBloodType());
             if (!errors.isEmpty()) {
                 return ErrorEncounteredJson.toJson(errors);
             }
 
-            UserMedicalProfileEntity userMedicalProfile = userMedicalProfileService.findOne(qid);
-            if (null == userMedicalProfile) {
-                userMedicalProfile = new UserMedicalProfileEntity(qid);
+            UserMedicalProfileEntity userMedicalProfileEntity = userMedicalProfileService.findOne(medicalProfileOfQueueUserId);
+            if (null == userMedicalProfileEntity) {
+                userMedicalProfileEntity = new UserMedicalProfileEntity(medicalProfileOfQueueUserId);
             }
-            userMedicalProfile.setBloodType(jsonUserMedicalProfile.getBloodType());
-            userMedicalProfileService.save(userMedicalProfile);
-            return accountMobileService.getProfileAsJson(qid).asJson();
+            userMedicalProfileEntity.setBloodType(userMedicalProfile.getJsonUserMedicalProfile().getBloodType());
+            userMedicalProfileService.save(userMedicalProfileEntity);
+
+            JsonMedicalProfile jsonMedicalProfile = new JsonMedicalProfile();
+            List<MedicalPhysicalEntity> medicalPhysicals = medicalRecordService.findByQid(medicalProfileOfQueueUserId);
+            for (MedicalPhysicalEntity medicalPhysical : medicalPhysicals) {
+                jsonMedicalProfile.addJsonMedicalPhysical(JsonMedicalPhysical.populateJsonMedicalPhysical(medicalPhysical));
+            }
+            jsonMedicalProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
+            return jsonMedicalProfile.asJson();
         } catch (AccountNotActiveException e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
