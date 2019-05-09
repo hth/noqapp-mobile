@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 )
 @JsonPropertyOrder(alphabetic = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserMedicalProfile extends AbstractDomain {
+public class MedicalProfile extends AbstractDomain {
 
     @JsonProperty("qid")
     private String medicalProfileOfQueueUserId;
@@ -41,7 +41,7 @@ public class UserMedicalProfile extends AbstractDomain {
         return medicalProfileOfQueueUserId;
     }
 
-    public UserMedicalProfile setMedicalProfileOfQueueUserId(String medicalProfileOfQueueUserId) {
+    public MedicalProfile setMedicalProfileOfQueueUserId(String medicalProfileOfQueueUserId) {
         this.medicalProfileOfQueueUserId = medicalProfileOfQueueUserId;
         return this;
     }
@@ -50,7 +50,7 @@ public class UserMedicalProfile extends AbstractDomain {
         return guardianQueueUserId;
     }
 
-    public UserMedicalProfile setGuardianQueueUserId(String guardianQueueUserId) {
+    public MedicalProfile setGuardianQueueUserId(String guardianQueueUserId) {
         this.guardianQueueUserId = guardianQueueUserId;
         return this;
     }
@@ -59,7 +59,7 @@ public class UserMedicalProfile extends AbstractDomain {
         return jsonUserMedicalProfile;
     }
 
-    public UserMedicalProfile setJsonUserMedicalProfile(JsonUserMedicalProfile jsonUserMedicalProfile) {
+    public MedicalProfile setJsonUserMedicalProfile(JsonUserMedicalProfile jsonUserMedicalProfile) {
         this.jsonUserMedicalProfile = jsonUserMedicalProfile;
         return this;
     }
