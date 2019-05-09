@@ -966,10 +966,11 @@ public class PurchaseOrderController {
             /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
             executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
 
-            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
+            RegisteredDeviceEntity registeredDevice = deviceService.findByDid(jsonPurchaseOrderUpdated.getDid());
             if (null != registeredDevice) {
                 TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrder.getCodeQR());
-                executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
+                executorService.execute(() -> queueMobileService.notifyClient(
+                    registeredDevice,
                     "Partial payment applied for " + tokenQueue.getDisplayName(),
                     "Your order at " + tokenQueue.getDisplayName() + " number " + jsonPurchaseOrder.getToken()
                         + " has been partially paid at the counter via " + jsonPurchaseOrder.getPaymentMode().getDescription(),
@@ -1033,10 +1034,11 @@ public class PurchaseOrderController {
             /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
             executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
 
-            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
+            RegisteredDeviceEntity registeredDevice = deviceService.findByDid(jsonPurchaseOrderUpdated.getDid());
             if (null != registeredDevice) {
                 TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrder.getCodeQR());
-                executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
+                executorService.execute(() -> queueMobileService.notifyClient(
+                    registeredDevice,
                     "Paid at counter for " + tokenQueue.getDisplayName(),
                     "Your order at " + tokenQueue.getDisplayName() + " number " + jsonPurchaseOrder.getToken()
                         + " has been paid at the counter via " + jsonPurchaseOrder.getPaymentMode().getDescription(),

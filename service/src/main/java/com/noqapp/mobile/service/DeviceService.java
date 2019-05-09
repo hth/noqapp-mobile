@@ -157,6 +157,10 @@ public class DeviceService {
         return registeredDeviceManager.findRecentDevice(qid);
     }
 
+    public RegisteredDeviceEntity findByDid(String did) {
+        return registeredDeviceManager.findByDid(did);
+    }
+
     public String getExistingDeviceId(String qid, String notUserDeviceId) {
         RegisteredDeviceEntity registeredDevice = registeredDeviceManager.findRecentDevice(qid);
         if (null == registeredDevice) {
