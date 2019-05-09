@@ -2,21 +2,14 @@ package com.noqapp.mobile.view.controller.api.client.health;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_PROFILE_DOES_NOT_EXISTS;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RECORD_DOES_NOT_EXISTS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.service.MedicalRecordService;
-import com.noqapp.mobile.domain.body.client.UserMedicalProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.repository.UserProfileManager;
-
-import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

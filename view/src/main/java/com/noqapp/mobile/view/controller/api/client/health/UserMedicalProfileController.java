@@ -3,17 +3,14 @@ package com.noqapp.mobile.view.controller.api.client.health;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_PROFILE_CANNOT_BE_CHANGED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_PROFILE_DOES_NOT_EXISTS;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
-import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.medical.JsonUserMedicalProfile;
-import com.noqapp.domain.types.medical.BloodTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.MedicalPhysicalEntity;
@@ -23,7 +20,7 @@ import com.noqapp.medical.domain.json.JsonMedicalProfile;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.domain.body.client.UserMedicalProfile;
+import com.noqapp.mobile.domain.body.client.MedicalProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.open.DeviceController;
@@ -37,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -47,12 +43,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -110,7 +102,7 @@ public class UserMedicalProfileController {
         ScrubbedInput auth,
 
         @RequestBody
-        UserMedicalProfile userMedicalProfile,
+        MedicalProfile medicalProfile,
 
         HttpServletResponse response
     ) throws IOException {
@@ -124,12 +116,12 @@ public class UserMedicalProfileController {
         }
 
         try {
-            if (StringUtils.isBlank(userMedicalProfile.getGuardianQueueUserId()) && userMedicalProfile.getMedicalProfileOfQueueUserId().equalsIgnoreCase(qid)) {
+            if (StringUtils.isBlank(medicalProfile.getGuardianQueueUserId()) && medicalProfile.getMedicalProfileOfQueueUserId().equalsIgnoreCase(qid)) {
                 return medicalRecordService.populateMedicalProfileAndPhysicalHistory(qid).asJson();
             } else {
                 UserProfileEntity userProfile = userProfileManager.findByQueueUserId(qid);
-                if (userProfileManager.dependentExists(userMedicalProfile.getMedicalProfileOfQueueUserId(), userProfile.getPhone())) {
-                    return medicalRecordService.populateMedicalProfileAndPhysicalHistory(userMedicalProfile.getMedicalProfileOfQueueUserId()).asJson();
+                if (userProfileManager.dependentExists(medicalProfile.getMedicalProfileOfQueueUserId(), userProfile.getPhone())) {
+                    return medicalRecordService.populateMedicalProfileAndPhysicalHistory(medicalProfile.getMedicalProfileOfQueueUserId()).asJson();
                 }
             }
 
@@ -163,7 +155,7 @@ public class UserMedicalProfileController {
         ScrubbedInput auth,
 
         @RequestBody
-        UserMedicalProfile userMedicalProfile,
+        MedicalProfile medicalProfile,
 
         HttpServletResponse response
     ) throws IOException {
@@ -177,26 +169,33 @@ public class UserMedicalProfileController {
         try {
 
             String medicalProfileOfQueueUserId = null;
-            if (StringUtils.isBlank(userMedicalProfile.getGuardianQueueUserId()) && userMedicalProfile.getMedicalProfileOfQueueUserId().equalsIgnoreCase(qid)) {
+            if (StringUtils.isBlank(medicalProfile.getGuardianQueueUserId()) && medicalProfile.getMedicalProfileOfQueueUserId().equalsIgnoreCase(qid)) {
                 medicalProfileOfQueueUserId = qid;
             } else {
                 UserProfileEntity userProfile = userProfileManager.findByQueueUserId(qid);
-                if (userProfileManager.dependentExists(userMedicalProfile.getMedicalProfileOfQueueUserId(), userProfile.getPhone())) {
-                    medicalProfileOfQueueUserId = userMedicalProfile.getMedicalProfileOfQueueUserId();
+                if (userProfileManager.dependentExists(medicalProfile.getMedicalProfileOfQueueUserId(), userProfile.getPhone())) {
+                    medicalProfileOfQueueUserId = medicalProfile.getMedicalProfileOfQueueUserId();
                 }
             }
 
-            errors = userMedicalProfileValidator.validate(userMedicalProfile.getJsonUserMedicalProfile().getBloodType());
+            errors = userMedicalProfileValidator.validate(medicalProfile.getJsonUserMedicalProfile().getBloodType());
             if (!errors.isEmpty()) {
                 return ErrorEncounteredJson.toJson(errors);
             }
 
-            UserMedicalProfileEntity userMedicalProfileEntity = userMedicalProfileService.findOne(medicalProfileOfQueueUserId);
-            if (null == userMedicalProfileEntity) {
-                userMedicalProfileEntity = new UserMedicalProfileEntity(medicalProfileOfQueueUserId);
+            UserMedicalProfileEntity userMedicalProfile = userMedicalProfileService.findOne(medicalProfileOfQueueUserId);
+            if (null == userMedicalProfile) {
+                userMedicalProfile = new UserMedicalProfileEntity(medicalProfileOfQueueUserId);
             }
-            userMedicalProfileEntity.setBloodType(userMedicalProfile.getJsonUserMedicalProfile().getBloodType());
-            userMedicalProfileService.save(userMedicalProfileEntity);
+
+            if (userMedicalProfile.getBloodType() == null) {
+                userMedicalProfile.setBloodType(medicalProfile.getJsonUserMedicalProfile().getBloodType());
+            } else {
+                if (userMedicalProfile.getBloodType() != medicalProfile.getJsonUserMedicalProfile().getBloodType()) {
+                    return getErrorReason("Blood group cannot be changed. Contact medical practitioner.", MEDICAL_PROFILE_CANNOT_BE_CHANGED);
+                }
+            }
+            userMedicalProfileService.save(userMedicalProfile);
 
             JsonMedicalProfile jsonMedicalProfile = new JsonMedicalProfile();
             List<MedicalPhysicalEntity> medicalPhysicals = medicalRecordService.findByQid(medicalProfileOfQueueUserId);
