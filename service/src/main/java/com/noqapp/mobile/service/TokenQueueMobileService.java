@@ -482,7 +482,6 @@ public class TokenQueueMobileService {
     }
 
     private JsonPurchaseOrder createNewJsonPurchaseOrder(String purchaserQid, JsonToken jsonToken, BizStoreEntity bizStore) {
-        UserProfileEntity userProfile = userProfileManager.findByQueueUserId(purchaserQid);
         JsonPurchaseOrder jsonPurchaseOrder = new JsonPurchaseOrder()
             .setBizStoreId(bizStore.getId())
             .setCodeQR(bizStore.getCodeQR())
@@ -491,8 +490,7 @@ public class TokenQueueMobileService {
             .setQueueUserId(purchaserQid)
             .setExpectedServiceBegin(jsonToken.getExpectedServiceBegin())
             .setToken(jsonToken.getToken())
-            .setDeliveryMode(DeliveryModeEnum.QS)
-            .setDeliveryAddress(userProfile.getAddress());
+            .setDeliveryMode(DeliveryModeEnum.QS);
 
         jsonPurchaseOrder.addJsonPurchaseOrderProduct(new JsonPurchaseOrderProduct()
             .setProductId(bizStore.getId())
