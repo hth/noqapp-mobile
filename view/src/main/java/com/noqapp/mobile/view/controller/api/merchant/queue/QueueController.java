@@ -1011,7 +1011,7 @@ public class QueueController {
             /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
             executorService.execute(() -> tokenQueueService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR()));
 
-            RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
+            RegisteredDeviceEntity registeredDevice = deviceService.findByDid(jsonPurchaseOrder.getDid());
             if (null != registeredDevice) {
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
                     "Paid at counter for " + queue.getDisplayName(),
