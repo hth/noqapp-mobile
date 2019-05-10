@@ -195,6 +195,11 @@ public class UserMedicalProfileController {
                     return getErrorReason("Blood group cannot be changed. Contact medical practitioner.", MEDICAL_PROFILE_CANNOT_BE_CHANGED);
                 }
             }
+            userMedicalProfile.setFamilyHistory(medicalProfile.getJsonUserMedicalProfile().getFamilyHistory())
+                .setKnownAllergies(medicalProfile.getJsonUserMedicalProfile().getKnownAllergies())
+                .setPastHistory(medicalProfile.getJsonUserMedicalProfile().getPastHistory())
+                .setMedicineAllergies(medicalProfile.getJsonUserMedicalProfile().getMedicineAllergies())
+                .setOccupation(medicalProfile.getJsonUserMedicalProfile().getOccupation());
             userMedicalProfileService.save(userMedicalProfile);
 
             JsonMedicalProfile jsonMedicalProfile = new JsonMedicalProfile();
