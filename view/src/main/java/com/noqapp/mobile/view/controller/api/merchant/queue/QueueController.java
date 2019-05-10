@@ -1077,6 +1077,7 @@ public class QueueController {
 
         try {
             if (purchaseOrderService.isOrderCancelled(jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getJsonPurchaseOrder().getToken())) {
+                LOG.error("Cancel order fail {} {}", jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getJsonPurchaseOrder().getToken());
                 return getErrorReason("Order already cancelled", PURCHASE_ORDER_ALREADY_CANCELLED);
             }
 
