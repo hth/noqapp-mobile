@@ -1083,7 +1083,6 @@ public class QueueController {
 //            }
 
             if (purchaseOrderService.isOrderCancelled(jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getJsonPurchaseOrder().getTransactionId())) {
-                //TODO(hth) There is a possibility of having same token number in purchase order, please validate
                 LOG.error("Cancel order fail {} {}", jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getJsonPurchaseOrder().getTransactionId());
                 return getErrorReason("Order already cancelled", PURCHASE_ORDER_ALREADY_CANCELLED);
             }
