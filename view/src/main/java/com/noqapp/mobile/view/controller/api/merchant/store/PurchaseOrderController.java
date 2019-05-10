@@ -1096,7 +1096,8 @@ public class PurchaseOrderController {
         }
 
         try {
-            if (purchaseOrderService.isOrderCancelled(orderServed.getCodeQR().getText(), orderServed.getServedNumber())) {
+            if (purchaseOrderService.isOrderCancelled(orderServed.getQueueUserId(), orderServed.getTransactionId())) {
+                LOG.error("Cancel order fail {} {}", orderServed.getQueueUserId(), orderServed.getTransactionId());
                 return getErrorReason("Order already cancelled", PURCHASE_ORDER_ALREADY_CANCELLED);
             }
 
