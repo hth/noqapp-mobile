@@ -1076,8 +1076,8 @@ public class QueueController {
         }
 
         try {
-            if (purchaseOrderService.isOrderCancelled(jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getJsonPurchaseOrder().getTransactionId())) {
-                LOG.error("Cancel order fail {} {}", jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getJsonPurchaseOrder().getTransactionId());
+            if (purchaseOrderService.isOrderCancelled(jsonQueuedPerson.getJsonPurchaseOrder().getQueueUserId(), jsonQueuedPerson.getJsonPurchaseOrder().getTransactionId())) {
+                LOG.error("Cancel order fail {} {}", jsonQueuedPerson.getJsonPurchaseOrder().getQueueUserId(), jsonQueuedPerson.getJsonPurchaseOrder().getTransactionId());
                 return getErrorReason("Order already cancelled", PURCHASE_ORDER_ALREADY_CANCELLED);
             }
 
