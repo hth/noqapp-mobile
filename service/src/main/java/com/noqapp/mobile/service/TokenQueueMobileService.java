@@ -534,7 +534,8 @@ public class TokenQueueMobileService {
 
         try {
             if (StringUtils.isNotBlank(queue.getTransactionId())) {
-                purchaseOrderService.cancelOrderByClient(queue.getGuardianQid() == null ? qid : queue.getGuardianQid(), queue.getTransactionId());
+                LOG.info("Cancelled and refund initiated by {} {} {}", queue.getQueueUserId(), qid, queue.getTransactionId());
+                purchaseOrderService.cancelOrderByClient(queue.getQueueUserId(), queue.getTransactionId());
             }
             abort(queue.getId(), codeQR);
             return new JsonResponse(true);
