@@ -466,18 +466,12 @@ public class TokenQueueMobileService {
                 LOG.error("Trying to make payment on non serviced by qid={} for {} {}", qid, queue.getTransactionId(), queue.getQueueUserId());
                 throw new PurchaseOrderFailException("No payment needed when not served");
         }
-        String purchaserQid = StringUtils.isBlank(queue.getGuardianQid()) ? queue.getQueueUserId() : queue.getGuardianQid();
-        if (!qid.equalsIgnoreCase(purchaserQid)) {
-            LOG.error("Something is not right for {} {} {}", qid, codeQR, transactionId);
-            return null;
-        }
-
         PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(transactionId);
-        if (purchaseOrder.getQueueUserId().equalsIgnoreCase(qid)) {
+        if (purchaseOrder.getQueueUserId().equalsIgnoreCase(queue.getQueueUserId())) {
             return purchaseOrderService.createTokenForPurchaseOrder(purchaseOrder.orderPriceForTransaction(), purchaseOrder.getTransactionId());
         }
 
-        LOG.error("Purchase Order qid mis-match for {} {} {}", qid, codeQR, transactionId);
+        LOG.error("Purchase Order qid mis-match for {} {} {} {}", qid, queue.getQueueUserId(), codeQR, transactionId);
         return null;
     }
 
