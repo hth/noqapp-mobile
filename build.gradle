@@ -336,11 +336,11 @@ subprojects {
 }
 
 project(':common') {
-    jar.baseName = 'noqapp.mobile-common'
+    jar.archiveBaseName = 'noqapp.mobile-common'
 }
 
 project(':domain') {
-    jar.baseName = 'noqapp.mobile-domain'
+    jar.archiveBaseName = 'noqapp.mobile-domain'
 
     dependencies {
         compile project(':common')
@@ -349,7 +349,7 @@ project(':domain') {
 
 project(':security') {
     apply plugin: 'war'
-    jar.baseName = 'noqapp.mobile-security'
+    jar.archiveBaseName = 'noqapp.mobile-security'
 
     repositories {
         mavenCentral()
@@ -364,7 +364,7 @@ project(':security') {
 }
 
 project(':service') {
-    jar.baseName = 'noqapp.mobile-service'
+    jar.archiveBaseName = 'noqapp.mobile-service'
 
     dependencies {
         compile project(':common'),
@@ -374,7 +374,7 @@ project(':service') {
 
 project(':view') {
     apply plugin: 'war'
-    jar.baseName = 'noqapp.mobile-view'
+    jar.archiveBaseName = 'noqapp.mobile-view'
     war.baseName = 'noqapp.mobile-view'
 
     repositories {
@@ -557,7 +557,7 @@ task clean(type: Delete) {
 }
 
 task war(type: War, dependsOn: prepWar) {
-    archiveName = "noqapp-mobile-$env" + "." + project.version.toString() + ".war"
+    archiveBaseName = "noqapp-mobile-$env" + "." + project.version.toString()
     from warDir
     version ""
     destinationDir = file("$buildDir/war/$env")
