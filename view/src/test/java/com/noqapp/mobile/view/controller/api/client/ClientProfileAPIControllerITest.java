@@ -67,7 +67,6 @@ class ClientProfileAPIControllerITest extends ITest {
             accountClientValidator,
             accountMobileService,
             userAddressService,
-            userMedicalProfileService,
             profileCommonHelper,
             imageCommonHelper,
             new ImageValidator()
