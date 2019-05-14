@@ -760,7 +760,7 @@ public class TokenQueueAPIController {
         }
     }
 
-    /** Cashfree transaction response sent to server. Based on cashfree, server updates order status */
+    /** When customer decides to not pay, the order is deleted and there is no reference. */
     @PostMapping(
         value = "/cancelPayBeforeQueue",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -785,7 +785,7 @@ public class TokenQueueAPIController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Cashfree notification request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
+        LOG.info("No payment made and hence removing the reference to order mail={} auth={}", mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/c/token/cancelPayBeforeQueue by mail={}", mail);

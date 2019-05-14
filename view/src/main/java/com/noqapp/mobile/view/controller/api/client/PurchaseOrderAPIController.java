@@ -23,6 +23,8 @@ import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.common.DomainCommonUtil;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderHistorical;
+import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
 import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PaymentStatusEnum;
@@ -381,6 +383,60 @@ public class PurchaseOrderAPIController {
             apiHealthService.insert(
                 "/payNow",
                 "payNow",
+                PurchaseOrderAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** When customer decides to not pay, the order is deleted and there is no reference. */
+    @PostMapping(
+        value = "/cancelPayBeforeOrder",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String cancelPayBeforeOrder(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonPurchaseOrder jsonPurchaseOrder,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("No payment made and hence removing the reference to order mail={} auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/c/purchaseOrder/cancelPayBeforeOrder by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            if (StringUtils.isBlank(jsonPurchaseOrder.getTransactionId())) {
+                return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
+            }
+
+            purchaseOrderService.deleteReferenceToTransactionId(jsonPurchaseOrder.getTransactionId());
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed updating with cashfree notification reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/cancelPayBeforeOrder",
+                "cancelPayBeforeOrder",
                 PurchaseOrderAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
