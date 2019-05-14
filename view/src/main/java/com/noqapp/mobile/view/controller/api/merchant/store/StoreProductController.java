@@ -78,6 +78,7 @@ public class StoreProductController {
         this.apiHealthService = apiHealthService;
     }
 
+    /** Note: Manager and Supervisor has Read Access. */
     @GetMapping(
         value = "/store/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -111,7 +112,7 @@ public class StoreProductController {
         if (StringUtils.isBlank(codeQR.getText())) {
             LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-        } else if (!businessUserStoreService.hasAccessWithUserLevel(qid, codeQR.getText(), UserLevelEnum.S_MANAGER)) {
+        } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
             LOG.info("Un-authorized store access to /api/m/s/product/store/{codeQR} by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
@@ -133,6 +134,7 @@ public class StoreProductController {
         }
     }
 
+    /** Note: Manager has Write Access. */
     @PostMapping(
         value = "/store/{codeQR}/{action}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
