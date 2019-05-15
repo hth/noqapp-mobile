@@ -427,7 +427,7 @@ public class PurchaseOrderAPIController {
                 return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
             }
 
-            purchaseOrderService.deleteReferenceToTransactionId(jsonPurchaseOrder.getTransactionId());
+            purchaseOrderService.cancelOrderWhenBackedAwayFromGatewayForOrder(jsonPurchaseOrder.getTransactionId());
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating with cashfree notification reason={}", e.getLocalizedMessage(), e);
