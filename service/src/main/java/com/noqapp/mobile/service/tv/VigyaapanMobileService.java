@@ -77,48 +77,6 @@ public class VigyaapanMobileService {
         }
     }
 
-    @Deprecated
-    public JsonVigyaapanTV displayVigyaapan(VigyaapanTypeEnum vigyaapanType) {
-        switch (vigyaapanType) {
-            case DV:
-                List<String> imageUrls = new LinkedList<String>() {{
-                    add("https://noqapp.com/static2/internal/img/banner.jpg");
-                }};
-                return new JsonVigyaapanTV()
-                    .setVigyaapanId(UUID.randomUUID().toString())
-                    .setImageUrls(imageUrls)
-                    .setVigyaapanType(VigyaapanTypeEnum.DV);
-            case GI:
-                imageUrls = new LinkedList<String>() {{
-                    add("https://i.pinimg.com/736x/6e/75/34/6e7534e0882e3e543419027bb00effb5--exercise--fitness-health-fitness.jpg");
-                }};
-                return new JsonVigyaapanTV()
-                    .setVigyaapanId(UUID.randomUUID().toString())
-                    .setImageUrls(imageUrls)
-                    .setVigyaapanType(VigyaapanTypeEnum.GI);
-            case MV:
-                imageUrls = new LinkedList<String>() {{
-                    add("https://noqapp.com/imgs/appmages/garbhasanskar-ssd-march-2019.png");
-                }};
-                return new JsonVigyaapanTV()
-                    .setVigyaapanId(UUID.randomUUID().toString())
-                    .setImageUrls(imageUrls)
-                    .setVigyaapanType(VigyaapanTypeEnum.MV);
-            case PP:
-            default:
-                MedicalRecordEntity medicalRecord = medicalRecordManager.findOne();
-                if (null == medicalRecord) {
-                    return new JsonVigyaapanTV()
-                        .setVigyaapanType(VigyaapanTypeEnum.PP);
-                }
-                JsonProfessionalProfile jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfile(medicalRecord.getDiagnosedById(), TV);
-                return new JsonVigyaapanTV()
-                    .setVigyaapanId(medicalRecord.getCodeQR())
-                    .setJsonProfessionalProfile(jsonProfessionalProfile)
-                    .setVigyaapanType(VigyaapanTypeEnum.PP);
-        }
-    }
-
     public JsonVigyaapanTVList getAllVigyaapanForBusiness(String bizNameId) {
         JsonVigyaapanTVList jsonVigyaapanTVList = new JsonVigyaapanTVList();
 
