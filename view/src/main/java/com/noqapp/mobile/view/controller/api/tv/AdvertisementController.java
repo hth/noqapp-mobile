@@ -10,12 +10,10 @@ import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonResponse;
-import com.noqapp.domain.types.UserLevelEnum;
-import com.noqapp.domain.types.VigyaapanTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.service.tv.VigyaapanMobileService;
+import com.noqapp.mobile.service.tv.AdvertisementMobileService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessUserStoreService;
 
@@ -51,24 +49,24 @@ import javax.servlet.http.HttpServletResponse;
 })
 @RestController
 @RequestMapping(value = "/api/tv/vigyaapan")
-public class VigyaapanController {
-    private static final Logger LOG = LoggerFactory.getLogger(VigyaapanController.class);
+public class AdvertisementController {
+    private static final Logger LOG = LoggerFactory.getLogger(AdvertisementController.class);
 
-    private VigyaapanMobileService vigyaapanMobileService;
+    private AdvertisementMobileService advertisementMobileService;
     private BusinessUserStoreService businessUserStoreService;
     private AuthenticateMobileService authenticateMobileService;
     private AccountService accountService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public VigyaapanController(
-        VigyaapanMobileService vigyaapanMobileService,
+    public AdvertisementController(
+        AdvertisementMobileService advertisementMobileService,
         BusinessUserStoreService businessUserStoreService,
         AuthenticateMobileService authenticateMobileService,
         AccountService accountService,
         ApiHealthService apiHealthService
     ) {
-        this.vigyaapanMobileService = vigyaapanMobileService;
+        this.advertisementMobileService = advertisementMobileService;
         this.businessUserStoreService = businessUserStoreService;
         this.authenticateMobileService = authenticateMobileService;
         this.accountService = accountService;
@@ -124,7 +122,7 @@ public class VigyaapanController {
         }
 
         try {
-            vigyaapanMobileService.tagStoreAsDisplayed(codeQR.getText());
+            advertisementMobileService.tagStoreAsDisplayed(codeQR.getText());
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed marking displayed advt reason={}", e.getLocalizedMessage(), e);
@@ -134,65 +132,7 @@ public class VigyaapanController {
             apiHealthService.insert(
                 "/tsd/{codeQR}",
                 "tagStoreAsDisplayed",
-                VigyaapanController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
-    /** Tag every time store profile is displayed. For example doctor is associated to store, hence mark store is displayed. */
-    @GetMapping(
-        value = "/{vt}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
-    )
-    /**
-     * @Since 1.2.226
-     */
-    @Deprecated
-    public String getVigyaapan(
-        @RequestHeader("X-R-DID")
-        ScrubbedInput did,
-
-        @RequestHeader ("X-R-DT")
-        ScrubbedInput deviceType,
-
-        @RequestHeader ("X-R-MAIL")
-        ScrubbedInput mail,
-
-        @RequestHeader ("X-R-AUTH")
-        ScrubbedInput auth,
-
-        @PathVariable("vt")
-        ScrubbedInput vt,
-
-        HttpServletResponse response
-    ) throws IOException {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.info("Get advt for request from mail={} did={} deviceType={} auth={}",
-            mail,
-            did,
-            deviceType,
-            AUTH_KEY_HIDDEN);
-
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            LOG.warn("Un-authorized access to /api/tv/vigyaapan/{vt} by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        try {
-            return vigyaapanMobileService.displayVigyaapan(VigyaapanTypeEnum.valueOf(vt.getText())).asJson();
-        } catch (Exception e) {
-            LOG.error("Failed getting advt reason={}", e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
-        } finally {
-            apiHealthService.insert(
-                "/{vt}",
-                "getVigyaapan",
-                VigyaapanController.class.getName(),
+                AdvertisementController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -203,7 +143,7 @@ public class VigyaapanController {
         value = "/all",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String getAllVigyaapan(
+    public String getAllAdvertisements(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -236,7 +176,7 @@ public class VigyaapanController {
         try {
             UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
             BusinessUserStoreEntity businessUserStore = businessUserStoreService.findUserManagingStoreWithUserLevel(qid, userProfile.getLevel());
-            return vigyaapanMobileService.getAllVigyaapanForBusiness(businessUserStore.getBizNameId()).asJson();
+            return advertisementMobileService.getAllAdvertisementsForBusiness(businessUserStore.getBizNameId()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting advt reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -244,8 +184,8 @@ public class VigyaapanController {
         } finally {
             apiHealthService.insert(
                 "/all",
-                "getAllVigyaapan",
-                VigyaapanController.class.getName(),
+                "getAllAdvertisements",
+                AdvertisementController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }

@@ -1,21 +1,20 @@
 package com.noqapp.mobile.service.tv;
 
 import static com.noqapp.common.utils.AbstractDomain.ISO8601_FMT;
-import static com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE.*;
+import static com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE.TV;
 
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StatsVigyaapanStoreDailyEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
-import com.noqapp.domain.json.tv.JsonVigyaapanTV;
-import com.noqapp.domain.json.tv.JsonVigyaapanTVList;
-import com.noqapp.domain.types.VigyaapanTypeEnum;
+import com.noqapp.domain.json.tv.JsonAdvertisement;
+import com.noqapp.domain.json.tv.JsonAdvertisementList;
+import com.noqapp.domain.types.AdvertisementTypeEnum;
 import com.noqapp.medical.domain.MedicalRecordEntity;
 import com.noqapp.medical.repository.MedicalRecordManager;
 import com.noqapp.repository.BizStoreManager;
 import com.noqapp.repository.StatsVigyaapanStoreDailyManager;
 import com.noqapp.service.ProfessionalProfileService;
-import com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 
@@ -27,8 +26,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
@@ -39,8 +36,8 @@ import java.util.UUID;
  * 2018-12-20 10:15
  */
 @Service
-public class VigyaapanMobileService {
-    private static final Logger LOG = LoggerFactory.getLogger(VigyaapanMobileService.class);
+public class AdvertisementMobileService {
+    private static final Logger LOG = LoggerFactory.getLogger(AdvertisementMobileService.class);
 
     private BizStoreManager bizStoreManager;
     private StatsVigyaapanStoreDailyManager statsVigyaapanStoreDailyManager;
@@ -48,7 +45,7 @@ public class VigyaapanMobileService {
     private MedicalRecordManager medicalRecordManager;
 
     @Autowired
-    public VigyaapanMobileService(
+    public AdvertisementMobileService(
         BizStoreManager bizStoreManager,
         StatsVigyaapanStoreDailyManager statsVigyaapanStoreDailyManager,
         ProfessionalProfileService professionalProfileService,
@@ -77,53 +74,11 @@ public class VigyaapanMobileService {
         }
     }
 
-    @Deprecated
-    public JsonVigyaapanTV displayVigyaapan(VigyaapanTypeEnum vigyaapanType) {
-        switch (vigyaapanType) {
-            case DV:
-                List<String> imageUrls = new LinkedList<String>() {{
-                    add("https://noqapp.com/static2/internal/img/banner.jpg");
-                }};
-                return new JsonVigyaapanTV()
-                    .setVigyaapanId(UUID.randomUUID().toString())
-                    .setImageUrls(imageUrls)
-                    .setVigyaapanType(VigyaapanTypeEnum.DV);
-            case GI:
-                imageUrls = new LinkedList<String>() {{
-                    add("https://i.pinimg.com/736x/6e/75/34/6e7534e0882e3e543419027bb00effb5--exercise--fitness-health-fitness.jpg");
-                }};
-                return new JsonVigyaapanTV()
-                    .setVigyaapanId(UUID.randomUUID().toString())
-                    .setImageUrls(imageUrls)
-                    .setVigyaapanType(VigyaapanTypeEnum.GI);
-            case MV:
-                imageUrls = new LinkedList<String>() {{
-                    add("https://noqapp.com/imgs/appmages/garbhasanskar-ssd-march-2019.png");
-                }};
-                return new JsonVigyaapanTV()
-                    .setVigyaapanId(UUID.randomUUID().toString())
-                    .setImageUrls(imageUrls)
-                    .setVigyaapanType(VigyaapanTypeEnum.MV);
-            case PP:
-            default:
-                MedicalRecordEntity medicalRecord = medicalRecordManager.findOne();
-                if (null == medicalRecord) {
-                    return new JsonVigyaapanTV()
-                        .setVigyaapanType(VigyaapanTypeEnum.PP);
-                }
-                JsonProfessionalProfile jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfile(medicalRecord.getDiagnosedById(), TV);
-                return new JsonVigyaapanTV()
-                    .setVigyaapanId(medicalRecord.getCodeQR())
-                    .setJsonProfessionalProfile(jsonProfessionalProfile)
-                    .setVigyaapanType(VigyaapanTypeEnum.PP);
-        }
-    }
+    public JsonAdvertisementList getAllAdvertisementsForBusiness(String bizNameId) {
+        JsonAdvertisementList jsonAdvertisementList = new JsonAdvertisementList();
 
-    public JsonVigyaapanTVList getAllVigyaapanForBusiness(String bizNameId) {
-        JsonVigyaapanTVList jsonVigyaapanTVList = new JsonVigyaapanTVList();
-
-        for (VigyaapanTypeEnum vigyaapanType : VigyaapanTypeEnum.values()) {
-            switch (vigyaapanType) {
+        for (AdvertisementTypeEnum advertisementType : AdvertisementTypeEnum.values()) {
+            switch (advertisementType) {
                 case DV:
                     break;
                 case GI:
@@ -131,20 +86,20 @@ public class VigyaapanMobileService {
                         add("https://noqapp.com/imgs/appmages/calcium-rich-food.jpg");
                         add("https://noqapp.com/imgs/appmages/vitamin-d-rich-food.jpg");
                     }};
-                    jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
-                        .setVigyaapanId(UUID.randomUUID().toString())
+                    jsonAdvertisementList.addJsonVigyaapanTV(new JsonAdvertisement()
+                        .setAdvertisementId(UUID.randomUUID().toString())
                         .setImageUrls(imageUrls)
-                        .setVigyaapanType(VigyaapanTypeEnum.MV)
+                        .setAdvertisementType(AdvertisementTypeEnum.MV)
                         .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 20 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
                     );
 
                     imageUrls = new LinkedList<String>() {{
                         add("https://noqapp.com/imgs/appmages/vegan-protien-rich-food.png");
                     }};
-                    jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
-                        .setVigyaapanId(UUID.randomUUID().toString())
+                    jsonAdvertisementList.addJsonVigyaapanTV(new JsonAdvertisement()
+                        .setAdvertisementId(UUID.randomUUID().toString())
                         .setImageUrls(imageUrls)
-                        .setVigyaapanType(VigyaapanTypeEnum.MV)
+                        .setAdvertisementType(AdvertisementTypeEnum.MV)
                         .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 20 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
                     );
                     break;
@@ -152,10 +107,10 @@ public class VigyaapanMobileService {
                     imageUrls = new LinkedList<String>() {{
                         add("https://noqapp.com/imgs/appmages/garbhasanskar-ssd-march-2019.png");
                     }};
-                    jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
-                        .setVigyaapanId(UUID.randomUUID().toString())
+                    jsonAdvertisementList.addJsonVigyaapanTV(new JsonAdvertisement()
+                        .setAdvertisementId(UUID.randomUUID().toString())
                         .setImageUrls(imageUrls)
-                        .setVigyaapanType(VigyaapanTypeEnum.MV)
+                        .setAdvertisementType(AdvertisementTypeEnum.MV)
                         .setEndDate(DateFormatUtils.format(DateUtil.asDate(LocalDate.of( 2019 , 3 , 16 )), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
                     );
                     break;
@@ -164,14 +119,17 @@ public class VigyaapanMobileService {
                     MedicalRecordEntity medicalRecord = medicalRecordManager.findByBizNameId(bizNameId);
                     if (null != medicalRecord) {
                         JsonProfessionalProfile jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfile(medicalRecord.getDiagnosedById(), TV);
-                        jsonVigyaapanTVList.addJsonVigyaapanTV(new JsonVigyaapanTV()
-                            .setVigyaapanId(medicalRecord.getCodeQR())
+                        jsonAdvertisementList.addJsonVigyaapanTV(new JsonAdvertisement()
+                            .setAdvertisementId(medicalRecord.getCodeQR())
                             .setJsonProfessionalProfile(jsonProfessionalProfile)
-                            .setVigyaapanType(VigyaapanTypeEnum.PP));
+                            .setAdvertisementType(AdvertisementTypeEnum.PP));
                     }
             }
         }
 
-        return jsonVigyaapanTVList;
+        return jsonAdvertisementList;
     }
+
+
+    
 }

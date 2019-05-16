@@ -78,9 +78,9 @@ public class FeedController {
             return new JsonReviewList().asJson();
         } finally {
             apiHealthService.insert(
-                "/reviews/{codeQR}",
-                "reviews",
-                ReviewController.class.getName(),
+                "/v1/active",
+                "activeFeed",
+                FeedController.class.getName(),
                 Duration.between(start, Instant.now()),
                 HealthStatusEnum.G);
         }
