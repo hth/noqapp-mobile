@@ -3,6 +3,7 @@ package com.noqapp.mobile.view.controller.api.client;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.FAILED_FINDING_ADDRESS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MAIL_OTP_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
@@ -14,6 +15,7 @@ import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
+import com.noqapp.domain.UserAddressEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonUserAddress;
@@ -567,7 +569,7 @@ public class ClientProfileAPIController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        LOG.info("Add address {} mail={}, auth={}", jsonUserAddressBody, mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -591,12 +593,23 @@ public class ClientProfileAPIController {
             }
             String address = StringUtils.capitalize(map.get("ad").getText());
 
+            UserAddressEntity userAddress = null;
             if (StringUtils.isBlank(id)) {
                 id = CommonUtil.generateHexFromObjectId();
-                userAddressService.saveAddress(id, qid, address);
+                userAddress = userAddressService.saveAddress(id, qid, address);
             }
 
-            return jsonUserAddressList.addJsonUserAddresses(new JsonUserAddress().setId(id).setAddress(address)).asJson();
+            if (null == userAddress || StringUtils.isBlank(userAddress.getGeoHash())) {
+                LOG.warn("Failed to find address qid={} {}", qid, address);
+                return getErrorReason("Could not find address. Please add more details to correctly find address", FAILED_FINDING_ADDRESS);
+            }
+
+            return jsonUserAddressList.addJsonUserAddresses(
+                new JsonUserAddress()
+                    .setId(id)
+                    .setAddress(address)
+                    .setGeoHash(userAddress.getGeoHash())
+                    .setCountryShortName(userAddress.getCountryShortName())).asJson();
         } catch (Exception e) {
             LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
