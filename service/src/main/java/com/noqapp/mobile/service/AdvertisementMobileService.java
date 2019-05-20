@@ -79,7 +79,7 @@ public class AdvertisementMobileService {
         }
     }
 
-    public JsonAdvertisementList getAllTvAdvertisementsForBusiness(String bizNameId) {
+    public JsonAdvertisementList findAllMobileTVApprovedAdvertisements(String bizNameId) {
         JsonAdvertisementList jsonAdvertisementList = new JsonAdvertisementList();
 
         List<AdvertisementEntity> advertisements = advertisementService.findAllMobileTVApprovedAdvertisements();
