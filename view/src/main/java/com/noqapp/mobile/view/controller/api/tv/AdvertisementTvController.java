@@ -176,7 +176,7 @@ public class AdvertisementTvController {
         try {
             UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
             BusinessUserStoreEntity businessUserStore = businessUserStoreService.findUserManagingStoreWithUserLevel(qid, userProfile.getLevel());
-            return advertisementMobileService.getAllTvAdvertisementsForBusiness(businessUserStore.getBizNameId()).asJson();
+            return advertisementMobileService.findAllMobileTVApprovedAdvertisements(businessUserStore.getBizNameId()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting advt reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
