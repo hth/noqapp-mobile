@@ -5,6 +5,7 @@ import static com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE.TV;
 
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.domain.AdvertisementEntity;
+import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StatsVigyaapanStoreDailyEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
@@ -13,6 +14,7 @@ import com.noqapp.domain.json.tv.JsonAdvertisementList;
 import com.noqapp.domain.types.AdvertisementTypeEnum;
 import com.noqapp.medical.domain.MedicalRecordEntity;
 import com.noqapp.medical.repository.MedicalRecordManager;
+import com.noqapp.repository.BizNameManager;
 import com.noqapp.repository.BizStoreManager;
 import com.noqapp.repository.StatsVigyaapanStoreDailyManager;
 import com.noqapp.service.AdvertisementService;
@@ -41,6 +43,7 @@ import java.util.UUID;
 public class AdvertisementMobileService {
     private static final Logger LOG = LoggerFactory.getLogger(AdvertisementMobileService.class);
 
+    private BizNameManager bizNameManager;
     private BizStoreManager bizStoreManager;
     private StatsVigyaapanStoreDailyManager statsVigyaapanStoreDailyManager;
     private ProfessionalProfileService professionalProfileService;
@@ -49,12 +52,14 @@ public class AdvertisementMobileService {
 
     @Autowired
     public AdvertisementMobileService(
+        BizNameManager bizNameManager,
         BizStoreManager bizStoreManager,
         StatsVigyaapanStoreDailyManager statsVigyaapanStoreDailyManager,
         ProfessionalProfileService professionalProfileService,
         MedicalRecordManager medicalRecordManager,
         AdvertisementService advertisementService
     ) {
+        this.bizNameManager = bizNameManager;
         this.statsVigyaapanStoreDailyManager = statsVigyaapanStoreDailyManager;
         this.bizStoreManager = bizStoreManager;
         this.professionalProfileService = professionalProfileService;
@@ -82,7 +87,7 @@ public class AdvertisementMobileService {
     public JsonAdvertisementList findAllMobileTVApprovedAdvertisements(String bizNameId) {
         JsonAdvertisementList jsonAdvertisementList = new JsonAdvertisementList();
 
-        List<AdvertisementEntity> advertisements = advertisementService.findAllMobileTVApprovedAdvertisements();
+        List<AdvertisementEntity> advertisements = advertisementService.findAllMobileTVApprovedAdvertisements(bizNameId);
         for (AdvertisementEntity advertisement : advertisements) {
             jsonAdvertisementList.addJsonAdvertisement(
                 new JsonAdvertisement()
@@ -92,6 +97,8 @@ public class AdvertisementMobileService {
                     .setImageUrls(advertisement.getImageUrls())
                     .setTermsAndConditions(advertisement.getTermsAndConditions())
                     .setAdvertisementType(advertisement.getAdvertisementType())
+                    .setBusinessName(null)
+                    .setAdvertisementViewerType(advertisement.getAdvertisementViewerType())
             );
 
 
@@ -115,6 +122,7 @@ public class AdvertisementMobileService {
 
         List<AdvertisementEntity> advertisements = advertisementService.findAllMobileApprovedAdvertisements();
         for (AdvertisementEntity advertisement : advertisements) {
+            BizNameEntity bizName = bizNameManager.getById(advertisement.getBizNameId());
             jsonAdvertisementList.addJsonAdvertisement(
                 new JsonAdvertisement()
                     .setAdvertisementId(advertisement.getId())
@@ -123,6 +131,8 @@ public class AdvertisementMobileService {
                     .setImageUrls(advertisement.getImageUrls())
                     .setTermsAndConditions(advertisement.getTermsAndConditions())
                     .setAdvertisementType(advertisement.getAdvertisementType())
+                    .setBusinessName(bizName.getBusinessName())
+                    .setAdvertisementViewerType(advertisement.getAdvertisementViewerType())
             );
         }
         return jsonAdvertisementList;
