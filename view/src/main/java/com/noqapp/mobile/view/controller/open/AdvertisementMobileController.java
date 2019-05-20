@@ -70,7 +70,7 @@ public class AdvertisementMobileController {
         LOG.info("Get all advt for request from did={} deviceType={}", did, deviceType);
 
         try {
-            return advertisementMobileService.getAllMobileAdvertisements().asJson();
+            return advertisementMobileService.findAllMobileApprovedAdvertisements().asJson();
         } catch (Exception e) {
             LOG.error("Failed getting advt reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
