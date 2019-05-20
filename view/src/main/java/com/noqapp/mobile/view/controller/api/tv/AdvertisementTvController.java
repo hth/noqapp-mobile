@@ -13,7 +13,7 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.service.tv.AdvertisementMobileService;
+import com.noqapp.mobile.service.AdvertisementMobileService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessUserStoreService;
 
@@ -48,9 +48,9 @@ import javax.servlet.http.HttpServletResponse;
     "PMD.LongVariable"
 })
 @RestController
-@RequestMapping(value = "/api/tv/vigyaapan")
-public class AdvertisementController {
-    private static final Logger LOG = LoggerFactory.getLogger(AdvertisementController.class);
+@RequestMapping(value = "/api/tv/vigyapan")
+public class AdvertisementTvController {
+    private static final Logger LOG = LoggerFactory.getLogger(AdvertisementTvController.class);
 
     private AdvertisementMobileService advertisementMobileService;
     private BusinessUserStoreService businessUserStoreService;
@@ -59,7 +59,7 @@ public class AdvertisementController {
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public AdvertisementController(
+    public AdvertisementTvController(
         AdvertisementMobileService advertisementMobileService,
         BusinessUserStoreService businessUserStoreService,
         AuthenticateMobileService authenticateMobileService,
@@ -107,7 +107,7 @@ public class AdvertisementController {
 
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/tv/vigyaapan/tsd by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/tv/vigyapan/tsd by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -116,7 +116,7 @@ public class AdvertisementController {
             LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
         } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
-            LOG.info("Un-authorized store access to /api/tv/vigyaapan/tsd by mail={}", mail);
+            LOG.info("Un-authorized store access to /api/tv/vigyapan/tsd by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -132,7 +132,7 @@ public class AdvertisementController {
             apiHealthService.insert(
                 "/tsd/{codeQR}",
                 "tagStoreAsDisplayed",
-                AdvertisementController.class.getName(),
+                AdvertisementTvController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -168,7 +168,7 @@ public class AdvertisementController {
 
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/tv/vigyaapan/all by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/tv/vigyapan/all by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -176,7 +176,7 @@ public class AdvertisementController {
         try {
             UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
             BusinessUserStoreEntity businessUserStore = businessUserStoreService.findUserManagingStoreWithUserLevel(qid, userProfile.getLevel());
-            return advertisementMobileService.getAllAdvertisementsForBusiness(businessUserStore.getBizNameId()).asJson();
+            return advertisementMobileService.getAllTvAdvertisementsForBusiness(businessUserStore.getBizNameId()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting advt reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -184,8 +184,8 @@ public class AdvertisementController {
         } finally {
             apiHealthService.insert(
                 "/all",
-                "getAllAdvertisements",
-                AdvertisementController.class.getName(),
+                "getAllMobileAdvertisements",
+                AdvertisementTvController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }

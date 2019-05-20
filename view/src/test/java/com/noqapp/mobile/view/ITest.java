@@ -62,6 +62,8 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.WebConnectorService;
 import com.noqapp.mobile.view.controller.open.AccountClientController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
+import com.noqapp.repository.AdvertisementManager;
+import com.noqapp.repository.AdvertisementManagerImpl;
 import com.noqapp.repository.BizNameManager;
 import com.noqapp.repository.BizNameManagerImpl;
 import com.noqapp.repository.BizStoreManager;
@@ -266,6 +268,7 @@ public class ITest extends RealMongoForITest {
     protected PreferredBusinessService preferredBusinessService;
     protected ScheduledTaskManager scheduledTaskManager;
     protected PublishArticleManager publishArticleManager;
+    protected AdvertisementManager advertisementManager;
 
     protected BusinessCustomerManager businessCustomerManager;
     protected BusinessCustomerService businessCustomerService;
@@ -482,6 +485,7 @@ public class ITest extends RealMongoForITest {
         storeCategoryManager = new StoreCategoryManagerImpl(getMongoTemplate());
         storeCategoryService = new StoreCategoryService(storeCategoryManager, storeProductManager);
         publishArticleManager = new PublishArticleManagerImpl(getMongoTemplate());
+        advertisementManager = new AdvertisementManagerImpl(getMongoTemplate());
 
         fileService = new FileService(
             192, 192, 300, 150,
@@ -492,6 +496,7 @@ public class ITest extends RealMongoForITest {
             bizStoreManager,
             storeProductManager,
             publishArticleManager,
+            advertisementManager,
             bizService,
             storeCategoryService
         );
