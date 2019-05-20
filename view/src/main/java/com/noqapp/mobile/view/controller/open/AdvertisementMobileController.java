@@ -78,8 +78,8 @@ public class AdvertisementMobileController {
         } finally {
             apiHealthService.insert(
                 "/all",
-                "getAllMobileAdvertisements",
-                com.noqapp.mobile.view.controller.api.tv.AdvertisementTvController.class.getName(),
+                "getAllAdvertisements",
+                AdvertisementMobileController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
