@@ -454,7 +454,7 @@ public class StoreSettingController {
                     case DO:
                         break;
                     default:
-                        LOG.warn("Payment not enabled for {} {} {}", bizStore.getId(), bizStore.getBusinessType(), bizStore.getDisplayName());
+                        LOG.warn("Payment enabled not allowed for {} {} {}", bizStore.getId(), bizStore.getBusinessType(), bizStore.getDisplayName());
                         return getErrorReason("Business does not have permission for payment", SERVICE_PAYMENT_NOT_ALLOWED_FOR_THIS_BUSINESS_TYPE);
                 }
 
