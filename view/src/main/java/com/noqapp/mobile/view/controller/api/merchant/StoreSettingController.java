@@ -238,12 +238,12 @@ public class StoreSettingController {
                     queueMobileService.resetTemporarySettingsOnStoreHour(storeHour.getId());
                     queueMobileService.updateNextRun(bizStore, storeHour);
                 }
-                bizService.unsetScheduledTask(bizStore.getId());
+                BizStoreEntity updatedBizStore = bizService.unsetScheduledTask(bizStore.getId());
                 scheduledTaskManager.inActive(bizStore.getScheduledTaskId());
 
                 /* Send email when store setting changes. */
                 String changeInitiateReason = "Removed Scheduled " + scheduledTask.getScheduleTask() + " from App, modified by " + accountService.findProfileByQueueUserId(qid).getEmail();
-                bizService.sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
+                bizService.sendMailWhenStoreSettingHasChanged(updatedBizStore, changeInitiateReason);
             }
 
             StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
