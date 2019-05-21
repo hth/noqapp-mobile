@@ -455,7 +455,10 @@ public class StoreSettingController {
                         break;
                     default:
                         LOG.warn("Payment enabled not allowed for {} {} {}", bizStore.getId(), bizStore.getBusinessType(), bizStore.getDisplayName());
-                        return getErrorReason("Business does not have permission for payment", SERVICE_PAYMENT_NOT_ALLOWED_FOR_THIS_BUSINESS_TYPE);
+                        return getErrorReason(
+                            bizStore.getBusinessType().getDescription()
+                                + " does not have permission for service payment. Contact support for further assistance.",
+                            SERVICE_PAYMENT_NOT_ALLOWED_FOR_THIS_BUSINESS_TYPE);
                 }
 
                 if (modifyQueue.getProductPrice() < 1) {
