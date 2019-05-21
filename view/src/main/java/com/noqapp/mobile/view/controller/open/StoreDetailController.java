@@ -42,27 +42,27 @@ public class StoreDetailController {
 
     @Autowired
     public StoreDetailController(
-            StoreDetailService storeDetailService,
-            ApiHealthService apiHealthService
+        StoreDetailService storeDetailService,
+        ApiHealthService apiHealthService
     ) {
         this.storeDetailService = storeDetailService;
         this.apiHealthService = apiHealthService;
     }
 
     @GetMapping(
-            value = "/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        value = "/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     public String getStoreDetail(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
 
-            @PathVariable("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -76,11 +76,11 @@ public class StoreDetailController {
             return new BizStoreElasticList().asJson();
         } finally {
             apiHealthService.insert(
-                    "/search",
-                    "search",
-                    SearchBusinessStoreController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/search",
+                "search",
+                SearchBusinessStoreController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }
