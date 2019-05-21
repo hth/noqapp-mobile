@@ -364,6 +364,9 @@ public class StoreSettingController {
             }
 
             ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(modifyQueue);
+            if (null != scheduledTask) {
+                bizStore.setScheduledTaskId(scheduledTask.getId());
+            }
             StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(modifyQueue);
             queueMobileService.updateBizStoreAvailableTokenCount(modifyQueue.getAvailableTokenCount(), modifyQueue.getCodeQR());
 
