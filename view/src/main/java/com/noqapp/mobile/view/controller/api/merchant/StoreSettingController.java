@@ -242,7 +242,7 @@ public class StoreSettingController {
 
                 /* Send email when store setting changes. */
                 String changeInitiateReason = "Removed Scheduled " + scheduledTask.getScheduleTask() + " from App, modified by " + accountService.findProfileByQueueUserId(qid).getEmail();
-                bizService.sendMailWhenStoreSettingHasChanged(bizStore.getId(), changeInitiateReason);
+                bizService.sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
             }
 
             StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
@@ -379,7 +379,7 @@ public class StoreSettingController {
 
             /* Send email when store setting changes. */
             String changeInitiateReason = "Modified Store Detail from App, modified by " +  accountService.findProfileByQueueUserId(qid).getEmail();
-            bizService.sendMailWhenStoreSettingHasChanged(storeHour.getBizStoreId(), changeInitiateReason);
+            bizService.sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
 
             return new JsonModifyQueue(
                 modifyQueue.getCodeQR(),
@@ -471,7 +471,7 @@ public class StoreSettingController {
 
             /* Send email when store setting changes. */
             String changeInitiateReason = "Modified Service Price from App, modified by " +  accountService.findProfileByQueueUserId(qid).getEmail();
-            bizService.sendMailWhenStoreSettingHasChanged(storeHour.getBizStoreId(), changeInitiateReason);
+            bizService.sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
 
             return new JsonModifyQueue(
                 modifyQueue.getCodeQR(),
