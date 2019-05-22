@@ -106,7 +106,7 @@ public class AppointmentController {
             jsonSchedules.addJsonSchedule(jsonSchedule5);
             return jsonSchedules.asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed getting schedule qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
