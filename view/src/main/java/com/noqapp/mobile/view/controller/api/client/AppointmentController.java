@@ -57,15 +57,24 @@ public class AppointmentController {
     }
 
     @GetMapping(
-        value = "/showSchedule/{codeQR}",
+        value = "/showSchedule/{month}/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String showSchedule(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
         @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
         @RequestHeader ("X-R-AUTH")
         ScrubbedInput auth,
+
+        @PathVariable("day")
+        ScrubbedInput day,
 
         @PathVariable("codeQR")
         ScrubbedInput codeQR,
@@ -74,7 +83,7 @@ public class AppointmentController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.debug("Appointment mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        LOG.debug("showSchedule {} {} mail={}, auth={}", day.getText(), codeQR.getText(), mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -117,6 +126,87 @@ public class AppointmentController {
             apiHealthService.insert(
                 "/showSchedule",
                 "showSchedule",
+                AppointmentController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @GetMapping(
+        value = "/scheduleForDay/{day}/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String scheduleForDay(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @PathVariable("day")
+        ScrubbedInput day,
+
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.debug("ScheduleForDay {} {} mail={}, auth={}", day.getText(), codeQR.getText(), mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            JsonSchedule jsonSchedule1 = new JsonSchedule()
+                .setDay("2019-05-25")
+                .setStartTime("1000")
+                .setEndTime("1030");
+
+            JsonSchedule jsonSchedule2 = new JsonSchedule()
+                .setDay("2019-05-25")
+                .setStartTime("1030")
+                .setEndTime("1045");
+
+            JsonSchedule jsonSchedule3 = new JsonSchedule()
+                .setDay("2019-05-25")
+                .setStartTime("1045")
+                .setEndTime("1100");
+
+            JsonSchedule jsonSchedule4 = new JsonSchedule()
+                .setDay("2019-05-25")
+                .setStartTime("1100")
+                .setEndTime("1120");
+
+            JsonSchedule jsonSchedule5 = new JsonSchedule()
+                .setDay("2019-05-25")
+                .setStartTime("1120")
+                .setEndTime("1145");
+
+            JsonScheduleList jsonSchedules = new JsonScheduleList();
+            jsonSchedules.addJsonSchedule(jsonSchedule1);
+            jsonSchedules.addJsonSchedule(jsonSchedule2);
+            jsonSchedules.addJsonSchedule(jsonSchedule3);
+            jsonSchedules.addJsonSchedule(jsonSchedule4);
+            jsonSchedules.addJsonSchedule(jsonSchedule5);
+            return jsonSchedules.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting schedule qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/scheduleForDay",
+                "scheduleForDay",
                 AppointmentController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
