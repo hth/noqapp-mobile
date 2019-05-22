@@ -365,6 +365,7 @@ public class StoreSettingController {
 
             ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(modifyQueue);
             if (null != scheduledTask) {
+                /* Better to set here as bizStore is not updated during the process before sending email and in response to merchant. */
                 bizStore.setScheduledTaskId(scheduledTask.getId());
             }
             StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(modifyQueue);
