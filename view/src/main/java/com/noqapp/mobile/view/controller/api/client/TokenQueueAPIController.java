@@ -131,6 +131,7 @@ public class TokenQueueAPIController {
 
         HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("On scan get state did={} dt={} codeQR={}", did, deviceType, codeQR);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -154,12 +155,7 @@ public class TokenQueueAPIController {
             return getErrorReason("Store is not available.", STORE_NO_LONGER_EXISTS);
         } catch (Exception e) {
             LOG.error("Failed getting queue state qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                "/{codeQR}",
-                "getQueueState",
-                TokenQueueAPIController.class.getName(),
-                Duration.between(start, Instant.now()),
-                HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -167,7 +163,7 @@ public class TokenQueueAPIController {
                 "getQueueState",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
-                HealthStatusEnum.G);
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -194,6 +190,7 @@ public class TokenQueueAPIController {
 
         HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("On scan get all state did={} dt={} codeQR={}", did, deviceType, codeQR);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -208,12 +205,7 @@ public class TokenQueueAPIController {
             return tokenQueueMobileService.findAllBizStoreByBizNameCodeQR(codeQR.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting all queue state qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                "/v1/{codeQR}",
-                "getAllQueueState",
-                TokenQueueAPIController.class.getName(),
-                Duration.between(start, Instant.now()),
-                HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -221,7 +213,7 @@ public class TokenQueueAPIController {
                 "getAllQueueState",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
-                HealthStatusEnum.G);
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -245,6 +237,7 @@ public class TokenQueueAPIController {
 
         HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("All joined queue did={} dt={} mail={}", did, deviceType, mail);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -256,12 +249,7 @@ public class TokenQueueAPIController {
             return jsonTokenAndQueues.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                "/queues",
-                "getAllJoinedQueues",
-                TokenQueueAPIController.class.getName(),
-                Duration.between(start, Instant.now()),
-                HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -269,7 +257,7 @@ public class TokenQueueAPIController {
                 "getAllJoinedQueues",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
-                HealthStatusEnum.G);
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -293,6 +281,7 @@ public class TokenQueueAPIController {
 
         HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("All pending purchase order did={} dt={} mail={}", did, deviceType, mail);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -302,12 +291,7 @@ public class TokenQueueAPIController {
             return new JsonTokenAndQueueList().setTokenAndQueues(purchaseOrderService.findPendingPurchaseOrderAsJson(qid)).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting pendingOrder qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                "/pendingOrder",
-                "pendingPurchaseOrder",
-                TokenQueueAPIController.class.getName(),
-                Duration.between(start, Instant.now()),
-                HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -315,7 +299,7 @@ public class TokenQueueAPIController {
                 "pendingPurchaseOrder",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
-                HealthStatusEnum.G);
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
     
@@ -345,6 +329,7 @@ public class TokenQueueAPIController {
 
             HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("All historical joined queue did={} dt={} mail={}", did, deviceType, mail);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -373,12 +358,7 @@ public class TokenQueueAPIController {
             return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
         } catch (Exception e) {
             LOG.error("Failed getting history qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                "/historical",
-                "allHistoricalJoinedQueues",
-                TokenQueueAPIController.class.getName(),
-                Duration.between(start, Instant.now()),
-                HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -386,7 +366,7 @@ public class TokenQueueAPIController {
                 "allHistoricalJoinedQueues",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
-                HealthStatusEnum.G);
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -413,6 +393,7 @@ public class TokenQueueAPIController {
 
         HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Join queue did={} dt={}", did, deviceType);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -440,12 +421,7 @@ public class TokenQueueAPIController {
             return getErrorReason("Missing Payment For Service", QUEUE_JOIN_FAILED_PAYMENT_CALL_REQUEST);
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                "/queue",
-                "joinQueue",
-                TokenQueueAPIController.class.getName(),
-                Duration.between(start, Instant.now()),
-                HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -453,7 +429,7 @@ public class TokenQueueAPIController {
                 "joinQueue",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
-                HealthStatusEnum.G);
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -480,6 +456,7 @@ public class TokenQueueAPIController {
 
         HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Join payBeforeQueue did={} dt={}", did, deviceType);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -505,12 +482,7 @@ public class TokenQueueAPIController {
             return jsonToken.asJson();
         } catch (Exception e) {
             LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                "/payBeforeQueue",
-                "payBeforeQueue",
-                TokenQueueAPIController.class.getName(),
-                Duration.between(start, Instant.now()),
-                HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -518,7 +490,7 @@ public class TokenQueueAPIController {
                 "payBeforeQueue",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
-                HealthStatusEnum.G);
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -544,6 +516,7 @@ public class TokenQueueAPIController {
 
         HttpServletResponse response
     ) throws IOException {
+        boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Join skipPayBeforeQueue did={} dt={}", did, deviceType);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
@@ -569,12 +542,7 @@ public class TokenQueueAPIController {
             return jsonToken.asJson();
         } catch (Exception e) {
             LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            apiHealthService.insert(
-                "/skipPayBeforeQueue",
-                "skipPayBeforeQueue",
-                TokenQueueAPIController.class.getName(),
-                Duration.between(start, Instant.now()),
-                HealthStatusEnum.F);
+            methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
@@ -582,7 +550,7 @@ public class TokenQueueAPIController {
                 "skipPayBeforeQueue",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
-                HealthStatusEnum.G);
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
