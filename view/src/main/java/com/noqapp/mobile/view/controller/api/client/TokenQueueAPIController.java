@@ -538,7 +538,7 @@ public class TokenQueueAPIController {
                 bizStore,
                 TokenServiceEnum.C);
 
-            LOG.info("Skip Pay Before Join Response {}", jsonToken.getJsonPurchaseOrder());
+            LOG.info("Skip Pay Before Join {} {} {}", jsonToken.getToken(), jsonToken.getCustomerName(), jsonToken.getDisplayName());
             return jsonToken.asJson();
         } catch (Exception e) {
             LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
