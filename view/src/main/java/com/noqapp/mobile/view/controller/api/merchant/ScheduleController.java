@@ -65,6 +65,9 @@ public class ScheduleController {
         @RequestHeader ("X-R-AUTH")
         ScrubbedInput auth,
 
+        @PathVariable("month")
+        ScrubbedInput month,
+
         @PathVariable("codeQR")
         ScrubbedInput codeQR,
 

@@ -73,8 +73,8 @@ public class AppointmentController {
         @RequestHeader ("X-R-AUTH")
         ScrubbedInput auth,
 
-        @PathVariable("day")
-        ScrubbedInput day,
+        @PathVariable("month")
+        ScrubbedInput month,
 
         @PathVariable("codeQR")
         ScrubbedInput codeQR,
@@ -83,7 +83,7 @@ public class AppointmentController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.debug("showSchedule {} {} mail={}, auth={}", day.getText(), codeQR.getText(), mail, AUTH_KEY_HIDDEN);
+        LOG.debug("showSchedule {} {} mail={}, auth={}", month.getText(), codeQR.getText(), mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
