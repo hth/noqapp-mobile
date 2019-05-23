@@ -2,6 +2,7 @@ package com.noqapp.mobile.domain;
 
 import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.domain.json.JsonProfessionalProfile;
+import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.domain.json.JsonTopic;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
