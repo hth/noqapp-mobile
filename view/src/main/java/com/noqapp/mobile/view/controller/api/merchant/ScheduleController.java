@@ -12,6 +12,7 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.client.AppointmentController;
+import com.noqapp.service.ScheduleAppointmentService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,11 +47,17 @@ public class ScheduleController {
     private static final Logger LOG = LoggerFactory.getLogger(AppointmentController.class);
 
     private AuthenticateMobileService authenticateMobileService;
+    private ScheduleAppointmentService scheduleAppointmentService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public ScheduleController(AuthenticateMobileService authenticateMobileService, ApiHealthService apiHealthService) {
+    public ScheduleController(
+        AuthenticateMobileService authenticateMobileService,
+        ScheduleAppointmentService scheduleAppointmentService,
+        ApiHealthService apiHealthService
+    ) {
         this.authenticateMobileService = authenticateMobileService;
+        this.scheduleAppointmentService = scheduleAppointmentService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -83,32 +90,7 @@ public class ScheduleController {
         }
 
         try {
-            JsonSchedule jsonSchedule1 = new JsonSchedule()
-                .setDay("2019-05-25")
-                .setTotalAppointments(20);
-
-            JsonSchedule jsonSchedule2 = new JsonSchedule()
-                .setDay("2019-05-28")
-                .setTotalAppointments(19);
-
-            JsonSchedule jsonSchedule3 = new JsonSchedule()
-                .setDay("2019-05-30")
-                .setTotalAppointments(3);
-
-            JsonSchedule jsonSchedule4 = new JsonSchedule()
-                .setDay("2019-06-05")
-                .setTotalAppointments(8);
-
-            JsonSchedule jsonSchedule5 = new JsonSchedule()
-                .setDay("2019-06-15")
-                .setTotalAppointments(6);
-
-            JsonScheduleList jsonSchedules = new JsonScheduleList();
-            jsonSchedules.addJsonSchedule(jsonSchedule1);
-            jsonSchedules.addJsonSchedule(jsonSchedule2);
-            jsonSchedules.addJsonSchedule(jsonSchedule3);
-            jsonSchedules.addJsonSchedule(jsonSchedule4);
-            jsonSchedules.addJsonSchedule(jsonSchedule5);
+            JsonScheduleList jsonSchedules = scheduleAppointmentService.numberOfAppointmentsForMonth(codeQR.getText(), month.getText());
             return jsonSchedules.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting schedule qid={}, reason={}", qid, e.getLocalizedMessage(), e);
@@ -159,42 +141,7 @@ public class ScheduleController {
         }
 
         try {
-            JsonSchedule jsonSchedule1 = new JsonSchedule()
-                .setDay("2019-05-25")
-                .setName("Milan")
-                .setStartTime("1000")
-                .setEndTime("1030");
-
-            JsonSchedule jsonSchedule2 = new JsonSchedule()
-                .setDay("2019-05-25")
-                .setName("Amit")
-                .setStartTime("1030")
-                .setEndTime("1045");
-
-            JsonSchedule jsonSchedule3 = new JsonSchedule()
-                .setDay("2019-05-25")
-                .setName("Jackie")
-                .setStartTime("1045")
-                .setEndTime("1100");
-
-            JsonSchedule jsonSchedule4 = new JsonSchedule()
-                .setDay("2019-05-25")
-                .setName("Sunny")
-                .setStartTime("1100")
-                .setEndTime("1120");
-
-            JsonSchedule jsonSchedule5 = new JsonSchedule()
-                .setDay("2019-05-25")
-                .setName("Madhu")
-                .setStartTime("1120")
-                .setEndTime("1145");
-
-            JsonScheduleList jsonSchedules = new JsonScheduleList();
-            jsonSchedules.addJsonSchedule(jsonSchedule1);
-            jsonSchedules.addJsonSchedule(jsonSchedule2);
-            jsonSchedules.addJsonSchedule(jsonSchedule3);
-            jsonSchedules.addJsonSchedule(jsonSchedule4);
-            jsonSchedules.addJsonSchedule(jsonSchedule5);
+            JsonScheduleList jsonSchedules = scheduleAppointmentService.findScheduleForDayAsJson(codeQR.getText(), day.getText());
             return jsonSchedules.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting schedule qid={}, reason={}", qid, e.getLocalizedMessage(), e);
