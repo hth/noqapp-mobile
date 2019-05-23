@@ -174,6 +174,8 @@ class ClientProfileAPIControllerITest extends ITest {
         /* Size of address list is now 1. */
         assertEquals(1, jsonUserAddressList.getJsonUserAddresses().size());
         assertEquals("665 W Olive Ave, Sunnyvale, CA 94086, USA", jsonUserAddressList.getJsonUserAddresses().get(0).getAddress());
+        assertEquals("9q9hwgmc86ye", jsonUserAddressList.getJsonUserAddresses().get(0).getGeoHash());
+        assertEquals("US", jsonUserAddressList.getJsonUserAddresses().get(0).getCountryShortName());
 
         /* Add address again. */
         jsonUserAddress = new JsonUserAddress().setAddress("665 W Olive Ave, Sunnyvale, CA 94086, USA");
