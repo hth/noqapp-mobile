@@ -223,13 +223,13 @@ public class AppointmentController {
     )
     public String cancelAppointment(
         @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        ScrubbedInput mail,
 
         @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        ScrubbedInput auth,
 
         @RequestBody
-            JsonSchedule jsonSchedule,
+        JsonSchedule jsonSchedule,
 
         HttpServletResponse response
     ) throws IOException {
