@@ -2,9 +2,10 @@ package com.noqapp.mobile.domain.body.merchant;
 
 import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.domain.json.JsonNameDatePair;
+import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.types.BusinessTypeEnum;
-import com.noqapp.mobile.domain.JsonProfile;
+
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
