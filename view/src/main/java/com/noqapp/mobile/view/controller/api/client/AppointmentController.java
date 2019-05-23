@@ -57,10 +57,10 @@ public class AppointmentController {
     }
 
     @GetMapping(
-        value = "/showSchedule/{month}/{codeQR}",
+        value = "/scheduleForMonth/{month}/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String showSchedule(
+    public String scheduleForMonth(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -83,7 +83,7 @@ public class AppointmentController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.debug("showSchedule {} {} mail={}, auth={}", month.getText(), codeQR.getText(), mail, AUTH_KEY_HIDDEN);
+        LOG.debug("scheduleForMonth {} {} mail={}, auth={}", month.getText(), codeQR.getText(), mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -124,8 +124,8 @@ public class AppointmentController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/showSchedule",
-                "showSchedule",
+                "/scheduleForMonth",
+                "scheduleForMonth",
                 AppointmentController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
