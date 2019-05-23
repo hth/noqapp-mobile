@@ -292,7 +292,7 @@ public class ITest extends RealMongoForITest {
 
     private WebConnectorService webConnectorService;
     private StanfordCoreNLP stanfordCoreNLP;
-    @Mock protected ExternalService externalService;
+    protected ExternalService externalService;
     @Mock protected QueueManagerJDBC queueManagerJDBC;
     @Mock protected PurchaseOrderManagerJDBC purchaseOrderManagerJDBC;
     @Mock protected PurchaseOrderProductManagerJDBC purchaseOrderProductManagerJDBC;
@@ -392,6 +392,7 @@ public class ITest extends RealMongoForITest {
             bizStoreManager);
 
         userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
+        externalService = new ExternalService("AIzaSyDUM3yIIrwrx3ciwZ57O9YamC4uISWAlAk", 0, bizStoreManager);
         userAddressService = new UserAddressService(userAddressManager, externalService);
 
         accountMobileService = new AccountMobileService(
