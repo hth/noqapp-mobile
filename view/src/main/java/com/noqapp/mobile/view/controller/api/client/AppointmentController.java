@@ -196,7 +196,7 @@ public class AppointmentController {
             JsonSchedule bookedAppointment = scheduleAppointmentService.bookAppointment(
                 qid,
                 jsonSchedule.getCodeQR(),
-                jsonSchedule.getDay(),
+                jsonSchedule.getScheduleDate(),
                 jsonSchedule.getStartTime(),
                 jsonSchedule.getEndTime()
             );
