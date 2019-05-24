@@ -7,7 +7,7 @@ import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.mobile.domain.JsonProfile;
+import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.view.ITest;
 

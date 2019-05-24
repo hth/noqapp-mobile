@@ -1,6 +1,5 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -9,13 +8,13 @@ import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonNameDatePair;
 import com.noqapp.domain.json.JsonProfessionalProfile;
+import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.domain.JsonMerchant;
-import com.noqapp.mobile.domain.JsonProfile;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
