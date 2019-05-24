@@ -66,6 +66,12 @@ public class ScheduleController {
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String scheduleForMonth(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
         @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
