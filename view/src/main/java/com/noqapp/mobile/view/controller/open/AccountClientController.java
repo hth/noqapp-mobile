@@ -57,10 +57,10 @@ import javax.servlet.http.HttpServletResponse;
  * Date: 3/22/17 12:29 PM
  */
 @SuppressWarnings({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @RestController
 @RequestMapping(value = "/open/client")
@@ -74,10 +74,10 @@ public class AccountClientController {
 
     @Autowired
     public AccountClientController(
-            AccountService accountService,
-            AccountMobileService accountMobileService,
-            AccountClientValidator accountClientValidator,
-            DeviceService deviceService
+        AccountService accountService,
+        AccountMobileService accountMobileService,
+        AccountClientValidator accountClientValidator,
+        DeviceService deviceService
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
@@ -86,22 +86,22 @@ public class AccountClientController {
     }
 
     @PostMapping(
-            value = "/registration",
-            headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/registration",
+        headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String register(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestBody
-            String registrationJson,
+        @RequestBody
+        String registrationJson,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) {
         Map<String, ScrubbedInput> map;
         try {
@@ -116,14 +116,14 @@ public class AccountClientController {
             if (map.isEmpty()) {
                 /* Validation failure as there is no data in the map. */
                 return ErrorEncounteredJson.toJson(accountClientValidator.validateWithPassword(
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null));
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null));
             } else {
                 Set<String> unknownKeys = invalidElementsInMapDuringRegistration(map);
                 if (!unknownKeys.isEmpty()) {
@@ -161,14 +161,14 @@ public class AccountClientController {
                 }
 
                 errors = accountClientValidator.validateWithPassword(
-                        phone,
-                        map.get(ACCOUNT_REGISTRATION.FN.name()).getText(),
-                        mail,
-                        birthday,
-                        gender,
-                        countryShortName,
-                        timeZone,
-                        password
+                    phone,
+                    map.get(ACCOUNT_REGISTRATION.FN.name()).getText(),
+                    mail,
+                    birthday,
+                    gender,
+                    countryShortName,
+                    timeZone,
+                    password
                 );
 
                 if (!errors.isEmpty()) {
@@ -201,17 +201,17 @@ public class AccountClientController {
 
                 try {
                     UserAccountEntity userAccount = accountMobileService.createNewClientAccount(
-                            phone,
-                            firstName,
-                            lastName,
-                            mail,
-                            birthday,
-                            GenderEnum.valueOf(gender),
-                            countryShortName,
-                            timeZone,
-                            password,
-                            inviteCode,
-                            false
+                        phone,
+                        firstName,
+                        lastName,
+                        mail,
+                        birthday,
+                        GenderEnum.valueOf(gender),
+                        countryShortName,
+                        timeZone,
+                        password,
+                        inviteCode,
+                        false
                     );
                     response.addHeader("X-R-MAIL", userAccount.getUserId());
                     response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKey());
@@ -259,22 +259,22 @@ public class AccountClientController {
     //on bad answer, mark account data old with some number and let the user create new data.
 
     @PostMapping(
-            value = "/login",
-            headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/login",
+        headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String login(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestBody
-            String loginJson,
+        @RequestBody
+        String loginJson,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) {
 
         Map<String, ScrubbedInput> map;
@@ -290,8 +290,8 @@ public class AccountClientController {
             if (map.isEmpty()) {
                 /* Validation failure as there is no data in the map. */
                 return ErrorEncounteredJson.toJson(accountClientValidator.validateForPhoneMigration(
-                        null,
-                        null));
+                    null,
+                    null));
             } else {
                 Set<String> unknownKeys = invalidElementsInMapDuringLogin(map);
                 if (!unknownKeys.isEmpty()) {
@@ -307,8 +307,8 @@ public class AccountClientController {
 
                 /* Doing phone validation for login. */
                 errors = accountClientValidator.validateForPhoneMigration(
-                        phone,
-                        countryShortName
+                    phone,
+                    countryShortName
                 );
 
                 if (!errors.isEmpty()) {
@@ -349,7 +349,7 @@ public class AccountClientController {
                     }
                     deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
                     return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
-                } catch(AccountNotActiveException e) {
+                } catch (AccountNotActiveException e) {
                     LOG.error("Failed getting profile phone={}, reason={}", phone, e.getLocalizedMessage(), e);
                     return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
                 } catch (Exception e) {
