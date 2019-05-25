@@ -96,8 +96,7 @@ public class ScheduleController {
         }
 
         try {
-            JsonScheduleList jsonSchedules = scheduleAppointmentService.numberOfAppointmentsForMonth(codeQR.getText(), month.getText());
-            return jsonSchedules.asJson();
+            return scheduleAppointmentService.numberOfAppointmentsForMonth(codeQR.getText(), month.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting schedule qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
