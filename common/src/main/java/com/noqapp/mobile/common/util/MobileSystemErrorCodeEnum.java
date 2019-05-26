@@ -80,6 +80,7 @@ public enum MobileSystemErrorCodeEnum {
     /* Appointments. */
     CANNOT_BOOK_APPOINTMENT("4701", ALERT),
     FAILED_TO_CANCEL_APPOINTMENT("4702", ALERT),
+    FAILED_TO_FIND_APPOINTMENT("4704", ALERT),
     APPOINTMENT_ALREADY_EXISTS("4710", ALERT),
 
     /** Mobile application related issue. */
