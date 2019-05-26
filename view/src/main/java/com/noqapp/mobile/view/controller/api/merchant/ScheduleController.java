@@ -8,7 +8,6 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.domain.ScheduleAppointmentEntity;
 import com.noqapp.domain.json.JsonSchedule;
 import com.noqapp.domain.json.JsonScheduleList;
 import com.noqapp.health.domain.types.HealthStatusEnum;
