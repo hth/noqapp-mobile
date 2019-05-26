@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.APPOINTMENT_ALREADY_EXISTS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.CANNOT_BOOK_APPOINTMENT;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -203,6 +204,11 @@ public class AppointmentController {
         }
 
         try {
+            if (scheduleAppointmentService.doesAppointmentExists(jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR(), jsonSchedule.getScheduleDate())) {
+                LOG.warn("Cannot book when appointment already exists {} {} {}", jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR(), jsonSchedule.getScheduleDate());
+                return getErrorReason("Appointment already exists for this day. Please cancel to re-book for the day.", APPOINTMENT_ALREADY_EXISTS);
+            }
+
             JsonSchedule bookedAppointment;
             if (jsonSchedule.getQueueUserId().equalsIgnoreCase(qid)) {
                 bookedAppointment = scheduleAppointmentService.bookAppointment(null, jsonSchedule);
