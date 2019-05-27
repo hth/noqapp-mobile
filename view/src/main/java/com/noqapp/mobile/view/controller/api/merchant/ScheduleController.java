@@ -179,7 +179,7 @@ public class ScheduleController {
             apiHealthService.insert(
                 "/scheduleForDay",
                 "scheduleForDay",
-                AppointmentController.class.getName(),
+                ScheduleController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -250,7 +250,7 @@ public class ScheduleController {
             apiHealthService.insert(
                 "/action",
                 "scheduleAction",
-                AppointmentController.class.getName(),
+                ScheduleController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
