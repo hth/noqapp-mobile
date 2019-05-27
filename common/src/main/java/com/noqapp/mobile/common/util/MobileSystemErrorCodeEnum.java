@@ -82,6 +82,7 @@ public enum MobileSystemErrorCodeEnum {
     FAILED_TO_CANCEL_APPOINTMENT("4702", ALERT),
     FAILED_TO_FIND_APPOINTMENT("4704", ALERT),
     APPOINTMENT_ALREADY_EXISTS("4710", ALERT),
+    APPOINTMENT_ACTION_NOT_PERMITTED("4720", ALERT),
 
     /** Mobile application related issue. */
     SEVERE("5000", ERROR),

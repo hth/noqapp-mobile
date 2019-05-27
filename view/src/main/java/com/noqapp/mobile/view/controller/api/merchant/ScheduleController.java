@@ -2,12 +2,14 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.APPOINTMENT_ACTION_NOT_PERMITTED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.FAILED_TO_FIND_APPOINTMENT;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.ScheduleAppointmentEntity;
 import com.noqapp.domain.json.JsonSchedule;
 import com.noqapp.domain.json.JsonScheduleList;
 import com.noqapp.health.domain.types.HealthStatusEnum;
@@ -233,11 +235,23 @@ public class ScheduleController {
         }
 
         try {
-            return scheduleAppointmentService.scheduleAction(
-                jsonSchedule.getScheduleAppointmentId(),
-                jsonSchedule.getAppointmentStatus(),
-                jsonSchedule.getQueueUserId(),
-                jsonSchedule.getCodeQR()).asJson();
+            ScheduleAppointmentEntity scheduleAppointment = scheduleAppointmentService.findAppointment(jsonSchedule.getScheduleAppointmentId(), jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR());
+            switch (scheduleAppointment.getAppointmentStatus()) {
+                case U:
+                case A:
+                    return scheduleAppointmentService.scheduleAction(
+                        jsonSchedule.getScheduleAppointmentId(),
+                        jsonSchedule.getAppointmentStatus(),
+                        jsonSchedule.getQueueUserId(),
+                        jsonSchedule.getCodeQR()).asJson();
+                case R:
+                case S:
+                    return getErrorReason(
+                        "Cannot perform " + scheduleAppointment.getAppointmentStatus().getDescription() + " action on appointment",
+                        APPOINTMENT_ACTION_NOT_PERMITTED);
+            }
+
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } catch (AppointmentBookingException e) {
             LOG.error("Failed action on schedule reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
