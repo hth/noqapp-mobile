@@ -42,7 +42,9 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
+import com.noqapp.repository.ScheduleAppointmentManager;
 import com.noqapp.service.PurchaseOrderService;
+import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.exceptions.PurchaseOrderCancelException;
 import com.noqapp.service.exceptions.PurchaseOrderFailException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
@@ -91,6 +93,7 @@ public class TokenQueueAPIController {
     private QueueMobileService queueMobileService;
     private AuthenticateMobileService authenticateMobileService;
     private PurchaseOrderService purchaseOrderService;
+    private ScheduleAppointmentService scheduleAppointmentService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -99,12 +102,14 @@ public class TokenQueueAPIController {
         QueueMobileService queueMobileService,
         AuthenticateMobileService authenticateMobileService,
         PurchaseOrderService purchaseOrderService,
+        ScheduleAppointmentService scheduleAppointmentService,
         ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
         this.authenticateMobileService = authenticateMobileService;
         this.purchaseOrderService = purchaseOrderService;
+        this.scheduleAppointmentService = scheduleAppointmentService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -246,6 +251,7 @@ public class TokenQueueAPIController {
         try {
             JsonTokenAndQueueList jsonTokenAndQueues = queueMobileService.findAllJoinedQueues(qid, did.getText());
             jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllOpenOrderAsJson(qid));
+            jsonTokenAndQueues.setJsonScheduleList(scheduleAppointmentService.findAllUpComingAppointments(qid));
             return jsonTokenAndQueues.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues qid={}, reason={}", qid, e.getLocalizedMessage(), e);
