@@ -57,24 +57,25 @@ class HistoricalAPIControllerITest extends ITest {
     @BeforeEach
     void setUp() {
         historicalAPIController = new HistoricalAPIController(
-                authenticateMobileService,
-                purchaseOrderService,
-                queueMobileService,
-                apiHealthService
+            authenticateMobileService,
+            purchaseOrderService,
+            queueMobileService,
+            apiHealthService
         );
 
         tokenQueueAPIController = new TokenQueueAPIController(
-                tokenQueueMobileService,
-                queueMobileService,
-                authenticateMobileService,
-                purchaseOrderService,
-                apiHealthService
+            tokenQueueMobileService,
+            queueMobileService,
+            authenticateMobileService,
+            purchaseOrderService,
+            scheduleAppointmentService,
+            apiHealthService
         );
 
         purchaseOrderAPIController = new PurchaseOrderAPIController(
-                purchaseOrderService,
-                apiHealthService,
-                authenticateMobileService
+            purchaseOrderService,
+            apiHealthService,
+            authenticateMobileService
         );
 
         userProfile = userProfileManager.findOneByPhone("9118000000001");
@@ -85,12 +86,12 @@ class HistoricalAPIControllerITest extends ITest {
     void orders() throws IOException {
         JsonPurchaseOrder jsonPurchaseOrder = createOrder();
         String jsonPurchaseOrderAsString = purchaseOrderAPIController.purchase(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                jsonPurchaseOrder,
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonPurchaseOrder,
+            httpServletResponse
         );
         JsonPurchaseOrder jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
 
@@ -116,12 +117,12 @@ class HistoricalAPIControllerITest extends ITest {
         JsonPurchaseOrder jsonPurchaseOrderCFResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsStringAfterNotifyingCF, JsonPurchaseOrder.class);
         when(cashfreeService.refundInitiatedByClient(any())).thenReturn(new JsonResponseRefund().setStatus("OK"));
         String jsonPurchaseOrderCancelAsString = purchaseOrderAPIController.cancel(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                jsonPurchaseOrderResponse,
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonPurchaseOrderResponse,
+            httpServletResponse
         );
 
         JsonPurchaseOrder jsonPurchaseOrderCancelResponse = new ObjectMapper().readValue(jsonPurchaseOrderCancelAsString, JsonPurchaseOrder.class);
@@ -129,9 +130,9 @@ class HistoricalAPIControllerITest extends ITest {
         assertEquals(PurchaseOrderStateEnum.CO, jsonPurchaseOrderCancelResponse.getPresentOrderState());
 
         String orders = historicalAPIController.orders(
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                httpServletResponse
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            httpServletResponse
         );
 
         JsonPurchaseOrderHistoricalList jsonPurchaseOrderHistoricalList = new ObjectMapper().readValue(orders, JsonPurchaseOrderHistoricalList.class);
@@ -144,9 +145,9 @@ class HistoricalAPIControllerITest extends ITest {
         abortQueue(jsonToken);
 
         String queues = historicalAPIController.queues(
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                httpServletResponse
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            httpServletResponse
         );
 
         JsonQueueHistoricalList jsonQueueHistoricalList = new ObjectMapper().readValue(queues, JsonQueueHistoricalList.class);
@@ -155,12 +156,12 @@ class HistoricalAPIControllerITest extends ITest {
 
     private void abortQueue(JsonToken jsonToken) throws IOException {
         String abortResponse = tokenQueueAPIController.abortQueue(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                new ScrubbedInput(jsonToken.getCodeQR()),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            new ScrubbedInput(jsonToken.getCodeQR()),
+            httpServletResponse
         );
         JsonResponse jsonResponse = new ObjectMapper().readValue(abortResponse, JsonResponse.class);
         assertEquals(1, jsonResponse.getResponse());
@@ -170,16 +171,16 @@ class HistoricalAPIControllerITest extends ITest {
         BizNameEntity bizName = bizNameManager.findByPhone("9118000000000");
         List<BizStoreEntity> bizStores = bizStoreManager.getAllBizStores(bizName.getId());
         JoinQueue joinQueue = new JoinQueue()
-                .setCodeQR(bizStores.get(0).getCodeQR())
-                .setQueueUserId(userProfile.getQueueUserId());
+            .setCodeQR(bizStores.get(0).getCodeQR())
+            .setQueueUserId(userProfile.getQueueUserId());
 
         String jsonTokenAsString = tokenQueueAPIController.joinQueue(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                joinQueue,
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            joinQueue,
+            httpServletResponse
         );
         return new ObjectMapper().readValue(jsonTokenAsString, JsonToken.class);
     }
@@ -194,11 +195,11 @@ class HistoricalAPIControllerITest extends ITest {
         List<JsonPurchaseOrderProduct> jsonPurchaseOrderProducts = new ArrayList<>();
         for (StoreProductEntity storeProduct : storeProducts) {
             JsonPurchaseOrderProduct pop = new JsonPurchaseOrderProduct()
-                    .setProductId(storeProduct.getId())
-                    .setProductName(storeProduct.getProductName())
-                    .setProductPrice(storeProduct.getProductPrice())
-                    .setProductDiscount(storeProduct.getProductDiscount())
-                    .setProductQuantity(1);
+                .setProductId(storeProduct.getId())
+                .setProductName(storeProduct.getProductName())
+                .setProductPrice(storeProduct.getProductPrice())
+                .setProductDiscount(storeProduct.getProductDiscount())
+                .setProductQuantity(1);
 
 
             orderPrice = computePrice(orderPrice, pop);
@@ -206,15 +207,15 @@ class HistoricalAPIControllerITest extends ITest {
         }
 
         return new JsonPurchaseOrder()
-                .setJsonPurchaseOrderProducts(jsonPurchaseOrderProducts)
-                .setBizStoreId(bizStore.getId())
-                .setBusinessType(bizStore.getBusinessType())
-                .setCustomerName(userProfile.getName())
-                .setCustomerPhone(userProfile.getPhone())
-                .setDeliveryMode(DeliveryModeEnum.TO)
-                .setPaymentMode(PaymentModeEnum.CA)
-                .setStoreDiscount(bizStore.getDiscount())
-                .setOrderPrice(String.valueOf(orderPrice));
+            .setJsonPurchaseOrderProducts(jsonPurchaseOrderProducts)
+            .setBizStoreId(bizStore.getId())
+            .setBusinessType(bizStore.getBusinessType())
+            .setCustomerName(userProfile.getName())
+            .setCustomerPhone(userProfile.getPhone())
+            .setDeliveryMode(DeliveryModeEnum.TO)
+            .setPaymentMode(PaymentModeEnum.CA)
+            .setStoreDiscount(bizStore.getDiscount())
+            .setOrderPrice(String.valueOf(orderPrice));
     }
 
     private int computePrice(int orderPrice, JsonPurchaseOrderProduct pop) {
