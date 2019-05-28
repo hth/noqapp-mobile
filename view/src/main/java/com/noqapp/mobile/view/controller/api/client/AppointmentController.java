@@ -287,7 +287,7 @@ public class AppointmentController {
         value = "/all",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String getAllAppointments(
+    public String allAppointments(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -320,7 +320,7 @@ public class AppointmentController {
         } finally {
             apiHealthService.insert(
                 "/all",
-                "getAllAppointments",
+                "allAppointments",
                 AppointmentController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
