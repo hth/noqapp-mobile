@@ -235,7 +235,11 @@ public class ScheduleController {
         }
 
         try {
-            ScheduleAppointmentEntity scheduleAppointment = scheduleAppointmentService.findAppointment(jsonSchedule.getScheduleAppointmentId(), jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR());
+            ScheduleAppointmentEntity scheduleAppointment = scheduleAppointmentService.findAppointment(
+                jsonSchedule.getScheduleAppointmentId(),
+                jsonSchedule.getQueueUserId(),
+                jsonSchedule.getCodeQR());
+
             switch (scheduleAppointment.getAppointmentStatus()) {
                 case U:
                 case A:
