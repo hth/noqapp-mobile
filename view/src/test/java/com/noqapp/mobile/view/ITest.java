@@ -101,6 +101,8 @@ import com.noqapp.repository.RegisteredDeviceManager;
 import com.noqapp.repository.RegisteredDeviceManagerImpl;
 import com.noqapp.repository.S3FileManager;
 import com.noqapp.repository.S3FileManagerImpl;
+import com.noqapp.repository.ScheduleAppointmentManager;
+import com.noqapp.repository.ScheduleAppointmentManagerImpl;
 import com.noqapp.repository.ScheduledTaskManager;
 import com.noqapp.repository.ScheduledTaskManagerImpl;
 import com.noqapp.repository.StatsBizStoreDailyManager;
@@ -149,6 +151,7 @@ import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.ReviewService;
+import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
 import com.noqapp.service.TokenQueueService;
@@ -214,6 +217,7 @@ public class ITest extends RealMongoForITest {
     protected AuthenticateMobileService authenticateMobileService;
     protected BusinessUserStoreService businessUserStoreService;
     protected ProfessionalProfileService professionalProfileService;
+    protected ScheduleAppointmentService scheduleAppointmentService;
 
     protected UserAddressManager userAddressManager;
     protected UserAddressService userAddressService;
@@ -269,6 +273,7 @@ public class ITest extends RealMongoForITest {
     protected ScheduledTaskManager scheduledTaskManager;
     protected PublishArticleManager publishArticleManager;
     protected AdvertisementManager advertisementManager;
+    protected ScheduleAppointmentManager scheduleAppointmentManager;
 
     protected BusinessCustomerManager businessCustomerManager;
     protected BusinessCustomerService businessCustomerService;
@@ -346,6 +351,7 @@ public class ITest extends RealMongoForITest {
         queueManager = new QueueManagerImpl(getMongoTemplate());
         bizStoreManager = new BizStoreManagerImpl(getMongoTemplate());
         statsBizStoreDailyManager = new StatsBizStoreDailyManagerImpl(getMongoTemplate());
+        scheduleAppointmentManager = new ScheduleAppointmentManagerImpl(getMongoTemplate());
 
         generateUserIdService = new GenerateUserIdService(generateUserIdManager);
         emailValidateService = new EmailValidateService(emailValidateManager);
@@ -568,6 +574,14 @@ public class ITest extends RealMongoForITest {
             firebaseMessageService,
             firebaseService,
             webConnectorService
+        );
+
+        scheduleAppointmentService = new ScheduleAppointmentService(
+            scheduleAppointmentManager,
+            bizStoreManager,
+            storeHourManager,
+            userProfileManager,
+            userAccountManager
         );
 
         accountClientController = new AccountClientController(
