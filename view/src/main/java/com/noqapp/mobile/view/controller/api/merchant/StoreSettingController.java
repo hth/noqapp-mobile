@@ -571,7 +571,7 @@ public class StoreSettingController {
                         return getErrorReason(
                             bizStore.getBusinessType().getDescription()
                                 + " does not have permission for accepting appointment. Contact support for further assistance.",
-                            SERVICE_PAYMENT_NOT_ALLOWED_FOR_THIS_BUSINESS_TYPE);
+                            CANNOT_ACCEPT_APPOINTMENT);
                 }
 
                 bizStore = bizService.updateAppointment(jsonStoreSetting.getCodeQR(), jsonStoreSetting.getAppointmentDuration(), jsonStoreSetting.getAppointmentOpenHowFar());
