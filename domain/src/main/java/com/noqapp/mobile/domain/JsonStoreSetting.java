@@ -77,6 +77,9 @@ public class JsonStoreSetting extends AbstractDomain {
     @JsonProperty ("scUn")
     private String scheduledUntilDay;
 
+    //*********************************/
+    //*  Queue Price Setting Starts.  */
+    //*********************************/
     @JsonProperty("ep")
     private boolean enabledPayment;
 
@@ -88,6 +91,9 @@ public class JsonStoreSetting extends AbstractDomain {
 
     @JsonProperty("sp")
     private ServicePaymentEnum servicePayment;
+    //*********************************/
+    //*  Queue Price Settings Ends.   */
+    //*********************************/
 
     @JsonProperty("fd")
     private int freeFollowupDays;
@@ -97,6 +103,21 @@ public class JsonStoreSetting extends AbstractDomain {
 
     @JsonProperty("dp")
     private int discountedFollowupProductPrice;
+
+    //******************************************/
+    //*  Queue Appointment Setting Starts.     */
+    //******************************************/
+    @JsonProperty("ae")
+    private boolean appointmentEnable;
+
+    @JsonProperty("ad")
+    private int appointmentDuration;
+
+    @JsonProperty("ao")
+    private int appointmentOpenHowFar;
+    //******************************************/
+    //*  Queue Appointment Setting Ends.       */
+    //******************************************/
 
     @JsonProperty("sa")
     private ActionTypeEnum storeActionType;
@@ -130,6 +151,9 @@ public class JsonStoreSetting extends AbstractDomain {
         this.freeFollowupDays = bizStore.getFreeFollowupDays();
         this.discountedFollowupDays = bizStore.getDiscountedFollowupDays();
         this.discountedFollowupProductPrice = bizStore.getDiscountedFollowupProductPrice();
+        this.appointmentEnable = bizStore.isAppointmentEnable();
+        this.appointmentDuration = bizStore.getAppointmentDuration();
+        this.appointmentOpenHowFar = bizStore.getAppointmentOpenHowFar();
 
         if (null != scheduledTask) {
             scheduledFromDay = scheduledTask.getFrom();
@@ -161,6 +185,9 @@ public class JsonStoreSetting extends AbstractDomain {
         this.freeFollowupDays = bizStore.getFreeFollowupDays();
         this.discountedFollowupDays = bizStore.getDiscountedFollowupDays();
         this.discountedFollowupProductPrice = bizStore.getDiscountedFollowupProductPrice();
+        this.appointmentEnable = bizStore.isAppointmentEnable();
+        this.appointmentDuration = bizStore.getAppointmentDuration();
+        this.appointmentOpenHowFar = bizStore.getAppointmentOpenHowFar();
 
         if (null != scheduledTask) {
             scheduledFromDay = scheduledTask.getFrom();
@@ -345,6 +372,33 @@ public class JsonStoreSetting extends AbstractDomain {
 
     public JsonStoreSetting setDiscountedFollowupProductPrice(int discountedFollowupProductPrice) {
         this.discountedFollowupProductPrice = discountedFollowupProductPrice;
+        return this;
+    }
+
+    public boolean isAppointmentEnable() {
+        return appointmentEnable;
+    }
+
+    public JsonStoreSetting setAppointmentEnable(boolean appointmentEnable) {
+        this.appointmentEnable = appointmentEnable;
+        return this;
+    }
+
+    public int getAppointmentDuration() {
+        return appointmentDuration;
+    }
+
+    public JsonStoreSetting setAppointmentDuration(int appointmentDuration) {
+        this.appointmentDuration = appointmentDuration;
+        return this;
+    }
+
+    public int getAppointmentOpenHowFar() {
+        return appointmentOpenHowFar;
+    }
+
+    public JsonStoreSetting setAppointmentOpenHowFar(int appointmentOpenHowFar) {
+        this.appointmentOpenHowFar = appointmentOpenHowFar;
         return this;
     }
 
