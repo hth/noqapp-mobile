@@ -1,7 +1,6 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.domain.BizStoreEntity.UNDER_SCORE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_NOT_STARTED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,10 +18,9 @@ import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
-import com.noqapp.mobile.common.util.ErrorJson;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
-import com.noqapp.mobile.domain.JsonModifyQueue;
+import com.noqapp.mobile.domain.JsonStoreSetting;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.domain.body.merchant.Served;
 import com.noqapp.mobile.view.ITest;
@@ -552,7 +550,7 @@ class QueueControllerITest extends ITest {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
-        JsonModifyQueue jsonModifyQueue = new JsonModifyQueue()
+        JsonStoreSetting jsonStoreSetting = new JsonStoreSetting()
             .setCodeQR(bizStore.getCodeQR())
             .setDayClosed(true)
             .setPreventJoining(false)
@@ -565,10 +563,10 @@ class QueueControllerITest extends ITest {
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
             new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
-            jsonModifyQueue,
+            jsonStoreSetting,
             httpServletResponse
         );
-        JsonModifyQueue jsonModifiedQueue = new ObjectMapper().readValue(queueStateResponse, JsonModifyQueue.class);
+        JsonStoreSetting jsonModifiedQueue = new ObjectMapper().readValue(queueStateResponse, JsonStoreSetting.class);
         assertEquals(false, jsonModifiedQueue.isPreventJoining());
         assertEquals(true, jsonModifiedQueue.isDayClosed());
         assertEquals(0, jsonModifiedQueue.getAvailableTokenCount());
@@ -633,7 +631,7 @@ class QueueControllerITest extends ITest {
     }
 
     private void resetQueueAsOpen(BizStoreEntity bizStore, UserAccountEntity queueUserAccount) throws IOException {
-        JsonModifyQueue jsonModifyQueue = new JsonModifyQueue()
+        JsonStoreSetting jsonStoreSetting = new JsonStoreSetting()
             .setCodeQR(bizStore.getCodeQR())
             .setDayClosed(false)
             .setPreventJoining(false)
@@ -644,7 +642,7 @@ class QueueControllerITest extends ITest {
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
             new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
-            jsonModifyQueue,
+            jsonStoreSetting,
             httpServletResponse
         );
     }
