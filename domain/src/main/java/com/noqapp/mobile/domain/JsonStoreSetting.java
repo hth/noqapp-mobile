@@ -107,13 +107,13 @@ public class JsonStoreSetting extends AbstractDomain {
     //******************************************/
     //*  Queue Appointment Setting Starts.     */
     //******************************************/
-    @JsonProperty("ae")
+    @JsonProperty("pe")
     private boolean appointmentEnable;
 
-    @JsonProperty("ad")
+    @JsonProperty("pd")
     private int appointmentDuration;
 
-    @JsonProperty("ao")
+    @JsonProperty("pf")
     private int appointmentOpenHowFar;
     //******************************************/
     //*  Queue Appointment Setting Ends.       */
