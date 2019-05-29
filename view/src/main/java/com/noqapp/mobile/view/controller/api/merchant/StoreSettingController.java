@@ -567,7 +567,7 @@ public class StoreSettingController {
                         }
                         break;
                     default:
-                        LOG.warn("Appointments enabled not allowed for {} {} {}", bizStore.getId(), bizStore.getBusinessType(), bizStore.getDisplayName());
+                        LOG.warn("Appointment cannot be enabled {} {} {}", bizStore.getId(), bizStore.getBusinessType(), bizStore.getDisplayName());
                         return getErrorReason(
                             bizStore.getBusinessType().getDescription()
                                 + " does not have permission for accepting appointment. Contact support for further assistance.",
@@ -596,7 +596,7 @@ public class StoreSettingController {
                 bizStore,
                 scheduledTask).asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed getting appointment reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
