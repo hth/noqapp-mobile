@@ -248,6 +248,7 @@ public class ScheduleController {
                         jsonSchedule.getAppointmentStatus(),
                         jsonSchedule.getQueueUserId(),
                         jsonSchedule.getCodeQR()).asJson();
+                case C:
                 case R:
                 case S:
                     return getErrorReason(
