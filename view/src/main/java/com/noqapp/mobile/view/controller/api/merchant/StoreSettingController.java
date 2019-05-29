@@ -21,7 +21,7 @@ import com.noqapp.domain.types.ActionTypeEnum;
 import com.noqapp.domain.types.ScheduleTaskEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.domain.JsonModifyQueue;
+import com.noqapp.mobile.domain.JsonStoreSetting;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
@@ -157,7 +157,7 @@ public class StoreSettingController {
                 scheduledTask = scheduledTaskManager.findOneById(bizStore.getScheduledTaskId());
             }
 
-            return new JsonModifyQueue(
+            return new JsonStoreSetting(
                 codeQR.getText(),
                 storeHour,
                 bizStore.getAvailableTokenCount(),
@@ -247,7 +247,7 @@ public class StoreSettingController {
             }
 
             StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
-            return new JsonModifyQueue(
+            return new JsonStoreSetting(
                 codeQR.getText(),
                 storeHour,
                 bizStore.getAvailableTokenCount(),
@@ -287,7 +287,7 @@ public class StoreSettingController {
         ScrubbedInput auth,
 
         @RequestBody
-        JsonModifyQueue modifyQueue,
+        JsonStoreSetting jsonStoreSetting,
 
         HttpServletResponse response
     ) throws IOException {
@@ -301,16 +301,16 @@ public class StoreSettingController {
             return null;
         }
 
-        if (StringUtils.isBlank(modifyQueue.getCodeQR())) {
-            LOG.warn("Not a valid codeQR={} qid={}", modifyQueue.getCodeQR(), qid);
+        if (StringUtils.isBlank(jsonStoreSetting.getCodeQR())) {
+            LOG.warn("Not a valid codeQR={} qid={}", jsonStoreSetting.getCodeQR(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-        } else if (!businessUserStoreService.hasAccess(qid, modifyQueue.getCodeQR())) {
+        } else if (!businessUserStoreService.hasAccess(qid, jsonStoreSetting.getCodeQR())) {
             LOG.info("Un-authorized store access to /api/m/ss/modify by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
 
-        BizStoreEntity bizStore = bizService.findByCodeQR(modifyQueue.getCodeQR());
+        BizStoreEntity bizStore = bizService.findByCodeQR(jsonStoreSetting.getCodeQR());
         if (StringUtils.isNotBlank(bizStore.getScheduledTaskId())) {
             ScheduledTaskEntity scheduledTask = scheduledTaskManager.findOneById(bizStore.getScheduledTaskId());
             Date from = DateUtil.convertToDate(scheduledTask.getFrom(), TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId());
@@ -323,10 +323,10 @@ public class StoreSettingController {
             }
         }
 
-        if (StringUtils.isNotBlank(modifyQueue.getFromDay()) || StringUtils.isNotBlank(modifyQueue.getUntilDay())) {
-            if (StringUtils.isNotBlank(modifyQueue.getFromDay()) && StringUtils.isNotBlank(modifyQueue.getUntilDay())) {
-                Date from = DateUtil.convertToDate(modifyQueue.getFromDay(), TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId());
-                Date until = DateUtil.convertToDate(modifyQueue.getUntilDay(), TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId());
+        if (StringUtils.isNotBlank(jsonStoreSetting.getFromDay()) || StringUtils.isNotBlank(jsonStoreSetting.getUntilDay())) {
+            if (StringUtils.isNotBlank(jsonStoreSetting.getFromDay()) && StringUtils.isNotBlank(jsonStoreSetting.getUntilDay())) {
+                Date from = DateUtil.convertToDate(jsonStoreSetting.getFromDay(), TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId());
+                Date until = DateUtil.convertToDate(jsonStoreSetting.getUntilDay(), TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId());
                 if (from.after(until)) {
                     return getErrorReason("From Day has to before Until Day", MOBILE_JSON);
                 }
@@ -336,12 +336,12 @@ public class StoreSettingController {
         }
 
         try {
-            LOG.info("Received Data for qid={} JsonModifyQueue={}", qid, modifyQueue.toString());
-            TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(modifyQueue.getCodeQR());
-            if (tokenQueue.getLastNumber() > 0 && (modifyQueue.isDayClosed() || modifyQueue.isTempDayClosed())) {
+            LOG.info("Received Data for qid={} JsonStoreSetting={}", qid, jsonStoreSetting.toString());
+            TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(jsonStoreSetting.getCodeQR());
+            if (tokenQueue.getLastNumber() > 0 && (jsonStoreSetting.isDayClosed() || jsonStoreSetting.isTempDayClosed())) {
                 /* Notify everyone about day closed. */
                 long notified = tokenQueueMobileService.notifyAllInQueueWhenStoreClosesForTheDay(
-                    modifyQueue.getCodeQR(),
+                    jsonStoreSetting.getCodeQR(),
                     did.getText());
 
                 LOG.info("Send message to {} when store is marked closed for the day queueName={} lastNumber={} queueStatus={}",
@@ -350,30 +350,30 @@ public class StoreSettingController {
                     tokenQueue.getLastNumber(),
                     tokenQueue.getQueueStatus());
 
-            } else if (modifyQueue.getDelayedInMinutes() > 0) {
+            } else if (jsonStoreSetting.getDelayedInMinutes() > 0) {
                 /* Notify everyone about delay. */
                 tokenQueueMobileService.notifyAllInQueueAboutDelay(
-                    modifyQueue.getCodeQR(),
-                    modifyQueue.getDelayedInMinutes());
+                    jsonStoreSetting.getCodeQR(),
+                    jsonStoreSetting.getDelayedInMinutes());
 
                 LOG.info("Send message when queues starts late by minutes={} queueName={} lastNumber={} queueStatus={}",
-                    modifyQueue.getDelayedInMinutes(),
+                    jsonStoreSetting.getDelayedInMinutes(),
                     tokenQueue.getDisplayName(),
                     tokenQueue.getLastNumber(),
                     tokenQueue.getQueueStatus());
             }
 
-            ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(modifyQueue);
+            ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(jsonStoreSetting);
             if (null != scheduledTask) {
                 /* Better to set here as bizStore is not updated during the process before sending email and in response to merchant. */
                 bizStore.setScheduledTaskId(scheduledTask.getId());
             }
-            StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(modifyQueue);
-            queueMobileService.updateBizStoreAvailableTokenCount(modifyQueue.getAvailableTokenCount(), modifyQueue.getCodeQR());
+            StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(jsonStoreSetting);
+            queueMobileService.updateBizStoreAvailableTokenCount(jsonStoreSetting.getAvailableTokenCount(), jsonStoreSetting.getCodeQR());
 
             /* Store Offline or Online based on ActionType. */
-            if (null != modifyQueue.getStoreActionType()) {
-                boolean active = bizService.activeInActiveStore(storeHour.getBizStoreId(), modifyQueue.getStoreActionType());
+            if (null != jsonStoreSetting.getStoreActionType()) {
+                boolean active = bizService.activeInActiveStore(storeHour.getBizStoreId(), jsonStoreSetting.getStoreActionType());
                 if (active) {
                     bizStore.active();
                 } else {
@@ -386,10 +386,10 @@ public class StoreSettingController {
             String changeInitiateReason = "Modified Store Detail from App, modified by " +  accountService.findProfileByQueueUserId(qid).getEmail();
             bizService.sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
 
-            return new JsonModifyQueue(
-                modifyQueue.getCodeQR(),
+            return new JsonStoreSetting(
+                jsonStoreSetting.getCodeQR(),
                 storeHour,
-                modifyQueue.getAvailableTokenCount(),
+                jsonStoreSetting.getAvailableTokenCount(),
                 bizStore.isActive() ? ActionTypeEnum.ACTIVE : ActionTypeEnum.INACTIVE,
                 bizStore,
                 scheduledTask).asJson();
@@ -426,13 +426,13 @@ public class StoreSettingController {
         ScrubbedInput auth,
 
         @RequestBody
-        JsonModifyQueue modifyQueue,
+        JsonStoreSetting jsonStoreSetting,
 
         HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Service cost for queue associated with mail={} did={} deviceType={} {}", mail, did, deviceType, modifyQueue.asJson());
+        LOG.info("Service cost for queue associated with mail={} did={} deviceType={} {}", mail, did, deviceType, jsonStoreSetting.asJson());
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/m/ss/serviceCost by mail={}", mail);
@@ -440,10 +440,10 @@ public class StoreSettingController {
             return null;
         }
 
-        if (StringUtils.isBlank(modifyQueue.getCodeQR())) {
-            LOG.warn("Not a valid codeQR={} qid={}", modifyQueue.getCodeQR(), qid);
+        if (StringUtils.isBlank(jsonStoreSetting.getCodeQR())) {
+            LOG.warn("Not a valid codeQR={} qid={}", jsonStoreSetting.getCodeQR(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-        } else if (!businessUserStoreService.hasAccess(qid, modifyQueue.getCodeQR())) {
+        } else if (!businessUserStoreService.hasAccess(qid, jsonStoreSetting.getCodeQR())) {
             LOG.info("Un-authorized store access to /api/m/ss/serviceCost by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
@@ -451,8 +451,8 @@ public class StoreSettingController {
 
         try {
             BizStoreEntity bizStore;
-            if (modifyQueue.isEnabledPayment()) {
-                bizStore = bizService.findByCodeQR(modifyQueue.getCodeQR());
+            if (jsonStoreSetting.isEnabledPayment()) {
+                bizStore = bizService.findByCodeQR(jsonStoreSetting.getCodeQR());
 
                 switch (bizStore.getBusinessType()) {
                     case DO:
@@ -465,25 +465,25 @@ public class StoreSettingController {
                             SERVICE_PAYMENT_NOT_ALLOWED_FOR_THIS_BUSINESS_TYPE);
                 }
 
-                if (modifyQueue.getProductPrice() < 1) {
-                    LOG.warn("Price has to be greater than 1 {}", modifyQueue.getProductPrice());
+                if (jsonStoreSetting.getProductPrice() < 1) {
+                    LOG.warn("Price has to be greater than 1 {}", jsonStoreSetting.getProductPrice());
                     return getErrorReason("Price has to be greater than zero", PRODUCT_PRICE_CANNOT_BE_ZERO);
                 }
 
                 bizStore = bizService.updateServiceCost(
-                    modifyQueue.getCodeQR(),
-                    modifyQueue.getProductPrice(),
-                    modifyQueue.getCancellationPrice(),
-                    modifyQueue.getServicePayment(),
-                    modifyQueue.getFreeFollowupDays(),
-                    modifyQueue.getDiscountedFollowupDays(),
-                    modifyQueue.getDiscountedFollowupProductPrice());
+                    jsonStoreSetting.getCodeQR(),
+                    jsonStoreSetting.getProductPrice(),
+                    jsonStoreSetting.getCancellationPrice(),
+                    jsonStoreSetting.getServicePayment(),
+                    jsonStoreSetting.getFreeFollowupDays(),
+                    jsonStoreSetting.getDiscountedFollowupDays(),
+                    jsonStoreSetting.getDiscountedFollowupProductPrice());
             } else {
-                bizStore = bizService.disableServiceCost(modifyQueue.getCodeQR());
+                bizStore = bizService.disableServiceCost(jsonStoreSetting.getCodeQR());
             }
 
-            ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(modifyQueue);
-            StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(modifyQueue);
+            ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(jsonStoreSetting);
+            StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(jsonStoreSetting);
 
             updateChangesMadeOnElastic(bizStore);
 
@@ -491,10 +491,10 @@ public class StoreSettingController {
             String changeInitiateReason = "Modified Service Price from App, modified by " +  accountService.findProfileByQueueUserId(qid).getEmail();
             bizService.sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
 
-            return new JsonModifyQueue(
-                modifyQueue.getCodeQR(),
+            return new JsonStoreSetting(
+                jsonStoreSetting.getCodeQR(),
                 storeHour,
-                modifyQueue.getAvailableTokenCount(),
+                jsonStoreSetting.getAvailableTokenCount(),
                 bizStore.isActive() ? ActionTypeEnum.ACTIVE : ActionTypeEnum.INACTIVE,
                 bizStore,
                 scheduledTask).asJson();
@@ -521,21 +521,21 @@ public class StoreSettingController {
         }
     }
 
-    private ScheduledTaskEntity getScheduledTaskIfAny(JsonModifyQueue modifyQueue) {
+    private ScheduledTaskEntity getScheduledTaskIfAny(JsonStoreSetting jsonStoreSetting) {
         ScheduledTaskEntity scheduledTask = null;
-        if (StringUtils.isNotBlank(modifyQueue.getFromDay()) && StringUtils.isNotBlank(modifyQueue.getUntilDay())) {
+        if (StringUtils.isNotBlank(jsonStoreSetting.getFromDay()) && StringUtils.isNotBlank(jsonStoreSetting.getUntilDay())) {
             String id = CommonUtil.generateHexFromObjectId();
-            bizService.setScheduleTaskId(modifyQueue.getCodeQR(), id);
+            bizService.setScheduleTaskId(jsonStoreSetting.getCodeQR(), id);
 
             scheduledTask = new ScheduledTaskEntity()
-                .setFrom(modifyQueue.getFromDay())
-                .setUntil(modifyQueue.getUntilDay())
+                .setFrom(jsonStoreSetting.getFromDay())
+                .setUntil(jsonStoreSetting.getUntilDay())
                 .setScheduleTask(ScheduleTaskEnum.CLOSE);
             scheduledTask.setId(id);
             scheduledTaskManager.save(scheduledTask);
         }
 
-        BizStoreEntity bizStore = bizService.findByCodeQR(modifyQueue.getCodeQR());
+        BizStoreEntity bizStore = bizService.findByCodeQR(jsonStoreSetting.getCodeQR());
         if (StringUtils.isNotBlank(bizStore.getScheduledTaskId())) {
             scheduledTask = scheduledTaskManager.findOneById(bizStore.getScheduledTaskId());
         }

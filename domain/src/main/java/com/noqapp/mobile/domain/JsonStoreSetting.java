@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder (alphabetic = true)
 @JsonIgnoreProperties (ignoreUnknown = true)
 //@JsonInclude (JsonInclude.Include.NON_NULL)
-public class JsonModifyQueue extends AbstractDomain {
+public class JsonStoreSetting extends AbstractDomain {
 
     @JsonProperty ("qr")
     private String codeQR;
@@ -77,6 +77,9 @@ public class JsonModifyQueue extends AbstractDomain {
     @JsonProperty ("scUn")
     private String scheduledUntilDay;
 
+    //*********************************/
+    //*  Queue Price Setting Starts.  */
+    //*********************************/
     @JsonProperty("ep")
     private boolean enabledPayment;
 
@@ -88,6 +91,9 @@ public class JsonModifyQueue extends AbstractDomain {
 
     @JsonProperty("sp")
     private ServicePaymentEnum servicePayment;
+    //*********************************/
+    //*  Queue Price Settings Ends.   */
+    //*********************************/
 
     @JsonProperty("fd")
     private int freeFollowupDays;
@@ -98,13 +104,28 @@ public class JsonModifyQueue extends AbstractDomain {
     @JsonProperty("dp")
     private int discountedFollowupProductPrice;
 
+    //******************************************/
+    //*  Queue Appointment Setting Starts.     */
+    //******************************************/
+    @JsonProperty("ae")
+    private boolean appointmentEnable;
+
+    @JsonProperty("ad")
+    private int appointmentDuration;
+
+    @JsonProperty("ao")
+    private int appointmentOpenHowFar;
+    //******************************************/
+    //*  Queue Appointment Setting Ends.       */
+    //******************************************/
+
     @JsonProperty("sa")
     private ActionTypeEnum storeActionType;
 
-    public JsonModifyQueue() {
+    public JsonStoreSetting() {
     }
 
-    public JsonModifyQueue(
+    public JsonStoreSetting(
         String codeQR,
         StoreHourEntity storeHour,
         int availableTokenCount,
@@ -130,6 +151,9 @@ public class JsonModifyQueue extends AbstractDomain {
         this.freeFollowupDays = bizStore.getFreeFollowupDays();
         this.discountedFollowupDays = bizStore.getDiscountedFollowupDays();
         this.discountedFollowupProductPrice = bizStore.getDiscountedFollowupProductPrice();
+        this.appointmentEnable = bizStore.isAppointmentEnable();
+        this.appointmentDuration = bizStore.getAppointmentDuration();
+        this.appointmentOpenHowFar = bizStore.getAppointmentOpenHowFar();
 
         if (null != scheduledTask) {
             scheduledFromDay = scheduledTask.getFrom();
@@ -137,7 +161,7 @@ public class JsonModifyQueue extends AbstractDomain {
         }
     }
 
-    public JsonModifyQueue(
+    public JsonStoreSetting(
         String codeQR,
         StoreHourEntity storeHour,
         BizStoreEntity bizStore,
@@ -161,6 +185,9 @@ public class JsonModifyQueue extends AbstractDomain {
         this.freeFollowupDays = bizStore.getFreeFollowupDays();
         this.discountedFollowupDays = bizStore.getDiscountedFollowupDays();
         this.discountedFollowupProductPrice = bizStore.getDiscountedFollowupProductPrice();
+        this.appointmentEnable = bizStore.isAppointmentEnable();
+        this.appointmentDuration = bizStore.getAppointmentDuration();
+        this.appointmentOpenHowFar = bizStore.getAppointmentOpenHowFar();
 
         if (null != scheduledTask) {
             scheduledFromDay = scheduledTask.getFrom();
@@ -172,7 +199,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return codeQR;
     }
 
-    public JsonModifyQueue setCodeQR(String codeQR) {
+    public JsonStoreSetting setCodeQR(String codeQR) {
         this.codeQR = codeQR;
         return this;
     }
@@ -181,7 +208,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return tokenAvailableFrom;
     }
 
-    public JsonModifyQueue setTokenAvailableFrom(int tokenAvailableFrom) {
+    public JsonStoreSetting setTokenAvailableFrom(int tokenAvailableFrom) {
         this.tokenAvailableFrom = tokenAvailableFrom;
         return this;
     }
@@ -190,7 +217,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return startHour;
     }
 
-    public JsonModifyQueue setStartHour(int startHour) {
+    public JsonStoreSetting setStartHour(int startHour) {
         this.startHour = startHour;
         return this;
     }
@@ -199,7 +226,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return tokenNotAvailableFrom;
     }
 
-    public JsonModifyQueue setTokenNotAvailableFrom(int tokenNotAvailableFrom) {
+    public JsonStoreSetting setTokenNotAvailableFrom(int tokenNotAvailableFrom) {
         this.tokenNotAvailableFrom = tokenNotAvailableFrom;
         return this;
     }
@@ -208,7 +235,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return endHour;
     }
 
-    public JsonModifyQueue setEndHour(int endHour) {
+    public JsonStoreSetting setEndHour(int endHour) {
         this.endHour = endHour;
         return this;
     }
@@ -217,7 +244,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return delayedInMinutes;
     }
 
-    public JsonModifyQueue setDelayedInMinutes(int delayedInMinutes) {
+    public JsonStoreSetting setDelayedInMinutes(int delayedInMinutes) {
         this.delayedInMinutes = delayedInMinutes;
         return this;
     }
@@ -226,7 +253,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return dayClosed;
     }
 
-    public JsonModifyQueue setDayClosed(boolean dayClosed) {
+    public JsonStoreSetting setDayClosed(boolean dayClosed) {
         this.dayClosed = dayClosed;
         return this;
     }
@@ -235,7 +262,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return tempDayClosed;
     }
 
-    public JsonModifyQueue setTempDayClosed(boolean tempDayClosed) {
+    public JsonStoreSetting setTempDayClosed(boolean tempDayClosed) {
         this.tempDayClosed = tempDayClosed;
         return this;
     }
@@ -244,7 +271,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return preventJoining;
     }
 
-    public JsonModifyQueue setPreventJoining(boolean preventJoining) {
+    public JsonStoreSetting setPreventJoining(boolean preventJoining) {
         this.preventJoining = preventJoining;
         return this;
     }
@@ -253,7 +280,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return availableTokenCount;
     }
 
-    public JsonModifyQueue setAvailableTokenCount(int availableTokenCount) {
+    public JsonStoreSetting setAvailableTokenCount(int availableTokenCount) {
         this.availableTokenCount = availableTokenCount;
         return this;
     }
@@ -262,7 +289,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return fromDay;
     }
 
-    public JsonModifyQueue setFromDay(String fromDay) {
+    public JsonStoreSetting setFromDay(String fromDay) {
         this.fromDay = fromDay;
         return this;
     }
@@ -271,7 +298,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return untilDay;
     }
 
-    public JsonModifyQueue setUntilDay(String untilDay) {
+    public JsonStoreSetting setUntilDay(String untilDay) {
         this.untilDay = untilDay;
         return this;
     }
@@ -280,7 +307,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return storeActionType;
     }
 
-    public JsonModifyQueue setStoreActionType(ActionTypeEnum storeActionType) {
+    public JsonStoreSetting setStoreActionType(ActionTypeEnum storeActionType) {
         this.storeActionType = storeActionType;
         return this;
     }
@@ -289,7 +316,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return enabledPayment;
     }
 
-    public JsonModifyQueue setEnabledPayment(boolean enabledPayment) {
+    public JsonStoreSetting setEnabledPayment(boolean enabledPayment) {
         this.enabledPayment = enabledPayment;
         return this;
     }
@@ -298,7 +325,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return productPrice;
     }
 
-    public JsonModifyQueue setProductPrice(int productPrice) {
+    public JsonStoreSetting setProductPrice(int productPrice) {
         this.productPrice = productPrice;
         return this;
     }
@@ -307,7 +334,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return cancellationPrice;
     }
 
-    public JsonModifyQueue setCancellationPrice(int cancellationPrice) {
+    public JsonStoreSetting setCancellationPrice(int cancellationPrice) {
         this.cancellationPrice = cancellationPrice;
         return this;
     }
@@ -316,7 +343,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return servicePayment;
     }
 
-    public JsonModifyQueue setServicePayment(ServicePaymentEnum servicePayment) {
+    public JsonStoreSetting setServicePayment(ServicePaymentEnum servicePayment) {
         this.servicePayment = servicePayment;
         return this;
     }
@@ -325,7 +352,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return freeFollowupDays;
     }
 
-    public JsonModifyQueue setFreeFollowupDays(int freeFollowupDays) {
+    public JsonStoreSetting setFreeFollowupDays(int freeFollowupDays) {
         this.freeFollowupDays = freeFollowupDays;
         return this;
     }
@@ -334,7 +361,7 @@ public class JsonModifyQueue extends AbstractDomain {
         return discountedFollowupDays;
     }
 
-    public JsonModifyQueue setDiscountedFollowupDays(int discountedFollowupDays) {
+    public JsonStoreSetting setDiscountedFollowupDays(int discountedFollowupDays) {
         this.discountedFollowupDays = discountedFollowupDays;
         return this;
     }
@@ -343,14 +370,41 @@ public class JsonModifyQueue extends AbstractDomain {
         return discountedFollowupProductPrice;
     }
 
-    public JsonModifyQueue setDiscountedFollowupProductPrice(int discountedFollowupProductPrice) {
+    public JsonStoreSetting setDiscountedFollowupProductPrice(int discountedFollowupProductPrice) {
         this.discountedFollowupProductPrice = discountedFollowupProductPrice;
+        return this;
+    }
+
+    public boolean isAppointmentEnable() {
+        return appointmentEnable;
+    }
+
+    public JsonStoreSetting setAppointmentEnable(boolean appointmentEnable) {
+        this.appointmentEnable = appointmentEnable;
+        return this;
+    }
+
+    public int getAppointmentDuration() {
+        return appointmentDuration;
+    }
+
+    public JsonStoreSetting setAppointmentDuration(int appointmentDuration) {
+        this.appointmentDuration = appointmentDuration;
+        return this;
+    }
+
+    public int getAppointmentOpenHowFar() {
+        return appointmentOpenHowFar;
+    }
+
+    public JsonStoreSetting setAppointmentOpenHowFar(int appointmentOpenHowFar) {
+        this.appointmentOpenHowFar = appointmentOpenHowFar;
         return this;
     }
 
     @Override
     public String toString() {
-        return "JsonModifyQueue{" +
+        return "JsonStoreSetting{" +
             "codeQR='" + codeQR + '\'' +
             ", tokenAvailableFrom=" + tokenAvailableFrom +
             ", startHour=" + startHour +

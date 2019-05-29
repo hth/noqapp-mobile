@@ -14,7 +14,6 @@ import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
-import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.common.ComposeMessagesForFCM;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonQueue;
@@ -28,7 +27,7 @@ import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.SentimentTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
-import com.noqapp.mobile.domain.JsonModifyQueue;
+import com.noqapp.mobile.domain.JsonStoreSetting;
 import com.noqapp.mobile.domain.mail.ReviewSentiment;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.BusinessUserManager;
@@ -490,7 +489,7 @@ public class QueueMobileService {
         storeHourManager.resetTemporarySettingsOnStoreHour(id);
     }
 
-    public StoreHourEntity updateQueueStateForToday(JsonModifyQueue modifyQueue) {
+    public StoreHourEntity updateQueueStateForToday(JsonStoreSetting modifyQueue) {
         BizStoreEntity bizStore = bizService.findByCodeQR(modifyQueue.getCodeQR());
         TimeZone timeZone = TimeZone.getTimeZone(bizStore.getTimeZone());
         DayOfWeek dayOfWeek = ZonedDateTime.now(timeZone.toZoneId()).getDayOfWeek();
