@@ -3,6 +3,7 @@ package com.noqapp.mobile.view.controller.api.merchant;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.utils.DateUtil.DAY.TODAY;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.CANNOT_ACCEPT_APPOINTMENT;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_ACTION_NOT_PERMITTED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PRODUCT_PRICE_CANNOT_BE_ZERO;
@@ -172,7 +173,7 @@ public class StoreSettingController {
             apiHealthService.insert(
                 "/state/{codeQR}",
                 "storeState",
-                QueueController.class.getName(),
+                StoreSettingController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -262,7 +263,7 @@ public class StoreSettingController {
             apiHealthService.insert(
                 "/removeSchedule/{codeQR}",
                 "removeSchedule",
-                QueueController.class.getName(),
+                StoreSettingController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -401,7 +402,7 @@ public class StoreSettingController {
             apiHealthService.insert(
                 "/modify",
                 "modify",
-                QueueController.class.getName(),
+                StoreSettingController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -456,6 +457,10 @@ public class StoreSettingController {
 
                 switch (bizStore.getBusinessType()) {
                     case DO:
+                        if (jsonStoreSetting.getProductPrice() < 1) {
+                            LOG.warn("Price has to be greater than 1 {} {}", jsonStoreSetting.getProductPrice(), jsonStoreSetting.getCodeQR());
+                            return getErrorReason("Price has to be greater than zero", PRODUCT_PRICE_CANNOT_BE_ZERO);
+                        }
                         break;
                     default:
                         LOG.warn("Payment enabled not allowed for {} {} {}", bizStore.getId(), bizStore.getBusinessType(), bizStore.getDisplayName());
@@ -463,11 +468,6 @@ public class StoreSettingController {
                             bizStore.getBusinessType().getDescription()
                                 + " does not have permission for service payment. Contact support for further assistance.",
                             SERVICE_PAYMENT_NOT_ALLOWED_FOR_THIS_BUSINESS_TYPE);
-                }
-
-                if (jsonStoreSetting.getProductPrice() < 1) {
-                    LOG.warn("Price has to be greater than 1 {}", jsonStoreSetting.getProductPrice());
-                    return getErrorReason("Price has to be greater than zero", PRODUCT_PRICE_CANNOT_BE_ZERO);
                 }
 
                 bizStore = bizService.updateServiceCost(
@@ -506,7 +506,104 @@ public class StoreSettingController {
             apiHealthService.insert(
                 "/serviceCost",
                 "serviceCost",
-                QueueController.class.getName(),
+                StoreSettingController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Modifies queue service cost. */
+    @PostMapping (
+        value = "/appointment",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String appointment(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonStoreSetting jsonStoreSetting,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Appointment for store associated with mail={} did={} deviceType={} {}", mail, did, deviceType, jsonStoreSetting.asJson());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/ss/appointment by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (StringUtils.isBlank(jsonStoreSetting.getCodeQR())) {
+            LOG.warn("Not a valid codeQR={} qid={}", jsonStoreSetting.getCodeQR(), qid);
+            return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+        } else if (!businessUserStoreService.hasAccess(qid, jsonStoreSetting.getCodeQR())) {
+            LOG.info("Un-authorized store access to /api/m/ss/appointment by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            BizStoreEntity bizStore;
+            if (jsonStoreSetting.isAppointmentEnable()) {
+                bizStore = bizService.findByCodeQR(jsonStoreSetting.getCodeQR());
+
+                switch (bizStore.getBusinessType()) {
+                    case DO:
+                        if (!bizStore.isEnabledPayment()) {
+                            LOG.warn("Enable Payment to accept appointments {} {}", jsonStoreSetting.isEnabledPayment(), jsonStoreSetting.getCodeQR());
+                            return getErrorReason("Enable Payment to accept appointments", CANNOT_ACCEPT_APPOINTMENT);
+                        }
+                        break;
+                    default:
+                        LOG.warn("Appointments enabled not allowed for {} {} {}", bizStore.getId(), bizStore.getBusinessType(), bizStore.getDisplayName());
+                        return getErrorReason(
+                            bizStore.getBusinessType().getDescription()
+                                + " does not have permission for accepting appointment. Contact support for further assistance.",
+                            SERVICE_PAYMENT_NOT_ALLOWED_FOR_THIS_BUSINESS_TYPE);
+                }
+
+                bizStore = bizService.updateAppointment(jsonStoreSetting.getCodeQR(), jsonStoreSetting.getAppointmentDuration(), jsonStoreSetting.getAppointmentOpenHowFar());
+            } else {
+                bizStore = bizService.disableAppointment(jsonStoreSetting.getCodeQR());
+            }
+
+            ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(jsonStoreSetting);
+            StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(jsonStoreSetting);
+
+            updateChangesMadeOnElastic(bizStore);
+
+            /* Send email when store setting changes. */
+            String changeInitiateReason = "Modified Appointment Settings from App, modified by " +  accountService.findProfileByQueueUserId(qid).getEmail();
+            bizService.sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
+
+            return new JsonStoreSetting(
+                jsonStoreSetting.getCodeQR(),
+                storeHour,
+                jsonStoreSetting.getAvailableTokenCount(),
+                bizStore.isActive() ? ActionTypeEnum.ACTIVE : ActionTypeEnum.INACTIVE,
+                bizStore,
+                scheduledTask).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/appointment",
+                "appointment",
+                StoreSettingController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
