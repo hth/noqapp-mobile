@@ -312,7 +312,7 @@ public class AppointmentController {
         }
 
         try {
-            return scheduleAppointmentService.findAllFutureAppointments(qid).asJson();
+            return scheduleAppointmentService.findAllUpComingAppointments(qid).asJson();
         } catch (Exception e) {
             LOG.error("Failed finding all upcoming appointments qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

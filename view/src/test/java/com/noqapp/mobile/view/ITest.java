@@ -577,6 +577,8 @@ public class ITest extends RealMongoForITest {
         );
 
         scheduleAppointmentService = new ScheduleAppointmentService(
+            60,
+            2,
             scheduleAppointmentManager,
             bizStoreManager,
             storeHourManager,
