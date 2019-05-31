@@ -90,6 +90,21 @@
             </#if>
         </#if>
 
+        <#if businessTypeMessageOrigin == "Q">
+            <#if appointment??>
+                <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
+                    <b>Appointment Settings turned OFF</b><br/>
+                    Business is not accepting appointments<br/>
+                </p>
+            <#else>
+                <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
+                    <strong>${displayName} is accepting appointments:</strong><br/>
+                    Appointment Duration: <b>${appointmentDuration} in minutes</b><br/>
+                    Appointment Window: <b>${appointmentWindow} weeks</b><br/>
+                </p>
+            </#if>
+        </#if>
+
         <table style="background-color: lightgrey">
             <tr>
                 <td style=" padding: 25px">
