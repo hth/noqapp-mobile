@@ -325,16 +325,18 @@ public class ScheduleController {
             }
 
             JsonSchedule bookedAppointment;
-            if (bookSchedule.getJsonSchedule().getQueueUserId().equalsIgnoreCase(qid)) {
+            if (StringUtils.isBlank(bookSchedule.getJsonSchedule().getGuardianQid())) {
                 bookedAppointment = scheduleAppointmentService.bookAppointment(null, bookSchedule.getJsonSchedule());
             } else {
-                UserProfileEntity userProfile = userProfileManager.findByQueueUserId(qid);
+                UserProfileEntity userProfile = userProfileManager.findByQueueUserId(bookSchedule.getJsonSchedule().getGuardianQid());
                 if (!userProfile.getQidOfDependents().contains(bookSchedule.getJsonSchedule().getQueueUserId())) {
-                    LOG.warn("Attempt to book appointment for non existent dependent {} {} {}", qid, bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getCodeQR());
+                    LOG.warn("Attempt to book appointment for non existent dependent {} {} {}",
+                        bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getCodeQR());
                     return getErrorReason("Something went wrong. Engineers are looking into this.", CANNOT_BOOK_APPOINTMENT);
                 }
-                bookedAppointment = scheduleAppointmentService.bookAppointment(qid, bookSchedule.getJsonSchedule());
+                bookedAppointment = scheduleAppointmentService.bookAppointment(bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule());
             }
+
             return bookedAppointment.asJson();
         } catch (AppointmentBookingException e) {
             LOG.warn("Failed booking appointment qid={}, reason={}", qid, e.getLocalizedMessage());
