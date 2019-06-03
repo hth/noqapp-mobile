@@ -10,7 +10,6 @@ import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonStore;
 import com.noqapp.domain.json.JsonStoreCategory;
 import com.noqapp.domain.json.JsonStoreProduct;
-import com.noqapp.domain.types.medical.LabCategoryEnum;
 import com.noqapp.domain.types.medical.PharmacyCategoryEnum;
 import com.noqapp.service.BizService;
 import com.noqapp.service.StoreCategoryService;
@@ -36,10 +35,10 @@ public class StoreDetailService {
 
     @Autowired
     public StoreDetailService(
-            BizService bizService,
-            TokenQueueMobileService tokenQueueMobileService,
-            StoreProductService storeProductService,
-            StoreCategoryService storeCategoryService
+        BizService bizService,
+        TokenQueueMobileService tokenQueueMobileService,
+        StoreProductService storeProductService,
+        StoreCategoryService storeCategoryService
     ) {
         this.bizService = bizService;
         this.tokenQueueMobileService = tokenQueueMobileService;
@@ -80,7 +79,7 @@ public class StoreDetailService {
         switch (bizStore.getBusinessType()) {
             case PH:
                 Map<String, String> map = PharmacyCategoryEnum.asMapWithNameAsKey();
-                for(String key : map.keySet()) {
+                for (String key : map.keySet()) {
                     JsonStoreCategory jsonStoreCategory = new JsonStoreCategory()
                         .setCategoryId(key)
                         .setCategoryName(map.get(key));
@@ -96,20 +95,8 @@ public class StoreDetailService {
                 }
         }
 
-        List<StoreHourEntity> storeHours = bizService.findAllStoreHours(bizStore.getId());
-        for (StoreHourEntity storeHour : storeHours) {
-            JsonHour jsonHour = new JsonHour()
-                    .setDayOfWeek(storeHour.getDayOfWeek())
-                    .setTokenAvailableFrom(storeHour.getTokenAvailableFrom())
-                    .setTokenNotAvailableFrom(storeHour.getTokenNotAvailableFrom())
-                    .setStartHour(storeHour.getStartHour())
-                    .setEndHour(storeHour.getEndHour())
-                    .setPreventJoining(storeHour.isPreventJoining())
-                    .setDayClosed(storeHour.isDayClosed() || storeHour.isTempDayClosed())
-                    .setDelayedInMinutes(storeHour.getDelayedInMinutes());
-            jsonStore.addJsonHour(jsonHour);
-        }
-
+        List<JsonHour> jsonHours = bizService.findAllStoreHoursAsJson(bizStore.getId());
+        jsonStore.setJsonHours(jsonHours);
         return jsonStore;
     }
 }
