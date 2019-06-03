@@ -26,7 +26,6 @@ import com.noqapp.mobile.domain.JsonStoreSetting;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
-import com.noqapp.mobile.view.controller.api.merchant.queue.QueueController;
 import com.noqapp.repository.ScheduledTaskManager;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.search.elastic.service.BizStoreElasticService;
