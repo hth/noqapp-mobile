@@ -3,6 +3,8 @@ package com.noqapp.mobile.view.controller.api.merchant;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.APPOINTMENT_ACTION_NOT_PERMITTED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.APPOINTMENT_ALREADY_EXISTS;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.CANNOT_BOOK_APPOINTMENT;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.FAILED_TO_FIND_APPOINTMENT;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
@@ -10,12 +12,15 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.ScheduleAppointmentEntity;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonSchedule;
 import com.noqapp.domain.json.JsonScheduleList;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.domain.body.merchant.BookSchedule;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.client.AppointmentController;
+import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.exceptions.AppointmentBookingException;
@@ -56,6 +61,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ScheduleController {
     private static final Logger LOG = LoggerFactory.getLogger(AppointmentController.class);
 
+    private UserProfileManager userProfileManager;
+
     private AuthenticateMobileService authenticateMobileService;
     private ScheduleAppointmentService scheduleAppointmentService;
     private BusinessUserStoreService businessUserStoreService;
@@ -63,11 +70,14 @@ public class ScheduleController {
 
     @Autowired
     public ScheduleController(
+        UserProfileManager userProfileManager,
         AuthenticateMobileService authenticateMobileService,
         ScheduleAppointmentService scheduleAppointmentService,
         BusinessUserStoreService businessUserStoreService,
         ApiHealthService apiHealthService
     ) {
+        this.userProfileManager = userProfileManager;
+
         this.authenticateMobileService = authenticateMobileService;
         this.scheduleAppointmentService = scheduleAppointmentService;
         this.businessUserStoreService = businessUserStoreService;
@@ -269,6 +279,75 @@ public class ScheduleController {
             apiHealthService.insert(
                 "/action",
                 "scheduleAction",
+                ScheduleController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping(
+        value = "/bookSchedule",
+        headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String bookSchedule(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        BookSchedule bookSchedule,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.debug("ScheduleForDay mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            if (scheduleAppointmentService.doesAppointmentExists(bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getCodeQR(), bookSchedule.getJsonSchedule().getScheduleDate())) {
+                LOG.warn("Cannot book when appointment already exists {} {} {}", bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getCodeQR(), bookSchedule.getJsonSchedule().getScheduleDate());
+                return getErrorReason("Appointment already exists for this day. Please cancel to re-book for the day.", APPOINTMENT_ALREADY_EXISTS);
+            }
+
+            JsonSchedule bookedAppointment;
+            if (bookSchedule.getJsonSchedule().getQueueUserId().equalsIgnoreCase(qid)) {
+                bookedAppointment = scheduleAppointmentService.bookAppointment(null, bookSchedule.getJsonSchedule());
+            } else {
+                UserProfileEntity userProfile = userProfileManager.findByQueueUserId(qid);
+                if (!userProfile.getQidOfDependents().contains(bookSchedule.getJsonSchedule().getQueueUserId())) {
+                    LOG.warn("Attempt to book appointment for non existent dependent {} {} {}", qid, bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getCodeQR());
+                    return getErrorReason("Something went wrong. Engineers are looking into this.", CANNOT_BOOK_APPOINTMENT);
+                }
+                bookedAppointment = scheduleAppointmentService.bookAppointment(qid, bookSchedule.getJsonSchedule());
+            }
+            return bookedAppointment.asJson();
+        } catch (AppointmentBookingException e) {
+            LOG.warn("Failed booking appointment qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = false;
+            return getErrorReason(e.getLocalizedMessage(), CANNOT_BOOK_APPOINTMENT);
+        } catch (Exception e) {
+            LOG.error("Failed booking appointment qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/bookSchedule",
+                "bookSchedule",
                 ScheduleController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
