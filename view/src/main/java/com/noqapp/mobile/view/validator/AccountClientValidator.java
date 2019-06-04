@@ -77,9 +77,7 @@ public class AccountClientValidator {
 
         phoneValidation(phone, errors);
         firstNameValidation(firstName, errors);
-        if (StringUtils.isNotBlank(mail)) {
-            mailValidation(mail, errors);
-        }
+        mailValidation(mail, errors);
         birthdayValidation(birthday, errors);
         genderValidation(gender, errors);
         countryShortNameValidation(countryShortName, errors);
