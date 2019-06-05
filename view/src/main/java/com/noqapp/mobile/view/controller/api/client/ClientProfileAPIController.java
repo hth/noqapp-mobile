@@ -23,7 +23,6 @@ import com.noqapp.domain.json.JsonUserAddress;
 import com.noqapp.domain.json.JsonUserAddressList;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.service.AccountMobileService;
@@ -49,7 +48,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -237,13 +235,17 @@ public class ClientProfileAPIController {
                 LOG.debug("Check if existing user with mail={}", mailMigrate);
                 UserProfileEntity userProfile = accountMobileService.doesUserExists(mailMigrate);
                 if (null != userProfile) {
-                    LOG.info("Failed user migration mail={}", mailMigrate);
-                    errors = new HashMap<>();
-                    errors.put(ErrorEncounteredJson.REASON, "User already exists. Cannot continue migration.");
-                    errors.put(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name(), mailMigrate);
-                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
-                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
-                    return ErrorEncounteredJson.toJson(errors);
+                    UserAccountEntity userAccount = accountMobileService.findByQueueUserId(userProfile.getQueueUserId());
+                    if (userAccount.isAccountValidated()) {
+                        LOG.info("Failed user migration mail={}", mailMigrate);
+                        errors = new HashMap<>();
+                        errors.put(ErrorEncounteredJson.REASON, "User already exists. Cannot continue migration.");
+                        errors.put(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name(), mailMigrate);
+                        errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
+                        errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
+                        return ErrorEncounteredJson.toJson(errors);
+                    }
+                    /* If account not validated, continue sending OTP again. */
                 }
 
                 try {
@@ -450,13 +452,17 @@ public class ClientProfileAPIController {
                 LOG.debug("Check if existing user with mail={}", mailMigrate);
                 UserProfileEntity userProfile = accountMobileService.doesUserExists(mailMigrate);
                 if (null != userProfile) {
-                    LOG.info("Failed user migration mail={}", mailMigrate);
-                    errors = new HashMap<>();
-                    errors.put(ErrorEncounteredJson.REASON, "User already exists. Cannot continue migration.");
-                    errors.put(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name(), mailMigrate);
-                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
-                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
-                    return ErrorEncounteredJson.toJson(errors);
+                    UserAccountEntity userAccount = accountMobileService.findByQueueUserId(userProfile.getQueueUserId());
+                    if (userAccount.isAccountValidated()) {
+                        LOG.info("Failed user migration mail={}", mailMigrate);
+                        errors = new HashMap<>();
+                        errors.put(ErrorEncounteredJson.REASON, "User already exists. Cannot continue migration.");
+                        errors.put(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name(), mailMigrate);
+                        errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
+                        errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
+                        return ErrorEncounteredJson.toJson(errors);
+                    }
+                    /* If account not validated, continue validating OTP to confirm email address. */
                 }
 
                 UserAccountEntity userAccount;
