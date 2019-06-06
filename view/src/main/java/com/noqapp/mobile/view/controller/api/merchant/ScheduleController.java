@@ -6,6 +6,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.APPOINTMEN
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.APPOINTMENT_ALREADY_EXISTS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.CANNOT_BOOK_APPOINTMENT;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.FAILED_TO_FIND_APPOINTMENT;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -321,18 +322,20 @@ public class ScheduleController {
         try {
             switch (bookSchedule.getBookActionType()) {
                 case ADD:
-                    return addBooking(bookSchedule);
+                    try {
+                        return addBooking(bookSchedule);
+                    } catch (AppointmentBookingException e) {
+                        LOG.warn("Failed booking appointment qid={} {}, reason={}", qid, bookSchedule.getBookActionType(), e.getLocalizedMessage());
+                        methodStatusSuccess = false;
+                        return getErrorReason(e.getLocalizedMessage(), CANNOT_BOOK_APPOINTMENT);
+                    }
                 case EDIT:
-                    return null;
+                    return editBooking(bookSchedule);
             }
 
-            return null;
-        } catch (AppointmentBookingException e) {
-            LOG.warn("Failed booking appointment qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = false;
-            return getErrorReason(e.getLocalizedMessage(), CANNOT_BOOK_APPOINTMENT);
+            return getErrorReason("Cannot decipher action", MOBILE);
         } catch (Exception e) {
-            LOG.error("Failed booking appointment qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed performing action on appointment qid={} {}, reason={}", qid, bookSchedule.getBookActionType(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
@@ -366,5 +369,23 @@ public class ScheduleController {
         }
 
         return bookedAppointment.asJson();
+    }
+
+    private String editBooking(BookSchedule bookSchedule) {
+        JsonSchedule jsonSchedule = bookSchedule.getJsonSchedule();
+        ScheduleAppointmentEntity scheduleAppointment = scheduleAppointmentService.findAppointment(jsonSchedule.getScheduleAppointmentId(), jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR());
+        if (null == scheduleAppointment) {
+            LOG.warn("Could not find appointment {} {} {}", jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR(), jsonSchedule.getScheduleDate());
+            return getErrorReason("Appointment does not exists for this day. Failed to update.", FAILED_TO_FIND_APPOINTMENT);
+        }
+
+        scheduleAppointment
+            .setChiefComplain(jsonSchedule.getChiefComplain())
+            .setScheduleDate(jsonSchedule.getScheduleDate())
+            .setStartTime(jsonSchedule.getStartTime())
+            .setEndTime(jsonSchedule.getEndTime());
+
+        scheduleAppointmentService.save(scheduleAppointment);
+        return scheduleAppointmentService.populateJsonSchedule(scheduleAppointment).asJson();
     }
 }
