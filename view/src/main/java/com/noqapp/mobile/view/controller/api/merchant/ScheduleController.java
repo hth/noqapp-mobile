@@ -352,9 +352,9 @@ public class ScheduleController {
             return getErrorReason("Appointment already exists for this day. Please cancel to re-book for the day.", APPOINTMENT_ALREADY_EXISTS);
         }
 
-        JsonScheduleList bookedAppointments;
+        JsonSchedule bookedAppointment;
         if (StringUtils.isBlank(bookSchedule.getJsonSchedule().getGuardianQid())) {
-            bookedAppointments = scheduleAppointmentService.bookAppointment(null, bookSchedule.getJsonSchedule());
+            bookedAppointment = scheduleAppointmentService.bookAppointment(null, bookSchedule.getJsonSchedule());
         } else {
             UserProfileEntity userProfile = userProfileManager.findByQueueUserId(bookSchedule.getJsonSchedule().getGuardianQid());
             if (!userProfile.getQidOfDependents().contains(bookSchedule.getJsonSchedule().getQueueUserId())) {
@@ -362,9 +362,9 @@ public class ScheduleController {
                     bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getCodeQR());
                 return getErrorReason("Something went wrong. Engineers are looking into this.", CANNOT_BOOK_APPOINTMENT);
             }
-            bookedAppointments = scheduleAppointmentService.bookAppointment(bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule());
+            bookedAppointment = scheduleAppointmentService.bookAppointment(bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule());
         }
 
-        return bookedAppointments.asJson();
+        return bookedAppointment.asJson();
     }
 }
