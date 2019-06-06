@@ -117,7 +117,7 @@ public class DependentAPIController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        LOG.info("Adding dependent mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -150,6 +150,7 @@ public class DependentAPIController {
                     Set<String> unknownKeys = invalidElementsInMapDuringRegistration(map);
                     if (!unknownKeys.isEmpty()) {
                         /* Validation failure as there are unknown keys. */
+                        LOG.warn("Failed parsing {} {}", unknownKeys, qid);
                         return ErrorEncounteredJson.toJson("Could not parse " + unknownKeys, MOBILE_JSON);
                     }
 
@@ -178,11 +179,12 @@ public class DependentAPIController {
                     if (StringUtils.isNotBlank(inviteCode)) {
                         UserProfileEntity userProfileOfInvitee = accountService.findProfileByInviteCode(inviteCode);
                         if (null == userProfileOfInvitee) {
+                            LOG.warn("Invalid invite code {} {}", inviteCode, qid);
                             return ErrorEncounteredJson.toJson("Invalid invite code " + inviteCode, MOBILE);
                         }
                     }
 
-                    errors = accountClientValidator.validateWithPassword(
+                    errors = accountClientValidator.validateWithPasswordForDependent(
                             phone,
                             map.get(AccountMobileService.ACCOUNT_REGISTRATION.FN.name()).getText(),
                             dependentMail,
@@ -194,17 +196,19 @@ public class DependentAPIController {
                     );
 
                     if (!errors.isEmpty()) {
+                        LOG.warn("Failed adding dependents {} {}", errors, qid);
                         return ErrorEncounteredJson.toJson(errors);
                     }
 
                     if (accountService.reachedMaxDependents(qid)) {
+                        LOG.warn("Cannot add more dependents {}", qid);
                         return ErrorEncounteredJson.toJson("Cannot add more dependents", USER_MAX_DEPENDENT);
                     }
 
                     LOG.debug("Check by phone={}", phone);
                     UserProfileEntity userProfile = accountService.doesUserExists(dependentMail);
                     if (null != userProfile) {
-                        LOG.info("Failed dependent user registration as already exists mail={}", dependentMail);
+                        LOG.warn("Failed dependent user registration as already exists mail={}", dependentMail);
                         errors = new HashMap<>();
                         errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
                         errors.put(AccountMobileService.ACCOUNT_REGISTRATION.EM.name(), dependentMail);

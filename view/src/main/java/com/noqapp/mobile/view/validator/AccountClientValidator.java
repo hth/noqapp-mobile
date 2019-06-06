@@ -86,6 +86,32 @@ public class AccountClientValidator {
         return errors;
     }
 
+    private Map<String, String> validateForDependent(
+        String phone,
+        String firstName,
+        String mail,
+        String birthday,
+        String gender,
+        String countryShortName,
+        String timeZone
+    ) {
+        LOG.debug("Validating dependent client information phone={} cs={}", phone, countryShortName);
+
+        Map<String, String> errors = new HashMap<>();
+
+        phoneValidation(phone, errors);
+        firstNameValidation(firstName, errors);
+        if (StringUtils.isNotBlank(mail)) {
+            mailValidation(mail, errors);
+        }
+        birthdayValidation(birthday, errors);
+        genderValidation(gender, errors);
+        countryShortNameValidation(countryShortName, errors);
+        timeZoneValidation(timeZone, errors);
+
+        return errors;
+    }
+
     public Map<String, String> validateWithPassword(
         String phone,
         String firstName,
@@ -99,6 +125,23 @@ public class AccountClientValidator {
         LOG.debug("Validating client information phone={} cs={}", phone, countryShortName);
 
         Map<String, String> errors = validate(phone, firstName, mail, birthday, gender, countryShortName, timeZone);
+        passwordValidation(mail, password, errors);
+        return errors;
+    }
+
+    public Map<String, String> validateWithPasswordForDependent(
+        String phone,
+        String firstName,
+        String mail,
+        String birthday,
+        String gender,
+        String countryShortName,
+        String timeZone,
+        String password
+    ) {
+        LOG.debug("Validating dependent client information phone={} cs={}", phone, countryShortName);
+
+        Map<String, String> errors = validateForDependent(phone, firstName, mail, birthday, gender, countryShortName, timeZone);
         passwordValidation(mail, password, errors);
         return errors;
     }
