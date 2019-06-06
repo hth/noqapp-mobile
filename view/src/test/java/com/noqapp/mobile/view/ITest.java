@@ -583,7 +583,8 @@ public class ITest extends RealMongoForITest {
             bizStoreManager,
             storeHourManager,
             userProfileManager,
-            userAccountManager
+            userAccountManager,
+            bizService
         );
 
         accountClientController = new AccountClientController(
