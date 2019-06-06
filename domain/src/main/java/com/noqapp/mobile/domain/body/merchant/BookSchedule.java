@@ -3,6 +3,7 @@ package com.noqapp.mobile.domain.body.merchant;
 import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.domain.json.JsonBusinessCustomer;
 import com.noqapp.domain.json.JsonSchedule;
+import com.noqapp.domain.types.ActionTypeEnum;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -35,6 +36,9 @@ public class BookSchedule extends AbstractDomain {
     @JsonProperty("bc")
     private JsonBusinessCustomer businessCustomer;
 
+    @JsonProperty("ba")
+    private ActionTypeEnum bookActionType;
+
     public JsonSchedule getJsonSchedule() {
         return jsonSchedule;
     }
@@ -50,6 +54,15 @@ public class BookSchedule extends AbstractDomain {
 
     public BookSchedule setBusinessCustomer(JsonBusinessCustomer businessCustomer) {
         this.businessCustomer = businessCustomer;
+        return this;
+    }
+
+    public ActionTypeEnum getBookActionType() {
+        return bookActionType;
+    }
+
+    public BookSchedule setBookActionType(ActionTypeEnum bookActionType) {
+        this.bookActionType = bookActionType;
         return this;
     }
 }

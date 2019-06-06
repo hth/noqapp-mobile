@@ -311,7 +311,7 @@ public class ScheduleController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.debug("ScheduleForDay mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        LOG.debug("Book schedule mail={}, auth={} action={}", mail, AUTH_KEY_HIDDEN, bookSchedule.getBookActionType().name());
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -319,25 +319,14 @@ public class ScheduleController {
         }
 
         try {
-            if (scheduleAppointmentService.doesAppointmentExists(bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getCodeQR(), bookSchedule.getJsonSchedule().getScheduleDate())) {
-                LOG.warn("Cannot book when appointment already exists {} {} {}", bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getCodeQR(), bookSchedule.getJsonSchedule().getScheduleDate());
-                return getErrorReason("Appointment already exists for this day. Please cancel to re-book for the day.", APPOINTMENT_ALREADY_EXISTS);
+            switch (bookSchedule.getBookActionType()) {
+                case ADD:
+                    return addBooking(bookSchedule);
+                case EDIT:
+                    return null;
             }
 
-            JsonSchedule bookedAppointment;
-            if (StringUtils.isBlank(bookSchedule.getJsonSchedule().getGuardianQid())) {
-                bookedAppointment = scheduleAppointmentService.bookAppointment(null, bookSchedule.getJsonSchedule());
-            } else {
-                UserProfileEntity userProfile = userProfileManager.findByQueueUserId(bookSchedule.getJsonSchedule().getGuardianQid());
-                if (!userProfile.getQidOfDependents().contains(bookSchedule.getJsonSchedule().getQueueUserId())) {
-                    LOG.warn("Attempt to book appointment for non existent dependent {} {} {}",
-                        bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getCodeQR());
-                    return getErrorReason("Something went wrong. Engineers are looking into this.", CANNOT_BOOK_APPOINTMENT);
-                }
-                bookedAppointment = scheduleAppointmentService.bookAppointment(bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule());
-            }
-
-            return bookedAppointment.asJson();
+            return null;
         } catch (AppointmentBookingException e) {
             LOG.warn("Failed booking appointment qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = false;
@@ -354,5 +343,28 @@ public class ScheduleController {
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
+    }
+
+    private String addBooking(BookSchedule bookSchedule) {
+        JsonSchedule jsonSchedule = bookSchedule.getJsonSchedule();
+        if (scheduleAppointmentService.doesAppointmentExists(jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR(), jsonSchedule.getScheduleDate())) {
+            LOG.warn("Cannot book when appointment already exists {} {} {}", jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR(), jsonSchedule.getScheduleDate());
+            return getErrorReason("Appointment already exists for this day. Please cancel to re-book for the day.", APPOINTMENT_ALREADY_EXISTS);
+        }
+
+        JsonScheduleList bookedAppointments;
+        if (StringUtils.isBlank(bookSchedule.getJsonSchedule().getGuardianQid())) {
+            bookedAppointments = scheduleAppointmentService.bookAppointment(null, bookSchedule.getJsonSchedule());
+        } else {
+            UserProfileEntity userProfile = userProfileManager.findByQueueUserId(bookSchedule.getJsonSchedule().getGuardianQid());
+            if (!userProfile.getQidOfDependents().contains(bookSchedule.getJsonSchedule().getQueueUserId())) {
+                LOG.warn("Attempt to book appointment for non existent dependent {} {} {}",
+                    bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule().getCodeQR());
+                return getErrorReason("Something went wrong. Engineers are looking into this.", CANNOT_BOOK_APPOINTMENT);
+            }
+            bookedAppointments = scheduleAppointmentService.bookAppointment(bookSchedule.getJsonSchedule().getQueueUserId(), bookSchedule.getJsonSchedule());
+        }
+
+        return bookedAppointments.asJson();
     }
 }
