@@ -584,7 +584,10 @@ public class ITest extends RealMongoForITest {
             storeHourManager,
             userProfileManager,
             userAccountManager,
-            bizService
+            registeredDeviceManager,
+            tokenQueueManager,
+            bizService,
+            firebaseMessageService
         );
 
         accountClientController = new AccountClientController(
