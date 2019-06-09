@@ -6,7 +6,7 @@ import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.mobile.domain.body.client.Feedback;
 import com.noqapp.mobile.domain.mail.FeedbackMail;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
