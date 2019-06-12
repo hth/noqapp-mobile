@@ -10,9 +10,10 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.domain.body.merchant.CouponOnOrder;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.service.DiscountCouponService;
+import com.noqapp.service.CouponService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -23,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,23 +47,23 @@ import javax.servlet.http.HttpServletResponse;
     "PMD.LongVariable"
 })
 @RestController
-@RequestMapping(value = "/api/m/discount")
-public class DiscountController {
-    private static final Logger LOG = LoggerFactory.getLogger(DiscountController.class);
+@RequestMapping(value = "/api/m/coupon")
+public class CouponController {
+    private static final Logger LOG = LoggerFactory.getLogger(CouponController.class);
 
-    private DiscountCouponService discountCouponService;
+    private CouponService couponService;
     private BusinessUserStoreService businessUserStoreService;
     private AuthenticateMobileService authenticateMobileService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public DiscountController(
-        DiscountCouponService discountCouponService,
+    public CouponController(
+        CouponService couponService,
         BusinessUserStoreService businessUserStoreService,
         AuthenticateMobileService authenticateMobileService,
         ApiHealthService apiHealthService
     ) {
-        this.discountCouponService = discountCouponService;
+        this.couponService = couponService;
         this.businessUserStoreService = businessUserStoreService;
         this.authenticateMobileService = authenticateMobileService;
         this.apiHealthService = apiHealthService;
@@ -70,7 +73,7 @@ public class DiscountController {
         value = "/available/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String availableDiscount(
+    public String availableCoupon(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -90,7 +93,7 @@ public class DiscountController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Available discount with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        LOG.info("Available coupon with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/m/discount/available by mail={}", mail);
@@ -103,22 +106,48 @@ public class DiscountController {
                 LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
             } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
-                LOG.info("Your are not authorized to access discount mail={}", mail);
-                return getErrorReason("Your are not authorized to access discounts", PROMOTION_ACCESS_DENIED);
+                LOG.info("Your are not authorized to access coupon mail={}", mail);
+                return getErrorReason("Your are not coupon to access discounts", PROMOTION_ACCESS_DENIED);
             }
 
-            return discountCouponService.findAllDiscountAsJson(codeQR.getText()).asJson();
+            return couponService.findAllCouponAsJson(codeQR.getText()).asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting discounts for {} reason={}", codeQR.getText(), e.getLocalizedMessage(), e);
+            LOG.error("Failed getting coupons for {} reason={}", codeQR.getText(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
                 "/available",
-                "availableDiscount",
-                DiscountController.class.getName(),
+                "availableCoupon",
+                CouponController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
+
+    @PostMapping(
+        value = "/apply",
+        headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String apply(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+            CouponOnOrder couponOnOrder
+    ) {
+        return null;
+    }
+
 }
