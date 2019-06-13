@@ -153,7 +153,12 @@ public class ClientCouponController {
         }
 
         try {
-            PurchaseOrderEntity purchaseOrder = purchaseOrderService.applyCoupon(couponOnOrder.getQueueUserId(), couponOnOrder.getTransactionId(), couponOnOrder.getCouponId());
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.applyCoupon(
+                couponOnOrder.getQueueUserId().getText(),
+                couponOnOrder.getTransactionId().getText(),
+                couponOnOrder.getCouponId().getText(),
+                null);
+
             return purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder).asJson();
         } catch (CouponRemovalException e) {
             LOG.error("Failed removing coupons for {} {} reason={}",
@@ -215,7 +220,10 @@ public class ClientCouponController {
         }
 
         try {
-            PurchaseOrderEntity purchaseOrder = purchaseOrderService.removeCoupon(couponOnOrder.getQueueUserId(), couponOnOrder.getTransactionId());
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.removeCoupon(
+                couponOnOrder.getQueueUserId().getText(),
+                couponOnOrder.getTransactionId().getText());
+
             return purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder).asJson();
         } catch (CouponRemovalException e) {
             LOG.error("Failed removing coupons for {} {} reason={}",

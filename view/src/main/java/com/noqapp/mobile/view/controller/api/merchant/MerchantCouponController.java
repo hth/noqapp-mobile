@@ -181,7 +181,12 @@ public class MerchantCouponController {
                 return getErrorReason("Failed to find coupon", PROMOTION_ACCESS_DENIED);
             }
 
-            PurchaseOrderEntity purchaseOrder = purchaseOrderService.applyCoupon(couponOnOrder.getQueueUserId(), couponOnOrder.getTransactionId(), couponOnOrder.getCouponId());
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.applyCoupon(
+                couponOnOrder.getQueueUserId().getText(),
+                couponOnOrder.getTransactionId().getText(),
+                couponOnOrder.getCouponId().getText(),
+                qid);
+
             return purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder).asJson();
         } catch (CouponRemovalException e) {
             LOG.error("Failed removing coupons for {} {} reason={}",
@@ -251,7 +256,10 @@ public class MerchantCouponController {
                 return getErrorReason("Failed to find coupon", PROMOTION_ACCESS_DENIED);
             }
 
-            PurchaseOrderEntity purchaseOrder = purchaseOrderService.removeCoupon(couponOnOrder.getQueueUserId(), couponOnOrder.getTransactionId());
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.removeCoupon(
+                couponOnOrder.getQueueUserId().getText(),
+                couponOnOrder.getTransactionId().getText());
+            
             return purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder).asJson();
         } catch (CouponRemovalException e) {
             LOG.error("Failed removing coupons for {} {} reason={}",
