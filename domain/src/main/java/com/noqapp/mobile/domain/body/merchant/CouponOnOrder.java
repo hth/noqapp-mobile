@@ -1,6 +1,7 @@
 package com.noqapp.mobile.domain.body.merchant;
 
 import com.noqapp.common.utils.AbstractDomain;
+import com.noqapp.common.utils.ScrubbedInput;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -36,6 +37,9 @@ public class CouponOnOrder extends AbstractDomain {
     @JsonProperty("qid")
     private String queueUserId;
 
+    @JsonProperty("qr")
+    private ScrubbedInput codeQR;
+
     public String getCouponId() {
         return couponId;
     }
@@ -60,6 +64,15 @@ public class CouponOnOrder extends AbstractDomain {
 
     public CouponOnOrder setQueueUserId(String queueUserId) {
         this.queueUserId = queueUserId;
+        return this;
+    }
+
+    public ScrubbedInput getCodeQR() {
+        return codeQR;
+    }
+
+    public CouponOnOrder setCodeQR(ScrubbedInput codeQR) {
+        this.codeQR = codeQR;
         return this;
     }
 }
