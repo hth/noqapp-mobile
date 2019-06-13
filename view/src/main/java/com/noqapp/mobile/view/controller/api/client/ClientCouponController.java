@@ -90,14 +90,11 @@ public class ClientCouponController {
         @RequestHeader ("X-R-AUTH")
         ScrubbedInput auth,
 
-        @PathVariable("codeQR")
-        ScrubbedInput codeQR,
-
         HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Available coupon with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        LOG.info("Available personal coupon with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/c/coupon/available by mail={}", mail);
@@ -108,7 +105,7 @@ public class ClientCouponController {
         try {
             return couponService.findActiveClientCouponByQIDAsJson(qid).asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting coupons for {} reason={}", codeQR.getText(), e.getLocalizedMessage(), e);
+            LOG.error("Failed getting personal coupons for reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
