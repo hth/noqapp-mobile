@@ -29,40 +29,40 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class CouponOnOrder extends AbstractDomain {
 
     @JsonProperty("ci")
-    private String couponId;
+    private ScrubbedInput couponId;
 
     @JsonProperty ("ti")
-    private String transactionId;
+    private ScrubbedInput transactionId;
 
     @JsonProperty("qid")
-    private String queueUserId;
+    private ScrubbedInput queueUserId;
 
     @JsonProperty("qr")
     private ScrubbedInput codeQR;
 
-    public String getCouponId() {
+    public ScrubbedInput getCouponId() {
         return couponId;
     }
 
-    public CouponOnOrder setCouponId(String couponId) {
+    public CouponOnOrder setCouponId(ScrubbedInput couponId) {
         this.couponId = couponId;
         return this;
     }
 
-    public String getTransactionId() {
+    public ScrubbedInput getTransactionId() {
         return transactionId;
     }
 
-    public CouponOnOrder setTransactionId(String transactionId) {
+    public CouponOnOrder setTransactionId(ScrubbedInput transactionId) {
         this.transactionId = transactionId;
         return this;
     }
 
-    public String getQueueUserId() {
+    public ScrubbedInput getQueueUserId() {
         return queueUserId;
     }
 
-    public CouponOnOrder setQueueUserId(String queueUserId) {
+    public CouponOnOrder setQueueUserId(ScrubbedInput queueUserId) {
         this.queueUserId = queueUserId;
         return this;
     }
