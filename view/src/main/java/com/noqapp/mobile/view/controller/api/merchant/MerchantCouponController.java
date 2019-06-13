@@ -160,7 +160,7 @@ public class MerchantCouponController {
         LOG.info("Apply coupon with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/coupon/available by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/coupon/apply by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -194,5 +194,4 @@ public class MerchantCouponController {
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
-
 }
