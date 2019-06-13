@@ -3,20 +3,24 @@ package com.noqapp.mobile.view.controller.api.merchant;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.COUPON_NOT_APPLICABLE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.COUPON_REMOVAL_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PROMOTION_ACCESS_DENIED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.merchant.CouponOnOrder;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.CouponService;
+import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.exceptions.CouponCannotApplyException;
+import com.noqapp.service.exceptions.CouponRemovalException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -57,6 +61,7 @@ public class MerchantCouponController {
     private CouponService couponService;
     private BusinessUserStoreService businessUserStoreService;
     private PurchaseOrderService purchaseOrderService;
+    private PurchaseOrderProductService purchaseOrderProductService;
     private AuthenticateMobileService authenticateMobileService;
     private ApiHealthService apiHealthService;
 
@@ -65,12 +70,14 @@ public class MerchantCouponController {
         CouponService couponService,
         BusinessUserStoreService businessUserStoreService,
         PurchaseOrderService purchaseOrderService,
+        PurchaseOrderProductService purchaseOrderProductService,
         AuthenticateMobileService authenticateMobileService,
         ApiHealthService apiHealthService
     ) {
         this.couponService = couponService;
         this.businessUserStoreService = businessUserStoreService;
         this.purchaseOrderService = purchaseOrderService;
+        this.purchaseOrderProductService = purchaseOrderProductService;
         this.authenticateMobileService = authenticateMobileService;
         this.apiHealthService = apiHealthService;
     }
@@ -112,7 +119,7 @@ public class MerchantCouponController {
                 LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
             } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
-                LOG.info("Your are not authorized to access coupon mail={}", mail);
+                LOG.warn("Your are not authorized to access coupon mail={}", mail);
                 return getErrorReason("Your are not coupon to access discounts", PROMOTION_ACCESS_DENIED);
             }
 
@@ -170,11 +177,17 @@ public class MerchantCouponController {
                 LOG.warn("Not a valid codeQR={} qid={}", couponOnOrder.getCodeQR().getText(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
             } else if (!businessUserStoreService.hasAccess(qid, couponOnOrder.getCodeQR().getText())) {
-                LOG.info("Your are not authorized to access coupon mail={}", mail);
-                return getErrorReason("Your are not coupon to access discounts", PROMOTION_ACCESS_DENIED);
+                LOG.warn("Your are not authorized to access coupon mail={}", mail);
+                return getErrorReason("Failed to find coupon", PROMOTION_ACCESS_DENIED);
             }
 
-            return purchaseOrderService.applyCoupon(couponOnOrder.getQueueUserId(), couponOnOrder.getTransactionId(), couponOnOrder.getCouponId()).asJson();
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.applyCoupon(couponOnOrder.getQueueUserId(), couponOnOrder.getTransactionId(), couponOnOrder.getCouponId());
+            return purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder).asJson();
+        } catch (CouponRemovalException e) {
+            LOG.error("Failed removing coupons for {} {} reason={}",
+                couponOnOrder.getCodeQR().getText(), couponOnOrder.getCouponId(), e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason(e.getLocalizedMessage(), COUPON_REMOVAL_FAILED);
         } catch (CouponCannotApplyException e) {
             LOG.error("Failed applying coupons for {} {} reason={}",
                 couponOnOrder.getCodeQR().getText(), couponOnOrder.getCouponId(), e.getLocalizedMessage(), e);
@@ -189,6 +202,71 @@ public class MerchantCouponController {
             apiHealthService.insert(
                 "/apply",
                 "apply",
+                MerchantCouponController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping(
+        value = "/remove",
+        headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String remove(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        CouponOnOrder couponOnOrder,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Remove coupon with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/coupon/remove by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            if (StringUtils.isBlank(couponOnOrder.getCodeQR().getText())) {
+                LOG.warn("Not a valid codeQR={} qid={}", couponOnOrder.getCodeQR().getText(), qid);
+                return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+            } else if (!businessUserStoreService.hasAccess(qid, couponOnOrder.getCodeQR().getText())) {
+                LOG.warn("Your are not authorized to access coupon mail={}", mail);
+                return getErrorReason("Failed to find coupon", PROMOTION_ACCESS_DENIED);
+            }
+
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.removeCoupon(couponOnOrder.getQueueUserId(), couponOnOrder.getTransactionId());
+            return purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder).asJson();
+        } catch (CouponRemovalException e) {
+            LOG.error("Failed removing coupons for {} {} reason={}",
+                couponOnOrder.getCodeQR().getText(), couponOnOrder.getCouponId(), e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason(e.getLocalizedMessage(), COUPON_REMOVAL_FAILED);
+        } catch (Exception e) {
+            LOG.error("Failed removing coupons for {} {} reason={}",
+                couponOnOrder.getCodeQR().getText(), couponOnOrder.getCouponId(), e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/remove",
+                "remove",
                 MerchantCouponController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
