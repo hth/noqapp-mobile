@@ -92,6 +92,7 @@ public enum MobileSystemErrorCodeEnum {
 
     /** Promotions. */
     PROMOTION_ACCESS_DENIED("7001", ALERT),
+    COUPON_NOT_APPLICABLE("7003", ALERT),
 
     /** Not mobile web application. */
     WEB_APPLICATION("9000", ERROR);
