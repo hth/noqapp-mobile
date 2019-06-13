@@ -9,7 +9,6 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.merchant.CouponOnOrder;
@@ -52,8 +51,8 @@ import javax.servlet.http.HttpServletResponse;
 })
 @RestController
 @RequestMapping(value = "/api/m/coupon")
-public class CouponController {
-    private static final Logger LOG = LoggerFactory.getLogger(CouponController.class);
+public class MerchantCouponController {
+    private static final Logger LOG = LoggerFactory.getLogger(MerchantCouponController.class);
 
     private CouponService couponService;
     private BusinessUserStoreService businessUserStoreService;
@@ -62,7 +61,7 @@ public class CouponController {
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public CouponController(
+    public MerchantCouponController(
         CouponService couponService,
         BusinessUserStoreService businessUserStoreService,
         PurchaseOrderService purchaseOrderService,
@@ -117,7 +116,7 @@ public class CouponController {
                 return getErrorReason("Your are not coupon to access discounts", PROMOTION_ACCESS_DENIED);
             }
 
-            return couponService.findAllCouponAsJson(codeQR.getText()).asJson();
+            return couponService.findActiveBusinessCouponAsJson(codeQR.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting coupons for {} reason={}", codeQR.getText(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -126,7 +125,7 @@ public class CouponController {
             apiHealthService.insert(
                 "/available",
                 "availableCoupon",
-                CouponController.class.getName(),
+                MerchantCouponController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -190,7 +189,7 @@ public class CouponController {
             apiHealthService.insert(
                 "/apply",
                 "apply",
-                CouponController.class.getName(),
+                MerchantCouponController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
