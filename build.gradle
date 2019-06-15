@@ -65,8 +65,8 @@ subprojects {
     apply plugin: 'jacoco'      //for code coverage'
 
     compileJava {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
         // Detecting annotation processors on the compile classpath is deprecated and Gradle 5.0 will ignore them.
         options.compilerArgs += ["-proc:none"]
     }
