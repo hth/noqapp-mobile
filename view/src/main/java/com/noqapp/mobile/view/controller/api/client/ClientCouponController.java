@@ -156,8 +156,7 @@ public class ClientCouponController {
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.applyCoupon(
                 couponOnOrder.getQueueUserId().getText(),
                 couponOnOrder.getTransactionId().getText(),
-                couponOnOrder.getCouponId().getText(),
-                null);
+                couponOnOrder.getCouponId().getText());
 
             return purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder).asJson();
         } catch (CouponRemovalException e) {

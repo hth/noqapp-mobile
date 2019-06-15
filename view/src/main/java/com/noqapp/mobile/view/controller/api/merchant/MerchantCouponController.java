@@ -181,7 +181,7 @@ public class MerchantCouponController {
                 return getErrorReason("Failed to find coupon", PROMOTION_ACCESS_DENIED);
             }
 
-            PurchaseOrderEntity purchaseOrder = purchaseOrderService.applyCoupon(
+            PurchaseOrderEntity purchaseOrder = purchaseOrderService.applyCouponByMerchant(
                 couponOnOrder.getQueueUserId().getText(),
                 couponOnOrder.getTransactionId().getText(),
                 couponOnOrder.getCouponId().getText(),
