@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.StringJoiner;
+
 /**
  * User: hitender
  * Date: 2019-06-10 17:11
@@ -74,5 +76,15 @@ public class CouponOnOrder extends AbstractDomain {
     public CouponOnOrder setCodeQR(ScrubbedInput codeQR) {
         this.codeQR = codeQR;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", CouponOnOrder.class.getSimpleName() + "[", "]")
+            .add("couponId=" + couponId)
+            .add("transactionId=" + transactionId)
+            .add("queueUserId=" + queueUserId)
+            .add("codeQR=" + codeQR)
+            .toString();
     }
 }
