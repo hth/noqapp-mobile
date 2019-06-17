@@ -103,7 +103,7 @@ public class ClientCouponController {
         }
 
         try {
-            return couponService.findActiveClientCouponByQIDAsJson(qid).asJson();
+            return couponService.findActiveClientCouponByQidAsJson(qid).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting personal coupons for reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
