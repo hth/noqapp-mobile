@@ -515,7 +515,7 @@ public class ITest extends RealMongoForITest {
         );
 
         storeProductService = new StoreProductService(storeProductManager, bizStoreManager, fileService, transactionService);
-        couponService = new CouponService(couponManager, bizStoreManager);
+        couponService = new CouponService(couponManager, bizStoreManager, userProfileManager);
         purchaseOrderService = new PurchaseOrderService(
             5,
             bizStoreManager,
