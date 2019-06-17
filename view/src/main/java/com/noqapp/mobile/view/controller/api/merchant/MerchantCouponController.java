@@ -181,6 +181,17 @@ public class MerchantCouponController {
                 return getErrorReason("Failed to find coupon", PROMOTION_ACCESS_DENIED);
             }
 
+            if (StringUtils.isBlank(couponOnOrder.getQueueUserId().getText())
+                || StringUtils.isBlank(couponOnOrder.getTransactionId().getText())
+                || StringUtils.isBlank(couponOnOrder.getCouponId().getText())
+            ) {
+                LOG.error("Failed merchant validation {} {} {}",
+                    couponOnOrder.getQueueUserId().getText(),
+                    couponOnOrder.getTransactionId().getText(),
+                    couponOnOrder.getCouponId().getText());
+                return getErrorReason("Could not parse JSON", MOBILE_JSON);
+            }
+
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.applyCouponByMerchant(
                 couponOnOrder.getQueueUserId().getText(),
                 couponOnOrder.getTransactionId().getText(),
@@ -254,6 +265,15 @@ public class MerchantCouponController {
             } else if (!businessUserStoreService.hasAccess(qid, couponOnOrder.getCodeQR().getText())) {
                 LOG.warn("Your are not authorized to access coupon mail={}", mail);
                 return getErrorReason("Failed to find coupon", PROMOTION_ACCESS_DENIED);
+            }
+
+            if (StringUtils.isBlank(couponOnOrder.getQueueUserId().getText())
+                || StringUtils.isBlank(couponOnOrder.getTransactionId().getText())
+            ) {
+                LOG.error("Failed merchant validation {} {}",
+                    couponOnOrder.getQueueUserId().getText(),
+                    couponOnOrder.getTransactionId().getText());
+                return getErrorReason("Could not parse JSON", MOBILE_JSON);
             }
 
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.removeCoupon(
