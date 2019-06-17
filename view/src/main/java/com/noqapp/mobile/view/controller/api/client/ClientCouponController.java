@@ -118,6 +118,51 @@ public class ClientCouponController {
         }
     }
 
+    @GetMapping(
+        value = "/global",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String globalCoupon(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Available personal coupon with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/c/coupon/global by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            return couponService.findActiveGlobalCouponAsJson().asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting personal coupons for reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/global",
+                "globalCoupon",
+                ClientCouponController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
     @PostMapping(
         value = "/apply",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
@@ -153,6 +198,7 @@ public class ClientCouponController {
         }
 
         try {
+            LOG.info("{} {} {}", couponOnOrder.getQueueUserId().getText(), couponOnOrder.getTransactionId().getText(), couponOnOrder.getCouponId().getText());
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.applyCoupon(
                 couponOnOrder.getQueueUserId().getText(),
                 couponOnOrder.getTransactionId().getText(),
