@@ -4,6 +4,8 @@ import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.COUPON_NOT_APPLICABLE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.COUPON_REMOVAL_FAILED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -18,6 +20,8 @@ import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.exceptions.CouponCannotApplyException;
 import com.noqapp.service.exceptions.CouponRemovalException;
+
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -198,7 +202,18 @@ public class ClientCouponController {
         }
 
         try {
-            LOG.info("{} {} {}", couponOnOrder.getQueueUserId().getText(), couponOnOrder.getTransactionId().getText(), couponOnOrder.getCouponId().getText());
+            if (StringUtils.isBlank(couponOnOrder.getQueueUserId().getText())
+                || StringUtils.isBlank(couponOnOrder.getTransactionId().getText())
+                || StringUtils.isBlank(couponOnOrder.getCouponId().getText())
+            ) {
+                LOG.error("Failed validation {} {} {}",
+                    couponOnOrder.getQueueUserId().getText(),
+                    couponOnOrder.getTransactionId().getText(),
+                    couponOnOrder.getCouponId().getText());
+
+                return getErrorReason("Could not parse JSON", MOBILE_JSON);
+            }
+
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.applyCoupon(
                 couponOnOrder.getQueueUserId().getText(),
                 couponOnOrder.getTransactionId().getText(),
@@ -206,13 +221,11 @@ public class ClientCouponController {
 
             return purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder).asJson();
         } catch (CouponRemovalException e) {
-            LOG.error("Failed removing coupons for {} {} reason={}",
-                couponOnOrder.getCodeQR().getText(), couponOnOrder.getCouponId(), e.getLocalizedMessage(), e);
+            LOG.error("Failed removing coupons for {} {} reason={}", couponOnOrder, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason(e.getLocalizedMessage(), COUPON_REMOVAL_FAILED);
         } catch (CouponCannotApplyException e) {
-            LOG.error("Failed applying coupons for {} {} reason={}",
-                couponOnOrder.getCodeQR().getText(), couponOnOrder.getCouponId(), e.getLocalizedMessage(), e);
+            LOG.error("Failed applying coupons for {} reason={}", couponOnOrder, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason(e.getLocalizedMessage(), COUPON_NOT_APPLICABLE);
         } catch (Exception e) {
@@ -264,19 +277,24 @@ public class ClientCouponController {
         }
 
         try {
+            if (StringUtils.isBlank(couponOnOrder.getQueueUserId().getText())
+                || StringUtils.isBlank(couponOnOrder.getTransactionId().getText())
+            ) {
+                LOG.error("Failed validation {} {}", couponOnOrder.getQueueUserId().getText(), couponOnOrder.getTransactionId().getText());
+                return getErrorReason("Could not parse JSON", MOBILE_JSON);
+            }
+
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.removeCoupon(
                 couponOnOrder.getQueueUserId().getText(),
                 couponOnOrder.getTransactionId().getText());
 
             return purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder).asJson();
         } catch (CouponRemovalException e) {
-            LOG.error("Failed removing coupons for {} {} reason={}",
-                couponOnOrder.getCodeQR().getText(), couponOnOrder.getCouponId(), e.getLocalizedMessage(), e);
+            LOG.error("Failed removing coupons for {} reason={}", couponOnOrder, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason(e.getLocalizedMessage(), COUPON_REMOVAL_FAILED);
         } catch (Exception e) {
-            LOG.error("Failed removing coupons for {} {} reason={}",
-                couponOnOrder.getCodeQR().getText(), couponOnOrder.getCouponId(), e.getLocalizedMessage(), e);
+            LOG.error("Failed removing coupons for {} reason={}", couponOnOrder, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
