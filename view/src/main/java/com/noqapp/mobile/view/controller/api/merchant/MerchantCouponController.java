@@ -11,6 +11,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.PurchaseOrderEntity;
+import com.noqapp.domain.types.CouponGroupEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.merchant.CouponOnOrder;
@@ -123,7 +124,7 @@ public class MerchantCouponController {
                 return getErrorReason("Your are not coupon to access discounts", PROMOTION_ACCESS_DENIED);
             }
 
-            return couponService.findActiveBusinessCouponAsJson(codeQR.getText()).asJson();
+            return couponService.findActiveCouponAsJson(codeQR.getText(), CouponGroupEnum.M).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting coupons for {} reason={}", codeQR.getText(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
