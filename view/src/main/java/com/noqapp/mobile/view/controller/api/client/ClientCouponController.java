@@ -210,7 +210,6 @@ public class ClientCouponController {
                     couponOnOrder.getQueueUserId().getText(),
                     couponOnOrder.getTransactionId().getText(),
                     couponOnOrder.getCouponId().getText());
-
                 return getErrorReason("Could not parse JSON", MOBILE_JSON);
             }
 
@@ -280,7 +279,9 @@ public class ClientCouponController {
             if (StringUtils.isBlank(couponOnOrder.getQueueUserId().getText())
                 || StringUtils.isBlank(couponOnOrder.getTransactionId().getText())
             ) {
-                LOG.error("Failed validation {} {}", couponOnOrder.getQueueUserId().getText(), couponOnOrder.getTransactionId().getText());
+                LOG.error("Failed client validation {} {}",
+                    couponOnOrder.getQueueUserId().getText(),
+                    couponOnOrder.getTransactionId().getText());
                 return getErrorReason("Could not parse JSON", MOBILE_JSON);
             }
 
