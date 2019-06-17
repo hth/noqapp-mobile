@@ -139,7 +139,7 @@ public class ClientCouponController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Available personal coupon with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        LOG.info("Available global coupon with mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/c/coupon/global by mail={}", mail);
@@ -150,7 +150,7 @@ public class ClientCouponController {
         try {
             return couponService.findActiveGlobalCouponAsJson().asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting personal coupons for reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed getting global coupons for reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
@@ -216,8 +216,7 @@ public class ClientCouponController {
             methodStatusSuccess = false;
             return getErrorReason(e.getLocalizedMessage(), COUPON_NOT_APPLICABLE);
         } catch (Exception e) {
-            LOG.error("Failed applying coupons for {} {} reason={}",
-                couponOnOrder.getCodeQR().getText(), couponOnOrder.getCouponId(), e.getLocalizedMessage(), e);
+            LOG.error("Failed applying coupons for {} reason={}", couponOnOrder, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
