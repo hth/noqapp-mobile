@@ -100,6 +100,7 @@ public class PurchaseOrderAPIController {
         AuthenticateMobileService authenticateMobileService
     ) {
         this.purchaseOrderService = purchaseOrderService;
+        this.bizService = bizService;
         this.couponService = couponService;
         this.apiHealthService = apiHealthService;
         this.authenticateMobileService = authenticateMobileService;
