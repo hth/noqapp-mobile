@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.COUPON_NOT_APPLICABLE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_CANNOT_ACTIVATE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
@@ -19,12 +20,13 @@ import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIControll
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.CouponEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.common.DomainCommonUtil;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderHistorical;
 import com.noqapp.domain.json.JsonResponse;
-import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
 import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PaymentStatusEnum;
@@ -36,6 +38,8 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.OrderDetail;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.service.BizService;
+import com.noqapp.service.CouponService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.exceptions.OrderFailedReActivationException;
 import com.noqapp.service.exceptions.PriceMismatchException;
@@ -82,16 +86,21 @@ public class PurchaseOrderAPIController {
     private static final Logger LOG = LoggerFactory.getLogger(PurchaseOrderAPIController.class);
 
     private PurchaseOrderService purchaseOrderService;
+    private CouponService couponService;
+    private BizService bizService;
     private ApiHealthService apiHealthService;
     private AuthenticateMobileService authenticateMobileService;
 
     @Autowired
     public PurchaseOrderAPIController(
         PurchaseOrderService purchaseOrderService,
+        CouponService couponService,
+        BizService bizService,
         ApiHealthService apiHealthService,
         AuthenticateMobileService authenticateMobileService
     ) {
         this.purchaseOrderService = purchaseOrderService;
+        this.couponService = couponService;
         this.apiHealthService = apiHealthService;
         this.authenticateMobileService = authenticateMobileService;
     }
@@ -126,6 +135,24 @@ public class PurchaseOrderAPIController {
         if (authorizeRequest(response, qid)) return null;
 
         try {
+            //TODO simplify me using coupon manage to validate again db
+            if (StringUtils.isNotBlank(jsonPurchaseOrder.getCouponId())) {
+                CouponEntity coupon = couponService.findById(jsonPurchaseOrder.getCouponId());
+                if (null == coupon) {
+                    LOG.warn("Failed apply coupon {} {} ", jsonPurchaseOrder.getQueueUserId(), jsonPurchaseOrder.getCodeQR());
+                    return getErrorReason("Cannot apply coupon", COUPON_NOT_APPLICABLE);
+                } else if (!coupon.isActive()) {
+                    LOG.warn("Failed apply coupon {} {} {} ", coupon.getId(), jsonPurchaseOrder.getQueueUserId(), jsonPurchaseOrder.getCodeQR());
+                    return getErrorReason("Cannot apply coupon", COUPON_NOT_APPLICABLE);
+                }
+
+                BizStoreEntity bizStore = bizService.findByCodeQR(jsonPurchaseOrder.getCodeQR());
+                if (null != bizStore && !bizStore.getBizName().getId().equalsIgnoreCase(coupon.getBizNameId())) {
+                    LOG.warn("Failed apply coupon {} {} {} ", coupon.getId(), jsonPurchaseOrder.getQueueUserId(), jsonPurchaseOrder.getCodeQR());
+                    return getErrorReason("Cannot apply coupon", COUPON_NOT_APPLICABLE);
+                }
+            }
+
             purchaseOrderService.createOrder(jsonPurchaseOrder, qid, did.getText(), TokenServiceEnum.C);
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
             return jsonPurchaseOrder.asJson();
