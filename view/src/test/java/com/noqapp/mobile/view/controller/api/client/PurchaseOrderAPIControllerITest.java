@@ -52,6 +52,8 @@ class PurchaseOrderAPIControllerITest extends ITest {
     void setUp() {
         purchaseOrderAPIController = new PurchaseOrderAPIController(
                 purchaseOrderService,
+                couponService,
+                bizService,
                 apiHealthService,
                 authenticateMobileService
         );

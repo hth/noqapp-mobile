@@ -74,6 +74,8 @@ class HistoricalAPIControllerITest extends ITest {
 
         purchaseOrderAPIController = new PurchaseOrderAPIController(
             purchaseOrderService,
+            couponService,
+            bizService,
             apiHealthService,
             authenticateMobileService
         );
