@@ -56,13 +56,13 @@ public class SearchBusinessStoreController {
 
     @Autowired
     public SearchBusinessStoreController(
-            @Value("${Search.useRestHighLevel:false}")
-            boolean useRestHighLevel,
+        @Value("${Search.useRestHighLevel:false}")
+        boolean useRestHighLevel,
 
-            BizStoreElasticService bizStoreElasticService,
-            SearchBizStoreElasticService searchBizStoreElasticService,
-            GeoIPLocationService geoIPLocationService,
-            ApiHealthService apiHealthService
+        BizStoreElasticService bizStoreElasticService,
+        SearchBizStoreElasticService searchBizStoreElasticService,
+        GeoIPLocationService geoIPLocationService,
+        ApiHealthService apiHealthService
     ) {
         this.useRestHighLevel = useRestHighLevel;
 
@@ -74,16 +74,16 @@ public class SearchBusinessStoreController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     public String search(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
 
-            @RequestBody
-            SearchStoreQuery searchStoreQuery,
+        @RequestBody
+        SearchStoreQuery searchStoreQuery,
 
-            HttpServletRequest request
+        HttpServletRequest request
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -130,29 +130,29 @@ public class SearchBusinessStoreController {
             return new BizStoreElasticList().asJson();
         } finally {
             apiHealthService.insert(
-                    "/search",
-                    "search",
-                    SearchBusinessStoreController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/search",
+                "search",
+                SearchBusinessStoreController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
     /** Populated with lat and lng at the minimum, when missing uses IP address. */
     @PostMapping(
-            value = {"/nearMe", "/healthCare", "/otherMerchant"},
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        value = {"/nearMe", "/healthCare", "/otherMerchant"},
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     public String nearMe(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
 
-            @RequestBody
-            SearchStoreQuery searchStoreQuery,
+        @RequestBody
+        SearchStoreQuery searchStoreQuery,
 
-            HttpServletRequest request
+        HttpServletRequest request
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -206,11 +206,11 @@ public class SearchBusinessStoreController {
             return new BizStoreElasticList().asJson();
         } finally {
             apiHealthService.insert(
-                    "/nearMe",
-                    "nearMe",
-                    SearchBusinessStoreController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/nearMe",
+                "nearMe",
+                SearchBusinessStoreController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
