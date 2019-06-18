@@ -5,7 +5,6 @@ import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.COUPON_NOT_APPLICABLE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.COUPON_REMOVAL_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -13,6 +12,7 @@ import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.domain.body.client.Location;
 import com.noqapp.mobile.domain.body.merchant.CouponOnOrder;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.CouponService;
@@ -122,7 +122,7 @@ public class ClientCouponController {
         }
     }
 
-    @GetMapping(
+    @PostMapping(
         value = "/global",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
@@ -139,6 +139,9 @@ public class ClientCouponController {
         @RequestHeader ("X-R-AUTH")
         ScrubbedInput auth,
 
+        @RequestBody
+        Location location,
+
         HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
@@ -152,7 +155,9 @@ public class ClientCouponController {
         }
 
         try {
-            return couponService.findActiveGlobalCouponAsJson().asJson();
+            return couponService.findNearByCouponAsJson(
+                Double.valueOf(location.getLatitude().getText()),
+                Double.valueOf(location.getLongitude().getText())).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting global coupons for reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
