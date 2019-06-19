@@ -36,6 +36,7 @@ import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
+import com.noqapp.service.CouponService;
 import com.noqapp.service.FirebaseMessageService;
 import com.noqapp.service.FirebaseService;
 import com.noqapp.service.NLPService;
@@ -90,6 +91,7 @@ public class QueueMobileService {
     private BusinessUserManager businessUserManager;
     private UserProfileManager userProfileManager;
     private PurchaseOrderProductService purchaseOrderProductService;
+    private CouponService couponService;
     private FirebaseMessageService firebaseMessageService;
     private FirebaseService firebaseService;
 
@@ -110,6 +112,7 @@ public class QueueMobileService {
         NLPService nlpService,
         PurchaseOrderService purchaseOrderService,
         PurchaseOrderProductService purchaseOrderProductService,
+        CouponService couponService,
         QueueService queueService,
         TokenQueueMobileService tokenQueueMobileService,
         FirebaseMessageService firebaseMessageService,
@@ -128,6 +131,7 @@ public class QueueMobileService {
         this.nlpService = nlpService;
         this.purchaseOrderService = purchaseOrderService;
         this.purchaseOrderProductService = purchaseOrderProductService;
+        this.couponService = couponService;
         this.webConnectorService = webConnectorService;
         this.businessUserManager = businessUserManager;
         this.userProfileManager = userProfileManager;
@@ -204,6 +208,7 @@ public class QueueMobileService {
             if (StringUtils.isNotBlank(queue.getTransactionId())) {
                 PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(queue.getTransactionId());
                 jsonPurchaseOrder = purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder);
+                couponService.addCouponInformationIfAny(jsonPurchaseOrder);
             }
 
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
