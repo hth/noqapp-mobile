@@ -311,29 +311,29 @@ public class TokenQueueAPIController {
     
     /** Get all the historical queues user has token from. In short all the queues and order user has joined in past. */
     @PostMapping(
-            value = "/historical",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/historical",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String allHistoricalJoinedQueues(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader (value = "X-R-AF", required = false, defaultValue = "NQMT")
-            ScrubbedInput appFlavor,
+        @RequestHeader (value = "X-R-AF", required = false, defaultValue = "NQMT")
+        ScrubbedInput appFlavor,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String tokenJson,
+        @RequestBody
+        String tokenJson,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -609,10 +609,10 @@ public class TokenQueueAPIController {
     }
 
     @PostMapping(
-        value = "/paymentInitiate",
+        value = "/payNow",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
-    public String paymentInitiate(
+    public String payNow(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -650,7 +650,7 @@ public class TokenQueueAPIController {
                 return null;
             }
 
-            JsonResponseWithCFToken jsonResponseWithCFToken = tokenQueueMobileService.createTokenForPaymentGateway(qid, jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId());
+            JsonResponseWithCFToken jsonResponseWithCFToken = tokenQueueMobileService.createTokenForPaymentGateway(jsonPurchaseOrder.getQueueUserId(), jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId());
             if (null == jsonResponseWithCFToken) {
                 return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
             }
@@ -666,8 +666,8 @@ public class TokenQueueAPIController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/paymentInitiate",
-                "paymentInitiate",
+                "/payNow",
+                "payNow",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
