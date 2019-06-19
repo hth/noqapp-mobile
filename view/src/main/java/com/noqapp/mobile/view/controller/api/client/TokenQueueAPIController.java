@@ -650,7 +650,11 @@ public class TokenQueueAPIController {
                 return null;
             }
 
-            JsonResponseWithCFToken jsonResponseWithCFToken = tokenQueueMobileService.createTokenForPaymentGateway(jsonPurchaseOrder.getQueueUserId(), jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId());
+            JsonResponseWithCFToken jsonResponseWithCFToken = tokenQueueMobileService.createTokenForPaymentGateway(
+                jsonPurchaseOrder.getQueueUserId(),
+                jsonPurchaseOrder.getCodeQR(),
+                jsonPurchaseOrder.getTransactionId());
+
             if (null == jsonResponseWithCFToken) {
                 return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
             }

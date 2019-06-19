@@ -458,20 +458,12 @@ public class TokenQueueMobileService {
     }
 
     public JsonResponseWithCFToken createTokenForPaymentGateway(String purchaserQid, String codeQR, String transactionId) {
-        QueueEntity queue = queueManager.findByTransactionId(codeQR, transactionId);
-        switch (queue.getQueueUserState()) {
-            case I:
-            case N:
-            case A:
-                LOG.error("Trying to make payment on non serviced by qid={} for {} {}", purchaserQid, queue.getTransactionId(), queue.getQueueUserId());
-                throw new PurchaseOrderFailException("No payment needed when not served");
-        }
         PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByQidAndTransactionId(purchaserQid, transactionId);
         if (null != purchaseOrder) {
             return purchaseOrderService.createTokenForPurchaseOrder(purchaseOrder.orderPriceForTransaction(), purchaseOrder.getTransactionId());
         }
 
-        LOG.error("Purchase Order qid mis-match for {} {} {} {}", purchaserQid, queue.getQueueUserId(), codeQR, transactionId);
+        LOG.error("Purchase Order qid mis-match for {} {} {}", purchaserQid, codeQR, transactionId);
         return null;
     }
 
