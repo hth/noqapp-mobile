@@ -440,7 +440,8 @@ public class ITest extends RealMongoForITest {
             queueManager
         );
 
-        purchaseOrderProductService = new PurchaseOrderProductService(purchaseOrderProductManager, purchaseOrderProductManagerJDBC);
+        couponService = new CouponService(couponManager, bizStoreManager, userProfileManager);
+        purchaseOrderProductService = new PurchaseOrderProductService(couponService, purchaseOrderProductManager, purchaseOrderProductManagerJDBC);
 
         tokenQueueService = new TokenQueueService(
             tokenQueueManager,
@@ -515,7 +516,6 @@ public class ITest extends RealMongoForITest {
         );
 
         storeProductService = new StoreProductService(storeProductManager, bizStoreManager, fileService, transactionService);
-        couponService = new CouponService(couponManager, bizStoreManager, userProfileManager);
         purchaseOrderService = new PurchaseOrderService(
             5,
             bizStoreManager,
@@ -577,6 +577,7 @@ public class ITest extends RealMongoForITest {
             nlpService,
             purchaseOrderService,
             purchaseOrderProductService,
+            couponService,
             queueService,
             tokenQueueMobileService,
             firebaseMessageService,
