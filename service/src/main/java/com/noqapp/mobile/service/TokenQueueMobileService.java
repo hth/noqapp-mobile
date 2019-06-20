@@ -426,8 +426,7 @@ public class TokenQueueMobileService {
             queueManager.updateWithTransactionId(codeQR, qid, jsonToken.getToken(), jsonPurchaseOrder.getTransactionId());
         } else {
             LOG.info("Found exists purchaseOrder with transactionId={}", purchaseOrder.getTransactionId());
-            jsonPurchaseOrder = new JsonPurchaseOrder(purchaseOrder);
-            purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder);
+            jsonPurchaseOrder = purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder);
         }
         jsonToken.setJsonPurchaseOrder(jsonPurchaseOrder);
         return jsonToken;
