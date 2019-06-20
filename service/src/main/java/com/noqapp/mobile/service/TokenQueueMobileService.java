@@ -427,9 +427,7 @@ public class TokenQueueMobileService {
         } else {
             LOG.info("Found exists purchaseOrder with transactionId={}", purchaseOrder.getTransactionId());
             jsonPurchaseOrder = new JsonPurchaseOrder(purchaseOrder);
-            JsonResponseWithCFToken jsonResponseWithCFToken = new JsonResponseWithCFToken()
-                .setSkipPaymentGateway(SkipPaymentGatewayEnum.YES);
-            jsonPurchaseOrder.setJsonResponseWithCFToken(jsonResponseWithCFToken);
+            purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder);
         }
         jsonToken.setJsonPurchaseOrder(jsonPurchaseOrder);
         return jsonToken;
