@@ -64,29 +64,29 @@ public class DeviceController {
 
     /** Finds if device exists or saves the device when does not exists. Most likely this call would not be required. */
     @PostMapping(
-            value = "/register",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/register",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String registerDevice(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader (value = "X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader (value = "X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-AF")
-            ScrubbedInput appFlavor,
+        @RequestHeader ("X-R-AF")
+        ScrubbedInput appFlavor,
 
-            @RequestBody
-            String tokenJson
+        @RequestBody
+        String tokenJson
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Register deviceType={} appFlavor={} did={} token={}",
-                deviceType.getText(),
-                appFlavor.getText(),
-                did.getText(),
-                tokenJson);
+            deviceType.getText(),
+            appFlavor.getText(),
+            did.getText(),
+            tokenJson);
 
         DeviceTypeEnum deviceTypeEnum;
         try {
