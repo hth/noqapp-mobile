@@ -3,6 +3,7 @@ package com.noqapp.mobile.view.controller.api.client;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ORDER_PAYMENT_PAID_ALREADY_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ORDER_PAYMENT_UPDATE_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_AS_EXTERNALLY_PAID;
@@ -654,7 +655,7 @@ public class TokenQueueAPIController {
             /* Let there be some validation before sending this message out when person is about to override existing payment. */
             if (purchaseOrderService.isPaid(jsonPurchaseOrder.getTransactionId())) {
                 LOG.warn("Cannot accept payment when already accepted {} {}", jsonPurchaseOrder.getTransactionId(), qid);
-                return ErrorEncounteredJson.toJson("Failed Updating Order Payment", ORDER_PAYMENT_UPDATE_FAILED);
+                return ErrorEncounteredJson.toJson("Cannot accept payment when already accepted", ORDER_PAYMENT_PAID_ALREADY_FAILED);
             }
 
             JsonResponseWithCFToken jsonResponseWithCFToken = tokenQueueMobileService.createTokenForPaymentGateway(
