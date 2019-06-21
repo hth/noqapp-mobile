@@ -61,9 +61,9 @@ public class TokenQueueController {
 
     @Autowired
     public TokenQueueController(
-            TokenQueueMobileService tokenQueueMobileService,
-            QueueMobileService queueMobileService,
-            ApiHealthService apiHealthService
+        TokenQueueMobileService tokenQueueMobileService,
+        QueueMobileService queueMobileService,
+        ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.queueMobileService = queueMobileService;
@@ -72,20 +72,20 @@ public class TokenQueueController {
 
     /** Get state of queue at the store. */
     @GetMapping (
-            value = "/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String getQueueState(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable ("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -122,20 +122,20 @@ public class TokenQueueController {
 
     /** Get all state of queue at a Business when one QR Code is scanned. */
     @GetMapping(
-            value = "/v1/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/v1/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String getAllQueueState(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable ("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -163,20 +163,20 @@ public class TokenQueueController {
 
     /** Get all state of queue at a Business when one QR Code of store is scanned. */
     @GetMapping(
-            value = "/levelUp/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/levelUp/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String levelUp(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable ("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -210,17 +210,17 @@ public class TokenQueueController {
 
     /** Get all the queues user has token from. In short all the queues user has joined. */
     @GetMapping (
-            value = "/queues",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/queues",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String getAllJoinedQueues(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -244,21 +244,21 @@ public class TokenQueueController {
 
     /** Get all the historical queues user has token from. In short all the queues user has joined in past. */
     @PostMapping(
-            value = "/historical",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/historical",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String allHistoricalJoinedQueues(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader (value = "X-R-AF", required = false, defaultValue = "NQMT")
-            ScrubbedInput appFlavor,
+        @RequestHeader (value = "X-R-AF", required = false, defaultValue = "NQMT")
+        ScrubbedInput appFlavor,
 
-            @RequestBody
-            String tokenJson
+        @RequestBody
+        String tokenJson
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -270,13 +270,13 @@ public class TokenQueueController {
 
         try {
             return queueMobileService.findHistoricalQueue(
-                    did.getText(),
-                    DeviceTypeEnum.valueOf(deviceType.getText()),
-                    AppFlavorEnum.valueOf(appFlavor.getText()),
-                    parseTokenFCM.getTokenFCM(),
-                    parseTokenFCM.getModel(),
-                    parseTokenFCM.getOsVersion(),
-                    parseTokenFCM.getAppVersion()).asJson();
+                did.getText(),
+                DeviceTypeEnum.valueOf(deviceType.getText()),
+                AppFlavorEnum.valueOf(appFlavor.getText()),
+                parseTokenFCM.getTokenFCM(),
+                parseTokenFCM.getModel(),
+                parseTokenFCM.getOsVersion(),
+                parseTokenFCM.getAppVersion()).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -297,20 +297,20 @@ public class TokenQueueController {
 
     /** Join the queue. */
     @PostMapping (
-            value = "/queue/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/queue/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String joinQueue(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable ("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -324,12 +324,12 @@ public class TokenQueueController {
 
         try {
             return tokenQueueMobileService.joinQueue(
-                    codeQR.getText(),
-                    did.getText(),
-                    null,
-                    null,
-                    bizStore.getAverageServiceTime(),
-                    TokenServiceEnum.C).asJson();
+                codeQR.getText(),
+                did.getText(),
+                null,
+                null,
+                bizStore.getAverageServiceTime(),
+                TokenServiceEnum.C).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue did={}, reason={}", did, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -346,20 +346,20 @@ public class TokenQueueController {
 
     /** Abort the queue. App should un-subscribe user from topic. */
     @PostMapping (
-            value = "/abort/{codeQR}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/abort/{codeQR}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String abortQueue(
-            @RequestHeader ("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @PathVariable ("codeQR")
-            ScrubbedInput codeQR,
+        @PathVariable ("codeQR")
+        ScrubbedInput codeQR,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
