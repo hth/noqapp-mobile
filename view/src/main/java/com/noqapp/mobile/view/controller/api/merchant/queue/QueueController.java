@@ -996,6 +996,12 @@ public class QueueController {
                 return jsonQueuedPerson.asJson();
             }
 
+            /* Let there be some validation before sending this message out when person is about to override existing payment. */
+            if (purchaseOrderService.isPaid(jsonQueuedPerson.getTransactionId())) {
+                LOG.warn("Cannot accept payment when already accepted {} {} ", jsonQueuedPerson.getTransactionId(), qid);
+                throw new RuntimeException("Cannot accept payment when already accepted");
+            }
+
             switch (queue.getQueueUserState()) {
                 case I:
                 case N:
