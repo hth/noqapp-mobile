@@ -90,28 +90,26 @@ public class SocialAuthenticationController {
      * @return
      */
     @PostMapping(
-            value = "/authenticate.json",
-            headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        value = "/authenticate.json",
+        headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String authenticateUser(
-            @RequestBody
-            String authenticationJson,
+        @RequestBody
+        String authenticationJson,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         try {
             Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(authenticationJson);
             LOG.info("pid={} at={}", map.get("pid"), map.get("at"));
             String credential = socialAuthenticationService.authenticateWeb(
-                    map.get("pid").getText(),
-                    map.get("at").getText(),
-                    HttpClientBuilder.create().build());
+                map.get("pid").getText(),
+                map.get("at").getText(),
+                HttpClientBuilder.create().build());
 
-            if (StringUtils.isBlank(credential) ||
-                    credential.contains("systemError") ||
-                    credential.contains("401")) {
+            if (StringUtils.isBlank(credential) || credential.contains("systemError") || credential.contains("401")) {
                 return credential;
             }
 

@@ -43,9 +43,9 @@ public class ProfessionalProfileController {
 
     @Autowired
     public ProfessionalProfileController(
-            ProfessionalProfileService professionalProfileService,
-            StoreDetailService storeDetailService,
-            ApiHealthService apiHealthService
+        ProfessionalProfileService professionalProfileService,
+        StoreDetailService storeDetailService,
+        ApiHealthService apiHealthService
     ) {
         this.professionalProfileService = professionalProfileService;
         this.storeDetailService = storeDetailService;
@@ -53,17 +53,17 @@ public class ProfessionalProfileController {
     }
 
     @GetMapping(
-            value = "/profile/{webProfileId}",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        value = "/profile/{webProfileId}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     public String profile(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
 
-            @PathVariable("webProfileId")
-            ScrubbedInput webProfileId
+        @PathVariable("webProfileId")
+        ScrubbedInput webProfileId
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -82,11 +82,11 @@ public class ProfessionalProfileController {
             return new JsonResponse(false).asJson();
         } finally {
             apiHealthService.insert(
-                    "/profile/{webProfileId}",
-                    "profile",
-                    ProfessionalProfileController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/profile/{webProfileId}",
+                "profile",
+                ProfessionalProfileController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }
