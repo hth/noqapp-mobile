@@ -6,6 +6,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.CHANGE_USE
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ORDER_PAYMENT_PAID_ALREADY_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ORDER_PAYMENT_UPDATE_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
@@ -994,6 +995,12 @@ public class QueueController {
             if (null == queue) {
                 LOG.error("Not found queue for {} {}", jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR(), jsonQueuedPerson.getQueueUserId());
                 return jsonQueuedPerson.asJson();
+            }
+
+            /* Let there be some validation before sending this message out when person is about to override existing payment. */
+            if (purchaseOrderService.isPaid(jsonQueuedPerson.getTransactionId())) {
+                LOG.warn("Cannot accept payment when already accepted {} {} ", jsonQueuedPerson.getTransactionId(), qid);
+                return ErrorEncounteredJson.toJson("Cannot accept payment when already accepted", ORDER_PAYMENT_PAID_ALREADY_FAILED);
             }
 
             switch (queue.getQueueUserState()) {
