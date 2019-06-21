@@ -154,7 +154,7 @@ public class PurchaseOrderAPIController {
                 }
             }
 
-            purchaseOrderService.createOrder(jsonPurchaseOrder, qid, did.getText(), TokenServiceEnum.C);
+            purchaseOrderService.createOrderWithCFToken(jsonPurchaseOrder, qid, did.getText(), TokenServiceEnum.C);
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
             return jsonPurchaseOrder.asJson();
         } catch (StoreInActiveException e) {
