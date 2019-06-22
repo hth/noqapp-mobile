@@ -839,12 +839,12 @@ public class TokenQueueAPIController {
         try {
             return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), qid).asJson();
         } catch (PurchaseOrderRefundExternalException e) {
-            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
+            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage());
             return getErrorReason(
                 "Payment is performed outside of NoQueue. Go to merchant for cancellation.",
                 PURCHASE_ORDER_FAILED_TO_CANCEL_AS_EXTERNALLY_PAID);
         } catch (PurchaseOrderRefundPartialException e) {
-            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
+            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage());
             return getErrorReason(
                 "Cannot cancel cash payment. Go to merchant for cancellation. Cash payment will be performed by merchant.",
                 PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY);
