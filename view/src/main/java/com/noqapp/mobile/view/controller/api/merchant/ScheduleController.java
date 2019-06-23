@@ -6,6 +6,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.APPOINTMEN
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.APPOINTMENT_ALREADY_EXISTS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.CANNOT_BOOK_APPOINTMENT;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.FAILED_TO_FIND_APPOINTMENT;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.FAILED_TO_RESCHEDULE_APPOINTMENT;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
@@ -32,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,14 +71,20 @@ public class ScheduleController {
     private BusinessUserStoreService businessUserStoreService;
     private ApiHealthService apiHealthService;
 
+    private int rescheduleLimit;
+
     @Autowired
     public ScheduleController(
+        @Value("${rescheduleLimit:3}")
+        int rescheduleLimit,
+
         UserProfileManager userProfileManager,
         AuthenticateMobileService authenticateMobileService,
         ScheduleAppointmentService scheduleAppointmentService,
         BusinessUserStoreService businessUserStoreService,
         ApiHealthService apiHealthService
     ) {
+        this.rescheduleLimit = rescheduleLimit;
         this.userProfileManager = userProfileManager;
 
         this.authenticateMobileService = authenticateMobileService;
@@ -379,13 +387,11 @@ public class ScheduleController {
             return getErrorReason("Appointment does not exists for this day. Failed to update.", FAILED_TO_FIND_APPOINTMENT);
         }
 
-        scheduleAppointment
-            .setChiefComplain(jsonSchedule.getChiefComplain())
-            .setScheduleDate(jsonSchedule.getScheduleDate())
-            .setStartTime(jsonSchedule.getStartTime())
-            .setEndTime(jsonSchedule.getEndTime());
+        if (scheduleAppointment.getRescheduleCount() >= rescheduleLimit) {
+            LOG.warn("Reached re-schedule limit {} {} {}", jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR(), jsonSchedule.getScheduleDate());
+            return getErrorReason("Cannot re-schedule appointment as it has been re-schedule " + rescheduleLimit + " times.", FAILED_TO_RESCHEDULE_APPOINTMENT);
+        }
 
-        scheduleAppointmentService.save(scheduleAppointment);
-        return scheduleAppointmentService.populateJsonSchedule(scheduleAppointment).asJson();
+        return scheduleAppointmentService.rescheduleAppointment(jsonSchedule).asJson();
     }
 }

@@ -4,6 +4,7 @@ import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.APPOINTMENT_ALREADY_EXISTS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.CANNOT_BOOK_APPOINTMENT;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.FAILED_TO_CANCEL_APPOINTMENT;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -18,6 +19,7 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.exceptions.AppointmentBookingException;
+import com.noqapp.service.exceptions.AppointmentCancellationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -267,8 +269,12 @@ public class AppointmentController {
         }
 
         try {
-            scheduleAppointmentService.cancelAppointment(jsonSchedule.getScheduleAppointmentId(), jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR());
-            return new JsonResponse(true).asJson();
+            boolean status = scheduleAppointmentService.cancelAppointment(jsonSchedule.getScheduleAppointmentId(), jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR());
+            return new JsonResponse(status).asJson();
+        } catch (AppointmentCancellationException e) {
+            LOG.warn("Failed cancelling appointments qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = false;
+            return getErrorReason(e.getLocalizedMessage() + " Please call to cancel appointment.", FAILED_TO_CANCEL_APPOINTMENT);
         } catch (Exception e) {
             LOG.error("Failed cancelling appointment qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

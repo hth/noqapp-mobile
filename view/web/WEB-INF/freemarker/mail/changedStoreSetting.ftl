@@ -83,7 +83,6 @@
             <#else>
                 <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
                     <strong>${displayName} service charge below:</strong><br/>
-                    Service Payment: <b>${servicePayment}</b><br/>
                     Service Charge: <b>${productPrice}</b><br/>
                     Cancellation Charge: </b>${cancellationPrice}</b><br/>
                 </p>
