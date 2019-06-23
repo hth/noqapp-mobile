@@ -5,7 +5,6 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.ScheduledTaskEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.types.ActionTypeEnum;
-import com.noqapp.domain.types.ServicePaymentEnum;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -88,9 +87,6 @@ public class JsonStoreSetting extends AbstractDomain {
 
     @JsonProperty("cp")
     private int cancellationPrice;
-
-    @JsonProperty("sp")
-    private ServicePaymentEnum servicePayment;
     //*********************************/
     //*  Queue Price Settings Ends.   */
     //*********************************/
@@ -147,7 +143,6 @@ public class JsonStoreSetting extends AbstractDomain {
         this.enabledPayment = bizStore.isEnabledPayment();
         this.productPrice = bizStore.getProductPrice();
         this.cancellationPrice = bizStore.getCancellationPrice();
-        this.servicePayment = bizStore.getServicePayment();
         this.freeFollowupDays = bizStore.getFreeFollowupDays();
         this.discountedFollowupDays = bizStore.getDiscountedFollowupDays();
         this.discountedFollowupProductPrice = bizStore.getDiscountedFollowupProductPrice();
@@ -181,7 +176,6 @@ public class JsonStoreSetting extends AbstractDomain {
         this.enabledPayment = bizStore.isEnabledPayment();
         this.productPrice = bizStore.getProductPrice();
         this.cancellationPrice = bizStore.getCancellationPrice();
-        this.servicePayment = bizStore.getServicePayment();
         this.freeFollowupDays = bizStore.getFreeFollowupDays();
         this.discountedFollowupDays = bizStore.getDiscountedFollowupDays();
         this.discountedFollowupProductPrice = bizStore.getDiscountedFollowupProductPrice();
@@ -339,15 +333,6 @@ public class JsonStoreSetting extends AbstractDomain {
         return this;
     }
 
-    public ServicePaymentEnum getServicePayment() {
-        return servicePayment;
-    }
-
-    public JsonStoreSetting setServicePayment(ServicePaymentEnum servicePayment) {
-        this.servicePayment = servicePayment;
-        return this;
-    }
-
     public int getFreeFollowupDays() {
         return freeFollowupDays;
     }
@@ -422,7 +407,6 @@ public class JsonStoreSetting extends AbstractDomain {
             ", enabledPayment=" + enabledPayment +
             ", productPrice=" + productPrice +
             ", cancellationPrice=" + cancellationPrice +
-            ", servicePayment=" + servicePayment +
             ", storeActionType=" + storeActionType +
             '}';
     }

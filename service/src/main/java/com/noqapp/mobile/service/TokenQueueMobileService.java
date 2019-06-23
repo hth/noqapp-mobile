@@ -167,7 +167,6 @@ public class TokenQueueMobileService {
             .setEnabledPayment(bizStore.isEnabledPayment())
             .setProductPrice(bizStore.getProductPrice())
             .setCancellationPrice(bizStore.getCancellationPrice())
-            .setServicePayment(bizStore.getServicePayment())
             .setBizCategoryId(bizStore.getBizCategoryId())
             .setFamousFor(bizStore.getFamousFor())
             .setDiscount(bizStore.getDiscount())

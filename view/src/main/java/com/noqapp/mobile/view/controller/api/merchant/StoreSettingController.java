@@ -473,7 +473,6 @@ public class StoreSettingController {
                     jsonStoreSetting.getCodeQR(),
                     jsonStoreSetting.getProductPrice(),
                     jsonStoreSetting.getCancellationPrice(),
-                    jsonStoreSetting.getServicePayment(),
                     jsonStoreSetting.getFreeFollowupDays(),
                     jsonStoreSetting.getDiscountedFollowupDays(),
                     jsonStoreSetting.getDiscountedFollowupProductPrice());
