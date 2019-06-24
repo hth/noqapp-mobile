@@ -21,7 +21,6 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.merchant.Receipt;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.repository.BizStoreManager;
-import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
@@ -165,6 +164,11 @@ public class ReceiptController {
                     List<BusinessUserStoreEntity> businessUserStores = businessUserStoreService.findAllManagingStoreWithUserLevel(
                         bizStore.getId(),
                         UserLevelEnum.S_MANAGER);
+
+                    if (businessUserStores.isEmpty()) {
+                        LOG.warn("No manager assigned as professional profile for {} {}", receipt.getCodeQR(), receipt.getTransactionId());
+                        return getErrorReason("No professional profile exists. Cannot print receipt.", SEVERE);
+                    }
 
                     BusinessUserStoreEntity businessUserStore = businessUserStores.get(0);
                     JsonProfessionalProfile jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfile(businessUserStore.getQueueUserId(), PUBLIC);
