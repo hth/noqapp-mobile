@@ -13,7 +13,6 @@ import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.JsonNameDatePair;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.domain.types.UserLevelEnum;
@@ -22,6 +21,7 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.merchant.Receipt;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.repository.BizStoreManager;
+import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
@@ -44,7 +44,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -167,23 +166,11 @@ public class ReceiptController {
                         bizStore.getId(),
                         UserLevelEnum.S_MANAGER);
 
-                    if (businessUserStores.isEmpty()) {
-                        LOG.warn("No manager assigned as professional profile for {} {}", receipt.getCodeQR(), receipt.getTransactionId());
-                        List<JsonNameDatePair> education = new ArrayList<JsonNameDatePair>() {{
-                            add(new JsonNameDatePair().setName("N/A").setMonthYear("2000-01-01"));
-                        }};
-
-                        receipt.setName("N/A")
-                            .setEducation(education)
-                            .setLicenses(education);
-                    } else {
-                        BusinessUserStoreEntity businessUserStore = businessUserStores.get(0);
-                        JsonProfessionalProfile jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfile(businessUserStore.getQueueUserId(), PUBLIC);
-                        receipt.setName(jsonProfessionalProfile.getName())
-                            .setEducation(jsonProfessionalProfile.getEducation())
-                            .setLicenses(jsonProfessionalProfile.getLicenses());
-
-                    }
+                    BusinessUserStoreEntity businessUserStore = businessUserStores.get(0);
+                    JsonProfessionalProfile jsonProfessionalProfile = professionalProfileService.getJsonProfessionalProfile(businessUserStore.getQueueUserId(), PUBLIC);
+                    receipt.setName(jsonProfessionalProfile.getName())
+                        .setEducation(jsonProfessionalProfile.getEducation())
+                        .setLicenses(jsonProfessionalProfile.getLicenses());
 
                     break;
                 default:
