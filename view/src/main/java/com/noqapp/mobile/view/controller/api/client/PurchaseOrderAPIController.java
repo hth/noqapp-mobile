@@ -225,12 +225,12 @@ public class PurchaseOrderAPIController {
             LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
             return jsonPurchaseOrderResponse.asJson();
         } catch(PurchaseOrderRefundExternalException e) {
-            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
+            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage());
             return getErrorReason(
                 "Payment is performed outside of NoQueue. Go to merchant for cancellation.",
                 PURCHASE_ORDER_FAILED_TO_CANCEL_AS_EXTERNALLY_PAID);
         } catch(PurchaseOrderRefundPartialException e) {
-            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
+            LOG.warn("Failed cancelling partial purchase order reason={}", e.getLocalizedMessage());
             return getErrorReason(
                 "Cannot cancel as partial payment is done via cash. Go to merchant for cancellation. Cash payment will be performed by merchant.",
                 PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY);
