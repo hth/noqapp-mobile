@@ -19,6 +19,7 @@ import com.noqapp.mobile.domain.mail.SignupUserInfo;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.UserAddressService;
+import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 import com.noqapp.social.exception.AccountNotActiveException;
 
@@ -57,6 +58,7 @@ public class AccountMobileService {
 
     private WebConnectorService webConnectorService;
     private AccountService accountService;
+    private UserProfilePreferenceService userProfilePreferenceService;
     private UserMedicalProfileService userMedicalProfileService;
     private ProfessionalProfileService professionalProfileService;
     private UserAddressService userAddressService;
@@ -71,6 +73,7 @@ public class AccountMobileService {
 
         WebConnectorService webConnectorService,
         AccountService accountService,
+        UserProfilePreferenceService userProfilePreferenceService,
         UserMedicalProfileService userMedicalProfileService,
         ProfessionalProfileService professionalProfileService,
         UserAddressService userAddressService
@@ -80,6 +83,7 @@ public class AccountMobileService {
 
         this.webConnectorService = webConnectorService;
         this.accountService = accountService;
+        this.userProfilePreferenceService = userProfilePreferenceService;
         this.userMedicalProfileService = userMedicalProfileService;
         this.professionalProfileService = professionalProfileService;
         this.userAddressService = userAddressService;
@@ -258,7 +262,8 @@ public class AccountMobileService {
         UserProfileEntity userProfile = findProfileByQueueUserId(qid);
         JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
         JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount)
-            .setJsonUserAddresses(jsonUserAddressList.getJsonUserAddresses());
+            .setJsonUserAddresses(jsonUserAddressList.getJsonUserAddresses())
+            .setJsonUserPreference(userProfilePreferenceService.findUserPreferenceAsJson(qid));
 
         if (null != userProfile.getQidOfDependents()) {
             for (String qidOfDependent : userProfile.getQidOfDependents()) {

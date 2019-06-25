@@ -371,14 +371,14 @@ public class ClientProfileAPIController {
                     return ErrorEncounteredJson.toJson(errors);
                 }
 
-                userProfile = userProfilePreferenceService.findByQueueUserId(userAccount.getQueueUserId());
+                userProfile = accountMobileService.findProfileByQueueUserId(userAccount.getQueueUserId());
                 JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount);
 
                 if (null != userProfile.getQidOfDependents()) {
                     for (String qidOfDependent : userProfile.getQidOfDependents()) {
                         jsonProfile.addDependents(
                             JsonProfile.newInstance(
-                                userProfilePreferenceService.findByQueueUserId(qidOfDependent),
+                                accountMobileService.findProfileByQueueUserId(qidOfDependent),
                                 accountMobileService.findByQueueUserId(qidOfDependent)));
                     }
                 }
@@ -496,7 +496,7 @@ public class ClientProfileAPIController {
                     for (String qidOfDependent : userProfile.getQidOfDependents()) {
                         jsonProfile.addDependents(
                             JsonProfile.newInstance(
-                                userProfilePreferenceService.findByQueueUserId(qidOfDependent),
+                                accountMobileService.findProfileByQueueUserId(qidOfDependent),
                                 accountMobileService.findByQueueUserId(qidOfDependent)));
                     }
                 }

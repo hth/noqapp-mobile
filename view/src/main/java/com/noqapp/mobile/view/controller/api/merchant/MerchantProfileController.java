@@ -156,7 +156,7 @@ public class MerchantProfileController {
         }
 
         try {
-            UserProfileEntity userProfile = userProfilePreferenceService.findByQueueUserId(qid);
+            UserProfileEntity userProfile = accountMobileService.findProfileByQueueUserId(qid);
             switch (userProfile.getLevel()) {
                 case M_ADMIN:
                     LOG.info("Cannot login through Merchant App qid={}", qid);
