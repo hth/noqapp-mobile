@@ -406,20 +406,20 @@ public class ITest extends RealMongoForITest {
         userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
         externalService = new ExternalService("AIzaSyDUM3yIIrwrx3ciwZ57O9YamC4uISWAlAk", 0, bizStoreManager);
         userAddressService = new UserAddressService(userAddressManager, externalService);
+        userProfilePreferenceService = new UserProfilePreferenceService(
+            userProfileManager,
+            userPreferenceManager
+        );
 
         accountMobileService = new AccountMobileService(
             "/webapi/mobile/mail/accountSignup.htm",
             "/webapi/mobile/mail/mailChange.htm",
             webConnectorService,
             accountService,
+            userProfilePreferenceService,
             userMedicalProfileService,
             professionalProfileService,
             userAddressService
-        );
-
-        userProfilePreferenceService = new UserProfilePreferenceService(
-            userProfileManager,
-            userPreferenceManager
         );
 
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6, 6);
