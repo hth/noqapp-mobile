@@ -81,7 +81,6 @@ public class ClientProfileAPIController {
     private static final Logger LOG = LoggerFactory.getLogger(ClientProfileAPIController.class);
 
     private AuthenticateMobileService authenticateMobileService;
-    private UserProfilePreferenceService userProfilePreferenceService;
     private ApiHealthService apiHealthService;
     private AccountClientValidator accountClientValidator;
     private AccountMobileService accountMobileService;
@@ -93,7 +92,6 @@ public class ClientProfileAPIController {
     @Autowired
     public ClientProfileAPIController(
         AuthenticateMobileService authenticateMobileService,
-        UserProfilePreferenceService userProfilePreferenceService,
         ApiHealthService apiHealthService,
         AccountClientValidator accountClientValidator,
         AccountMobileService accountMobileService,
@@ -103,7 +101,6 @@ public class ClientProfileAPIController {
         ImageValidator imageValidator
     ) {
         this.authenticateMobileService = authenticateMobileService;
-        this.userProfilePreferenceService = userProfilePreferenceService;
         this.apiHealthService = apiHealthService;
         this.accountClientValidator = accountClientValidator;
         this.accountMobileService = accountMobileService;

@@ -316,7 +316,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected FirebaseConfig firebaseConfig;
 
     @BeforeAll
-    public void globalISetup() throws IOException {
+    public void globalISetup() {
         MockitoAnnotations.initMocks(this);
 
         did = UUID.randomUUID().toString();
