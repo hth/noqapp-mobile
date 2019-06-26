@@ -281,8 +281,8 @@ public class AppointmentController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/bookAppointment",
-                "bookAppointment",
+                "/cancelAppointment",
+                "cancelAppointment",
                 AppointmentController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
