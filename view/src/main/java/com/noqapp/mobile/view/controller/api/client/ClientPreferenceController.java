@@ -66,6 +66,12 @@ public class ClientPreferenceController {
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String notificationSound(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
         @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
@@ -107,11 +113,17 @@ public class ClientPreferenceController {
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String promotionalSMS(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
         @RequestHeader("X-R-MAIL")
-            ScrubbedInput mail,
+        ScrubbedInput mail,
 
         @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        ScrubbedInput auth,
 
         HttpServletResponse response
     ) throws IOException {
