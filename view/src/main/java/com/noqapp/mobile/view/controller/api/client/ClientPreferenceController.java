@@ -62,7 +62,6 @@ public class ClientPreferenceController {
     @PostMapping(
         value = "/notificationSound",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-        consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String notificationSound(
@@ -109,7 +108,6 @@ public class ClientPreferenceController {
     @PostMapping(
         value = "/promotionalSMS",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-        consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String promotionalSMS(
