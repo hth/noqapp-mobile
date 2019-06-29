@@ -125,7 +125,7 @@ public class AppointmentController {
             DateUtil.DTF_YYYY_MM_DD.parse(month.getText());
         } catch (Exception e) {
             LOG.error("Cannot parse date {}", month.getText());
-            return getErrorReason("Cannot parse date", MOBILE);
+            return getErrorReason("Date provided is not valid", MOBILE);
         }
 
         try {
@@ -188,7 +188,7 @@ public class AppointmentController {
             DateUtil.DTF_YYYY_MM_DD.parse(day.getText());
         } catch (Exception e) {
             LOG.error("Cannot parse date {}", day.getText());
-            return getErrorReason("Cannot parse date", MOBILE);
+            return getErrorReason("Date provided is not valid", MOBILE);
         }
 
         try {
