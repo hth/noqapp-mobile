@@ -5,9 +5,11 @@ import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.APPOINTMENT_ALREADY_EXISTS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.CANNOT_BOOK_APPOINTMENT;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.FAILED_TO_CANCEL_APPOINTMENT;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonResponse;
@@ -16,6 +18,7 @@ import com.noqapp.domain.json.JsonScheduleList;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.exceptions.AppointmentBookingException;
@@ -56,6 +59,7 @@ public class AppointmentController {
     private static final Logger LOG = LoggerFactory.getLogger(AppointmentController.class);
 
     private UserProfileManager userProfileManager;
+    private TokenQueueMobileService tokenQueueMobileService;
 
     private AuthenticateMobileService authenticateMobileService;
     private ScheduleAppointmentService scheduleAppointmentService;
@@ -65,12 +69,14 @@ public class AppointmentController {
     public AppointmentController(
         UserProfileManager userProfileManager,
 
+        TokenQueueMobileService tokenQueueMobileService,
         AuthenticateMobileService authenticateMobileService,
         ScheduleAppointmentService scheduleAppointmentService,
         ApiHealthService apiHealthService
     ) {
         this.userProfileManager = userProfileManager;
 
+        this.tokenQueueMobileService = tokenQueueMobileService;
         this.authenticateMobileService = authenticateMobileService;
         this.scheduleAppointmentService = scheduleAppointmentService;
         this.apiHealthService = apiHealthService;
@@ -108,6 +114,18 @@ public class AppointmentController {
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
+        }
+
+        if (!tokenQueueMobileService.isValidCodeQR(codeQR.getText())) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+            return null;
+        }
+
+        try {
+            DateUtil.DTF_YYYY_MM_DD.parse(month.getText());
+        } catch (Exception e) {
+            LOG.error("Cannot parse date {}", month.getText());
+            return getErrorReason("Cannot parse date", MOBILE);
         }
 
         try {
@@ -159,6 +177,18 @@ public class AppointmentController {
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
+        }
+
+        if (!tokenQueueMobileService.isValidCodeQR(codeQR.getText())) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+            return null;
+        }
+
+        try {
+            DateUtil.DTF_YYYY_MM_DD.parse(day.getText());
+        } catch (Exception e) {
+            LOG.error("Cannot parse date {}", day.getText());
+            return getErrorReason("Cannot parse date", MOBILE);
         }
 
         try {

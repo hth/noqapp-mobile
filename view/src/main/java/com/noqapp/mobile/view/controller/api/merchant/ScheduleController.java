@@ -12,6 +12,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSO
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.ScheduleAppointmentEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -134,6 +135,13 @@ public class ScheduleController {
         }
 
         try {
+            DateUtil.DTF_YYYY_MM_DD.parse(month.getText());
+        } catch (Exception e) {
+            LOG.error("Cannot parse date {}", month.getText());
+            return getErrorReason("Cannot parse date", MOBILE);
+        }
+
+        try {
             return scheduleAppointmentService.numberOfAppointmentsForMonth(codeQR.getText(), month.getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting schedule qid={}, reason={}", qid, e.getLocalizedMessage(), e);
@@ -187,6 +195,13 @@ public class ScheduleController {
             LOG.info("Your are not authorized to access schedule for codeQR={} mail={}", codeQR.getText(), mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
+        }
+
+        try {
+            DateUtil.DTF_YYYY_MM_DD.parse(day.getText());
+        } catch (Exception e) {
+            LOG.error("Cannot parse date {}", day.getText());
+            return getErrorReason("Cannot parse date", MOBILE);
         }
 
         try {
