@@ -5,6 +5,7 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.DateUtil;
+import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.Validate;
 
 import com.noqapp.domain.BizStoreEntity;
@@ -33,6 +34,7 @@ import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.BusinessUserManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
+import com.noqapp.repository.ScheduleAppointmentManager;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
@@ -79,21 +81,22 @@ public class QueueMobileService {
     private String negativeReview;
 
     private QueueManager queueManager;
-    private TokenQueueMobileService tokenQueueMobileService;
-    private BizService bizService;
-    private DeviceService deviceService;
     private QueueManagerJDBC queueManagerJDBC;
     private StoreHourManager storeHourManager;
-    private QueueService queueService;
-    private NLPService nlpService;
-    private PurchaseOrderService purchaseOrderService;
-    private WebConnectorService webConnectorService;
     private BusinessUserManager businessUserManager;
     private UserProfileManager userProfileManager;
+    private ScheduleAppointmentManager scheduleAppointmentManager;
+    private BizService bizService;
+    private DeviceService deviceService;
+    private NLPService nlpService;
+    private PurchaseOrderService purchaseOrderService;
     private PurchaseOrderProductService purchaseOrderProductService;
     private CouponService couponService;
+    private QueueService queueService;
+    private TokenQueueMobileService tokenQueueMobileService;
     private FirebaseMessageService firebaseMessageService;
     private FirebaseService firebaseService;
+    private WebConnectorService webConnectorService;
 
     private ExecutorService executorService;
 
@@ -107,6 +110,7 @@ public class QueueMobileService {
         StoreHourManager storeHourManager,
         BusinessUserManager businessUserManager,
         UserProfileManager userProfileManager,
+        ScheduleAppointmentManager scheduleAppointmentManager,
         BizService bizService,
         DeviceService deviceService,
         NLPService nlpService,
@@ -122,21 +126,22 @@ public class QueueMobileService {
         this.negativeReview = negativeReview;
 
         this.queueManager = queueManager;
-        this.tokenQueueMobileService = tokenQueueMobileService;
-        this.bizService = bizService;
-        this.deviceService = deviceService;
         this.queueManagerJDBC = queueManagerJDBC;
         this.storeHourManager = storeHourManager;
-        this.queueService = queueService;
+        this.businessUserManager = businessUserManager;
+        this.userProfileManager = userProfileManager;
+        this.scheduleAppointmentManager = scheduleAppointmentManager;
+        this.bizService = bizService;
+        this.deviceService = deviceService;
         this.nlpService = nlpService;
         this.purchaseOrderService = purchaseOrderService;
         this.purchaseOrderProductService = purchaseOrderProductService;
         this.couponService = couponService;
-        this.webConnectorService = webConnectorService;
-        this.businessUserManager = businessUserManager;
-        this.userProfileManager = userProfileManager;
+        this.queueService = queueService;
+        this.tokenQueueMobileService = tokenQueueMobileService;
         this.firebaseMessageService = firebaseMessageService;
         this.firebaseService = firebaseService;
+        this.webConnectorService = webConnectorService;
 
         this.executorService = newCachedThreadPool();
     }
@@ -523,7 +528,13 @@ public class QueueMobileService {
     }
 
     public JsonQueuePersonList findAllClient(String codeQR) {
-        return queueService.findAllClient(codeQR);
+        JsonQueuePersonList jsonQueuePersonList = queueService.findAllClient(codeQR);
+        BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
+        jsonQueuePersonList.setAppointmentCountForToday(
+            scheduleAppointmentManager.countNumberOfAppointments(
+                codeQR,
+                Formatter.toDefaultDateFormatAsString(DateUtil.dateAtTimeZone(bizStore.getTimeZone()))));
+        return jsonQueuePersonList;
     }
 
     public JsonQueuePersonList findAllRegisteredClientHistorical(String codeQR) {
