@@ -1121,12 +1121,13 @@ public class QueueController {
 
             if (null != registeredDevice) {
                 JsonPurchaseOrder jsonPurchaseOrderUpdated = jsonPurchaseOrderList.getPurchaseOrders().get(0);
+                BizStoreEntity bizStore = queueMobileService.findByCodeQR(jsonPurchaseOrderUpdated.getCodeQR());
                 String title, body;
                 if (new BigDecimal(jsonPurchaseOrderUpdated.getOrderPriceForDisplay()).intValue() > 0) {
                     title = "Refund initiated by " + queue.getDisplayName();
-                    body = "You have been refunded net total of " + jsonPurchaseOrderUpdated.getOrderPriceForDisplay()
+                    body = "You have been refunded net total of " + CommonUtil.displayWithCurrencyCode(jsonPurchaseOrderUpdated.getOrderPriceForDisplay(), bizStore.getCountryShortName())
                         + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
-                        ? " to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription()
+                        ? " via " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() + ".\n\n Note: It takes 7 to 10 business days for this amount to show up in your account."
                         : " at counter");
                 } else {
                     title = "Cancelled order by "  + queue.getDisplayName();
