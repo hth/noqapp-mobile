@@ -21,6 +21,7 @@ import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIControll
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
@@ -1118,12 +1119,13 @@ public class PurchaseOrderController {
 
             if (null != registeredDevice) {
                 TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrderUpdated.getCodeQR());
+                BizStoreEntity bizStore = queueMobileService.findByCodeQR(jsonPurchaseOrderUpdated.getCodeQR());
                 String title, body;
                 if (null != jsonPurchaseOrderUpdated.getPaymentMode() && new BigDecimal(jsonPurchaseOrderUpdated.getOrderPriceForDisplay()).intValue() > 0) {
                     title = "Refund initiated by " + tokenQueue.getDisplayName();
-                    body = "You have been refunded net total of " + jsonPurchaseOrderUpdated.getOrderPriceForDisplay()
+                    body = "You have been refunded net total of " + CommonUtil.displayWithCurrencyCode(jsonPurchaseOrderUpdated.getOrderPriceForDisplay(), bizStore.getCountryShortName())
                         + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
-                        ? " to your " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription()
+                        ? " via " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() + ".\n\n Note: It takes 7 to 10 business days for this amount to show up in your account."
                         : " at counter");
                 } else {
                     title = "Cancelled order by "  + tokenQueue.getDisplayName();
