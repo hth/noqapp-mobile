@@ -792,7 +792,14 @@ public class QueueController {
             }
 
             String guardianQid = null;
-            RegisteredDeviceEntity registeredDevice = deviceService.findDeviceByUserProfile(userProfile);
+            RegisteredDeviceEntity registeredDevice;
+            if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
+                guardianQid = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone()).getQueueUserId();
+                registeredDevice = deviceService.findRecentDevice(guardianQid);
+            } else {
+                registeredDevice = deviceService.findRecentDevice(userProfile.getQueueUserId());
+            }
+
             JsonToken jsonToken;
             if (bizStore.isEnabledPayment()) {
                 jsonToken = tokenQueueMobileService.skipPayBeforeJoinQueue(
