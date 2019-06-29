@@ -4,11 +4,12 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.domain.RegisteredDeviceEntity;
-import com.noqapp.domain.annotation.Mobile;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.RegisteredDeviceManager;
+import com.noqapp.repository.UserProfileManager;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,12 +38,17 @@ public class DeviceService {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceService.class);
 
     private RegisteredDeviceManager registeredDeviceManager;
+    private UserProfileManager userProfileManager;
 
     private ExecutorService executorService;
 
     @Autowired
-    public DeviceService(RegisteredDeviceManager registeredDeviceManager) {
+    public DeviceService(
+        RegisteredDeviceManager registeredDeviceManager,
+        UserProfileManager userProfileManager
+    ) {
         this.registeredDeviceManager = registeredDeviceManager;
+        this.userProfileManager = userProfileManager;
 
         this.executorService = newCachedThreadPool();
     }
@@ -176,5 +182,21 @@ public class DeviceService {
         } else {
             return registeredDevice.getDeviceId();
         }
+    }
+
+    public RegisteredDeviceEntity findRegisteredDeviceByQid(String qid) {
+        return findDeviceByUserProfile(userProfileManager.findByQueueUserId(qid));
+    }
+
+    public RegisteredDeviceEntity findDeviceByUserProfile(UserProfileEntity userProfile) {
+        RegisteredDeviceEntity registeredDevice;
+        if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
+            String guardianQid = userProfileManager.findOneByPhone(userProfile.getGuardianPhone()).getQueueUserId();
+            registeredDevice = findRecentDevice(guardianQid);
+        } else {
+            registeredDevice = findRecentDevice(userProfile.getQueueUserId());
+        }
+
+        return registeredDevice;
     }
 }

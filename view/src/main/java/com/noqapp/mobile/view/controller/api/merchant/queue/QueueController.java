@@ -792,14 +792,7 @@ public class QueueController {
             }
 
             String guardianQid = null;
-            RegisteredDeviceEntity registeredDevice;
-            if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
-                guardianQid = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone()).getQueueUserId();
-                registeredDevice = deviceService.findRecentDevice(guardianQid);
-            } else {
-                registeredDevice = deviceService.findRecentDevice(userProfile.getQueueUserId());
-            }
-
+            RegisteredDeviceEntity registeredDevice = deviceService.findDeviceByUserProfile(userProfile);
             JsonToken jsonToken;
             if (bizStore.isEnabledPayment()) {
                 jsonToken = tokenQueueMobileService.skipPayBeforeJoinQueue(
@@ -820,7 +813,11 @@ public class QueueController {
             }
 
             if (null != registeredDevice) {
-                executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(businessCustomer.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType()));
+                executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(
+                    businessCustomer.getCodeQR(),
+                    registeredDevice.getToken(),
+                    registeredDevice.getDeviceType()));
+
                 executorService.execute(() -> queueMobileService.notifyClient(
                     registeredDevice,
                     "Joined " + bizStore.getDisplayName() + " Queue",
@@ -1110,15 +1107,7 @@ public class QueueController {
                     LOG.error("Reached unsupported lab category {} transactionId={}", queue.getQueueUserState(), queue.getTransactionId());
             }
 
-            UserProfileEntity userProfile = accountService.findProfileByQueueUserId(jsonQueuedPerson.getJsonPurchaseOrder().getQueueUserId());
-            RegisteredDeviceEntity registeredDevice;
-            if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
-                String guardianQid = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone()).getQueueUserId();
-                registeredDevice = deviceService.findRecentDevice(guardianQid);
-            } else {
-                registeredDevice = deviceService.findRecentDevice(userProfile.getQueueUserId());
-            }
-
+            RegisteredDeviceEntity registeredDevice = deviceService.findRegisteredDeviceByQid(jsonQueuedPerson.getJsonPurchaseOrder().getQueueUserId());
             if (null != registeredDevice) {
                 JsonPurchaseOrder jsonPurchaseOrderUpdated = jsonPurchaseOrderList.getPurchaseOrders().get(0);
                 BizStoreEntity bizStore = queueMobileService.findByCodeQR(jsonPurchaseOrderUpdated.getCodeQR());
