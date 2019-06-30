@@ -820,7 +820,11 @@ public class QueueController {
             }
 
             if (null != registeredDevice) {
-                executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(businessCustomer.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType()));
+                executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(
+                    businessCustomer.getCodeQR(),
+                    registeredDevice.getToken(),
+                    registeredDevice.getDeviceType()));
+
                 executorService.execute(() -> queueMobileService.notifyClient(
                     registeredDevice,
                     "Joined " + bizStore.getDisplayName() + " Queue",
@@ -1110,15 +1114,7 @@ public class QueueController {
                     LOG.error("Reached unsupported lab category {} transactionId={}", queue.getQueueUserState(), queue.getTransactionId());
             }
 
-            UserProfileEntity userProfile = accountService.findProfileByQueueUserId(jsonQueuedPerson.getJsonPurchaseOrder().getQueueUserId());
-            RegisteredDeviceEntity registeredDevice;
-            if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
-                String guardianQid = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone()).getQueueUserId();
-                registeredDevice = deviceService.findRecentDevice(guardianQid);
-            } else {
-                registeredDevice = deviceService.findRecentDevice(userProfile.getQueueUserId());
-            }
-
+            RegisteredDeviceEntity registeredDevice = deviceService.findRegisteredDeviceByQid(jsonQueuedPerson.getJsonPurchaseOrder().getQueueUserId());
             if (null != registeredDevice) {
                 JsonPurchaseOrder jsonPurchaseOrderUpdated = jsonPurchaseOrderList.getPurchaseOrders().get(0);
                 BizStoreEntity bizStore = queueMobileService.findByCodeQR(jsonPurchaseOrderUpdated.getCodeQR());
@@ -1127,7 +1123,7 @@ public class QueueController {
                     title = "Refund initiated by " + queue.getDisplayName();
                     body = "You have been refunded net total of " + CommonUtil.displayWithCurrencyCode(jsonPurchaseOrderUpdated.getOrderPriceForDisplay(), bizStore.getCountryShortName())
                         + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
-                        ? " via " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() + ".\n\n Note: It takes 7 to 10 business days for this amount to show up in your account."
+                        ? " via " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() + ".\n\n" + "Note: It takes 7 to 10 business days for this amount to show up in your account."
                         : " at counter");
                 } else {
                     title = "Cancelled order by "  + queue.getDisplayName();

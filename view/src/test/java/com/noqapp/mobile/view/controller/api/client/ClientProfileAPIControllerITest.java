@@ -62,7 +62,6 @@ class ClientProfileAPIControllerITest extends ITest {
 
         clientProfileAPIController = new ClientProfileAPIController(
             authenticateMobileService,
-            userProfilePreferenceService,
             apiHealthService,
             accountClientValidator,
             accountMobileService,

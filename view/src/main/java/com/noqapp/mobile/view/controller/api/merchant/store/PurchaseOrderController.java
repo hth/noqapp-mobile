@@ -66,8 +66,6 @@ import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.repository.BizStoreManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.service.ProfessionalProfileService;
-import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.exceptions.PriceMismatchException;
@@ -776,17 +774,8 @@ public class PurchaseOrderController {
                 return ErrorEncounteredJson.toJson("Cannot create this order", FAILED_PLACING_MEDICAL_ORDER_AS_INCORRECT_BUSINESS);
             }
 
-            UserProfileEntity userProfile = userProfileManager.findByQueueUserId(jsonPurchaseOrder.getQueueUserId());
             jsonPurchaseOrder.setDeliveryMode(DeliveryModeEnum.TO);
-
-            RegisteredDeviceEntity registeredDevice;
-            if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
-                String guardianQid = userProfileManager.findOneByPhone(userProfile.getGuardianPhone()).getQueueUserId();
-                registeredDevice = deviceService.findRecentDevice(guardianQid);
-            } else {
-                registeredDevice = deviceService.findRecentDevice(userProfile.getQueueUserId());
-            }
-
+            RegisteredDeviceEntity registeredDevice = deviceService.findRegisteredDeviceByQid(jsonPurchaseOrder.getQueueUserId());
             purchaseOrderService.createOrder(jsonPurchaseOrder, DeviceService.getExistingDeviceId(registeredDevice, did.getText()), TokenServiceEnum.M);
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(jsonPurchaseOrder.getTransactionId());
 
@@ -832,7 +821,8 @@ public class PurchaseOrderController {
             if (null != registeredDevice) {
                 /* Subscribe and Notify client. */
                 executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(jsonPurchaseOrder.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType()));
-                executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
+                executorService.execute(() -> queueMobileService.notifyClient(
+                    registeredDevice,
                     "Order placed at " + bizStore.getDisplayName(),
                     "Your order number is " + jsonPurchaseOrder.getToken(),
                     bizStore.getCodeQR()));
@@ -1108,15 +1098,7 @@ public class PurchaseOrderController {
                 medicalRecordService.deleteReminisceOfTransactionId(jsonPurchaseOrderUpdated.getTransactionId());
             }
 
-            UserProfileEntity userProfile = userProfileManager.findByQueueUserId(jsonPurchaseOrderUpdated.getQueueUserId());
-            RegisteredDeviceEntity registeredDevice;
-            if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
-                String guardianQid = userProfileManager.findOneByPhone(userProfile.getGuardianPhone()).getQueueUserId();
-                registeredDevice = deviceService.findRecentDevice(guardianQid);
-            } else {
-                registeredDevice = deviceService.findRecentDevice(userProfile.getQueueUserId());
-            }
-
+            RegisteredDeviceEntity registeredDevice = deviceService.findRegisteredDeviceByQid(jsonPurchaseOrderUpdated.getQueueUserId());
             if (null != registeredDevice) {
                 TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrderUpdated.getCodeQR());
                 BizStoreEntity bizStore = queueMobileService.findByCodeQR(jsonPurchaseOrderUpdated.getCodeQR());
@@ -1125,7 +1107,7 @@ public class PurchaseOrderController {
                     title = "Refund initiated by " + tokenQueue.getDisplayName();
                     body = "You have been refunded net total of " + CommonUtil.displayWithCurrencyCode(jsonPurchaseOrderUpdated.getOrderPriceForDisplay(), bizStore.getCountryShortName())
                         + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
-                        ? " via " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() + ".\n\n Note: It takes 7 to 10 business days for this amount to show up in your account."
+                        ? " via " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() + ".\n\n" + "Note: It takes 7 to 10 business days for this amount to show up in your account."
                         : " at counter");
                 } else {
                     title = "Cancelled order by "  + tokenQueue.getDisplayName();
