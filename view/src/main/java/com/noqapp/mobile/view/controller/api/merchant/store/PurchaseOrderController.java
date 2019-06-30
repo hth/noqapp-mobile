@@ -1107,7 +1107,7 @@ public class PurchaseOrderController {
                     title = "Refund initiated by " + tokenQueue.getDisplayName();
                     body = "You have been refunded net total of " + CommonUtil.displayWithCurrencyCode(jsonPurchaseOrderUpdated.getOrderPriceForDisplay(), bizStore.getCountryShortName())
                         + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
-                        ? " via " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() + ".\n\n Note: It takes 7 to 10 business days for this amount to show up in your account."
+                        ? " via " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() + ".\n\n" + "Note: It takes 7 to 10 business days for this amount to show up in your account."
                         : " at counter");
                 } else {
                     title = "Cancelled order by "  + tokenQueue.getDisplayName();

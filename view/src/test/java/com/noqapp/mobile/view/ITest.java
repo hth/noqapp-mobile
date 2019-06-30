@@ -423,7 +423,7 @@ public class ITest extends RealMongoForITest {
         );
 
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6, 6);
-        deviceService = new DeviceService(registeredDeviceManager);
+        deviceService = new DeviceService(registeredDeviceManager, userProfileManager);
 
         apiHealthNowManager = new ApiHealthNowManagerImpl(getMongoTemplate());
         apiHealthService = new ApiHealthService(apiHealthNowManager);
@@ -544,6 +544,7 @@ public class ITest extends RealMongoForITest {
         purchaseOrderMobileService = new PurchaseOrderMobileService(purchaseOrderService);
 
         tokenQueueMobileService = new TokenQueueMobileService(
+            deviceService,
             tokenQueueService,
             bizService,
             tokenQueueManager,
@@ -553,7 +554,8 @@ public class ITest extends RealMongoForITest {
             userProfileManager,
             businessUserStoreManager,
             purchaseOrderService,
-            purchaseOrderProductService);
+            purchaseOrderProductService,
+            firebaseMessageService);
 
         storeDetailService = new StoreDetailService(bizService, tokenQueueMobileService, storeProductService, storeCategoryService);
         bizStoreElasticManager = new BizStoreElasticManagerImpl(restHighLevelClient);

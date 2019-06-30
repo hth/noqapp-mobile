@@ -4,12 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import com.noqapp.domain.annotation.Mobile;
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
+import com.noqapp.service.FirebaseMessageService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
@@ -25,6 +27,7 @@ import org.mockito.MockitoAnnotations;
  * Date: 11/20/16 6:46 PM
  */
 class TokenQueueMobileServiceTest {
+    @Mock private DeviceService deviceService;
     @Mock private BizService bizService;
     @Mock private TokenQueueService tokenQueueService;
     @Mock private TokenQueueManager tokenQueueManager;
@@ -35,6 +38,7 @@ class TokenQueueMobileServiceTest {
     @Mock private BusinessUserStoreManager businessUserStoreManager;
     @Mock private PurchaseOrderService purchaseOrderService;
     @Mock private PurchaseOrderProductService purchaseOrderProductService;
+    @Mock private FirebaseMessageService firebaseMessageService;
 
     private TokenQueueMobileService tokenQueueMobileService;
 
@@ -42,6 +46,7 @@ class TokenQueueMobileServiceTest {
     void setup() {
         MockitoAnnotations.initMocks(this);
         this.tokenQueueMobileService = new TokenQueueMobileService(
+            deviceService,
             tokenQueueService,
             bizService,
             tokenQueueManager,
@@ -51,7 +56,8 @@ class TokenQueueMobileServiceTest {
             userProfileManager,
             businessUserStoreManager,
             purchaseOrderService,
-            purchaseOrderProductService);
+            purchaseOrderProductService,
+            firebaseMessageService);
     }
 
     @Test

@@ -26,6 +26,7 @@ import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.json.fcm.JsonMessage;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.domain.types.MessageOriginEnum;
 import com.noqapp.domain.types.SentimentTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.domain.JsonStoreSetting;
@@ -590,7 +591,8 @@ public class QueueMobileService {
                 jsonTokenAndQueues.getTokenAndQueues(),
                 body,
                 title,
-                codeQR);
+                codeQR,
+                MessageOriginEnum.CQO);
             firebaseMessageService.messageToTopic(jsonMessage);
         }
     }

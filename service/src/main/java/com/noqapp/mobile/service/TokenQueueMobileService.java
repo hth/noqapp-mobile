@@ -1,14 +1,19 @@
 package com.noqapp.mobile.service;
 
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
+
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.QueueEntity;
+import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.common.ComposeMessagesForFCM;
 import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonPurchaseOrder;
@@ -17,11 +22,13 @@ import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.json.fcm.JsonMessage;
 import com.noqapp.domain.json.payment.cashfree.JsonResponseWithCFToken;
 import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.InvocationByEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
+import com.noqapp.domain.types.TransactionViaEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.repository.BusinessUserStoreManager;
@@ -33,6 +40,7 @@ import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.service.BizService;
+import com.noqapp.service.FirebaseMessageService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
@@ -49,12 +57,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutorService;
 
 /**
  * User: hitender
@@ -64,6 +74,7 @@ import java.util.TimeZone;
 public class TokenQueueMobileService {
     private static final Logger LOG = LoggerFactory.getLogger(TokenQueueMobileService.class);
 
+    private DeviceService deviceService;
     private TokenQueueService tokenQueueService;
     private BizService bizService;
     private TokenQueueManager tokenQueueManager;
@@ -74,9 +85,13 @@ public class TokenQueueMobileService {
     private BusinessUserStoreManager businessUserStoreManager;
     private PurchaseOrderService purchaseOrderService;
     private PurchaseOrderProductService purchaseOrderProductService;
+    private FirebaseMessageService firebaseMessageService;
+
+    private ExecutorService executorService;
 
     @Autowired
     public TokenQueueMobileService(
+        DeviceService deviceService,
         TokenQueueService tokenQueueService,
         BizService bizService,
         TokenQueueManager tokenQueueManager,
@@ -86,8 +101,10 @@ public class TokenQueueMobileService {
         UserProfileManager userProfileManager,
         BusinessUserStoreManager businessUserStoreManager,
         PurchaseOrderService purchaseOrderService,
-        PurchaseOrderProductService purchaseOrderProductService
+        PurchaseOrderProductService purchaseOrderProductService,
+        FirebaseMessageService firebaseMessageService
     ) {
+        this.deviceService = deviceService;
         this.tokenQueueService = tokenQueueService;
         this.bizService = bizService;
         this.tokenQueueManager = tokenQueueManager;
@@ -98,6 +115,10 @@ public class TokenQueueMobileService {
         this.businessUserStoreManager = businessUserStoreManager;
         this.purchaseOrderService = purchaseOrderService;
         this.purchaseOrderProductService = purchaseOrderProductService;
+        this.firebaseMessageService = firebaseMessageService;
+
+        /* For executing in order of sequence. */
+        this.executorService = newSingleThreadExecutor();
     }
 
     public JsonQueue findTokenState(String codeQR) {
@@ -521,7 +542,8 @@ public class TokenQueueMobileService {
         try {
             if (StringUtils.isNotBlank(queue.getTransactionId())) {
                 LOG.info("Cancelled and refund initiated by {} {} {}", queue.getQueueUserId(), qid, queue.getTransactionId());
-                purchaseOrderService.cancelOrderByClient(queue.getQueueUserId(), queue.getTransactionId());
+                JsonPurchaseOrder jsonPurchaseOrder = purchaseOrderService.cancelOrderByClient(queue.getQueueUserId(), queue.getTransactionId());
+                sendMessageToSelf(jsonPurchaseOrder);
             }
             abort(queue.getId(), codeQR);
             return new JsonResponse(true);
@@ -588,5 +610,34 @@ public class TokenQueueMobileService {
     public void deleteReferenceToTransactionId(String codeQR, String transactionId) {
         queueManager.deleteReferenceToTransactionId(codeQR, transactionId);
         purchaseOrderService.deleteReferenceToTransactionId(transactionId);
+    }
+
+    private void sendMessageToSelf(JsonPurchaseOrder jsonPurchaseOrder) {
+        BizStoreEntity bizStore = bizService.findByCodeQR(jsonPurchaseOrder.getCodeQR());
+        String title, body;
+        if (new BigDecimal(jsonPurchaseOrder.getOrderPriceForDisplay()).intValue() > 0) {
+            title = "Refund initiated by you";
+            body = "You have been refunded net total of " + CommonUtil.displayWithCurrencyCode(jsonPurchaseOrder.getOrderPriceForDisplay(), bizStore.getCountryShortName())
+                + (jsonPurchaseOrder.getTransactionVia() == TransactionViaEnum.I
+                ? " via " + jsonPurchaseOrder.getPaymentMode().getDescription() + ".\n\n" + "Note: It takes 7 to 10 business days for this amount to show up in your account."
+                : " at counter");
+        } else {
+            title = "Cancelled order by you";
+            body = "Your order at " + bizStore.getDisplayName() + " was cancelled by you";
+        }
+
+        executorService.execute(() -> notifyClient(
+            deviceService.findRegisteredDeviceByQid(jsonPurchaseOrder.getQueueUserId()),
+            title,
+            body,
+            jsonPurchaseOrder.getCodeQR()));
+    }
+
+    /** Sends personal message with all the current queue and orders. */
+    private void notifyClient(RegisteredDeviceEntity registeredDevice, String title, String body, String codeQR) {
+        if (null != registeredDevice) {
+            JsonMessage jsonMessage = ComposeMessagesForFCM.composeMessageForClientDisplay(registeredDevice, body, title, codeQR);
+            firebaseMessageService.messageToTopic(jsonMessage);
+        }
     }
 }
