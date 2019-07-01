@@ -701,7 +701,7 @@ public class QueueController {
                 bizStore.getAverageServiceTime(),
                 TokenServiceEnum.M).asJson();
         } catch (StoreDayClosedException e) {
-            LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = false;
             return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
         } catch (Exception e) {
@@ -840,7 +840,7 @@ public class QueueController {
 
             return jsonToken.asJson();
         } catch (StoreDayClosedException e) {
-            LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = false;
             return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
         } catch (Exception e) {
