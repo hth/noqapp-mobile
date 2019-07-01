@@ -13,6 +13,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_JOIN
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_JOIN_PAYMENT_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_NO_SERVICE_NO_PAY;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_NO_LONGER_EXISTS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.TRANSACTION_GATEWAY_DEFAULT;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -51,6 +52,7 @@ import com.noqapp.service.exceptions.PurchaseOrderCancelException;
 import com.noqapp.service.exceptions.PurchaseOrderFailException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundPartialException;
+import com.noqapp.service.exceptions.StoreDayClosedException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -427,6 +429,10 @@ public class TokenQueueAPIController {
             }
 
             return getErrorReason("Missing Payment For Service", QUEUE_JOIN_FAILED_PAYMENT_CALL_REQUEST);
+        } catch (StoreDayClosedException e) {
+            LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -488,6 +494,10 @@ public class TokenQueueAPIController {
 
             LOG.info("Pay Before Join Response {}", jsonToken.getJsonPurchaseOrder());
             return jsonToken.asJson();
+        } catch (StoreDayClosedException e) {
+            LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
         } catch (Exception e) {
             LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

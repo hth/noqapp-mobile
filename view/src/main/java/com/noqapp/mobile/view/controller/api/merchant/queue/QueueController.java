@@ -14,6 +14,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_NOT_
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_NOT_STARTED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_NO_SERVICE_NO_PAY;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_ALREADY_IN_QUEUE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
@@ -58,6 +59,7 @@ import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
+import com.noqapp.service.exceptions.StoreDayClosedException;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -698,6 +700,10 @@ public class QueueController {
                 CommonUtil.appendRandomToDeviceId(did.getText()),
                 bizStore.getAverageServiceTime(),
                 TokenServiceEnum.M).asJson();
+        } catch (StoreDayClosedException e) {
+            LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -833,6 +839,10 @@ public class QueueController {
             }
 
             return jsonToken.asJson();
+        } catch (StoreDayClosedException e) {
+            LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
