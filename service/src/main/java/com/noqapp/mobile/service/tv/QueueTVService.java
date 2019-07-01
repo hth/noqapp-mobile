@@ -53,10 +53,6 @@ public class QueueTVService {
         this.professionalProfileService = professionalProfileService;
     }
 
-    public JsonQueuePersonList findAllActiveInQueue(String codeQR) {
-        return queueService.findYetToBeServed(codeQR);
-    }
-
     private BusinessUserStoreEntity findUserManagingStoreWithCodeQRAndUserLevel(String codeQR) {
         return businessUserStoreService.findUserManagingStoreWithCodeQRAndUserLevel(codeQR);
     }
