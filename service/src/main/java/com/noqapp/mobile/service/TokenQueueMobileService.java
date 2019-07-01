@@ -48,6 +48,7 @@ import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.exceptions.PurchaseOrderCancelException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundPartialException;
+import com.noqapp.service.exceptions.StoreDayClosedException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -428,12 +429,22 @@ public class TokenQueueMobileService {
 
     public JsonToken joinQueue(String codeQR, String did, String qid, String guardianQid, long averageServiceTime, TokenServiceEnum tokenService) {
         LOG.info("joinQueue codeQR={} did={} qid={} guardianQid={}", codeQR, did, qid, guardianQid);
-        return tokenQueueService.getNextToken(codeQR, did, qid, guardianQid, averageServiceTime, tokenService);
+        JsonToken jsonToken = tokenQueueService.getNextToken(codeQR, did, qid, guardianQid, averageServiceTime, tokenService);
+
+        if (QueueStatusEnum.C == jsonToken.getQueueStatus()) {
+            throw new StoreDayClosedException("Store is closed today codeQR " + codeQR);
+        }
+
+        return jsonToken;
     }
 
     /** Invoke by client and hence has a token service as Client. */
     public JsonToken payBeforeJoinQueue(String codeQR, String did, String qid, String guardianQid, BizStoreEntity bizStore, TokenServiceEnum tokenService) {
         JsonToken jsonToken = tokenQueueService.getPaidNextToken(codeQR, did, qid, guardianQid, bizStore.getAverageServiceTime(), tokenService);
+
+        if (QueueStatusEnum.C == jsonToken.getQueueStatus()) {
+            throw new StoreDayClosedException("Store is closed today bizStoreId " + bizStore.getId());
+        }
 
         JsonPurchaseOrder jsonPurchaseOrder;
         PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(jsonToken.getTransactionId());
