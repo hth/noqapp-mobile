@@ -771,7 +771,7 @@ public class QueueController {
 
             UserProfileEntity userProfile = null;
             if (StringUtils.isNotBlank(businessCustomer.getCustomerPhone())) {
-                LOG.info("Look up customer by name {}", businessCustomer.getCustomerPhone());
+                LOG.info("Look up customer by phone {}", businessCustomer.getCustomerPhone());
                 userProfile = accountService.checkUserExistsByPhone(businessCustomer.getCustomerPhone());
                 if (!userProfile.getQueueUserId().equalsIgnoreCase(businessCustomer.getQueueUserId())) {
                     if (userProfile.getQidOfDependents().contains(businessCustomer.getQueueUserId())) {
@@ -957,8 +957,8 @@ public class QueueController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/dispenseToken",
-                "dispenseTokenWithClientInfo",
+                "/changeUserInQueue",
+                "changeUserInQueue",
                 QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
