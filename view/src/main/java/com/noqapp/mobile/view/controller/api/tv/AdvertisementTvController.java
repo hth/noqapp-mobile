@@ -16,6 +16,7 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.AdvertisementMobileService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.ProfessionalProfileService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -54,6 +55,7 @@ public class AdvertisementTvController {
 
     private AdvertisementMobileService advertisementMobileService;
     private BusinessUserStoreService businessUserStoreService;
+    private ProfessionalProfileService professionalProfileService;
     private AuthenticateMobileService authenticateMobileService;
     private AccountService accountService;
     private ApiHealthService apiHealthService;
@@ -62,12 +64,14 @@ public class AdvertisementTvController {
     public AdvertisementTvController(
         AdvertisementMobileService advertisementMobileService,
         BusinessUserStoreService businessUserStoreService,
+        ProfessionalProfileService professionalProfileService,
         AuthenticateMobileService authenticateMobileService,
         AccountService accountService,
         ApiHealthService apiHealthService
     ) {
         this.advertisementMobileService = advertisementMobileService;
         this.businessUserStoreService = businessUserStoreService;
+        this.professionalProfileService = professionalProfileService;
         this.authenticateMobileService = authenticateMobileService;
         this.accountService = accountService;
         this.apiHealthService = apiHealthService;
@@ -185,6 +189,59 @@ public class AdvertisementTvController {
             apiHealthService.insert(
                 "/all",
                 "getAllMobileAdvertisements",
+                AdvertisementTvController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Gets all professional profile. */
+    @GetMapping(
+        value = "/professionalProfiles",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String getProfessionalProfiles(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Get all advt for request from mail={} did={} deviceType={} auth={}",
+            mail,
+            did,
+            deviceType,
+            AUTH_KEY_HIDDEN);
+
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/tv/vigyapan/professionalProfiles by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
+            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findUserManagingStoreWithUserLevel(qid, userProfile.getLevel());
+            return professionalProfileService.findAllProfessionalProfile(businessUserStore.getBizNameId()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting advt reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/professionalProfiles",
+                "professionalProfiles",
                 AdvertisementTvController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
