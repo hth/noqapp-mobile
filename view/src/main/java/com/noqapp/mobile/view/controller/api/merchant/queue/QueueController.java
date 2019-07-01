@@ -957,8 +957,8 @@ public class QueueController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/dispenseToken",
-                "dispenseTokenWithClientInfo",
+                "/changeUserInQueue",
+                "changeUserInQueue",
                 QueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
