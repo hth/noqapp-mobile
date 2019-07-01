@@ -771,7 +771,7 @@ public class QueueController {
 
             UserProfileEntity userProfile = null;
             if (StringUtils.isNotBlank(businessCustomer.getCustomerPhone())) {
-                LOG.info("Look up customer by name {}", businessCustomer.getCustomerPhone());
+                LOG.info("Look up customer by phone {}", businessCustomer.getCustomerPhone());
                 userProfile = accountService.checkUserExistsByPhone(businessCustomer.getCustomerPhone());
                 if (!userProfile.getQueueUserId().equalsIgnoreCase(businessCustomer.getQueueUserId())) {
                     if (userProfile.getQidOfDependents().contains(businessCustomer.getQueueUserId())) {
