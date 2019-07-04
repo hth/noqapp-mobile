@@ -31,11 +31,11 @@ import javax.sql.DataSource;
  * User: hitender
  * Date: 11/17/16 4:19 PM
  */
-@SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+@SuppressWarnings({
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @Component
 @PropertySource("classpath:build-info.properties")
@@ -82,7 +82,7 @@ public class NoQAppInitializationCheckBean {
         }
         LOG.info("RDB on Mobile connected");
     }
-    
+
     @PostConstruct
     public void checkFirebaseConnection() {
         if (null == firebaseConfig.getFirebaseAuth()) {
@@ -102,11 +102,11 @@ public class NoQAppInitializationCheckBean {
 
             MainResponse mainResponse = restHighLevelClient.info(RequestOptions.DEFAULT);
             LOG.info("Elastic on Mobile {} connected clusterName={} nodeName={}\n  build={}\n  clusterUuid={}\n",
-                    mainResponse.getVersion(),
-                    mainResponse.getClusterName(),
-                    mainResponse.getNodeName(),
-                    mainResponse.getBuild(),
-                    mainResponse.getClusterUuid());
+                mainResponse.getVersion(),
+                mainResponse.getClusterName(),
+                mainResponse.getNodeName(),
+                mainResponse.getBuild(),
+                mainResponse.getClusterUuid());
         } catch (IOException e) {
             LOG.error("Elastic on Mobile could not be connected");
             throw new RuntimeException("Elastic on Mobile could not be connected");
@@ -125,11 +125,11 @@ public class NoQAppInitializationCheckBean {
     @PostConstruct
     public void checkGeoLite() {
         LOG.info("{} major={} minor={}\n  buildDate={}\n  ipVersion={}\n ",
-                databaseReader.getMetadata().getDatabaseType(),
-                databaseReader.getMetadata().getBinaryFormatMajorVersion(),
-                databaseReader.getMetadata().getBinaryFormatMinorVersion(),
-                databaseReader.getMetadata().getBuildDate(),
-                databaseReader.getMetadata().getIpVersion());
+            databaseReader.getMetadata().getDatabaseType(),
+            databaseReader.getMetadata().getBinaryFormatMajorVersion(),
+            databaseReader.getMetadata().getBinaryFormatMinorVersion(),
+            databaseReader.getMetadata().getBuildDate(),
+            databaseReader.getMetadata().getIpVersion());
     }
 
     @PostConstruct
