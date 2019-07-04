@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.listener;
 
 import com.noqapp.common.config.FirebaseConfig;
+import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.service.ElasticAdministrationService;
 import com.noqapp.service.payment.PaymentGatewayService;
@@ -47,6 +48,7 @@ public class NoQAppInitializationCheckBean {
     private ElasticAdministrationService elasticAdministrationService;
     private DatabaseReader databaseReader;
     private PaymentGatewayService paymentGatewayService;
+    private QueueMobileService queueMobileService;
 
     private String buildEnvironment;
 
@@ -58,7 +60,8 @@ public class NoQAppInitializationCheckBean {
         RestHighLevelClient restHighLevelClient,
         ElasticAdministrationService elasticAdministrationService,
         DatabaseReader databaseReader,
-        PaymentGatewayService paymentGatewayService
+        PaymentGatewayService paymentGatewayService,
+        QueueMobileService queueMobileService
     ) {
         this.buildEnvironment = environment.getProperty("build.env");
 
@@ -68,6 +71,7 @@ public class NoQAppInitializationCheckBean {
         this.elasticAdministrationService = elasticAdministrationService;
         this.databaseReader = databaseReader;
         this.paymentGatewayService = paymentGatewayService;
+        this.queueMobileService = queueMobileService;
     }
 
     @PostConstruct
@@ -135,6 +139,12 @@ public class NoQAppInitializationCheckBean {
             LOG.error("Cashfree Payment Gateway could not be verified");
             throw new RuntimeException("Cashfree Payment Gateway could not be verified");
         }
+    }
+
+    @PostConstruct
+    public void cleanForDummyUser() {
+        queueMobileService.deleteReferenceTo("100000000025");
+        queueMobileService.deleteReferenceTo("100000000064");
     }
 
     @PreDestroy
