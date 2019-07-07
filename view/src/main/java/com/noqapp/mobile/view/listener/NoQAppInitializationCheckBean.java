@@ -143,10 +143,8 @@ public class NoQAppInitializationCheckBean {
 
     @PostConstruct
     public void cleanForDummyUser() {
-        if (buildEnvironment.equalsIgnoreCase("prod")) {
-            queueMobileService.deleteReferenceTo("100000000025");
-            queueMobileService.deleteReferenceTo("100000000064");
-        }
+        queueMobileService.deleteReferenceTo("100000000025");
+        queueMobileService.deleteReferenceTo("100000000064");
     }
 
     @PreDestroy
