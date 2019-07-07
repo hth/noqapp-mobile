@@ -15,8 +15,6 @@ import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
-import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.annotation.Mobile;
 import com.noqapp.domain.common.ComposeMessagesForFCM;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonQueue;
@@ -607,22 +605,6 @@ public class QueueMobileService {
                 add(token);
             }};
             firebaseService.subscribeToTopic(registeredTokens, tokenQueue.getTopic() + "_" + deviceType.getName());
-        }
-    }
-
-    @Mobile
-    public void deleteReferenceTo(String qid) {
-        UserProfileEntity userProfileOfGuardian = userProfileManager.findByQueueUserId(qid);
-        List<UserProfileEntity> userProfileOfDependents = userProfileManager.findDependentProfilesByPhone(userProfileOfGuardian.getPhone());
-        List<QueueEntity> queues = queueService.findAllHistoricalQueue(qid);
-        for (UserProfileEntity userProfile : userProfileOfDependents) {
-            queues.addAll(queueService.findAllHistoricalQueue(userProfile.getQueueUserId()));
-        }
-        for (QueueEntity queue : queues) {
-            if (StringUtils.isNotBlank(queue.getTransactionId())) {
-                purchaseOrderService.deleteReferenceToTransactionId(queue.getTransactionId());
-            }
-            queueManagerJDBC.deleteQueue(queue.getId());
         }
     }
 }
