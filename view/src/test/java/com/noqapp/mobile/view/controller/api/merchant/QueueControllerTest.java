@@ -86,7 +86,6 @@ class QueueControllerTest {
     @Mock private TokenQueueMobileService tokenQueueMobileService;
     @Mock private MedicalRecordService medicalRecordService;
     @Mock private PurchaseOrderService purchaseOrderService;
-    @Mock private FirebaseService firebaseService;
     @Mock private DeviceService deviceService;
 
     @Mock private HttpServletResponse response;

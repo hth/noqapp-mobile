@@ -1,9 +1,9 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.domain.BizStoreEntity.UNDER_SCORE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
@@ -582,9 +582,8 @@ class QueueControllerITest extends ITest {
             new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()),
             httpServletResponse
         );
-        JsonToken jsonToken = new ObjectMapper().readValue(joinQueue, JsonToken.class);
-        assertEquals(QueueStatusEnum.C, jsonToken.getQueueStatus());
-        assertEquals(0, jsonToken.getToken());
+        ErrorJsonList errorJsonList = new ObjectMapper().readValue(joinQueue, ErrorJsonList.class);
+        assertEquals(STORE_DAY_CLOSED.getCode(), errorJsonList.getError().getSystemErrorCode());
 
         String topics = queueController.getQueues(
             new ScrubbedInput(did),
@@ -610,9 +609,8 @@ class QueueControllerITest extends ITest {
             new ScrubbedInput(jsonTopic.getTopics().iterator().next().getCodeQR()),
             httpServletResponse
         );
-        JsonToken jsonToken1 = new ObjectMapper().readValue(dispenseToken1, JsonToken.class);
-        assertEquals(QueueStatusEnum.C, jsonToken1.getQueueStatus());
-        assertEquals(0, jsonToken1.getToken());
+        errorJsonList = new ObjectMapper().readValue(dispenseToken1, ErrorJsonList.class);
+        assertEquals(STORE_DAY_CLOSED.getCode(), errorJsonList.getError().getSystemErrorCode());
 
         String dispenseToken2 = queueController.dispenseTokenWithoutClientInfo(
             new ScrubbedInput(did),
@@ -622,9 +620,8 @@ class QueueControllerITest extends ITest {
             new ScrubbedInput(jsonTopic.getTopics().iterator().next().getCodeQR()),
             httpServletResponse
         );
-        JsonToken jsonToken2 = new ObjectMapper().readValue(dispenseToken2, JsonToken.class);
-        assertEquals(QueueStatusEnum.C, jsonToken2.getQueueStatus());
-        assertEquals(0, jsonToken2.getToken());
+        errorJsonList = new ObjectMapper().readValue(dispenseToken2, ErrorJsonList.class);
+        assertEquals(STORE_DAY_CLOSED.getCode(), errorJsonList.getError().getSystemErrorCode());
 
         /* Reset State of Queue to Day Closed as False and Prevent Joining as False. */
         resetQueueAsOpen(bizStore, queueUserAccount);
