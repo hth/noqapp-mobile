@@ -100,8 +100,6 @@ public class AdvertisementMobileService {
                     .setBusinessName(null)
                     .setAdvertisementViewerType(advertisement.getAdvertisementViewerType())
             );
-
-
         }
 
         MedicalRecordEntity medicalRecord = medicalRecordManager.findByBizNameId(bizNameId);
