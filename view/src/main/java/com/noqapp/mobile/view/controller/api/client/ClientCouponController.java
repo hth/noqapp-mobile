@@ -10,6 +10,8 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.PurchaseOrderEntity;
+import com.noqapp.domain.json.JsonCouponList;
+import com.noqapp.domain.types.CouponGroupEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.client.Location;
@@ -156,7 +158,10 @@ public class ClientCouponController {
         }
 
         try {
-            return couponService.findActiveClientCouponByQidAsJson(qid, codeQR.getText()).asJson();
+            JsonCouponList myCoupons = couponService.findActiveClientCouponByQidAsJson(qid, codeQR.getText());
+            JsonCouponList globalCoupon = couponService.findAllGlobalCouponForClient(codeQR.getText());
+            myCoupons.getCoupons().addAll(globalCoupon.getCoupons());
+            return myCoupons.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting personal coupons business specific for reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
