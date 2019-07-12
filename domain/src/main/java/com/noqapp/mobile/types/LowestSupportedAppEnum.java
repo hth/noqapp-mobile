@@ -44,7 +44,7 @@ public enum LowestSupportedAppEnum {
     VAMH("1.2.278",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMH,
-        "1.2.278",                      //Latest App Version on Play Store
+        "1.2.283",                      //Latest App Version on Play Store
         "Version Android Merchant HealthCare"),
 
     VAMT("1.2.278",                     //Oldest Supported App Version in String
