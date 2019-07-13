@@ -79,7 +79,7 @@ subprojects {
     }
 
     checkstyle {
-        toolVersion = '8.21'
+        toolVersion = '8.22'
         ignoreFailures = true
         configDir = file("$rootProject.projectDir/config/checkstyle")
     }
@@ -90,7 +90,7 @@ subprojects {
 
     pmd {
         ignoreFailures = true
-        toolVersion = '6.15.0'
+        toolVersion = '6.16.0'
 
         ruleSets = [
                 "java-basic",
@@ -122,7 +122,7 @@ subprojects {
                     "Implementation-Vendor": "NoQueue Inc",
                     "Implementation-Title": rootProject.name,
                     "Implementation-Version": allprojects.version + " $env",
-                    "Copyright" : "2016-2019, NoQueue Inc"
+                    "Copyright": "2016-2019, NoQueue Inc"
             )
         }
     }
@@ -135,7 +135,7 @@ subprojects {
     }
 
     jacoco {
-        toolVersion = "0.8.3"
+        toolVersion = "0.8.4"
     }
 
     repositories {
@@ -218,7 +218,7 @@ subprojects {
         implementation "com.google.maps:google-maps-services:$googleMapsServices"
         implementation "com.googlecode.libphonenumber:libphonenumber:$libphonenumber"
         implementation "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239"
-        implementation ("com.google.firebase:firebase-admin:$firebase") {
+        implementation("com.google.firebase:firebase-admin:$firebase") {
             exclude group: 'com.google.guava'
         }
 
@@ -528,7 +528,7 @@ task prepWar(dependsOn: [
 
             into warGeoDBDir
         }
-        
+
         copy {
             from "view/environment/$env/logback.xml"
             from 'view/resources/conf/messages.properties'
