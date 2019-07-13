@@ -41,9 +41,10 @@ class TokenQueueControllerITest extends ITest {
     @BeforeEach
     void setUp() {
         this.tokenQueueController = new TokenQueueController(
-                tokenQueueMobileService,
-                queueMobileService,
-                apiHealthService
+            tokenQueueMobileService,
+            joinAbortService,
+            queueMobileService,
+            apiHealthService
         );
     }
 
@@ -66,10 +67,10 @@ class TokenQueueControllerITest extends ITest {
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
         String queueState = tokenQueueController.getQueueState(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(bizStore.getCodeQR()),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(bizStore.getCodeQR()),
+            httpServletResponse
         );
 
         JsonQueue jsonQueue = new ObjectMapper().readValue(queueState, JsonQueue.class);
@@ -79,9 +80,9 @@ class TokenQueueControllerITest extends ITest {
     @DisplayName("Get all joined queues before join")
     private void getAllJoinedQueues_Before_Join() throws IOException {
         String allJoinedQueues = tokenQueueController.getAllJoinedQueues(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            httpServletResponse
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());
@@ -91,10 +92,10 @@ class TokenQueueControllerITest extends ITest {
     @DisplayName("Get Historical Queues before join")
     private void getAllHistoricalJoinedQueues_Before_Join() throws IOException {
         String allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-                new DeviceToken(fcmToken, model, osVersion, appVersion).asJson()
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
+            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson()
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());
@@ -107,10 +108,10 @@ class TokenQueueControllerITest extends ITest {
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
         String afterJoin = tokenQueueController.joinQueue(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(bizStore.getCodeQR()),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(bizStore.getCodeQR()),
+            httpServletResponse
         );
         JsonToken jsonToken = new ObjectMapper().readValue(afterJoin, JsonToken.class);
         assertEquals(QueueStatusEnum.S, jsonToken.getQueueStatus());
@@ -119,9 +120,9 @@ class TokenQueueControllerITest extends ITest {
     @DisplayName("Get all joined queues after join")
     private void getAllJoinedQueues_After_Joined() throws IOException {
         String allJoinedQueues = tokenQueueController.getAllJoinedQueues(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            httpServletResponse
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());
@@ -134,19 +135,19 @@ class TokenQueueControllerITest extends ITest {
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
         tokenQueueController.abortQueue(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(bizStore.getCodeQR()),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(bizStore.getCodeQR()),
+            httpServletResponse
         );
     }
 
     @DisplayName("Get all currently joined queues after join")
     private void getAllJoinedQueues_After_Abort() throws IOException {
         String allJoinedQueues = tokenQueueController.getAllJoinedQueues(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            httpServletResponse
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());
@@ -157,10 +158,10 @@ class TokenQueueControllerITest extends ITest {
     private void allHistoricalJoinedQueues_After_Abort() throws IOException {
         /* For the first time fetches from beginning. */
         String allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-                new DeviceToken(fcmToken, model, osVersion, appVersion).asJson()
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
+            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson()
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertTrue(jsonTokenAndQueueList.isSinceBeginning());
@@ -172,10 +173,10 @@ class TokenQueueControllerITest extends ITest {
 
         /* On second fetch, its not complete history, gets latest. */
         allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-                new DeviceToken(fcmToken, model, osVersion, appVersion).asJson()
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
+            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson()
         );
         jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());
@@ -183,10 +184,10 @@ class TokenQueueControllerITest extends ITest {
 
         /* After changing device Id, it is assumed to be a new user. This person has no history. */
         allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
-                new ScrubbedInput(UUID.randomUUID().toString()),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-                new DeviceToken(fcmToken, model, osVersion, appVersion).asJson()
+            new ScrubbedInput(UUID.randomUUID().toString()),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
+            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson()
         );
         jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());

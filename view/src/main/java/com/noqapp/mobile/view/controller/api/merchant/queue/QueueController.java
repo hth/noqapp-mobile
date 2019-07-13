@@ -49,13 +49,15 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.ChangeUserInQueue;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.service.DeviceService;
+import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.DeviceService;
+import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
@@ -113,6 +115,7 @@ public class QueueController {
     private BusinessUserStoreService businessUserStoreService;
     private TokenQueueService tokenQueueService;
     private TokenQueueMobileService tokenQueueMobileService;
+    private JoinAbortService joinAbortService;
     private AccountService accountService;
     private BusinessCustomerService businessCustomerService;
     private PurchaseOrderService purchaseOrderService;
@@ -133,6 +136,7 @@ public class QueueController {
         BusinessUserStoreService businessUserStoreService,
         TokenQueueService tokenQueueService,
         TokenQueueMobileService tokenQueueMobileService,
+        JoinAbortService joinAbortService,
         AccountService accountService,
         BusinessCustomerService businessCustomerService,
         PurchaseOrderService purchaseOrderService,
@@ -147,6 +151,7 @@ public class QueueController {
         this.businessUserStoreService = businessUserStoreService;
         this.tokenQueueService = tokenQueueService;
         this.tokenQueueMobileService = tokenQueueMobileService;
+        this.joinAbortService = joinAbortService;
         this.accountService = accountService;
         this.businessCustomerService = businessCustomerService;
         this.purchaseOrderService = purchaseOrderService;
@@ -695,7 +700,7 @@ public class QueueController {
         }
 
         try {
-            return tokenQueueMobileService.joinQueue(
+            return joinAbortService.joinQueue(
                 codeQR.getText(),
                 CommonUtil.appendRandomToDeviceId(did.getText()),
                 bizStore.getAverageServiceTime(),
@@ -808,7 +813,7 @@ public class QueueController {
 
             JsonToken jsonToken;
             if (bizStore.isEnabledPayment()) {
-                jsonToken = tokenQueueMobileService.skipPayBeforeJoinQueue(
+                jsonToken = joinAbortService.skipPayBeforeJoinQueue(
                     businessCustomer.getCodeQR(),
                     DeviceService.getExistingDeviceId(registeredDevice, did.getText()),
                     userProfile.getQueueUserId(),
@@ -816,7 +821,7 @@ public class QueueController {
                     bizStore,
                     TokenServiceEnum.M);
             } else {
-                jsonToken = tokenQueueMobileService.joinQueue(
+                jsonToken = joinAbortService.joinQueue(
                     businessCustomer.getCodeQR(),
                     DeviceService.getExistingDeviceId(registeredDevice, did.getText()),
                     userProfile.getQueueUserId(),
@@ -1114,7 +1119,7 @@ public class QueueController {
             /* Abort when Refund is initiated by merchant. */
             switch (queue.getQueueUserState()) {
                 case Q:
-                    tokenQueueMobileService.abort(queue.getId(), queue.getCodeQR());
+                    joinAbortService.abort(queue.getId(), queue.getCodeQR());
                     break;
                 case I:
                 case A:

@@ -27,7 +27,7 @@ import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.service.DeviceService;
+import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.controller.open.DeviceController;
@@ -89,7 +89,7 @@ public class MerchantProfileController {
     private ApiHealthService apiHealthService;
     private ImageCommonHelper imageCommonHelper;
     private ImageValidator imageValidator;
-    private DeviceService deviceService;
+    private DeviceMobileService deviceMobileService;
     private BizService bizService;
     private ReviewService reviewService;
     private AccountMobileService accountMobileService;
@@ -104,7 +104,7 @@ public class MerchantProfileController {
         ApiHealthService apiHealthService,
         ImageCommonHelper imageCommonHelper,
         ImageValidator imageValidator,
-        DeviceService deviceService,
+        DeviceMobileService deviceMobileService,
         BizService bizService,
         ReviewService reviewService,
         AccountMobileService accountMobileService
@@ -117,7 +117,7 @@ public class MerchantProfileController {
         this.apiHealthService = apiHealthService;
         this.imageCommonHelper = imageCommonHelper;
         this.imageValidator = imageValidator;
-        this.deviceService = deviceService;
+        this.deviceMobileService = deviceMobileService;
         this.bizService = bizService;
         this.reviewService = reviewService;
         this.accountMobileService = accountMobileService;
@@ -179,9 +179,9 @@ public class MerchantProfileController {
             }
 
             /* Register Merchant device after login. */
-            if (!deviceService.isDeviceRegistered(qid, did.getText())) {
+            if (!deviceMobileService.isDeviceRegistered(qid, did.getText())) {
                 LOG.info("Registering device during profile fetch for appFlavor={}", appFlavor);
-                deviceService.updateRegisteredDevice(qid, did.getText(), DeviceTypeEnum.valueOf(dt.getText()));
+                deviceMobileService.updateRegisteredDevice(qid, did.getText(), DeviceTypeEnum.valueOf(dt.getText()));
             }
 
             /* For merchant profile no need to find remote scan. */

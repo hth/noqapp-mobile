@@ -14,7 +14,7 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.domain.DeviceRegistered;
-import com.noqapp.mobile.service.DeviceService;
+import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
@@ -53,12 +53,12 @@ public class DeviceController {
 
     private static final Logger LOG = LoggerFactory.getLogger(DeviceController.class);
 
-    private DeviceService deviceService;
+    private DeviceMobileService deviceMobileService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public DeviceController(DeviceService deviceService, ApiHealthService apiHealthService) {
-        this.deviceService = deviceService;
+    public DeviceController(DeviceMobileService deviceMobileService, ApiHealthService apiHealthService) {
+        this.deviceMobileService = deviceMobileService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -110,7 +110,7 @@ public class DeviceController {
         }
 
         try {
-            deviceService.registerDevice(
+            deviceMobileService.registerDevice(
                 null,
                 did.getText(),
                 deviceTypeEnum,

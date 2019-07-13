@@ -42,10 +42,10 @@ class AccountClientControllerITest extends ITest {
     @BeforeEach
     void setUp() {
         accountClientController = new AccountClientController(
-                accountService,
-                accountMobileService,
-                accountClientValidator,
-                deviceService
+            accountService,
+            accountMobileService,
+            accountClientValidator,
+            deviceMobileService
         );
     }
 
@@ -55,21 +55,21 @@ class AccountClientControllerITest extends ITest {
         String deviceType = DeviceTypeEnum.A.getName();
 
         Registration registration = new Registration()
-                .setPhone("+9118000000010")
-                .setFirstName("ROCKET mAniA")
-                .setMail("rocket@r.com")
-                .setPassword("password")
-                .setBirthday("2000-12-12")
-                .setGender("M")
-                .setCountryShortName("IN")
-                .setTimeZoneId("Asia/Calcutta")
-                .setInviteCode("");
+            .setPhone("+9118000000010")
+            .setFirstName("ROCKET mAniA")
+            .setMail("rocket@r.com")
+            .setPassword("password")
+            .setBirthday("2000-12-12")
+            .setGender("M")
+            .setCountryShortName("IN")
+            .setTimeZoneId("Asia/Calcutta")
+            .setInviteCode("");
 
         String profile = accountClientController.register(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                registration.asJson(),
-                httpServletResponse);
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            registration.asJson(),
+            httpServletResponse);
 
         UserProfileEntity userProfile = accountService.checkUserExistsByPhone(registration.getPhone());
         assertEquals("Rocket", userProfile.getFirstName());
@@ -105,14 +105,14 @@ class AccountClientControllerITest extends ITest {
         String deviceType = DeviceTypeEnum.A.getName();
 
         Login login = new Login()
-                .setPhone("+9118000000010")
-                .setCountryShortName("IN");
+            .setPhone("+9118000000010")
+            .setCountryShortName("IN");
 
         String profile = accountClientController.login(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                login.asJson(),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            login.asJson(),
+            httpServletResponse
         );
 
         JsonProfile jsonProfile = new ObjectMapper().readValue(profile, JsonProfile.class);
@@ -133,14 +133,14 @@ class AccountClientControllerITest extends ITest {
         String deviceType = DeviceTypeEnum.A.getName();
 
         Login login = new Login()
-                .setPhone("+9118000000011")
-                .setCountryShortName("IN");
+            .setPhone("+9118000000011")
+            .setCountryShortName("IN");
 
         String profile = accountClientController.login(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                login.asJson(),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            login.asJson(),
+            httpServletResponse
         );
 
         ErrorJsonList errorJsonList = new ObjectMapper().readValue(profile, ErrorJsonList.class);

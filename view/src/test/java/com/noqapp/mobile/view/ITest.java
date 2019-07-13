@@ -1,7 +1,6 @@
 package com.noqapp.mobile.view;
 
 import com.noqapp.common.config.FirebaseConfig;
-import com.noqapp.common.config.PaymentGatewayConfiguration;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
@@ -53,7 +52,7 @@ import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.service.DeviceService;
+import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.service.MedicalRecordMobileService;
 import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
@@ -138,6 +137,7 @@ import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.CouponService;
+import com.noqapp.service.DeviceService;
 import com.noqapp.service.EmailValidateService;
 import com.noqapp.service.ExternalService;
 import com.noqapp.service.FileService;
@@ -146,6 +146,7 @@ import com.noqapp.service.FirebaseService;
 import com.noqapp.service.FtpService;
 import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
+import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.MailService;
 import com.noqapp.service.NLPService;
 import com.noqapp.service.PreferredBusinessService;
@@ -166,21 +167,14 @@ import com.noqapp.service.transaction.TransactionService;
 import org.bson.types.ObjectId;
 
 import org.springframework.mock.env.MockEnvironment;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import okhttp3.OkHttpClient;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -211,7 +205,7 @@ public class ITest extends RealMongoForITest {
     protected UserProfilePreferenceService userProfilePreferenceService;
     protected InviteService inviteService;
     protected AccountClientValidator accountClientValidator;
-    protected DeviceService deviceService;
+    protected DeviceMobileService deviceMobileService;
     protected TokenQueueMobileService tokenQueueMobileService;
     protected TokenQueueService tokenQueueService;
     protected BizService bizService;
@@ -235,6 +229,8 @@ public class ITest extends RealMongoForITest {
     protected S3FileManager s3FileManager;
     protected ReviewService reviewService;
     protected CouponService couponService;
+    protected JoinAbortService joinAbortService;
+    protected DeviceService deviceService;
 
     protected MedicalRecordManager medicalRecordManager;
     protected MedicalPhysicalManager medicalPhysicalManager;
@@ -358,6 +354,7 @@ public class ITest extends RealMongoForITest {
         statsBizStoreDailyManager = new StatsBizStoreDailyManagerImpl(getMongoTemplate());
         scheduleAppointmentManager = new ScheduleAppointmentManagerImpl(getMongoTemplate());
         couponManager = new CouponManagerImpl(getMongoTemplate());
+        apiHealthNowManager = new ApiHealthNowManagerImpl(getMongoTemplate());
 
         generateUserIdService = new GenerateUserIdService(generateUserIdManager);
         emailValidateService = new EmailValidateService(emailValidateManager);
@@ -424,10 +421,8 @@ public class ITest extends RealMongoForITest {
 
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6, 6);
         deviceService = new DeviceService(registeredDeviceManager, userProfileManager);
-
-        apiHealthNowManager = new ApiHealthNowManagerImpl(getMongoTemplate());
+        deviceMobileService = new DeviceMobileService(registeredDeviceManager);
         apiHealthService = new ApiHealthService(apiHealthNowManager);
-
         tokenQueueManager = new TokenQueueManagerImpl(getMongoTemplate());
         storeHourManager = new StoreHourManagerImpl(getMongoTemplate());
         businessCustomerManager = new BusinessCustomerManagerImpl(getMongoTemplate());
@@ -541,21 +536,16 @@ public class ITest extends RealMongoForITest {
             cashfreeService,
             purchaseOrderProductService
         );
-        purchaseOrderMobileService = new PurchaseOrderMobileService(purchaseOrderService);
+        purchaseOrderMobileService = new PurchaseOrderMobileService(queueManager, queueManagerJDBC, purchaseOrderService, purchaseOrderProductService);
 
         tokenQueueMobileService = new TokenQueueMobileService(
-            deviceService,
             tokenQueueService,
             bizService,
             tokenQueueManager,
             queueManager,
-            queueManagerJDBC,
             professionalProfileService,
             userProfileManager,
-            businessUserStoreManager,
-            purchaseOrderService,
-            purchaseOrderProductService,
-            firebaseMessageService);
+            businessUserStoreManager);
 
         storeDetailService = new StoreDetailService(bizService, tokenQueueMobileService, storeProductService, storeCategoryService);
         bizStoreElasticManager = new BizStoreElasticManagerImpl(restHighLevelClient);
@@ -567,6 +557,15 @@ public class ITest extends RealMongoForITest {
             storeHourManager,
             apiHealthService);
 
+        joinAbortService = new JoinAbortService(
+            deviceService,
+            tokenQueueService,
+            purchaseOrderService,
+            queueManager,
+            purchaseOrderProductService,
+            bizService,
+            firebaseMessageService);
+
         queueMobileService = new QueueMobileService(
             "/webapi/mobile/mail/negativeReview.htm",
             queueManager,
@@ -576,12 +575,13 @@ public class ITest extends RealMongoForITest {
             userProfileManager,
             scheduleAppointmentManager,
             bizService,
-            deviceService,
+            deviceMobileService,
             nlpService,
             purchaseOrderService,
             purchaseOrderProductService,
             couponService,
             queueService,
+            joinAbortService,
             tokenQueueMobileService,
             firebaseMessageService,
             firebaseService,
@@ -606,7 +606,7 @@ public class ITest extends RealMongoForITest {
             accountService,
             accountMobileService,
             accountClientValidator,
-            deviceService
+            deviceMobileService
         );
 
         authenticateMobileService = new AuthenticateMobileService(

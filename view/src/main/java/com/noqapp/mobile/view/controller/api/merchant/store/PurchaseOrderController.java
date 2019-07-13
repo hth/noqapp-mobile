@@ -28,7 +28,6 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.TokenQueueEntity;
-import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderList;
 import com.noqapp.domain.json.JsonPurchaseOrderProduct;
@@ -58,7 +57,7 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.LabFile;
 import com.noqapp.mobile.domain.body.merchant.OrderServed;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.service.DeviceService;
+import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.merchant.queue.QueueController;
@@ -66,6 +65,7 @@ import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.repository.BizStoreManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.DeviceService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.exceptions.PriceMismatchException;
@@ -132,7 +132,6 @@ public class PurchaseOrderController {
     private DeviceService deviceService;
     private ApiHealthService apiHealthService;
 
-    private UserProfileManager userProfileManager;
     private BizStoreManager bizStoreManager;
     private MedicalRadiologyManager medicalRadiologyManager;
     private MedicalPathologyManager medicalPathologyManager;
@@ -144,7 +143,6 @@ public class PurchaseOrderController {
         @Value("${ManageQueueController.counterNameLength}")
         int counterNameLength,
 
-        UserProfileManager userProfileManager,
         BizStoreManager bizStoreManager,
         MedicalRadiologyManager medicalRadiologyManager,
         MedicalPathologyManager medicalPathologyManager,
@@ -161,7 +159,6 @@ public class PurchaseOrderController {
     ) {
         this.counterNameLength = counterNameLength;
 
-        this.userProfileManager = userProfileManager;
         this.bizStoreManager = bizStoreManager;
         this.medicalRadiologyManager = medicalRadiologyManager;
         this.medicalPathologyManager = medicalPathologyManager;

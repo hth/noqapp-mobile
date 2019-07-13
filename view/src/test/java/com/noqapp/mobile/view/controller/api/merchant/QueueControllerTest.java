@@ -28,7 +28,6 @@ import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.service.DeviceService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.queue.QueueController;
@@ -36,7 +35,8 @@ import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.service.FirebaseService;
+import com.noqapp.service.DeviceService;
+import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
@@ -84,6 +84,7 @@ class QueueControllerTest {
     @Mock private AccountService accountService;
     @Mock private BusinessCustomerService businessCustomerService;
     @Mock private TokenQueueMobileService tokenQueueMobileService;
+    @Mock private JoinAbortService joinAbortService;
     @Mock private MedicalRecordService medicalRecordService;
     @Mock private PurchaseOrderService purchaseOrderService;
     @Mock private DeviceService deviceService;
@@ -107,6 +108,7 @@ class QueueControllerTest {
             businessUserStoreService,
             tokenQueueService,
             tokenQueueMobileService,
+            joinAbortService,
             accountService,
             businessCustomerService,
             purchaseOrderService,
@@ -442,7 +444,7 @@ class QueueControllerTest {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
         when(tokenQueueMobileService.getBizService()).thenReturn(bizService);
         when(tokenQueueMobileService.getBizService().findByCodeQR(anyString())).thenReturn(new BizStoreEntity().setAverageServiceTime(100));
-        when(tokenQueueMobileService.joinQueue(anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(jsonToken);
+        when(joinAbortService.joinQueue(anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(jsonToken);
 
         String responseJson = queueController.dispenseTokenWithoutClientInfo(
             new ScrubbedInput(""),
@@ -454,7 +456,7 @@ class QueueControllerTest {
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
         verify(tokenQueueMobileService.getBizService(), times(1)).findByCodeQR(any(String.class));
-        verify(tokenQueueMobileService, times(1)).joinQueue(anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class));
+        verify(joinAbortService, times(1)).joinQueue(anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class));
 
         JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
         assertEquals(11, jo.get("t").getAsInt());
