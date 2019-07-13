@@ -1,6 +1,5 @@
 package com.noqapp.mobile.service;
 
-import static com.noqapp.common.utils.AbstractDomain.ISO8601_FMT;
 import static com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE.TV;
 
 import com.noqapp.common.utils.DateUtil;
@@ -20,8 +19,6 @@ import com.noqapp.repository.StatsVigyaapanStoreDailyManager;
 import com.noqapp.service.AdvertisementService;
 import com.noqapp.service.ProfessionalProfileService;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,11 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.TimeZone;
-import java.util.UUID;
 
 /**
  * hitender
