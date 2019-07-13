@@ -79,7 +79,7 @@ subprojects {
     }
 
     checkstyle {
-        toolVersion = '8.21'
+        toolVersion = '8.22'
         ignoreFailures = true
         configDir = file("$rootProject.projectDir/config/checkstyle")
     }
@@ -90,7 +90,7 @@ subprojects {
 
     pmd {
         ignoreFailures = true
-        toolVersion = '6.15.0'
+        toolVersion = '6.16.0'
 
         ruleSets = [
                 "java-basic",
@@ -135,7 +135,7 @@ subprojects {
     }
 
     jacoco {
-        toolVersion = "0.8.3"
+        toolVersion = "0.8.4"
     }
 
     repositories {
