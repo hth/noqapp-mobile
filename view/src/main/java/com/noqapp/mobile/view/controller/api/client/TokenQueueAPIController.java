@@ -40,12 +40,13 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
-import com.noqapp.repository.ScheduleAppointmentManager;
+import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.exceptions.PurchaseOrderCancelException;
@@ -94,8 +95,10 @@ public class TokenQueueAPIController {
     private static final Logger LOG = LoggerFactory.getLogger(TokenQueueAPIController.class);
 
     private TokenQueueMobileService tokenQueueMobileService;
+    private JoinAbortService joinAbortService;
     private QueueMobileService queueMobileService;
     private AuthenticateMobileService authenticateMobileService;
+    private PurchaseOrderMobileService purchaseOrderMobileService;
     private PurchaseOrderService purchaseOrderService;
     private ScheduleAppointmentService scheduleAppointmentService;
     private ApiHealthService apiHealthService;
@@ -103,16 +106,20 @@ public class TokenQueueAPIController {
     @Autowired
     public TokenQueueAPIController(
         TokenQueueMobileService tokenQueueMobileService,
+        JoinAbortService joinAbortService,
         QueueMobileService queueMobileService,
         AuthenticateMobileService authenticateMobileService,
         PurchaseOrderService purchaseOrderService,
+        PurchaseOrderMobileService purchaseOrderMobileService,
         ScheduleAppointmentService scheduleAppointmentService,
         ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
+        this.joinAbortService = joinAbortService;
         this.queueMobileService = queueMobileService;
         this.authenticateMobileService = authenticateMobileService;
         this.purchaseOrderService = purchaseOrderService;
+        this.purchaseOrderMobileService = purchaseOrderMobileService;
         this.scheduleAppointmentService = scheduleAppointmentService;
         this.apiHealthService = apiHealthService;
     }
@@ -419,7 +426,7 @@ public class TokenQueueAPIController {
             LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
 
             if (!bizStore.isEnabledPayment()) {
-                return tokenQueueMobileService.joinQueue(
+                return joinAbortService.joinQueue(
                     joinQueue.getCodeQR(),
                     did.getText(),
                     joinQueue.getQueueUserId(),
@@ -484,7 +491,7 @@ public class TokenQueueAPIController {
 
         try {
             LOG.info("Pay Before codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
-            JsonToken jsonToken =  tokenQueueMobileService.payBeforeJoinQueue(
+            JsonToken jsonToken =  joinAbortService.payBeforeJoinQueue(
                 joinQueue.getCodeQR(),
                 did.getText(),
                 joinQueue.getQueueUserId(),
@@ -598,11 +605,11 @@ public class TokenQueueAPIController {
             );
 
             if (paymentStatus != PaymentStatusEnum.PA || purchaseOrder.getPresentOrderState() != PurchaseOrderStateEnum.PO) {
-                tokenQueueMobileService.deleteReferenceToTransactionId(purchaseOrder.getCodeQR(), purchaseOrder.getTransactionId());
+                joinAbortService.deleteReferenceToTransactionId(purchaseOrder.getCodeQR(), purchaseOrder.getTransactionId());
                 return getErrorReason("Payment Failed", QUEUE_JOIN_PAYMENT_FAILED);
             }
 
-            JsonToken jsonToken = tokenQueueMobileService.updateWhenPaymentSuccessful(purchaseOrder.getCodeQR(), purchaseOrder.getTransactionId())
+            JsonToken jsonToken = joinAbortService.updateWhenPaymentSuccessful(purchaseOrder.getCodeQR(), purchaseOrder.getTransactionId())
                 .setJsonPurchaseOrder(new JsonPurchaseOrder(purchaseOrder));
 
             return jsonToken.asJson();
@@ -668,7 +675,7 @@ public class TokenQueueAPIController {
                 return ErrorEncounteredJson.toJson("Cannot accept payment when already accepted", ORDER_PAYMENT_PAID_ALREADY_FAILED);
             }
 
-            JsonResponseWithCFToken jsonResponseWithCFToken = tokenQueueMobileService.createTokenForPaymentGateway(
+            JsonResponseWithCFToken jsonResponseWithCFToken = joinAbortService.createTokenForPaymentGateway(
                 jsonPurchaseOrder.getQueueUserId(),
                 jsonPurchaseOrder.getCodeQR(),
                 jsonPurchaseOrder.getTransactionId());
@@ -734,7 +741,7 @@ public class TokenQueueAPIController {
                 return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
             }
 
-            tokenQueueMobileService.deleteReferenceToTransactionId(jsonToken.getCodeQR(), jsonToken.getJsonPurchaseOrder().getTransactionId());
+            joinAbortService.deleteReferenceToTransactionId(jsonToken.getCodeQR(), jsonToken.getJsonPurchaseOrder().getTransactionId());
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating with cashfree notification reason={}", e.getLocalizedMessage(), e);
@@ -787,7 +794,7 @@ public class TokenQueueAPIController {
         }
 
         try {
-            JsonPurchaseOrder jsonPurchaseOrder = tokenQueueMobileService.findQueueThatHasTransaction(codeQR.getText(), qid, Integer.parseInt(token.getText()));
+            JsonPurchaseOrder jsonPurchaseOrder = purchaseOrderMobileService.findQueueThatHasTransaction(codeQR.getText(), qid, Integer.parseInt(token.getText()));
             if (null == jsonPurchaseOrder) {
                 LOG.warn("No order found for codeQR={} qid={} token={}", codeQR, qid, token);
                 getErrorReason("Could not find any order associated", PURCHASE_ORDER_NOT_FOUND);
@@ -847,7 +854,7 @@ public class TokenQueueAPIController {
         }
 
         try {
-            return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), qid).asJson();
+            return joinAbortService.abortQueue(codeQR.getText(), did.getText(), qid).asJson();
         } catch (PurchaseOrderRefundExternalException e) {
             LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage());
             return getErrorReason(

@@ -1,6 +1,5 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -48,14 +47,15 @@ class ReviewControllerITest extends ITest {
     @BeforeEach
     void setUp() {
         reviewController = new ReviewController(
-                tokenQueueMobileService,
-                queueMobileService,
-                reviewService,
-                apiHealthService
+            tokenQueueMobileService,
+            queueMobileService,
+            reviewService,
+            apiHealthService
         );
 
         tokenQueueController = new TokenQueueController(
             tokenQueueMobileService,
+            joinAbortService,
             queueMobileService,
             apiHealthService
         );
@@ -65,17 +65,17 @@ class ReviewControllerITest extends ITest {
     @DisplayName("Service fails when code QR does not exists")
     void service_fails_when_codeQR_DoesNotExists() {
         QueueReview queueReview = new QueueReview()
-                .setCodeQR(did)
-                .setToken(1)
-                .setRatingCount(5)
-                .setHoursSaved(1)
-                .setReview("This is review");
+            .setCodeQR(did)
+            .setToken(1)
+            .setRatingCount(5)
+            .setHoursSaved(1)
+            .setReview("This is review");
 
         String response = reviewController.queue(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                queueReview,
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            queueReview,
+            httpServletResponse
         );
 
         assertNull(response);
@@ -88,18 +88,18 @@ class ReviewControllerITest extends ITest {
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
         String beforeJoin = tokenQueueController.getQueueState(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(bizStore.getCodeQR()),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(bizStore.getCodeQR()),
+            httpServletResponse
         );
         JsonQueue jsonQueue = new ObjectMapper().readValue(beforeJoin, JsonQueue.class);
 
         String afterJoin = tokenQueueController.joinQueue(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(jsonQueue.getCodeQR()),
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(jsonQueue.getCodeQR()),
+            httpServletResponse
         );
         JsonToken jsonToken = new ObjectMapper().readValue(afterJoin, JsonToken.class);
         assertEquals(QueueStatusEnum.S, jsonToken.getQueueStatus());
@@ -127,12 +127,12 @@ class ReviewControllerITest extends ITest {
 
         /* When no more to serve, service is done. Queue state is set to Done. */
         nextInQueue = queueService.updateAndGetNextInQueue(
-                bizStore.getCodeQR(),
-                queue.getTokenNumber(),
-                QueueUserStateEnum.S,
-                "Go To Counter",
-                sid,
-                TokenServiceEnum.M);
+            bizStore.getCodeQR(),
+            queue.getTokenNumber(),
+            QueueUserStateEnum.S,
+            "Go To Counter",
+            sid,
+            TokenServiceEnum.M);
         assertEquals(QueueStatusEnum.D, nextInQueue.getQueueStatus());
         TokenQueueEntity tokenQueueAfterReachingDoneWhenThereIsNoNext = queueMobileService.getTokenQueueByCodeQR(bizStore.getCodeQR());
         assertEquals(QueueStatusEnum.D, tokenQueueAfterReachingDoneWhenThereIsNoNext.getQueueStatus());
@@ -155,18 +155,18 @@ class ReviewControllerITest extends ITest {
 
     private void submitReview(BizStoreEntity bizStore, JsonToken jsonToken) throws IOException {
         QueueReview queueReview = new QueueReview()
-                .setCodeQR(bizStore.getCodeQR())
-                .setToken(jsonToken.getToken())
-                .setRatingCount(5)
-                .setHoursSaved(1)
-                .setReview("This is a good review");
+            .setCodeQR(bizStore.getCodeQR())
+            .setToken(jsonToken.getToken())
+            .setRatingCount(5)
+            .setHoursSaved(1)
+            .setReview("This is a good review");
 
         /* Fails to update as its still under Queued state. */
         String response = reviewController.queue(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                queueReview,
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            queueReview,
+            httpServletResponse
         );
         JsonResponse jsonResponse = new ObjectMapper().readValue(response, JsonResponse.class);
         assertEquals(1, jsonResponse.getResponse());

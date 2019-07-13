@@ -65,9 +65,11 @@ class HistoricalAPIControllerITest extends ITest {
 
         tokenQueueAPIController = new TokenQueueAPIController(
             tokenQueueMobileService,
+            joinAbortService,
             queueMobileService,
             authenticateMobileService,
             purchaseOrderService,
+            purchaseOrderMobileService,
             scheduleAppointmentService,
             apiHealthService
         );

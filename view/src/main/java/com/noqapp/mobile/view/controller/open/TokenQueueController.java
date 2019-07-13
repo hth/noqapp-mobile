@@ -18,6 +18,7 @@ import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController;
+import com.noqapp.service.JoinAbortService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -56,16 +57,19 @@ public class TokenQueueController {
     private static final Logger LOG = LoggerFactory.getLogger(TokenQueueController.class);
 
     private TokenQueueMobileService tokenQueueMobileService;
+    private JoinAbortService joinAbortService;
     private QueueMobileService queueMobileService;
     private ApiHealthService apiHealthService;
 
     @Autowired
     public TokenQueueController(
         TokenQueueMobileService tokenQueueMobileService,
+        JoinAbortService joinAbortService,
         QueueMobileService queueMobileService,
         ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
+        this.joinAbortService = joinAbortService;
         this.queueMobileService = queueMobileService;
         this.apiHealthService = apiHealthService;
     }
@@ -323,7 +327,7 @@ public class TokenQueueController {
         }
 
         try {
-            return tokenQueueMobileService.joinQueue(
+            return joinAbortService.joinQueue(
                 codeQR.getText(),
                 did.getText(),
                 null,
@@ -370,7 +374,7 @@ public class TokenQueueController {
         }
 
         try {
-            return tokenQueueMobileService.abortQueue(codeQR.getText(), did.getText(), null).asJson();
+            return joinAbortService.abortQueue(codeQR.getText(), did.getText(), null).asJson();
         } catch (Exception e) {
             LOG.error("Failed aborting queue did={}, reason={}", did, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

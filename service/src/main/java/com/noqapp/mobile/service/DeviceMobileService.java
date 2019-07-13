@@ -2,14 +2,11 @@ package com.noqapp.mobile.service;
 
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
-import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.domain.RegisteredDeviceEntity;
-import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.RegisteredDeviceManager;
-import com.noqapp.repository.UserProfileManager;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -34,21 +31,16 @@ import java.util.concurrent.ExecutorService;
     "PMD.LongVariable"
 })
 @Service
-public class DeviceService {
-    private static final Logger LOG = LoggerFactory.getLogger(DeviceService.class);
+public class DeviceMobileService {
+    private static final Logger LOG = LoggerFactory.getLogger(DeviceMobileService.class);
 
     private RegisteredDeviceManager registeredDeviceManager;
-    private UserProfileManager userProfileManager;
 
     private ExecutorService executorService;
 
     @Autowired
-    public DeviceService(
-        RegisteredDeviceManager registeredDeviceManager,
-        UserProfileManager userProfileManager
-    ) {
+    public DeviceMobileService(RegisteredDeviceManager registeredDeviceManager) {
         this.registeredDeviceManager = registeredDeviceManager;
-        this.userProfileManager = userProfileManager;
 
         this.executorService = newCachedThreadPool();
     }
@@ -157,46 +149,5 @@ public class DeviceService {
 
     void unsetQidForDevice(String id) {
         registeredDeviceManager.unsetQidForDevice(id);
-    }
-
-    public RegisteredDeviceEntity findRecentDevice(String qid) {
-        return registeredDeviceManager.findRecentDevice(qid);
-    }
-
-    public RegisteredDeviceEntity findByDid(String did) {
-        return registeredDeviceManager.findByDid(did);
-    }
-
-    public String getExistingDeviceId(String qid, String notUserDeviceId) {
-        RegisteredDeviceEntity registeredDevice = registeredDeviceManager.findRecentDevice(qid);
-        if (null == registeredDevice) {
-            return CommonUtil.appendRandomToDeviceId(notUserDeviceId);
-        } else {
-            return registeredDevice.getDeviceId();
-        }
-    }
-
-    public static String getExistingDeviceId(RegisteredDeviceEntity registeredDevice, String notUserDeviceId) {
-        if (null == registeredDevice) {
-            return CommonUtil.appendRandomToDeviceId(notUserDeviceId);
-        } else {
-            return registeredDevice.getDeviceId();
-        }
-    }
-
-    public RegisteredDeviceEntity findRegisteredDeviceByQid(String qid) {
-        return findDeviceByUserProfile(userProfileManager.findByQueueUserId(qid));
-    }
-
-    public RegisteredDeviceEntity findDeviceByUserProfile(UserProfileEntity userProfile) {
-        RegisteredDeviceEntity registeredDevice;
-        if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
-            String guardianQid = userProfileManager.findOneByPhone(userProfile.getGuardianPhone()).getQueueUserId();
-            registeredDevice = findRecentDevice(guardianQid);
-        } else {
-            registeredDevice = findRecentDevice(userProfile.getQueueUserId());
-        }
-
-        return registeredDevice;
     }
 }

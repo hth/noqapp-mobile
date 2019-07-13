@@ -24,7 +24,7 @@ import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.service.DeviceService;
+import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
@@ -71,7 +71,7 @@ public class DependentAPIController {
     private AccountService accountService;
     private AccountMobileService accountMobileService;
     private AccountClientValidator accountClientValidator;
-    private DeviceService deviceService;
+    private DeviceMobileService deviceMobileService;
     private AuthenticateMobileService authenticateMobileService;
     private ApiHealthService apiHealthService;
 
@@ -80,14 +80,14 @@ public class DependentAPIController {
         AccountService accountService,
         AccountMobileService accountMobileService,
         AccountClientValidator accountClientValidator,
-        DeviceService deviceService,
+        DeviceMobileService deviceMobileService,
         AuthenticateMobileService authenticateMobileService,
         ApiHealthService apiHealthService
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
         this.accountClientValidator = accountClientValidator;
-        this.deviceService = deviceService;
+        this.deviceMobileService = deviceMobileService;
         this.authenticateMobileService = authenticateMobileService;
         this.apiHealthService = apiHealthService;
     }
@@ -239,7 +239,7 @@ public class DependentAPIController {
                             LOG.error("Failed dependent parsing deviceType, reason={}", e.getLocalizedMessage(), e);
                             return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                         }
-                        deviceService.updateRegisteredDevice(qid, did.getText(), deviceTypeEnum);
+                        deviceMobileService.updateRegisteredDevice(qid, did.getText(), deviceTypeEnum);
                         return accountMobileService.getProfileAsJson(qid).asJson();
                     } catch (DuplicateAccountException e) {
                         LOG.info("Failed dependent user registration as already exists phone={} mail={}", phone, dependentMail);

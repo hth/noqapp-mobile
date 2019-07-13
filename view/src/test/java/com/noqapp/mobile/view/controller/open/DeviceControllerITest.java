@@ -39,8 +39,8 @@ class DeviceControllerITest extends ITest {
     @BeforeEach
     void setUp() {
         deviceController = new DeviceController(
-                deviceService,
-                apiHealthService
+            deviceMobileService,
+            apiHealthService
         );
     }
 
@@ -50,17 +50,17 @@ class DeviceControllerITest extends ITest {
         DeviceToken deviceToken = new DeviceToken(fcmToken, model, osVersion, appVersion);
 
         String jsonDeviceRegistered = deviceController.registerDevice(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-                deviceToken.asJson()
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
+            deviceToken.asJson()
         );
 
         DeviceRegistered deviceRegistered = new ObjectMapper().readValue(jsonDeviceRegistered, DeviceRegistered.class);
         assertEquals(1, deviceRegistered.getRegistered());
 
         await().atMost(5, SECONDS).until(awaitUntilDeviceIsRegistered(did));
-        assertTrue(deviceService.isDeviceRegistered(null, did));
+        assertTrue(deviceMobileService.isDeviceRegistered(null, did));
     }
 
     @Test
@@ -68,10 +68,10 @@ class DeviceControllerITest extends ITest {
     void isSupportedWithFlavor_UpgradeRequested() throws IOException {
         String version = "1.1.220";
         String response = deviceController.isSupportedAppVersion(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-                new ScrubbedInput(version)
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
+            new ScrubbedInput(version)
         );
 
         ErrorJsonList errorJsonList = new ObjectMapper().readValue(response, ErrorJsonList.class);
@@ -83,10 +83,10 @@ class DeviceControllerITest extends ITest {
     void isSupportedWithFlavor_Success_NQCL() throws IOException {
         String version = "1.2.300";
         String response = deviceController.isSupportedAppVersion(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-                new ScrubbedInput(version)
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
+            new ScrubbedInput(version)
         );
 
         JsonLatestAppVersion jsonLatestAppVersion = new ObjectMapper().readValue(response, JsonLatestAppVersion.class);
@@ -98,10 +98,10 @@ class DeviceControllerITest extends ITest {
     void isSupportedWithFlavor_Success_NQMH() throws IOException {
         String version = "1.2.300";
         String response = deviceController.isSupportedAppVersion(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(AppFlavorEnum.NQMH.getName()),
-                new ScrubbedInput(version)
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(AppFlavorEnum.NQMH.getName()),
+            new ScrubbedInput(version)
         );
 
         JsonLatestAppVersion jsonLatestAppVersion = new ObjectMapper().readValue(response, JsonLatestAppVersion.class);
@@ -110,7 +110,7 @@ class DeviceControllerITest extends ITest {
 
     private Callable<Boolean> awaitUntilDeviceIsRegistered(String did) {
         return () -> {
-            return deviceService.isDeviceRegistered(null, did); // The condition that must be fulfilled
+            return deviceMobileService.isDeviceRegistered(null, did); // The condition that must be fulfilled
         };
     }
 }

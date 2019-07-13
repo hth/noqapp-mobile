@@ -21,7 +21,7 @@ import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_CLIENT;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT;
-import com.noqapp.mobile.service.DeviceService;
+import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
@@ -70,19 +70,19 @@ public class AccountClientController {
     private AccountService accountService;
     private AccountMobileService accountMobileService;
     private AccountClientValidator accountClientValidator;
-    private DeviceService deviceService;
+    private DeviceMobileService deviceMobileService;
 
     @Autowired
     public AccountClientController(
         AccountService accountService,
         AccountMobileService accountMobileService,
         AccountClientValidator accountClientValidator,
-        DeviceService deviceService
+        DeviceMobileService deviceMobileService
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
         this.accountClientValidator = accountClientValidator;
-        this.deviceService = deviceService;
+        this.deviceMobileService = deviceMobileService;
     }
 
     @PostMapping(
@@ -223,7 +223,7 @@ public class AccountClientController {
                         LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
                         return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                     }
-                    deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
+                    deviceMobileService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
                     return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
                 } catch (DuplicateAccountException e) {
                     LOG.info("Failed user registration as already exists phone={} mail={}", phone, mail);
@@ -347,7 +347,7 @@ public class AccountClientController {
                         LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
                         return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                     }
-                    deviceService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
+                    deviceMobileService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
                     return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
                 } catch (AccountNotActiveException e) {
                     LOG.error("Failed getting profile phone={}, reason={}", phone, e.getLocalizedMessage(), e);

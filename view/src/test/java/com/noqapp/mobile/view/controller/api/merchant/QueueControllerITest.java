@@ -61,6 +61,7 @@ class QueueControllerITest extends ITest {
             businessUserStoreService,
             tokenQueueService,
             tokenQueueMobileService,
+            joinAbortService,
             accountService,
             businessCustomerService,
             purchaseOrderService,
@@ -71,9 +72,11 @@ class QueueControllerITest extends ITest {
 
         tokenQueueAPIController = new TokenQueueAPIController(
             tokenQueueMobileService,
+            joinAbortService,
             queueMobileService,
             authenticateMobileService,
             purchaseOrderService,
+            purchaseOrderMobileService,
             scheduleAppointmentService,
             apiHealthService
         );

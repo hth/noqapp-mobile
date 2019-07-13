@@ -42,6 +42,7 @@ import com.noqapp.service.BizService;
 import com.noqapp.service.CouponService;
 import com.noqapp.service.FirebaseMessageService;
 import com.noqapp.service.FirebaseService;
+import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.NLPService;
 import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
@@ -88,12 +89,13 @@ public class QueueMobileService {
     private UserProfileManager userProfileManager;
     private ScheduleAppointmentManager scheduleAppointmentManager;
     private BizService bizService;
-    private DeviceService deviceService;
+    private DeviceMobileService deviceMobileService;
     private NLPService nlpService;
     private PurchaseOrderService purchaseOrderService;
     private PurchaseOrderProductService purchaseOrderProductService;
     private CouponService couponService;
     private QueueService queueService;
+    private JoinAbortService joinAbortService;
     private TokenQueueMobileService tokenQueueMobileService;
     private FirebaseMessageService firebaseMessageService;
     private FirebaseService firebaseService;
@@ -113,12 +115,13 @@ public class QueueMobileService {
         UserProfileManager userProfileManager,
         ScheduleAppointmentManager scheduleAppointmentManager,
         BizService bizService,
-        DeviceService deviceService,
+        DeviceMobileService deviceMobileService,
         NLPService nlpService,
         PurchaseOrderService purchaseOrderService,
         PurchaseOrderProductService purchaseOrderProductService,
         CouponService couponService,
         QueueService queueService,
+        JoinAbortService joinAbortService,
         TokenQueueMobileService tokenQueueMobileService,
         FirebaseMessageService firebaseMessageService,
         FirebaseService firebaseService,
@@ -133,12 +136,13 @@ public class QueueMobileService {
         this.userProfileManager = userProfileManager;
         this.scheduleAppointmentManager = scheduleAppointmentManager;
         this.bizService = bizService;
-        this.deviceService = deviceService;
+        this.deviceMobileService = deviceMobileService;
         this.nlpService = nlpService;
         this.purchaseOrderService = purchaseOrderService;
         this.purchaseOrderProductService = purchaseOrderProductService;
         this.couponService = couponService;
         this.queueService = queueService;
+        this.joinAbortService = joinAbortService;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.firebaseMessageService = firebaseMessageService;
         this.firebaseService = firebaseService;
@@ -166,7 +170,7 @@ public class QueueMobileService {
              * Since we are fetching only queues that are joined, we can send averageServiceTime as zero, and
              * tokenService as null
              */
-            JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, null, null, 0, null);
+            JsonToken jsonToken = joinAbortService.joinQueue(queue.getCodeQR(), did, null, null, 0, null);
             JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
 
             /* Override the create date of TokenAndQueue. This date helps in sorting of client side to show active queue. */
@@ -252,7 +256,7 @@ public class QueueMobileService {
         String osVersion,
         String appVersion
     ) {
-        RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(null, did, token, model, osVersion);
+        RegisteredDeviceEntity registeredDevice = deviceMobileService.lastAccessed(null, did, token, model, osVersion);
 
         /* Get all the queues that have been serviced for today. */
         List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByDid(did);
@@ -262,7 +266,7 @@ public class QueueMobileService {
         if (null == registeredDevice) {
             historyQueues = queueService.getByDid(did);
             try {
-                deviceService.registerDevice(null, did, deviceType, appFlavor, token, model, osVersion, appVersion);
+                deviceMobileService.registerDevice(null, did, deviceType, appFlavor, token, model, osVersion, appVersion);
             } catch (DeviceDetailMissingException e) {
                 LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
                 throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -271,7 +275,7 @@ public class QueueMobileService {
         } else {
             /* Unset QID for DID as user seems to have logged out of the App. */
             if (StringUtils.isNotBlank(registeredDevice.getQueueUserId())) {
-                deviceService.unsetQidForDevice(registeredDevice.getId());
+                deviceMobileService.unsetQidForDevice(registeredDevice.getId());
             }
 
             /*
@@ -306,7 +310,7 @@ public class QueueMobileService {
         String appVersion
     ) {
         Validate.isValidQid(qid);
-        RegisteredDeviceEntity registeredDevice = deviceService.lastAccessed(qid, did, token, model, osVersion);
+        RegisteredDeviceEntity registeredDevice = deviceMobileService.lastAccessed(qid, did, token, model, osVersion);
 
         /* Get all the queues that have been serviced for today. This first for sorting reasons. */
         List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByQid(qid);
@@ -316,7 +320,7 @@ public class QueueMobileService {
         if (null == registeredDevice) {
             historyQueues = queueService.getByQid(qid);
             try {
-                deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion);
+                deviceMobileService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion);
             } catch (DeviceDetailMissingException e) {
                 LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
                 throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -326,7 +330,7 @@ public class QueueMobileService {
             if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
                 try {
                     /* Save with QID when missing in registered device. */
-                    deviceService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion);
+                    deviceMobileService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion);
                 } catch (DeviceDetailMissingException e) {
                     LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
                     throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -379,7 +383,7 @@ public class QueueMobileService {
 
     private void markFetchedSinceBeginningForDevice(RegisteredDeviceEntity registeredDevice) {
         if (registeredDevice.isSinceBeginning()) {
-            deviceService.markFetchedSinceBeginningForDevice(registeredDevice.getId());
+            deviceMobileService.markFetchedSinceBeginningForDevice(registeredDevice.getId());
         }
     }
 
