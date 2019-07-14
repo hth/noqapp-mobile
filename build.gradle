@@ -306,14 +306,6 @@ subprojects {
         }
     }
 
-    tasks.withType(FindBugs) {
-        reports {
-            xml.enabled true
-            html.enabled false
-            html.stylesheet resources.text.fromFile('config/xsl/findbugs-custom.xsl')
-        }
-    }
-
     tasks.withType(JavaCompile) {
         options.incremental = true
     }
