@@ -46,10 +46,12 @@ buildscript {
     }
     dependencies {
         classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:$spotbugsPluginGradle"
+        classpath 'org.owasp:dependency-check-gradle:5.1.0'
     }
 }
 
 apply plugin: 'com.github.spotbugs'
+apply plugin: 'org.owasp.dependencycheck'
 
 allprojects {
     group = 'com.noqapp.mobile'
@@ -77,45 +79,7 @@ subprojects {
             java.srcDirs = ['src/test/java']
         }
     }
-
-    checkstyle {
-        toolVersion = '8.22'
-        ignoreFailures = true
-        configDir = file("$rootProject.projectDir/config/checkstyle")
-    }
-
-    spotbugs {
-        toolVersion = '3.1.12'
-    }
-
-    pmd {
-        ignoreFailures = true
-        toolVersion = '6.16.0'
-
-        ruleSets = [
-                "java-basic",
-                "java-braces",
-                "java-naming",
-                "java-android",
-                "java-clone",
-                "java-codesize",
-                "java-controversial",
-                "java-design",
-                "java-finalizers",
-                "java-imports",
-                "java-j2ee",
-                "java-javabeans",
-                "java-junit",
-                "java-migrating",
-                "java-optimizations",
-                "java-strictexception",
-                "java-strings",
-                "java-sunsecure",
-                "java-typeresolution",
-                "java-unusedcode"
-        ]
-    }
-
+    
     jar {
         manifest {
             attributes(
@@ -132,10 +96,6 @@ subprojects {
             downloadSources = true
             downloadJavadoc = true
         }
-    }
-
-    jacoco {
-        toolVersion = "0.8.4"
     }
 
     repositories {
@@ -288,6 +248,48 @@ subprojects {
         jacoco {
             destinationFile = file("${buildDir}/jacoco/test.exec")
         }
+    }
+
+    checkstyle {
+        toolVersion = '8.22'
+        ignoreFailures = true
+        configDir = file("$rootProject.projectDir/config/checkstyle")
+    }
+
+    pmd {
+        ignoreFailures = true
+        toolVersion = '6.16.0'
+
+        ruleSets = [
+                "java-basic",
+                "java-braces",
+                "java-naming",
+                "java-android",
+                "java-clone",
+                "java-codesize",
+                "java-controversial",
+                "java-design",
+                "java-finalizers",
+                "java-imports",
+                "java-j2ee",
+                "java-javabeans",
+                "java-junit",
+                "java-migrating",
+                "java-optimizations",
+                "java-strictexception",
+                "java-strings",
+                "java-sunsecure",
+                "java-typeresolution",
+                "java-unusedcode"
+        ]
+    }
+
+    jacoco {
+        toolVersion = "0.8.4"
+    }
+
+    spotbugs {
+        toolVersion = '3.1.12'
     }
 
     tasks.withType(SpotBugsTask) {
