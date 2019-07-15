@@ -47,6 +47,8 @@ buildscript {
     dependencies {
         classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:$spotbugsPluginGradle"
         classpath 'org.owasp:dependency-check-gradle:5.1.0'
+        //classpath 'org.owasp:dependency-check-gradle:5.1.0'
+        //classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1'
         classpath 'de.aaschmid:gradle-cpd-plugin:2.0'
     }
 }
@@ -64,7 +66,8 @@ subprojects {
     apply plugin: 'pmd'
     apply plugin: 'jacoco'      //for code coverage'
     apply plugin: 'com.github.spotbugs'
-    apply plugin: 'org.owasp.dependencycheck'
+    //apply plugin: 'org.owasp.dependencycheck'
+    //apply plugin: 'org.sonarqube'
     apply plugin: 'cpd'
 
     compileJava {
@@ -285,6 +288,11 @@ subprojects {
         ]
     }
 
+    //https://medium.com/@mladen.bolic/setting-up-static-code-analysis-for-java-3428dc79f7f9
+    //https://github.com/google/error-prone
+    //https://github.com/tbroyer/gradle-errorprone-plugin
+    //https://ci.jenkins.io/job/Plugins/job/warnings-ng-plugin/job/master/lastStableBuild/java/
+    //https://ci.jenkins.io/job/Plugins/job/warnings-ng-plugin/job/master/lastStableBuild/
     cpd {
         language = 'java'
         toolVersion = '6.1.0'
