@@ -183,21 +183,21 @@ public class UserMedicalProfileController {
                     .setStatus(true)
                     .setHeader("2 Week")
             ).addJsonImmunizationStaticData(
-                    new JsonImmunization()
-                        .setName("Fake Name")
-                        .setHeader("1 Week")
+                new JsonImmunization()
+                    .setName("Fake Name")
+                    .setHeader("1 Week")
             ).addJsonImmunizationStaticData(
-                    new JsonImmunization()
-                        .setName("Good Name")
-                        .setHeader("1 Week")
+                new JsonImmunization()
+                    .setName("Good Name")
+                    .setHeader("1 Week")
             ).addJsonImmunizationStaticData(
-                    new JsonImmunization()
-                        .setName("Done Name")
-                        .setHeader("2 Week")
+                new JsonImmunization()
+                    .setName("Done Name")
+                    .setHeader("2 Week")
             ).addJsonImmunizationStaticData(
-                    new JsonImmunization()
-                        .setName("Future Name")
-                        .setHeader("3 Week")
+                new JsonImmunization()
+                    .setName("Future Name")
+                    .setHeader("3 Week")
             ).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating user medical profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
