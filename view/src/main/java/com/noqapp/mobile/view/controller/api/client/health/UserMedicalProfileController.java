@@ -38,7 +38,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -147,13 +146,16 @@ public class UserMedicalProfileController {
         }
     }
 
-    @GetMapping(value = "/immunizationHistory", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @PostMapping(value = "/immunizationHistory", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     public String immunizationHistory(
         @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
         @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
+
+        @RequestBody
+        MedicalProfile medicalProfile,
 
         HttpServletResponse response
     ) throws IOException {
@@ -164,41 +166,44 @@ public class UserMedicalProfileController {
         if (authorizeRequest(response, qid)) return null;
 
         try {
-            return new JsonImmunizationList().addJsonImmunization(
-                new JsonImmunization()
-                    .setName("Fake Name")
-                    .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                    .setStatus(true)
-                    .setHeader("1 Week")
-            ).addJsonImmunization(
-                new JsonImmunization()
-                    .setName("Good Name")
-                    .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                    .setStatus(true)
-                    .setHeader("1 Week")
-            ).addJsonImmunization(
-                new JsonImmunization()
-                    .setName("Done Name")
-                    .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                    .setStatus(true)
-                    .setHeader("2 Week")
-            ).addJsonImmunizationStaticData(
-                new JsonImmunization()
-                    .setName("Fake Name")
-                    .setHeader("1 Week")
-            ).addJsonImmunizationStaticData(
-                new JsonImmunization()
-                    .setName("Good Name")
-                    .setHeader("1 Week")
-            ).addJsonImmunizationStaticData(
-                new JsonImmunization()
-                    .setName("Done Name")
-                    .setHeader("2 Week")
-            ).addJsonImmunizationStaticData(
-                new JsonImmunization()
-                    .setName("Future Name")
-                    .setHeader("3 Week")
-            ).asJson();
+            UserProfileEntity userProfile = userProfileManager.findByQueueUserId(medicalProfile.getMedicalProfileOfQueueUserId());
+
+            return new JsonImmunizationList()
+                .addJsonImmunization(
+                    new JsonImmunization()
+                        .setName("Fake Name")
+                        .setImmunizationDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                        .setHeader("1 Week"))
+                .addJsonImmunization(
+                    new JsonImmunization()
+                        .setName("Good Name")
+                        .setImmunizationDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                        .setHeader("1 Week"))
+                .addJsonImmunization(
+                    new JsonImmunization()
+                        .setName("Done Name")
+                        .setImmunizationDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                        .setHeader("2 Week"))
+                .addJsonImmunizationStaticData(
+                    new JsonImmunization()
+                        .setName("Fake Name")
+                        .setHeader("1 Week")
+                        .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC"))))
+                .addJsonImmunizationStaticData(
+                    new JsonImmunization()
+                        .setName("Good Name")
+                        .setHeader("1 Week"))
+                .addJsonImmunizationStaticData(
+                    new JsonImmunization()
+                        .setName("Done Name")
+                        .setHeader("2 Week")
+                        .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC"))))
+                .addJsonImmunizationStaticData(
+                    new JsonImmunization()
+                        .setName("Future Name")
+                        .setHeader("3 Week")
+                        .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                ).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating user medical profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
