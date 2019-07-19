@@ -168,6 +168,11 @@ public class UserMedicalProfileController {
                 new JsonImmunization()
                     .setName("Fake Name")
                     .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                    .setStatus(true)
+            ).addJsonImmunization(
+                new JsonImmunization()
+                    .setName("Done Name")
+                    .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
                     .setStatus(true)).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating user medical profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
