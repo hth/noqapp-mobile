@@ -575,7 +575,7 @@ public class StoreSettingController {
 
                 bizStore = bizService.updateAppointment(
                     jsonStoreSetting.getCodeQR(),
-                    jsonStoreSetting.getAppointmentState(), 
+                    jsonStoreSetting.getAppointmentState(),
                     jsonStoreSetting.getAppointmentDuration(),
                     jsonStoreSetting.getAppointmentOpenHowFar());
             } else {

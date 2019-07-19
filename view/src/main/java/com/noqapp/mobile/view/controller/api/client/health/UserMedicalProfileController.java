@@ -12,19 +12,19 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.medical.JsonImmunization;
-import com.noqapp.domain.json.medical.JsonImmunizationList;
+import com.noqapp.domain.json.medical.JsonHospitalVisitSchedule;
+import com.noqapp.domain.json.medical.JsonHospitalVisitScheduleList;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.MedicalPhysicalEntity;
 import com.noqapp.medical.domain.UserMedicalProfileEntity;
 import com.noqapp.medical.domain.json.JsonMedicalPhysical;
 import com.noqapp.medical.domain.json.JsonMedicalProfile;
+import com.noqapp.medical.service.HospitalVisitScheduleService;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.MedicalProfile;
-import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.UserMedicalProfileValidator;
@@ -73,26 +73,26 @@ public class UserMedicalProfileController {
 
     private AuthenticateMobileService authenticateMobileService;
     private UserMedicalProfileValidator userMedicalProfileValidator;
-    private AccountMobileService accountMobileService;
     private UserMedicalProfileService userMedicalProfileService;
     private MedicalRecordService medicalRecordService;
+    private HospitalVisitScheduleService hospitalVisitScheduleService;
     private ApiHealthService apiHealthService;
 
     public UserMedicalProfileController(
         UserProfileManager userProfileManager,
         AuthenticateMobileService authenticateMobileService,
         UserMedicalProfileValidator userMedicalProfileValidator,
-        AccountMobileService accountMobileService,
         UserMedicalProfileService userMedicalProfileService,
         MedicalRecordService medicalRecordService,
+        HospitalVisitScheduleService hospitalVisitScheduleService,
         ApiHealthService apiHealthService
     ) {
         this.userProfileManager = userProfileManager;
         this.userMedicalProfileValidator = userMedicalProfileValidator;
         this.authenticateMobileService = authenticateMobileService;
-        this.accountMobileService = accountMobileService;
         this.userMedicalProfileService = userMedicalProfileService;
         this.medicalRecordService = medicalRecordService;
+        this.hospitalVisitScheduleService = hospitalVisitScheduleService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -146,8 +146,8 @@ public class UserMedicalProfileController {
         }
     }
 
-    @PostMapping(value = "/immunizationHistory", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    public String immunizationHistory(
+    @PostMapping(value = "/hospitalVisitSchedule", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    public String hospitalVisitSchedule(
         @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
@@ -167,51 +167,36 @@ public class UserMedicalProfileController {
 
         try {
             UserProfileEntity userProfile = userProfileManager.findByQueueUserId(medicalProfile.getMedicalProfileOfQueueUserId());
+            List<JsonHospitalVisitSchedule> jsonHospitalVisitSchedules = hospitalVisitScheduleService.findAllAsJson(userProfile.getQueueUserId());
 
-            return new JsonImmunizationList()
-                .addJsonImmunization(
-                    new JsonImmunization()
+            return new JsonHospitalVisitScheduleList()
+                .addJsonHospitalVisitSchedule(
+                    new JsonHospitalVisitSchedule()
                         .setName("Fake Name")
-                        .setImmunizationDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                        .setVisitedDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                        .setExpectedDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
                         .setHeader("1 Week"))
-                .addJsonImmunization(
-                    new JsonImmunization()
+                .addJsonHospitalVisitSchedule(
+                    new JsonHospitalVisitSchedule()
                         .setName("Good Name")
-                        .setImmunizationDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                        .setVisitedDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                        .setExpectedDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
                         .setHeader("1 Week"))
-                .addJsonImmunization(
-                    new JsonImmunization()
+                .addJsonHospitalVisitSchedule(
+                    new JsonHospitalVisitSchedule()
                         .setName("Done Name")
-                        .setImmunizationDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                        .setHeader("2 Week"))
-                .addJsonImmunizationStaticData(
-                    new JsonImmunization()
-                        .setName("Fake Name")
-                        .setHeader("1 Week")
-                        .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC"))))
-                .addJsonImmunizationStaticData(
-                    new JsonImmunization()
-                        .setName("Good Name")
-                        .setHeader("1 Week"))
-                .addJsonImmunizationStaticData(
-                    new JsonImmunization()
-                        .setName("Done Name")
+                        .setVisitedDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                        .setExpectedDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
                         .setHeader("2 Week")
-                        .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC"))))
-                .addJsonImmunizationStaticData(
-                    new JsonImmunization()
-                        .setName("Future Name")
-                        .setHeader("3 Week")
-                        .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                ).asJson();
+            ).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating user medical profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/immunizationHistory",
-                "immunizationHistory",
+                "/hospitalVisitSchedule",
+                "hospitalVisitSchedule",
                 UserMedicalProfileController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
