@@ -5,6 +5,7 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.ScheduledTaskEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.types.ActionTypeEnum;
+import com.noqapp.domain.types.AppointmentStateEnum;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -103,8 +104,8 @@ public class JsonStoreSetting extends AbstractDomain {
     //******************************************/
     //*  Queue Appointment Setting Starts.     */
     //******************************************/
-    @JsonProperty("pe")
-    private boolean appointmentEnable;
+    @JsonProperty("ps")
+    private AppointmentStateEnum appointmentState;
 
     @JsonProperty("pd")
     private int appointmentDuration;
@@ -146,7 +147,7 @@ public class JsonStoreSetting extends AbstractDomain {
         this.freeFollowupDays = bizStore.getFreeFollowupDays();
         this.discountedFollowupDays = bizStore.getDiscountedFollowupDays();
         this.discountedFollowupProductPrice = bizStore.getDiscountedFollowupProductPrice();
-        this.appointmentEnable = bizStore.isAppointmentEnable();
+        this.appointmentState = bizStore.getAppointmentState();
         this.appointmentDuration = bizStore.getAppointmentDuration();
         this.appointmentOpenHowFar = bizStore.getAppointmentOpenHowFar();
 
@@ -179,7 +180,7 @@ public class JsonStoreSetting extends AbstractDomain {
         this.freeFollowupDays = bizStore.getFreeFollowupDays();
         this.discountedFollowupDays = bizStore.getDiscountedFollowupDays();
         this.discountedFollowupProductPrice = bizStore.getDiscountedFollowupProductPrice();
-        this.appointmentEnable = bizStore.isAppointmentEnable();
+        this.appointmentState = bizStore.getAppointmentState();
         this.appointmentDuration = bizStore.getAppointmentDuration();
         this.appointmentOpenHowFar = bizStore.getAppointmentOpenHowFar();
 
@@ -360,12 +361,12 @@ public class JsonStoreSetting extends AbstractDomain {
         return this;
     }
 
-    public boolean isAppointmentEnable() {
-        return appointmentEnable;
+    public AppointmentStateEnum getAppointmentState() {
+        return appointmentState;
     }
 
-    public JsonStoreSetting setAppointmentEnable(boolean appointmentEnable) {
-        this.appointmentEnable = appointmentEnable;
+    public JsonStoreSetting setAppointmentState(AppointmentStateEnum appointmentState) {
+        this.appointmentState = appointmentState;
         return this;
     }
 
