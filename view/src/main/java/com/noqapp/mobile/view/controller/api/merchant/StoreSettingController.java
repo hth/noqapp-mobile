@@ -573,7 +573,11 @@ public class StoreSettingController {
                             CANNOT_ACCEPT_APPOINTMENT);
                 }
 
-                bizStore = bizService.updateAppointment(jsonStoreSetting.getCodeQR(), jsonStoreSetting.getAppointmentDuration(), jsonStoreSetting.getAppointmentOpenHowFar());
+                bizStore = bizService.updateAppointment(
+                    jsonStoreSetting.getCodeQR(),
+                    jsonStoreSetting.getAppointmentState(), 
+                    jsonStoreSetting.getAppointmentDuration(),
+                    jsonStoreSetting.getAppointmentOpenHowFar());
             } else {
                 bizStore = bizService.disableAppointment(jsonStoreSetting.getCodeQR());
             }
