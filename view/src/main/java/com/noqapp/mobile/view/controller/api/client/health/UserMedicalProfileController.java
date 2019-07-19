@@ -169,11 +169,36 @@ public class UserMedicalProfileController {
                     .setName("Fake Name")
                     .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
                     .setStatus(true)
+                    .setHeader("1 Week")
+            ).addJsonImmunization(
+                new JsonImmunization()
+                    .setName("Good Name")
+                    .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+                    .setStatus(true)
+                    .setHeader("1 Week")
             ).addJsonImmunization(
                 new JsonImmunization()
                     .setName("Done Name")
                     .setDueDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                    .setStatus(true)).asJson();
+                    .setStatus(true)
+                    .setHeader("2 Week")
+            ).addJsonImmunizationStaticData(
+                    new JsonImmunization()
+                        .setName("Fake Name")
+                        .setHeader("1 Week")
+            ).addJsonImmunizationStaticData(
+                    new JsonImmunization()
+                        .setName("Good Name")
+                        .setHeader("1 Week")
+            ).addJsonImmunizationStaticData(
+                    new JsonImmunization()
+                        .setName("Done Name")
+                        .setHeader("2 Week")
+            ).addJsonImmunizationStaticData(
+                    new JsonImmunization()
+                        .setName("Future Name")
+                        .setHeader("3 Week")
+            ).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating user medical profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
