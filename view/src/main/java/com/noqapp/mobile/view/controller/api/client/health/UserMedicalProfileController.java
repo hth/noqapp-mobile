@@ -12,8 +12,8 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.JsonImmunization;
-import com.noqapp.domain.json.JsonImmunizationList;
+import com.noqapp.domain.json.medical.JsonImmunization;
+import com.noqapp.domain.json.medical.JsonImmunizationList;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.MedicalPhysicalEntity;
