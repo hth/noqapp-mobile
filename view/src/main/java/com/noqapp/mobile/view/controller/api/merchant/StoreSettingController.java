@@ -19,6 +19,7 @@ import com.noqapp.domain.ScheduledTaskEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.types.ActionTypeEnum;
+import com.noqapp.domain.types.AppointmentStateEnum;
 import com.noqapp.domain.types.ScheduleTaskEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -554,7 +555,7 @@ public class StoreSettingController {
 
         try {
             BizStoreEntity bizStore;
-            if (jsonStoreSetting.isAppointmentEnable()) {
+            if (jsonStoreSetting.getAppointmentState() != AppointmentStateEnum.O) {
                 bizStore = bizService.findByCodeQR(jsonStoreSetting.getCodeQR());
 
                 switch (bizStore.getBusinessType()) {
