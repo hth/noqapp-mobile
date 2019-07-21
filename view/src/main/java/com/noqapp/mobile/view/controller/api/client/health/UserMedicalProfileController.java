@@ -1,6 +1,5 @@
 package com.noqapp.mobile.view.controller.api.client.health;
 
-import static com.noqapp.common.utils.AbstractDomain.ISO8601_FMT;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
@@ -32,7 +31,6 @@ import com.noqapp.repository.UserProfileManager;
 import com.noqapp.social.exception.AccountNotActiveException;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,10 +45,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -167,28 +163,8 @@ public class UserMedicalProfileController {
 
         try {
             UserProfileEntity userProfile = userProfileManager.findByQueueUserId(medicalProfile.getMedicalProfileOfQueueUserId());
-            List<JsonHospitalVisitSchedule> jsonHospitalVisitSchedules = hospitalVisitScheduleService.findAllAsJson(userProfile.getQueueUserId());
-
-            return new JsonHospitalVisitScheduleList()
-                .addJsonHospitalVisitSchedule(
-                    new JsonHospitalVisitSchedule()
-                        .setName("Fake Name")
-                        .setVisitedDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                        .setExpectedDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                        .setHeader("1 Week"))
-                .addJsonHospitalVisitSchedule(
-                    new JsonHospitalVisitSchedule()
-                        .setName("Good Name")
-                        .setVisitedDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                        .setExpectedDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                        .setHeader("1 Week"))
-                .addJsonHospitalVisitSchedule(
-                    new JsonHospitalVisitSchedule()
-                        .setName("Done Name")
-                        .setVisitedDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                        .setExpectedDate(DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-                        .setHeader("2 Week")
-            ).asJson();
+            List<JsonHospitalVisitSchedule> jsonHospitalVisitSchedules = hospitalVisitScheduleService.findAllAsJson(userProfile.getQueueUserId(), medicalProfile.getHospitalVisitFor());
+            return new JsonHospitalVisitScheduleList().setJsonHospitalVisitSchedules(jsonHospitalVisitSchedules).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating user medical profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

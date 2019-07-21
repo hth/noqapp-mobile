@@ -17,10 +17,10 @@ import java.net.URLDecoder;
  * Date: 1/9/17 12:00 PM
  */
 @SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @Service
 public class AuthenticateMobileService {
@@ -53,13 +53,7 @@ public class AuthenticateMobileService {
         }
     }
 
-    /**
-     * Finds authenticated queue user id.
-     *
-     * @param mail
-     * @param auth
-     * @return
-     */
+    /** Finds authenticated queue user id. */
     public String getQueueUserId(String mail, String auth) {
         UserAccountEntity userAccount = findUserAccount(mail, auth);
         if (null != userAccount) {

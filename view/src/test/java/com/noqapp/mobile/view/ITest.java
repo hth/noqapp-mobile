@@ -27,6 +27,8 @@ import com.noqapp.domain.types.catgeory.MedicalDepartmentEnum;
 import com.noqapp.health.repository.ApiHealthNowManager;
 import com.noqapp.health.repository.ApiHealthNowManagerImpl;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.repository.HospitalVisitScheduleManager;
+import com.noqapp.medical.repository.HospitalVisitScheduleManagerImpl;
 import com.noqapp.medical.repository.MedicalMedicationManager;
 import com.noqapp.medical.repository.MedicalMedicationManagerImpl;
 import com.noqapp.medical.repository.MedicalMedicineManager;
@@ -46,6 +48,7 @@ import com.noqapp.medical.repository.MedicalRecordManagerImpl;
 import com.noqapp.medical.repository.UserMedicalProfileHistoryManager;
 import com.noqapp.medical.repository.UserMedicalProfileManager;
 import com.noqapp.medical.repository.UserMedicalProfileManagerImpl;
+import com.noqapp.medical.service.HospitalVisitScheduleService;
 import com.noqapp.medical.service.MedicalFileService;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.medical.service.UserMedicalProfileService;
@@ -240,6 +243,7 @@ public class ITest extends RealMongoForITest {
     protected MedicalPathologyTestManager medicalPathologyTestManager;
     protected MedicalRadiologyManager medicalRadiologyManager;
     protected MedicalRadiologyTestManager medicalRadiologyTestManager;
+    protected HospitalVisitScheduleManager hospitalVisitScheduleManager;
     protected MedicalRecordService medicalRecordService;
     protected MedicalFileService medicalFileService;
 
@@ -285,6 +289,7 @@ public class ITest extends RealMongoForITest {
     protected BizStoreElasticService bizStoreElasticService;
     protected TransactionService transactionService;
     protected MedicalRecordMobileService medicalRecordMobileService;
+    protected HospitalVisitScheduleService hospitalVisitScheduleService;
     protected NLPService nlpService;
 
     protected ApiHealthService apiHealthService;
@@ -602,11 +607,14 @@ public class ITest extends RealMongoForITest {
             firebaseMessageService
         );
 
+        hospitalVisitScheduleManager = new HospitalVisitScheduleManagerImpl(getMongoTemplate());
+        hospitalVisitScheduleService = new HospitalVisitScheduleService(hospitalVisitScheduleManager);
         accountClientController = new AccountClientController(
             accountService,
             accountMobileService,
             accountClientValidator,
-            deviceMobileService
+            deviceMobileService,
+            hospitalVisitScheduleService
         );
 
         authenticateMobileService = new AuthenticateMobileService(

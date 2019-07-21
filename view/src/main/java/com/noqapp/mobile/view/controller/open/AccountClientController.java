@@ -16,6 +16,7 @@ import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.GenderEnum;
+import com.noqapp.medical.service.HospitalVisitScheduleService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.service.AccountMobileService;
@@ -71,18 +72,21 @@ public class AccountClientController {
     private AccountMobileService accountMobileService;
     private AccountClientValidator accountClientValidator;
     private DeviceMobileService deviceMobileService;
+    private HospitalVisitScheduleService hospitalVisitScheduleService;
 
     @Autowired
     public AccountClientController(
         AccountService accountService,
         AccountMobileService accountMobileService,
         AccountClientValidator accountClientValidator,
-        DeviceMobileService deviceMobileService
+        DeviceMobileService deviceMobileService,
+        HospitalVisitScheduleService hospitalVisitScheduleService
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
         this.accountClientValidator = accountClientValidator;
         this.deviceMobileService = deviceMobileService;
+        this.hospitalVisitScheduleService = hospitalVisitScheduleService;
     }
 
     @PostMapping(
@@ -224,6 +228,7 @@ public class AccountClientController {
                         return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                     }
                     deviceMobileService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
+                    hospitalVisitScheduleService.addImmunizationRecord(userAccount.getQueueUserId(), birthday);
                     return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
                 } catch (DuplicateAccountException e) {
                     LOG.info("Failed user registration as already exists phone={} mail={}", phone, mail);
