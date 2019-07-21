@@ -2,6 +2,7 @@ package com.noqapp.mobile.domain.body.client;
 
 import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.domain.json.medical.JsonUserMedicalProfile;
+import com.noqapp.domain.types.medical.HospitalVisitForEnum;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -37,6 +38,9 @@ public class MedicalProfile extends AbstractDomain {
     @JsonProperty ("mp")
     private JsonUserMedicalProfile jsonUserMedicalProfile;
 
+    @JsonProperty("hv")
+    private HospitalVisitForEnum hospitalVisitFor;
+
     public String getMedicalProfileOfQueueUserId() {
         return medicalProfileOfQueueUserId;
     }
@@ -61,6 +65,15 @@ public class MedicalProfile extends AbstractDomain {
 
     public MedicalProfile setJsonUserMedicalProfile(JsonUserMedicalProfile jsonUserMedicalProfile) {
         this.jsonUserMedicalProfile = jsonUserMedicalProfile;
+        return this;
+    }
+
+    public HospitalVisitForEnum getHospitalVisitFor() {
+        return hospitalVisitFor;
+    }
+
+    public MedicalProfile setHospitalVisitFor(HospitalVisitForEnum hospitalVisitFor) {
+        this.hospitalVisitFor = hospitalVisitFor;
         return this;
     }
 }

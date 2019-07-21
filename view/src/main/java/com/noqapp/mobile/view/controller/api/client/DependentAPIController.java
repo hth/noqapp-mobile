@@ -20,6 +20,7 @@ import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.service.HospitalVisitScheduleService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.service.AccountMobileService;
@@ -72,6 +73,7 @@ public class DependentAPIController {
     private AccountMobileService accountMobileService;
     private AccountClientValidator accountClientValidator;
     private DeviceMobileService deviceMobileService;
+    private HospitalVisitScheduleService hospitalVisitScheduleService;
     private AuthenticateMobileService authenticateMobileService;
     private ApiHealthService apiHealthService;
 
@@ -81,6 +83,7 @@ public class DependentAPIController {
         AccountMobileService accountMobileService,
         AccountClientValidator accountClientValidator,
         DeviceMobileService deviceMobileService,
+        HospitalVisitScheduleService hospitalVisitScheduleService,
         AuthenticateMobileService authenticateMobileService,
         ApiHealthService apiHealthService
     ) {
@@ -88,6 +91,7 @@ public class DependentAPIController {
         this.accountMobileService = accountMobileService;
         this.accountClientValidator = accountClientValidator;
         this.deviceMobileService = deviceMobileService;
+        this.hospitalVisitScheduleService = hospitalVisitScheduleService;
         this.authenticateMobileService = authenticateMobileService;
         this.apiHealthService = apiHealthService;
     }
@@ -240,6 +244,7 @@ public class DependentAPIController {
                             return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                         }
                         deviceMobileService.updateRegisteredDevice(qid, did.getText(), deviceTypeEnum);
+                        hospitalVisitScheduleService.addImmunizationRecord(userAccount.getQueueUserId(), birthday);
                         return accountMobileService.getProfileAsJson(qid).asJson();
                     } catch (DuplicateAccountException e) {
                         LOG.info("Failed dependent user registration as already exists phone={} mail={}", phone, dependentMail);
