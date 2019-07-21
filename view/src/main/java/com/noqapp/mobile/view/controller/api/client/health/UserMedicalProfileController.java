@@ -163,7 +163,7 @@ public class UserMedicalProfileController {
 
         try {
             UserProfileEntity userProfile = userProfileManager.findByQueueUserId(medicalProfile.getMedicalProfileOfQueueUserId());
-            List<JsonHospitalVisitSchedule> jsonHospitalVisitSchedules = hospitalVisitScheduleService.findAllAsJson(userProfile.getQueueUserId(), medicalProfile.getHospitalVisitFor());
+            List<JsonHospitalVisitSchedule> jsonHospitalVisitSchedules = hospitalVisitScheduleService.findAllAsJson(userProfile.getQueueUserId());
             return new JsonHospitalVisitScheduleList().setJsonHospitalVisitSchedules(jsonHospitalVisitSchedules).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating user medical profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
