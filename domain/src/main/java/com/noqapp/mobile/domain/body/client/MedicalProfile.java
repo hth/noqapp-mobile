@@ -38,9 +38,6 @@ public class MedicalProfile extends AbstractDomain {
     @JsonProperty ("mp")
     private JsonUserMedicalProfile jsonUserMedicalProfile;
 
-    @JsonProperty("hv")
-    private HospitalVisitForEnum hospitalVisitFor;
-
     public String getMedicalProfileOfQueueUserId() {
         return medicalProfileOfQueueUserId;
     }
@@ -65,15 +62,6 @@ public class MedicalProfile extends AbstractDomain {
 
     public MedicalProfile setJsonUserMedicalProfile(JsonUserMedicalProfile jsonUserMedicalProfile) {
         this.jsonUserMedicalProfile = jsonUserMedicalProfile;
-        return this;
-    }
-
-    public HospitalVisitForEnum getHospitalVisitFor() {
-        return hospitalVisitFor;
-    }
-
-    public MedicalProfile setHospitalVisitFor(HospitalVisitForEnum hospitalVisitFor) {
-        this.hospitalVisitFor = hospitalVisitFor;
         return this;
     }
 }
