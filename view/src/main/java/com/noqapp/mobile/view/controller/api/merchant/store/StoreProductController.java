@@ -18,7 +18,6 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.StoreDetailService;
 import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
 
 import org.apache.commons.lang3.StringUtils;

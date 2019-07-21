@@ -33,7 +33,6 @@ import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.service.UserAddressService;
-import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.social.exception.AccountNotActiveException;
 
 import org.apache.commons.lang3.StringUtils;

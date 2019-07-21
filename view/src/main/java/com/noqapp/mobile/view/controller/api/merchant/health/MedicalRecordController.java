@@ -10,12 +10,10 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RE
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
-import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.medical.JsonHospitalVisitSchedule;
 import com.noqapp.domain.json.medical.JsonHospitalVisitScheduleList;
@@ -33,7 +31,6 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.MedicalRecordMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.client.health.MedicalRecordAPIController;
-import com.noqapp.mobile.view.controller.api.client.health.UserMedicalProfileController;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
