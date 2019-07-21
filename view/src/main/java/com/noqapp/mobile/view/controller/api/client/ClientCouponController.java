@@ -11,7 +11,6 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.json.JsonCouponList;
-import com.noqapp.domain.types.CouponGroupEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.client.Location;

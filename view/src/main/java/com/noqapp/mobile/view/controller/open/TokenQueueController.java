@@ -17,7 +17,6 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
-import com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController;
 import com.noqapp.service.JoinAbortService;
 
 import org.apache.commons.lang3.StringUtils;

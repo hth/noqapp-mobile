@@ -2,7 +2,6 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.BUSINESS_CUSTOMER_ID_DOES_NOT_EXISTS;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.BUSINESS_CUSTOMER_ID_EXISTS;
@@ -32,11 +31,11 @@ import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.QueueService;
+import com.noqapp.social.exception.AccountNotActiveException;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.noqapp.social.exception.AccountNotActiveException;
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
