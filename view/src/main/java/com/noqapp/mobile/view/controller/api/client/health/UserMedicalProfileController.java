@@ -162,11 +162,10 @@ public class UserMedicalProfileController {
         if (authorizeRequest(response, qid)) return null;
 
         try {
-            UserProfileEntity userProfile = userProfileManager.findByQueueUserId(medicalProfile.getMedicalProfileOfQueueUserId());
-            List<JsonHospitalVisitSchedule> jsonHospitalVisitSchedules = hospitalVisitScheduleService.findAllAsJson(userProfile.getQueueUserId());
+            List<JsonHospitalVisitSchedule> jsonHospitalVisitSchedules = hospitalVisitScheduleService.findAllAsJson(medicalProfile.getMedicalProfileOfQueueUserId());
             return new JsonHospitalVisitScheduleList().setJsonHospitalVisitSchedules(jsonHospitalVisitSchedules).asJson();
         } catch (Exception e) {
-            LOG.error("Failed updating user medical profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed getting hospital visit qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {

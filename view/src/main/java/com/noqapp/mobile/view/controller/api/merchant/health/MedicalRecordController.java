@@ -10,16 +10,21 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MEDICAL_RE
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.json.medical.JsonHospitalVisitSchedule;
+import com.noqapp.domain.json.medical.JsonHospitalVisitScheduleList;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.exception.ExistingLabResultException;
+import com.noqapp.medical.service.HospitalVisitScheduleService;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
@@ -28,6 +33,7 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.MedicalRecordMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.client.health.MedicalRecordAPIController;
+import com.noqapp.mobile.view.controller.api.client.health.UserMedicalProfileController;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
@@ -52,6 +58,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -77,6 +84,7 @@ public class MedicalRecordController {
     private BusinessUserStoreService businessUserStoreService;
     private BizService bizService;
     private MedicalRecordMobileService medicalRecordMobileService;
+    private HospitalVisitScheduleService hospitalVisitScheduleService;
     private ImageCommonHelper imageCommonHelper;
     private ImageValidator imageValidator;
 
@@ -88,6 +96,7 @@ public class MedicalRecordController {
         BusinessUserStoreService businessUserStoreService,
         BizService bizService,
         MedicalRecordMobileService medicalRecordMobileService,
+        HospitalVisitScheduleService hospitalVisitScheduleService,
         ImageCommonHelper imageCommonHelper,
         ImageValidator imageValidator
     ) {
@@ -97,6 +106,7 @@ public class MedicalRecordController {
         this.businessUserStoreService = businessUserStoreService;
         this.bizService = bizService;
         this.medicalRecordMobileService = medicalRecordMobileService;
+        this.hospitalVisitScheduleService = hospitalVisitScheduleService;
         this.imageCommonHelper = imageCommonHelper;
         this.imageValidator = imageValidator;
     }
@@ -288,6 +298,55 @@ public class MedicalRecordController {
             apiHealthService.insert(
                 "/historical",
                 "historical",
+                MedicalRecordAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping(
+        value = "/hospitalVisitSchedule",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String hospitalVisitSchedule(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        FindMedicalProfile findMedicalProfile,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.debug("Client medical record fetch mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/h/medicalRecord/hospitalVisitSchedule by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            List<JsonHospitalVisitSchedule> jsonHospitalVisitSchedules = hospitalVisitScheduleService.findAllAsJson(findMedicalProfile.getQueueUserId());
+            return new JsonHospitalVisitScheduleList().setJsonHospitalVisitSchedules(jsonHospitalVisitSchedules).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting hospital visit qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/hospitalVisitSchedule",
+                "hospitalVisitSchedule",
                 MedicalRecordAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
