@@ -40,6 +40,7 @@ class DependentAPIControllerITest extends ITest {
             accountMobileService,
             accountClientValidator,
             deviceMobileService,
+            hospitalVisitScheduleService,
             authenticateMobileService,
             apiHealthService
         );
