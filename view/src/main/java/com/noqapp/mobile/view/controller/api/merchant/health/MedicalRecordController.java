@@ -15,17 +15,18 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.json.JsonResponse;
-import com.noqapp.domain.json.medical.JsonHospitalVisitSchedule;
 import com.noqapp.domain.json.medical.JsonHospitalVisitScheduleList;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.medical.domain.HospitalVisitScheduleEntity;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.exception.ExistingLabResultException;
 import com.noqapp.medical.service.HospitalVisitScheduleService;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
+import com.noqapp.mobile.domain.body.merchant.HospitalVisitFor;
 import com.noqapp.mobile.domain.body.merchant.LabFile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.MedicalRecordMobileService;
@@ -55,7 +56,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -334,8 +334,8 @@ public class MedicalRecordController {
         }
 
         try {
-            List<JsonHospitalVisitSchedule> jsonHospitalVisitSchedules = hospitalVisitScheduleService.findAllAsJson(findMedicalProfile.getQueueUserId());
-            return new JsonHospitalVisitScheduleList().setJsonHospitalVisitSchedules(jsonHospitalVisitSchedules).asJson();
+            return new JsonHospitalVisitScheduleList()
+                .setJsonHospitalVisitSchedules(hospitalVisitScheduleService.findAllAsJson(findMedicalProfile.getQueueUserId())).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting hospital visit qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -344,6 +344,61 @@ public class MedicalRecordController {
             apiHealthService.insert(
                 "/hospitalVisitSchedule",
                 "hospitalVisitSchedule",
+                MedicalRecordAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping(
+        value = "/modifyVisitingFor",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String modifyVisitingFor(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        HospitalVisitFor hospitalVisitFor,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.debug("Client medical record fetch mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/h/medicalRecord/modifyVisitingFor by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            HospitalVisitScheduleEntity hospitalVisitSchedule = hospitalVisitScheduleService.modifyVisitingFor(
+                hospitalVisitFor.getHospitalVisitScheduleId(),
+                hospitalVisitFor.getQid(),
+                hospitalVisitFor.getVisitingFor(),
+                hospitalVisitFor.getBooleanReplacement(),
+                qid);
+
+            return hospitalVisitScheduleService.populateHospitalVisitScheduleAsJson(hospitalVisitSchedule).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed modifyVisitingFor qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/modifyVisitingFor",
+                "modifyVisitingFor",
                 MedicalRecordAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
