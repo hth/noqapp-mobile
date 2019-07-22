@@ -75,6 +75,7 @@ class MedicalRecordControllerTest extends ITest {
             businessUserStoreService,
             bizService,
             medicalRecordMobileService,
+            hospitalVisitScheduleService,
             imageCommonHelper,
             imageValidator
         );
