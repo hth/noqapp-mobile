@@ -608,7 +608,7 @@ public class ITest extends RealMongoForITest {
         );
 
         hospitalVisitScheduleManager = new HospitalVisitScheduleManagerImpl(getMongoTemplate());
-        hospitalVisitScheduleService = new HospitalVisitScheduleService(hospitalVisitScheduleManager);
+        hospitalVisitScheduleService = new HospitalVisitScheduleService(hospitalVisitScheduleManager, userProfileManager);
         accountClientController = new AccountClientController(
             accountService,
             accountMobileService,
