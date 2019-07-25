@@ -55,6 +55,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
@@ -578,6 +579,18 @@ public class StoreSettingController {
                     jsonStoreSetting.getAppointmentState(),
                     jsonStoreSetting.getAppointmentDuration(),
                     jsonStoreSetting.getAppointmentOpenHowFar());
+
+                List<StoreHourEntity> storeHours = bizService.findAllStoreHours(bizStore.getId());
+                for (StoreHourEntity storeHour : storeHours) {
+                    if (0 == storeHour.getAppointmentStartHour()) {
+                        storeHour.setAppointmentStartHour(storeHour.getAppointmentStartHour());
+                    }
+
+                    if (0 == storeHour.getAppointmentEndHour()) {
+                        storeHour.setAppointmentEndHour(storeHour.getAppointmentEndHour());
+                    }
+                }
+                bizService.insertAll(storeHours);
             } else {
                 bizStore = bizService.disableAppointment(jsonStoreSetting.getCodeQR());
             }
