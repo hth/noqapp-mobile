@@ -11,6 +11,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonSchedule;
@@ -19,6 +20,7 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.repository.BizStoreManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.exceptions.AppointmentBookingException;
@@ -59,8 +61,9 @@ public class AppointmentController {
     private static final Logger LOG = LoggerFactory.getLogger(AppointmentController.class);
 
     private UserProfileManager userProfileManager;
-    private TokenQueueMobileService tokenQueueMobileService;
+    private BizStoreManager bizStoreManager;
 
+    private TokenQueueMobileService tokenQueueMobileService;
     private AuthenticateMobileService authenticateMobileService;
     private ScheduleAppointmentService scheduleAppointmentService;
     private ApiHealthService apiHealthService;
@@ -68,6 +71,7 @@ public class AppointmentController {
     @Autowired
     public AppointmentController(
         UserProfileManager userProfileManager,
+        BizStoreManager bizStoreManager,
 
         TokenQueueMobileService tokenQueueMobileService,
         AuthenticateMobileService authenticateMobileService,
@@ -75,6 +79,7 @@ public class AppointmentController {
         ApiHealthService apiHealthService
     ) {
         this.userProfileManager = userProfileManager;
+        this.bizStoreManager = bizStoreManager;
 
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.authenticateMobileService = authenticateMobileService;
@@ -238,7 +243,17 @@ public class AppointmentController {
         try {
             if (scheduleAppointmentService.doesAppointmentExists(jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR(), jsonSchedule.getScheduleDate())) {
                 LOG.warn("Cannot book when appointment already exists {} {} {}", jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR(), jsonSchedule.getScheduleDate());
-                return getErrorReason("Appointment already exists for this day. Please cancel to re-book for the day.", APPOINTMENT_ALREADY_EXISTS);
+                BizStoreEntity bizStore = bizStoreManager.findByCodeQR(jsonSchedule.getCodeQR());
+                switch (bizStore.getAppointmentState()) {
+                    case A:
+                        return getErrorReason("Appointment already exists for this day. Please cancel to re-book for the day.", APPOINTMENT_ALREADY_EXISTS);
+                    case S:
+                        return getErrorReason("Appointment already exists for this day.", APPOINTMENT_ALREADY_EXISTS);
+                    case O:
+                    default:
+                        LOG.error("Reached un-reachable condition for booking appointment {} {}", bizStore.getAppointmentState(), bizStore.getCodeQR());
+                        return getErrorReason("Appointment already exists for this day.", APPOINTMENT_ALREADY_EXISTS);
+                }
             }
 
             JsonSchedule bookedAppointment;
