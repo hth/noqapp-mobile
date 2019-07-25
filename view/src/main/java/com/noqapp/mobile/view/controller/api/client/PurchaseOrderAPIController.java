@@ -539,7 +539,6 @@ public class PurchaseOrderAPIController {
             }
 
             PaymentModeEnum paymentMode = DomainCommonUtil.derivePaymentMode(jsonCashfreeNotification.getPaymentMode());
-            //TODO try appending transaction message
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.updateOnPaymentGatewayNotification(
                 transactionId,
                 jsonCashfreeNotification.getTxMsg(),
