@@ -583,11 +583,11 @@ public class StoreSettingController {
                 List<StoreHourEntity> storeHours = bizService.findAllStoreHours(bizStore.getId());
                 for (StoreHourEntity storeHour : storeHours) {
                     if (0 == storeHour.getAppointmentStartHour()) {
-                        storeHour.setAppointmentStartHour(storeHour.getAppointmentStartHour());
+                        storeHour.setAppointmentStartHour(storeHour.getStartHour());
                     }
 
                     if (0 == storeHour.getAppointmentEndHour()) {
-                        storeHour.setAppointmentEndHour(storeHour.getAppointmentEndHour());
+                        storeHour.setAppointmentEndHour(storeHour.getEndHour());
                     }
                 }
                 bizService.insertAll(storeHours);

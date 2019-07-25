@@ -593,7 +593,6 @@ public class TokenQueueAPIController {
                 jsonCashfreeNotification.setTxMsg("Cash Payment At Counter");
             }
 
-            //TODO try appending transaction message
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.updateOnPaymentGatewayNotification(
                 transactionId,
                 jsonCashfreeNotification.getTxMsg(),
