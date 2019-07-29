@@ -162,6 +162,7 @@ public class MerchantProfileController {
                     LOG.info("Cannot login through Merchant App qid={}", qid);
                     break;
                 case S_MANAGER:
+                case A_SUPERVISOR:
                 case Q_SUPERVISOR:
                     LOG.info("Has access in Merchant App qid={}", qid);
                     break;
