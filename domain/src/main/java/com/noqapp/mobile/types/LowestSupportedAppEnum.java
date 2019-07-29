@@ -51,7 +51,13 @@ public enum LowestSupportedAppEnum {
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQMT,
         "1.2.288",                      //Latest App Version on Play Store
-        "Version Android Merchant TV");
+        "Version Android Merchant TV"),
+
+    VAMI("1.2.288",                     //Oldest Supported App Version in String
+        DeviceTypeEnum.A,                              //Device Type
+        AppFlavorEnum.NQMI,
+        "1.2.288",                      //Latest App Version on Play Store
+        "Version Android Merchant Inventory");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
 
