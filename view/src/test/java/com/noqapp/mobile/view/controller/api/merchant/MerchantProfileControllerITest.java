@@ -70,7 +70,6 @@ class MerchantProfileControllerITest extends ITest {
 
         merchantProfileController = new MerchantProfileController(
             authenticateMobileService,
-            userProfilePreferenceService,
             businessUserStoreService,
             profileCommonHelper,
             professionalProfileService,

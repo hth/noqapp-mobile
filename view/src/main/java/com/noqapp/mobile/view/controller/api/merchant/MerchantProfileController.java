@@ -82,7 +82,6 @@ public class MerchantProfileController {
     private static final Logger LOG = LoggerFactory.getLogger(MerchantProfileController.class);
 
     private AuthenticateMobileService authenticateMobileService;
-    private UserProfilePreferenceService userProfilePreferenceService;
     private BusinessUserStoreService businessUserStoreService;
     private ProfileCommonHelper profileCommonHelper;
     private ProfessionalProfileService professionalProfileService;
@@ -97,7 +96,6 @@ public class MerchantProfileController {
     @Autowired
     public MerchantProfileController(
         AuthenticateMobileService authenticateMobileService,
-        UserProfilePreferenceService userProfilePreferenceService,
         BusinessUserStoreService businessUserStoreService,
         ProfileCommonHelper profileCommonHelper,
         ProfessionalProfileService professionalProfileService,
@@ -110,7 +108,6 @@ public class MerchantProfileController {
         AccountMobileService accountMobileService
     ) {
         this.authenticateMobileService = authenticateMobileService;
-        this.userProfilePreferenceService = userProfilePreferenceService;
         this.businessUserStoreService = businessUserStoreService;
         this.profileCommonHelper = profileCommonHelper;
         this.professionalProfileService = professionalProfileService;
