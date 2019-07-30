@@ -96,7 +96,7 @@ public class CheckAssetController {
         }
 
         try {
-            return checkAsset.setBizNameId(new ScrubbedInput(checkAssetService.findBizNameAssocaitedForQid(qid))).asJson();
+            return checkAsset.setBizNameId(checkAssetService.findBizNameAssocaitedForQid(qid)).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -144,13 +144,13 @@ public class CheckAssetController {
         }
 
         try {
-            if (!businessUserService.hasAccess(qid, checkAsset.getBizNameId().getText())) {
+            if (!businessUserService.hasAccess(qid, checkAsset.getBizNameId())) {
                 LOG.info("Un-authorized store access to /api/m/i/checkAsset/floors by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
 
-            return checkAssetService.findDistinctFloorsAsJson(checkAsset.getBizNameId().getText()).asJson();
+            return checkAssetService.findDistinctFloorsAsJson(checkAsset.getBizNameId()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting floor reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -198,13 +198,13 @@ public class CheckAssetController {
         }
 
         try {
-            if (!businessUserService.hasAccess(qid, checkAsset.getBizNameId().getText())) {
+            if (!businessUserService.hasAccess(qid, checkAsset.getBizNameId())) {
                 LOG.info("Un-authorized store access to /api/m/i/checkAsset/rooms by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
 
-            return checkAssetService.findDistinctRoomsOnFloorAsJson(checkAsset.getBizNameId().getText(), checkAsset.getFloor().getText()).asJson();
+            return checkAssetService.findDistinctRoomsOnFloorAsJson(checkAsset.getBizNameId(), checkAsset.getFloor()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting room reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -252,13 +252,13 @@ public class CheckAssetController {
         }
 
         try {
-            if (!businessUserService.hasAccess(qid, checkAsset.getBizNameId().getText())) {
+            if (!businessUserService.hasAccess(qid, checkAsset.getBizNameId())) {
                 LOG.info("Un-authorized store access to /api/m/i/checkAsset/assetsInRoom by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
 
-            return checkAssetService.findAssetInRoomAsJson(checkAsset.getBizNameId().getText(), checkAsset.getFloor().getText(), checkAsset.getRoomNumber().getText()).asJson();
+            return checkAssetService.findAssetInRoomAsJson(checkAsset.getBizNameId(), checkAsset.getFloor(), checkAsset.getRoomNumber()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting assets in room reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
