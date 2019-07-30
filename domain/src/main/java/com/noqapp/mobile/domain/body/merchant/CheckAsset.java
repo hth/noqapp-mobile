@@ -29,49 +29,49 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class CheckAsset extends AbstractDomain {
 
     @JsonProperty("bn")
-    private ScrubbedInput bizNameId;
+    private String bizNameId;
 
     @JsonProperty("fl")
-    private ScrubbedInput floor;
+    private String floor;
 
     @JsonProperty("rn")
-    private ScrubbedInput roomNumber;
+    private String roomNumber;
 
     @JsonProperty("an")
-    private ScrubbedInput assetName;
+    private String assetName;
 
-    public ScrubbedInput getBizNameId() {
+    public String getBizNameId() {
         return bizNameId;
     }
 
-    public CheckAsset setBizNameId(ScrubbedInput bizNameId) {
+    public CheckAsset setBizNameId(String bizNameId) {
         this.bizNameId = bizNameId;
         return this;
     }
 
-    public ScrubbedInput getFloor() {
+    public String getFloor() {
         return floor;
     }
 
-    public CheckAsset setFloor(ScrubbedInput floor) {
+    public CheckAsset setFloor(String floor) {
         this.floor = floor;
         return this;
     }
 
-    public ScrubbedInput getRoomNumber() {
+    public String getRoomNumber() {
         return roomNumber;
     }
 
-    public CheckAsset setRoomNumber(ScrubbedInput roomNumber) {
+    public CheckAsset setRoomNumber(String roomNumber) {
         this.roomNumber = roomNumber;
         return this;
     }
 
-    public ScrubbedInput getAssetName() {
+    public String getAssetName() {
         return assetName;
     }
 
-    public CheckAsset setAssetName(ScrubbedInput assetName) {
+    public CheckAsset setAssetName(String assetName) {
         this.assetName = assetName;
         return this;
     }
