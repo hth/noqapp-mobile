@@ -40,6 +40,9 @@ public class CheckAsset extends AbstractDomain {
     @JsonProperty("an")
     private String assetName;
 
+    @JsonProperty("n")
+    private String businessName;
+
     public String getBizNameId() {
         return bizNameId;
     }
@@ -73,6 +76,15 @@ public class CheckAsset extends AbstractDomain {
 
     public CheckAsset setAssetName(String assetName) {
         this.assetName = assetName;
+        return this;
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public CheckAsset setBusinessName(String businessName) {
+        this.businessName = businessName;
         return this;
     }
 }
