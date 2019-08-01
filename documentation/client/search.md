@@ -1,0 +1,4 @@
+## Search 
+    
+    curl -X "POST" "http://localhost:9090/noqapp-mobile/open/search.json" -H "Content-Type: application/json; charset=utf-8" -d $'{   "q": "ssd",   "cityName": "Mumbai",   "lat": "19.004550",   "lng": "73.014529",   "filters" : "xyz" }' -H "X-R-DID: 670563dc-d0b9-47c9-acf9-72776a7ff3d712312" -H "X-R-DT: A"
+    curl -k "POST" "https://sandbox.noqapp.com/noqapp-mobile/open/search.json" -H "Content-Type: application/json; charset=utf-8" -d $'{   "q": "ssd",   "cityName": "Mumbai",   "lat": "19.004550",   "lng": "73.014529",   "filters" : "xyz" }' -H "X-R-DID: 670563dc-d0b9-47c9-acf9-72776a7ff3d712312" -H "X-R-DT: A"
