@@ -99,7 +99,7 @@ public class CheckAsset extends AbstractDomain {
         return areaAndTown;
     }
 
-    public JsonMedicalRecord setAreaAndTown(String areaAndTown) {
+    public CheckAsset setAreaAndTown(String areaAndTown) {
         this.areaAndTown = areaAndTown;
         return this;
     }
