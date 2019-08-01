@@ -535,10 +535,10 @@ public class QueueMobileService {
     public JsonQueuePersonList findAllClient(String codeQR) {
         JsonQueuePersonList jsonQueuePersonList = queueService.findAllClient(codeQR);
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
-        jsonQueuePersonList.setAppointmentCountForToday(
-            scheduleAppointmentManager.countNumberOfAppointments(
-                codeQR,
-                Formatter.toDefaultDateFormatAsString(DateUtil.dateAtTimeZone(bizStore.getTimeZone()))));
+        String day = Formatter.toDefaultDateFormatAsString(DateUtil.dateAtTimeZone(bizStore.getTimeZone()));
+        long appointmentCountForToday = scheduleAppointmentManager.countNumberOfAppointments(codeQR, day);
+        LOG.info("Looking up appointments for {} {} {}", codeQR, day, appointmentCountForToday);
+        jsonQueuePersonList.setAppointmentCountForToday(appointmentCountForToday);
         return jsonQueuePersonList;
     }
 
