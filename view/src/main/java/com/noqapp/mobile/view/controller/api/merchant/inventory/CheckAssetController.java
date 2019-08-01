@@ -103,7 +103,10 @@ public class CheckAssetController {
         try {
             String bizNameId = checkAssetService.findBizNameAssocaitedForQid(qid);
             BizNameEntity bizName = bizService.getByBizNameId(bizNameId);
-            return checkAsset.setBizNameId(bizName.getId()).setBusinessName(bizName.getBusinessName()).asJson();
+            return checkAsset
+                .setBizNameId(bizName.getId())
+                .setBusinessName(bizName.getBusinessName())
+                .setAreaAndTown(bizName.getArea() + ", " + bizName.getTown()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
