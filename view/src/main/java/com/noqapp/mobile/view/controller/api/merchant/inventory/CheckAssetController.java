@@ -6,11 +6,13 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BizNameEntity;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.inventory.service.CheckAssetService;
 import com.noqapp.mobile.domain.body.merchant.CheckAsset;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserService;
 
 import org.slf4j.Logger;
@@ -47,6 +49,7 @@ public class CheckAssetController {
 
     private CheckAssetService checkAssetService;
     private BusinessUserService businessUserService;
+    private BizService bizService;
     private AuthenticateMobileService authenticateMobileService;
     private ApiHealthService apiHealthService;
 
@@ -54,11 +57,13 @@ public class CheckAssetController {
     public CheckAssetController(
         CheckAssetService checkAssetService,
         BusinessUserService businessUserService,
+        BizService bizService,
         AuthenticateMobileService authenticateMobileService,
         ApiHealthService apiHealthService
     ) {
         this.checkAssetService = checkAssetService;
         this.businessUserService = businessUserService;
+        this.bizService = bizService;
         this.authenticateMobileService = authenticateMobileService;
         this.apiHealthService = apiHealthService;
     }
@@ -96,7 +101,12 @@ public class CheckAssetController {
         }
 
         try {
-            return checkAsset.setBizNameId(checkAssetService.findBizNameAssocaitedForQid(qid)).asJson();
+            String bizNameId = checkAssetService.findBizNameAssocaitedForQid(qid);
+            BizNameEntity bizName = bizService.getByBizNameId(bizNameId);
+            return checkAsset
+                .setBizNameId(bizName.getId())
+                .setBusinessName(bizName.getBusinessName())
+                .setAreaAndTown(bizName.getArea() + ", " + bizName.getTown()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
