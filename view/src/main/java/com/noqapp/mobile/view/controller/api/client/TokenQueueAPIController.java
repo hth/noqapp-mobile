@@ -740,6 +740,7 @@ public class TokenQueueAPIController {
             }
 
             joinAbortService.deleteReferenceToTransactionId(jsonToken.getCodeQR(), jsonToken.getJsonPurchaseOrder().getTransactionId());
+            LOG.info("Cancelled order {} {} {}", jsonToken.getJsonPurchaseOrder().getTransactionId(), jsonToken.getCodeQR(), qid);
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating with cashfree notification reason={}", e.getLocalizedMessage(), e);
