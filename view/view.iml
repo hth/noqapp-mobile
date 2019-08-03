@@ -24,8 +24,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-web:5.0.0.RELEASE" level="project" />
-    <orderEntry type="module" module-name="security_main" />
-    <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-core:5.0.0.RELEASE" level="project" />
   </component>
 </module>
