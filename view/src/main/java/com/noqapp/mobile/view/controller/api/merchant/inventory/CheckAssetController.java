@@ -102,7 +102,7 @@ public class CheckAssetController {
         }
 
         try {
-            String bizNameId = checkAssetService.findBizNameAssocaitedForQid(qid);
+            String bizNameId = checkAssetService.findBizNameAssociatedForQid(qid);
             BizNameEntity bizName = bizService.getByBizNameId(bizNameId);
             return checkAsset
                 .setBizNameId(bizName.getId())
