@@ -6,14 +6,12 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BusinessUserEntity;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.inventory.service.CheckAssetService;
 import com.noqapp.mobile.domain.body.merchant.CheckAsset;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserService;
 
 import org.slf4j.Logger;
