@@ -53,12 +53,12 @@ public class StoreDetailService {
     @Mobile
     public JsonStore storeDetail(String codeQR) {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
-        JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(codeQR);
-        List<StoreProductEntity> storeProducts = storeProductService.findAll(bizStore.getId());
-        List<StoreCategoryEntity> storeCategories = storeCategoryService.findAll(bizStore.getId());
-
         JsonStore jsonStore = new JsonStore();
+
+        JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(codeQR);
         jsonStore.setJsonQueue(jsonQueue);
+
+        List<StoreProductEntity> storeProducts = storeProductService.findAll(bizStore.getId());
         for (StoreProductEntity storeProduct : storeProducts) {
             JsonStoreProduct jsonStoreProduct = new JsonStoreProduct()
                 .setProductId(storeProduct.getId())
@@ -87,6 +87,7 @@ public class StoreDetailService {
                 }
                 break;
             default:
+                List<StoreCategoryEntity> storeCategories = storeCategoryService.findAll(bizStore.getId());
                 for (StoreCategoryEntity storeCategory : storeCategories) {
                     JsonStoreCategory jsonStoreCategory = new JsonStoreCategory()
                         .setCategoryId(storeCategory.getId())
