@@ -17,6 +17,7 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.medical.JsonHospitalVisitScheduleList;
 import com.noqapp.domain.types.BusinessTypeEnum;
+import com.noqapp.domain.types.catgeory.MedicalDepartmentEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.HospitalVisitScheduleEntity;
@@ -295,6 +296,65 @@ public class MedicalRecordController {
             apiHealthService.insert(
                 "/historical",
                 "historical",
+                MedicalRecordAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping(
+        value = "/historical/{md}",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String historicalByMedicalDepartment(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @PathVariable ("md")
+        MedicalDepartmentEnum medicalDepartment,
+
+        @RequestBody
+        FindMedicalProfile findMedicalProfile,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.debug("Client medical record fetch mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/h/medicalRecord/historical/{md} by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            if (StringUtils.isBlank(findMedicalProfile.getCodeQR())) {
+                LOG.warn("Not a valid codeQR={} qid={}", findMedicalProfile.getCodeQR(), qid);
+                return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+            } else if (!businessUserStoreService.hasAccess(qid, findMedicalProfile.getCodeQR())) {
+                LOG.info("Your are not authorized to see medical history of client mail={}", mail);
+                return getErrorReason("Your are not authorized to see medical profile of client", MEDICAL_RECORD_ENTRY_DENIED);
+            }
+
+            return medicalRecordService.populateMedicalHistory(findMedicalProfile.getQueueUserId(), medicalDepartment).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting medical record qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/historical/{md}",
+                "historicalByMedicalDepartment",
                 MedicalRecordAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
