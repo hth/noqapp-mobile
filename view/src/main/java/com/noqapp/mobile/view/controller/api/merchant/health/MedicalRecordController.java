@@ -287,7 +287,7 @@ public class MedicalRecordController {
                 return getErrorReason("Your are not authorized to see medical profile of client", MEDICAL_RECORD_ENTRY_DENIED);
             }
 
-            return medicalRecordService.populateMedicalHistory(findMedicalProfile.getQueueUserId()).asJson();
+            return medicalRecordService.populateMedicalHistoryForDoctor(findMedicalProfile.getQueueUserId()).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting medical record qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -346,7 +346,7 @@ public class MedicalRecordController {
                 return getErrorReason("Your are not authorized to see medical profile of client", MEDICAL_RECORD_ENTRY_DENIED);
             }
 
-            return medicalRecordService.populateMedicalHistory(findMedicalProfile.getQueueUserId(), medicalDepartment).asJson();
+            return medicalRecordService.populateMedicalHistoryForDoctorByMedicalDepartment(findMedicalProfile.getQueueUserId(), medicalDepartment).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting medical record qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
