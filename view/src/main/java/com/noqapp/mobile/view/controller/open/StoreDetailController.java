@@ -52,7 +52,7 @@ public class StoreDetailController {
     @GetMapping(
         value = "/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    public String getStoreDetail(
+    public String storeDetail(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -76,9 +76,9 @@ public class StoreDetailController {
             return new BizStoreElasticList().asJson();
         } finally {
             apiHealthService.insert(
-                "/search",
-                "search",
-                SearchBusinessStoreController.class.getName(),
+                "/{codeQR}",
+                "storeDetail",
+                StoreDetailController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
