@@ -41,7 +41,7 @@ class StoreDetailControllerTest extends ITest {
         BusinessUserEntity businessUser = businessUserService.findByQid(userProfile.getQueueUserId());
         BizStoreEntity bizStore = bizService.findOneBizStore(businessUser.getBizName().getId());
 
-        String jsonStoreAsString = storeDetailController.getStoreDetail(
+        String jsonStoreAsString = storeDetailController.storeDetail(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(bizStore.getCodeQR()),
