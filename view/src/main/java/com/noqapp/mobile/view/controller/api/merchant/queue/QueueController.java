@@ -85,6 +85,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -483,6 +486,7 @@ public class QueueController {
         value = "/showClients/{codeQR}/historical",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
+    @Deprecated
     public String showClientsHistorical(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
@@ -528,6 +532,84 @@ public class QueueController {
 
         try {
             return queueMobileService.findAllRegisteredClientHistorical(codeQR.getText()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting queued clients reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/showClients/{codeQR}/historical",
+                "showClientsHistorical",
+                QueueController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** List all registered clients from history within the specified date range. Non registered clients are never shown. */
+    @PostMapping(
+        value = "/showClients/{codeQR}/{from}/{until}/historical",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String showClientsHistorical(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
+
+        @PathVariable("from")
+        ScrubbedInput from,
+
+        @PathVariable("until")
+        ScrubbedInput until,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Clients shown for codeQR={} from={} until={} request from mail={} did={} deviceType={} auth={}",
+            codeQR,
+            from,
+            until,
+            mail,
+            did,
+            deviceType,
+            AUTH_KEY_HIDDEN);
+
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/q/showClients/{codeQR}/historical by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (StringUtils.isBlank(codeQR.getText())) {
+            LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
+            return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+        } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
+            LOG.info("Un-authorized store access to /api/m/q/showClients/{codeQR}/historical by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            BizStoreEntity bizStore = queueMobileService.findByCodeQR(codeQR.getText());
+            LocalDate fromLocalDate = LocalDate.parse(from.getText());
+            Date fromDate = Date.from(fromLocalDate.atStartOfDay(ZoneId.of(bizStore.getTimeZone())).toInstant());
+
+            LocalDate untilLocalDate = LocalDate.parse(until.getText());
+            Date untilDate = Date.from(untilLocalDate.atStartOfDay(ZoneId.of(bizStore.getTimeZone())).toInstant());
+            return queueMobileService.findAllRegisteredClientHistorical(codeQR.getText(),fromDate, untilDate).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queued clients reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
