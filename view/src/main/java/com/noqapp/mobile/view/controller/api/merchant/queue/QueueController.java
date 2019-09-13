@@ -6,6 +6,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.CHANGE_USE
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ORDER_PAYMENT_PAID_ALREADY_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ORDER_PAYMENT_UPDATE_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
@@ -47,6 +48,8 @@ import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.ChangeUserInQueue;
+import com.noqapp.mobile.domain.body.merchant.CodeQRDateRangeLookup;
+import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
@@ -531,7 +534,7 @@ public class QueueController {
         }
 
         try {
-            return queueMobileService.findAllRegisteredClientHistorical(codeQR.getText()).asJson();
+            return getErrorReason("Please upgrade to latest version", MOBILE_UPGRADE);
         } catch (Exception e) {
             LOG.error("Failed getting queued clients reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -548,7 +551,7 @@ public class QueueController {
 
     /** List all registered clients from history within the specified date range. Non registered clients are never shown. */
     @PostMapping(
-        value = "/showClients/{codeQR}/{from}/{until}/historical",
+        value = "/showClients/historical",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String showClientsHistorical(
@@ -564,23 +567,15 @@ public class QueueController {
         @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
-        @PathVariable("codeQR")
-        ScrubbedInput codeQR,
-
-        @PathVariable("from")
-        ScrubbedInput from,
-
-        @PathVariable("until")
-        ScrubbedInput until,
+        @RequestBody
+        CodeQRDateRangeLookup codeQRDateRangeLookup,
 
         HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Clients shown for codeQR={} from={} until={} request from mail={} did={} deviceType={} auth={}",
-            codeQR,
-            from,
-            until,
+        LOG.info("Clients shown for {} request from mail={} did={} deviceType={} auth={}",
+            codeQRDateRangeLookup,
             mail,
             did,
             deviceType,
@@ -593,23 +588,23 @@ public class QueueController {
             return null;
         }
 
-        if (StringUtils.isBlank(codeQR.getText())) {
-            LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
+        if (StringUtils.isBlank(codeQRDateRangeLookup.getCodeQR().getText())) {
+            LOG.warn("Not a valid codeQR={} qid={}", codeQRDateRangeLookup.getCodeQR().getText(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-        } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
+        } else if (!businessUserStoreService.hasAccess(qid, codeQRDateRangeLookup.getCodeQR().getText())) {
             LOG.info("Un-authorized store access to /api/m/q/showClients/{codeQR}/historical by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
 
         try {
-            BizStoreEntity bizStore = queueMobileService.findByCodeQR(codeQR.getText());
-            LocalDate fromLocalDate = LocalDate.parse(from.getText());
+            BizStoreEntity bizStore = queueMobileService.findByCodeQR(codeQRDateRangeLookup.getCodeQR().getText());
+            LocalDate fromLocalDate = LocalDate.parse(codeQRDateRangeLookup.getFrom().getText());
             Date fromDate = Date.from(fromLocalDate.atStartOfDay(ZoneId.of(bizStore.getTimeZone())).toInstant());
 
-            LocalDate untilLocalDate = LocalDate.parse(until.getText());
+            LocalDate untilLocalDate = LocalDate.parse(codeQRDateRangeLookup.getUntil().getText());
             Date untilDate = Date.from(untilLocalDate.atStartOfDay(ZoneId.of(bizStore.getTimeZone())).toInstant());
-            return queueMobileService.findAllRegisteredClientHistorical(codeQR.getText(),fromDate, untilDate).asJson();
+            return queueMobileService.findAllRegisteredClientHistorical(codeQRDateRangeLookup.getCodeQR().getText(),fromDate, untilDate).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queued clients reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

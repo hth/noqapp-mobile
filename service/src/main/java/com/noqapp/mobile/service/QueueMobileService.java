@@ -542,11 +542,6 @@ public class QueueMobileService {
         return jsonQueuePersonList;
     }
 
-    @Deprecated
-    public JsonQueuePersonList findAllRegisteredClientHistorical(String codeQR) {
-        return queueService.findAllRegisteredClientHistorical(codeQR);
-    }
-
     public JsonQueuePersonList findAllRegisteredClientHistorical(String codeQR, Date start, Date until) {
         return queueService.findAllRegisteredClientHistorical(codeQR, start, until);
     }
