@@ -23,6 +23,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 import com.noqapp.common.utils.CommonUtil;
+import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
@@ -49,7 +50,6 @@ import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.ChangeUserInQueue;
 import com.noqapp.mobile.domain.body.merchant.CodeQRDateRangeLookup;
-import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
@@ -604,6 +604,11 @@ public class QueueController {
 
             LocalDate untilLocalDate = LocalDate.parse(codeQRDateRangeLookup.getUntil().getText());
             Date untilDate = Date.from(untilLocalDate.atStartOfDay(ZoneId.of(bizStore.getTimeZone())).toInstant());
+
+            if (DateUtil.getDaysBetween(fromDate, untilDate) > 30) {
+                LOG.warn("Greater than 30 days. Limiting to 30 days {}", codeQRDateRangeLookup);
+                untilDate = DateUtil.asDate(fromLocalDate.plusDays(30));
+            }
             return queueMobileService.findAllRegisteredClientHistorical(codeQRDateRangeLookup.getCodeQR().getText(),fromDate, untilDate).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queued clients reason={}", e.getLocalizedMessage(), e);
