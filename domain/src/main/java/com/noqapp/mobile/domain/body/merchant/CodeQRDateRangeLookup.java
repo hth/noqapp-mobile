@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.StringJoiner;
+
 /**
  * User: hitender
  * Date: 9/13/19 10:40 AM
@@ -62,5 +64,14 @@ public class CodeQRDateRangeLookup extends AbstractDomain {
     public CodeQRDateRangeLookup setUntil(ScrubbedInput until) {
         this.until = until;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "CodeQRDateRangeLookup{" +
+            "codeQR=" + codeQR +
+            ", from=" + from +
+            ", until=" + until +
+            '}';
     }
 }
