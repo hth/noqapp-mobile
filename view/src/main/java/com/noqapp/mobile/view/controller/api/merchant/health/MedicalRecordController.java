@@ -22,10 +22,12 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.domain.HospitalVisitScheduleEntity;
 import com.noqapp.medical.domain.json.JsonMedicalRecord;
+import com.noqapp.medical.domain.json.JsonMedicalRecordList;
 import com.noqapp.medical.exception.ExistingLabResultException;
 import com.noqapp.medical.service.HospitalVisitScheduleService;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.mobile.domain.body.merchant.CodeQRDateRangeLookup;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.domain.body.merchant.HospitalVisitFor;
 import com.noqapp.mobile.domain.body.merchant.LabFile;
@@ -57,6 +59,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -730,5 +735,74 @@ public class MedicalRecordController {
             new ScrubbedInput(mr.getRecordReferenceId()).getText(),
             filename,
             response);
+    }
+
+    /** Populate all work history. */
+    @PostMapping(
+        value = "/workHistory",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String workHistory(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        CodeQRDateRangeLookup codeQRDateRangeLookup,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Retrieve medical record mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/h/medicalRecord/retrieve by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            if (StringUtils.isBlank(codeQRDateRangeLookup.getCodeQR().getText())) {
+                LOG.warn("Not a valid codeQR={} qid={}", codeQRDateRangeLookup.getCodeQR(), qid);
+                return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+            } else if (!businessUserStoreService.hasAccess(qid, codeQRDateRangeLookup.getCodeQR().getText())) {
+                LOG.info("Your are not authorized to add medical record mail={}", mail);
+                return getErrorReason("Your are not authorized to access medical record", MEDICAL_RECORD_ACCESS_DENIED);
+            }
+
+            BizStoreEntity bizStore = bizService.findByCodeQR(codeQRDateRangeLookup.getCodeQR().getText());
+            LocalDate fromLocalDate = LocalDate.parse(codeQRDateRangeLookup.getFrom().getText());
+            Date fromDate = Date.from(fromLocalDate.atStartOfDay(ZoneId.of(bizStore.getTimeZone())).toInstant());
+
+            LocalDate untilLocalDate = LocalDate.parse(codeQRDateRangeLookup.getUntil().getText());
+            Date untilDate = Date.from(untilLocalDate.atStartOfDay(ZoneId.of(bizStore.getTimeZone())).toInstant());
+
+            JsonMedicalRecordList jsonMedicalRecordList = medicalRecordService.retrieveMedicalRecord(
+                codeQRDateRangeLookup.getCodeQR().getText(),
+                codeQRDateRangeLookup.getMedicalRecordFieldFilter(),
+                fromDate,
+                untilDate);
+            return jsonMedicalRecordList.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed accessing medical record json={} qid={} message={}", codeQRDateRangeLookup, qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/retrieve",
+                "retrieve",
+                MedicalRecordController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
     }
 }
