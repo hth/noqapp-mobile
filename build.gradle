@@ -591,7 +591,7 @@ task war(type: War, dependsOn: prepWar) {
     archiveBaseName = "noqapp-mobile-$env" + "." + project.version.toString()
     from warDir
     version ""
-    destinationDir = file("$buildDir/war/$env")
+    destinationDirectory = file("$buildDir/war/$env")
 }
 
 task testReport(type: TestReport) {
