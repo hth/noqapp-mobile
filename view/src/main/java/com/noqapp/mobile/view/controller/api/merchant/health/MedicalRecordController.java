@@ -26,6 +26,7 @@ import com.noqapp.medical.domain.json.JsonMedicalRecordList;
 import com.noqapp.medical.exception.ExistingLabResultException;
 import com.noqapp.medical.service.HospitalVisitScheduleService;
 import com.noqapp.medical.service.MedicalRecordService;
+import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.CodeQRDateRangeLookup;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
@@ -88,6 +89,7 @@ public class MedicalRecordController {
     private BizService bizService;
     private MedicalRecordMobileService medicalRecordMobileService;
     private HospitalVisitScheduleService hospitalVisitScheduleService;
+    private UserMedicalProfileService userMedicalProfileService;
     private ImageCommonHelper imageCommonHelper;
     private ImageValidator imageValidator;
 
@@ -100,6 +102,7 @@ public class MedicalRecordController {
         BizService bizService,
         MedicalRecordMobileService medicalRecordMobileService,
         HospitalVisitScheduleService hospitalVisitScheduleService,
+        UserMedicalProfileService userMedicalProfileService,
         ImageCommonHelper imageCommonHelper,
         ImageValidator imageValidator
     ) {
@@ -110,6 +113,7 @@ public class MedicalRecordController {
         this.bizService = bizService;
         this.medicalRecordMobileService = medicalRecordMobileService;
         this.hospitalVisitScheduleService = hospitalVisitScheduleService;
+        this.userMedicalProfileService = userMedicalProfileService;
         this.imageCommonHelper = imageCommonHelper;
         this.imageValidator = imageValidator;
     }
@@ -231,9 +235,15 @@ public class MedicalRecordController {
                 return getErrorReason("Your are not authorized to access medical record", MEDICAL_RECORD_ACCESS_DENIED);
             }
 
-            JsonMedicalRecord jsonMedicalRecord = medicalRecordService.retrieveMedicalRecord(mr.getCodeQR(), mr.getRecordReferenceId());
-            if (null == jsonMedicalRecord) {
-                return getErrorReason("Your are not authorized to access medical record", MEDICAL_RECORD_ACCESS_DENIED);
+            JsonMedicalRecord jsonMedicalRecord = null;
+            if (StringUtils.isNotBlank(mr.getRecordReferenceId())) {
+                jsonMedicalRecord = medicalRecordService.retrieveMedicalRecord(mr.getCodeQR(), mr.getRecordReferenceId());
+                if (null == jsonMedicalRecord) {
+                    return getErrorReason("Your are not authorized to access medical record", MEDICAL_RECORD_ACCESS_DENIED);
+                }
+            } else {
+                jsonMedicalRecord = new JsonMedicalRecord();
+                jsonMedicalRecord.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(mr.getQueueUserId()));
             }
 
             return jsonMedicalRecord.asJson();
