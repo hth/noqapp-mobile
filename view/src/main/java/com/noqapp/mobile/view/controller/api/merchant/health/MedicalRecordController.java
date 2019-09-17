@@ -800,7 +800,8 @@ public class MedicalRecordController {
                 codeQRDateRangeLookup.getCodeQR().getText(),
                 codeQRDateRangeLookup.getMedicalRecordFieldFilter(),
                 fromDate,
-                untilDate);
+                untilDate,
+                codeQRDateRangeLookup.getCurrentPosition());
             return jsonMedicalRecordList.asJson();
         } catch (Exception e) {
             LOG.error("Failed accessing medical record json={} qid={} message={}", codeQRDateRangeLookup, qid, e.getLocalizedMessage(), e);
