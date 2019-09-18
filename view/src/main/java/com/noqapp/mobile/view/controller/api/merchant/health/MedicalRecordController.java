@@ -809,8 +809,8 @@ public class MedicalRecordController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/retrieve",
-                "retrieve",
+                "/workHistory",
+                "workHistory",
                 MedicalRecordController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
