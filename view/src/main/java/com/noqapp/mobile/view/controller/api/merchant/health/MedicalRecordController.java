@@ -775,7 +775,7 @@ public class MedicalRecordController {
         LOG.info("Retrieve medical record mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/h/medicalRecord/retrieve by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/h/medicalRecord/workHistory by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
