@@ -97,7 +97,7 @@ public class MedicalUserProfileController {
         LOG.info("Fetch mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/h/medicalRecord/add by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/h/medicalUserProfile/fetch by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
