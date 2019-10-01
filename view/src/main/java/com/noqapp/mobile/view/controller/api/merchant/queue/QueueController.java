@@ -605,10 +605,10 @@ public class QueueController {
             LocalDate untilLocalDate = LocalDate.parse(codeQRDateRangeLookup.getUntil().getText());
             Date untilDate = Date.from(untilLocalDate.atStartOfDay(ZoneId.of(bizStore.getTimeZone())).toInstant());
 
-            if (DateUtil.getDaysBetween(fromDate, untilDate) > 30) {
-                LOG.warn("Greater than 30 days. Limiting to 30 days {}", codeQRDateRangeLookup);
-                untilDate = DateUtil.asDate(fromLocalDate.plusDays(30));
-            }
+//            if (DateUtil.getDaysBetween(fromDate, untilDate) > 30) {
+//                LOG.warn("Greater than 30 days. Limiting to 30 days {}", codeQRDateRangeLookup);
+//                untilDate = DateUtil.asDate(fromLocalDate.plusDays(30));
+//            }
             return queueMobileService.findAllRegisteredClientHistorical(codeQRDateRangeLookup.getCodeQR().getText(),fromDate, untilDate).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queued clients reason={}", e.getLocalizedMessage(), e);
