@@ -23,8 +23,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Point;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -109,9 +112,18 @@ public class AdvertisementMobileService {
     }
 
     public JsonAdvertisementList findAllMobileApprovedAdvertisements() {
-        JsonAdvertisementList jsonAdvertisementList = new JsonAdvertisementList();
-
         List<AdvertisementEntity> advertisements = advertisementService.findAllMobileApprovedAdvertisements();
+        return populateJsonAdvertisements(advertisements);
+    }
+
+    public JsonAdvertisementList findAllMobileApprovedAdvertisementsByLocation(Point point) {
+        List<AdvertisementEntity> advertisements = advertisementService.findAllMobileApprovedAdvertisements(point);
+        return populateJsonAdvertisements(advertisements);
+    }
+
+    @NotNull
+    private JsonAdvertisementList populateJsonAdvertisements(List<AdvertisementEntity> advertisements) {
+        JsonAdvertisementList jsonAdvertisementList = new JsonAdvertisementList();
         for (AdvertisementEntity advertisement : advertisements) {
             BizNameEntity bizName = bizNameManager.getById(advertisement.getBizNameId());
             jsonAdvertisementList.addJsonAdvertisement(
