@@ -218,10 +218,10 @@ public class SearchBusinessStoreController {
         GeoIP geoIp;
         if (StringUtils.isNotBlank(cityName)) {
             //TODO search based on city when lat lng is disabled
-            geoIp = new GeoIP(ipAddress, "", Double.valueOf(lat), Double.valueOf(lng));
+            geoIp = new GeoIP(ipAddress, "", Double.parseDouble(lat), Double.parseDouble(lng));
             bizStoreElasticList.setCityName(cityName);
         } else if (StringUtils.isNotBlank(lng) && StringUtils.isNotBlank(lat)) {
-            geoIp = new GeoIP(ipAddress, "", Double.valueOf(lat), Double.valueOf(lng));
+            geoIp = new GeoIP(ipAddress, "", Double.parseDouble(lat), Double.parseDouble(lng));
             bizStoreElasticList.setCityName(geoIp.getCityName());
         } else {
             geoIp = geoIPLocationService.getLocation(ipAddress);
@@ -235,10 +235,10 @@ public class SearchBusinessStoreController {
         GeoIP geoIp;
         if (StringUtils.isNotBlank(cityName)) {
             //TODO search based on city when lat lng is disabled
-            geoIp = new GeoIP(ipAddress, "", Double.valueOf(lat), Double.valueOf(lng));
+            geoIp = new GeoIP(ipAddress, "", Double.parseDouble(lat), Double.parseDouble(lng));
             searchBizStoreElasticList.setCityName(cityName);
         } else if (StringUtils.isNotBlank(lng) && StringUtils.isNotBlank(lat)) {
-            geoIp = new GeoIP(ipAddress, "", Double.valueOf(lat), Double.valueOf(lng));
+            geoIp = new GeoIP(ipAddress, "", Double.parseDouble(lat), Double.parseDouble(lng));
             searchBizStoreElasticList.setCityName(geoIp.getCityName());
         } else {
             geoIp = geoIPLocationService.getLocation(ipAddress);

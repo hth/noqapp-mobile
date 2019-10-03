@@ -6,14 +6,18 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.domain.body.client.Location;
 import com.noqapp.mobile.service.AdvertisementMobileService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Point;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,7 +55,11 @@ public class AdvertisementMobileController {
         this.apiHealthService = apiHealthService;
     }
 
-    /** Tag every time store profile is displayed. For example doctor is associated to store, hence mark store is displayed. */
+    /**
+     * Tag every time store profile is displayed. For example doctor is associated to store, hence mark store is displayed.
+     * @since 1.2.320. /all remove after supporting 1.2.230
+     **/
+    @Deprecated
     @GetMapping(
         value = "/all",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -82,6 +90,49 @@ public class AdvertisementMobileController {
             apiHealthService.insert(
                 "/all",
                 "getAllAdvertisements",
+                AdvertisementMobileController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /**
+     * Tag every time store profile is displayed. For example doctor is associated to store, hence mark store is displayed.
+     **/
+    @PostMapping(
+        value = "/near",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String getAdvertisementsByLocation(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestBody
+        Location location,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Get advt near location={} for request from did={} deviceType={}", location, did, deviceType);
+
+        try {
+            Point point = new Point(Double.parseDouble(location.getLongitude().getText()), Double.parseDouble(location.getLatitude().getText()));
+            String adtv = advertisementMobileService.findAllMobileApprovedAdvertisementsByLocation(point).asJson();
+            LOG.info("{}", adtv);
+
+            return adtv;
+        } catch (Exception e) {
+            LOG.error("Failed getting advt reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/near",
+                "getAdvertisementsByLocation",
                 AdvertisementMobileController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
