@@ -48,10 +48,6 @@
 
     <beans:bean id="myFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
     <beans:bean id="onLoginSuccessHandler" class="com.noqapp.mobile.security.OnLoginAuthenticationSuccessHandler" />
-    <beans:bean id="relaxedHttpFirewall" class="org.springframework.security.web.firewall.StrictHttpFirewall">
-        <beans:property name="allowUrlEncodedDoubleSlash" value="true"/>
-    </beans:bean>
-    <http-firewall ref="relaxedHttpFirewall"/>
 
     <!-- Declare an authentication-manager to use a custom userDetailsService -->
     <authentication-manager>
