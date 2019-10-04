@@ -73,11 +73,11 @@
     <!--http://static.springsource.org/spring/docs/3.1.x/spring-framework-reference/html/mvc.html-->
     <!--16.3.3.11 Working with "application/x-www-form-urlencoded" data-->
     <filter>
-        <filter-name>httpPutFormFilter</filter-name>
-        <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+        <filter-name>formContentFilter</filter-name>
+        <filter-class>org.springframework.web.filter.FormContentFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>httpPutFormFilter</filter-name>
+        <filter-name>formContentFilter</filter-name>
         <servlet-name>noqapp-mobile</servlet-name>
     </filter-mapping>
 
