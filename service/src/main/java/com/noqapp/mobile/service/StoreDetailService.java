@@ -66,10 +66,13 @@ public class StoreDetailService {
                 .setProductPrice(storeProduct.getProductPrice())
                 .setProductDiscount(storeProduct.getProductDiscount())
                 .setProductInfo(storeProduct.getProductInfo())
+                .setProductImage(storeProduct.getProductImage())
                 .setStoreCategoryId(storeProduct.getStoreCategoryId())
                 .setProductType(storeProduct.getProductType())
                 .setUnitValue(storeProduct.getUnitValue())
                 .setPackageSize(storeProduct.getPackageSize())
+                .setInventoryCurrent(storeProduct.getInventoryCurrent())
+                .setInventoryLimit(storeProduct.getInventoryLimit())
                 .setUnitOfMeasurement(storeProduct.getUnitOfMeasurement())
                 .setProductReference(storeProduct.getProductReference())
                 .setActive(storeProduct.isActive());
