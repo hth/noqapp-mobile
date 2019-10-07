@@ -70,6 +70,8 @@ public class StoreDetailService {
                 .setProductType(storeProduct.getProductType())
                 .setUnitValue(storeProduct.getUnitValue())
                 .setPackageSize(storeProduct.getPackageSize())
+                .setInventoryCurrent(storeProduct.getInventoryCurrent())
+                .setInventoryLimit(storeProduct.getInventoryLimit())
                 .setUnitOfMeasurement(storeProduct.getUnitOfMeasurement())
                 .setProductReference(storeProduct.getProductReference())
                 .setActive(storeProduct.isActive());
