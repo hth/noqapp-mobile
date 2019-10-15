@@ -10,6 +10,7 @@ import com.noqapp.domain.UserPreferenceEntity;
 import com.noqapp.domain.json.JsonUserPreference;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.domain.body.client.Feedback;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.UserProfilePreferenceService;
 
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -145,6 +147,60 @@ public class ClientPreferenceController {
             apiHealthService.insert(
                 "/promotionalSMS",
                 "promotionalSMS",
+                ClientPreferenceController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping(
+        value = "/order",
+        headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+    )
+    public String order(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonUserPreference jsonUserPreference,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.debug("Order preference mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            UserPreferenceEntity userPreference = userProfilePreferenceService.updateOrderPreference(
+                qid,
+                jsonUserPreference.getDeliveryMode(),
+                jsonUserPreference.getPaymentMethod(),
+                jsonUserPreference.getUserAddressId());
+
+            return JsonUserPreference.convertToJsonUserPreference(userPreference).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed setting order preference qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/order",
+                "order",
                 ClientPreferenceController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
