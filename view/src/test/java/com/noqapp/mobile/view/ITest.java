@@ -410,7 +410,8 @@ public class ITest extends RealMongoForITest {
         userAddressService = new UserAddressService(userAddressManager, externalService);
         userProfilePreferenceService = new UserProfilePreferenceService(
             userProfileManager,
-            userPreferenceManager
+            userPreferenceManager,
+            userAddressManager
         );
 
         accountMobileService = new AccountMobileService(
@@ -421,7 +422,8 @@ public class ITest extends RealMongoForITest {
             userProfilePreferenceService,
             userMedicalProfileService,
             professionalProfileService,
-            userAddressService
+            userAddressService,
+            businessUserManager
         );
 
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6, 6);
