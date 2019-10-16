@@ -272,7 +272,7 @@ public class AccountMobileService {
 
         switch (userProfile.getLevel()) {
             case S_MANAGER:
-            case SUPERVISOR:
+            case Q_SUPERVISOR:
                 BusinessUserEntity businessUser = businessUserManager.findByQid(userProfile.getQueueUserId());
                 jsonProfile.setBizNameId(businessUser.getBizName().getId());
                 break;
