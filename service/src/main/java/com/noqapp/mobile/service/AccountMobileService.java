@@ -3,6 +3,7 @@ package com.noqapp.mobile.service;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 
 import com.noqapp.common.utils.RandomString;
+import com.noqapp.domain.BusinessUserEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -16,6 +17,7 @@ import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.domain.mail.ChangeMailOTP;
 import com.noqapp.mobile.domain.mail.SignupUserInfo;
+import com.noqapp.repository.BusinessUserManager;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.UserAddressService;
@@ -62,6 +64,7 @@ public class AccountMobileService {
     private UserMedicalProfileService userMedicalProfileService;
     private ProfessionalProfileService professionalProfileService;
     private UserAddressService userAddressService;
+    private BusinessUserManager businessUserManager;
 
     @Autowired
     public AccountMobileService(
@@ -76,7 +79,8 @@ public class AccountMobileService {
         UserProfilePreferenceService userProfilePreferenceService,
         UserMedicalProfileService userMedicalProfileService,
         ProfessionalProfileService professionalProfileService,
-        UserAddressService userAddressService
+        UserAddressService userAddressService,
+        BusinessUserManager businessUserManager
     ) {
         this.accountSignup = accountSignup;
         this.mailChange = mailChange;
@@ -87,6 +91,7 @@ public class AccountMobileService {
         this.userMedicalProfileService = userMedicalProfileService;
         this.professionalProfileService = professionalProfileService;
         this.userAddressService = userAddressService;
+        this.businessUserManager = businessUserManager;
     }
 
     /**
@@ -264,6 +269,16 @@ public class AccountMobileService {
         JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount)
             .setJsonUserAddresses(jsonUserAddressList.getJsonUserAddresses())
             .setJsonUserPreference(userProfilePreferenceService.findUserPreferenceAsJson(qid));
+
+        switch (userProfile.getLevel()) {
+            case S_MANAGER:
+            case SUPERVISOR:
+                BusinessUserEntity businessUser = businessUserManager.findByQid(userProfile.getQueueUserId());
+                jsonProfile.setBizNameId(businessUser.getBizName().getId());
+                break;
+            default:
+                //Do not do anything otherwise
+        }
 
         if (null != userProfile.getQidOfDependents()) {
             for (String qidOfDependent : userProfile.getQidOfDependents()) {
