@@ -87,7 +87,7 @@ public class SurveyAPIController {
         }
 
         try {
-            BusinessUserEntity businessUser = businessUserService.loadBusinessUser();
+            BusinessUserEntity businessUser = businessUserService.findByQid(qid);
             if (null != businessUser) {
                 return surveyService.findOne(businessUser.getBizName().getId()).asJson();
             }
