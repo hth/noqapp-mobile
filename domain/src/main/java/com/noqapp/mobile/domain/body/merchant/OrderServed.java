@@ -2,6 +2,7 @@ package com.noqapp.mobile.domain.body.merchant;
 
 import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.shared.GeoPointOfQ;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 
@@ -49,6 +50,9 @@ public class OrderServed extends AbstractDomain {
 
     @JsonProperty("g")
     private ScrubbedInput goTo;
+
+    @JsonProperty("cor")
+    private GeoPointOfQ geoPointOfQ;
 
     public ScrubbedInput getCodeQR() {
         return codeQR;
@@ -108,6 +112,15 @@ public class OrderServed extends AbstractDomain {
 
     public void setGoTo(ScrubbedInput goTo) {
         this.goTo = goTo;
+    }
+
+    public GeoPointOfQ getGeoPointOfQ() {
+        return geoPointOfQ;
+    }
+
+    public OrderServed setGeoPointOfQ(GeoPointOfQ geoPointOfQ) {
+        this.geoPointOfQ = geoPointOfQ;
+        return this;
     }
 
     @Override
