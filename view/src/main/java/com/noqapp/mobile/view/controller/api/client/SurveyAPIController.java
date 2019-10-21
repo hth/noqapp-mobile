@@ -88,16 +88,12 @@ public class SurveyAPIController {
 
         try {
             BusinessUserEntity businessUser = businessUserService.loadBusinessUser();
-            if(null != businessUser) {
+            if (null != businessUser) {
                 return surveyService.findOne(businessUser.getBizName().getId()).asJson();
             }
 
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
-        } catch(AccountNotActiveException e) {
-            LOG.error("Failed getting survey qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
         } catch (Exception e) {
             LOG.error("Failed getting survey qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
