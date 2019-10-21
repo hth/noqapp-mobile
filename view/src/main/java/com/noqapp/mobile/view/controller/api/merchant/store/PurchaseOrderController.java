@@ -316,7 +316,7 @@ public class PurchaseOrderController {
         ScrubbedInput auth,
 
         @RequestBody
-        String requestBodyJson,
+        OrderServed orderServed,
 
         HttpServletResponse response
     ) throws IOException {
@@ -327,9 +327,7 @@ public class PurchaseOrderController {
         if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/served")) return null;
 
         try {
-            Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(requestBodyJson);
-            String codeQR = map.containsKey("qr") ? map.get("qr").getText() : null;
-
+            String codeQR = orderServed.getCodeQR().getText();
             if (StringUtils.isBlank(codeQR)) {
                 LOG.warn("Not a valid codeQR={} qid={}", codeQR, qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
@@ -339,33 +337,17 @@ public class PurchaseOrderController {
                 return null;
             }
 
-            String serveTokenString = map.containsKey("t") ? map.get("t").getText() : null;
-            int servedNumber;
-            if (StringUtils.isNumeric(serveTokenString)) {
-                servedNumber = Integer.parseInt(serveTokenString);
-            } else {
-                LOG.warn("Not a valid number={} codeQR={} qid={}", serveTokenString, codeQR, qid);
-                return getErrorReason("Not a valid number.", MOBILE_JSON);
-            }
-
-            PurchaseOrderStateEnum purchaseOrderState;
+            int servedNumber = orderServed.getServedNumber();
+            PurchaseOrderStateEnum purchaseOrderState = orderServed.getPurchaseOrderState();
+            QueueStatusEnum queueStatus = orderServed.getQueueStatus();
             try {
-                purchaseOrderState = map.containsKey("p") ? PurchaseOrderStateEnum.valueOf(map.get("p").getText()) : null;
-            } catch (IllegalArgumentException e) {
-                LOG.error("Failed finding PurchaseOrderState reason={}", e.getLocalizedMessage(), e);
-                return getErrorReason("Not a valid purchase order state.", MOBILE_JSON);
-            }
-
-            QueueStatusEnum queueStatus;
-            try {
-                queueStatus = map.containsKey("s") ? QueueStatusEnum.valueOf(map.get("s").getText()) : null;
                 Assert.notNull(queueStatus, "Queue Status cannot be null");
             } catch (IllegalArgumentException e) {
                 LOG.error("Failed finding QueueStatus reason={}", e.getLocalizedMessage(), e);
                 return getErrorReason("Not a valid queue status.", MOBILE_JSON);
             }
 
-            String goTo = map.containsKey("g") ? map.get("g").getText() : null;
+            String goTo = orderServed.getGoTo().getText();
             if (StringUtils.isBlank(goTo)) {
                 return getErrorReason("Counter name cannot be empty.", MOBILE_JSON);
             } else {
@@ -405,7 +387,7 @@ public class PurchaseOrderController {
             LOG.info("On served response servedNumber={} nowServicing={} jsonToken={}", servedNumber, jsonToken.getServingNumber(), jsonToken);
             return jsonToken.asJson();
         } catch (JsonMappingException e) {
-            LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed parsing json={} qid={} message={}", orderServed, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
@@ -440,7 +422,7 @@ public class PurchaseOrderController {
         ScrubbedInput auth,
 
         @RequestBody
-        String requestBodyJson,
+        OrderServed orderServed,
 
         HttpServletResponse response
     ) throws IOException {
@@ -451,9 +433,7 @@ public class PurchaseOrderController {
         if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/acquire")) return null;
 
         try {
-            Map<String, ScrubbedInput> map = ParseJsonStringToMap.jsonStringToMap(requestBodyJson);
-            String codeQR = map.containsKey("qr") ? map.get("qr").getText() : null;
-
+            String codeQR = orderServed.getCodeQR().getText();
             if (StringUtils.isBlank(codeQR)) {
                 LOG.warn("Not a valid codeQR={} qid={}", codeQR, qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
@@ -463,25 +443,16 @@ public class PurchaseOrderController {
                 return null;
             }
 
-            String serveTokenString = map.containsKey("t") ? map.get("t").getText() : null;
-            int servedNumber;
-            if (StringUtils.isNumeric(serveTokenString)) {
-                servedNumber = Integer.parseInt(serveTokenString);
-            } else {
-                LOG.warn("Not a valid number={} codeQR={} qid={}", serveTokenString, codeQR, qid);
-                return getErrorReason("Not a valid number.", MOBILE_JSON);
-            }
-
-            QueueStatusEnum queueStatus;
+            int servedNumber = orderServed.getServedNumber();
+            QueueStatusEnum queueStatus = orderServed.getQueueStatus();
             try {
-                queueStatus = map.containsKey("s") ? QueueStatusEnum.valueOf(map.get("s").getText()) : null;
                 Assert.notNull(queueStatus, "Queue Status cannot be null");
             } catch (IllegalArgumentException e) {
                 LOG.error("Failed finding QueueStatus reason={}", e.getLocalizedMessage(), e);
                 return getErrorReason("Not a valid queue status.", MOBILE_JSON);
             }
 
-            String goTo = map.containsKey("g") ? map.get("g").getText() : "";
+            String goTo = orderServed.getGoTo().getText();
             if (StringUtils.isBlank(goTo)) {
                 return getErrorReason("Counter name cannot be empty.", MOBILE_JSON);
             } else {
@@ -511,13 +482,13 @@ public class PurchaseOrderController {
             }
 
             if (null == jsonToken) {
-                LOG.warn("Failed to acquire client={} qid={} did={}", serveTokenString, qid, did);
-                return getErrorReason("Could not acquire client " + serveTokenString, MERCHANT_COULD_NOT_ACQUIRE);
+                LOG.warn("Failed to acquire client={} qid={} did={}", servedNumber, qid, did);
+                return getErrorReason("Could not acquire client " + servedNumber, MERCHANT_COULD_NOT_ACQUIRE);
             }
             LOG.info("On served response servedNumber={} nowServicing={} jsonToken={}", servedNumber, jsonToken.getServingNumber(), jsonToken);
             return jsonToken.asJson();
         } catch (JsonMappingException e) {
-            LOG.error("Failed parsing json={} qid={} message={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed parsing json={} qid={} message={}", orderServed, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
