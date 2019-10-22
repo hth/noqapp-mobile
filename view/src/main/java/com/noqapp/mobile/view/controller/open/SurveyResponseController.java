@@ -1,7 +1,6 @@
 package com.noqapp.mobile.view.controller.open;
 
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_NO_LONGER_EXISTS;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
@@ -9,7 +8,6 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonSurvey;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.service.SurveyService;
 
 import org.slf4j.Logger;
@@ -17,20 +15,14 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * User: hitender
@@ -44,14 +36,14 @@ import javax.servlet.http.HttpServletResponse;
 })
 @RestController
 @RequestMapping(value = "/open/survey")
-public class SurveyController {
-    private static final Logger LOG = LoggerFactory.getLogger(SurveyController.class);
+public class SurveyResponseController {
+    private static final Logger LOG = LoggerFactory.getLogger(SurveyResponseController.class);
 
     private SurveyService surveyService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public SurveyController(
+    public SurveyResponseController(
         SurveyService surveyService,
         ApiHealthService apiHealthService
     ) {
@@ -90,7 +82,7 @@ public class SurveyController {
             apiHealthService.insert(
                 "/response",
                 "surveyResponse",
-                SurveyController.class.getName(),
+                SurveyResponseController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
