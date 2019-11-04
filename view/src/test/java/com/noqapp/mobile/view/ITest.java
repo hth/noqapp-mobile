@@ -1228,6 +1228,12 @@ public class ITest extends RealMongoForITest {
             bizStore.getCodeQR(),
             queueManagerUserProfile.getLevel());
         businessUserStoreService.save(businessUserStore);
+        businessUserService.save(
+            BusinessUserEntity.newInstance(queueManagerUserProfile.getQueueUserId(), queueManagerUserProfile.getLevel())
+                .setBizName(bizStore.getBizName())
+                .setBusinessUserRegistrationStatus(BusinessUserRegistrationStatusEnum.V)
+                .setValidateByQid(accountService.checkUserExistsByPhone("9118000000102").getQueueUserId()));
+
         professionalProfileService.createProfessionalProfile(queueManagerUserProfile.getQueueUserId());
         ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(queueManagerUserProfile.getQueueUserId());
         NameDatePair nameDatePair1 = new NameDatePair().setName("MBBS").setMonthYear("1985-01-22");
