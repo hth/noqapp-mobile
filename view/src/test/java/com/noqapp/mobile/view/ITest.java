@@ -182,6 +182,7 @@ import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -1138,7 +1139,7 @@ public class ITest extends RealMongoForITest {
     private void createBusinessDoctor(String phone) {
         UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
 
-        BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")))
+        BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))))
             .setBusinessName("Champ")
             .setBusinessType(BusinessTypeEnum.DO)
             .setPhone("9118000000000")
@@ -1159,7 +1160,7 @@ public class ITest extends RealMongoForITest {
             bizName.getId());
 
         bizName.setWebLocation(webLocation);
-        bizName.setCodeQR(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")));
+        bizName.setCodeQR(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))));
         bizService.saveName(bizName);
 
         BizStoreEntity bizStore = BizStoreEntity.newInstance()
@@ -1180,7 +1181,7 @@ public class ITest extends RealMongoForITest {
             .setCountryShortName("IN")
             .setCoordinate(new double[]{73.022498, 19.0244723});
         bizStore.setWebLocation(webLocation);
-        bizStore.setCodeQR(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")));
+        bizStore.setCodeQR(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))));
         bizService.saveStore(bizStore, "Created New Store");
 
         List<StoreHourEntity> storeHours = new LinkedList<>();
@@ -1227,6 +1228,12 @@ public class ITest extends RealMongoForITest {
             bizStore.getCodeQR(),
             queueManagerUserProfile.getLevel());
         businessUserStoreService.save(businessUserStore);
+        businessUserService.save(
+            BusinessUserEntity.newInstance(queueManagerUserProfile.getQueueUserId(), queueManagerUserProfile.getLevel())
+                .setBizName(bizStore.getBizName())
+                .setBusinessUserRegistrationStatus(BusinessUserRegistrationStatusEnum.V)
+                .setValidateByQid(accountService.checkUserExistsByPhone("9118000000102").getQueueUserId()));
+
         professionalProfileService.createProfessionalProfile(queueManagerUserProfile.getQueueUserId());
         ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(queueManagerUserProfile.getQueueUserId());
         NameDatePair nameDatePair1 = new NameDatePair().setName("MBBS").setMonthYear("1985-01-22");
@@ -1240,7 +1247,7 @@ public class ITest extends RealMongoForITest {
     private void createBusinessPharmacy(String phone) {
         UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
 
-        BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")))
+        BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))))
             .setBusinessName("Pharmacy Business")
             .setBusinessType(BusinessTypeEnum.PH)
             .setPhone("9118000000011")
@@ -1261,7 +1268,7 @@ public class ITest extends RealMongoForITest {
             bizName.getId());
 
         bizName.setWebLocation(webLocation);
-        bizName.setCodeQR(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")));
+        bizName.setCodeQR(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))));
         bizService.saveName(bizName);
 
         BizStoreEntity bizStore = BizStoreEntity.newInstance()
@@ -1282,7 +1289,7 @@ public class ITest extends RealMongoForITest {
             .setCountryShortName("IN")
             .setCoordinate(new double[]{73.022498, 19.0244723});
         bizStore.setWebLocation(webLocation);
-        bizStore.setCodeQR(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")));
+        bizStore.setCodeQR(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))));
         bizService.saveStore(bizStore, "Created New Store");
 
         List<StoreHourEntity> storeHours = new LinkedList<>();
@@ -1334,7 +1341,7 @@ public class ITest extends RealMongoForITest {
     private void createBusinessHealthCareService(String phone) {
         UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
 
-        BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")))
+        BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))))
             .setBusinessName("Health Care Service")
             .setBusinessType(BusinessTypeEnum.HS)
             .setPhone("9118000000161")
@@ -1355,7 +1362,7 @@ public class ITest extends RealMongoForITest {
             bizName.getId());
 
         bizName.setWebLocation(webLocation);
-        bizName.setCodeQR(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")));
+        bizName.setCodeQR(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))));
         bizService.saveName(bizName);
 
         BizStoreEntity bizStore = BizStoreEntity.newInstance()
@@ -1376,7 +1383,7 @@ public class ITest extends RealMongoForITest {
             .setCountryShortName("IN")
             .setCoordinate(new double[]{73.022498, 19.0244723});
         bizStore.setWebLocation(webLocation);
-        bizStore.setCodeQR(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")));
+        bizStore.setCodeQR(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))));
         bizService.saveStore(bizStore, "Created New Store");
 
         List<StoreHourEntity> storeHours = new LinkedList<>();
@@ -1428,7 +1435,7 @@ public class ITest extends RealMongoForITest {
     private void createBusinessRestaurant(String phone) {
         UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
 
-        BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")))
+        BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))))
                 .setBusinessName("Restaurant Business")
                 .setBusinessType(BusinessTypeEnum.RS)
                 .setPhone("9118000000021")
@@ -1449,7 +1456,7 @@ public class ITest extends RealMongoForITest {
                 bizName.getId());
 
         bizName.setWebLocation(webLocation);
-        bizName.setCodeQR(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")));
+        bizName.setCodeQR(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))));
         bizService.saveName(bizName);
 
         BizStoreEntity bizStore = BizStoreEntity.newInstance()
@@ -1470,7 +1477,7 @@ public class ITest extends RealMongoForITest {
                 .setCountryShortName("IN")
                 .setCoordinate(new double[]{73.022498, 19.0244723});
         bizStore.setWebLocation(webLocation);
-        bizStore.setCodeQR(CommonUtil.generateCodeQR(mockEnvironment.getProperty("build.env")));
+        bizStore.setCodeQR(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))));
         bizService.saveStore(bizStore, "Created New Store");
 
         List<StoreHourEntity> storeHours = new LinkedList<>();

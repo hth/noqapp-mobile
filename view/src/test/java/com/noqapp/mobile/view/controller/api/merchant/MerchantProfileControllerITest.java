@@ -135,7 +135,7 @@ class MerchantProfileControllerITest extends ITest {
 
         JsonProfile jsonProfileUpdated = new ObjectMapper().readValue(jsonProfileAsString, JsonProfile.class);
         assertEquals("My New Name", jsonProfileUpdated.getName());
-        assertEquals(null, jsonProfileUpdated.getAddress());
+        assertNull(jsonProfileUpdated.getAddress());
 
         updateProfile = new UpdateProfile()
             .setQueueUserId(jsonProfile.getQueueUserId())
