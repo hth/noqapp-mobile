@@ -200,7 +200,7 @@ subprojects {
         implementation "commons-fileupload:commons-fileupload:$commonsfileupload"
         implementation "commons-io:commons-io:$commonsio"
         implementation "commons-validator:commons-validator:$commonsvalidator"
-        implementation "commons-codec:commons-codec:1.11"
+        implementation "commons-codec:commons-codec:1.13"
         implementation "commons-logging:commons-logging:1.2"
 
         implementation "javax.mail:javax.mail-api:$javaxMail"
