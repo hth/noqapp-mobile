@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.filter;
 
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static net.logstash.logback.argument.StructuredArguments.kv;
 
 import com.noqapp.mobile.view.controller.open.IsWorkingController;
 import com.noqapp.search.elastic.config.IPGeoConfiguration;
@@ -91,17 +92,16 @@ public class LogContextFilter implements Filter {
             LOG.error("Failed reason={}", e.getLocalizedMessage(), e);
         }
 
-        LOG.info("Request received:"
-            + " Host=\"" + getHeader(headerMap, "host") + "\""
-            + " UserAgent=\"" + getHeader(headerMap, "user-agent") + "\""
-            + " Accept=\"" + getHeader(headerMap, "accept") + "\""
-            + " ForwardedFor=\"" + ip + "\""
-            + " Country=\"" + countryCode + "\""
-            + " City=\"" + city + "\""
-            + " Endpoint=\"" + extractDataFromURL(url, "$5") + "\""
-            + " Query=\"" + (query == null ? "none" : query) + "\""
-            + " URL=\"" + url + "\""
-        );
+        LOG.info("Request received {} {} {} {} {} {} {} {} {}",
+            kv("host", getHeader(headerMap, "host")),
+            kv("userAgent", getHeader(headerMap, "user-agent")),
+            kv("accept", getHeader(headerMap, "accept")),
+            kv("forwardedFor", ip),
+            kv("countryCode", countryCode),
+            kv("city", city),
+            kv("endPoint", extractDataFromURL(url, "$5")),
+            kv("query", (query == null ? "none" : query)),
+            kv("url", url));
 
         if (StringUtils.isNotBlank(countryCode)) {
             switch (countryCode) {
