@@ -15,9 +15,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import org.elasticsearch.action.main.MainResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.core.MainResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -97,12 +97,12 @@ public class NoQAppInitializationCheckBean {
             }
 
             MainResponse mainResponse = restHighLevelClient.info(RequestOptions.DEFAULT);
-            LOG.info("Elastic on Mobile {} connected clusterName={} nodeName={}\n  build={}\n  clusterUuid={}\n",
-                mainResponse.getVersion(),
+            LOG.info("Elastic connected clusterName={} nodeName={}\n  build={}\n  clusterUuid={}\n luceneVersion={}\n",
                 mainResponse.getClusterName(),
                 mainResponse.getNodeName(),
-                mainResponse.getBuild(),
-                mainResponse.getClusterUuid());
+                mainResponse.getVersion().getNumber(),
+                mainResponse.getClusterUuid(),
+                mainResponse.getVersion().getLuceneVersion());
         } catch (IOException e) {
             LOG.error("Elastic on Mobile could not be connected");
             throw new RuntimeException("Elastic on Mobile could not be connected");
