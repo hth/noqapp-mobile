@@ -92,14 +92,13 @@ public class SearchBusinessStoreController {
         try {
             String query = searchStoreQuery.getQuery().getText();
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.info("Searching query=\"{}\" cityName=\"{}\" lat=\"{}\" lng=\"{}\" ipAddress=\"{}\" location=\"{\"lat\": {},\"lon\"{}}\"",
+            LOG.info("Searching query={} cityName={} lat={} lng={} filters={} ipAddress={}",
                 query,
                 searchStoreQuery.getCityName(),
                 searchStoreQuery.getLatitude(),
                 searchStoreQuery.getLongitude(),
-                ipAddress,
-                searchStoreQuery.getLatitude(),
-                searchStoreQuery.getLongitude());
+                searchStoreQuery.getFilters(),
+                ipAddress);
 
             SearchBizStoreElasticList searchBizStoreElasticList = new SearchBizStoreElasticList();
             GeoIP geoIp = getGeoIP(
