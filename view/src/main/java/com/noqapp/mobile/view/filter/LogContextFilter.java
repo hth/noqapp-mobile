@@ -92,7 +92,7 @@ public class LogContextFilter implements Filter {
             LOG.error("Failed reason={}", e.getLocalizedMessage(), e);
         }
 
-        LOG.info("Request received {} {} {} {} {} {} {} {} {}",
+        LOG.info("Request received \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\"",
             kv("host", getHeader(headerMap, "host")),
             kv("userAgent", getHeader(headerMap, "user-agent")),
             kv("accept", getHeader(headerMap, "accept")),
