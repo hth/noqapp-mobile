@@ -97,7 +97,7 @@ public class NoQAppInitializationCheckBean {
             }
 
             MainResponse mainResponse = restHighLevelClient.info(RequestOptions.DEFAULT);
-            LOG.info("Elastic connected clusterName={} nodeName={}\n  build={}\n  clusterUuid={}\n luceneVersion={}\n",
+            LOG.info("Elastic connected clusterName={} nodeName={}\n  build={}\n  clusterUuid={}\n  luceneVersion={}\n",
                 mainResponse.getClusterName(),
                 mainResponse.getNodeName(),
                 mainResponse.getVersion().getNumber(),
