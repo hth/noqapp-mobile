@@ -1,8 +1,5 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static net.logstash.logback.argument.StructuredArguments.keyValue;
-import static net.logstash.logback.argument.StructuredArguments.kv;
-
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -112,7 +109,7 @@ public class SearchBusinessStoreController {
                 searchBizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
 
-            LOG.info("Search \"{}\" \"{}\" \"{}\" \"{}\"", kv("query", query), kv("cityName", searchStoreQuery.getCityName()), kv("geoHash", geoHash), kv("ipAddress", ipAddress));
+            LOG.info("Search query=\"{}\" cityName=\"{}\" geoHash=\"n{}\" ipAddress=\"{}\"", query, searchStoreQuery.getCityName(), geoHash, ipAddress);
             if (StringUtils.isBlank(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
