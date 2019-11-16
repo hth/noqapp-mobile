@@ -109,7 +109,7 @@ public class SearchBusinessStoreController {
                 searchBizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
 
-            LOG.info("Search query=\"{}\" cityName=\"{}\" geoHash=\"n{}\" ipAddress=\"{}\"", query, searchStoreQuery.getCityName(), geoHash, ipAddress);
+            LOG.info("Search query=\"{}\" cityName=\"{}\" geoHash=\"{}\" ipAddress=\"{}\"", query, searchStoreQuery.getCityName(), geoHash, ipAddress);
             if (StringUtils.isBlank(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
