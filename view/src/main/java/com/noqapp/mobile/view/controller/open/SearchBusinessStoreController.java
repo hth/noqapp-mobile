@@ -92,7 +92,7 @@ public class SearchBusinessStoreController {
         try {
             String query = searchStoreQuery.getQuery().getText();
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.debug("Searching query={} cityName={} lat={} lng={} filters={} ipAddress={}",
+            LOG.debug("Searching query={} city={} lat={} lng={} filters={} ipAddress={}",
                 query,
                 searchStoreQuery.getCityName(),
                 searchStoreQuery.getLatitude(),
@@ -109,7 +109,7 @@ public class SearchBusinessStoreController {
                 searchBizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
 
-            LOG.info("Search query=\"{}\" cityName=\"{}\" geoHash=\"{}\" ipAddress=\"{}\"", query, searchStoreQuery.getCityName(), geoHash, ipAddress);
+            LOG.info("Search query=\"{}\" city=\"{}\" geoHash=\"{}\" ipAddress=\"{}\"", query, searchStoreQuery.getCityName(), geoHash, ipAddress);
             if (StringUtils.isBlank(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
@@ -162,7 +162,7 @@ public class SearchBusinessStoreController {
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.info("NearMe cityName={} lat={} lng={} filters={} ipAddress={}",
+            LOG.debug("NearMe cityName={} lat={} lng={} filters={} ipAddress={}",
                 searchStoreQuery.getCityName(),
                 searchStoreQuery.getLatitude(),
                 searchStoreQuery.getLongitude(),
@@ -181,7 +181,7 @@ public class SearchBusinessStoreController {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
-            LOG.debug("GeoIP={} geoHash={}", geoIp, geoHash);
+            LOG.info("NearMe city=\"{}\" geoHash=\"{}\" ipAddress=\"{}\"", searchStoreQuery.getCityName(), geoHash, ipAddress);
 
             /* Start of DSL query. */
 //            List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
