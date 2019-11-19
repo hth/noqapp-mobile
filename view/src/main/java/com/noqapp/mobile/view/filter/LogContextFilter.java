@@ -5,6 +5,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import com.noqapp.mobile.view.controller.open.IsWorkingController;
 import com.noqapp.search.elastic.config.IPGeoConfiguration;
 
+import com.drew.lang.StringUtil;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
@@ -84,7 +85,7 @@ public class LogContextFilter implements Filter {
             InetAddress ipAddress = InetAddress.getByName(ip);
             CityResponse response = ipGeoConfiguration.getDatabaseReader().city(ipAddress);
             countryCode = response.getCountry().getIsoCode();
-            city = response.getCity().getName();
+            city = StringUtils.isEmpty(response.getCity().getName()) ? "" : response.getCity().getName();
         } catch (AddressNotFoundException e) {
             LOG.warn("Failed finding address={} reason={}", ip, e.getLocalizedMessage());
         } catch (GeoIp2Exception e) {
