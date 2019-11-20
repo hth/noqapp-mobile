@@ -79,8 +79,8 @@ public class LogContextFilter implements Filter {
         String url = httpServletRequest.getRequestURL().toString();
         String query = httpServletRequest.getQueryString();
         String ip = getHeader(headerMap, "x-forwarded-for");
-        String countryCode = null;
-        String city = null;
+        String countryCode = "";
+        String city = "";
         try {
             InetAddress ipAddress = InetAddress.getByName(ip);
             CityResponse response = ipGeoConfiguration.getDatabaseReader().city(ipAddress);
