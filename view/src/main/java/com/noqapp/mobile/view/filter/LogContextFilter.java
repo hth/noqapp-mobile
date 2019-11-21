@@ -87,7 +87,7 @@ public class LogContextFilter implements Filter {
             countryCode = response.getCountry().getIsoCode();
             city = StringUtils.isEmpty(response.getCity().getName()) ? "" : response.getCity().getName();
         } catch (AddressNotFoundException e) {
-            LOG.warn("Failed finding address={} reason={}", ip, e.getLocalizedMessage());
+            LOG.warn("Failed finding ip={} reason={}", ip, e.getLocalizedMessage());
         } catch (GeoIp2Exception e) {
             LOG.error("Failed reason={}", e.getLocalizedMessage(), e);
         }
