@@ -96,7 +96,7 @@ public class LogContextFilter implements Filter {
             + " host=\"" + getHeader(headerMap, "host") + "\""
             + " userAgent=\"" + getHeader(headerMap, "user-agent") + "\""
             + " accept=\"" + getHeader(headerMap, "accept") + "\""
-            + " forwardedFor=\"" + ip + "\""
+            + " ip=\"" + ip + "\""
             + " country=\"" + countryCode + "\""
             + " city=\"" + city + "\""
             + " endpoint=\"" + extractDataFromURL(url, "$5") + "\""
