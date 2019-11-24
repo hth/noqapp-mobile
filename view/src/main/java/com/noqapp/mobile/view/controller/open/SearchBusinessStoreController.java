@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.client.SearchStoreQuery;
@@ -142,7 +143,7 @@ public class SearchBusinessStoreController {
 
     /** Populated with lat and lng at the minimum, when missing uses IP address. */
     @PostMapping(
-        value = {"/nearMe", "/healthCare", "/otherMerchant"},
+        value = {"/nearMe", "/otherMerchant"},
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     public String nearMe(
         @RequestHeader("X-R-DID")
@@ -210,6 +211,82 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/nearMe",
                 "nearMe",
+                SearchBusinessStoreController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Populated with lat and lng at the minimum, when missing uses IP address. */
+    @PostMapping(
+        value = "/healthCare",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    public String healthCare(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestBody
+        SearchStoreQuery searchStoreQuery,
+
+        HttpServletRequest request
+    ) {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("HealthCare invoked did={} dt={}", did, dt);
+
+        try {
+            String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
+            LOG.debug("HealthCare city={} lat={} lng={} filters={} ip={}",
+                searchStoreQuery.getCityName(),
+                searchStoreQuery.getLatitude(),
+                searchStoreQuery.getLongitude(),
+                searchStoreQuery.getFilters(),
+                ipAddress);
+
+            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
+            GeoIP geoIp = getGeoIP(
+                searchStoreQuery.getCityName().getText(),
+                searchStoreQuery.getLatitude().getText(),
+                searchStoreQuery.getLongitude().getText(),
+                ipAddress,
+                bizStoreElasticList);
+            String geoHash = geoIp.getGeoHash();
+            if (StringUtils.isBlank(geoHash)) {
+                /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
+                geoHash = "te7ut71tgd9n";
+            }
+            LOG.info("HealthCare city=\"{}\" geoHash=\"{}\" ip=\"{}\"", searchStoreQuery.getCityName(), geoHash, ipAddress);
+
+            /* Start of DSL query. */
+//            List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
+//                    null,
+//                    geoHash);
+//
+//            BizStoreElasticList bizStoreElastics = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources);
+//            int hits = 0;
+//            while (bizStoreElastics.getBizStoreElastics().size() < 10 && hits < 3) {
+//                LOG.info("NearMe found size={}", bizStoreElastics.getBizStoreElastics().size());
+//                elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
+//                        null,
+//                        geoHash);
+//
+//                Collection<BizStoreElastic> additional = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).getBizStoreElastics();
+//                bizStoreElastics.getBizStoreElastics().addAll(additional);
+//                hits ++;
+//            }
+            /* End of DSL query. */
+            return bizStoreElasticService.searchByBusinessType(BusinessTypeEnum.DO, geoHash, searchStoreQuery.getScrollId().getText()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new BizStoreElasticList().asJson();
+        } finally {
+            apiHealthService.insert(
+                "/healthCare",
+                "healthCare",
                 SearchBusinessStoreController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
