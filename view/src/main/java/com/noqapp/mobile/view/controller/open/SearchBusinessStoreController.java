@@ -110,7 +110,7 @@ public class SearchBusinessStoreController {
                 searchBizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
 
-            LOG.info("Search query=\"{}\" city=\"{}\" geoHash=\"{}\" ip=\"{}\"", query, searchStoreQuery.getCityName(), geoHash, ipAddress);
+            LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={}", query, searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
             if (StringUtils.isBlank(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
@@ -163,12 +163,13 @@ public class SearchBusinessStoreController {
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.debug("NearMe city={} lat={} lng={} filters={} ip={}",
+            LOG.debug("NearMe city={} lat={} lng={} filters={} ip={} did={}",
                 searchStoreQuery.getCityName(),
                 searchStoreQuery.getLatitude(),
                 searchStoreQuery.getLongitude(),
                 searchStoreQuery.getFilters(),
-                ipAddress);
+                ipAddress,
+                did.getText());
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
@@ -182,7 +183,7 @@ public class SearchBusinessStoreController {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
-            LOG.info("NearMe city=\"{}\" geoHash=\"{}\" ip=\"{}\"", searchStoreQuery.getCityName(), geoHash, ipAddress);
+            LOG.info("NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
 
             /* Start of DSL query. */
 //            List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
@@ -239,12 +240,13 @@ public class SearchBusinessStoreController {
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.debug("HealthCare city={} lat={} lng={} filters={} ip={}",
+            LOG.debug("HealthCare city={} lat={} lng={} filters={} ip={} did={}",
                 searchStoreQuery.getCityName(),
                 searchStoreQuery.getLatitude(),
                 searchStoreQuery.getLongitude(),
                 searchStoreQuery.getFilters(),
-                ipAddress);
+                ipAddress,
+                did.getText());
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
@@ -258,7 +260,7 @@ public class SearchBusinessStoreController {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
-            LOG.info("HealthCare city=\"{}\" geoHash=\"{}\" ip=\"{}\"", searchStoreQuery.getCityName(), geoHash, ipAddress);
+            LOG.info("HealthCare city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
 
             /* Start of DSL query. */
 //            List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
