@@ -257,14 +257,14 @@ subprojects {
     }
 
     checkstyle {
-        toolVersion = '8.22'
+        toolVersion = '8.26'
         ignoreFailures = true
         configDir = file("$rootProject.projectDir/config/checkstyle")
     }
 
     pmd {
         ignoreFailures = true
-        toolVersion = '6.17.0'
+        toolVersion = '6.19.0'
 
         ruleSets = [
                 "java-basic",
@@ -297,7 +297,7 @@ subprojects {
     //https://ci.jenkins.io/job/Plugins/job/warnings-ng-plugin/job/master/lastStableBuild/
     cpd {
         language = 'java'
-        toolVersion = '6.1.0'
+        toolVersion = '6.10.0'
         minimumTokenCount = 100 // approximately 5-10 lines
     }
 
@@ -312,7 +312,7 @@ subprojects {
     }
 
     jacoco {
-        toolVersion = "0.8.4"
+        toolVersion = "0.8.5"
     }
 
     spotbugs {
