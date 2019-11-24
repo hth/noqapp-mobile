@@ -307,7 +307,7 @@ public class SearchBusinessStoreController {
         } else {
             geoIp = geoIPLocationService.getLocation(ipAddress);
             bizStoreElasticList.setCityName(geoIp.getCityName());
-            LOG.info("City={} based on ip={}", geoIp.getCityName(), ipAddress);
+            LOG.info("city={} based on ip={}", geoIp.getCityName(), ipAddress);
         }
         return geoIp;
     }
@@ -324,7 +324,7 @@ public class SearchBusinessStoreController {
         } else {
             geoIp = geoIPLocationService.getLocation(ipAddress);
             searchBizStoreElasticList.setCityName(geoIp.getCityName());
-            LOG.info("City={} based on ip={}", geoIp.getCityName(), ipAddress);
+            LOG.info("city={} based on ip={}", geoIp.getCityName(), ipAddress);
         }
         return geoIp;
     }
