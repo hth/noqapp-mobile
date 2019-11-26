@@ -400,14 +400,15 @@ public class PurchaseOrderAPIController {
         }
 
         try {
-            LOG.info("Order qid={} codeQR={} transactionId={} amount={} transactionVia={} businessType={} purchaseOrderId={}",
+            LOG.info("Order qid={} codeQR={} transactionId={} amount={} transactionVia={} businessType={} orderId={} orderState={}",
                 qid,
                 purchaseOrder.getCodeQR(),
                 purchaseOrder.getTransactionId(),
                 purchaseOrder.getOrderPrice(),
                 purchaseOrder.getTransactionVia(),
                 purchaseOrder.getBusinessType(),
-                purchaseOrder.getId());
+                purchaseOrder.getId(),
+                purchaseOrder.getPresentOrderState());
             JsonPurchaseOrder jsonPurchaseOrderPopulated = new JsonPurchaseOrder(purchaseOrder);
             purchaseOrderService.populateWithCFToken(jsonPurchaseOrderPopulated, purchaseOrder);
             return jsonPurchaseOrderPopulated.asJson();
@@ -555,6 +556,15 @@ public class PurchaseOrderAPIController {
                 purchaseOrderState,
                 paymentMode
             );
+            LOG.info("Order updated qid={} codeQR={} transactionId={} amount={} transactionVia={} businessType={} orderId={} orderState={}",
+                qid,
+                purchaseOrder.getCodeQR(),
+                purchaseOrder.getTransactionId(),
+                purchaseOrder.getOrderPrice(),
+                purchaseOrder.getTransactionVia(),
+                purchaseOrder.getBusinessType(),
+                purchaseOrder.getId(),
+                purchaseOrder.getPresentOrderState());
             return new JsonPurchaseOrder(purchaseOrder).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating with cashfree notification reason={}", e.getLocalizedMessage(), e);
