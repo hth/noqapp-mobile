@@ -163,7 +163,7 @@ public class SearchBusinessStoreController {
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.debug("NearMe city={} lat={} lng={} filters={} ip={} did={}",
+            LOG.debug("NearMe city=\"{}\" lat={} lng={} filters={} ip={} did={}",
                 searchStoreQuery.getCityName(),
                 searchStoreQuery.getLatitude(),
                 searchStoreQuery.getLongitude(),
