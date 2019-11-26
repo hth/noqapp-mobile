@@ -88,12 +88,12 @@ public class SearchBusinessStoreController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Searching for {} did={} dt={}", searchStoreQuery.getQuery(), did, dt);
+        LOG.info("Searching for query=\"{}\" did={} dt={}", searchStoreQuery.getQuery(), did, dt);
 
         try {
             String query = searchStoreQuery.getQuery().getText();
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.debug("Searching query={} city={} lat={} lng={} filters={} ip={}",
+            LOG.debug("Searching query=\"{}\" city=\"{}\" lat={} lng={} filters={} ip={}",
                 query,
                 searchStoreQuery.getCityName(),
                 searchStoreQuery.getLatitude(),
