@@ -251,7 +251,7 @@ public class PurchaseOrderAPIController {
         }
     }
 
-    /** Activate old placed order that is still in a valids state. */
+    /** Activate old placed order that is still in a valid state. */
     @PostMapping(
         value = "/activate",
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
@@ -386,7 +386,7 @@ public class PurchaseOrderAPIController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Cashfree notification request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
+        LOG.info("Populate payment gateway notification request from mail={} auth={}", mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/c/purchaseOrder/payNow by mail={}", mail);
@@ -400,6 +400,15 @@ public class PurchaseOrderAPIController {
         }
 
         try {
+            LOG.info("Order qid={} codeQR={} transactionId={} amount={} transactionVia={} businessType={} orderId={} orderState={}",
+                qid,
+                purchaseOrder.getCodeQR(),
+                purchaseOrder.getTransactionId(),
+                purchaseOrder.getOrderPrice(),
+                purchaseOrder.getTransactionVia(),
+                purchaseOrder.getBusinessType(),
+                purchaseOrder.getId(),
+                purchaseOrder.getPresentOrderState());
             JsonPurchaseOrder jsonPurchaseOrderPopulated = new JsonPurchaseOrder(purchaseOrder);
             purchaseOrderService.populateWithCFToken(jsonPurchaseOrderPopulated, purchaseOrder);
             return jsonPurchaseOrderPopulated.asJson();
@@ -547,6 +556,15 @@ public class PurchaseOrderAPIController {
                 purchaseOrderState,
                 paymentMode
             );
+            LOG.info("Order updated qid={} codeQR={} transactionId={} amount={} transactionVia={} businessType={} orderId={} orderState={}",
+                qid,
+                purchaseOrder.getCodeQR(),
+                purchaseOrder.getTransactionId(),
+                purchaseOrder.getOrderPrice(),
+                purchaseOrder.getTransactionVia(),
+                purchaseOrder.getBusinessType(),
+                purchaseOrder.getId(),
+                purchaseOrder.getPresentOrderState());
             return new JsonPurchaseOrder(purchaseOrder).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating with cashfree notification reason={}", e.getLocalizedMessage(), e);

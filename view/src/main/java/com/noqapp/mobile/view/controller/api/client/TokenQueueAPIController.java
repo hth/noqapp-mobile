@@ -498,7 +498,7 @@ public class TokenQueueAPIController {
                 bizStore,
                 TokenServiceEnum.C);
 
-            LOG.info("Pay Before Join Response {}", jsonToken.getJsonPurchaseOrder());
+            LOG.info("Pay Before Join Response purchaseOrder={}", jsonToken.getJsonPurchaseOrder());
             return jsonToken.asJson();
         } catch (StoreDayClosedException e) {
             LOG.warn("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage());
