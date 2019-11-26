@@ -117,7 +117,7 @@ public class AdvertisementMobileController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Get advt near location={} for request from did={} deviceType={}", location, did, deviceType);
+        LOG.info("Get advt near {} for request from did={} deviceType={}", location, did, deviceType);
 
         try {
             Point point = new Point(Double.parseDouble(location.getLongitude().getText()), Double.parseDouble(location.getLatitude().getText()));
