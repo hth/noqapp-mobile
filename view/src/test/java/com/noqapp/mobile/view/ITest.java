@@ -130,9 +130,13 @@ import com.noqapp.repository.UserPreferenceManagerImpl;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.repository.UserProfileManagerImpl;
 import com.noqapp.search.elastic.config.ElasticsearchClientConfiguration;
+import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.repository.BizStoreElasticManager;
 import com.noqapp.search.elastic.repository.BizStoreElasticManagerImpl;
+import com.noqapp.search.elastic.repository.BizStoreSpatialElasticManager;
+import com.noqapp.search.elastic.repository.BizStoreSpatialElasticManagerImpl;
 import com.noqapp.search.elastic.service.BizStoreElasticService;
+import com.noqapp.search.elastic.service.BizStoreSpatialElasticService;
 import com.noqapp.search.elastic.service.ElasticAdministrationService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
@@ -287,7 +291,9 @@ public class ITest extends RealMongoForITest {
     protected StoreCategoryService storeCategoryService;
     protected StoreDetailService storeDetailService;
     protected BizStoreElasticManager bizStoreElasticManager;
+    protected BizStoreSpatialElasticManager<BizStoreElastic> bizStoreSpatialElasticManager;
     protected BizStoreElasticService bizStoreElasticService;
+    protected BizStoreSpatialElasticService bizStoreSpatialElasticService;
     protected TransactionService transactionService;
     protected MedicalRecordMobileService medicalRecordMobileService;
     protected HospitalVisitScheduleService hospitalVisitScheduleService;
@@ -559,12 +565,14 @@ public class ITest extends RealMongoForITest {
 
         storeDetailService = new StoreDetailService(bizService, tokenQueueMobileService, storeProductService, storeCategoryService);
         bizStoreElasticManager = new BizStoreElasticManagerImpl(restHighLevelClient);
+        bizStoreSpatialElasticManager = new BizStoreSpatialElasticManagerImpl(restHighLevelClient);
+        bizStoreSpatialElasticService = new BizStoreSpatialElasticService(bizStoreSpatialElasticManager, elasticsearchClientConfiguration);
         bizStoreElasticService = new BizStoreElasticService(
             bizStoreElasticManager,
             elasticAdministrationService,
-            elasticsearchClientConfiguration,
             bizStoreManager,
             storeHourManager,
+            bizStoreSpatialElasticService,
             apiHealthService);
 
         joinAbortService = new JoinAbortService(
