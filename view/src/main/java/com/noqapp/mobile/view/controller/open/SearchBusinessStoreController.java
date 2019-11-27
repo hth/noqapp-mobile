@@ -7,13 +7,13 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.client.SearchStoreQuery;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
-import com.noqapp.search.elastic.domain.SearchBizStoreElasticList;
+import com.noqapp.search.elastic.domain.BizStoreSearchElasticList;
 import com.noqapp.search.elastic.helper.GeoIP;
-import com.noqapp.search.elastic.json.SearchElasticBizStoreSource;
+import com.noqapp.search.elastic.json.ElasticBizStoreSearchSource;
 import com.noqapp.search.elastic.service.BizStoreElasticService;
+import com.noqapp.search.elastic.service.BizStoreSearchElasticService;
 import com.noqapp.search.elastic.service.BizStoreSpatialElasticService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
-import com.noqapp.search.elastic.service.SearchBizStoreElasticService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -52,7 +52,7 @@ public class SearchBusinessStoreController {
 
     private boolean useRestHighLevel;
     private BizStoreSpatialElasticService bizStoreSpatialElasticService;
-    private SearchBizStoreElasticService searchBizStoreElasticService;
+    private BizStoreSearchElasticService bizStoreSearchElasticService;
     private GeoIPLocationService geoIPLocationService;
     private ApiHealthService apiHealthService;
 
@@ -62,14 +62,14 @@ public class SearchBusinessStoreController {
         boolean useRestHighLevel,
 
         BizStoreSpatialElasticService bizStoreSpatialElasticService,
-        SearchBizStoreElasticService searchBizStoreElasticService,
+        BizStoreSearchElasticService bizStoreSearchElasticService,
         GeoIPLocationService geoIPLocationService,
         ApiHealthService apiHealthService
     ) {
         this.useRestHighLevel = useRestHighLevel;
 
         this.bizStoreSpatialElasticService = bizStoreSpatialElasticService;
-        this.searchBizStoreElasticService = searchBizStoreElasticService;
+        this.bizStoreSearchElasticService = bizStoreSearchElasticService;
         this.geoIPLocationService = geoIPLocationService;
         this.apiHealthService = apiHealthService;
     }
@@ -102,13 +102,13 @@ public class SearchBusinessStoreController {
                 searchStoreQuery.getFilters(),
                 ipAddress);
 
-            SearchBizStoreElasticList searchBizStoreElasticList = new SearchBizStoreElasticList();
+            BizStoreSearchElasticList bizStoreSearchElasticList = new BizStoreSearchElasticList();
             GeoIP geoIp = getGeoIP(
                 searchStoreQuery.getCityName().getText(),
                 searchStoreQuery.getLatitude().getText(),
                 searchStoreQuery.getLongitude().getText(),
                 ipAddress,
-                searchBizStoreElasticList);
+                bizStoreSearchElasticList);
             String geoHash = geoIp.getGeoHash();
 
             LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={}", query, searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
@@ -118,15 +118,15 @@ public class SearchBusinessStoreController {
             }
 
             if (useRestHighLevel) {
-                return searchBizStoreElasticService.executeNearMeSearchOnBizStoreUsingRestClient(
+                return bizStoreSearchElasticService.executeNearMeSearchOnBizStoreUsingRestClient(
                     query,
                     searchStoreQuery.getCityName().getText(),
                     geoHash,
                     searchStoreQuery.getFilters().getText(),
                     searchStoreQuery.getScrollId().getText()).asJson();
             } else {
-                List<SearchElasticBizStoreSource> elasticBizStoreSources = searchBizStoreElasticService.createBizStoreSearchDSLQuery(query, geoHash);
-                return searchBizStoreElasticList.populateSearchBizStoreElasticArray(elasticBizStoreSources).asJson();
+                List<ElasticBizStoreSearchSource> elasticBizStoreSearchSources = bizStoreSearchElasticService.createBizStoreSearchDSLQuery(query, geoHash);
+                return bizStoreSearchElasticList.populateSearchBizStoreElasticArray(elasticBizStoreSearchSources).asJson();
             }
         } catch (Exception e) {
             LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
@@ -313,18 +313,18 @@ public class SearchBusinessStoreController {
         return geoIp;
     }
 
-    private GeoIP getGeoIP(String cityName, String lat, String lng, String ipAddress, SearchBizStoreElasticList searchBizStoreElasticList) {
+    private GeoIP getGeoIP(String cityName, String lat, String lng, String ipAddress, BizStoreSearchElasticList bizStoreSearchElasticList) {
         GeoIP geoIp;
         if (StringUtils.isNotBlank(cityName)) {
             //TODO search based on city when lat lng is disabled
             geoIp = new GeoIP(ipAddress, "", Double.parseDouble(lat), Double.parseDouble(lng));
-            searchBizStoreElasticList.setCityName(cityName);
+            bizStoreSearchElasticList.setCityName(cityName);
         } else if (StringUtils.isNotBlank(lng) && StringUtils.isNotBlank(lat)) {
             geoIp = new GeoIP(ipAddress, "", Double.parseDouble(lat), Double.parseDouble(lng));
-            searchBizStoreElasticList.setCityName(geoIp.getCityName());
+            bizStoreSearchElasticList.setCityName(geoIp.getCityName());
         } else {
             geoIp = geoIPLocationService.getLocation(ipAddress);
-            searchBizStoreElasticList.setCityName(geoIp.getCityName());
+            bizStoreSearchElasticList.setCityName(geoIp.getCityName());
             LOG.info("city={} based on ip={}", geoIp.getCityName(), ipAddress);
         }
         return geoIp;
