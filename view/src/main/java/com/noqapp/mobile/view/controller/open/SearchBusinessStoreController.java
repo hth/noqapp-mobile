@@ -11,6 +11,7 @@ import com.noqapp.search.elastic.domain.SearchBizStoreElasticList;
 import com.noqapp.search.elastic.helper.GeoIP;
 import com.noqapp.search.elastic.json.SearchElasticBizStoreSource;
 import com.noqapp.search.elastic.service.BizStoreElasticService;
+import com.noqapp.search.elastic.service.BizStoreSpatialElasticService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.search.elastic.service.SearchBizStoreElasticService;
 
@@ -50,7 +51,7 @@ public class SearchBusinessStoreController {
     private static final Logger LOG = LoggerFactory.getLogger(SearchBusinessStoreController.class);
 
     private boolean useRestHighLevel;
-    private BizStoreElasticService bizStoreElasticService;
+    private BizStoreSpatialElasticService bizStoreSpatialElasticService;
     private SearchBizStoreElasticService searchBizStoreElasticService;
     private GeoIPLocationService geoIPLocationService;
     private ApiHealthService apiHealthService;
@@ -60,14 +61,14 @@ public class SearchBusinessStoreController {
         @Value("${Search.useRestHighLevel:false}")
         boolean useRestHighLevel,
 
-        BizStoreElasticService bizStoreElasticService,
+        BizStoreSpatialElasticService bizStoreSpatialElasticService,
         SearchBizStoreElasticService searchBizStoreElasticService,
         GeoIPLocationService geoIPLocationService,
         ApiHealthService apiHealthService
     ) {
         this.useRestHighLevel = useRestHighLevel;
 
-        this.bizStoreElasticService = bizStoreElasticService;
+        this.bizStoreSpatialElasticService = bizStoreSpatialElasticService;
         this.searchBizStoreElasticService = searchBizStoreElasticService;
         this.geoIPLocationService = geoIPLocationService;
         this.apiHealthService = apiHealthService;
@@ -117,7 +118,7 @@ public class SearchBusinessStoreController {
             }
 
             if (useRestHighLevel) {
-                return bizStoreElasticService.executeNearMeSearchOnBizStoreUsingRestClient(
+                return searchBizStoreElasticService.executeNearMeSearchOnBizStoreUsingRestClient(
                     query,
                     searchStoreQuery.getCityName().getText(),
                     geoHash,
@@ -203,7 +204,7 @@ public class SearchBusinessStoreController {
 //                hits ++;
 //            }
             /* End of DSL query. */
-            return bizStoreElasticService.nearMeSearch(geoHash, searchStoreQuery.getScrollId().getText()).asJson();
+            return bizStoreSpatialElasticService.nearMeSearch(geoHash, searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -280,7 +281,7 @@ public class SearchBusinessStoreController {
 //                hits ++;
 //            }
             /* End of DSL query. */
-            return bizStoreElasticService.searchByBusinessType(BusinessTypeEnum.DO, geoHash, searchStoreQuery.getScrollId().getText()).asJson();
+            return bizStoreSpatialElasticService.searchByBusinessType(BusinessTypeEnum.DO, geoHash, searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
