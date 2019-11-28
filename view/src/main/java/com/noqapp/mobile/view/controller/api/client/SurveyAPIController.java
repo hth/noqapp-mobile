@@ -3,6 +3,8 @@ package com.noqapp.mobile.view.controller.api.client;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SURVEY_NOT_FOUND;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
@@ -10,6 +12,7 @@ import com.noqapp.domain.BusinessUserEntity;
 import com.noqapp.domain.json.survey.JsonQuestionnaire;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.common.util.ErrorEncounteredJson;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.BusinessUserService;
 import com.noqapp.service.SurveyService;
@@ -90,7 +93,9 @@ public class SurveyAPIController {
                 JsonQuestionnaire jsonQuestionnaire = surveyService.findOne(businessUser.getBizName().getId());
                 if (null == jsonQuestionnaire) {
                     LOG.warn("No survey found for bizNameId={} qid={}", businessUser.getBizName().getId(), qid);
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Could not find");
+                    return ErrorEncounteredJson.toJson(
+                        "There are no survey available. Please contact your administrator to setup customer survey.",
+                        SURVEY_NOT_FOUND);
                 }
                 return jsonQuestionnaire.asJson();
             }
