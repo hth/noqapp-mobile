@@ -2,19 +2,17 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BusinessUserEntity;
+import com.noqapp.domain.json.survey.JsonQuestionnaire;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.service.BusinessUserService;
 import com.noqapp.service.SurveyService;
-import com.noqapp.social.exception.AccountNotActiveException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +87,12 @@ public class SurveyAPIController {
         try {
             BusinessUserEntity businessUser = businessUserService.findByQid(qid);
             if (null != businessUser) {
-                return surveyService.findOne(businessUser.getBizName().getId()).asJson();
+                JsonQuestionnaire jsonQuestionnaire = surveyService.findOne(businessUser.getBizName().getId());
+                if (null == jsonQuestionnaire) {
+                    LOG.warn("No survey found for bizNameId={} qid={}", businessUser.getBizName().getId(), qid);
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Could not find");
+                }
+                return jsonQuestionnaire.asJson();
             }
 
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
