@@ -185,26 +185,10 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
             LOG.info("NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
-
-            /* Start of DSL query. */
-//            List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
-//                    null,
-//                    geoHash);
-//
-//            BizStoreElasticList bizStoreElastics = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources);
-//            int hits = 0;
-//            while (bizStoreElastics.getBizStoreElastics().size() < 10 && hits < 3) {
-//                LOG.info("NearMe found size={}", bizStoreElastics.getBizStoreElastics().size());
-//                elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
-//                        null,
-//                        geoHash);
-//
-//                Collection<BizStoreElastic> additional = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).getBizStoreElastics();
-//                bizStoreElastics.getBizStoreElastics().addAll(additional);
-//                hits ++;
-//            }
-            /* End of DSL query. */
-            return bizStoreSpatialElasticService.nearMeSearch(geoHash, searchStoreQuery.getScrollId().getText()).asJson();
+            return bizStoreSpatialElasticService.nearMeSearch(
+                BusinessTypeEnum.DO,
+                geoHash,
+                searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -262,26 +246,11 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
             LOG.info("HealthCare city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
-
-            /* Start of DSL query. */
-//            List<ElasticBizStoreSource> elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
-//                    null,
-//                    geoHash);
-//
-//            BizStoreElasticList bizStoreElastics = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources);
-//            int hits = 0;
-//            while (bizStoreElastics.getBizStoreElastics().size() < 10 && hits < 3) {
-//                LOG.info("NearMe found size={}", bizStoreElastics.getBizStoreElastics().size());
-//                elasticBizStoreSources = bizStoreElasticService.createBizStoreSearchDSLQuery(
-//                        null,
-//                        geoHash);
-//
-//                Collection<BizStoreElastic> additional = bizStoreElasticList.populateBizStoreElasticList(elasticBizStoreSources).getBizStoreElastics();
-//                bizStoreElastics.getBizStoreElastics().addAll(additional);
-//                hits ++;
-//            }
-            /* End of DSL query. */
-            return bizStoreSpatialElasticService.searchByBusinessType(BusinessTypeEnum.DO, geoHash, searchStoreQuery.getScrollId().getText()).asJson();
+            return bizStoreSpatialElasticService.searchByBusinessType(
+                BusinessTypeEnum.DO,
+                null,
+                geoHash,
+                searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
