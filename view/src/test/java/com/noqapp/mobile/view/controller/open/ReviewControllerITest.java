@@ -22,7 +22,6 @@ import com.noqapp.mobile.view.ITest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.awaitility.Duration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -30,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.UUID;
 
 /**
@@ -144,8 +144,8 @@ class ReviewControllerITest extends ITest {
         QueueEntity queueAfterService = queueManager.findOne(bizStore.getCodeQR(), jsonToken.getToken());
         while (queueAfterService.getSentimentType() == null) {
             await()
-                .atLeast(Duration.FIVE_HUNDRED_MILLISECONDS)
-                .atMost(Duration.FIVE_SECONDS);
+                .atLeast(Duration.ofMillis(500))
+                .atMost(Duration.ofSeconds(5));
             queueAfterService = queueManager.findOne(bizStore.getCodeQR(), jsonToken.getToken());
         }
         assertEquals(QueueUserStateEnum.S, queueAfterService.getQueueUserState());
