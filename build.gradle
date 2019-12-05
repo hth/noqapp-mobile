@@ -183,7 +183,7 @@ subprojects {
         implementation "com.google.code.gson:gson:$gson"
         implementation "com.google.maps:google-maps-services:$googleMapsServices"
         implementation "com.googlecode.libphonenumber:libphonenumber:$libphonenumber"
-        implementation "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20190610.1"
+        implementation "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20191001.1"
         implementation("com.google.firebase:firebase-admin:$firebase") {
             exclude group: 'com.google.guava'
         }
