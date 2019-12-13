@@ -156,7 +156,7 @@ subprojects {
 
         implementation "com.braintreepayments.gateway:braintree-java:$braintree"
         implementation "$springDataGroup:spring-data-redis:$redis"
-        implementation "redis.clients:jedis:$jedis"
+        implementation "io.lettuce:lettuce-core:$lettuce"
         implementation "org.quartz-scheduler:quartz:$quartz"
 
         implementation "com.squareup.okhttp3:okhttp:$okhttp"
@@ -230,10 +230,10 @@ subprojects {
         testImplementation "org.springframework:spring-test:$springVersion"
         testImplementation "org.awaitility:awaitility:$awaitility"
         testImplementation "org.elasticsearch.test:framework:$elastic"
+        testImplementation "org.junit.jupiter:junit-jupiter-params:$junit5"
 
         testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5"
         testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junitPlatform"
-        testImplementation "org.junit.jupiter:junit-jupiter-params:$junit5"
     }
 
     test {
@@ -265,7 +265,7 @@ subprojects {
 
     pmd {
         ignoreFailures = true
-        toolVersion = '6.19.0'
+        toolVersion = '6.20.0'
 
         ruleSets = [
                 "java-basic",
