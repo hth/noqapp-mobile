@@ -68,6 +68,7 @@ subprojects {
     apply plugin: 'com.github.spotbugs'
     apply plugin: 'org.owasp.dependencycheck'
     //apply plugin: 'org.sonarqube'
+    apply plugin: 'cpd'
 
     compileJava {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -288,6 +289,27 @@ subprojects {
                 "java-typeresolution",
                 "java-unusedcode"
         ]
+    }
+
+    //https://medium.com/@mladen.bolic/setting-up-static-code-analysis-for-java-3428dc79f7f9
+    //https://github.com/google/error-prone
+    //https://github.com/tbroyer/gradle-errorprone-plugin
+    //https://ci.jenkins.io/job/Plugins/job/warnings-ng-plugin/job/master/lastStableBuild/java/
+    //https://ci.jenkins.io/job/Plugins/job/warnings-ng-plugin/job/master/lastStableBuild/
+    cpd {
+        language = 'java'
+        toolVersion = '6.10.0'
+        minimumTokenCount = 100 // approximately 5-10 lines
+    }
+
+    cpdCheck {
+        reports {
+            text.enabled = false
+            xml.enabled = true
+        }
+        ignoreAnnotations = true
+        ignoreFailures = true
+        source = sourceSets.main.allJava
     }
 
     jacoco {
