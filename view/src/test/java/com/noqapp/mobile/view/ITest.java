@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view;
 
 import com.noqapp.common.config.FirebaseConfig;
+import com.noqapp.common.config.TextToSpeechConfiguration;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
@@ -78,6 +79,7 @@ import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.BusinessUserStoreManagerImpl;
 import com.noqapp.repository.CouponManager;
 import com.noqapp.repository.CouponManagerImpl;
+import com.noqapp.repository.CustomTextToSpeechManager;
 import com.noqapp.repository.EmailValidateManager;
 import com.noqapp.repository.EmailValidateManagerImpl;
 import com.noqapp.repository.ForgotRecoverManager;
@@ -144,6 +146,7 @@ import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.CouponService;
+import com.noqapp.service.CustomTextToSpeechService;
 import com.noqapp.service.DeviceService;
 import com.noqapp.service.EmailValidateService;
 import com.noqapp.service.ExternalService;
@@ -165,6 +168,7 @@ import com.noqapp.service.ReviewService;
 import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
+import com.noqapp.service.TextToSpeechService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
@@ -239,6 +243,8 @@ public class ITest extends RealMongoForITest {
     protected CouponService couponService;
     protected JoinAbortService joinAbortService;
     protected DeviceService deviceService;
+    protected TextToSpeechService textToSpeechService;
+    protected CustomTextToSpeechService customTextToSpeechService;
 
     protected MedicalRecordManager medicalRecordManager;
     protected MedicalPhysicalManager medicalPhysicalManager;
@@ -284,6 +290,7 @@ public class ITest extends RealMongoForITest {
     protected AdvertisementManager advertisementManager;
     protected ScheduleAppointmentManager scheduleAppointmentManager;
     protected CouponManager couponManager;
+    protected CustomTextToSpeechManager customTextToSpeechManager;
 
     protected BusinessCustomerManager businessCustomerManager;
     protected BusinessCustomerService businessCustomerService;
@@ -322,6 +329,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected OkHttpClient okHttpClient;
     @Mock protected CashfreeService cashfreeService;
     @Mock protected FirebaseConfig firebaseConfig;
+    @Mock protected TextToSpeechConfiguration textToSpeechConfiguration;
 
     @BeforeAll
     public void globalISetup() {
@@ -454,6 +462,13 @@ public class ITest extends RealMongoForITest {
         couponService = new CouponService(couponManager, bizStoreManager, userProfileManager);
         purchaseOrderProductService = new PurchaseOrderProductService(couponService, purchaseOrderProductManager, purchaseOrderProductManagerJDBC);
 
+        customTextToSpeechService = new CustomTextToSpeechService(customTextToSpeechManager);
+        textToSpeechService = new TextToSpeechService(
+            bizStoreManager,
+            textToSpeechConfiguration,
+            customTextToSpeechService
+        );
+
         tokenQueueService = new TokenQueueService(
             tokenQueueManager,
             firebaseMessageService,
@@ -464,6 +479,7 @@ public class ITest extends RealMongoForITest {
             storeHourManager,
             bizStoreManager,
             businessCustomerService,
+            textToSpeechService,
             apiHealthService
         );
 
