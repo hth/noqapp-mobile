@@ -35,7 +35,7 @@
 </section>
 <div class="footer-container">
     <footer class="wrapper fine-print">
-        &#169; 2019 NoQueue, Inc. <a href="//noqapp.com/termsofuse">Terms</a> and <a href="//noqapp.com/privacypolicy">Privacy</a>.<br>
+        &#169; 2020 NoQueue, Inc. <a href="//noqapp.com/termsofuse">Terms</a> and <a href="//noqapp.com/privacypolicy">Privacy</a>.<br>
         All other trademarks and logos belong to their respective owners. (<spring:eval expression="@environmentProperty.getProperty('build.version')" />.<spring:eval expression="@environmentProperty.getProperty('server')" />)<br>
     </footer>
 </div>

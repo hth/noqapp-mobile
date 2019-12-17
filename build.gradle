@@ -90,7 +90,7 @@ subprojects {
                     "Implementation-Vendor": "NoQueue Inc",
                     "Implementation-Title": rootProject.name,
                     "Implementation-Version": allprojects.version + " $env",
-                    "Copyright": "2016-2019, NoQueue Inc"
+                    "Copyright": "2016-2020, NoQueue Inc"
             )
         }
     }
