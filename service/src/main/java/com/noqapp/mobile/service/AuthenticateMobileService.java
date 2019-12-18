@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -54,6 +55,7 @@ public class AuthenticateMobileService {
     }
 
     /** Finds authenticated queue user id. */
+    @Cacheable(value = "mail-auth")
     public String getQueueUserId(String mail, String auth) {
         UserAccountEntity userAccount = findUserAccount(mail, auth);
         if (null != userAccount) {
