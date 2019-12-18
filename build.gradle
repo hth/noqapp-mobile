@@ -159,6 +159,7 @@ subprojects {
         implementation "io.lettuce:lettuce-core:$lettuce"
         implementation "org.quartz-scheduler:quartz:$quartz"
 
+        implementation "com.github.ben-manes.caffeine:caffeine:$caffeine"
         implementation "com.squareup.okhttp3:okhttp:$okhttp"
         implementation "com.google.zxing:core:$zxing"
         implementation "aopalliance:aopalliance:1.0"
@@ -179,7 +180,6 @@ subprojects {
         implementation "edu.stanford.nlp:stanford-corenlp:$corenlp:models"
 
         implementation "com.google.cloud:google-cloud-texttospeech:$googleCloudTextToSpeech"
-        implementation "com.google.guava:guava:$guava"
         implementation "com.google.code.gson:gson:$gson"
         implementation "com.google.maps:google-maps-services:$googleMapsServices"
         implementation "com.googlecode.libphonenumber:libphonenumber:$libphonenumber"

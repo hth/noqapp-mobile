@@ -6,8 +6,8 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.service.SiteHealthService;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,8 @@ import java.util.concurrent.TimeUnit;
 public class IsWorkingController {
     private static final Logger LOG = LoggerFactory.getLogger(IsWorkingController.class);
 
-    private final Cache<String, JsonSiteHealth> cache = CacheBuilder.newBuilder()
+    /* Set cache parameters. */
+    private final Cache<String, JsonSiteHealth> cache = Caffeine.newBuilder()
         .maximumSize(1)
         .expireAfterWrite(15, TimeUnit.MINUTES)
         .build();
