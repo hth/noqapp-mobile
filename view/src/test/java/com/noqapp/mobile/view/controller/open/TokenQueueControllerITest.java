@@ -44,6 +44,7 @@ class TokenQueueControllerITest extends ITest {
             tokenQueueMobileService,
             joinAbortService,
             queueMobileService,
+            geoIPLocationService,
             apiHealthService
         );
     }

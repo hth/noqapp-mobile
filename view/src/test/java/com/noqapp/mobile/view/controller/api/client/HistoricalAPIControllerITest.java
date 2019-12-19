@@ -71,6 +71,7 @@ class HistoricalAPIControllerITest extends ITest {
             purchaseOrderService,
             purchaseOrderMobileService,
             scheduleAppointmentService,
+            geoIPLocationService,
             apiHealthService
         );
 

@@ -78,6 +78,7 @@ class QueueControllerITest extends ITest {
             purchaseOrderService,
             purchaseOrderMobileService,
             scheduleAppointmentService,
+            geoIPLocationService,
             apiHealthService
         );
 

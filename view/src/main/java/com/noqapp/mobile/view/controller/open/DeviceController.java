@@ -18,6 +18,7 @@ import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
+import com.noqapp.search.elastic.service.GeoIPLocationService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -41,24 +42,30 @@ import java.util.Map;
  * User: hitender
  * Date: 3/1/17 12:04 PM
  */
-@SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+@SuppressWarnings({
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @RestController
-@RequestMapping (value = "/open/device")
+@RequestMapping(value = "/open/device")
 public class DeviceController {
 
     private static final Logger LOG = LoggerFactory.getLogger(DeviceController.class);
 
     private DeviceMobileService deviceMobileService;
+    private GeoIPLocationService geoIPLocationService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public DeviceController(DeviceMobileService deviceMobileService, ApiHealthService apiHealthService) {
+    public DeviceController(
+        DeviceMobileService deviceMobileService,
+        GeoIPLocationService geoIPLocationService,
+        ApiHealthService apiHealthService
+    ) {
         this.deviceMobileService = deviceMobileService;
+        this.geoIPLocationService = geoIPLocationService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -68,13 +75,13 @@ public class DeviceController {
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String registerDevice(
-        @RequestHeader ("X-R-DID")
+        @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader (value = "X-R-DT")
+        @RequestHeader(value = "X-R-DT")
         ScrubbedInput deviceType,
 
-        @RequestHeader ("X-R-AF")
+        @RequestHeader("X-R-AF")
         ScrubbedInput appFlavor,
 
         @RequestBody
@@ -118,7 +125,9 @@ public class DeviceController {
                 parseTokenFCM.getTokenFCM(),
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
-                parseTokenFCM.getAppVersion());
+                parseTokenFCM.getAppVersion(),
+                parseTokenFCM.isMissingCoordinate() ? geoIPLocationService.getLocationAsDouble(parseTokenFCM.getIpAddress()) : parseTokenFCM.getCoordinate(),
+                parseTokenFCM.getIpAddress());
             return DeviceRegistered.newInstance(true).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
@@ -138,21 +147,21 @@ public class DeviceController {
     }
 
     /** Checks is device version is supported. */
-    @PostMapping (
+    @PostMapping(
         value = {"/version", "/v1/version"},
         produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
     )
     public String isSupportedAppVersion(
-        @RequestHeader ("X-R-DID")
+        @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput deviceType,
 
-        @RequestHeader (value = "X-R-AF", defaultValue = "NQMT")
+        @RequestHeader(value = "X-R-AF", defaultValue = "NQMT")
         ScrubbedInput appFlavor,
 
-        @RequestHeader (value = "X-R-VR")
+        @RequestHeader(value = "X-R-VR")
         ScrubbedInput versionRelease
     ) {
         boolean methodStatusSuccess = true;

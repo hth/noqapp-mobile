@@ -17,6 +17,7 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
+import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.JoinAbortService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -58,6 +59,7 @@ public class TokenQueueController {
     private TokenQueueMobileService tokenQueueMobileService;
     private JoinAbortService joinAbortService;
     private QueueMobileService queueMobileService;
+    private GeoIPLocationService geoIPLocationService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -65,11 +67,13 @@ public class TokenQueueController {
         TokenQueueMobileService tokenQueueMobileService,
         JoinAbortService joinAbortService,
         QueueMobileService queueMobileService,
+        GeoIPLocationService geoIPLocationService,
         ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.joinAbortService = joinAbortService;
         this.queueMobileService = queueMobileService;
+        this.geoIPLocationService = geoIPLocationService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -244,7 +248,6 @@ public class TokenQueueController {
         }
     }
 
-
     /** Get all the historical queues user has token from. In short all the queues user has joined in past. */
     @PostMapping(
         value = "/historical",
@@ -279,7 +282,9 @@ public class TokenQueueController {
                 parseTokenFCM.getTokenFCM(),
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
-                parseTokenFCM.getAppVersion()).asJson();
+                parseTokenFCM.getAppVersion(),
+                parseTokenFCM.isMissingCoordinate() ? geoIPLocationService.getLocationAsDouble(parseTokenFCM.getIpAddress()) : parseTokenFCM.getCoordinate(),
+                parseTokenFCM.getIpAddress()).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

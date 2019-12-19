@@ -53,12 +53,14 @@ public class DeviceMobileService {
         String token,
         String model,
         String osVersion,
-        String appVersion
+        String appVersion,
+        double[] coordinate,
+        String ipAddress
     ) {
         try {
             Assert.hasLength(did, "DID cannot be blank");
             Assert.hasLength(token, "FCM Token cannot be blank");
-            executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion));
+            executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion, coordinate, ipAddress));
         } catch (Exception e) {
             LOG.error("Failed registration as cannot find qid={} did={} token={} reason={}", qid, did, token, e.getLocalizedMessage(), e);
             throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -73,12 +75,23 @@ public class DeviceMobileService {
      * @param deviceType iPhone or Android
      * @return
      */
-    private void registeringDevice(String qid, String did, DeviceTypeEnum deviceType, AppFlavorEnum appFlavor, String token, String model, String osVersion, String appVersion) {
+    private void registeringDevice(
+        String qid,
+        String did,
+        DeviceTypeEnum deviceType,
+        AppFlavorEnum appFlavor,
+        String token,
+        String model,
+        String osVersion,
+        String appVersion,
+        double[] coordinate,
+        String ipAddress
+    ) {
         try {
             RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(qid, did);
             if (null == registeredDevice) {
                 LOG.info("Registering new deviceType={} appFlavor={} did={} qid={}", deviceType.getName(), appFlavor.getName(), did, qid);
-                registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token, appVersion);
+                registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token, appVersion, coordinate, ipAddress);
                 try {
                     registeredDevice
                         .setModel(model)
@@ -96,7 +109,9 @@ public class DeviceMobileService {
                         appFlavor,
                         token,
                         model,
-                        osVersion
+                        osVersion,
+                        coordinate,
+                        ipAddress
                     );
                     LOG.info("existing registered device updateStatus={} with qid={} token={}", updateStatus, qid, token);
                 }
@@ -111,6 +126,8 @@ public class DeviceMobileService {
                     token,
                     model,
                     osVersion,
+                    coordinate,
+                    ipAddress,
                     true);
                 LOG.info("updated registered device for did={} token={} updateSuccess={}", did, token, updateSuccess);
             }
