@@ -140,6 +140,7 @@ import com.noqapp.search.elastic.repository.BizStoreSpatialElasticManagerImpl;
 import com.noqapp.search.elastic.service.BizStoreElasticService;
 import com.noqapp.search.elastic.service.BizStoreSpatialElasticService;
 import com.noqapp.search.elastic.service.ElasticAdministrationService;
+import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessCustomerService;
@@ -330,6 +331,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected CashfreeService cashfreeService;
     @Mock protected FirebaseConfig firebaseConfig;
     @Mock protected TextToSpeechConfiguration textToSpeechConfiguration;
+    @Mock protected GeoIPLocationService geoIPLocationService;
 
     @BeforeAll
     public void globalISetup() {

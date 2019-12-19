@@ -28,6 +28,9 @@ public class ParseTokenFCM {
     private String model;
     private String osVersion;
     private String appVersion;
+    private double[] coordinate;
+    private String ipAddress;
+    private boolean missingCoordinate;
 
     private ParseTokenFCM(String tokenJson) {
         parseForFCM(tokenJson);
@@ -55,6 +58,18 @@ public class ParseTokenFCM {
 
     public String getAppVersion() {
         return appVersion;
+    }
+
+    public double[] getCoordinate() {
+        return coordinate;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public boolean isMissingCoordinate() {
+        return missingCoordinate;
     }
 
     private void parseForFCM(String tokenJson) {
@@ -87,6 +102,23 @@ public class ParseTokenFCM {
 
             if (map.containsKey("av")) {
                 appVersion = map.get("av").getText();
+            }
+
+            if (map.containsKey("lng") && map.containsKey("lat")) {
+                try {
+                    coordinate[0] = Double.parseDouble(map.get("lng").getText());
+                    coordinate[1] = Double.parseDouble(map.get("lat").getText());
+                } catch (NumberFormatException e) {
+                    LOG.info("Coordinate missing lng={} lat={} errorResponse={}",
+                        map.get("lng").getText(),
+                        map.get("lat").getText(),
+                        e.getLocalizedMessage());
+                    missingCoordinate = true;
+                }
+            }
+
+            if (map.containsKey("ip")) {
+                ipAddress = map.get("ip").getText();
             }
         } catch (IOException | NullPointerException e) {
             LOG.error("Could not parse json={} errorResponse={}", tokenJson, e.getLocalizedMessage(), e);

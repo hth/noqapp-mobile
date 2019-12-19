@@ -45,6 +45,7 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
+import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.ScheduleAppointmentService;
@@ -100,6 +101,7 @@ public class TokenQueueAPIController {
     private PurchaseOrderMobileService purchaseOrderMobileService;
     private PurchaseOrderService purchaseOrderService;
     private ScheduleAppointmentService scheduleAppointmentService;
+    private GeoIPLocationService geoIPLocationService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -111,6 +113,7 @@ public class TokenQueueAPIController {
         PurchaseOrderService purchaseOrderService,
         PurchaseOrderMobileService purchaseOrderMobileService,
         ScheduleAppointmentService scheduleAppointmentService,
+        GeoIPLocationService geoIPLocationService,
         ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
@@ -120,6 +123,7 @@ public class TokenQueueAPIController {
         this.purchaseOrderService = purchaseOrderService;
         this.purchaseOrderMobileService = purchaseOrderMobileService;
         this.scheduleAppointmentService = scheduleAppointmentService;
+        this.geoIPLocationService = geoIPLocationService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -365,7 +369,10 @@ public class TokenQueueAPIController {
                 parseTokenFCM.getTokenFCM(),
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
-                parseTokenFCM.getAppVersion());
+                parseTokenFCM.getAppVersion(),
+                parseTokenFCM.isMissingCoordinate() ? geoIPLocationService.getLocationAsDouble(parseTokenFCM.getIpAddress()) : parseTokenFCM.getCoordinate(),
+                parseTokenFCM.getIpAddress()
+            );
             //TODO(hth) get old historical order, it just gets todays historical order
             jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllDeliveredHistoricalOrderAsJson(qid));
             return jsonTokenAndQueues.asJson();

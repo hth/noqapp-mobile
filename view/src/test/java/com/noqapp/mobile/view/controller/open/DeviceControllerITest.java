@@ -40,6 +40,7 @@ class DeviceControllerITest extends ITest {
     void setUp() {
         deviceController = new DeviceController(
             deviceMobileService,
+            geoIPLocationService,
             apiHealthService
         );
     }
