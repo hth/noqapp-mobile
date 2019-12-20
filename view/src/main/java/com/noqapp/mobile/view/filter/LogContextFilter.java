@@ -5,7 +5,6 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import com.noqapp.mobile.view.controller.open.IsWorkingController;
 import com.noqapp.search.elastic.config.IPGeoConfiguration;
 
-import com.drew.lang.StringUtil;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
@@ -139,9 +138,9 @@ public class LogContextFilter implements Filter {
     private Map<String, String> getHeadersInfo(HttpServletRequest request) {
         Map<String, String> map = new HashMap<>();
 
-        Enumeration headerNames = request.getHeaderNames();
+        Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
-            String key = (String) headerNames.nextElement();
+            String key = headerNames.nextElement();
             String value = request.getHeader(key);
             map.put(key, value);
         }
@@ -178,7 +177,7 @@ public class LogContextFilter implements Filter {
         return "HEAD".equals(request.getMethod());
     }
 
-    private class ForceGetRequestWrapper extends HttpServletRequestWrapper {
+    private static class ForceGetRequestWrapper extends HttpServletRequestWrapper {
         public ForceGetRequestWrapper(HttpServletRequest request) {
             super(request);
         }
