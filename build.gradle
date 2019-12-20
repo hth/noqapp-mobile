@@ -46,7 +46,6 @@ buildscript {
     }
     dependencies {
         classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:$spotbugsPluginGradle"
-        classpath 'org.owasp:dependency-check-gradle:5.1.0'
         classpath 'org.owasp:dependency-check-gradle:5.2.4'
         //classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1'
         classpath 'de.aaschmid:gradle-cpd-plugin:2.0'
@@ -328,6 +327,7 @@ subprojects {
         format = 'ALL'
         failBuildOnCVSS = 20
         suppressionFile = file("$rootProject.projectDir/config/dependencyCheck/dependency-check-known-issues.xml")
+        outputDirectory = file("$rootProject.projectDir/build/report/owasp")
     }
 
     tasks.withType(SpotBugsTask) {
