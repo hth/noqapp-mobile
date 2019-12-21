@@ -118,7 +118,7 @@ public class ParseTokenFCM {
                 }
             }
 
-            if (map.containsKey("ip") && StringUtils.isNotBlank(map.get("ip").getText())) {
+            if (map.containsKey("ip") && map.get("ip") != null) {
                 ipAddress = map.get("ip").getText();
             } else {
                 ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
