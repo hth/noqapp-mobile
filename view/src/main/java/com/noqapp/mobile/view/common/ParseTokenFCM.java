@@ -7,6 +7,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,6 +16,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * User: hitender
@@ -32,12 +36,12 @@ public class ParseTokenFCM {
     private String ipAddress;
     private boolean missingCoordinate;
 
-    private ParseTokenFCM(String tokenJson) {
-        parseForFCM(tokenJson);
+    private ParseTokenFCM(String tokenJson, HttpServletRequest request) {
+        parseForFCM(tokenJson, request);
     }
 
-    public static ParseTokenFCM newInstance(String tokenJson) {
-        return new ParseTokenFCM(tokenJson);
+    public static ParseTokenFCM newInstance(String tokenJson, HttpServletRequest request) {
+        return new ParseTokenFCM(tokenJson, request);
     }
 
     public String getErrorResponse() {
@@ -72,7 +76,7 @@ public class ParseTokenFCM {
         return missingCoordinate;
     }
 
-    private void parseForFCM(String tokenJson) {
+    private void parseForFCM(String tokenJson, HttpServletRequest request) {
         Map<String, ScrubbedInput> map;
         try {
             map = ParseJsonStringToMap.jsonStringToMap(tokenJson);
@@ -117,8 +121,11 @@ public class ParseTokenFCM {
                 }
             }
 
-            if (map.containsKey("ip")) {
+            if (map.containsKey("ip") && StringUtils.isNotBlank(map.get("ip").getText())) {
                 ipAddress = map.get("ip").getText();
+            } else {
+                ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
+                LOG.info("Default ip {}", ipAddress);
             }
         } catch (IOException | NullPointerException e) {
             LOG.error("Could not parse json={} errorResponse={}", tokenJson, e.getLocalizedMessage(), e);

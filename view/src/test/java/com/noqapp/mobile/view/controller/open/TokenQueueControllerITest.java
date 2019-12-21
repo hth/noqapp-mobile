@@ -96,7 +96,8 @@ class TokenQueueControllerITest extends ITest {
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson()
+            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson(),
+            httpServletRequest
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());
@@ -162,7 +163,8 @@ class TokenQueueControllerITest extends ITest {
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson()
+            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson(),
+            httpServletRequest
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertTrue(jsonTokenAndQueueList.isSinceBeginning());
@@ -177,7 +179,8 @@ class TokenQueueControllerITest extends ITest {
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson()
+            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson(),
+            httpServletRequest
         );
         jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());
@@ -188,7 +191,8 @@ class TokenQueueControllerITest extends ITest {
             new ScrubbedInput(UUID.randomUUID().toString()),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson()
+            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson(),
+            httpServletRequest
         );
         jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());
