@@ -75,6 +75,7 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -347,6 +348,7 @@ public class TokenQueueAPIController {
         @RequestBody
         String tokenJson,
 
+        HttpServletRequest request,
         HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
@@ -355,7 +357,7 @@ public class TokenQueueAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson);
+        ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson, request);
         if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
             return parseTokenFCM.getErrorResponse();
         }

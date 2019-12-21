@@ -38,6 +38,9 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * User: hitender
  * Date: 3/1/17 12:04 PM
@@ -85,7 +88,9 @@ public class DeviceController {
         ScrubbedInput appFlavor,
 
         @RequestBody
-        String tokenJson
+        String tokenJson,
+
+        HttpServletRequest request
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -111,7 +116,7 @@ public class DeviceController {
             return getErrorReason("Incorrect appFlavor type.", USER_INPUT);
         }
 
-        ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson);
+        ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson, request);
         if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
             return parseTokenFCM.getErrorResponse();
         }

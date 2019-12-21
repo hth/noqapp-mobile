@@ -195,6 +195,7 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -323,6 +324,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected PurchaseOrderManagerJDBC purchaseOrderManagerJDBC;
     @Mock protected PurchaseOrderProductManagerJDBC purchaseOrderProductManagerJDBC;
     @Mock protected HttpServletResponse httpServletResponse;
+    @Mock protected HttpServletRequest httpServletRequest;
     @Mock protected FtpService ftpService;
     @Mock protected MailService mailService;
     @Mock protected ElasticsearchClientConfiguration elasticsearchClientConfiguration;

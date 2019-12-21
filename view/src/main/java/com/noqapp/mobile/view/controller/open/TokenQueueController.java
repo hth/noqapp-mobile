@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -264,12 +265,14 @@ public class TokenQueueController {
         ScrubbedInput appFlavor,
 
         @RequestBody
-        String tokenJson
+        String tokenJson,
+
+        HttpServletRequest request
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Queues historical for did={} dt={}", did.getText(), deviceType.getText());
-        ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson);
+        ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson, request);
         if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
             return parseTokenFCM.getErrorResponse();
         }
