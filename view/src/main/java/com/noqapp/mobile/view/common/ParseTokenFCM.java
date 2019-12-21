@@ -113,10 +113,7 @@ public class ParseTokenFCM {
                     coordinate[0] = Double.parseDouble(map.get("lng").getText());
                     coordinate[1] = Double.parseDouble(map.get("lat").getText());
                 } catch (NumberFormatException | NullPointerException e) {
-                    LOG.info("Coordinate missing lng={} lat={} errorResponse={}",
-                        map.get("lng").getText(),
-                        map.get("lat").getText(),
-                        e.getLocalizedMessage());
+                    LOG.info("Coordinate missing errorResponse={}", e.getLocalizedMessage());
                     missingCoordinate = true;
                 }
             }
