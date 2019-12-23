@@ -108,7 +108,7 @@ public class ParseTokenFCM {
                 appVersion = map.get("av").getText();
             }
 
-            if (map.containsKey("lng") && map.containsKey("lat")) {
+            if (map.containsKey("lng") && map.get("lng") != null && map.containsKey("lat") && map.get("lat") != null) {
                 try {
                     coordinate[0] = Double.parseDouble(map.get("lng").getText());
                     coordinate[1] = Double.parseDouble(map.get("lat").getText());
@@ -116,6 +116,8 @@ public class ParseTokenFCM {
                     LOG.info("Coordinate missing errorResponse={}", e.getLocalizedMessage());
                     missingCoordinate = true;
                 }
+            } else {
+                missingCoordinate = true;
             }
 
             if (map.containsKey("ip") && map.get("ip") != null) {
