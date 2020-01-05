@@ -26,37 +26,37 @@ public enum LowestSupportedAppEnum {
     VACL("1.2.335",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQCL,
-        "1.2.336",                      //Latest App Version on Play Store
+        "1.2.337",                      //Latest App Version on Play Store
         "Version Android Client"),
 
     VACH("1.2.335",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQCH,
-        "1.2.336",                      //Latest App Version on Play Store
+        "1.2.337",                      //Latest App Version on Play Store
         "Version Android Client HealthCare"),
 
     VAMS("1.2.335",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQMS,
-        "1.2.336",                      //Latest App Version on Play Store
+        "1.2.337",                      //Latest App Version on Play Store
         "Version Android Merchant Store"),
 
     VAMH("1.2.335",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQMH,
-        "1.2.336",                      //Latest App Version on Play Store
+        "1.2.337",                      //Latest App Version on Play Store
         "Version Android Merchant HealthCare"),
 
     VAMT("1.2.335",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQMT,
-        "1.2.336",                      //Latest App Version on Play Store
+        "1.2.337",                      //Latest App Version on Play Store
         "Version Android Merchant TV"),
 
     VAMI("1.2.335",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQMI,
-        "1.2.336",                      //Latest App Version on Play Store
+        "1.2.337",                      //Latest App Version on Play Store
         "Version Android Merchant Inventory");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
