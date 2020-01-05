@@ -97,7 +97,7 @@ public class DeviceMobileService {
                         .setModel(model)
                         .setOsVersion(osVersion);
                     registeredDeviceManager.save(registeredDevice);
-                    LOG.info("registered device for did={}", did);
+                    LOG.info("Registered device for did={}", did);
                 } catch (DuplicateKeyException duplicateKeyException) {
                     LOG.warn("Its registered device, update existing with new details deviceType={} did={} qid={}", deviceType, did, qid);
 
