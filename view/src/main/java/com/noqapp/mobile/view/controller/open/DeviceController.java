@@ -18,6 +18,7 @@ import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
+import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -33,13 +34,15 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * User: hitender
@@ -131,7 +134,10 @@ public class DeviceController {
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
-                parseTokenFCM.isMissingCoordinate() ? geoIPLocationService.getLocationAsDouble(parseTokenFCM.getIpAddress()) : parseTokenFCM.getCoordinate(),
+                parseTokenFCM.isMissingCoordinate()
+                    ? geoIPLocationService.getLocationAsDouble(
+                        retrieveIPV4(parseTokenFCM.getIpAddress(), HttpRequestResponseParser.getClientIpAddress(request)))
+                    : parseTokenFCM.getCoordinate(),
                 parseTokenFCM.getIpAddress());
             return DeviceRegistered.newInstance(true).asJson();
         } catch (DeviceDetailMissingException e) {
@@ -214,5 +220,19 @@ public class DeviceController {
         errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, mobileSystemErrorCode.getCode());
 
         return ErrorEncounteredJson.toJson(errors);
+    }
+
+    private String retrieveIPV4(String fromDevice, String fromRequest) {
+        try {
+            InetAddress address = InetAddress.getByName(fromDevice);
+            if (address instanceof Inet6Address) {
+                return fromRequest;
+            }
+            return fromDevice;
+        } catch (UnknownHostException e) {
+            LOG.error("Failed on unknown host fromDevice={} fromRequest={} reason={}", fromDevice, fromRequest, e.getLocalizedMessage());
+        }
+
+        return fromDevice;
     }
 }
