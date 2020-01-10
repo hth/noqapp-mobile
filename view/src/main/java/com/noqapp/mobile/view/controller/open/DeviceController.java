@@ -5,6 +5,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPG
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
 
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonLatestAppVersion;
 import com.noqapp.domain.types.AppFlavorEnum;
@@ -136,7 +137,7 @@ public class DeviceController {
                 parseTokenFCM.getAppVersion(),
                 parseTokenFCM.isMissingCoordinate()
                     ? geoIPLocationService.getLocationAsDouble(
-                        retrieveIPV4(parseTokenFCM.getIpAddress(), HttpRequestResponseParser.getClientIpAddress(request)))
+                        CommonUtil.retrieveIPV4(parseTokenFCM.getIpAddress(), HttpRequestResponseParser.getClientIpAddress(request)))
                     : parseTokenFCM.getCoordinate(),
                 parseTokenFCM.getIpAddress());
             return DeviceRegistered.newInstance(true).asJson();
@@ -220,19 +221,5 @@ public class DeviceController {
         errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, mobileSystemErrorCode.getCode());
 
         return ErrorEncounteredJson.toJson(errors);
-    }
-
-    private String retrieveIPV4(String fromDevice, String fromRequest) {
-        try {
-            InetAddress address = InetAddress.getByName(fromDevice);
-            if (address instanceof Inet6Address) {
-                return fromRequest;
-            }
-            return fromDevice;
-        } catch (UnknownHostException e) {
-            LOG.error("Failed on unknown host fromDevice={} fromRequest={} reason={}", fromDevice, fromRequest, e.getLocalizedMessage());
-        }
-
-        return fromDevice;
     }
 }

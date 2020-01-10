@@ -5,6 +5,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_NO_LONGER_EXISTS;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.types.AppFlavorEnum;
@@ -17,6 +18,7 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
+import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.JoinAbortService;
 
@@ -286,7 +288,10 @@ public class TokenQueueController {
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
-                parseTokenFCM.isMissingCoordinate() ? geoIPLocationService.getLocationAsDouble(parseTokenFCM.getIpAddress()) : parseTokenFCM.getCoordinate(),
+                parseTokenFCM.isMissingCoordinate()
+                    ? geoIPLocationService.getLocationAsDouble(
+                        CommonUtil.retrieveIPV4(parseTokenFCM.getIpAddress(), HttpRequestResponseParser.getClientIpAddress(request)))
+                    : parseTokenFCM.getCoordinate(),
                 parseTokenFCM.getIpAddress()).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
