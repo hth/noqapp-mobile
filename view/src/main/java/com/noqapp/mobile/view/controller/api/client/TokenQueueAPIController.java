@@ -17,6 +17,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_NO_L
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.TRANSACTION_GATEWAY_DEFAULT;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
@@ -45,6 +46,7 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
+import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderService;
@@ -372,7 +374,10 @@ public class TokenQueueAPIController {
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
-                parseTokenFCM.isMissingCoordinate() ? geoIPLocationService.getLocationAsDouble(parseTokenFCM.getIpAddress()) : parseTokenFCM.getCoordinate(),
+                parseTokenFCM.isMissingCoordinate()
+                    ? geoIPLocationService.getLocationAsDouble(
+                        CommonUtil.retrieveIPV4(parseTokenFCM.getIpAddress(), HttpRequestResponseParser.getClientIpAddress(request)))
+                    : parseTokenFCM.getCoordinate(),
                 parseTokenFCM.getIpAddress()
             );
             //TODO(hth) get old historical order, it just gets todays historical order
