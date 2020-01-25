@@ -189,10 +189,12 @@ import okhttp3.OkHttpClient;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -1266,7 +1268,7 @@ public class ITest extends RealMongoForITest {
         professionalProfileService.createProfessionalProfile(queueManagerUserProfile.getQueueUserId());
         ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(queueManagerUserProfile.getQueueUserId());
         NameDatePair nameDatePair1 = new NameDatePair().setName("MBBS").setMonthYear("1985-01-22");
-        List<NameDatePair> nameDatePairs = new ArrayList<NameDatePair>() {{
+        Set<NameDatePair> nameDatePairs = new LinkedHashSet<NameDatePair>() {{
             add(nameDatePair1);
         }};
         professionalProfile.setEducation(nameDatePairs).setAboutMe("About Me");
