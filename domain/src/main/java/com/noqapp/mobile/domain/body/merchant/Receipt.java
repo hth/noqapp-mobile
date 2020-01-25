@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * User: hitender
@@ -68,11 +67,11 @@ public class Receipt extends AbstractDomain {
 
     /* Required to mark as a valid profile. */
     @JsonProperty("ed")
-    private Set<JsonNameDatePair> education;
+    private List<JsonNameDatePair> education;
 
     /* Required to mark as a valid profile. */
     @JsonProperty("li")
-    private Set<JsonNameDatePair> licenses;
+    private List<JsonNameDatePair> licenses;
 
     /* Customer Detail. */
     @JsonProperty("jp")
@@ -168,20 +167,20 @@ public class Receipt extends AbstractDomain {
         return this;
     }
 
-    public Set<JsonNameDatePair> getEducation() {
+    public List<JsonNameDatePair> getEducation() {
         return education;
     }
 
-    public Receipt setEducation(Set<JsonNameDatePair> education) {
+    public Receipt setEducation(List<JsonNameDatePair> education) {
         this.education = education;
         return this;
     }
 
-    public Set<JsonNameDatePair> getLicenses() {
+    public List<JsonNameDatePair> getLicenses() {
         return licenses;
     }
 
-    public Receipt setLicenses(Set<JsonNameDatePair> licenses) {
+    public Receipt setLicenses(List<JsonNameDatePair> licenses) {
         this.licenses = licenses;
         return this;
     }

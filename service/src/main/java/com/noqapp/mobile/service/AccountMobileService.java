@@ -41,9 +41,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * User: hitender
@@ -363,7 +361,7 @@ public class AccountMobileService {
     public String updateProfessionalProfile(String qidOfSubmitter, JsonProfessionalProfile jsonProfessionalProfile) {
         ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(qidOfSubmitter);
 
-        Set<NameDatePair> nameDatePairsAwards = new LinkedHashSet<>();
+        List<NameDatePair> nameDatePairsAwards = new ArrayList<>();
         for (JsonNameDatePair jsonNameDatePair : jsonProfessionalProfile.getAwards()) {
             NameDatePair nameDatePair = new NameDatePair()
                 .setName(jsonNameDatePair.getName())
@@ -371,7 +369,7 @@ public class AccountMobileService {
             nameDatePairsAwards.add(nameDatePair);
         }
 
-        Set<NameDatePair> nameDatePairsEducations = new LinkedHashSet<>();
+        List<NameDatePair> nameDatePairsEducations = new ArrayList<>();
         for (JsonNameDatePair jsonNameDatePair : jsonProfessionalProfile.getEducation()) {
             NameDatePair nameDatePair = new NameDatePair()
                 .setName(jsonNameDatePair.getName())
@@ -379,7 +377,7 @@ public class AccountMobileService {
             nameDatePairsEducations.add(nameDatePair);
         }
 
-        Set<NameDatePair> nameDatePairsLicenses = new LinkedHashSet<>();
+        List<NameDatePair> nameDatePairsLicenses = new ArrayList<>();
         for (JsonNameDatePair jsonNameDatePair : jsonProfessionalProfile.getLicenses()) {
             NameDatePair nameDatePair = new NameDatePair()
                 .setName(jsonNameDatePair.getName())
