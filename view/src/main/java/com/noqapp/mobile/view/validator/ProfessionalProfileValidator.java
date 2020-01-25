@@ -43,7 +43,8 @@ public class ProfessionalProfileValidator {
     public Map<String, String> validate(JsonProfessionalProfile jsonProfessionalProfile) {
         Map<String, String> errors = new HashMap<>();
 
-        if (jsonProfessionalProfile.getLicenses().isEmpty() && jsonProfessionalProfile.getEducation().isEmpty()) {
+        if (jsonProfessionalProfile.getLicenses() != null && jsonProfessionalProfile.getLicenses().isEmpty()
+            && jsonProfessionalProfile.getEducation() != null && jsonProfessionalProfile.getEducation().isEmpty()) {
             LOG.error("Education or License in professional profile cannot be empty. Please fill these up first.");
             errors.put(ErrorEncounteredJson.REASON, "Education or License in professional profile cannot be empty. Please fill these up first.");
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
