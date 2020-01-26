@@ -59,7 +59,7 @@ public class ProfessionalProfileValidator {
         }
 
         if (StringUtils.isNotBlank(jsonProfessionalProfile.getAboutMe()) && jsonProfessionalProfile.getAboutMe().length() > 256) {
-            LOG.error("About me exceeds length {} > 256 " + jsonProfessionalProfile.getAboutMe().length());
+            LOG.error("About me exceeds length {} > 256 ", jsonProfessionalProfile.getAboutMe().length());
             errors.put(ErrorEncounteredJson.REASON, "About me should not exceed 256 characters");
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
