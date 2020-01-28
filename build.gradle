@@ -257,14 +257,14 @@ subprojects {
     }
 
     checkstyle {
-        toolVersion = '8.22'
+        toolVersion = '8.29'
         ignoreFailures = true
         configDir = file("$rootProject.projectDir/config/checkstyle")
     }
 
     pmd {
         ignoreFailures = true
-        toolVersion = '6.20.0'
+        toolVersion = '6.21.0'
 
         ruleSets = [
                 "java-basic",
