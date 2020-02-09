@@ -630,6 +630,8 @@ public class ITest extends RealMongoForITest {
             60,
             2,
             24,
+            "no-reply@noqapp.com",
+            "NoQueue",
             scheduleAppointmentManager,
             storeHourManager,
             userProfileManager,
@@ -638,7 +640,8 @@ public class ITest extends RealMongoForITest {
             tokenQueueManager,
             scheduledTaskManager,
             bizService,
-            firebaseMessageService
+            firebaseMessageService,
+            mailService
         );
 
         hospitalVisitScheduleManager = new HospitalVisitScheduleManagerImpl(getMongoTemplate());
