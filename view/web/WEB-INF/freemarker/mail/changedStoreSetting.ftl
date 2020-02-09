@@ -56,6 +56,7 @@
             Reason for Change was associated to: <strong>${changeInitiateReason}</strong>
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
+            Walk-In Appointment: ${walkIn}<br/>
             Allows Remote Join from Home: ${remoteJoin}<br/>
             Allows only registered users to join: ${allowLoggedInUser}<br/>
             Number of Available Token: ${availableTokenCount}<br/>
