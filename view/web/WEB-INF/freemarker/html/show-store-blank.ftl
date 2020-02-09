@@ -38,7 +38,7 @@
                         <p>No matching business found with QR Code.</p>
                     </div>
                     <div class="download-app-icon">
-                        <p>Get NoQApp</p>
+                        <p>Get NoQueue</p>
                         <div>
                             <#--<a href="https://itunes.apple.com/us/app/noqapp/id1237327532?ls=1&mt=8">-->
                             <#--<img src="${parentHost}/static2/internal/img/apple-store.png"/>-->

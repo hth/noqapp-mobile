@@ -100,7 +100,7 @@
                     </#list>
 
                     <div class="download-app-icon">
-                        <p>Get NoQApp</p>
+                        <p>Get NoQueue</p>
                         <div>
                             <#--<a href="https://itunes.apple.com/us/app/noqapp/id1237327532?ls=1&mt=8">-->
                             <#--<img src="${page.parentHost}/static2/internal/img/apple-store.png"/>-->

@@ -64,7 +64,7 @@
                               text-align="center"
                               space-after="10mm">
                         <fo:block padding="3mm">
-                            Download NoQApp
+                            Download NoQueue
                         </fo:block>
                     </fo:block>
                     <fo:block font-size="10pt">
