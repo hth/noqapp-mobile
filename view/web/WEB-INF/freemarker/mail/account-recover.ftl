@@ -50,7 +50,7 @@
 
         <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear ${to},</strong></p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-            To reset your NoQApp ID password, simply click the link below. That will take you to a web page where you
+            To reset your NoQueue ID password, simply click the link below. That will take you to a web page where you
             can
             create a new password.
         </p>

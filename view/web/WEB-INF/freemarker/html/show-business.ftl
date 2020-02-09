@@ -26,7 +26,7 @@
             <img src="${https}://${domain}/static2/internal/img/logo_under_qr.png" alt="NoQueue Inc"/>
             <div style="font-size: smaller">&copy; &reg; 2020 NoQueue</div>
             <br>
-            <h3><span style="color: black">Download NoQApp</span></h3>
+            <h3><span style="color: black">Download NoQueue</span></h3>
             <div class="download-app-icon" style="background: white">
                 <div>
                     <a href="https://itunes.apple.com/us/app/noqapp/id1237327532?ls=1&mt=8">
