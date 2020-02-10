@@ -51,6 +51,7 @@
         <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear ${bizStore},</strong></p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             ${user} has booked appointment for ${bizStore} at ${bizName}.
+            <br/>
             Best Phone: ${bizStorePhone}
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
@@ -59,7 +60,7 @@
             Date: <strong>${appointmentDate}</strong> & Time: <strong>${appointmentTime}</strong>
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-            User contact reference: Phone ${userPhone}, ${userGuardianPhone}
+            User contact reference, Phone: ${userPhone}, Guardian Phone: ${userGuardianPhone}
         </p>
         <p style="font-family: 'Roboto', sans-serif;">
             Thanks, <br/>
