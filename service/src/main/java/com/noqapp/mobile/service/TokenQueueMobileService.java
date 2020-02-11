@@ -90,7 +90,7 @@ public class TokenQueueMobileService {
                 throw new StoreNoLongerExistsException("Store no longer exists");
             }
 
-            StoreHourEntity storeHour = getStoreHours(codeQR, bizStore);
+            StoreHourEntity storeHour = bizService.getStoreHours(codeQR, bizStore);
             TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
             LOG.info("TokenState bizStore={} businessType={} averageServiceTime={} tokenQueue={}",
                 bizStore.getBizName(),
@@ -175,7 +175,7 @@ public class TokenQueueMobileService {
 
             List<BizStoreEntity> stores = bizService.getAllBizStores(bizStoreForCodeQR.getBizName().getId());
             for (BizStoreEntity bizStore : stores) {
-                StoreHourEntity storeHour = getStoreHours(bizStore.getCodeQR(), bizStore);
+                StoreHourEntity storeHour = bizService.getStoreHours(bizStore.getCodeQR(), bizStore);
                 TokenQueueEntity tokenQueue = findByCodeQR(bizStore.getCodeQR());
                 jsonQueues.addQueues(getJsonQueue(bizStore, storeHour, tokenQueue));
             }
@@ -215,7 +215,7 @@ public class TokenQueueMobileService {
 
             List<BizStoreEntity> stores = bizService.getAllBizStores(bizName.getId());
             for (BizStoreEntity bizStore : stores) {
-                StoreHourEntity storeHour = getStoreHours(bizStore.getCodeQR(), bizStore);
+                StoreHourEntity storeHour = bizService.getStoreHours(bizStore.getCodeQR(), bizStore);
                 TokenQueueEntity tokenQueue = findByCodeQR(bizStore.getCodeQR());
                 jsonQueues.addQueues(getJsonQueue(bizStore, storeHour, tokenQueue));
             }
@@ -375,16 +375,6 @@ public class TokenQueueMobileService {
 
             return null;
         }
-    }
-
-    //TODO instead send all the hours of the store and let App figure out which one to show.
-    private StoreHourEntity getStoreHours(String codeQR, BizStoreEntity bizStore) {
-        DayOfWeek dayOfWeek = ZonedDateTime.now(TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId()).getDayOfWeek();
-        LOG.debug("codeQR={} dayOfWeek={}", codeQR, dayOfWeek);
-
-        StoreHourEntity storeHour = bizService.findStoreHour(bizStore.getId(), dayOfWeek);
-        LOG.debug("StoreHour={}", storeHour);
-        return storeHour;
     }
 
     public BizService getBizService() {

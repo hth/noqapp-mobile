@@ -52,7 +52,7 @@
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             ${user} has booked appointment for ${bizStore} at ${bizName}.
             <br/>
-            Best Phone: ${bizStorePhone}
+            Best Phone: (${bizCountryShortName}) ${bizStorePhone}
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             Details of booking: <strong>${appointmentState}</strong>
