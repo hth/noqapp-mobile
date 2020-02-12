@@ -56,46 +56,49 @@
                     <#if profile["awards"]?has_content>
                         <h4>Awards</h4>
                         <div class="qr-address">
-                        <#list profile["awards"] as nameDatePair>
-                            <p>${nameDatePair.monthYear?date("yyyy-MM-dd")?string["MMM, yyyy"]} - ${nameDatePair.name}</p>
-                        </#list>
+                            <#list profile["awards"] as nameDatePair>
+                                <p>${nameDatePair.monthYear?date("yyyy-MM-dd")?string["MMM, yyyy"]} - ${nameDatePair.name}</p>
+                            </#list>
                         </div>
                     </#if>
 
-                        <h2>Available at Clinics:</h2>
+                    <h2>Available at Clinics:</h2>
                     <#list stores as key, value>
                         <div style="border:1px solid #ccc; margin: 10px 0px 20px 0px; padding: 10px;">
-                        <div class="qr-address">
-                        <h3>${value.bizName}</h3>
-                        <p>${value.storeAddress}</p>
-                    <#--<p>&nbsp;</p>-->
-                    <#--<p>${value.phone}</p>-->
-                        </div>
-                        <div class="qr-queue" style="padding-bottom: 10px;">
-                    <#--<h3>${value.displayName}</h3>-->
-                        <p>${value.rating} &nbsp; <span id="store_rating_${key}"></span>&nbsp;&nbsp;${value.reviewCount} Reviews &nbsp;
-                        </p>
-                        <#if value.storeClosed == "Yes">
-                            <p><strong>Closed Today</strong></p>
-                        <#else>
-                            <p><strong>${value.dayOfWeek} Hours: </strong> ${value.startHour} - ${value.endHour}</p>
-                        </#if>
+                            <div class="qr-address">
+                                <h3>${value.bizName}</h3>
+                                <p>${value.storeAddress}</p>
+                                <#--<p>&nbsp;</p>-->
+                                <#--<p>${value.phone}</p>-->
+                            </div>
+                            <div class="qr-queue" style="padding-bottom: 10px;">
+                                <#--<h3>${value.displayName}</h3>-->
+                                <p>${value.rating} &nbsp;
+                                    <span id="store_rating_${key}"></span>&nbsp;&nbsp;${value.reviewCount} Reviews &nbsp;
+                                </p>
+                                <#if value.storeClosed == "Yes">
+                                    <p><strong>Closed Today</strong></p>
+                                <#else>
+                                    <p><strong>${value.dayOfWeek} Hours: </strong> ${value.startHour} - ${value.endHour}</p>
+                                </#if>
 
-                    </br>
-                        <p><strong>Queue Status: </strong>${value.queueStatus}</p>
-                        <p><strong>Currently Serving: </strong>${value.currentlyServing}</p>
-                        <p><strong>People in Queue: </strong>${value.peopleInQueue}</p>
+                                </br>
+                                <p><strong>Queue Status: </strong>${value.queueStatus}</p>
+                                <p><strong>Currently Serving: </strong>${value.currentlyServing}</p>
+                                <p><strong>People in Queue: </strong>${value.peopleInQueue}</p>
 
-                        <div class="button-btn" style="margin-bottom: 50px;">
-                    <form action="${page.https}://${page.domain}/open/join/queue/${value.codeQR}.htm">
-                        <#if value.storeClosed == "Yes">
-                            <button class="ladda-button next-btn" style="width:48%; float: left; background: grey; border: grey;">Closed Queue</button>
-                        <#else>
-                            <button class="ladda-button next-btn" style="width:48%; float: left;">Join Queue</button>
-                        </#if>
-                        </form>
-                        </div>
-                        </div>
+                                <div class="button-btn" style="margin-bottom: 50px;">
+                                    <form action="${page.https}://${page.domain}/open/join/queue/${value.codeQR}.htm">
+                                        <#if value.claimed == "No">
+                                            <p style="padding: 20px 20px 20px 0; color: #9f1313">Not accepting Walk-ins</p>
+                                        <#elseif value.storeClosed == "Yes">
+                                            <button class="ladda-button next-btn" style="width:48%; float: left; background: grey; border: grey;">Closed Queue</button>
+                                        <#else>
+                                            <button class="ladda-button next-btn" style="width:48%; float: left;">Join Queue</button>
+                                        </#if>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </#list>
 
