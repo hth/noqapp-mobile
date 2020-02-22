@@ -596,6 +596,7 @@ public class ITest extends RealMongoForITest {
             apiHealthService);
 
         joinAbortService = new JoinAbortService(
+            2,
             deviceService,
             tokenQueueService,
             purchaseOrderService,

@@ -166,6 +166,7 @@ class HistoricalAPIControllerITest extends ITest {
             new ScrubbedInput(userProfile.getEmail()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
             new ScrubbedInput(jsonToken.getCodeQR()),
+            httpServletRequest,
             httpServletResponse
         );
         JsonResponse jsonResponse = new ObjectMapper().readValue(abortResponse, JsonResponse.class);
