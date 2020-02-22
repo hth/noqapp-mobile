@@ -140,6 +140,7 @@ class TokenQueueControllerITest extends ITest {
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(bizStore.getCodeQR()),
+            httpServletRequest,
             httpServletResponse
         );
     }
