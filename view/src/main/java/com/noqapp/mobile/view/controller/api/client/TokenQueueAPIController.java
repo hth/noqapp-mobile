@@ -875,7 +875,7 @@ public class TokenQueueAPIController {
         } catch (QueueAbortPaidPastDurationException e) {
             LOG.warn("Failed cancelling as the duration of cancellation has passed reason={}", e.getLocalizedMessage());
             return getErrorReason(
-                "Cannot cancel as the duration of cancellation has passed. Please contact the business.",
+                "Cannot cancel as the duration for cancellation has passed. Please contact the business for cancellation.",
                 QUEUE_ORDER_ABORT_EXPIRED_LIMITED_TIME);
         } catch (PurchaseOrderRefundExternalException e) {
             LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage());
