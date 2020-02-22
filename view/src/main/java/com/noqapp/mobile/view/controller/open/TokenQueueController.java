@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.open;
 
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_ORDER_ABORT_EXPIRED_LIMITED_TIME;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_NO_LONGER_EXISTS;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -21,6 +22,7 @@ import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.JoinAbortService;
+import com.noqapp.service.exceptions.QueueAbortPaidPastDurationException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -375,6 +377,7 @@ public class TokenQueueController {
         @PathVariable ("codeQR")
         ScrubbedInput codeQR,
 
+        HttpServletRequest request,
         HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
@@ -386,7 +389,13 @@ public class TokenQueueController {
         }
 
         try {
-            return joinAbortService.abortQueue(codeQR.getText(), did.getText(), null).asJson();
+            int requesterTime = geoIPLocationService.requestOriginatorTime(HttpRequestResponseParser.getClientIpAddress(request));
+            return joinAbortService.abortQueue(codeQR.getText(), did.getText(), null, requesterTime).asJson();
+        } catch(QueueAbortPaidPastDurationException e) {
+            LOG.warn("Failed cancelling as the duration of cancellation has passed reason={}", e.getLocalizedMessage());
+            return getErrorReason(
+                "Cannot cancel as the duration of cancellation has passed. Please contact the business.",
+                QUEUE_ORDER_ABORT_EXPIRED_LIMITED_TIME);
         } catch (Exception e) {
             LOG.error("Failed aborting queue did={}, reason={}", did, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

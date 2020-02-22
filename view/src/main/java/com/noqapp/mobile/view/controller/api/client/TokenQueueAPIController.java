@@ -11,6 +11,7 @@ import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PURCHASE_O
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_JOIN_FAILED_PAYMENT_CALL_REQUEST;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_JOIN_PAYMENT_FAILED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_NO_SERVICE_NO_PAY;
+import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.QUEUE_ORDER_ABORT_EXPIRED_LIMITED_TIME;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.STORE_NO_LONGER_EXISTS;
@@ -55,6 +56,7 @@ import com.noqapp.service.exceptions.PurchaseOrderCancelException;
 import com.noqapp.service.exceptions.PurchaseOrderFailException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundPartialException;
+import com.noqapp.service.exceptions.QueueAbortPaidPastDurationException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -854,6 +856,7 @@ public class TokenQueueAPIController {
         @PathVariable ("codeQR")
         ScrubbedInput codeQR,
 
+        HttpServletRequest request,
         HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
@@ -867,7 +870,13 @@ public class TokenQueueAPIController {
         }
 
         try {
-            return joinAbortService.abortQueue(codeQR.getText(), did.getText(), qid).asJson();
+            int requesterTime = geoIPLocationService.requestOriginatorTime(HttpRequestResponseParser.getClientIpAddress(request));
+            return joinAbortService.abortQueue(codeQR.getText(), did.getText(), qid, requesterTime).asJson();
+        } catch (QueueAbortPaidPastDurationException e) {
+            LOG.warn("Failed cancelling as the duration of cancellation has passed reason={}", e.getLocalizedMessage());
+            return getErrorReason(
+                "Cannot cancel as the duration of cancellation has passed. Please contact the business.",
+                QUEUE_ORDER_ABORT_EXPIRED_LIMITED_TIME);
         } catch (PurchaseOrderRefundExternalException e) {
             LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage());
             return getErrorReason(
