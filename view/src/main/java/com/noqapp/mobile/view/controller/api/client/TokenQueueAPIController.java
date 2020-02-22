@@ -889,7 +889,9 @@ public class TokenQueueAPIController {
                 PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY);
         } catch(PurchaseOrderCancelException e) {
             LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
-            return getErrorReason("Failed to cancel order", PURCHASE_ORDER_FAILED_TO_CANCEL);
+            return getErrorReason(
+                "Failed to cancel order",
+                PURCHASE_ORDER_FAILED_TO_CANCEL);
         } catch (Exception e) {
             LOG.error("Failed aborting queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
