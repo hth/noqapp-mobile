@@ -43,10 +43,10 @@ import com.noqapp.service.CouponService;
 import com.noqapp.service.FirebaseMessageService;
 import com.noqapp.service.FirebaseService;
 import com.noqapp.service.JoinAbortService;
-import com.noqapp.service.NLPService;
 import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
+import com.noqapp.service.nlp.NLPService;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpClient;
