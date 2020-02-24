@@ -159,7 +159,6 @@ import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.MailService;
-import com.noqapp.service.NLPService;
 import com.noqapp.service.PreferredBusinessService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.PurchaseOrderProductService;
@@ -186,6 +185,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import okhttp3.OkHttpClient;
 
 import java.time.DayOfWeek;
@@ -320,6 +320,7 @@ public class ITest extends RealMongoForITest {
 
     private WebConnectorService webConnectorService;
     private StanfordCoreNLP stanfordCoreNLP;
+    private MaxentTagger maxentTagger;
     protected ExternalService externalService;
     @Mock protected QueueManagerJDBC queueManagerJDBC;
     @Mock protected PurchaseOrderManagerJDBC purchaseOrderManagerJDBC;
@@ -385,7 +386,7 @@ public class ITest extends RealMongoForITest {
         emailValidateService = new EmailValidateService(emailValidateManager);
         inviteService = new InviteService(inviteManager);
         userMedicalProfileService = new UserMedicalProfileService(userMedicalProfileManager, userMedicalProfileHistoryManager);
-        nlpService = new NLPService(stanfordCoreNLP);
+        nlpService = new NLPService(stanfordCoreNLP, maxentTagger);
 
         accountService = new AccountService(
             5,
