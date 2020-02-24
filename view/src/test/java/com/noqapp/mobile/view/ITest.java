@@ -173,6 +173,7 @@ import com.noqapp.service.TextToSpeechService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
+import com.noqapp.service.nlp.NLPService;
 import com.noqapp.service.payment.CashfreeService;
 import com.noqapp.service.transaction.TransactionService;
 

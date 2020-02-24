@@ -30,7 +30,7 @@ ext {
     passFileTest = file(passwordTestFileLocation)
     passFileProd = file(passwordProdFileLocation)
 
-    firebaseFileLocal = file('view/resources/conf/noq-app-inc-firebase-adminsdk.json')
+    firebaseFileLocal = file('view/resources/conf/noqueue-sandbox-firebase-adminsdk.json')
     firebaseFileTest = file(firebaseAdminTestFileLocation)
     firebaseFileProd = file(firebaseAdminProdFileLocation)
 
@@ -530,7 +530,7 @@ task prepWar(dependsOn: [
 
                 println "Development environment, getting local firebase file $firebaseFileLocal.canonicalPath"
                 if (firebaseFileLocal.exists()) {
-                    from 'view/resources/conf/noq-app-inc-firebase-adminsdk.json'
+                    from 'view/resources/conf/noqueue-sandbox-firebase-adminsdk.json'
                 } else {
                     throw new Exception("Required firebase file does not exists: $firebaseFileLocal.canonicalPath")
                 }
