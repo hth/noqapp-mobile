@@ -46,6 +46,9 @@ public class SearchStoreQuery {
     @JsonProperty("filters")
     private ScrubbedInput filters;
 
+    @JsonProperty("qr")
+    private ScrubbedInput codeQR;
+
     public ScrubbedInput getQuery() {
         return query;
     }
@@ -97,6 +100,15 @@ public class SearchStoreQuery {
 
     public SearchStoreQuery setScrollId(ScrubbedInput scrollId) {
         this.scrollId = scrollId;
+        return this;
+    }
+
+    public ScrubbedInput getCodeQR() {
+        return codeQR;
+    }
+
+    public SearchStoreQuery setCodeQR(ScrubbedInput codeQR) {
+        this.codeQR = codeQR;
         return this;
     }
 }

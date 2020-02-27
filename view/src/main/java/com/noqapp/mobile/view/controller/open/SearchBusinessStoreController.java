@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -14,6 +15,7 @@ import com.noqapp.search.elastic.service.BizStoreElasticService;
 import com.noqapp.search.elastic.service.BizStoreSearchElasticService;
 import com.noqapp.search.elastic.service.BizStoreSpatialElasticService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
+import com.noqapp.service.BizService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -53,6 +55,7 @@ public class SearchBusinessStoreController {
     private boolean useRestHighLevel;
     private BizStoreSpatialElasticService bizStoreSpatialElasticService;
     private BizStoreSearchElasticService bizStoreSearchElasticService;
+    private BizService bizService;
     private GeoIPLocationService geoIPLocationService;
     private ApiHealthService apiHealthService;
 
@@ -63,6 +66,7 @@ public class SearchBusinessStoreController {
 
         BizStoreSpatialElasticService bizStoreSpatialElasticService,
         BizStoreSearchElasticService bizStoreSearchElasticService,
+        BizService bizService,
         GeoIPLocationService geoIPLocationService,
         ApiHealthService apiHealthService
     ) {
@@ -70,6 +74,7 @@ public class SearchBusinessStoreController {
 
         this.bizStoreSpatialElasticService = bizStoreSpatialElasticService;
         this.bizStoreSearchElasticService = bizStoreSearchElasticService;
+        this.bizService = bizService;
         this.geoIPLocationService = geoIPLocationService;
         this.apiHealthService = apiHealthService;
     }
@@ -259,6 +264,71 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/healthCare",
                 "healthCare",
+                SearchBusinessStoreController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping(
+        value = "/kiosk",
+        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    public String kiosk(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestBody
+        SearchStoreQuery searchStoreQuery,
+
+        HttpServletRequest request
+    ) {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Kiosk search query=\"{}\" qr=\"{}\" did={} dt={}", searchStoreQuery.getQuery(), searchStoreQuery.getCodeQR(), did, dt);
+
+        try {
+            String query = searchStoreQuery.getQuery().getText();
+            String codeQR = searchStoreQuery.getCodeQR().getText();
+            String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
+            LOG.debug("Kiosk search query=\"{}\" city=\"{}\" lat={} lng={} filters={} ip={}",
+                query,
+                searchStoreQuery.getCityName(),
+                searchStoreQuery.getLatitude(),
+                searchStoreQuery.getLongitude(),
+                searchStoreQuery.getFilters(),
+                ipAddress);
+
+            BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
+            if (null == bizStore) {
+                LOG.error("Could not find store with codeQR={}", codeQR);
+                return new BizStoreElasticList().asJson();
+            } else {
+                switch (bizStore.getBusinessType()) {
+                    case DO:
+                    case BK:
+                        return bizStoreSearchElasticService.kioskSearchUsingRestClient(
+                            query,
+                            bizStore.getBizName().getId(),
+                            searchStoreQuery.getScrollId().getText()).asXML();
+                    default:
+                        LOG.error("Reached unsupported condition for bizNameId={} businessType={}",
+                            bizStore.getBizName().getId(),
+                            bizStore.getBizName().getBusinessType());
+
+                        return new BizStoreElasticList().asJson();
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new BizStoreElasticList().asJson();
+        } finally {
+            apiHealthService.insert(
+                "/kiosk",
+                "kiosk",
                 SearchBusinessStoreController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
