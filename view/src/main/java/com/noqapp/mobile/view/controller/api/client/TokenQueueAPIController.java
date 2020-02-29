@@ -755,8 +755,8 @@ public class TokenQueueAPIController {
                 return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
             }
 
+            LOG.info("Cancelling order {} {} {}", jsonToken.getJsonPurchaseOrder().getTransactionId(), jsonToken.getCodeQR(), qid);
             joinAbortService.deleteReferenceToTransactionId(jsonToken.getCodeQR(), jsonToken.getJsonPurchaseOrder().getTransactionId());
-            LOG.info("Cancelled order {} {} {}", jsonToken.getJsonPurchaseOrder().getTransactionId(), jsonToken.getCodeQR(), qid);
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating with cashfree notification reason={}", e.getLocalizedMessage(), e);
