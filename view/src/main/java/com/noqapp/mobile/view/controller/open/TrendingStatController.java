@@ -39,6 +39,7 @@ public class TrendingStatController {
             "US",
             new LinkedList<JsonCoronaStatElement>() {{
                 add(new JsonCoronaStatElement()
+                    .setCountry("US")
                     .setOfficialFS("100")
                     .setOfficialCC("101")
                     .setOfficialSS("102")
@@ -52,6 +53,7 @@ public class TrendingStatController {
             "IN",
             new LinkedList<JsonCoronaStatElement>() {{
                 add(new JsonCoronaStatElement()
+                    .setCountry("IN")
                     .setOfficialFS("1001")
                     .setOfficialCC("1011")
                     .setOfficialSS("1021")

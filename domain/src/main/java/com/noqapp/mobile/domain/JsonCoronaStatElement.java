@@ -25,13 +25,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder(alphabetic = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonCoronaStatElement extends AbstractDomain {
+    private String country;
 
-    String officialFS;
-    String officialSS;
-    String officialCC;
-    String trackedFS;
-    String trackedSS;
-    String trackedCC;
+    private String officialFS;
+    private String officialSS;
+    private String officialCC;
+    private String trackedFS;
+    private String trackedSS;
+    private String trackedCC;
+
+    public String getCountry() {
+        return country;
+    }
+
+    public JsonCoronaStatElement setCountry(String country) {
+        this.country = country;
+        return this;
+    }
 
     public String getOfficialFS() {
         return officialFS;
