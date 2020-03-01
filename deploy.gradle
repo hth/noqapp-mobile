@@ -123,7 +123,8 @@ def deploy(def server, def ip, def serverName, def path, def rootFile, def mobil
     if (env == 'prod') {
         sshExecute(server, "sleep 35")
     } else {
-        sshExecute(server, "sleep 5")
+        //Increased for NLP
+        sshExecute(server, "sleep 65")
     }
     sshExecute(server, "sudo service tomcat status")
     sshExecute(server, "curl -I http://$ip:8080/open/login.htm")
