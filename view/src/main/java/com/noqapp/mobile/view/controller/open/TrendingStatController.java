@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -35,33 +36,24 @@ public class TrendingStatController {
     )
     public String coronaStats() {
         JsonCoronaStat jsonCoronaStat = new JsonCoronaStat();
-        jsonCoronaStat.addCoronaStat(
-            "US",
-            new LinkedList<JsonCoronaStatElement>() {{
-                add(new JsonCoronaStatElement()
-                    .setCountry("US")
-                    .setOfficialFS("100")
-                    .setOfficialCC("101")
-                    .setOfficialSS("102")
-                    .setTrackedCC("103")
-                    .setTrackedFS("104")
-                    .setTrackedSS("105")
-                );
-            }}
+        jsonCoronaStat.addCoronaStat(new JsonCoronaStatElement()
+            .setCountry("US")
+            .setOfficialFS("100")
+            .setOfficialCC("101")
+            .setOfficialSS("102")
+            .setTrackedCC("103")
+            .setTrackedFS("104")
+            .setTrackedSS("105")
         );
         jsonCoronaStat.addCoronaStat(
-            "IN",
-            new LinkedList<JsonCoronaStatElement>() {{
-                add(new JsonCoronaStatElement()
-                    .setCountry("IN")
-                    .setOfficialFS("1001")
-                    .setOfficialCC("1011")
-                    .setOfficialSS("1021")
-                    .setTrackedCC("1031")
-                    .setTrackedFS("1041")
-                    .setTrackedSS("1051")
-                );
-            }}
+            new JsonCoronaStatElement()
+                .setCountry("IN")
+                .setOfficialFS("1001")
+                .setOfficialCC("1011")
+                .setOfficialSS("1021")
+                .setTrackedCC("1031")
+                .setTrackedFS("1041")
+                .setTrackedSS("1051")
         );
 
         LOG.info("List of data {}", jsonCoronaStat.asJson());
