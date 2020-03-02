@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,19 +31,19 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonCoronaStat extends AbstractDomain {
 
-    public Map<String, List<JsonCoronaStatElement>> coronaStat = new HashMap<>();
+    public List<JsonCoronaStatElement> coronaStats = new ArrayList<>();
 
-    public Map<String, List<JsonCoronaStatElement>> getCoronaStat() {
-        return coronaStat;
+    public List<JsonCoronaStatElement> getCoronaStats() {
+        return coronaStats;
     }
 
-    public JsonCoronaStat setCoronaStat(Map<String, List<JsonCoronaStatElement>> coronaStat) {
-        this.coronaStat = coronaStat;
+    public JsonCoronaStat setCoronaStats(List<JsonCoronaStatElement> coronaStats) {
+        this.coronaStats = coronaStats;
         return this;
     }
 
-    public JsonCoronaStat addCoronaStat(String country, List<JsonCoronaStatElement> coronaStat) {
-        this.coronaStat.put(country, coronaStat);
+    public JsonCoronaStat addCoronaStat(JsonCoronaStatElement coronaStats) {
+        this.coronaStats.add(coronaStats);
         return this;
     }
 }
