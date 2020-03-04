@@ -312,7 +312,7 @@ public class SearchBusinessStoreController {
                         return bizStoreSearchElasticService.kioskSearchUsingRestClient(
                             query,
                             bizStore.getBizName().getId(),
-                            searchStoreQuery.getScrollId().getText()).asXML();
+                            searchStoreQuery.getScrollId().getText()).asJson();
                     default:
                         LOG.error("Reached unsupported condition for bizNameId={} businessType={}",
                             bizStore.getBizName().getId(),
