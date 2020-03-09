@@ -240,7 +240,7 @@ public class StoreSettingController {
                     queueMobileService.resetTemporarySettingsOnStoreHour(storeHour.getId());
                     queueMobileService.updateNextRun(bizStore, storeHour);
                 }
-                BizStoreEntity updatedBizStore = bizService.unsetScheduledTask(bizStore.getId());
+                BizStoreEntity updatedBizStore = bizService.unsetScheduledTask(bizStore.getId(), bizStore.getCodeQR());
                 scheduledTaskManager.inActive(bizStore.getScheduledTaskId());
 
                 /* Send email when store setting changes. */
