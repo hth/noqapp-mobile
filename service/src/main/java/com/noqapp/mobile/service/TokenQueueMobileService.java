@@ -4,14 +4,11 @@ import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
-import com.noqapp.domain.PurchaseOrderEntity;
-import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonCategory;
-import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.types.InvocationByEnum;
@@ -20,7 +17,6 @@ import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
-import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
@@ -28,8 +24,6 @@ import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.service.BizService;
 import com.noqapp.service.ProfessionalProfileService;
-import com.noqapp.service.PurchaseOrderProductService;
-import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -40,12 +34,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.time.Duration;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 /**
  * User: hitender
@@ -255,12 +246,11 @@ public class TokenQueueMobileService {
             List<BizStoreEntity> stores = bizService.getAllBizStores(bizName.getId());
             for (BizStoreEntity bizStore : stores) {
                 BizStoreElastic bizStoreElastic = BizStoreElastic.getThisFromBizStore(bizStore);
+                List<StoreHourEntity> storeHours = bizService.findAllStoreHours(bizStore.getId());
                 if (bizName.isDayClosed()) {
-                    bizStoreElastic.setStoreHourElasticList(
-                        DomainConversion.getStoreHourElasticsWithClosedAsDefault(bizService.findAllStoreHours(bizStore.getId())));
+                    bizStoreElastic.setStoreHourElasticList(DomainConversion.getStoreHourElasticsWithClosedAsDefault(storeHours));
                 } else {
-                    bizStoreElastic.setStoreHourElasticList(
-                        DomainConversion.getStoreHourElastics(bizService.findAllStoreHours(bizStore.getId())));
+                    bizStoreElastic.setStoreHourElasticList(DomainConversion.getStoreHourElastics(storeHours));
                 }
 
                 if (StringUtils.isNotBlank(bizStore.getBizCategoryId())) {
