@@ -50,8 +50,8 @@
                     </div>
                     <div class="qr-footer">
                         <p>TM and Copyright &copy; 2020 NoQueue Inc.</p>
-                        <p>All Rights Reserved &nbsp; | &nbsp; <a href="${parentHost}/privacy.html">Privacy Policy</a>
-                            &nbsp; | &nbsp; <a href="${parentHost}/terms.html">Terms</a></p>
+                        <p>All Rights Reserved &nbsp; | &nbsp; <a href="${parentHost}/#/pages/privacy">Privacy Policy</a>
+                            &nbsp; | &nbsp; <a href="${parentHost}/#/pages/terms">Terms</a></p>
                     </div>
                 </div>
             </div>
