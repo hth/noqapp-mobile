@@ -13,10 +13,19 @@
 
     <style type="text/css">
         p {
-            padding: 0 0 0 0;
-        !important;
+            padding: 0 0 0 0; !important;
         }
     </style>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-101872684-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-101872684-1');
+    </script>
 </head>
 
 <body>
