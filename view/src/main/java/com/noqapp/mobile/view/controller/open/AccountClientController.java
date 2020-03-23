@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -263,6 +264,7 @@ public class AccountClientController {
     //TODO recover is based on phone number. When number already exists then ask which of the stores the user visited.
     //on bad answer, mark account data old with some number and let the user create new data.
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(
         value = "/login",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
@@ -343,6 +345,9 @@ public class AccountClientController {
                     String updatedAuthenticationKey = accountService.updateAuthenticationKey(userAccount.getUserAuthentication().getId());
                     response.addHeader("X-R-MAIL", userAccount.getUserId());
                     response.addHeader("X-R-AUTH", updatedAuthenticationKey);
+
+                    /* This is the only time we need to expose the headers. */
+                    response.addHeader("Access-Control-Expose-Headers", "X-R-MAIL, X-R-AUTH");
                     LOG.info("Success login phone={} qid={}", phone, userAccount.getQueueUserId());
 
                     DeviceTypeEnum deviceTypeEnum;
