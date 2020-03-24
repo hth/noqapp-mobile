@@ -2,8 +2,8 @@ package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
+import com.noqapp.common.errors.ErrorEncounteredJson;
+import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.SocialAuthenticationService;
 
 import org.apache.commons.lang3.StringUtils;

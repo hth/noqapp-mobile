@@ -3,6 +3,7 @@ package com.noqapp.mobile.view.controller.api.merchant;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.noqapp.common.errors.ErrorJsonList;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -12,8 +13,7 @@ import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.UserLevelEnum;
-import com.noqapp.mobile.common.util.ErrorJsonList;
-import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
+import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.view.ITest;
@@ -57,6 +57,7 @@ class MerchantProfileControllerITest extends ITest {
             accountClientValidator,
             accountMobileService,
             professionalProfileValidator,
+            accountPortalService,
             apiHealthService
         );
 
@@ -76,10 +77,11 @@ class MerchantProfileControllerITest extends ITest {
             apiHealthService,
             imageCommonHelper,
             imageValidator,
-            deviceMobileService,
+            deviceRegistrationService,
             bizService,
             reviewService,
-            accountMobileService
+            accountMobileService,
+            accountPortalService
         );
     }
 

@@ -3,12 +3,12 @@ package com.noqapp.mobile.view.controller.api.merchant;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.utils.DateUtil.DAY.TODAY;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.CANNOT_ACCEPT_APPOINTMENT;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_ACTION_NOT_PERMITTED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.PRODUCT_PRICE_CANNOT_BE_ZERO;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SERVICE_PAYMENT_NOT_ALLOWED_FOR_THIS_BUSINESS_TYPE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.CANNOT_ACCEPT_APPOINTMENT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_ACTION_NOT_PERMITTED;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PRODUCT_PRICE_CANNOT_BE_ZERO;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SERVICE_PAYMENT_NOT_ALLOWED_FOR_THIS_BUSINESS_TYPE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.CommonUtil;

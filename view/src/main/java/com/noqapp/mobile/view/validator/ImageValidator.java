@@ -1,12 +1,12 @@
 package com.noqapp.mobile.view.validator;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD_EXCEED_SIZE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD_NO_SIZE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPLOAD_UNSUPPORTED_FORMAT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPLOAD;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPLOAD_EXCEED_SIZE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPLOAD_NO_SIZE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPLOAD_UNSUPPORTED_FORMAT;
 import static com.noqapp.mobile.view.validator.ImageValidator.SUPPORTED_FILE.IMAGE_AND_PDF;
 
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.common.errors.ErrorEncounteredJson;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

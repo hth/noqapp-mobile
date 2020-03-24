@@ -2,14 +2,14 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.APPOINTMENT_ACTION_NOT_PERMITTED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.APPOINTMENT_ALREADY_EXISTS;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.CANNOT_BOOK_APPOINTMENT;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.FAILED_TO_FIND_APPOINTMENT;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.FAILED_TO_RESCHEDULE_APPOINTMENT;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.APPOINTMENT_ACTION_NOT_PERMITTED;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.APPOINTMENT_ALREADY_EXISTS;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.CANNOT_BOOK_APPOINTMENT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.FAILED_TO_FIND_APPOINTMENT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.FAILED_TO_RESCHEDULE_APPOINTMENT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.DateUtil;

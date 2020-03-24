@@ -1,15 +1,15 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.noqapp.common.errors.ErrorJsonList;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonLatestAppVersion;
 import com.noqapp.domain.types.AppFlavorEnum;
-import com.noqapp.mobile.common.util.ErrorJsonList;
 import com.noqapp.mobile.domain.DeviceRegistered;
 import com.noqapp.mobile.domain.body.client.DeviceToken;
 import com.noqapp.mobile.types.LowestSupportedAppEnum;
@@ -39,7 +39,7 @@ class DeviceControllerITest extends ITest {
     @BeforeEach
     void setUp() {
         deviceController = new DeviceController(
-            deviceMobileService,
+            deviceRegistrationService,
             geoIPLocationService,
             apiHealthService
         );
@@ -62,7 +62,7 @@ class DeviceControllerITest extends ITest {
         assertEquals(1, deviceRegistered.getRegistered());
 
         await().atMost(5, SECONDS).until(awaitUntilDeviceIsRegistered(did));
-        assertTrue(deviceMobileService.isDeviceRegistered(null, did));
+        assertTrue(deviceRegistrationService.isDeviceRegistered(null, did));
     }
 
     @Test
@@ -112,7 +112,7 @@ class DeviceControllerITest extends ITest {
 
     private Callable<Boolean> awaitUntilDeviceIsRegistered(String did) {
         return () -> {
-            return deviceMobileService.isDeviceRegistered(null, did); // The condition that must be fulfilled
+            return deviceRegistrationService.isDeviceRegistered(null, did); // The condition that must be fulfilled
         };
     }
 }

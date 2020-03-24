@@ -2,12 +2,12 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.BUSINESS_CUSTOMER_ID_DOES_NOT_EXISTS;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.BUSINESS_CUSTOMER_ID_EXISTS;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.BUSINESS_CUSTOMER_ID_DOES_NOT_EXISTS;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.BUSINESS_CUSTOMER_ID_EXISTS;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -21,12 +21,13 @@ import com.noqapp.domain.json.JsonBusinessCustomer;
 import com.noqapp.domain.json.JsonBusinessCustomerLookup;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.mobile.view.controller.open.DeviceController;
+import com.noqapp.portal.service.AccountPortalService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
@@ -79,7 +80,7 @@ public class BusinessCustomerController {
     private BusinessCustomerService businessCustomerService;
     private BusinessUserStoreService businessUserStoreService;
     private QueueService queueService;
-    private AccountMobileService accountMobileService;
+    private AccountPortalService accountPortalService;
     private TokenQueueMobileService tokenQueueMobileService;
     private ApiHealthService apiHealthService;
 
@@ -90,7 +91,7 @@ public class BusinessCustomerController {
         BusinessCustomerService businessCustomerService,
         BusinessUserStoreService businessUserStoreService,
         QueueService queueService,
-        AccountMobileService accountMobileService,
+        AccountPortalService accountPortalService,
         TokenQueueMobileService tokenQueueMobileService,
         ApiHealthService apiHealthService
     ) {
@@ -99,7 +100,7 @@ public class BusinessCustomerController {
         this.businessCustomerService = businessCustomerService;
         this.businessUserStoreService = businessUserStoreService;
         this.queueService = queueService;
-        this.accountMobileService = accountMobileService;
+        this.accountPortalService = accountPortalService;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.apiHealthService = apiHealthService;
     }
@@ -368,7 +369,7 @@ public class BusinessCustomerController {
                 return ErrorEncounteredJson.toJson(errors);
             }
 
-            return accountMobileService.getProfileAsJson(userProfile.getQueueUserId()).asJson();
+            return accountPortalService.getProfileAsJson(userProfile.getQueueUserId()).asJson();
         } catch(AccountNotActiveException e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

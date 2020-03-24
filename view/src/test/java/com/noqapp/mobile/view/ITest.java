@@ -56,7 +56,6 @@ import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.service.MedicalRecordMobileService;
 import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
@@ -65,6 +64,8 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.WebConnectorService;
 import com.noqapp.mobile.view.controller.open.AccountClientController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
+import com.noqapp.portal.service.AccountPortalService;
+import com.noqapp.portal.service.DeviceRegistrationService;
 import com.noqapp.repository.AdvertisementManager;
 import com.noqapp.repository.AdvertisementManagerImpl;
 import com.noqapp.repository.BizNameManager;
@@ -220,7 +221,7 @@ public class ITest extends RealMongoForITest {
     protected UserProfilePreferenceService userProfilePreferenceService;
     protected InviteService inviteService;
     protected AccountClientValidator accountClientValidator;
-    protected DeviceMobileService deviceMobileService;
+    protected DeviceRegistrationService deviceRegistrationService;
     protected TokenQueueMobileService tokenQueueMobileService;
     protected TokenQueueService tokenQueueService;
     protected BizService bizService;
@@ -308,6 +309,7 @@ public class ITest extends RealMongoForITest {
     protected MedicalRecordMobileService medicalRecordMobileService;
     protected HospitalVisitScheduleService hospitalVisitScheduleService;
     protected NLPService nlpService;
+    protected AccountPortalService accountPortalService;
 
     protected ApiHealthService apiHealthService;
     protected ApiHealthNowManager apiHealthNowManager;
@@ -435,23 +437,28 @@ public class ITest extends RealMongoForITest {
             userAddressManager
         );
 
-        accountMobileService = new AccountMobileService(
-            "/webapi/mobile/mail/accountSignup.htm",
-            "/webapi/mobile/mail/mailChange.htm",
+        accountPortalService = new AccountPortalService(
             10,
-            webConnectorService,
             accountService,
-            userProfilePreferenceService,
-            userMedicalProfileService,
-            professionalProfileService,
             userAddressService,
+            userProfilePreferenceService,
             businessUserManager,
             businessUserStoreManager
         );
 
+        accountMobileService = new AccountMobileService(
+            "/webapi/mobile/mail/accountSignup.htm",
+            "/webapi/mobile/mail/mailChange.htm",
+            webConnectorService,
+            accountService,
+            userMedicalProfileService,
+            professionalProfileService,
+            accountPortalService
+        );
+
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6, 6);
         deviceService = new DeviceService(registeredDeviceManager, userProfileManager);
-        deviceMobileService = new DeviceMobileService(registeredDeviceManager);
+        deviceRegistrationService = new DeviceRegistrationService(registeredDeviceManager);
         apiHealthService = new ApiHealthService(apiHealthNowManager);
         tokenQueueManager = new TokenQueueManagerImpl(getMongoTemplate());
         storeHourManager = new StoreHourManagerImpl(getMongoTemplate());
@@ -616,7 +623,7 @@ public class ITest extends RealMongoForITest {
             userProfileManager,
             scheduleAppointmentManager,
             bizService,
-            deviceMobileService,
+            deviceRegistrationService,
             nlpService,
             purchaseOrderService,
             purchaseOrderProductService,
@@ -653,8 +660,9 @@ public class ITest extends RealMongoForITest {
             accountService,
             accountMobileService,
             accountClientValidator,
-            deviceMobileService,
-            hospitalVisitScheduleService
+            deviceRegistrationService,
+            hospitalVisitScheduleService,
+            accountPortalService
         );
 
         authenticateMobileService = new AuthenticateMobileService(
