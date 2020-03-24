@@ -1,10 +1,10 @@
 package com.noqapp.mobile.service;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_SOCIAL;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_SOCIAL;
 
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.ProviderAndAccessToken;
 
 import com.google.gson.Gson;

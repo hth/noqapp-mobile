@@ -2,8 +2,8 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 import static com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE.SELF;
 
@@ -22,21 +22,21 @@ import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.ImageValidator;
+import com.noqapp.portal.service.AccountPortalService;
+import com.noqapp.portal.service.DeviceRegistrationService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.ReviewService;
-import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.social.exception.AccountNotActiveException;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -88,10 +88,11 @@ public class MerchantProfileController {
     private ApiHealthService apiHealthService;
     private ImageCommonHelper imageCommonHelper;
     private ImageValidator imageValidator;
-    private DeviceMobileService deviceMobileService;
+    private DeviceRegistrationService deviceRegistrationService;
     private BizService bizService;
     private ReviewService reviewService;
     private AccountMobileService accountMobileService;
+    private AccountPortalService accountPortalService;
 
     @Autowired
     public MerchantProfileController(
@@ -102,10 +103,11 @@ public class MerchantProfileController {
         ApiHealthService apiHealthService,
         ImageCommonHelper imageCommonHelper,
         ImageValidator imageValidator,
-        DeviceMobileService deviceMobileService,
+        DeviceRegistrationService deviceRegistrationService,
         BizService bizService,
         ReviewService reviewService,
-        AccountMobileService accountMobileService
+        AccountMobileService accountMobileService,
+        AccountPortalService accountPortalService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.businessUserStoreService = businessUserStoreService;
@@ -114,10 +116,11 @@ public class MerchantProfileController {
         this.apiHealthService = apiHealthService;
         this.imageCommonHelper = imageCommonHelper;
         this.imageValidator = imageValidator;
-        this.deviceMobileService = deviceMobileService;
+        this.deviceRegistrationService = deviceRegistrationService;
         this.bizService = bizService;
         this.reviewService = reviewService;
         this.accountMobileService = accountMobileService;
+        this.accountPortalService = accountPortalService;
     }
 
     /** Fetch merchant profile also register device with qid after login. */
@@ -179,13 +182,13 @@ public class MerchantProfileController {
             }
 
             /* Register Merchant device after login. */
-            if (!deviceMobileService.isDeviceRegistered(qid, did.getText())) {
+            if (!deviceRegistrationService.isDeviceRegistered(qid, did.getText())) {
                 LOG.info("Registering device during profile fetch for appFlavor={}", appFlavor);
-                deviceMobileService.updateRegisteredDevice(qid, did.getText(), DeviceTypeEnum.valueOf(dt.getText()));
+                deviceRegistrationService.updateRegisteredDevice(qid, did.getText(), DeviceTypeEnum.valueOf(dt.getText()));
             }
 
             /* For merchant profile no need to find remote scan. */
-            JsonProfile jsonProfile = accountMobileService.getProfileAsJson(qid);
+            JsonProfile jsonProfile = accountPortalService.getProfileAsJson(qid);
             List<JsonTopic> jsonTopics = businessUserStoreService.getAssignedTokenAndQueues(qid);
             JsonProfessionalProfile jsonProfessionalProfile = null;
             if (UserLevelEnum.S_MANAGER == jsonProfile.getUserLevel()) {

@@ -1,9 +1,9 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
 
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
@@ -12,14 +12,14 @@ import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
-import com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum;
+import com.noqapp.common.errors.ErrorEncounteredJson;
+import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.domain.DeviceRegistered;
-import com.noqapp.mobile.service.DeviceMobileService;
-import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
+import com.noqapp.portal.exception.DeviceDetailMissingException;
+import com.noqapp.portal.service.DeviceRegistrationService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,9 +35,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
@@ -61,17 +58,17 @@ public class DeviceController {
 
     private static final Logger LOG = LoggerFactory.getLogger(DeviceController.class);
 
-    private DeviceMobileService deviceMobileService;
+    private DeviceRegistrationService deviceRegistrationService;
     private GeoIPLocationService geoIPLocationService;
     private ApiHealthService apiHealthService;
 
     @Autowired
     public DeviceController(
-        DeviceMobileService deviceMobileService,
+        DeviceRegistrationService deviceRegistrationService,
         GeoIPLocationService geoIPLocationService,
         ApiHealthService apiHealthService
     ) {
-        this.deviceMobileService = deviceMobileService;
+        this.deviceRegistrationService = deviceRegistrationService;
         this.geoIPLocationService = geoIPLocationService;
         this.apiHealthService = apiHealthService;
     }
@@ -126,7 +123,7 @@ public class DeviceController {
         }
 
         try {
-            deviceMobileService.registerDevice(
+            deviceRegistrationService.registerDevice(
                 null,
                 did.getText(),
                 deviceTypeEnum,

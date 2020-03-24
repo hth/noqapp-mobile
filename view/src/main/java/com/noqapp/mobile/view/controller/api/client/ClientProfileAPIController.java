@@ -2,12 +2,12 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.FAILED_FINDING_ADDRESS;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MAIL_OTP_FAILED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.FAILED_FINDING_ADDRESS;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MAIL_OTP_FAILED;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_EXISTING;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.CommonUtil;
@@ -23,7 +23,7 @@ import com.noqapp.domain.json.JsonUserAddress;
 import com.noqapp.domain.json.JsonUserAddressList;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -32,6 +32,7 @@ import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.ImageValidator;
+import com.noqapp.portal.service.AccountPortalService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.social.exception.AccountNotActiveException;
 
@@ -83,6 +84,7 @@ public class ClientProfileAPIController {
     private ApiHealthService apiHealthService;
     private AccountClientValidator accountClientValidator;
     private AccountMobileService accountMobileService;
+    private AccountPortalService accountPortalService;
     private UserAddressService userAddressService;
     private ProfileCommonHelper profileCommonHelper;
     private ImageCommonHelper imageCommonHelper;
@@ -94,6 +96,7 @@ public class ClientProfileAPIController {
         ApiHealthService apiHealthService,
         AccountClientValidator accountClientValidator,
         AccountMobileService accountMobileService,
+        AccountPortalService accountPortalService,
         UserAddressService userAddressService,
         ProfileCommonHelper profileCommonHelper,
         ImageCommonHelper imageCommonHelper,
@@ -103,6 +106,7 @@ public class ClientProfileAPIController {
         this.apiHealthService = apiHealthService;
         this.accountClientValidator = accountClientValidator;
         this.accountMobileService = accountMobileService;
+        this.accountPortalService = accountPortalService;
         this.userAddressService = userAddressService;
         this.profileCommonHelper = profileCommonHelper;
         this.imageCommonHelper = imageCommonHelper;
@@ -132,7 +136,7 @@ public class ClientProfileAPIController {
         }
 
         try {
-            return accountMobileService.getProfileAsJson(qid).asJson();
+            return accountPortalService.getProfileAsJson(qid).asJson();
         } catch(AccountNotActiveException e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

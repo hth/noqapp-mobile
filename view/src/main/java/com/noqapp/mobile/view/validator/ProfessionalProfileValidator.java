@@ -1,11 +1,11 @@
 package com.noqapp.mobile.view.validator;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
 
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.domain.json.JsonNameDatePair;
 import com.noqapp.domain.json.JsonProfessionalProfile;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.service.ProfessionalProfileService;
 
 import org.apache.commons.lang3.StringUtils;

@@ -31,7 +31,8 @@ import com.noqapp.domain.types.SentimentTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.domain.JsonStoreSetting;
 import com.noqapp.mobile.domain.mail.ReviewSentiment;
-import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
+import com.noqapp.portal.exception.DeviceDetailMissingException;
+import com.noqapp.portal.service.DeviceRegistrationService;
 import com.noqapp.repository.BusinessUserManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
@@ -89,7 +90,7 @@ public class QueueMobileService {
     private UserProfileManager userProfileManager;
     private ScheduleAppointmentManager scheduleAppointmentManager;
     private BizService bizService;
-    private DeviceMobileService deviceMobileService;
+    private DeviceRegistrationService deviceRegistrationService;
     private NLPService nlpService;
     private PurchaseOrderService purchaseOrderService;
     private PurchaseOrderProductService purchaseOrderProductService;
@@ -115,7 +116,7 @@ public class QueueMobileService {
         UserProfileManager userProfileManager,
         ScheduleAppointmentManager scheduleAppointmentManager,
         BizService bizService,
-        DeviceMobileService deviceMobileService,
+        DeviceRegistrationService deviceRegistrationService,
         NLPService nlpService,
         PurchaseOrderService purchaseOrderService,
         PurchaseOrderProductService purchaseOrderProductService,
@@ -136,7 +137,7 @@ public class QueueMobileService {
         this.userProfileManager = userProfileManager;
         this.scheduleAppointmentManager = scheduleAppointmentManager;
         this.bizService = bizService;
-        this.deviceMobileService = deviceMobileService;
+        this.deviceRegistrationService = deviceRegistrationService;
         this.nlpService = nlpService;
         this.purchaseOrderService = purchaseOrderService;
         this.purchaseOrderProductService = purchaseOrderProductService;
@@ -258,7 +259,7 @@ public class QueueMobileService {
         double[] coordinate,
         String ipAddress
     ) {
-        RegisteredDeviceEntity registeredDevice = deviceMobileService.lastAccessed(null, did, token, model, osVersion);
+        RegisteredDeviceEntity registeredDevice = deviceRegistrationService.lastAccessed(null, did, token, model, osVersion);
 
         /* Get all the queues that have been serviced for today. */
         List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByDid(did);
@@ -268,7 +269,7 @@ public class QueueMobileService {
         if (null == registeredDevice) {
             historyQueues = queueService.getByDid(did);
             try {
-                deviceMobileService.registerDevice(null, did, deviceType, appFlavor, token, model, osVersion, appVersion, coordinate, ipAddress);
+                deviceRegistrationService.registerDevice(null, did, deviceType, appFlavor, token, model, osVersion, appVersion, coordinate, ipAddress);
             } catch (DeviceDetailMissingException e) {
                 LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
                 throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -277,7 +278,7 @@ public class QueueMobileService {
         } else {
             /* Unset QID for DID as user seems to have logged out of the App. */
             if (StringUtils.isNotBlank(registeredDevice.getQueueUserId())) {
-                deviceMobileService.unsetQidForDevice(registeredDevice.getId());
+                deviceRegistrationService.unsetQidForDevice(registeredDevice.getId());
             }
 
             /*
@@ -314,7 +315,7 @@ public class QueueMobileService {
         String ipAddress
     ) {
         Validate.isValidQid(qid);
-        RegisteredDeviceEntity registeredDevice = deviceMobileService.lastAccessed(qid, did, token, model, osVersion);
+        RegisteredDeviceEntity registeredDevice = deviceRegistrationService.lastAccessed(qid, did, token, model, osVersion);
 
         /* Get all the queues that have been serviced for today. This first for sorting reasons. */
         List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByQid(qid);
@@ -324,7 +325,7 @@ public class QueueMobileService {
         if (null == registeredDevice) {
             historyQueues = queueService.getByQid(qid);
             try {
-                deviceMobileService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion, coordinate, ipAddress);
+                deviceRegistrationService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion, coordinate, ipAddress);
             } catch (DeviceDetailMissingException e) {
                 LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
                 throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -334,7 +335,7 @@ public class QueueMobileService {
             if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
                 try {
                     /* Save with QID when missing in registered device. */
-                    deviceMobileService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion, coordinate, ipAddress);
+                    deviceRegistrationService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion, coordinate, ipAddress);
                 } catch (DeviceDetailMissingException e) {
                     LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
                     throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -387,7 +388,7 @@ public class QueueMobileService {
 
     private void markFetchedSinceBeginningForDevice(RegisteredDeviceEntity registeredDevice) {
         if (registeredDevice.isSinceBeginning()) {
-            deviceMobileService.markFetchedSinceBeginningForDevice(registeredDevice.getId());
+            deviceRegistrationService.markFetchedSinceBeginningForDevice(registeredDevice.getId());
         }
     }
 

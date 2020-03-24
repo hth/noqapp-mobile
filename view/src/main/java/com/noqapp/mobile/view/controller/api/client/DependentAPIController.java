@@ -2,12 +2,12 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_MAX_DEPENDENT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_EXISTING;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_MAX_DEPENDENT;
 import static com.noqapp.mobile.view.controller.open.AccountClientController.invalidElementsInMapDuringRegistration;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -21,13 +21,14 @@ import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.service.HospitalVisitScheduleService;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
+import com.noqapp.portal.service.AccountPortalService;
+import com.noqapp.portal.service.DeviceRegistrationService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 
@@ -71,8 +72,9 @@ public class DependentAPIController {
 
     private AccountService accountService;
     private AccountMobileService accountMobileService;
+    private AccountPortalService accountPortalService;
     private AccountClientValidator accountClientValidator;
-    private DeviceMobileService deviceMobileService;
+    private DeviceRegistrationService deviceRegistrationService;
     private HospitalVisitScheduleService hospitalVisitScheduleService;
     private AuthenticateMobileService authenticateMobileService;
     private ApiHealthService apiHealthService;
@@ -81,16 +83,18 @@ public class DependentAPIController {
     public DependentAPIController(
         AccountService accountService,
         AccountMobileService accountMobileService,
+        AccountPortalService accountPortalService,
         AccountClientValidator accountClientValidator,
-        DeviceMobileService deviceMobileService,
+        DeviceRegistrationService deviceRegistrationService,
         HospitalVisitScheduleService hospitalVisitScheduleService,
         AuthenticateMobileService authenticateMobileService,
         ApiHealthService apiHealthService
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
+        this.accountPortalService = accountPortalService;
         this.accountClientValidator = accountClientValidator;
-        this.deviceMobileService = deviceMobileService;
+        this.deviceRegistrationService = deviceRegistrationService;
         this.hospitalVisitScheduleService = hospitalVisitScheduleService;
         this.authenticateMobileService = authenticateMobileService;
         this.apiHealthService = apiHealthService;
@@ -243,9 +247,9 @@ public class DependentAPIController {
                             LOG.error("Failed dependent parsing deviceType, reason={}", e.getLocalizedMessage(), e);
                             return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                         }
-                        deviceMobileService.updateRegisteredDevice(qid, did.getText(), deviceTypeEnum);
+                        deviceRegistrationService.updateRegisteredDevice(qid, did.getText(), deviceTypeEnum);
                         hospitalVisitScheduleService.addImmunizationRecord(userAccount.getQueueUserId(), birthday);
-                        return accountMobileService.getProfileAsJson(qid).asJson();
+                        return accountPortalService.getProfileAsJson(qid).asJson();
                     } catch (DuplicateAccountException e) {
                         LOG.info("Failed dependent user registration as already exists phone={} mail={}", phone, dependentMail);
                         errors = new HashMap<>();
