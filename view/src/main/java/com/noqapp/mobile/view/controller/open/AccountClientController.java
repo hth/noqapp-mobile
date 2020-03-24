@@ -1,12 +1,12 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.SEVERE;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_EXISTING;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_INPUT;
-import static com.noqapp.mobile.common.util.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_EXISTING;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION;
 
 import com.noqapp.common.utils.Formatter;
@@ -17,13 +17,14 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.medical.service.HospitalVisitScheduleService;
-import com.noqapp.mobile.common.util.ErrorEncounteredJson;
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_CLIENT;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT;
-import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
+import com.noqapp.portal.service.AccountPortalService;
+import com.noqapp.portal.service.DeviceRegistrationService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 import com.noqapp.social.exception.AccountNotActiveException;
@@ -71,22 +72,25 @@ public class AccountClientController {
     private AccountService accountService;
     private AccountMobileService accountMobileService;
     private AccountClientValidator accountClientValidator;
-    private DeviceMobileService deviceMobileService;
+    private DeviceRegistrationService deviceRegistrationService;
     private HospitalVisitScheduleService hospitalVisitScheduleService;
+    private AccountPortalService accountPortalService;
 
     @Autowired
     public AccountClientController(
         AccountService accountService,
         AccountMobileService accountMobileService,
         AccountClientValidator accountClientValidator,
-        DeviceMobileService deviceMobileService,
-        HospitalVisitScheduleService hospitalVisitScheduleService
+        DeviceRegistrationService deviceRegistrationService,
+        HospitalVisitScheduleService hospitalVisitScheduleService,
+        AccountPortalService accountPortalService
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
         this.accountClientValidator = accountClientValidator;
-        this.deviceMobileService = deviceMobileService;
+        this.deviceRegistrationService = deviceRegistrationService;
         this.hospitalVisitScheduleService = hospitalVisitScheduleService;
+        this.accountPortalService = accountPortalService;
     }
 
     @PostMapping(
@@ -227,9 +231,9 @@ public class AccountClientController {
                         LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
                         return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                     }
-                    deviceMobileService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
+                    deviceRegistrationService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
                     hospitalVisitScheduleService.addImmunizationRecord(userAccount.getQueueUserId(), birthday);
-                    return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
+                    return accountPortalService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
                 } catch (DuplicateAccountException e) {
                     LOG.info("Failed user registration as already exists phone={} mail={}", phone, mail);
                     errors = new HashMap<>();
@@ -352,8 +356,8 @@ public class AccountClientController {
                         LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
                         return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                     }
-                    deviceMobileService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
-                    return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
+                    deviceRegistrationService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
+                    return accountPortalService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
                 } catch (AccountNotActiveException e) {
                     LOG.error("Failed getting profile phone={}, reason={}", phone, e.getLocalizedMessage(), e);
                     return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);

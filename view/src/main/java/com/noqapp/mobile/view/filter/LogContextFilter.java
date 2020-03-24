@@ -65,11 +65,7 @@ public class LogContextFilter implements Filter {
     private IPGeoConfiguration ipGeoConfiguration;
 
     @Override
-    public void doFilter(
-        ServletRequest req,
-        ServletResponse res,
-        FilterChain chain
-    ) throws IOException, ServletException {
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         String uuid = UUID.randomUUID().toString();
         MDC.put(REQUEST_ID_MDC_KEY, uuid);
 
