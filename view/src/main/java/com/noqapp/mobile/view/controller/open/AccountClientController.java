@@ -24,6 +24,7 @@ import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_CLIEN
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT;
 import com.noqapp.mobile.service.DeviceMobileService;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
+import com.noqapp.portal.service.AccountPortalService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 import com.noqapp.social.exception.AccountNotActiveException;
@@ -74,6 +75,7 @@ public class AccountClientController {
     private AccountClientValidator accountClientValidator;
     private DeviceMobileService deviceMobileService;
     private HospitalVisitScheduleService hospitalVisitScheduleService;
+    private AccountPortalService accountPortalService;
 
     @Autowired
     public AccountClientController(
@@ -81,13 +83,15 @@ public class AccountClientController {
         AccountMobileService accountMobileService,
         AccountClientValidator accountClientValidator,
         DeviceMobileService deviceMobileService,
-        HospitalVisitScheduleService hospitalVisitScheduleService
+        HospitalVisitScheduleService hospitalVisitScheduleService,
+        AccountPortalService accountPortalService
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
         this.accountClientValidator = accountClientValidator;
         this.deviceMobileService = deviceMobileService;
         this.hospitalVisitScheduleService = hospitalVisitScheduleService;
+        this.accountPortalService = accountPortalService;
     }
 
     @PostMapping(
@@ -230,7 +234,7 @@ public class AccountClientController {
                     }
                     deviceMobileService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
                     hospitalVisitScheduleService.addImmunizationRecord(userAccount.getQueueUserId(), birthday);
-                    return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
+                    return accountPortalService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
                 } catch (DuplicateAccountException e) {
                     LOG.info("Failed user registration as already exists phone={} mail={}", phone, mail);
                     errors = new HashMap<>();
@@ -358,7 +362,7 @@ public class AccountClientController {
                         return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                     }
                     deviceMobileService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
-                    return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
+                    return accountPortalService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
                 } catch (AccountNotActiveException e) {
                     LOG.error("Failed getting profile phone={}, reason={}", phone, e.getLocalizedMessage(), e);
                     return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
