@@ -23,37 +23,37 @@ public enum LowestSupportedAppEnum {
         "Version iPhone"),
     /* 1.1.10 is not released. */
 
-    VACL("1.2.360",                     //Oldest Supported App Version in String
+    VACL("1.2.340",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQCL,
         "1.2.363",                      //Latest App Version on Play Store
         "Version Android Client"),
 
-    VACH("1.2.360",                     //Oldest Supported App Version in String
+    VACH("1.2.340",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQCH,
         "1.2.363",                      //Latest App Version on Play Store
         "Version Android Client HealthCare"),
 
-    VAMS("1.2.360",                     //Oldest Supported App Version in String
+    VAMS("1.2.340",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQMS,
         "1.2.363",                      //Latest App Version on Play Store
         "Version Android Merchant Store"),
 
-    VAMH("1.2.360",                     //Oldest Supported App Version in String
+    VAMH("1.2.340",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQMH,
         "1.2.363",                      //Latest App Version on Play Store
         "Version Android Merchant HealthCare"),
 
-    VAMT("1.2.360",                     //Oldest Supported App Version in String
+    VAMT("1.2.340",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQMT,
         "1.2.363",                      //Latest App Version on Play Store
         "Version Android Merchant TV"),
 
-    VAMI("1.2.360",                     //Oldest Supported App Version in String
+    VAMI("1.2.340",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQMI,
         "1.2.363",                      //Latest App Version on Play Store
