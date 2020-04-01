@@ -196,7 +196,7 @@ public class StoreProductController {
                     break;
                 case REMOVE:
                     LOG.info("Removed product {}", storeProductFromJson);
-                    storeProductService.delete(storeProductFromJson);
+                    storeProductService.removeById(storeProductFromJson.getId());
                     break;
                 case INACTIVE:
                     StoreProductEntity storeProductFromDB = storeProductService.findOne(storeProductFromJson.getId());
