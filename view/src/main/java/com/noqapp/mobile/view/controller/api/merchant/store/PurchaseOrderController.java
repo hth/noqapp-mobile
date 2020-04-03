@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.merchant.store;
 
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.FAILED_PLACING_MEDICAL_ORDER_AS_INCORRECT_BUSINESS;
@@ -916,6 +917,13 @@ public class PurchaseOrderController {
             return null;
         }
 
+        if (StringUtils.isBlank(jsonPurchaseOrder.getTransactionId())
+            || StringUtils.isBlank(jsonPurchaseOrder.getBizStoreId())
+            || null == jsonPurchaseOrder.getPaymentMode() ) {
+            LOG.error("Incomplete payment submission. Please provide ti, bs & pm");
+            return ErrorEncounteredJson.toJson("Cannot accept payment as missing ti, bs & pm in payment", MOBILE);
+        }
+
         try {
             JsonPurchaseOrder jsonPurchaseOrderUpdated = purchaseOrderService.partialCounterPayment(jsonPurchaseOrder, qid);
             LOG.info("Order partial payment updated successfully={}", jsonPurchaseOrderUpdated);
@@ -982,6 +990,13 @@ public class PurchaseOrderController {
             LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/counterPayment by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
+        }
+
+        if (StringUtils.isBlank(jsonPurchaseOrder.getTransactionId())
+            || StringUtils.isBlank(jsonPurchaseOrder.getBizStoreId())
+            || null == jsonPurchaseOrder.getPaymentMode() ) {
+            LOG.error("Incomplete payment submission. Please provide ti, bs & pm");
+            return ErrorEncounteredJson.toJson("Cannot accept payment as missing ti, bs & pm in payment", MOBILE);
         }
 
         try {
