@@ -46,7 +46,7 @@ buildscript {
     }
     dependencies {
         classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:$spotbugsPluginGradle"
-        classpath 'org.owasp:dependency-check-gradle:5.2.4'
+        classpath 'org.owasp:dependency-check-gradle:5.3.2'
         //classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1'
         classpath 'de.aaschmid:gradle-cpd-plugin:2.0'
     }
