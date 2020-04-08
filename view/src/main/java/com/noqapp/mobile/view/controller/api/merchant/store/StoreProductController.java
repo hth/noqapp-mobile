@@ -1,11 +1,13 @@
 package com.noqapp.mobile.view.controller.api.merchant.store;
 
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.StoreProductEntity;
@@ -190,11 +192,21 @@ public class StoreProductController {
                     storeProductService.save(storeProductFromJson);
                     break;
                 case EDIT:
+                    if (StringUtils.isBlank(storeProductFromJson.getId())) {
+                        LOG.error("Missing product id name={}", storeProductFromJson.getProductName());
+                        return ErrorEncounteredJson.toJson("Cannot edit as missing product id", MOBILE);
+                    }
+
                     storeProductFromJson.populateWithExistingStoreProduct(storeProductService.findOne(storeProductFromJson.getId()));
                     LOG.info("Edit product {}", storeProductFromJson);
                     storeProductService.save(storeProductFromJson);
                     break;
                 case REMOVE:
+                    if (StringUtils.isBlank(storeProductFromJson.getId())) {
+                        LOG.error("Missing product id name={}", storeProductFromJson.getProductName());
+                        return ErrorEncounteredJson.toJson("Cannot remove as missing product id", MOBILE);
+                    }
+
                     LOG.info("Removed product {}", storeProductFromJson);
                     storeProductService.removeById(storeProductFromJson.getId());
                     break;
