@@ -50,7 +50,7 @@
 
         <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Hey,</strong></p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-            Someone requested an account recovery on NoQueue's NoQApp for ${contact_email}, but we don’t have an account
+            Someone requested an account recovery on NoQueue for ${contact_email}, but we don’t have an account
             on this site that matches this email address.
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
