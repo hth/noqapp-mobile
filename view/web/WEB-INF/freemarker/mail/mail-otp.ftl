@@ -56,9 +56,8 @@
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             <strong>Wondering why you got this email?</strong>
-            It's sent when someone sign's up or changes a contact email address for a NoQApp account. If you didn't do this,
-            don't worry. Your email address cannot be used as a contact address with NoQueue's NoQApp without your
-            verification.
+            It's sent when someone sign's up or changes a contact email address for a NoQueue account. If you didn't do this,
+            don't worry. Your email address cannot be used as a contact address with NoQueue without your verification.
         </p>
         <p style="font-family: 'Roboto', sans-serif;">
             Thanks, <br/>
