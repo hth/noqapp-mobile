@@ -22,7 +22,6 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
-import com.noqapp.portal.service.AccountPortalService;
 import com.noqapp.social.exception.AccountNotActiveException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -59,7 +58,6 @@ public class ProfileCommonHelper extends CommonHelper {
     private AccountClientValidator accountClientValidator;
     private AccountMobileService accountMobileService;
     private ProfessionalProfileValidator professionalProfileValidator;
-    private AccountPortalService accountPortalService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -68,7 +66,6 @@ public class ProfileCommonHelper extends CommonHelper {
         AccountClientValidator accountClientValidator,
         AccountMobileService accountMobileService,
         ProfessionalProfileValidator professionalProfileValidator,
-        AccountPortalService accountPortalService,
         ApiHealthService apiHealthService
     ) {
         super(accountMobileService);
@@ -76,7 +73,6 @@ public class ProfileCommonHelper extends CommonHelper {
         this.accountClientValidator = accountClientValidator;
         this.accountMobileService = accountMobileService;
         this.professionalProfileValidator = professionalProfileValidator;
-        this.accountPortalService = accountPortalService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -176,7 +172,7 @@ public class ProfileCommonHelper extends CommonHelper {
                 accountMobileService.updateUserProfile(registerUser, userProfile.getEmail());
             }
 
-            return accountPortalService.getProfileAsJson(qidOfSubmitter).asJson();
+            return accountMobileService.getProfileAsJson(qidOfSubmitter).asJson();
         } catch(AccountNotActiveException e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

@@ -23,8 +23,7 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_CLIENT;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
-import com.noqapp.portal.service.AccountPortalService;
-import com.noqapp.portal.service.DeviceRegistrationService;
+import com.noqapp.mobile.service.DeviceRegistrationService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 import com.noqapp.social.exception.AccountNotActiveException;
@@ -74,7 +73,6 @@ public class AccountClientController {
     private AccountClientValidator accountClientValidator;
     private DeviceRegistrationService deviceRegistrationService;
     private HospitalVisitScheduleService hospitalVisitScheduleService;
-    private AccountPortalService accountPortalService;
 
     @Autowired
     public AccountClientController(
@@ -82,15 +80,13 @@ public class AccountClientController {
         AccountMobileService accountMobileService,
         AccountClientValidator accountClientValidator,
         DeviceRegistrationService deviceRegistrationService,
-        HospitalVisitScheduleService hospitalVisitScheduleService,
-        AccountPortalService accountPortalService
+        HospitalVisitScheduleService hospitalVisitScheduleService
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
         this.accountClientValidator = accountClientValidator;
         this.deviceRegistrationService = deviceRegistrationService;
         this.hospitalVisitScheduleService = hospitalVisitScheduleService;
-        this.accountPortalService = accountPortalService;
     }
 
     @PostMapping(
@@ -233,7 +229,7 @@ public class AccountClientController {
                     }
                     deviceRegistrationService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
                     hospitalVisitScheduleService.addImmunizationRecord(userAccount.getQueueUserId(), birthday);
-                    return accountPortalService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
+                    return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
                 } catch (DuplicateAccountException e) {
                     LOG.info("Failed user registration as already exists phone={} mail={}", phone, mail);
                     errors = new HashMap<>();
@@ -357,7 +353,7 @@ public class AccountClientController {
                         return DeviceController.getErrorReason("Incorrect device type.", USER_INPUT);
                     }
                     deviceRegistrationService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
-                    return accountPortalService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
+                    return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
                 } catch (AccountNotActiveException e) {
                     LOG.error("Failed getting profile phone={}, reason={}", phone, e.getLocalizedMessage(), e);
                     return DeviceController.getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);

@@ -27,7 +27,6 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.mobile.view.controller.open.DeviceController;
-import com.noqapp.portal.service.AccountPortalService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
@@ -80,7 +79,7 @@ public class BusinessCustomerController {
     private BusinessCustomerService businessCustomerService;
     private BusinessUserStoreService businessUserStoreService;
     private QueueService queueService;
-    private AccountPortalService accountPortalService;
+    private AccountMobileService accountMobileService;
     private TokenQueueMobileService tokenQueueMobileService;
     private ApiHealthService apiHealthService;
 
@@ -91,7 +90,7 @@ public class BusinessCustomerController {
         BusinessCustomerService businessCustomerService,
         BusinessUserStoreService businessUserStoreService,
         QueueService queueService,
-        AccountPortalService accountPortalService,
+        AccountMobileService accountMobileService,
         TokenQueueMobileService tokenQueueMobileService,
         ApiHealthService apiHealthService
     ) {
@@ -100,7 +99,7 @@ public class BusinessCustomerController {
         this.businessCustomerService = businessCustomerService;
         this.businessUserStoreService = businessUserStoreService;
         this.queueService = queueService;
-        this.accountPortalService = accountPortalService;
+        this.accountMobileService = accountMobileService;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.apiHealthService = apiHealthService;
     }
@@ -369,7 +368,7 @@ public class BusinessCustomerController {
                 return ErrorEncounteredJson.toJson(errors);
             }
 
-            return accountPortalService.getProfileAsJson(userProfile.getQueueUserId()).asJson();
+            return accountMobileService.getProfileAsJson(userProfile.getQueueUserId()).asJson();
         } catch(AccountNotActiveException e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

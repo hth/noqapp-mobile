@@ -1,11 +1,11 @@
-package com.noqapp.portal.service;
+package com.noqapp.mobile.service;
 
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
-import com.noqapp.portal.exception.DeviceDetailMissingException;
+import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.RegisteredDeviceManager;
 
 import org.apache.commons.lang3.StringUtils;

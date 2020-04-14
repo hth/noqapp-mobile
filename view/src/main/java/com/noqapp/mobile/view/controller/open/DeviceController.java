@@ -15,11 +15,11 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.domain.DeviceRegistered;
+import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
-import com.noqapp.portal.exception.DeviceDetailMissingException;
-import com.noqapp.portal.service.DeviceRegistrationService;
+import com.noqapp.mobile.service.DeviceRegistrationService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 
 import org.apache.commons.lang3.StringUtils;

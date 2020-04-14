@@ -31,8 +31,7 @@ import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.ImageValidator;
-import com.noqapp.portal.service.AccountPortalService;
-import com.noqapp.portal.service.DeviceRegistrationService;
+import com.noqapp.mobile.service.DeviceRegistrationService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
@@ -92,7 +91,6 @@ public class MerchantProfileController {
     private BizService bizService;
     private ReviewService reviewService;
     private AccountMobileService accountMobileService;
-    private AccountPortalService accountPortalService;
 
     @Autowired
     public MerchantProfileController(
@@ -106,8 +104,7 @@ public class MerchantProfileController {
         DeviceRegistrationService deviceRegistrationService,
         BizService bizService,
         ReviewService reviewService,
-        AccountMobileService accountMobileService,
-        AccountPortalService accountPortalService
+        AccountMobileService accountMobileService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.businessUserStoreService = businessUserStoreService;
@@ -120,7 +117,6 @@ public class MerchantProfileController {
         this.bizService = bizService;
         this.reviewService = reviewService;
         this.accountMobileService = accountMobileService;
-        this.accountPortalService = accountPortalService;
     }
 
     /** Fetch merchant profile also register device with qid after login. */
@@ -188,7 +184,7 @@ public class MerchantProfileController {
             }
 
             /* For merchant profile no need to find remote scan. */
-            JsonProfile jsonProfile = accountPortalService.getProfileAsJson(qid);
+            JsonProfile jsonProfile = accountMobileService.getProfileAsJson(qid);
             List<JsonTopic> jsonTopics = businessUserStoreService.getAssignedTokenAndQueues(qid);
             JsonProfessionalProfile jsonProfessionalProfile = null;
             if (UserLevelEnum.S_MANAGER == jsonProfile.getUserLevel()) {

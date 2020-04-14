@@ -32,7 +32,6 @@ import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.ImageValidator;
-import com.noqapp.portal.service.AccountPortalService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.social.exception.AccountNotActiveException;
 
@@ -84,7 +83,6 @@ public class ClientProfileAPIController {
     private ApiHealthService apiHealthService;
     private AccountClientValidator accountClientValidator;
     private AccountMobileService accountMobileService;
-    private AccountPortalService accountPortalService;
     private UserAddressService userAddressService;
     private ProfileCommonHelper profileCommonHelper;
     private ImageCommonHelper imageCommonHelper;
@@ -96,7 +94,6 @@ public class ClientProfileAPIController {
         ApiHealthService apiHealthService,
         AccountClientValidator accountClientValidator,
         AccountMobileService accountMobileService,
-        AccountPortalService accountPortalService,
         UserAddressService userAddressService,
         ProfileCommonHelper profileCommonHelper,
         ImageCommonHelper imageCommonHelper,
@@ -106,7 +103,6 @@ public class ClientProfileAPIController {
         this.apiHealthService = apiHealthService;
         this.accountClientValidator = accountClientValidator;
         this.accountMobileService = accountMobileService;
-        this.accountPortalService = accountPortalService;
         this.userAddressService = userAddressService;
         this.profileCommonHelper = profileCommonHelper;
         this.imageCommonHelper = imageCommonHelper;
@@ -136,7 +132,7 @@ public class ClientProfileAPIController {
         }
 
         try {
-            return accountPortalService.getProfileAsJson(qid).asJson();
+            return accountMobileService.getProfileAsJson(qid).asJson();
         } catch(AccountNotActiveException e) {
             LOG.error("Failed getting profile qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
