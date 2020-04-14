@@ -412,6 +412,17 @@ project(':service') {
     }
 }
 
+project(':portal') {
+    jar.archiveBaseName = 'noqapp.mobile-portal'
+
+    dependencies {
+        compile project(':common'),
+                project(':domain'),
+                project(':security'),
+                project(':service')
+    }
+}
+
 project(':view') {
     apply plugin: 'war'
     jar.archiveBaseName = 'noqapp.mobile-view'
