@@ -4,10 +4,12 @@ import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BusinessUserEntity;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.portal.domain.InstantViewDashboard;
 import com.noqapp.portal.service.MedicalDashboardService;
 import com.noqapp.service.AccountService;
+import com.noqapp.service.BusinessUserService;
 import com.noqapp.service.QueueService;
 
 import org.slf4j.Logger;
@@ -40,21 +42,18 @@ import javax.servlet.http.HttpServletResponse;
 public class MedicalDashboardController {
     private static final Logger LOG = LoggerFactory.getLogger(MedicalDashboardController.class);
 
-    private QueueService queueService;
+    private BusinessUserService businessUserService;
     private MedicalDashboardService medicalDashBoardService;
-    private AccountService accountService;
     private AuthenticateMobileService authenticateMobileService;
 
     @Autowired
     public MedicalDashboardController(
-        QueueService queueService,
+        BusinessUserService businessUserService,
         MedicalDashboardService medicalDashBoardService,
-        AccountService accountService,
         AuthenticateMobileService authenticateMobileService
     ) {
-        this.queueService = queueService;
+        this.businessUserService = businessUserService;
         this.medicalDashBoardService = medicalDashBoardService;
-        this.accountService = accountService;
         this.authenticateMobileService = authenticateMobileService;
     }
 
@@ -80,13 +79,19 @@ public class MedicalDashboardController {
         Instant start = Instant.now();
         LOG.info("Populate medical dashboard coupon with mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/coupon/available by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/portal/medical/dashboard")) return null;
 
-        InstantViewDashboard instantViewDashboard = medicalDashBoardService.populateInstantView("");
+        BusinessUserEntity businessUser = businessUserService.findByQid(qid);
+        InstantViewDashboard instantViewDashboard = medicalDashBoardService.populateInstantView(businessUser.getBizName().getId());
         return instantViewDashboard.asJson();
+    }
+
+    public static boolean authorizeRequest(HttpServletResponse response, String qid, String mail, String did, String api) throws IOException {
+        if (null == qid) {
+            LOG.warn("Un-authorized access to {} by {} {}", api, mail, did);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return true;
+        }
+        return false;
     }
 }
