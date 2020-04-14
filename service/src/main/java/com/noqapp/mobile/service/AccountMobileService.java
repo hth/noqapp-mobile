@@ -3,6 +3,8 @@ package com.noqapp.mobile.service;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 
 import com.noqapp.common.utils.RandomString;
+import com.noqapp.domain.BusinessUserEntity;
+import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -11,14 +13,19 @@ import com.noqapp.domain.helper.NameDatePair;
 import com.noqapp.domain.json.JsonNameDatePair;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonProfile;
+import com.noqapp.domain.json.JsonUserAddressList;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.mobile.domain.mail.ChangeMailOTP;
 import com.noqapp.mobile.domain.mail.SignupUserInfo;
-import com.noqapp.portal.service.AccountPortalService;
+import com.noqapp.repository.BusinessUserManager;
+import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.ProfessionalProfileService;
+import com.noqapp.service.UserAddressService;
+import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
+import com.noqapp.social.exception.AccountNotActiveException;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -52,12 +59,16 @@ public class AccountMobileService {
 
     private String accountSignup;
     private String mailChange;
+    private int queueLimit;
 
     private WebConnectorService webConnectorService;
     private AccountService accountService;
+    private UserProfilePreferenceService userProfilePreferenceService;
     private UserMedicalProfileService userMedicalProfileService;
     private ProfessionalProfileService professionalProfileService;
-    private AccountPortalService accountPortalService;
+    private UserAddressService userAddressService;
+    private BusinessUserManager businessUserManager;
+    private BusinessUserStoreManager businessUserStoreManager;
 
     @Autowired
     public AccountMobileService(
@@ -67,20 +78,30 @@ public class AccountMobileService {
         @Value("${mailChange:/webapi/mobile/mail/mailChange.htm}")
         String mailChange,
 
+        @Value("${BusinessUserStoreService.queue.limit}")
+        int queueLimit,
+
         WebConnectorService webConnectorService,
         AccountService accountService,
+        UserProfilePreferenceService userProfilePreferenceService,
         UserMedicalProfileService userMedicalProfileService,
         ProfessionalProfileService professionalProfileService,
-        AccountPortalService accountPortalService
+        UserAddressService userAddressService,
+        BusinessUserManager businessUserManager,
+        BusinessUserStoreManager businessUserStoreManager
     ) {
         this.accountSignup = accountSignup;
         this.mailChange = mailChange;
+        this.queueLimit = queueLimit;
 
         this.webConnectorService = webConnectorService;
         this.accountService = accountService;
+        this.userProfilePreferenceService = userProfilePreferenceService;
         this.userMedicalProfileService = userMedicalProfileService;
         this.professionalProfileService = professionalProfileService;
-        this.accountPortalService = accountPortalService;
+        this.userAddressService = userAddressService;
+        this.businessUserManager = businessUserManager;
+        this.businessUserStoreManager = businessUserStoreManager;
     }
 
     /**
@@ -236,10 +257,52 @@ public class AccountMobileService {
         return accountService.findByQueueUserId(qid);
     }
 
+    public JsonProfile getProfileAsJson(String qid) {
+        UserAccountEntity userAccount = findByQueueUserId(qid);
+        if (!userAccount.isActive()) {
+            LOG.warn("Account In Active {} qid={}", userAccount.getAccountInactiveReason(), qid);
+            throw new AccountNotActiveException("Account is blocked. Contact support.");
+        }
+        return getProfileAsJson(qid, userAccount);
+    }
+
     /** Medical profile should not care about inactive account. */
     public JsonProfile getProfileForMedicalAsJson(String qid) {
-        JsonProfile jsonProfile = accountPortalService.getProfileAsJson(qid, findByQueueUserId(qid));
+        JsonProfile jsonProfile = getProfileAsJson(qid, findByQueueUserId(qid));
         jsonProfile.setJsonUserMedicalProfile(userMedicalProfileService.findOneAsJson(qid));
+        return jsonProfile;
+    }
+
+    private JsonProfile getProfileAsJson(String qid, UserAccountEntity userAccount) {
+        UserProfileEntity userProfile = findProfileByQueueUserId(qid);
+        JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
+        JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount)
+            .setJsonUserAddresses(jsonUserAddressList.getJsonUserAddresses())
+            .setJsonUserPreference(userProfilePreferenceService.findUserPreferenceAsJson(qid));
+
+        switch (userProfile.getLevel()) {
+            case S_MANAGER:
+            case Q_SUPERVISOR:
+                BusinessUserEntity businessUser = businessUserManager.findByQid(userProfile.getQueueUserId());
+                jsonProfile.setBizNameId(businessUser.getBizName().getId());
+                List<BusinessUserStoreEntity> businessUserStores = businessUserStoreManager.getQueues(qid, queueLimit);
+                for (BusinessUserStoreEntity businessUserStore : businessUserStores) {
+                     jsonProfile.addCodeQRAndBizStoreId(businessUserStore.getCodeQR(), businessUserStore.getBizStoreId());
+                }
+                break;
+            default:
+                //Do not do anything otherwise
+        }
+
+        if (null != userProfile.getQidOfDependents()) {
+            for (String qidOfDependent : userProfile.getQidOfDependents()) {
+                jsonProfile.addDependents(
+                    JsonProfile.newInstance(
+                        findProfileByQueueUserId(qidOfDependent),
+                        findByQueueUserId(qidOfDependent)));
+            }
+        }
+
         return jsonProfile;
     }
 

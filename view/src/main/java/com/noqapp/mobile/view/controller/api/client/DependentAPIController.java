@@ -27,8 +27,7 @@ import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
-import com.noqapp.portal.service.AccountPortalService;
-import com.noqapp.portal.service.DeviceRegistrationService;
+import com.noqapp.mobile.service.DeviceRegistrationService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 
@@ -72,7 +71,6 @@ public class DependentAPIController {
 
     private AccountService accountService;
     private AccountMobileService accountMobileService;
-    private AccountPortalService accountPortalService;
     private AccountClientValidator accountClientValidator;
     private DeviceRegistrationService deviceRegistrationService;
     private HospitalVisitScheduleService hospitalVisitScheduleService;
@@ -83,7 +81,6 @@ public class DependentAPIController {
     public DependentAPIController(
         AccountService accountService,
         AccountMobileService accountMobileService,
-        AccountPortalService accountPortalService,
         AccountClientValidator accountClientValidator,
         DeviceRegistrationService deviceRegistrationService,
         HospitalVisitScheduleService hospitalVisitScheduleService,
@@ -92,7 +89,6 @@ public class DependentAPIController {
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
-        this.accountPortalService = accountPortalService;
         this.accountClientValidator = accountClientValidator;
         this.deviceRegistrationService = deviceRegistrationService;
         this.hospitalVisitScheduleService = hospitalVisitScheduleService;
@@ -249,7 +245,7 @@ public class DependentAPIController {
                         }
                         deviceRegistrationService.updateRegisteredDevice(qid, did.getText(), deviceTypeEnum);
                         hospitalVisitScheduleService.addImmunizationRecord(userAccount.getQueueUserId(), birthday);
-                        return accountPortalService.getProfileAsJson(qid).asJson();
+                        return accountMobileService.getProfileAsJson(qid).asJson();
                     } catch (DuplicateAccountException e) {
                         LOG.info("Failed dependent user registration as already exists phone={} mail={}", phone, dependentMail);
                         errors = new HashMap<>();

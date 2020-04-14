@@ -119,7 +119,6 @@ subprojects {
         implementation "com.noqapp:service:1.3.+"
         implementation "com.noqapp:search:1.3.+"
         implementation "com.noqapp:social:1.3.+"
-        implementation "com.noqapp:portal:1.3.+"
 
         implementation 'org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1'
         implementation 'org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1'

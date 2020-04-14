@@ -12,9 +12,9 @@ import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.portal.body.Login;
-import com.noqapp.portal.service.AccountPortalService;
-import com.noqapp.portal.service.DeviceRegistrationService;
+import com.noqapp.mobile.service.DeviceRegistrationService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.FirebaseService;
 import com.noqapp.social.exception.AccountNotActiveException;
@@ -54,19 +54,19 @@ public class LoginPortalController {
 
     private AccountService accountService;
     private DeviceRegistrationService deviceRegistrationService;
-    private AccountPortalService accountPortalService;
+    private AccountMobileService accountMobileService;
     private FirebaseService firebaseService;
 
     @Autowired
     public LoginPortalController(
         AccountService accountService,
         DeviceRegistrationService deviceRegistrationService,
-        AccountPortalService accountPortalService,
+        AccountMobileService accountMobileService,
         FirebaseService firebaseService
     ) {
         this.accountService = accountService;
         this.deviceRegistrationService = deviceRegistrationService;
-        this.accountPortalService = accountPortalService;
+        this.accountMobileService = accountMobileService;
         this.firebaseService = firebaseService;
     }
 
@@ -130,7 +130,7 @@ public class LoginPortalController {
                 return getErrorReason("Incorrect device type.", USER_INPUT);
             }
             deviceRegistrationService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
-            return accountPortalService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
+            return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
         } catch (AccountNotActiveException e) {
             LOG.error("Failed getting profile phone={}, reason={}", phone, e.getLocalizedMessage(), e);
             return getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
