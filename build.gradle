@@ -412,6 +412,17 @@ project(':service') {
     }
 }
 
+project(':portal') {
+    jar.archiveBaseName = 'noqapp.mobile-portal'
+
+    dependencies {
+        compile project(':common'),
+                project(':domain'),
+                project(':security'),
+                project(':service')
+    }
+}
+
 project(':view') {
     apply plugin: 'war'
     jar.archiveBaseName = 'noqapp.mobile-view'
@@ -437,6 +448,7 @@ task copyJars(type: Copy) {
     from 'domain/build/libs'
     from 'security/build/libs'
     from 'service/build/libs'
+    from 'portal/build/libs'
     from 'view/build/libs'
     into warLibDir
     include '**/*.jar'

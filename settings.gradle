@@ -2,5 +2,6 @@ include "common",
         "domain",
         "security",
         "service",
+        "portal",
         "view"
 rootProject.name = 'noqapp-mobile'
