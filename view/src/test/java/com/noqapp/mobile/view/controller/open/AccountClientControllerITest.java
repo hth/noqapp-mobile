@@ -46,8 +46,7 @@ class AccountClientControllerITest extends ITest {
             accountMobileService,
             accountClientValidator,
             deviceRegistrationService,
-            hospitalVisitScheduleService,
-            accountPortalService
+            hospitalVisitScheduleService
         );
     }
 

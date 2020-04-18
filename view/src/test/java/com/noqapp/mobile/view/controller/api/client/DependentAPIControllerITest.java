@@ -38,7 +38,6 @@ class DependentAPIControllerITest extends ITest {
         dependentAPIController = new DependentAPIController(
             accountService,
             accountMobileService,
-            accountPortalService,
             accountClientValidator,
             deviceRegistrationService,
             hospitalVisitScheduleService,
