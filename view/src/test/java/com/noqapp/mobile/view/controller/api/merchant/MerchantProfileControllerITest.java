@@ -57,7 +57,6 @@ class MerchantProfileControllerITest extends ITest {
             accountClientValidator,
             accountMobileService,
             professionalProfileValidator,
-            accountPortalService,
             apiHealthService
         );
 
@@ -80,8 +79,7 @@ class MerchantProfileControllerITest extends ITest {
             deviceRegistrationService,
             bizService,
             reviewService,
-            accountMobileService,
-            accountPortalService
+            accountMobileService
         );
     }
 
