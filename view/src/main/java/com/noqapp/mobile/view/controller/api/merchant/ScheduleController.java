@@ -96,7 +96,7 @@ public class ScheduleController {
 
     @GetMapping(
         value = "/scheduleForMonth/{month}/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String scheduleForMonth(
         @RequestHeader("X-R-DID")
@@ -159,7 +159,7 @@ public class ScheduleController {
 
     @GetMapping(
         value = "/scheduleForDay/{day}/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String scheduleForDay(
         @RequestHeader("X-R-DID")
@@ -224,7 +224,7 @@ public class ScheduleController {
     /** Action on schedule. */
     @PostMapping(
         value = "/action",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String scheduleAction(
         @RequestHeader ("X-R-DID")
@@ -313,7 +313,7 @@ public class ScheduleController {
         value = "/bookSchedule",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String bookSchedule(
         @RequestHeader ("X-R-DID")

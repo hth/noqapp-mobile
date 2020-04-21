@@ -72,7 +72,7 @@ public class ClientInQueueController {
      */
     @PostMapping(
         value = "/toBeServedClients",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String toBeServedClients(
         @RequestHeader("X-R-DID")

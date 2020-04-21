@@ -71,7 +71,7 @@ public class CheckAssetController {
 
     @PostMapping(
         value = "/bizName",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String bizName(
         @RequestHeader("X-R-DID")
@@ -124,7 +124,7 @@ public class CheckAssetController {
 
     @PostMapping(
         value = "/floors",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String floors(
         @RequestHeader("X-R-DID")
@@ -178,7 +178,7 @@ public class CheckAssetController {
 
     @PostMapping(
         value = "/rooms",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String rooms(
         @RequestHeader("X-R-DID")
@@ -232,7 +232,7 @@ public class CheckAssetController {
 
     @PostMapping(
         value = "/assetsInRoom",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String assetsInRoom(
         @RequestHeader("X-R-DID")

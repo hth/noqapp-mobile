@@ -179,7 +179,7 @@ public class PurchaseOrderController {
     /** List all orders. */
     @PostMapping(
         value = "/showOrders/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String showOrders(
         @RequestHeader ("X-R-DID")
@@ -233,7 +233,7 @@ public class PurchaseOrderController {
     /** List all orders from history. */
     @PostMapping(
         value = "/showOrders/{codeQR}/historical",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String showOrdersHistorical(
         @RequestHeader("X-R-DID")
@@ -301,7 +301,7 @@ public class PurchaseOrderController {
      */
     @PostMapping(
         value = "/served",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String served(
         @RequestHeader ("X-R-DID")
@@ -407,7 +407,7 @@ public class PurchaseOrderController {
      */
     @PostMapping (
         value = "/acquire",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String acquire(
         @RequestHeader ("X-R-DID")
@@ -505,7 +505,7 @@ public class PurchaseOrderController {
     /** Merchant's different actions on order like processing, processed and delivered. */
     @PostMapping(
         value = "/actionOnOrder",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String actionOnOrder(
         @RequestHeader ("X-R-DID")
@@ -618,7 +618,7 @@ public class PurchaseOrderController {
     /** Add purchase when merchant presses confirm. */
     @PostMapping(
         value = "/purchase",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String purchase(
         @RequestHeader("X-R-DID")
@@ -702,7 +702,7 @@ public class PurchaseOrderController {
     /** Add purchase when merchant presses confirm. */
     @PostMapping(
         value = "/medical/purchase",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String medicalPurchase(
         @RequestHeader("X-R-DID")
@@ -829,7 +829,7 @@ public class PurchaseOrderController {
     /** Modify order that was zero value. */
     @PostMapping(
         value = "/modify",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String modify(
         @RequestHeader("X-R-DID")
@@ -885,7 +885,7 @@ public class PurchaseOrderController {
     /** When merchant accepts partial payment at counter. */
     @PostMapping(
         value = "/partialCounterPayment",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String partialCounterPayment(
         @RequestHeader("X-R-DID")
@@ -960,7 +960,7 @@ public class PurchaseOrderController {
     /** When payment is performed at counter via external means. */
     @PostMapping(
         value = "/counterPayment",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String counterPayment(
         @RequestHeader("X-R-DID")
@@ -1035,7 +1035,7 @@ public class PurchaseOrderController {
     /** Cancel placed order. */
     @PostMapping(
         value = "/cancel",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String cancel(
         @RequestHeader("X-R-DID")
@@ -1126,7 +1126,7 @@ public class PurchaseOrderController {
      */
     @PostMapping (
         value = "/addAttachment",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Deprecated
     public String addAttachment(
@@ -1187,7 +1187,7 @@ public class PurchaseOrderController {
      */
     @PostMapping (
         value = "/removeAttachment",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Deprecated
     public String removeAttachment(
@@ -1241,7 +1241,7 @@ public class PurchaseOrderController {
      */
     @PostMapping(
         value = "/showAttachment",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Deprecated
     public String showAttachment(

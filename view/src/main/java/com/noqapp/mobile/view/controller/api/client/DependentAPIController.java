@@ -99,7 +99,7 @@ public class DependentAPIController {
     /** Add dependent. */
     @PostMapping(
         value = "/add",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String add(
         @RequestHeader("X-R-DID")

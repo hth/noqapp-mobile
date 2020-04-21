@@ -89,7 +89,7 @@ public class AppointmentController {
 
     @GetMapping(
         value = "/scheduleForMonth/{month}/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String scheduleForMonth(
         @RequestHeader("X-R-DID")
@@ -152,7 +152,7 @@ public class AppointmentController {
 
     @GetMapping(
         value = "/scheduleForDay/{day}/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String scheduleForDay(
         @RequestHeader("X-R-DID")
@@ -217,7 +217,7 @@ public class AppointmentController {
         value = "/bookAppointment",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String bookAppointment(
         @RequestHeader ("X-R-MAIL")
@@ -290,7 +290,7 @@ public class AppointmentController {
         value = "/cancelAppointment",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String cancelAppointment(
         @RequestHeader ("X-R-MAIL")
@@ -336,7 +336,7 @@ public class AppointmentController {
 
     @GetMapping(
         value = "/all",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String allAppointments(
         @RequestHeader("X-R-DID")
@@ -380,7 +380,7 @@ public class AppointmentController {
 
     @GetMapping(
         value = "/allPast",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String allPastAppointments(
         @RequestHeader("X-R-DID")

@@ -51,7 +51,7 @@ public class StoreDetailController {
 
     @GetMapping(
         value = "/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public String storeDetail(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,

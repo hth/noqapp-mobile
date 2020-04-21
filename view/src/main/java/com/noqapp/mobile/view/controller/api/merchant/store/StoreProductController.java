@@ -82,7 +82,7 @@ public class StoreProductController {
     /** Note: Manager and Supervisor has Read Access. */
     @GetMapping(
         value = "/store/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String storeProduct(
         @RequestHeader ("X-R-MAIL")
@@ -138,7 +138,7 @@ public class StoreProductController {
     /** Note: Manager has Write Access. */
     @PostMapping(
         value = "/store/{codeQR}/{action}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String actionOnProduct(
         @RequestHeader ("X-R-MAIL")

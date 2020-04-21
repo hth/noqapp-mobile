@@ -59,7 +59,7 @@ public class MedicalRecordAPIController {
 
     @GetMapping(
         value = "/history",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String history(
         @RequestHeader("X-R-MAIL")

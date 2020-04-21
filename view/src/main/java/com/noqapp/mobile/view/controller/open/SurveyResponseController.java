@@ -54,7 +54,7 @@ public class SurveyResponseController {
     /** Get state of queue at the store. */
     @PostMapping(
         value = "/response",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String surveyResponse(
         @RequestHeader("X-R-DID")

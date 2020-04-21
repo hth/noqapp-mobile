@@ -85,7 +85,7 @@ public class TokenQueueController {
     /** Get state of queue at the store. */
     @GetMapping (
         value = "/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getQueueState(
         @RequestHeader ("X-R-DID")
@@ -135,7 +135,7 @@ public class TokenQueueController {
     /** Get all state of queue at a Business when one QR Code is scanned. */
     @GetMapping(
         value = "/v1/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getAllQueueState(
         @RequestHeader ("X-R-DID")
@@ -176,7 +176,7 @@ public class TokenQueueController {
     /** Get all state of queue at a Business when one QR Code of store is scanned. */
     @GetMapping(
         value = "/levelUp/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String levelUp(
         @RequestHeader ("X-R-DID")
@@ -223,7 +223,7 @@ public class TokenQueueController {
     /** Get all the queues user has token from. In short all the queues user has joined. */
     @GetMapping (
         value = "/queues",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getAllJoinedQueues(
         @RequestHeader ("X-R-DID")
@@ -256,7 +256,7 @@ public class TokenQueueController {
     /** Get all the historical queues user has token from. In short all the queues user has joined in past. */
     @PostMapping(
         value = "/historical",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String allHistoricalJoinedQueues(
         @RequestHeader ("X-R-DID")
@@ -316,7 +316,7 @@ public class TokenQueueController {
     /** Join the queue. */
     @PostMapping (
         value = "/queue/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String joinQueue(
         @RequestHeader ("X-R-DID")
@@ -365,7 +365,7 @@ public class TokenQueueController {
     /** Abort the queue. App should un-subscribe user from topic. */
     @PostMapping (
         value = "/abort/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String abortQueue(
         @RequestHeader ("X-R-DID")

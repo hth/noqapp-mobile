@@ -135,7 +135,7 @@ public class TokenQueueAPIController {
     /** Get state of queue at the store. */
     @GetMapping(
         value = "/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getQueueState(
         @RequestHeader ("X-R-DID")
@@ -194,7 +194,7 @@ public class TokenQueueAPIController {
     /** Get all state of queue at a Business when one QR Code is scanned. */
     @GetMapping (
         value = "/v1/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getAllQueueState(
         @RequestHeader ("X-R-DID")
@@ -244,7 +244,7 @@ public class TokenQueueAPIController {
     /** Get all the queues user has token from. In short all the queues user has joined AND/OR all placed orders. */
     @GetMapping (
         value = "/queues",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getAllJoinedQueues(
         @RequestHeader ("X-R-DID")
@@ -289,7 +289,7 @@ public class TokenQueueAPIController {
     /** Get all pending orders. */
     @GetMapping (
         value = "/pendingOrder",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String pendingPurchaseOrder(
         @RequestHeader ("X-R-DID")
@@ -331,7 +331,7 @@ public class TokenQueueAPIController {
     /** Get all the historical queues user has token from. In short all the queues and order user has joined in past. */
     @PostMapping(
         value = "/historical",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String allHistoricalJoinedQueues(
         @RequestHeader ("X-R-DID")
@@ -405,7 +405,7 @@ public class TokenQueueAPIController {
     /** Join the queue. */
     @PostMapping (
         value = "/queue",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String joinQueue(
         @RequestHeader ("X-R-DID")
@@ -472,7 +472,7 @@ public class TokenQueueAPIController {
     /** Join the queue when their is pre-payment. */
     @PostMapping (
         value = "/payBeforeQueue",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String payBeforeQueue(
         @RequestHeader ("X-R-DID")
@@ -537,7 +537,7 @@ public class TokenQueueAPIController {
     /** Cashfree transaction response sent to server. Based on cashfree, server updates order status */
     @PostMapping(
         value = "/cf/notify",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String cashfreeNotify(
         @RequestHeader("X-R-DID")
@@ -643,7 +643,7 @@ public class TokenQueueAPIController {
 
     @PostMapping(
         value = "/payNow",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String payNow(
         @RequestHeader("X-R-DID")
@@ -720,7 +720,7 @@ public class TokenQueueAPIController {
     /** When customer decides to not pay, the order is deleted and there is no reference. */
     @PostMapping(
         value = "/cancelPayBeforeQueue",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String cancelPayBeforeQueue(
         @RequestHeader("X-R-DID")
@@ -775,7 +775,7 @@ public class TokenQueueAPIController {
     /** Shows purchase order for queue in after join or at any time. */
     @GetMapping(
         value = "/purchaseOrder/{token}/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String purchaseOrder(
         @RequestHeader("X-R-DID")
@@ -838,7 +838,7 @@ public class TokenQueueAPIController {
     /** Abort the queue. App should un-subscribe user from topic. */
     @PostMapping (
         value = "/abort/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String abortQueue(
         @RequestHeader ("X-R-DID")

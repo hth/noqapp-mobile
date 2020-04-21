@@ -94,7 +94,7 @@ public class UserMedicalProfileController {
 
     @PostMapping(
         value = "/profile",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String profile(
         @RequestHeader("X-R-MAIL")
@@ -142,7 +142,7 @@ public class UserMedicalProfileController {
         }
     }
 
-    @PostMapping(value = "/hospitalVisitSchedule", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @PostMapping(value = "/hospitalVisitSchedule", produces = MediaType.APPLICATION_JSON_VALUE)
     public String hospitalVisitSchedule(
         @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
@@ -183,7 +183,7 @@ public class UserMedicalProfileController {
         value = "/updateUserMedicalProfile",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String updateUserMedicalProfile(
         @RequestHeader("X-R-MAIL")

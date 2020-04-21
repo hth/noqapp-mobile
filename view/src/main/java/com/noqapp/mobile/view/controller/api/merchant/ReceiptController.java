@@ -95,7 +95,7 @@ public class ReceiptController {
 
     @PostMapping(
         value = "/detail",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String detail(
         @RequestHeader("X-R-DID")
