@@ -107,7 +107,7 @@ public class BusinessCustomerController {
     /** Add Business Customer Id to existing QID. */
     @PostMapping(
             value = "/addId",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String addBusinessCustomerId(
             @RequestHeader("X-R-DID")
@@ -211,7 +211,7 @@ public class BusinessCustomerController {
     /** Edit Business Customer Id to existing QID. */
     @PostMapping(
             value = "/editId",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String editBusinessCustomerId(
             @RequestHeader("X-R-DID")
@@ -304,7 +304,7 @@ public class BusinessCustomerController {
 
     @PostMapping(
             value = "/findCustomer",
-            produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String findCustomer(
             @RequestHeader("X-R-DID")

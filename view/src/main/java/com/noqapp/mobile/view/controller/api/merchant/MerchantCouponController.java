@@ -85,7 +85,7 @@ public class MerchantCouponController {
 
     @GetMapping(
         value = "/available/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String availableCoupon(
         @RequestHeader("X-R-DID")
@@ -143,7 +143,7 @@ public class MerchantCouponController {
         value = "/apply",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String apply(
         @RequestHeader("X-R-DID")
@@ -229,7 +229,7 @@ public class MerchantCouponController {
         value = "/remove",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String remove(
         @RequestHeader("X-R-DID")

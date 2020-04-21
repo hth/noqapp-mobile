@@ -109,7 +109,7 @@ public class PurchaseOrderAPIController {
     /** Add purchase when user presses confirm. */
     @PostMapping(
         value = "/purchase",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String purchase(
         @RequestHeader("X-R-DID")
@@ -190,7 +190,7 @@ public class PurchaseOrderAPIController {
     /** Cancel placed order. */
     @PostMapping(
         value = "/cancel",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String cancel(
         @RequestHeader("X-R-DID")
@@ -254,7 +254,7 @@ public class PurchaseOrderAPIController {
     /** Activate old placed order that is still in a valid state. */
     @PostMapping(
         value = "/activate",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String activate(
         @RequestHeader("X-R-DID")
@@ -309,7 +309,7 @@ public class PurchaseOrderAPIController {
     /** Get order detail. */
     @PostMapping(
         value = "/orderDetail",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String orderDetail(
         @RequestHeader("X-R-DID")
@@ -364,7 +364,7 @@ public class PurchaseOrderAPIController {
     /** Generate Token to initiate transaction. */
     @PostMapping(
         value = "/payNow",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String payNow(
         @RequestHeader("X-R-DID")
@@ -429,7 +429,7 @@ public class PurchaseOrderAPIController {
     /** When customer decides to not pay, the order is deleted and there is no reference. */
     @PostMapping(
         value = "/cancelPayBeforeOrder",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String cancelPayBeforeOrder(
         @RequestHeader("X-R-DID")
@@ -483,7 +483,7 @@ public class PurchaseOrderAPIController {
     /** Cashfree transaction response sent to server. Based on cashfree, server updates order status */
     @PostMapping(
         value = "/cf/notify",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String cashfreeNotify(
         @RequestHeader("X-R-DID")
@@ -583,7 +583,7 @@ public class PurchaseOrderAPIController {
     /** Cashfree transaction response sent to server. Based on cashfree, server updates order status */
     @PostMapping(
         value = "/payCash",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String payCash(
         @RequestHeader("X-R-DID")

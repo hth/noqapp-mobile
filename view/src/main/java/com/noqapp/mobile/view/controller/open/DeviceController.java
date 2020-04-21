@@ -76,7 +76,7 @@ public class DeviceController {
     /** Finds if device exists or saves the device when does not exists. Most likely this call would not be required. */
     @PostMapping(
         value = "/register",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String registerDevice(
         @RequestHeader("X-R-DID")
@@ -158,7 +158,7 @@ public class DeviceController {
     /** Checks is device version is supported. */
     @PostMapping(
         value = {"/version", "/v1/version"},
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String isSupportedAppVersion(
         @RequestHeader("X-R-DID")

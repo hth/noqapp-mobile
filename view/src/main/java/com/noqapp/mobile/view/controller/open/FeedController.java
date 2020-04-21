@@ -53,7 +53,7 @@ public class FeedController {
 
     @GetMapping(
         value = "/v1/active",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String activeFeed(
         @RequestHeader("X-R-DID")

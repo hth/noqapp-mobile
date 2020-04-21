@@ -111,7 +111,7 @@ public class StoreSettingController {
     /** Get existing state of the store to change the settings. */
     @GetMapping(
         value = "/state/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String storeState(
         @RequestHeader("X-R-DID")
@@ -183,7 +183,7 @@ public class StoreSettingController {
     /** Remove schedule. */
     @PostMapping(
         value = "/removeSchedule/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String removeSchedule(
         @RequestHeader ("X-R-DID")
@@ -273,7 +273,7 @@ public class StoreSettingController {
     /** Modifies queue settings. */
     @PostMapping (
         value = "/modify",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String modify(
         @RequestHeader ("X-R-DID")
@@ -412,7 +412,7 @@ public class StoreSettingController {
     /** Modifies queue service cost. */
     @PostMapping (
         value = "/serviceCost",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String serviceCost(
         @RequestHeader ("X-R-DID")
@@ -515,7 +515,7 @@ public class StoreSettingController {
     /** Modifies queue service cost. */
     @PostMapping (
         value = "/appointment",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String appointment(
         @RequestHeader ("X-R-DID")

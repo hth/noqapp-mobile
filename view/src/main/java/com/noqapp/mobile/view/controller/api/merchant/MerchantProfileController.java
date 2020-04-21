@@ -122,7 +122,7 @@ public class MerchantProfileController {
     /** Fetch merchant profile also register device with qid after login. */
     @GetMapping(
         value = "/fetch",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String fetch(
         @RequestHeader("X-R-DID")
@@ -227,7 +227,7 @@ public class MerchantProfileController {
         value = "/update",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String update(
         @RequestHeader("X-R-MAIL")
@@ -248,7 +248,7 @@ public class MerchantProfileController {
         value = "/updateProfessionalProfile",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String updateProfessionalProfile(
         @RequestHeader("X-R-MAIL")
@@ -283,7 +283,7 @@ public class MerchantProfileController {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/upload",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String upload(
         @RequestHeader("X-R-DID")
@@ -323,7 +323,7 @@ public class MerchantProfileController {
 
     @PostMapping(
         value = "/remove",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String remove(
         @RequestHeader("X-R-DID")
@@ -356,7 +356,7 @@ public class MerchantProfileController {
     /** Add suggestions back to merchant's professional profile. */
     @PostMapping(
         value = "/intellisense",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String intellisense(
         @RequestHeader("X-R-DID")
@@ -414,7 +414,7 @@ public class MerchantProfileController {
 
     @GetMapping(
         value = "/reviews",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String reviews(
         @RequestHeader("X-R-DID")
@@ -473,7 +473,7 @@ public class MerchantProfileController {
 
     @PostMapping(
         value = "/flagReview/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String flagReview(
         @RequestHeader("X-R-DID")

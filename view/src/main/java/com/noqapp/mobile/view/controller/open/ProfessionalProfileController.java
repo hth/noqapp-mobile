@@ -54,7 +54,7 @@ public class ProfessionalProfileController {
 
     @GetMapping(
         value = "/profile/{webProfileId}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public String profile(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,

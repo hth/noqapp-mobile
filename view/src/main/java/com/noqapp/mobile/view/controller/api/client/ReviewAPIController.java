@@ -69,7 +69,7 @@ public class ReviewAPIController {
     /** Add review to service. This includes today's service or historical service. */
     @PostMapping(
         value = "/queue",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String queue(
         @RequestHeader("X-R-DID")
@@ -133,7 +133,7 @@ public class ReviewAPIController {
     /** Add review to service. This includes today's service or historical service. */
     @PostMapping(
         value = "/order",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String order(
         @RequestHeader("X-R-DID")

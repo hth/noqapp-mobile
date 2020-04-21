@@ -79,7 +79,7 @@ public class SearchBusinessStoreController {
         this.apiHealthService = apiHealthService;
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public String search(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
@@ -150,7 +150,7 @@ public class SearchBusinessStoreController {
     /** Populated with lat and lng at the minimum, when missing uses IP address. */
     @PostMapping(
         value = {"/nearMe", "/otherMerchant"},
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public String nearMe(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
@@ -211,7 +211,7 @@ public class SearchBusinessStoreController {
     /** Populated with lat and lng at the minimum, when missing uses IP address. */
     @PostMapping(
         value = "/healthCare",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public String healthCare(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
@@ -272,7 +272,7 @@ public class SearchBusinessStoreController {
 
     @PostMapping(
         value = "/kiosk",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public String kiosk(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,

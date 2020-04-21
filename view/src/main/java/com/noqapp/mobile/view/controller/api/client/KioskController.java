@@ -74,7 +74,7 @@ public class KioskController {
     /** Join the queue. */
     @PostMapping(
         value = "/queue",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String joinQueue(
         @RequestHeader("X-R-DID")

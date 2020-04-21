@@ -89,7 +89,7 @@ public class IsWorkingController {
      */
     @GetMapping(
         value = "/healthCheck",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

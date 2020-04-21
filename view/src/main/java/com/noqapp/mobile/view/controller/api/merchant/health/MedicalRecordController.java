@@ -125,7 +125,7 @@ public class MedicalRecordController {
      */
     @PostMapping(
         value = "/update",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String update(
         @RequestHeader("X-R-DID")
@@ -196,7 +196,7 @@ public class MedicalRecordController {
     /** Retrieve record before adding. */
     @PostMapping(
         value = "/retrieve",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String retrieve(
         @RequestHeader("X-R-DID")
@@ -263,7 +263,7 @@ public class MedicalRecordController {
 
     @PostMapping(
         value = "/historical",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String historical(
         @RequestHeader("X-R-DID")
@@ -319,7 +319,7 @@ public class MedicalRecordController {
 
     @PostMapping(
         value = "/historical/{md}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String historicalByMedicalDepartment(
         @RequestHeader("X-R-DID")
@@ -380,7 +380,7 @@ public class MedicalRecordController {
 
     @PostMapping(
         value = "/hospitalVisitSchedule",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String hospitalVisitSchedule(
         @RequestHeader("X-R-DID")
@@ -429,7 +429,7 @@ public class MedicalRecordController {
 
     @PostMapping(
         value = "/modifyVisitingFor",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String modifyVisitingFor(
         @RequestHeader("X-R-DID")
@@ -484,7 +484,7 @@ public class MedicalRecordController {
 
     @PostMapping(
         value = "/updateObservation",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String updateObservation(
         @RequestHeader("X-R-DID")
@@ -552,7 +552,7 @@ public class MedicalRecordController {
     /** //TODO In future move this to its own class .*/
     @GetMapping(
         value = "/{codeQR}/followup",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String followUp(
         @RequestHeader("X-R-MAIL")
@@ -605,7 +605,7 @@ public class MedicalRecordController {
     /** Retrieve record before adding. */
     @GetMapping(
         value = "/exists/{codeQR}/{recordReferenceId}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String exists(
         @RequestHeader("X-R-DID")
@@ -670,7 +670,7 @@ public class MedicalRecordController {
 
     @PostMapping (
         value = "/appendImage",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String appendImage(
         @RequestHeader("X-R-DID")
@@ -710,7 +710,7 @@ public class MedicalRecordController {
 
     @PostMapping (
         value = "/removeImage",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String removeImage(
         @RequestHeader("X-R-DID")
@@ -750,7 +750,7 @@ public class MedicalRecordController {
     /** Populate all work history. */
     @PostMapping(
         value = "/workHistory",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String workHistory(
         @RequestHeader("X-R-DID")

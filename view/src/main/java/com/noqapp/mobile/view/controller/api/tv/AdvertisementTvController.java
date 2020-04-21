@@ -80,7 +80,7 @@ public class AdvertisementTvController {
     /** Tag every time store profile is displayed. For example doctor is associated to store, hence mark store is displayed. */
     @PostMapping(
         value = "/tsd/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String tagStoreAsDisplayed(
         @RequestHeader("X-R-DID")
@@ -145,7 +145,7 @@ public class AdvertisementTvController {
     /** Tag every time store profile is displayed. For example doctor is associated to store, hence mark store is displayed. */
     @GetMapping(
         value = "/all",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getAllAdvertisements(
         @RequestHeader("X-R-DID")
@@ -198,7 +198,7 @@ public class AdvertisementTvController {
     /** Gets all professional profile. */
     @GetMapping(
         value = "/professionalProfiles",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getProfessionalProfiles(
         @RequestHeader("X-R-DID")

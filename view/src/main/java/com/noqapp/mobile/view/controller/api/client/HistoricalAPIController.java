@@ -64,7 +64,7 @@ public class HistoricalAPIController {
     /** List all past orders. */
     @GetMapping(
         value = "/orders",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String orders(
         @RequestHeader ("X-R-MAIL")
@@ -104,7 +104,7 @@ public class HistoricalAPIController {
     /** List all past queues. */
     @GetMapping(
         value = "/queues",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String queues(
         @RequestHeader ("X-R-MAIL")

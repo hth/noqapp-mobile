@@ -152,7 +152,7 @@ public class MasterLabController {
     @Deprecated
     @PostMapping(
         value = "/add",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public String add(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
@@ -212,7 +212,7 @@ public class MasterLabController {
 
     @PostMapping(
         value = "/flag",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public String flag(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,

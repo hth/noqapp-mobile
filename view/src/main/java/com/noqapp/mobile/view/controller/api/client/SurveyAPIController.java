@@ -67,7 +67,7 @@ public class SurveyAPIController {
     }
 
     @GetMapping(
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String survey(
         @RequestHeader("X-R-MAIL")

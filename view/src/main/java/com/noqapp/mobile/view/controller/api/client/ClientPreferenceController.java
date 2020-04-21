@@ -64,7 +64,7 @@ public class ClientPreferenceController {
     @PostMapping(
         value = "/notificationSound",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String notificationSound(
         @RequestHeader("X-R-DID")
@@ -110,7 +110,7 @@ public class ClientPreferenceController {
     @PostMapping(
         value = "/promotionalSMS",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String promotionalSMS(
         @RequestHeader("X-R-DID")
@@ -156,7 +156,7 @@ public class ClientPreferenceController {
     @PostMapping(
         value = "/order",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String order(
         @RequestHeader("X-R-DID")

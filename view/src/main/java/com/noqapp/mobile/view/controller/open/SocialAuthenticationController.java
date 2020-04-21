@@ -93,7 +93,7 @@ public class SocialAuthenticationController {
         value = "/authenticate.json",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String authenticateUser(
         @RequestBody

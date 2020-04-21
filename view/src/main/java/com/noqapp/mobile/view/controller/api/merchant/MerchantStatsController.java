@@ -59,7 +59,7 @@ public class MerchantStatsController {
 
     @GetMapping(
         value = "/healthCare",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String healthCare(
         @RequestHeader ("X-R-DID")

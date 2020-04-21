@@ -62,7 +62,7 @@ public class AdvertisementMobileController {
     @Deprecated
     @GetMapping(
         value = "/all",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getAllAdvertisements(
         @RequestHeader("X-R-DID")
@@ -101,7 +101,7 @@ public class AdvertisementMobileController {
      **/
     @PostMapping(
         value = "/near",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getAdvertisementsByLocation(
         @RequestHeader("X-R-DID")

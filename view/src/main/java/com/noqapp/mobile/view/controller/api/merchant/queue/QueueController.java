@@ -170,7 +170,7 @@ public class QueueController {
 
     @GetMapping(
         value = "/queues",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getQueues(
         @RequestHeader("X-R-DID")
@@ -222,7 +222,7 @@ public class QueueController {
      */
     @PostMapping(
         value = "/served",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String served(
         @RequestHeader("X-R-DID")
@@ -357,7 +357,7 @@ public class QueueController {
      */
     @GetMapping(
         value = "/queue/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getQueue(
         @RequestHeader("X-R-DID")
@@ -423,7 +423,7 @@ public class QueueController {
      */
     @PostMapping(
         value = "/showClients/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String showClients(
         @RequestHeader("X-R-DID")
@@ -487,7 +487,7 @@ public class QueueController {
     /** List all registered clients from history. Non registered clients are never shown. */
     @PostMapping(
         value = "/showClients/{codeQR}/historical",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Deprecated
     public String showClientsHistorical(
@@ -552,7 +552,7 @@ public class QueueController {
     /** List all registered clients from history within the specified date range. Non registered clients are never shown. */
     @PostMapping(
         value = "/showClients/historical",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String showClientsHistorical(
         @RequestHeader("X-R-DID")
@@ -629,7 +629,7 @@ public class QueueController {
      */
     @PostMapping(
         value = "/acquire",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String acquire(
         @RequestHeader("X-R-DID")
@@ -744,7 +744,7 @@ public class QueueController {
      */
     @PostMapping(
         value = "/dispenseToken/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String dispenseTokenWithoutClientInfo(
         @RequestHeader("X-R-DID")
@@ -809,7 +809,7 @@ public class QueueController {
      */
     @PostMapping(
         value = "/dispenseToken",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String dispenseTokenWithClientInfo(
         @RequestHeader("X-R-DID")
@@ -948,7 +948,7 @@ public class QueueController {
      */
     @PostMapping(
         value = "/changeUserInQueue",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String changeUserInQueue(
         @RequestHeader("X-R-DID")
@@ -1054,7 +1054,7 @@ public class QueueController {
     /** When payment is performed at counter via external means. */
     @PostMapping(
         value = "/counterPayment",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String counterPayment(
         @RequestHeader("X-R-DID")
@@ -1151,7 +1151,7 @@ public class QueueController {
      */
     @PostMapping(
         value = "/cancel",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String cancel(
         @RequestHeader("X-R-DID")

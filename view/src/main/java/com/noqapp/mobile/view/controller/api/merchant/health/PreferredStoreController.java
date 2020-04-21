@@ -86,7 +86,7 @@ public class PreferredStoreController {
     /** Gets all preferred business stores. */
     @GetMapping(
         value = "/all",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getAllPreferredStores(
         @RequestHeader("X-R-DID")

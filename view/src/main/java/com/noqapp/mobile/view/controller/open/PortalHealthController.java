@@ -64,7 +64,7 @@ public class PortalHealthController {
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(
         value = "/status",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

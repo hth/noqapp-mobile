@@ -65,7 +65,7 @@ public class ReviewController {
     /** Add review to queue service. This includes today's service or historical queue service. */
     @PostMapping(
         value = "/queue",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String queue(
         @RequestHeader("X-R-DID")
@@ -117,7 +117,7 @@ public class ReviewController {
     /** Get all reviews associated with business. This includes today's review and historical review. */
     @GetMapping(
         value = "/reviews/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String reviews(
         @RequestHeader("X-R-DID")
@@ -168,7 +168,7 @@ public class ReviewController {
     /** Get all reviews associated with business. This includes today's review and historical review. */
     @GetMapping(
         value = "/reviews/levelUp/{codeQR}",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String reviewsLevelUp(
         @RequestHeader("X-R-DID")

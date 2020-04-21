@@ -62,7 +62,7 @@ public class MerchantPreferenceController {
     @PostMapping(
         value = "/notificationSound",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String notificationSound(
         @RequestHeader("X-R-DID")
@@ -108,7 +108,7 @@ public class MerchantPreferenceController {
     @PostMapping(
         value = "/promotionalSMS",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String promotionalSMS(
         @RequestHeader("X-R-DID")

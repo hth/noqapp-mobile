@@ -111,7 +111,7 @@ public class ClientProfileAPIController {
 
     @GetMapping(
         value = "/fetch",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String fetch(
         @RequestHeader ("X-R-MAIL")
@@ -156,7 +156,7 @@ public class ClientProfileAPIController {
         value = "/update",
         headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String update(
         @RequestHeader ("X-R-MAIL")
@@ -176,7 +176,7 @@ public class ClientProfileAPIController {
     /** Request change in Email address. */
     @PostMapping(
         value="/changeMail",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String changeMail(
         @RequestHeader ("X-R-MAIL")
@@ -276,7 +276,7 @@ public class ClientProfileAPIController {
     /** Migrate Phone number. */
     @PostMapping(
         value="/migrate",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String migrate(
         @RequestHeader ("X-R-MAIL")
@@ -398,7 +398,7 @@ public class ClientProfileAPIController {
     /** Migrate Mail address. */
     @PostMapping(
         value="/migrateMail",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String migrateMail(
         @RequestHeader ("X-R-MAIL")
@@ -516,7 +516,7 @@ public class ClientProfileAPIController {
     /** Get all user addresses. */
     @GetMapping(
         value = "/address",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String address(
         @RequestHeader ("X-R-MAIL")
@@ -555,7 +555,7 @@ public class ClientProfileAPIController {
     /** Add user address. */
     @PostMapping(
         value = "/address/add",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String addressAdd(
         @RequestHeader ("X-R-MAIL")
@@ -629,7 +629,7 @@ public class ClientProfileAPIController {
     /** Delete user address. */
     @PostMapping(
         value = "/address/delete",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String addressDelete(
         @RequestHeader ("X-R-MAIL")
@@ -689,7 +689,7 @@ public class ClientProfileAPIController {
 
     @PostMapping (
         value = "/upload",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String upload(
         @RequestHeader("X-R-DID")
@@ -729,7 +729,7 @@ public class ClientProfileAPIController {
 
     @PostMapping (
         value = "/remove",
-        produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String remove(
         @RequestHeader("X-R-DID")
