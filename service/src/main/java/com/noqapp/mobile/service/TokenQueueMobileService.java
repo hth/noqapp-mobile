@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -156,12 +157,15 @@ public class TokenQueueMobileService {
             BizStoreEntity bizStoreForCodeQR = bizService.findByCodeQR(codeQR);
             Map<String, String> bizCategories = CommonHelper.getCategories(bizStoreForCodeQR.getBizName().getBusinessType(), InvocationByEnum.STORE);
             JsonQueueList jsonQueues = new JsonQueueList();
-            for (String bizCategoryId : bizCategories.keySet()) {
-                JsonCategory jsonCategory = new JsonCategory()
-                    .setBizCategoryId(bizCategoryId)
-                    .setCategoryName(bizCategories.get(bizCategoryId))
-                    .setDisplayImage("");
-                jsonQueues.addCategories(jsonCategory);
+
+            if (null != bizCategories) {
+                for (String bizCategoryId : bizCategories.keySet()) {
+                    JsonCategory jsonCategory = new JsonCategory()
+                        .setBizCategoryId(bizCategoryId)
+                        .setCategoryName(bizCategories.get(bizCategoryId))
+                        .setDisplayImage("");
+                    jsonQueues.addCategories(jsonCategory);
+                }
             }
 
             List<BizStoreEntity> stores = bizService.getAllBizStores(bizStoreForCodeQR.getBizName().getId());
