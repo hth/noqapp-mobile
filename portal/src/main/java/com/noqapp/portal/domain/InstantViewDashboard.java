@@ -2,9 +2,11 @@ package com.noqapp.portal.domain;
 
 import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.domain.json.JsonQueueList;
+import com.noqapp.domain.json.JsonQueuePersonList;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import org.slf4j.Logger;
@@ -31,8 +33,11 @@ import org.slf4j.LoggerFactory;
 public class InstantViewDashboard extends AbstractDomain {
     private static final Logger LOG = LoggerFactory.getLogger(InstantViewDashboard.class);
 
+    @JsonProperty("q")
     private JsonQueueList jsonQueueList;
-    private String amount;
+
+    @JsonProperty("amount")
+    private String amount = "20123";
 
     public JsonQueueList getJsonQueueList() {
         return jsonQueueList;
