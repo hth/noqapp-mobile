@@ -82,7 +82,7 @@ public class MedicalDashboardController {
         if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/portal/medical/dashboard")) return null;
 
         BusinessUserEntity businessUser = businessUserService.findByQid(qid);
-        InstantViewDashboard instantViewDashboard = medicalDashBoardService.populateInstantView("5cda8e1a6dcd7c245c9c33ec");
+        InstantViewDashboard instantViewDashboard = medicalDashBoardService.populateInstantView(businessUser.getBizName().getId());
         return instantViewDashboard.asJson();
     }
 
@@ -112,7 +112,7 @@ public class MedicalDashboardController {
         if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/portal/medical/dashboard")) return null;
 
         BusinessUserEntity businessUser = businessUserService.findByQid(qid);
-        return medicalDashBoardService.findAllClient("5cda8e1a6dcd7c245c9c33ec").asJson();
+        return medicalDashBoardService.findAllClient(businessUser.getBizName().getId()).asJson();
     }
 
     public static boolean authorizeRequest(HttpServletResponse response, String qid, String mail, String did, String api) throws IOException {
