@@ -1,4 +1,4 @@
-package com.noqapp.portal.medical;
+package com.noqapp.portal.view.medical;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
@@ -8,9 +8,7 @@ import com.noqapp.domain.BusinessUserEntity;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.portal.domain.InstantViewDashboard;
 import com.noqapp.portal.service.MedicalDashboardService;
-import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessUserService;
-import com.noqapp.service.QueueService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +36,7 @@ import javax.servlet.http.HttpServletResponse;
     "PMD.LongVariable"
 })
 @RestController
-@RequestMapping(value = "/portal/medical/dashboard")
+@RequestMapping(value = "/portal/view/medical/dashboard")
 public class MedicalDashboardController {
     private static final Logger LOG = LoggerFactory.getLogger(MedicalDashboardController.class);
 
@@ -79,7 +77,7 @@ public class MedicalDashboardController {
         Instant start = Instant.now();
         LOG.info("Populate medical dashboard coupon with mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/portal/medical/dashboard")) return null;
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/portal/view/medical/dashboard")) return null;
 
         BusinessUserEntity businessUser = businessUserService.findByQid(qid);
         InstantViewDashboard instantViewDashboard = medicalDashBoardService.populateInstantView(businessUser.getBizName().getId());
@@ -109,7 +107,7 @@ public class MedicalDashboardController {
         Instant start = Instant.now();
         LOG.info("Populate medical dashboard coupon with mail={} did={} deviceType={} auth={}", mail, did, dt, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/portal/medical/dashboard")) return null;
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/portal/view/medical/dashboard/queuedPerson")) return null;
 
         BusinessUserEntity businessUser = businessUserService.findByQid(qid);
         return medicalDashBoardService.findAllClient(businessUser.getBizName().getId()).asJson();

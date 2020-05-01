@@ -21,9 +21,9 @@ import com.noqapp.service.PreferredBusinessService;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
+import org.apache.commons.vfs2.util.FileObjectUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -187,7 +187,7 @@ public class PreferredStoreController {
                 response.setContentType("application/gzip");
                 response.setContentLength((int)fileObject.getContent().getSize());
                 try (OutputStream out = response.getOutputStream()) {
-                    out.write(FileUtil.getContent(fileObject));
+                    out.write(FileObjectUtils.getContentAsByteArray(fileObject));
                 } catch (IOException e) {
                     LOG.error("Failed to get file for bizStoreId={} reason={}", bizStoreId, e.getLocalizedMessage(), e);
                 }
