@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_AUTHORIZED_ONLY;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
@@ -16,6 +17,7 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.service.DeviceService;
 import com.noqapp.service.JoinAbortService;
+import com.noqapp.service.exceptions.AuthorizedUserCanJoinQueueException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 
 import org.slf4j.Logger;
@@ -119,6 +121,10 @@ public class KioskController {
             LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = false;
             return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
+        } catch (AuthorizedUserCanJoinQueueException e) {
+            LOG.warn("Only authorized users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Approval required to access store. Please contact store.", QUEUE_AUTHORIZED_ONLY);
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

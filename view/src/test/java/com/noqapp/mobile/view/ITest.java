@@ -397,7 +397,9 @@ public class ITest extends RealMongoForITest {
             generateUserIdService,
             emailValidateService,
             inviteService,
-            forgotRecoverManager
+            forgotRecoverManager,
+            bizNameManager,
+            businessCustomerManager
         );
 
         webConnectorService = new WebConnectorService(
