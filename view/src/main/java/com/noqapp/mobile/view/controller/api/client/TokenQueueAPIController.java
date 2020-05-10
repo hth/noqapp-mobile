@@ -961,16 +961,17 @@ public class TokenQueueAPIController {
         }
 
         try {
+            boolean addedAuthorizedUserSuccessfully = false;
             BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(queueAuthorize.getCodeQR().getText());
             if (null != bizStore) {
                 BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(qid, bizStore.getBizName().getId());
                 if (businessCustomer == null) {
-                    accountService.createAuthorizedUsers(queueAuthorize.getReferralCode().getText(), qid);
+                    addedAuthorizedUserSuccessfully = accountService.addAuthorizedUserForDoingBusiness(queueAuthorize.getReferralCode().getText(), qid);
                     LOG.info("Create authorized user successfully qid={} bizNameId={}", qid, bizStore.getBizName().getId());
                 }
             }
 
-            return new JsonResponse(true).asJson();
+            return new JsonResponse(addedAuthorizedUserSuccessfully).asJson();
         } catch (Exception e) {
             LOG.error("Failed authorize queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
