@@ -22,6 +22,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.BusinessCustomerEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.common.DomainCommonUtil;
 import com.noqapp.domain.json.JsonPurchaseOrder;
@@ -41,6 +42,7 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
+import com.noqapp.mobile.domain.body.client.QueueAuthorize;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
@@ -50,6 +52,8 @@ import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
+import com.noqapp.service.AccountService;
+import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.ScheduleAppointmentService;
@@ -109,6 +113,8 @@ public class TokenQueueAPIController {
     private PurchaseOrderService purchaseOrderService;
     private ScheduleAppointmentService scheduleAppointmentService;
     private GeoIPLocationService geoIPLocationService;
+    private BusinessCustomerService businessCustomerService;
+    private AccountService accountService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -121,6 +127,8 @@ public class TokenQueueAPIController {
         PurchaseOrderMobileService purchaseOrderMobileService,
         ScheduleAppointmentService scheduleAppointmentService,
         GeoIPLocationService geoIPLocationService,
+        BusinessCustomerService businessCustomerService,
+        AccountService accountService,
         ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
@@ -131,6 +139,8 @@ public class TokenQueueAPIController {
         this.purchaseOrderMobileService = purchaseOrderMobileService;
         this.scheduleAppointmentService = scheduleAppointmentService;
         this.geoIPLocationService = geoIPLocationService;
+        this.businessCustomerService = businessCustomerService;
+        this.accountService = accountService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -911,6 +921,69 @@ public class TokenQueueAPIController {
             apiHealthService.insert(
                 "/abort/{codeQR}",
                 "abortQueue",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.G);
+        }
+    }
+
+    /** Abort the queue. App should un-subscribe user from topic. */
+    @PostMapping (
+        value = "/authorize",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String authorize(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        QueueAuthorize queueAuthorize,
+
+        HttpServletResponse response
+    ) throws IOException {
+        Instant start = Instant.now();
+        LOG.info("Abort queue did={} dt={} codeQR={}", did, deviceType, queueAuthorize.getCodeQR());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        if (!tokenQueueMobileService.getBizService().isValidCodeQR(queueAuthorize.getCodeQR().getText())) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+            return null;
+        }
+
+        try {
+            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(queueAuthorize.getCodeQR().getText());
+            if (null != bizStore) {
+                BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(qid, bizStore.getBizName().getId());
+                if (businessCustomer == null) {
+                    accountService.createAuthorizedUsers(queueAuthorize.getReferralCode().getText(), qid);
+                    LOG.info("Create authorized user successfully qid={} bizNameId={}", qid, bizStore.getBizName().getId());
+                }
+            }
+
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed authorize queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            apiHealthService.insert(
+                "/authorize",
+                "authorize",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                HealthStatusEnum.F);
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/authorize",
+                "authorize",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 HealthStatusEnum.G);
