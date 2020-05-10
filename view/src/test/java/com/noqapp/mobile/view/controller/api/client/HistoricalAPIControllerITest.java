@@ -25,6 +25,8 @@ import com.noqapp.domain.types.cashfree.PaymentModeCFEnum;
 import com.noqapp.domain.types.cashfree.TxStatusEnum;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.view.ITest;
+import com.noqapp.service.AccountService;
+import com.noqapp.service.BusinessCustomerService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -72,6 +74,8 @@ class HistoricalAPIControllerITest extends ITest {
             purchaseOrderMobileService,
             scheduleAppointmentService,
             geoIPLocationService,
+            businessCustomerService,
+            accountService,
             apiHealthService
         );
 
