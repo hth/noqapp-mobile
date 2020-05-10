@@ -951,7 +951,7 @@ public class TokenQueueAPIController {
         HttpServletResponse response
     ) throws IOException {
         Instant start = Instant.now();
-        LOG.info("Abort queue did={} dt={} codeQR={}", did, deviceType, queueAuthorize.getCodeQR());
+        LOG.info("Authorize queue did={} dt={} codeQR={}", did, deviceType, queueAuthorize.getCodeQR());
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
