@@ -24,6 +24,7 @@ import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessCustomerEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.common.DomainCommonUtil;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonResponse;
@@ -451,6 +452,12 @@ public class TokenQueueAPIController {
 
         try {
             LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
+            if (bizStore.isAuthorizedUser()) {
+                UserProfileEntity userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(qid, bizStore.getBizName().getId());
+                if (null == userProfile) {
+                    throw new AuthorizedUserCanJoinQueueException("Store has to authorize for joining the queue. Contact store for access.");
+                }
+            }
 
             if (!bizStore.isEnabledPayment()) {
                 return joinAbortService.joinQueue(
@@ -966,7 +973,7 @@ public class TokenQueueAPIController {
             if (null != bizStore) {
                 BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(qid, bizStore.getBizName().getId());
                 if (businessCustomer == null) {
-                    addedAuthorizedUserSuccessfully = accountService.addAuthorizedUserForDoingBusiness(queueAuthorize.getReferralCode().getText(), qid);
+                    addedAuthorizedUserSuccessfully = businessCustomerService.addAuthorizedUserForDoingBusiness(queueAuthorize.getReferralCode().getText(), qid);
                     LOG.info("Create authorized user successfully qid={} bizNameId={}", qid, bizStore.getBizName().getId());
                 }
             }

@@ -8,6 +8,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -15,6 +16,7 @@ import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.DeviceService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.exceptions.AuthorizedUserCanJoinQueueException;
@@ -56,6 +58,7 @@ public class KioskController {
     private JoinAbortService joinAbortService;
     private DeviceService deviceService;
     private AuthenticateMobileService authenticateMobileService;
+    private BusinessCustomerService businessCustomerService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -64,12 +67,14 @@ public class KioskController {
         JoinAbortService joinAbortService,
         DeviceService deviceService,
         AuthenticateMobileService authenticateMobileService,
+        BusinessCustomerService businessCustomerService,
         ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.joinAbortService = joinAbortService;
         this.deviceService = deviceService;
         this.authenticateMobileService = authenticateMobileService;
+        this.businessCustomerService = businessCustomerService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -110,6 +115,13 @@ public class KioskController {
 
         try {
             LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
+            if (bizStore.isAuthorizedUser()) {
+                UserProfileEntity userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(qid, bizStore.getBizName().getId());
+                if (null == userProfile) {
+                    throw new AuthorizedUserCanJoinQueueException("Store has to authorize for joining the queue. Contact store for access.");
+                }
+            }
+
             return joinAbortService.joinQueue(
                 joinQueue.getCodeQR(),
                 deviceService.getExistingDeviceId(joinQueue.getQueueUserId(), did.getText()),

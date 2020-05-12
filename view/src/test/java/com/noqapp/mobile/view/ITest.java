@@ -397,9 +397,7 @@ public class ITest extends RealMongoForITest {
             generateUserIdService,
             emailValidateService,
             inviteService,
-            forgotRecoverManager,
-            bizNameManager,
-            businessCustomerManager
+            forgotRecoverManager
         );
 
         webConnectorService = new WebConnectorService(
@@ -464,7 +462,8 @@ public class ITest extends RealMongoForITest {
         businessCustomerService = new BusinessCustomerService(
             businessCustomerManager,
             userProfileManager,
-            queueManager
+            queueManager,
+            bizNameManager
         );
 
         couponService = new CouponService(couponManager, bizStoreManager, userProfileManager);
