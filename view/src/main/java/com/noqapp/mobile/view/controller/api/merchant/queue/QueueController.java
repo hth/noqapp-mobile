@@ -840,91 +840,22 @@ public class QueueController {
         }
 
         try {
-            if (StringUtils.isBlank(businessCustomer.getCodeQR())) {
+            if (StringUtils.isBlank(businessCustomer.getCodeQR().getText())) {
                 LOG.warn("Not a valid codeQR={} qid={}", businessCustomer.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(qid, businessCustomer.getCodeQR())) {
+            } else if (!businessUserStoreService.hasAccess(qid, businessCustomer.getCodeQR().getText())) {
                 LOG.info("Un-authorized store access to /api/m/q/dispenseToken by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
 
-            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(businessCustomer.getCodeQR());
+            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(businessCustomer.getCodeQR().getText());
             if (null == bizStore) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
                 return null;
             }
 
-            UserProfileEntity userProfile = null;
-            if (StringUtils.isNotBlank(businessCustomer.getCustomerPhone())) {
-                LOG.info("Look up customer by phone {}", businessCustomer.getCustomerPhone());
-                userProfile = accountService.checkUserExistsByPhone(businessCustomer.getCustomerPhone());
-                if (!userProfile.getQueueUserId().equalsIgnoreCase(businessCustomer.getQueueUserId())) {
-                    if (userProfile.getQidOfDependents().contains(businessCustomer.getQueueUserId())) {
-                        userProfile = accountService.findProfileByQueueUserId(businessCustomer.getQueueUserId());
-                    } else {
-                        userProfile = null;
-                    }
-                }
-            } else if (StringUtils.isNotBlank(businessCustomer.getBusinessCustomerId())) {
-                userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(businessCustomer.getBusinessCustomerId(), bizStore.getBizName().getId());
-            }
-
-            if (null == userProfile) {
-                LOG.info("Failed joining queue as no user found with phone={} businessCustomerId={}",
-                    businessCustomer.getCustomerPhone(),
-                    businessCustomer.getBusinessCustomerId());
-
-                Map<String, String> errors = new HashMap<>();
-                errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
-                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), businessCustomer.getCustomerPhone());
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
-                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
-                return ErrorEncounteredJson.toJson(errors);
-            }
-
-            String guardianQid = null;
-            RegisteredDeviceEntity registeredDevice;
-            if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
-                guardianQid = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone()).getQueueUserId();
-                registeredDevice = deviceService.findRecentDevice(guardianQid);
-            } else {
-                registeredDevice = deviceService.findRecentDevice(userProfile.getQueueUserId());
-            }
-
-            JsonToken jsonToken;
-            if (bizStore.isEnabledPayment()) {
-                jsonToken = joinAbortService.skipPayBeforeJoinQueue(
-                    businessCustomer.getCodeQR(),
-                    DeviceService.getExistingDeviceId(registeredDevice, did.getText()),
-                    userProfile.getQueueUserId(),
-                    guardianQid,
-                    bizStore,
-                    TokenServiceEnum.M);
-            } else {
-                jsonToken = joinAbortService.joinQueue(
-                    businessCustomer.getCodeQR(),
-                    DeviceService.getExistingDeviceId(registeredDevice, did.getText()),
-                    userProfile.getQueueUserId(),
-                    guardianQid,
-                    bizStore.getAverageServiceTime(),
-                    TokenServiceEnum.M);
-            }
-
-            if (null != registeredDevice) {
-                executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(
-                    businessCustomer.getCodeQR(),
-                    registeredDevice.getToken(),
-                    registeredDevice.getDeviceType()));
-
-                executorService.execute(() -> queueMobileService.notifyClient(
-                    registeredDevice,
-                    "Joined " + bizStore.getDisplayName() + " Queue",
-                    "Your token number is " + jsonToken.getToken(),
-                    bizStore.getCodeQR()));
-            }
-
-            return jsonToken.asJson();
+            return createTokenForRegisteredUser(did, businessCustomer, bizStore);
         } catch (StoreDayClosedException e) {
             LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = false;
@@ -941,6 +872,79 @@ public class QueueController {
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
+    }
+
+    public String createTokenForRegisteredUser(ScrubbedInput did, JsonBusinessCustomer businessCustomer, BizStoreEntity bizStore) {
+        UserProfileEntity userProfile = null;
+        if (StringUtils.isNotBlank(businessCustomer.getCustomerPhone().getText())) {
+            LOG.info("Look up customer by phone {}", businessCustomer.getCustomerPhone());
+            userProfile = accountService.checkUserExistsByPhone(businessCustomer.getCustomerPhone().getText());
+            if (!userProfile.getQueueUserId().equalsIgnoreCase(businessCustomer.getQueueUserId())) {
+                if (userProfile.getQidOfDependents().contains(businessCustomer.getQueueUserId())) {
+                    userProfile = accountService.findProfileByQueueUserId(businessCustomer.getQueueUserId());
+                } else {
+                    userProfile = null;
+                }
+            }
+        } else if (StringUtils.isNotBlank(businessCustomer.getBusinessCustomerId().getText())) {
+            userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(businessCustomer.getBusinessCustomerId().getText(), bizStore.getBizName().getId());
+        }
+
+        if (null == userProfile) {
+            LOG.info("Failed joining queue as no user found with phone={} businessCustomerId={}",
+                businessCustomer.getCustomerPhone(),
+                businessCustomer.getBusinessCustomerId());
+
+            Map<String, String> errors = new HashMap<>();
+            errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
+            errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), businessCustomer.getCustomerPhone().getText());
+            errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
+            errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
+            return ErrorEncounteredJson.toJson(errors);
+        }
+
+        String guardianQid = null;
+        RegisteredDeviceEntity registeredDevice;
+        if (StringUtils.isNotBlank(userProfile.getGuardianPhone())) {
+            guardianQid = accountService.checkUserExistsByPhone(userProfile.getGuardianPhone()).getQueueUserId();
+            registeredDevice = deviceService.findRecentDevice(guardianQid);
+        } else {
+            registeredDevice = deviceService.findRecentDevice(userProfile.getQueueUserId());
+        }
+
+        JsonToken jsonToken;
+        if (bizStore.isEnabledPayment()) {
+            jsonToken = joinAbortService.skipPayBeforeJoinQueue(
+                businessCustomer.getCodeQR().getText(),
+                DeviceService.getExistingDeviceId(registeredDevice, did.getText()),
+                userProfile.getQueueUserId(),
+                guardianQid,
+                bizStore,
+                TokenServiceEnum.M);
+        } else {
+            jsonToken = joinAbortService.joinQueue(
+                businessCustomer.getCodeQR().getText(),
+                DeviceService.getExistingDeviceId(registeredDevice, did.getText()),
+                userProfile.getQueueUserId(),
+                guardianQid,
+                bizStore.getAverageServiceTime(),
+                TokenServiceEnum.M);
+        }
+
+        if (null != registeredDevice) {
+            executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(
+                businessCustomer.getCodeQR().getText(),
+                registeredDevice.getToken(),
+                registeredDevice.getDeviceType()));
+
+            executorService.execute(() -> queueMobileService.notifyClient(
+                registeredDevice,
+                "Joined " + bizStore.getDisplayName() + " Queue",
+                "Your token number is " + jsonToken.getToken(),
+                bizStore.getCodeQR()));
+        }
+
+        return jsonToken.asJson();
     }
 
     /**
