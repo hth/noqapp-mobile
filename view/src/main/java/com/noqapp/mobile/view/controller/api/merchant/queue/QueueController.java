@@ -1,6 +1,5 @@
 package com.noqapp.mobile.view.controller.api.merchant.queue;
 
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_AUTHORIZED_ONLY;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.CHANGE_USER_IN_QUEUE;
@@ -64,7 +63,6 @@ import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
-import com.noqapp.service.exceptions.AuthorizedUserCanJoinQueueException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -931,10 +929,6 @@ public class QueueController {
             LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = false;
             return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
-        } catch (AuthorizedUserCanJoinQueueException e) {
-            LOG.warn("Only authorized users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = false;
-            return ErrorEncounteredJson.toJson("Approval required to access store. Please contact store.", QUEUE_AUTHORIZED_ONLY);
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
