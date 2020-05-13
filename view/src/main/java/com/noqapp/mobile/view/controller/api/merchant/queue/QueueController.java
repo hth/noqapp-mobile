@@ -855,7 +855,22 @@ public class QueueController {
                 return null;
             }
 
-            return createTokenForRegisteredUser(did, businessCustomer, bizStore);
+            if (businessCustomer.isRegisteredUser()) {
+                return createTokenForRegisteredUser(did, businessCustomer, bizStore);
+            } else {
+                JsonToken jsonToken = joinAbortService.joinQueue(
+                    bizStore.getCodeQR(),
+                    CommonUtil.appendRandomToDeviceId(did.getText()),
+                    bizStore.getAverageServiceTime(),
+                    TokenServiceEnum.M);
+
+                queueMobileService.updateUnregisteredUserWithNameAndPhone(
+                    jsonToken.getCodeQR(),
+                    jsonToken.getToken(),
+                    businessCustomer.getCustomerName().getText(),
+                    businessCustomer.getCustomerPhone().getText());
+                return jsonToken.asJson();
+            }
         } catch (StoreDayClosedException e) {
             LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = false;
@@ -874,7 +889,11 @@ public class QueueController {
         }
     }
 
-    public String createTokenForRegisteredUser(ScrubbedInput did, JsonBusinessCustomer businessCustomer, BizStoreEntity bizStore) {
+    public String createTokenForRegisteredUser(
+        ScrubbedInput did,
+        JsonBusinessCustomer businessCustomer,
+        BizStoreEntity bizStore
+    ) {
         UserProfileEntity userProfile = null;
         if (StringUtils.isNotBlank(businessCustomer.getCustomerPhone().getText())) {
             LOG.info("Look up customer by phone {}", businessCustomer.getCustomerPhone());
