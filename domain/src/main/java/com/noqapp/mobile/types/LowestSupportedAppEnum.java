@@ -38,7 +38,7 @@ public enum LowestSupportedAppEnum {
     VAMS("1.2.405",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQMS,
-        "1.2.405",                      //Latest App Version on Play Store
+        "1.2.406",                      //Latest App Version on Play Store
         "Version Android Merchant Store"),
 
     VAMH("1.2.405",                     //Oldest Supported App Version in String
