@@ -139,10 +139,10 @@ public class BusinessCustomerController {
 
         try {
             JsonBusinessCustomer json = new ObjectMapper().readValue(requestBodyJson, JsonBusinessCustomer.class);
-            if (StringUtils.isBlank(json.getCodeQR())) {
+            if (StringUtils.isBlank(json.getCodeQR().getText())) {
                 LOG.warn("Not a valid codeQR={} qid={}", json.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(qid, json.getCodeQR())) {
+            } else if (!businessUserStoreService.hasAccess(qid, json.getCodeQR().getText())) {
                 LOG.info("Un-authorized store access to /api/m/bc/addId by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
@@ -155,7 +155,7 @@ public class BusinessCustomerController {
                 return getErrorReason("No user found. Please register user.", USER_NOT_FOUND);
             }
 
-            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, json.getCodeQR());
+            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, json.getCodeQR().getText());
             BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(json.getQueueUserId(), businessUserStore.getBizNameId());
             if (null != businessCustomer) {
                 LOG.info("Found existing business customer qid={} codeQR={} businessQid={} bizNameId={} businessCustomerId={}",
@@ -163,7 +163,7 @@ public class BusinessCustomerController {
                 return getErrorReason("Business customer id already exists", BUSINESS_CUSTOMER_ID_EXISTS);
             }
 
-            businessCustomer = businessCustomerService.findOneByCustomerId(json.getBusinessCustomerId(), businessUserStore.getBizNameId());
+            businessCustomer = businessCustomerService.findOneByCustomerId(json.getBusinessCustomerId().getText(), businessUserStore.getBizNameId());
             if (null != businessCustomer) {
                 UserProfileEntity userProfile = accountService.findProfileByQueueUserId(businessCustomer.getQueueUserId());
                 LOG.warn("Found existing business customer qid={} codeQR={} businessQid={} bizNameId={} businessCustomerId={}",
@@ -177,7 +177,7 @@ public class BusinessCustomerController {
 
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
-                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), json.getCustomerPhone());
+                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), json.getCustomerPhone().getText());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
                 return ErrorEncounteredJson.toJson(errors);
@@ -185,11 +185,11 @@ public class BusinessCustomerController {
 
             businessCustomerService.addBusinessCustomer(
                     userProfile.getQueueUserId(),
-                    json.getCodeQR(),
+                    json.getCodeQR().getText(),
                     businessUserStore.getBizNameId(),
-                    json.getBusinessCustomerId());
+                    json.getBusinessCustomerId().getText());
             LOG.info("Added business customer number to qid={} businessCustomerId={}", userProfile.getQueueUserId(), json.getBusinessCustomerId());
-            return queueService.findThisPersonInQueue(userProfile.getQueueUserId(), json.getCodeQR());
+            return queueService.findThisPersonInQueue(userProfile.getQueueUserId(), json.getCodeQR().getText());
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} reason={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -246,10 +246,10 @@ public class BusinessCustomerController {
                     requestBodyJson,
                     JsonBusinessCustomer.class);
 
-            if (StringUtils.isBlank(json.getCodeQR())) {
+            if (StringUtils.isBlank(json.getCodeQR().getText())) {
                 LOG.warn("Not a valid codeQR={} qid={}", json.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(qid, json.getCodeQR())) {
+            } else if (!businessUserStoreService.hasAccess(qid, json.getCodeQR().getText())) {
                 LOG.info("Un-authorized store access to /api/m/bc/editId by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
@@ -262,7 +262,7 @@ public class BusinessCustomerController {
                 return getErrorReason("No user found. Please register user.", USER_NOT_FOUND);
             }
 
-            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, json.getCodeQR());
+            BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, json.getCodeQR().getText());
             BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(
                     json.getQueueUserId(),
                     businessUserStore.getBizNameId());
@@ -271,7 +271,7 @@ public class BusinessCustomerController {
                 return getErrorReason("Business customer id does not exists", BUSINESS_CUSTOMER_ID_DOES_NOT_EXISTS);
             }
 
-            businessCustomer = businessCustomerService.findOneByCustomerId(json.getBusinessCustomerId(), businessUserStore.getBizNameId());
+            businessCustomer = businessCustomerService.findOneByCustomerId(json.getBusinessCustomerId().getText(), businessUserStore.getBizNameId());
             if (null != businessCustomer) {
                 UserProfileEntity userProfile = accountService.findProfileByQueueUserId(businessCustomer.getQueueUserId());
                 LOG.warn("Found existing business customer qid={} codeQR={} businessQid={} bizNameId={} businessCustomerId={}",
@@ -281,13 +281,13 @@ public class BusinessCustomerController {
 
             businessCustomerService.editBusinessCustomer(
                     json.getQueueUserId(),
-                    json.getCodeQR(),
+                    json.getCodeQR().getText(),
                     businessUserStore.getBizNameId(),
-                    json.getBusinessCustomerId());
+                    json.getBusinessCustomerId().getText());
             LOG.info("Edit business customer number to qid={} businessCustomerId={}",
                     json.getQueueUserId(), json.getBusinessCustomerId());
 
-            return queueService.findThisPersonInQueue(json.getQueueUserId(), json.getCodeQR());
+            return queueService.findThisPersonInQueue(json.getQueueUserId(), json.getCodeQR().getText());
         } catch (JsonMappingException e) {
             LOG.error("Failed parsing json={} qid={} reason={}", requestBodyJson, qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -331,27 +331,27 @@ public class BusinessCustomerController {
         if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/findCustomer")) return null;
 
         try {
-            if (StringUtils.isBlank(businessCustomerLookup.getCodeQR())) {
+            if (StringUtils.isBlank(businessCustomerLookup.getCodeQR().getText())) {
                 LOG.warn("Not a valid codeQR={} qid={}", businessCustomerLookup.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-            } else if (!businessUserStoreService.hasAccess(qid, businessCustomerLookup.getCodeQR())) {
+            } else if (!businessUserStoreService.hasAccess(qid, businessCustomerLookup.getCodeQR().getText())) {
                 LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/findCustomer by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
 
-            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(businessCustomerLookup.getCodeQR());
+            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(businessCustomerLookup.getCodeQR().getText());
             if (null == bizStore) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
                 return null;
             }
 
             UserProfileEntity userProfile = null;
-            if (StringUtils.isNotBlank(businessCustomerLookup.getCustomerPhone())) {
-                userProfile = accountService.checkUserExistsByPhone(businessCustomerLookup.getCustomerPhone());
-            } else if (StringUtils.isNotBlank(businessCustomerLookup.getBusinessCustomerId())) {
+            if (StringUtils.isNotBlank(businessCustomerLookup.getCustomerPhone().getText())) {
+                userProfile = accountService.checkUserExistsByPhone(businessCustomerLookup.getCustomerPhone().getText());
+            } else if (StringUtils.isNotBlank(businessCustomerLookup.getBusinessCustomerId().getText())) {
                 userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(
-                        businessCustomerLookup.getBusinessCustomerId(),
+                        businessCustomerLookup.getBusinessCustomerId().getText(),
                         bizStore.getBizName().getId());
             }
 
@@ -362,7 +362,7 @@ public class BusinessCustomerController {
 
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
-                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), businessCustomerLookup.getCustomerPhone());
+                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.PH.name(), businessCustomerLookup.getCustomerPhone().getText());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_NOT_FOUND.name());
                 errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_NOT_FOUND.getCode());
                 return ErrorEncounteredJson.toJson(errors);
