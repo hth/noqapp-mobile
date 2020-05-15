@@ -36,7 +36,7 @@
     <div class="header">
         <div class="warp-inner">
             <div class="logo">
-                <a href="${parentHost}"><img src="${parentHost}/static2/internal/img/logo.png" alt="NoQueue Inc"/></a>
+                <a href="${parentHost}"><img src="${parentHost}/static2/internal/img/logo.png" alt="NoQueue"/></a>
             </div>
         </div>
     </div>
@@ -95,7 +95,7 @@
                     </div>
 
                     <div class="qr-footer">
-                        <p>TM and Copyright &copy; 2020 NoQueue Inc.</p>
+                        <p>TM and Copyright &copy; 2020 NoQueue.</p>
                         <p>All Rights Reserved &nbsp; | &nbsp; <a href="${parentHost}/#/pages/privacy">Privacy Policy</a>
                             &nbsp; | &nbsp; <a href="${parentHost}/#/pages/terms">Terms</a></p>
                     </div>
