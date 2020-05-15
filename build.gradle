@@ -86,10 +86,10 @@ subprojects {
     jar {
         manifest {
             attributes(
-                    "Implementation-Vendor": "NoQueue Inc",
+                    "Implementation-Vendor": "NoQueue",
                     "Implementation-Title": rootProject.name,
                     "Implementation-Version": allprojects.version + " $env",
-                    "Copyright": "2016-2020, NoQueue Inc"
+                    "Copyright": "2016-2020, NoQueue"
             )
         }
     }
@@ -465,7 +465,7 @@ task createBuildInfoFile {
         buildDir.mkdirs()
         def buildInfoFile = new File("$buildDir/build-info.properties")
         Properties props = new Properties()
-        props.setProperty('owner', 'NoQueue Inc')
+        props.setProperty('owner', 'NoQueue')
         props.setProperty('copyright', 'All rights reserved')
         props.setProperty('build.version', project.version.toString())
         props.setProperty('build.env', "$env")
