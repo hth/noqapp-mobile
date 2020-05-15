@@ -76,7 +76,7 @@
     </div>
 
     <div class="qr-footer" style="font-size:12px; background:#dadada; padding:15px;">
-        TM and Copyright &copy; 2020 NoQueue Inc. Sunnyvale, CA 94089, USA.<br/>
+        TM and Copyright &copy; 2020 NoQueue. Mumbai, Maharashtra, India.<br/>
         All Rights Reserved &nbsp; | &nbsp; <a href="${parentHost}/#/pages/privacy"
                 style="color:#222; text-decoration:none">Privacy Policy</a> &nbsp; |
         &nbsp; <a href="${parentHost}/#/pages/terms" style="color:#222; text-decoration:none">Terms</a><br/>
