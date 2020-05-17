@@ -59,6 +59,7 @@ import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.exceptions.AuthorizedUserCanJoinQueueException;
+import com.noqapp.service.exceptions.BeforeStartOfStoreException;
 import com.noqapp.service.exceptions.PurchaseOrderCancelException;
 import com.noqapp.service.exceptions.PurchaseOrderFailException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
@@ -472,11 +473,15 @@ public class TokenQueueAPIController {
             return getErrorReason("Missing Payment For Service", QUEUE_JOIN_FAILED_PAYMENT_CALL_REQUEST);
         } catch (StoreDayClosedException e) {
             LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = false;
+            methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
+        } catch (BeforeStartOfStoreException e) {
+            LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has not started. Please correct time on your device.", STORE_DAY_CLOSED);
         } catch (AuthorizedUserCanJoinQueueException e) {
             LOG.warn("Only authorized users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = false;
+            methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson("Approval required to access store. Please contact store.", QUEUE_AUTHORIZED_ONLY);
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
@@ -541,8 +546,16 @@ public class TokenQueueAPIController {
             return jsonToken.asJson();
         } catch (StoreDayClosedException e) {
             LOG.warn("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = false;
+            methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
+        } catch (BeforeStartOfStoreException e) {
+            LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has not started. Please correct time on device.", STORE_DAY_CLOSED);
+        } catch (AuthorizedUserCanJoinQueueException e) {
+            LOG.warn("Only authorized users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson("Approval required to access store. Please contact store.", QUEUE_AUTHORIZED_ONLY);
         } catch (Exception e) {
             LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
