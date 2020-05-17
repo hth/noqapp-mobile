@@ -60,6 +60,7 @@ import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.exceptions.AuthorizedUserCanJoinQueueException;
 import com.noqapp.service.exceptions.BeforeStartOfStoreException;
+import com.noqapp.service.exceptions.LimitedPeriodException;
 import com.noqapp.service.exceptions.PurchaseOrderCancelException;
 import com.noqapp.service.exceptions.PurchaseOrderFailException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
@@ -479,6 +480,13 @@ public class TokenQueueAPIController {
             LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has not started. Please correct time on your device.", STORE_DAY_CLOSED);
+        } catch (LimitedPeriodException e) {
+            LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            String message = bizStore.getDisplayName() + " allows a customer one token in " + bizStore.getBizName().getLimitServiceByDays()
+                + " days. You have been serviced with-in past " + bizStore.getBizName().getLimitServiceByDays()
+                + " days. Please try again later.";
+            return ErrorEncounteredJson.toJson(message, STORE_DAY_CLOSED);
         } catch (AuthorizedUserCanJoinQueueException e) {
             LOG.warn("Only authorized users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
