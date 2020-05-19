@@ -1,6 +1,8 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_TIMEZONE_OFF;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_AUTHORIZED_ONLY;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_SERVICE_LIMIT;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
@@ -479,14 +481,14 @@ public class TokenQueueAPIController {
         } catch (BeforeStartOfStoreException e) {
             LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has not started. Please correct time on your device.", STORE_DAY_CLOSED);
+            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has not started. Please correct time on your device.", DEVICE_TIMEZONE_OFF);
         } catch (LimitedPeriodException e) {
             LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
             String message = bizStore.getDisplayName() + " allows a customer one token in " + bizStore.getBizName().getLimitServiceByDays()
                 + " days. You have been serviced with-in past " + bizStore.getBizName().getLimitServiceByDays()
                 + " days. Please try again later.";
-            return ErrorEncounteredJson.toJson(message, STORE_DAY_CLOSED);
+            return ErrorEncounteredJson.toJson(message, QUEUE_SERVICE_LIMIT);
         } catch (AuthorizedUserCanJoinQueueException e) {
             LOG.warn("Only authorized users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
