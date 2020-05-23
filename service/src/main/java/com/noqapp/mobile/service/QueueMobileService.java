@@ -615,9 +615,4 @@ public class QueueMobileService {
             firebaseService.subscribeToTopic(registeredTokens, tokenQueue.getTopic() + "_" + deviceType.getName());
         }
     }
-
-    @Async
-    public void updateUnregisteredUserWithNameAndPhone(String codeQR, int tokenNumber, String name, String phone) {
-        queueManager.updateUnregisteredUserWithNameAndPhone(codeQR, tokenNumber, name, phone);
-    }
 }
