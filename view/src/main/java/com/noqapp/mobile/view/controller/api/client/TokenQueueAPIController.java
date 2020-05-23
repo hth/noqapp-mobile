@@ -3,6 +3,7 @@ package com.noqapp.mobile.view.controller.api.client;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_TIMEZONE_OFF;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_AUTHORIZED_ONLY;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_SERVICE_LIMIT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_TOKEN_LIMIT;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
@@ -69,6 +70,7 @@ import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundPartialException;
 import com.noqapp.service.exceptions.QueueAbortPaidPastDurationException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
+import com.noqapp.service.exceptions.TokenAvailableLimitReachedException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -475,20 +477,24 @@ public class TokenQueueAPIController {
 
             return getErrorReason("Missing Payment For Service", QUEUE_JOIN_FAILED_PAYMENT_CALL_REQUEST);
         } catch (StoreDayClosedException e) {
-            LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
+            LOG.warn("Failed joining queue store closed qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
         } catch (BeforeStartOfStoreException e) {
-            LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
+            LOG.warn("Failed joining queue as trying to join before store opens qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has not started. Please correct time on your device.", DEVICE_TIMEZONE_OFF);
         } catch (LimitedPeriodException e) {
-            LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
+            LOG.warn("Failed joining queue as limited join allowed qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
             String message = bizStore.getDisplayName() + " allows a customer one token in " + bizStore.getBizName().getLimitServiceByDays()
                 + " days. You have been serviced with-in past " + bizStore.getBizName().getLimitServiceByDays()
                 + " days. Please try again later.";
             return ErrorEncounteredJson.toJson(message, QUEUE_SERVICE_LIMIT);
+        } catch (TokenAvailableLimitReachedException e) {
+            LOG.warn("Failed joining queue as token limit reached qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " token limit for the day has reached.", QUEUE_TOKEN_LIMIT);
         } catch (AuthorizedUserCanJoinQueueException e) {
             LOG.warn("Only authorized users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
