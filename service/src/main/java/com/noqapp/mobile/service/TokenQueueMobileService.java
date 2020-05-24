@@ -122,6 +122,8 @@ public class TokenQueueMobileService {
             .setRating(bizStore.getRating())
             .setReviewCount(bizStore.getReviewCount())
             .setAverageServiceTime(bizStore.getAverageServiceTime())
+            .setLimitServiceByDays(bizStore.getBizName().getLimitServiceByDays())
+            .setPriorityAccess(bizStore.getBizName().getPriorityAccess())
             .setTokenAvailableFrom(storeHour.getTokenAvailableFrom())
             .setStartHour(storeHour.getStartHour())
             .setTokenNotAvailableFrom(storeHour.getTokenNotAvailableFrom())
