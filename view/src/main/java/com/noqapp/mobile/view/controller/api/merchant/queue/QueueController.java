@@ -43,6 +43,7 @@ import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.BusinessTypeEnum;
+import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
@@ -880,7 +881,7 @@ public class QueueController {
                 return null;
             }
 
-            if (bizStore.isAuthorizedUser()) {
+            if (bizStore.getBizName().getPriorityAccess() == OnOffEnum.O) {
                 UserProfileEntity userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(qid, bizStore.getBizName().getId());
                 if (null == userProfile) {
                     throw new AuthorizedUserCanJoinQueueException("Store has to authorize for joining the queue. Contact store for access.");
