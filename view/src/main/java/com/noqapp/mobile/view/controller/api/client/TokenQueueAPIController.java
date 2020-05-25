@@ -1008,15 +1008,20 @@ public class TokenQueueAPIController {
                     switch (bizStore.getBusinessType()) {
                         case CDQ:
                         case CD:
-                            businessCustomerId = businessCustomerService.addAuthorizedUserForDoingBusiness(queueAuthorize.getFirstCustomerId().getText(), bizStore.getBizName().getId(), qid);
-                            if (StringUtils.isNotBlank(businessCustomerId)) {
-                                addedAuthorizedUserSuccessfully = true;
-                                businessCustomerService.addBusinessCustomerAttribute(businessCustomerId, BusinessCustomerAttributeEnum.GR);
+                            if (null != queueAuthorize.getFirstCustomerId() && StringUtils.isNotBlank(queueAuthorize.getFirstCustomerId().getText())) {
+                                businessCustomerId = businessCustomerService.addAuthorizedUserForDoingBusiness(queueAuthorize.getFirstCustomerId().getText(), bizStore.getBizName().getId(), qid);
+                                if (StringUtils.isNotBlank(businessCustomerId)) {
+                                    addedAuthorizedUserSuccessfully = true;
+                                    businessCustomerService.addBusinessCustomerAttribute(businessCustomerId, BusinessCustomerAttributeEnum.GR);
+                                }
                             }
-                            businessCustomerId = businessCustomerService.addAuthorizedUserForDoingBusiness(queueAuthorize.getAdditionalCustomerId().getText(), bizStore.getBizName().getId(), qid);
-                            if (StringUtils.isNotBlank(businessCustomerId)) {
-                                businessCustomerService.addBusinessCustomerAttribute(businessCustomerId, BusinessCustomerAttributeEnum.LQ);
-                                addedAuthorizedUserSuccessfully = true;
+
+                            if (null != queueAuthorize.getAdditionalCustomerId() && StringUtils.isNotBlank(queueAuthorize.getAdditionalCustomerId().getText())) {
+                                businessCustomerId = businessCustomerService.addAuthorizedUserForDoingBusiness(queueAuthorize.getAdditionalCustomerId().getText(), bizStore.getBizName().getId(), qid);
+                                if (StringUtils.isNotBlank(businessCustomerId)) {
+                                    businessCustomerService.addBusinessCustomerAttribute(businessCustomerId, BusinessCustomerAttributeEnum.LQ);
+                                    addedAuthorizedUserSuccessfully = true;
+                                }
                             }
                             break;
                         default:
