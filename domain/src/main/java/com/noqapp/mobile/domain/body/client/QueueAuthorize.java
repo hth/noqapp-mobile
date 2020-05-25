@@ -35,8 +35,11 @@ public class QueueAuthorize extends AbstractDomain {
     @JsonProperty("codeQR")
     private ScrubbedInput codeQR;
 
-    @JsonProperty("rc")
-    private ScrubbedInput referralCode;
+    @JsonProperty("fci")
+    private ScrubbedInput firstCustomerId;
+
+    @JsonProperty("aci")
+    private ScrubbedInput additionalCustomerId;
 
     public ScrubbedInput getCodeQR() {
         return codeQR;
@@ -47,12 +50,21 @@ public class QueueAuthorize extends AbstractDomain {
         return this;
     }
 
-    public ScrubbedInput getReferralCode() {
-        return referralCode;
+    public ScrubbedInput getFirstCustomerId() {
+        return firstCustomerId;
     }
 
-    public QueueAuthorize setReferralCode(ScrubbedInput referralCode) {
-        this.referralCode = referralCode;
+    public QueueAuthorize setFirstCustomerId(ScrubbedInput firstCustomerId) {
+        this.firstCustomerId = firstCustomerId;
+        return this;
+    }
+
+    public ScrubbedInput getAdditionalCustomerId() {
+        return additionalCustomerId;
+    }
+
+    public QueueAuthorize setAdditionalCustomerId(ScrubbedInput additionalCustomerId) {
+        this.additionalCustomerId = additionalCustomerId;
         return this;
     }
 }
