@@ -1,6 +1,8 @@
 package com.noqapp.mobile.domain;
 
 import com.noqapp.common.utils.AbstractDomain;
+import com.noqapp.domain.json.JsonBusinessCustomerPriority;
+import com.noqapp.domain.json.JsonBusinessFeatures;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.domain.json.JsonTopic;
@@ -42,6 +44,12 @@ public class JsonMerchant extends AbstractDomain {
     @JsonProperty ("ts")
     private List<JsonTopic> topics = new ArrayList<>();
 
+    @JsonProperty ("cp")
+    private List<JsonBusinessCustomerPriority> customerPriorities = new ArrayList<>();
+
+    @JsonProperty ("bf")
+    private JsonBusinessFeatures jsonBusinessFeatures;
+
     public JsonProfile getJsonProfile() {
         return jsonProfile;
     }
@@ -66,6 +74,24 @@ public class JsonMerchant extends AbstractDomain {
 
     public JsonMerchant setTopics(List<JsonTopic> topics) {
         this.topics = topics;
+        return this;
+    }
+
+    public List<JsonBusinessCustomerPriority> getCustomerPriorities() {
+        return customerPriorities;
+    }
+
+    public JsonMerchant setCustomerPriorities(List<JsonBusinessCustomerPriority> customerPriorities) {
+        this.customerPriorities = customerPriorities;
+        return this;
+    }
+
+    public JsonBusinessFeatures getJsonBusinessFeatures() {
+        return jsonBusinessFeatures;
+    }
+
+    public JsonMerchant setJsonBusinessFeatures(JsonBusinessFeatures jsonBusinessFeatures) {
+        this.jsonBusinessFeatures = jsonBusinessFeatures;
         return this;
     }
 }
