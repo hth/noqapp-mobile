@@ -73,6 +73,8 @@ import com.noqapp.repository.BizStoreManager;
 import com.noqapp.repository.BizStoreManagerImpl;
 import com.noqapp.repository.BusinessCustomerManager;
 import com.noqapp.repository.BusinessCustomerManagerImpl;
+import com.noqapp.repository.BusinessCustomerPriorityManager;
+import com.noqapp.repository.BusinessCustomerPriorityManagerImpl;
 import com.noqapp.repository.BusinessUserManager;
 import com.noqapp.repository.BusinessUserManagerImpl;
 import com.noqapp.repository.BusinessUserStoreManager;
@@ -143,6 +145,7 @@ import com.noqapp.search.elastic.service.ElasticAdministrationService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
+import com.noqapp.service.BusinessCustomerPriorityService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserService;
 import com.noqapp.service.BusinessUserStoreService;
@@ -277,6 +280,7 @@ public class ITest extends RealMongoForITest {
     protected InviteManager inviteManager;
     protected RegisteredDeviceManager registeredDeviceManager;
     protected BizNameManager bizNameManager;
+    protected BusinessCustomerPriorityManager businessCustomerPriorityManager;
     protected BizStoreManager bizStoreManager;
     protected StoreHourManager storeHourManager;
     protected BusinessUserStoreManager businessUserStoreManager;
@@ -308,6 +312,7 @@ public class ITest extends RealMongoForITest {
     protected MedicalRecordMobileService medicalRecordMobileService;
     protected HospitalVisitScheduleService hospitalVisitScheduleService;
     protected NLPService nlpService;
+    protected BusinessCustomerPriorityService businessCustomerPriorityService;
 
     protected ApiHealthService apiHealthService;
     protected ApiHealthNowManager apiHealthNowManager;
@@ -373,6 +378,7 @@ public class ITest extends RealMongoForITest {
         storeProductManager = new StoreProductManagerImpl(getMongoTemplate());
         scheduledTaskManager = new ScheduledTaskManagerImpl(getMongoTemplate());
         bizNameManager = new BizNameManagerImpl(getMongoTemplate());
+        businessCustomerPriorityManager = new BusinessCustomerPriorityManagerImpl(getMongoTemplate());
         businessUserStoreManager = new BusinessUserStoreManagerImpl(getMongoTemplate());
         businessUserManager = new BusinessUserManagerImpl(getMongoTemplate());
         queueManager = new QueueManagerImpl(getMongoTemplate());
@@ -387,6 +393,7 @@ public class ITest extends RealMongoForITest {
         inviteService = new InviteService(inviteManager);
         userMedicalProfileService = new UserMedicalProfileService(userMedicalProfileManager, userMedicalProfileHistoryManager);
         nlpService = new NLPService(stanfordCoreNLP, maxentTagger);
+        businessCustomerPriorityService = new BusinessCustomerPriorityService(businessCustomerPriorityManager, bizNameManager, bizStoreManager);
 
         accountService = new AccountService(
             5,
@@ -463,7 +470,8 @@ public class ITest extends RealMongoForITest {
             businessCustomerManager,
             userProfileManager,
             queueManager,
-            bizNameManager
+            bizNameManager,
+            businessCustomerPriorityManager
         );
 
         couponService = new CouponService(couponManager, bizStoreManager, userProfileManager);

@@ -17,11 +17,16 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessCustomerEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonBusinessCustomer;
 import com.noqapp.domain.json.JsonBusinessCustomerLookup;
+import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.types.BusinessCustomerAttributeEnum;
+import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.common.errors.ErrorEncounteredJson;
+import com.noqapp.mobile.domain.body.merchant.CustomerPriority;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
@@ -328,14 +333,14 @@ public class BusinessCustomerController {
         Instant start = Instant.now();
         LOG.info("Find customer for did={} dt={} mail={}", did, dt, mail);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/s/purchaseOrder/findCustomer")) return null;
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/bc/findCustomer")) return null;
 
         try {
             if (StringUtils.isBlank(businessCustomerLookup.getCodeQR().getText())) {
                 LOG.warn("Not a valid codeQR={} qid={}", businessCustomerLookup.getCodeQR(), qid);
                 return getErrorReason("Not a valid queue code.", MOBILE_JSON);
             } else if (!businessUserStoreService.hasAccess(qid, businessCustomerLookup.getCodeQR().getText())) {
-                LOG.info("Un-authorized store access to /api/m/s/purchaseOrder/findCustomer by mail={}", mail);
+                LOG.info("Un-authorized store access to /api/m/bc/findCustomer by mail={}", mail);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
                 return null;
             }
@@ -379,11 +384,95 @@ public class BusinessCustomerController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/findCustomer",
-                    "findCustomer",
-                    PurchaseOrderController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/findCustomer",
+                "findCustomer",
+                BusinessCustomerController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping(
+        value = "/access/action",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String accessAction(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        CustomerPriority customerPriority,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Find customer for did={} dt={} mail={}", did, dt, mail);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/bc/access/action")) return null;
+
+        try {
+            if (StringUtils.isBlank(customerPriority.getCodeQR().getText())) {
+                LOG.warn("Not a valid codeQR={} qid={}", customerPriority.getCodeQR(), qid);
+                return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+            } else if (!businessUserStoreService.hasAccess(qid, customerPriority.getCodeQR().getText())) {
+                LOG.info("Un-authorized store access to /api/m/bc/access/action by mail={}", mail);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+                return null;
+            }
+
+            BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(customerPriority.getCodeQR().getText());
+            if (null == bizStore) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
+                return null;
+            }
+
+            if (OnOffEnum.F == bizStore.getBizName().getPriorityAccess()) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
+                return null;
+            }
+
+            BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQidAndAttribute(
+                customerPriority.getQueueUserId().getText(),
+                bizStore.getBizName().getId(),
+                CommonHelper.findBusinessCustomerAttribute(bizStore));
+
+            businessCustomer.setCustomerPriorityLevel(customerPriority.getCustomerPriorityLevel());
+            switch (customerPriority.getActionType()) {
+                case APPROVE:
+                    businessCustomer.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.AP);
+                    break;
+                case REJECT:
+                    businessCustomer.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.RJ);
+                    break;
+                case CLEAR:
+                    businessCustomerService.remove(businessCustomer);
+                    return new JsonResponse(true).asJson();
+                default:
+                    throw new UnsupportedOperationException("Reached not supported condition");
+            }
+
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed updating business customer qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/access/action",
+                "accessAction",
+                BusinessCustomerController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 }
