@@ -1011,7 +1011,7 @@ public class TokenQueueAPIController {
                             businessCustomerId = businessCustomerService.addAuthorizedUserForDoingBusiness(queueAuthorize.getFirstCustomerId().getText(), bizStore.getBizName().getId(), qid);
                             if (StringUtils.isNotBlank(businessCustomerId)) {
                                 addedAuthorizedUserSuccessfully = true;
-                                businessCustomerService.addBusinessCustomerAttribute(businessCustomerId, BusinessCustomerAttributeEnum.GY);
+                                businessCustomerService.addBusinessCustomerAttribute(businessCustomerId, BusinessCustomerAttributeEnum.GR);
                             }
                             businessCustomerId = businessCustomerService.addAuthorizedUserForDoingBusiness(queueAuthorize.getAdditionalCustomerId().getText(), bizStore.getBizName().getId(), qid);
                             if (StringUtils.isNotBlank(businessCustomerId)) {
