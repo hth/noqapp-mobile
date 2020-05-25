@@ -8,10 +8,12 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import static com.noqapp.service.ProfessionalProfileService.POPULATE_PROFILE.SELF;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonBusinessFeatures;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.domain.json.JsonResponse;
@@ -33,6 +35,7 @@ import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.mobile.service.DeviceRegistrationService;
 import com.noqapp.service.BizService;
+import com.noqapp.service.BusinessCustomerPriorityService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.ReviewService;
@@ -91,6 +94,7 @@ public class MerchantProfileController {
     private BizService bizService;
     private ReviewService reviewService;
     private AccountMobileService accountMobileService;
+    private BusinessCustomerPriorityService businessCustomerPriorityService;
 
     @Autowired
     public MerchantProfileController(
@@ -104,7 +108,8 @@ public class MerchantProfileController {
         DeviceRegistrationService deviceRegistrationService,
         BizService bizService,
         ReviewService reviewService,
-        AccountMobileService accountMobileService
+        AccountMobileService accountMobileService,
+        BusinessCustomerPriorityService businessCustomerPriorityService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.businessUserStoreService = businessUserStoreService;
@@ -117,6 +122,7 @@ public class MerchantProfileController {
         this.bizService = bizService;
         this.reviewService = reviewService;
         this.accountMobileService = accountMobileService;
+        this.businessCustomerPriorityService = businessCustomerPriorityService;
     }
 
     /** Fetch merchant profile also register device with qid after login. */
@@ -197,10 +203,17 @@ public class MerchantProfileController {
                 }
             }
 
+            BizNameEntity bizName = bizService.getByBizNameId(jsonProfile.getBizNameId());
+            JsonBusinessFeatures jsonBusinessFeatures = new JsonBusinessFeatures()
+                .setLimitServiceByDays(bizName.getLimitServiceByDays())
+                .setPriorityAccess(bizName.getPriorityAccess());
+
             return new JsonMerchant()
                 .setJsonProfile(jsonProfile)
                 .setJsonProfessionalProfile(jsonProfessionalProfile)
-                .setTopics(jsonTopics).asJson();
+                .setTopics(jsonTopics)
+                .setCustomerPriorities(businessCustomerPriorityService.findAllAsJson(bizName.getId()))
+                .setJsonBusinessFeatures(jsonBusinessFeatures).asJson();
         } catch (JsonMappingException e) {
             LOG.error("Failed fetching profile qid={} reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

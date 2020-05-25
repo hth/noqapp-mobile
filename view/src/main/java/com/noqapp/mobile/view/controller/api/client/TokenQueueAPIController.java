@@ -36,6 +36,7 @@ import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
 import com.noqapp.domain.json.payment.cashfree.JsonResponseWithCFToken;
 import com.noqapp.domain.types.AppFlavorEnum;
+import com.noqapp.domain.types.BusinessCustomerAttributeEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.domain.types.PaymentModeEnum;
@@ -1003,7 +1004,27 @@ public class TokenQueueAPIController {
             if (null != bizStore) {
                 BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(qid, bizStore.getBizName().getId());
                 if (businessCustomer == null) {
-                    addedAuthorizedUserSuccessfully = businessCustomerService.addAuthorizedUserForDoingBusiness(queueAuthorize.getReferralCode().getText(), bizStore.getBizName().getId(), qid);
+                    String businessCustomerId;
+                    switch (bizStore.getBusinessType()) {
+                        case CDQ:
+                        case CD:
+                            businessCustomerId = businessCustomerService.addAuthorizedUserForDoingBusiness(queueAuthorize.getFirstCustomerId().getText(), bizStore.getBizName().getId(), qid);
+                            if (StringUtils.isNotBlank(businessCustomerId)) {
+                                addedAuthorizedUserSuccessfully = true;
+                                businessCustomerService.addBusinessCustomerAttribute(businessCustomerId, BusinessCustomerAttributeEnum.GY);
+                            }
+                            businessCustomerId = businessCustomerService.addAuthorizedUserForDoingBusiness(queueAuthorize.getAdditionalCustomerId().getText(), bizStore.getBizName().getId(), qid);
+                            if (StringUtils.isNotBlank(businessCustomerId)) {
+                                businessCustomerService.addBusinessCustomerAttribute(businessCustomerId, BusinessCustomerAttributeEnum.LQ);
+                                addedAuthorizedUserSuccessfully = true;
+                            }
+                            break;
+                        default:
+                            businessCustomerId = businessCustomerService.addAuthorizedUserForDoingBusiness(queueAuthorize.getFirstCustomerId().getText(), bizStore.getBizName().getId(), qid);
+                            if (StringUtils.isNotBlank(businessCustomerId)) {
+                                addedAuthorizedUserSuccessfully = true;
+                            }
+                    }
                     LOG.info("Create authorized user successfully qid={} bizNameId={}", qid, bizStore.getBizName().getId());
                 }
             }

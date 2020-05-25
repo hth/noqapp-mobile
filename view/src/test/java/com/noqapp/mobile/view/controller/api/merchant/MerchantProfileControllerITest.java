@@ -79,7 +79,8 @@ class MerchantProfileControllerITest extends ITest {
             deviceRegistrationService,
             bizService,
             reviewService,
-            accountMobileService
+            accountMobileService,
+            businessCustomerPriorityService
         );
     }
 
