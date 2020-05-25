@@ -461,8 +461,8 @@ public class TokenQueueAPIController {
         try {
             LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
             if (bizStore.getBizName().getPriorityAccess() == OnOffEnum.O) {
-                UserProfileEntity userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(qid, bizStore.getBizName().getId());
-                if (null == userProfile) {
+                BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(qid, bizStore.getBizName().getId());
+                if (null == businessCustomer) {
                     throw new AuthorizedUserCanJoinQueueException("Store has to authorize for joining the queue. Contact store for access.");
                 }
             }
