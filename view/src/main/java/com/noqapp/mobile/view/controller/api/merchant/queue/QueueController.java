@@ -31,6 +31,7 @@ import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.BusinessCustomerEntity;
 import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.TokenQueueEntity;
@@ -882,8 +883,8 @@ public class QueueController {
             }
 
             if (bizStore.getBizName().getPriorityAccess() == OnOffEnum.O) {
-                UserProfileEntity userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(qid, bizStore.getBizName().getId());
-                if (null == userProfile) {
+                BusinessCustomerEntity businessCustomerEntity = businessCustomerService.findOneByQid(qid, bizStore.getBizName().getId());
+                if (null == businessCustomerEntity) {
                     throw new AuthorizedUserCanJoinQueueException("Store has to authorize for joining the queue. Contact store for access.");
                 }
             }
