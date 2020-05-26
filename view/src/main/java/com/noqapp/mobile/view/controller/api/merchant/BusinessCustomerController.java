@@ -446,13 +446,19 @@ public class BusinessCustomerController {
                 bizStore.getBizName().getId(),
                 CommonHelper.findBusinessCustomerAttribute(bizStore));
 
+            if (null == businessCustomer) {
+                return new JsonResponse(false).asJson();
+            }
+
             businessCustomer.setCustomerPriorityLevel(customerPriority.getCustomerPriorityLevel());
             switch (customerPriority.getActionType()) {
                 case APPROVE:
                     businessCustomer.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.AP);
+                    businessCustomerService.save(businessCustomer);
                     break;
                 case REJECT:
                     businessCustomer.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.RJ);
+                    businessCustomerService.save(businessCustomer);
                     break;
                 case CLEAR:
                     businessCustomerService.remove(businessCustomer);
