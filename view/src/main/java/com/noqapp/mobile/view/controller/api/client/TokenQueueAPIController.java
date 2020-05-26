@@ -1047,6 +1047,9 @@ public class TokenQueueAPIController {
                             }
                     }
                     LOG.info("Create authorized user successfully qid={} bizNameId={}", qid, bizStore.getBizName().getId());
+                } else {
+                    LOG.info("Seems already has business customer qid={}", qid);
+                    addedAuthorizedUserSuccessfully = true;
                 }
             }
 
