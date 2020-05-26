@@ -24,6 +24,7 @@ import com.noqapp.domain.json.JsonBusinessCustomer;
 import com.noqapp.domain.json.JsonBusinessCustomerLookup;
 import com.noqapp.domain.json.JsonQueuedPerson;
 import com.noqapp.domain.types.BusinessCustomerAttributeEnum;
+import com.noqapp.domain.types.CustomerPriorityLevelEnum;
 import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -61,6 +62,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -470,32 +472,31 @@ public class BusinessCustomerController {
                         BusinessCustomerAttributeEnum.AP);
                     break;
                 case REJECT:
-                    businessCustomer.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.RJ);
-                    businessCustomerService.save(businessCustomer);
+                    /* Reject all. */
+                    businessCustomerService.rejectBusinessCustomer(businessCustomer.getQueueUserId(), businessCustomer.getBizNameId());
 
+                    jsonQueuedPerson.setCustomerPriorityLevel(CustomerPriorityLevelEnum.I);
                     jsonQueuedPerson.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.RJ);
 
-                    queue.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.RJ);
                     queueService.updateCustomerPriorityAndCustomerAttributes(
                         customerPriority.getQueueUserId().getText(),
                         customerPriority.getCodeQR().getText(),
                         jsonQueuedPerson.getToken(),
-                        null,
+                        CustomerPriorityLevelEnum.I,
                         BusinessCustomerAttributeEnum.RJ);
                     break;
                 case CLEAR:
-                    businessCustomerService.remove(businessCustomer);
-                    jsonQueuedPerson.setBusinessCustomerAttributes(new HashSet<>());
-                    jsonQueuedPerson.setCustomerPriorityLevel(null);
+                    businessCustomerService.clearBusinessCustomer(businessCustomer.getQueueUserId(), businessCustomer.getBizNameId());
+                    
+                    jsonQueuedPerson.setBusinessCustomerAttributes(new HashSet<BusinessCustomerAttributeEnum>() {{ add(BusinessCustomerAttributeEnum.RJ); }});
+                    jsonQueuedPerson.setCustomerPriorityLevel(CustomerPriorityLevelEnum.I);
 
-                    queue.setBusinessCustomerAttributes(new HashSet<>());
-                    queue.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.RJ);
                     queueService.updateCustomerPriorityAndCustomerAttributes(
                         customerPriority.getQueueUserId().getText(),
                         customerPriority.getCodeQR().getText(),
                         jsonQueuedPerson.getToken(),
-                        null,
-                        null);
+                        CustomerPriorityLevelEnum.I,
+                        BusinessCustomerAttributeEnum.RJ);
                 default:
                     throw new UnsupportedOperationException("Reached not supported condition");
             }
