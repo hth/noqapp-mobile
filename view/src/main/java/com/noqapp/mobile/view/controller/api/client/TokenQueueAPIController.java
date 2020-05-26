@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_TIMEZONE_OFF;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_AUTHORIZED_ONLY;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_JOINING_IN_AUTHORIZED_QUEUE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_SERVICE_LIMIT;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_TOKEN_LIMIT;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
@@ -29,6 +30,7 @@ import com.noqapp.domain.BusinessCustomerEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.common.DomainCommonUtil;
+import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
@@ -65,6 +67,7 @@ import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.exceptions.AuthorizedUserCanJoinQueueException;
 import com.noqapp.service.exceptions.BeforeStartOfStoreException;
+import com.noqapp.service.exceptions.JoiningNonAuthorizedQueueException;
 import com.noqapp.service.exceptions.LimitedPeriodException;
 import com.noqapp.service.exceptions.PurchaseOrderCancelException;
 import com.noqapp.service.exceptions.PurchaseOrderFailException;
@@ -464,6 +467,15 @@ public class TokenQueueAPIController {
                 BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(qid, bizStore.getBizName().getId());
                 if (null == businessCustomer) {
                     throw new AuthorizedUserCanJoinQueueException("Store has to authorize for joining the queue. Contact store for access.");
+                } else {
+                    switch (bizStore.getBusinessType()) {
+                        case CD:
+                        case CDQ:
+                            if (!businessCustomer.getBusinessCustomerAttributes().contains(CommonHelper.findBusinessCustomerAttribute(bizStore))) {
+                                throw new JoiningNonAuthorizedQueueException("Please select the authorized queue");
+                            }
+                            break;
+                    }
                 }
             }
 
@@ -501,6 +513,10 @@ public class TokenQueueAPIController {
             LOG.warn("Only authorized users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson("Approval required to access store. Please contact store.", QUEUE_AUTHORIZED_ONLY);
+        } catch (JoiningNonAuthorizedQueueException e) {
+            LOG.warn("Only approved users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson("Joining un-authorized queue. Please select the correct queue.", QUEUE_JOINING_IN_AUTHORIZED_QUEUE);
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
