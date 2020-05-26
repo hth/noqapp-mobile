@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,5 +94,13 @@ public class CustomerPriority extends AbstractDomain {
     public CustomerPriority setBusinessCustomerAttributes(List<BusinessCustomerAttributeEnum> businessCustomerAttributes) {
         this.businessCustomerAttributes = businessCustomerAttributes;
         return this;
+    }
+
+    public boolean isValid() {
+        return queueUserId != null && StringUtils.isNotBlank(queueUserId.getText())
+            && actionType != null
+            && codeQR != null
+            && customerPriorityLevel != null
+            && businessCustomerAttributes.size() > 0;
     }
 }
