@@ -614,6 +614,7 @@ public class ITest extends RealMongoForITest {
             queueManager,
             purchaseOrderProductService,
             bizService,
+            businessCustomerService,
             firebaseMessageService);
 
         queueMobileService = new QueueMobileService(
