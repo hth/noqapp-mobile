@@ -885,22 +885,7 @@ public class QueueController {
                 return null;
             }
 
-            if (bizStore.getBizName().getPriorityAccess() == OnOffEnum.O) {
-                BusinessCustomerEntity businessCustomerEntity = businessCustomerService.findOneByQid(qid, bizStore.getBizName().getId());
-                if (null == businessCustomerEntity) {
-                    throw new AuthorizedUserCanJoinQueueException("Store has to authorize for joining the queue. Contact store for access.");
-                } else {
-                    switch (bizStore.getBusinessType()) {
-                        case CD:
-                        case CDQ:
-                            if (!businessCustomerEntity.getBusinessCustomerAttributes().contains(CommonHelper.findBusinessCustomerAttribute(bizStore))) {
-                                throw new JoiningNonAuthorizedQueueException("Please select the authorized queue");
-                            }
-                            break;
-                    }
-                }
-            }
-
+            joinAbortService.checkCustomerApprovedForTheQueue(qid, bizStore);
             try {
                 UserProfileEntity userProfile = null;
                 if (StringUtils.isNotBlank(businessCustomer.getCustomerPhone().getText())) {
