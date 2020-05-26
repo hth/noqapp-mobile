@@ -99,7 +99,7 @@ public class CustomerPriority extends AbstractDomain {
     public boolean isValid() {
         return queueUserId != null && StringUtils.isNotBlank(queueUserId.getText())
             && actionType != null
-            && codeQR != null
+            && codeQR != null && StringUtils.isNotBlank(codeQR.getText())
             && customerPriorityLevel != null
             && businessCustomerAttributes.size() > 0;
     }
