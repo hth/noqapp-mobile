@@ -463,22 +463,7 @@ public class TokenQueueAPIController {
 
         try {
             LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
-            if (bizStore.getBizName().getPriorityAccess() == OnOffEnum.O) {
-                BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(qid, bizStore.getBizName().getId());
-                if (null == businessCustomer) {
-                    throw new AuthorizedUserCanJoinQueueException("Store has to authorize for joining the queue. Contact store for access.");
-                } else {
-                    switch (bizStore.getBusinessType()) {
-                        case CD:
-                        case CDQ:
-                            if (!businessCustomer.getBusinessCustomerAttributes().contains(CommonHelper.findBusinessCustomerAttribute(bizStore))) {
-                                throw new JoiningNonAuthorizedQueueException("Please select the authorized queue");
-                            }
-                            break;
-                    }
-                }
-            }
-
+            joinAbortService.checkCustomerApprovedForTheQueue(qid, bizStore);
             if (!bizStore.isEnabledPayment()) {
                 return joinAbortService.joinQueue(
                     joinQueue.getCodeQR(),
