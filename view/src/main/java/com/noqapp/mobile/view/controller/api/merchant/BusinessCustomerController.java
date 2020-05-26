@@ -1,36 +1,36 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.BUSINESS_CUSTOMER_ID_DOES_NOT_EXISTS;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.BUSINESS_CUSTOMER_ID_EXISTS;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.common.utils.Validate;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessCustomerEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
+import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonBusinessCustomer;
 import com.noqapp.domain.json.JsonBusinessCustomerLookup;
-import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.json.JsonQueuedPerson;
 import com.noqapp.domain.types.BusinessCustomerAttributeEnum;
 import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.CustomerPriority;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
-import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessCustomerService;
@@ -59,6 +59,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -446,8 +447,10 @@ public class BusinessCustomerController {
                 bizStore.getBizName().getId(),
                 CommonHelper.findBusinessCustomerAttribute(bizStore));
 
+            QueueEntity queue = queueService.findQueuedOneByQid(customerPriority.getCodeQR().getText(), customerPriority.getQueueUserId().getText());
+            JsonQueuedPerson jsonQueuedPerson = queueService.getJsonQueuedPerson(queue);
             if (null == businessCustomer) {
-                return new JsonResponse(false).asJson();
+                return jsonQueuedPerson.asJson();
             }
 
             businessCustomer.setCustomerPriorityLevel(customerPriority.getCustomerPriorityLevel());
@@ -455,19 +458,49 @@ public class BusinessCustomerController {
                 case APPROVE:
                     businessCustomer.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.AP);
                     businessCustomerService.save(businessCustomer);
+
+                    jsonQueuedPerson.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.AP);
+                    jsonQueuedPerson.setCustomerPriorityLevel(customerPriority.getCustomerPriorityLevel());
+
+                    queueService.updateCustomerPriorityAndCustomerAttributes(
+                        customerPriority.getQueueUserId().getText(),
+                        customerPriority.getCodeQR().getText(),
+                        jsonQueuedPerson.getToken(),
+                        customerPriority.getCustomerPriorityLevel(),
+                        BusinessCustomerAttributeEnum.AP);
                     break;
                 case REJECT:
                     businessCustomer.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.RJ);
                     businessCustomerService.save(businessCustomer);
+
+                    jsonQueuedPerson.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.RJ);
+
+                    queue.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.RJ);
+                    queueService.updateCustomerPriorityAndCustomerAttributes(
+                        customerPriority.getQueueUserId().getText(),
+                        customerPriority.getCodeQR().getText(),
+                        jsonQueuedPerson.getToken(),
+                        null,
+                        BusinessCustomerAttributeEnum.RJ);
                     break;
                 case CLEAR:
                     businessCustomerService.remove(businessCustomer);
-                    return new JsonResponse(true).asJson();
+                    jsonQueuedPerson.setBusinessCustomerAttributes(new HashSet<>());
+                    jsonQueuedPerson.setCustomerPriorityLevel(null);
+
+                    queue.setBusinessCustomerAttributes(new HashSet<>());
+                    queue.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.RJ);
+                    queueService.updateCustomerPriorityAndCustomerAttributes(
+                        customerPriority.getQueueUserId().getText(),
+                        customerPriority.getCodeQR().getText(),
+                        jsonQueuedPerson.getToken(),
+                        null,
+                        null);
                 default:
                     throw new UnsupportedOperationException("Reached not supported condition");
             }
 
-            return new JsonResponse(true).asJson();
+            return jsonQueuedPerson.asJson();
         } catch (Exception e) {
             LOG.error("Failed updating business customer qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
