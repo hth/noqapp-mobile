@@ -5,6 +5,7 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.BUSINESS_CUSTOM
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.BUSINESS_CUSTOMER_ID_EXISTS;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_NOT_FOUND;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
@@ -442,6 +443,10 @@ public class BusinessCustomerController {
             if (OnOffEnum.F == bizStore.getBizName().getPriorityAccess()) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
                 return null;
+            }
+
+            if (!customerPriority.isValid()) {
+                return getErrorReason("Please select all options on the form", USER_INPUT);
             }
 
             BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQidAndAttribute(
