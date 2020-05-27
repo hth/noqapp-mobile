@@ -100,7 +100,6 @@ public class CustomerPriority extends AbstractDomain {
         return queueUserId != null && StringUtils.isNotBlank(queueUserId.getText())
             && actionType != null
             && codeQR != null && StringUtils.isNotBlank(codeQR.getText())
-            && customerPriorityLevel != null
-            && businessCustomerAttributes.size() > 0;
+            && customerPriorityLevel != null;
     }
 }
