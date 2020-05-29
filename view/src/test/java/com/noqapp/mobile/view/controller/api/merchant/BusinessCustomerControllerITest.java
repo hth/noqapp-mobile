@@ -3,6 +3,9 @@ package com.noqapp.mobile.view.controller.api.merchant;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
+import com.noqapp.common.errors.ErrorJsonList;
+import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.UserAccountEntity;
@@ -249,7 +252,7 @@ class BusinessCustomerControllerITest extends ITest {
         UserAccountEntity userAccount = accountService.findByQueueUserId(queueManagerUserProfile.getQueueUserId());
 
         JoinQueue joinQueue = new JoinQueue().setQueueUserId(userAccount.getQueueUserId()).setCodeQR(businessUserStores.get(0).getCodeQR());
-        String jsonTokenResponse = tokenQueueAPIController.joinQueue(
+        String responseJson = tokenQueueAPIController.joinQueue(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(userAccount.getUserId()),
@@ -257,12 +260,12 @@ class BusinessCustomerControllerITest extends ITest {
             joinQueue,
             httpServletResponse
         );
-        JsonToken jsonToken = new ObjectMapper().readValue(jsonTokenResponse, JsonToken.class);
-        assertTrue(jsonToken.getToken() > 0);
+        ErrorJsonList errorJsonList = new ObjectMapper().readValue(responseJson, ErrorJsonList.class);
+        assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.JOINING_QUEUE_PERMISSION_DENIED.name());
 
         /* Join second queue. */
         joinQueue = new JoinQueue().setQueueUserId(userAccount.getQueueUserId()).setCodeQR(businessUserStores.get(1).getCodeQR());
-        jsonTokenResponse = tokenQueueAPIController.joinQueue(
+        responseJson = tokenQueueAPIController.joinQueue(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(userAccount.getUserId()),
@@ -270,7 +273,7 @@ class BusinessCustomerControllerITest extends ITest {
             joinQueue,
             httpServletResponse
         );
-        jsonToken = new ObjectMapper().readValue(jsonTokenResponse, JsonToken.class);
-        assertTrue(jsonToken.getToken() > 0);
+        errorJsonList = new ObjectMapper().readValue(responseJson, ErrorJsonList.class);
+        assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.JOINING_QUEUE_PERMISSION_DENIED.name());
     }
 }
