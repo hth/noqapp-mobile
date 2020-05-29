@@ -494,14 +494,18 @@ public class TokenQueueAPIController {
             LOG.warn("Failed joining queue as token limit reached qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " token limit for the day has reached.", QUEUE_TOKEN_LIMIT);
-        } catch (AuthorizedUserCanJoinQueueException e) {
-            LOG.warn("Only authorized users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
+        } catch (JoiningQueuePreApprovedRequiredException e) {
+            LOG.warn("Store has to pre-approve qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("Approval required to access store. Please contact store.", QUEUE_AUTHORIZED_ONLY);
-        } catch (JoiningNonAuthorizedQueueException e) {
-            LOG.warn("Only approved users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
+            return ErrorEncounteredJson.toJson("Store has to pre-approve. Please complete pre-approval before joining the queue.", JOINING_NOT_PRE_APPROVED_QUEUE);
+        } catch (JoiningNonApprovedQueueException e) {
+            LOG.warn("This queue is not approved qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("Joining un-authorized queue. Please select the correct queue.", QUEUE_JOINING_IN_AUTHORIZED_QUEUE);
+            return ErrorEncounteredJson.toJson("This queue is not approved. Select correct pre-approved queue.", JOIN_PRE_APPROVED_QUEUE_ONLY);
+        } catch(JoiningQueuePermissionDeniedException e) {
+            LOG.warn("Store prevented user from joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson("Store has denied you from joining the queue. Please contact store for resolving this issue.", JOINING_QUEUE_PERMISSION_DENIED);
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -568,13 +572,20 @@ public class TokenQueueAPIController {
             methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
         } catch (BeforeStartOfStoreException e) {
-            LOG.warn("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
+            LOG.warn("Failed joining queue as trying to join before store opens qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has not started. Please correct time on device.", STORE_DAY_CLOSED);
-        } catch (AuthorizedUserCanJoinQueueException e) {
-            LOG.warn("Only authorized users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
+            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has not started. Please correct time on your device.", DEVICE_TIMEZONE_OFF);
+        } catch (LimitedPeriodException e) {
+            LOG.warn("Failed joining queue as limited join allowed qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("Approval required to access store. Please contact store.", QUEUE_AUTHORIZED_ONLY);
+            String message = bizStore.getDisplayName() + " allows a customer one token in " + bizStore.getBizName().getLimitServiceByDays()
+                + " days. You have been serviced with-in past " + bizStore.getBizName().getLimitServiceByDays()
+                + " days. Please try again later.";
+            return ErrorEncounteredJson.toJson(message, QUEUE_SERVICE_LIMIT);
+        } catch (TokenAvailableLimitReachedException e) {
+            LOG.warn("Failed joining queue as token limit reached qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " token limit for the day has reached.", QUEUE_TOKEN_LIMIT);
         } catch (Exception e) {
             LOG.error("Failed joining payBeforeQueue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

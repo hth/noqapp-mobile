@@ -976,14 +976,18 @@ public class QueueController {
                 LOG.warn("Failed joining queue as token limit reached qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;
                 return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " token limit for the day has reached.", QUEUE_TOKEN_LIMIT);
-            } catch (AuthorizedUserCanJoinQueueException e) {
-                LOG.warn("Only authorized users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
+            } catch (JoiningQueuePreApprovedRequiredException e) {
+                LOG.warn("Store has to pre-approve qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;
-                return ErrorEncounteredJson.toJson("Approval required to access store. Please contact store.", QUEUE_AUTHORIZED_ONLY);
-            } catch (JoiningNonAuthorizedQueueException e) {
-                LOG.warn("Only approved users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
+                return ErrorEncounteredJson.toJson("Store has to pre-approve. Please complete pre-approval before joining the queue.", JOINING_NOT_PRE_APPROVED_QUEUE);
+            } catch (JoiningNonApprovedQueueException e) {
+                LOG.warn("This queue is not approved qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;
-                return ErrorEncounteredJson.toJson("Joining un-authorized queue. Please select the correct queue.", QUEUE_JOINING_IN_AUTHORIZED_QUEUE);
+                return ErrorEncounteredJson.toJson("This queue is not approved. Select correct pre-approved queue.", JOIN_PRE_APPROVED_QUEUE_ONLY);
+            } catch(JoiningQueuePermissionDeniedException e) {
+                LOG.warn("Store prevented user from joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
+                methodStatusSuccess = true;
+                return ErrorEncounteredJson.toJson("Store has denied you from joining the queue. Please contact store for resolving this issue.", JOINING_QUEUE_PERMISSION_DENIED);
             }
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
