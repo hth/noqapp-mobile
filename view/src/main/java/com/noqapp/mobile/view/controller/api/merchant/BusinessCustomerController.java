@@ -476,6 +476,7 @@ public class BusinessCustomerController {
                             add(BusinessCustomerAttributeEnum.AP);
                         }}
                     );
+                    businessCustomer.setLimitBusinessCategory(bizStore.getBizCategoryId());
                     businessCustomerService.save(businessCustomer);
 
                     jsonQueuedPerson.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.AP);
