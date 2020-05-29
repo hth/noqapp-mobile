@@ -97,9 +97,19 @@ public class CustomerPriority extends AbstractDomain {
     }
 
     public boolean isValid() {
-        return queueUserId != null && StringUtils.isNotBlank(queueUserId.getText())
-            && actionType != null
-            && codeQR != null && StringUtils.isNotBlank(codeQR.getText())
-            && customerPriorityLevel != null;
+        switch (actionType) {
+            case APPROVE:
+                return queueUserId != null && StringUtils.isNotBlank(queueUserId.getText())
+                    && actionType != null
+                    && codeQR != null && StringUtils.isNotBlank(codeQR.getText())
+                    && customerPriorityLevel != null;
+            case REJECT:
+            case CLEAR:
+                return queueUserId != null && StringUtils.isNotBlank(queueUserId.getText())
+                    && actionType != null
+                    && codeQR != null && StringUtils.isNotBlank(codeQR.getText());
+            default:
+                throw new UnsupportedOperationException("Reached not supported condition");
+        }
     }
 }
