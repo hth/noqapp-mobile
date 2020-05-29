@@ -1363,7 +1363,7 @@ public class ITest extends RealMongoForITest {
         professionalProfileService.createProfessionalProfile(queueManagerUserProfile.getQueueUserId());
         ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(queueManagerUserProfile.getQueueUserId());
         NameDatePair nameDatePair1 = new NameDatePair().setName("MBBS").setMonthYear("1985-01-22");
-        List<NameDatePair> nameDatePairs = new ArrayList<>() {
+        List<NameDatePair> nameDatePairs = new ArrayList<NameDatePair>() {
             private static final long serialVersionUID = 2822784240200676022L;
             { add(nameDatePair1); }
         };
