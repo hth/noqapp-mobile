@@ -1042,8 +1042,36 @@ public class TokenQueueAPIController {
                     }
                     LOG.info("Create authorized user successfully qid={} bizNameId={}", qid, bizStore.getBizName().getId());
                 } else {
-                    LOG.info("Seems already has business customer qid={}", qid);
-                    addedAuthorizedUserSuccessfully = true;
+                    switch (bizStore.getBusinessType()) {
+                        case CDQ:
+                        case CD:
+                            if (null != queueAuthorize.getFirstCustomerId() && StringUtils.isNotBlank(queueAuthorize.getFirstCustomerId().getText())) {
+                                businessCustomer = businessCustomerService.findOneByQidAndAttribute(qid, bizStore.getBizName().getId(), BusinessCustomerAttributeEnum.GR);
+                                if (businessCustomer == null) {
+                                    String businessCustomerId = businessCustomerService.addAuthorizedUserForDoingBusiness(queueAuthorize.getFirstCustomerId().getText(), bizStore.getBizName().getId(), qid);
+                                    if (StringUtils.isNotBlank(businessCustomerId)) {
+                                        addedAuthorizedUserSuccessfully = true;
+                                        businessCustomerService.addBusinessCustomerAttribute(businessCustomerId, BusinessCustomerAttributeEnum.GR);
+                                    }
+                                }
+                            }
+
+                            if (null != queueAuthorize.getAdditionalCustomerId() && StringUtils.isNotBlank(queueAuthorize.getAdditionalCustomerId().getText())) {
+                                businessCustomer = businessCustomerService.findOneByQidAndAttribute(qid, bizStore.getBizName().getId(), BusinessCustomerAttributeEnum.LQ);
+                                if (businessCustomer == null) {
+                                    String businessCustomerId = businessCustomerService.addAuthorizedUserForDoingBusiness(queueAuthorize.getAdditionalCustomerId().getText(), bizStore.getBizName().getId(), qid);
+                                    if (StringUtils.isNotBlank(businessCustomerId)) {
+                                        addedAuthorizedUserSuccessfully = true;
+                                        businessCustomerService.addBusinessCustomerAttribute(businessCustomerId, BusinessCustomerAttributeEnum.LQ);
+                                    }
+                                }
+                            }
+
+                            break;
+                        default:
+                            LOG.info("Seems already has business customer qid={}", qid);
+                            addedAuthorizedUserSuccessfully = true;
+                    }
                 }
             }
 

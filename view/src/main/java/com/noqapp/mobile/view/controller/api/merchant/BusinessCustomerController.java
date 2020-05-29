@@ -468,7 +468,7 @@ public class BusinessCustomerController {
                 LOG.info("Customer {} is not in queue {}", customerPriority.getQueueUserId(), customerPriority.getCodeQR());
                 return getErrorReason("No such customer found", USER_INPUT);
             }
-            businessCustomer.setCustomerPriorityLevel(customerPriority.getCustomerPriorityLevel());
+
             switch (customerPriority.getActionType()) {
                 case APPROVE:
                     businessCustomer.setBusinessCustomerAttributes(
@@ -477,6 +477,7 @@ public class BusinessCustomerController {
                             add(BusinessCustomerAttributeEnum.AP);
                         }}
                     );
+                    businessCustomer.setCustomerPriorityLevel(customerPriority.getCustomerPriorityLevel());
                     businessCustomer.setLimitBusinessCategory(bizStore.getBizCategoryId());
                     businessCustomerService.save(businessCustomer);
 
@@ -504,6 +505,7 @@ public class BusinessCustomerController {
                             add(CommonHelper.findBusinessCustomerAttribute(bizStore));
                             add(BusinessCustomerAttributeEnum.RJ);
                         }});
+                    businessCustomer.setCustomerPriorityLevel(CustomerPriorityLevelEnum.I);
                     businessCustomerService.save(businessCustomer);
 
                     jsonQueuedPerson.setCustomerPriorityLevel(CustomerPriorityLevelEnum.I);
