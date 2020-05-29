@@ -1,8 +1,9 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_TIMEZONE_OFF;
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_AUTHORIZED_ONLY;
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_JOINING_IN_AUTHORIZED_QUEUE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_QUEUE_PERMISSION_DENIED;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOIN_PRE_APPROVED_QUEUE_ONLY;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_NOT_PRE_APPROVED_QUEUE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_SERVICE_LIMIT;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_TOKEN_LIMIT;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
@@ -10,25 +11,22 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_DAY_CLOSE
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
-import com.noqapp.domain.BusinessCustomerEntity;
-import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.helper.CommonHelper;
-import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.DeviceService;
 import com.noqapp.service.JoinAbortService;
-import com.noqapp.service.exceptions.AuthorizedUserCanJoinQueueException;
 import com.noqapp.service.exceptions.BeforeStartOfStoreException;
-import com.noqapp.service.exceptions.JoiningNonAuthorizedQueueException;
+import com.noqapp.service.exceptions.JoiningNonApprovedQueueException;
+import com.noqapp.service.exceptions.JoiningQueuePermissionDeniedException;
+import com.noqapp.service.exceptions.JoiningQueuePreApprovedRequiredException;
 import com.noqapp.service.exceptions.LimitedPeriodException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.TokenAvailableLimitReachedException;
@@ -127,7 +125,6 @@ public class KioskController {
         try {
             LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
             joinAbortService.checkCustomerApprovedForTheQueue(qid, bizStore);
-
             return joinAbortService.joinQueue(
                 joinQueue.getCodeQR(),
                 deviceService.getExistingDeviceId(joinQueue.getQueueUserId(), did.getText()),
@@ -154,14 +151,18 @@ public class KioskController {
             LOG.warn("Failed joining queue as token limit reached qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " token limit for the day has reached.", QUEUE_TOKEN_LIMIT);
-        } catch (AuthorizedUserCanJoinQueueException e) {
-            LOG.warn("Only authorized users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = false;
-            return ErrorEncounteredJson.toJson("Approval required to access store. Please contact store.", QUEUE_AUTHORIZED_ONLY);
-        } catch (JoiningNonAuthorizedQueueException e) {
-            LOG.warn("Only approved users allowed qid={}, reason={}", qid, e.getLocalizedMessage());
+        } catch (JoiningQueuePreApprovedRequiredException e) {
+            LOG.warn("Store has to pre-approve qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("Joining un-authorized queue. Please select the correct queue.", QUEUE_JOINING_IN_AUTHORIZED_QUEUE);
+            return ErrorEncounteredJson.toJson("Store has to pre-approve. Please complete pre-approval before joining the queue.", JOINING_NOT_PRE_APPROVED_QUEUE);
+        } catch (JoiningNonApprovedQueueException e) {
+            LOG.warn("This queue is not approved qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson("This queue is not approved. Select correct pre-approved queue.", JOIN_PRE_APPROVED_QUEUE_ONLY);
+        } catch(JoiningQueuePermissionDeniedException e) {
+            LOG.warn("Store prevented user from joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson("Store has denied you from joining the queue. Please contact store for resolving this issue.", JOINING_QUEUE_PERMISSION_DENIED);
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

@@ -26,6 +26,7 @@ import com.noqapp.domain.json.JsonBusinessCustomerLookup;
 import com.noqapp.domain.json.JsonQueuedPerson;
 import com.noqapp.domain.types.BusinessCustomerAttributeEnum;
 import com.noqapp.domain.types.CustomerPriorityLevelEnum;
+import com.noqapp.domain.types.MessageOriginEnum;
 import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -62,6 +63,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -455,6 +457,11 @@ public class BusinessCustomerController {
                 CommonHelper.findBusinessCustomerAttribute(bizStore));
 
             QueueEntity queue = queueService.findQueuedOneByQid(customerPriority.getCodeQR().getText(), customerPriority.getQueueUserId().getText());
+            if (null == queue) {
+                LOG.info("Customer {} is not in queue {}", customerPriority.getQueueUserId(), customerPriority.getCodeQR());
+                return getErrorReason("Person may not be active in queue", USER_INPUT);
+            }
+
             JsonQueuedPerson jsonQueuedPerson = queueService.getJsonQueuedPerson(queue);
             if (null == businessCustomer) {
                 return jsonQueuedPerson.asJson();
@@ -463,7 +470,12 @@ public class BusinessCustomerController {
             businessCustomer.setCustomerPriorityLevel(customerPriority.getCustomerPriorityLevel());
             switch (customerPriority.getActionType()) {
                 case APPROVE:
-                    businessCustomer.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.AP);
+                    businessCustomer.setBusinessCustomerAttributes(
+                        new LinkedHashSet<BusinessCustomerAttributeEnum>() {{
+                            add(CommonHelper.findBusinessCustomerAttribute(bizStore));
+                            add(BusinessCustomerAttributeEnum.AP);
+                        }}
+                    );
                     businessCustomerService.save(businessCustomer);
 
                     jsonQueuedPerson.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.AP);
@@ -475,10 +487,22 @@ public class BusinessCustomerController {
                         jsonQueuedPerson.getToken(),
                         customerPriority.getCustomerPriorityLevel(),
                         BusinessCustomerAttributeEnum.AP);
+
+                    tokenQueueMobileService.sendMessageToSpecificUser(
+                        bizStore.getDisplayName() + " approved you",
+                        "Your credential has been approved. " +
+                            "Going forward please join " + bizStore.getDisplayName(),
+                        queue.getQueueUserId(),
+                        MessageOriginEnum.A
+                    );
                     break;
                 case REJECT:
-                    /* Reject all. */
-                    businessCustomerService.rejectBusinessCustomer(businessCustomer.getQueueUserId(), businessCustomer.getBizNameId());
+                    businessCustomer.setBusinessCustomerAttributes(
+                        new LinkedHashSet<BusinessCustomerAttributeEnum>() {{
+                            add(CommonHelper.findBusinessCustomerAttribute(bizStore));
+                            add(BusinessCustomerAttributeEnum.RJ);
+                        }});
+                    businessCustomerService.save(businessCustomer);
 
                     jsonQueuedPerson.setCustomerPriorityLevel(CustomerPriorityLevelEnum.I);
                     jsonQueuedPerson.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.RJ);
@@ -489,11 +513,22 @@ public class BusinessCustomerController {
                         jsonQueuedPerson.getToken(),
                         CustomerPriorityLevelEnum.I,
                         BusinessCustomerAttributeEnum.RJ);
+
+                    tokenQueueMobileService.sendMessageToSpecificUser(
+                        bizStore.getDisplayName() + " rejected you",
+                        "Your credential has been rejected. " +
+                            "Business has permanently blocked you from joining this queue. Please contact business for any queries.",
+                        queue.getQueueUserId(),
+                        MessageOriginEnum.A
+                    );
                     break;
                 case CLEAR:
                     businessCustomerService.clearBusinessCustomer(businessCustomer.getQueueUserId(), businessCustomer.getBizNameId());
                     
-                    jsonQueuedPerson.setBusinessCustomerAttributes(new HashSet<BusinessCustomerAttributeEnum>() {{ add(BusinessCustomerAttributeEnum.RJ); }});
+                    jsonQueuedPerson.setBusinessCustomerAttributes(
+                        new LinkedHashSet<BusinessCustomerAttributeEnum>() {{
+                            add(BusinessCustomerAttributeEnum.RJ);
+                        }});
                     jsonQueuedPerson.setCustomerPriorityLevel(CustomerPriorityLevelEnum.I);
 
                     queueService.updateCustomerPriorityAndCustomerAttributes(
@@ -502,6 +537,14 @@ public class BusinessCustomerController {
                         jsonQueuedPerson.getToken(),
                         CustomerPriorityLevelEnum.I,
                         BusinessCustomerAttributeEnum.RJ);
+
+                    tokenQueueMobileService.sendMessageToSpecificUser(
+                        bizStore.getDisplayName() + " has cleared all your credentials",
+                        "Your credential has been reset. " +
+                            "Please register yourself with correct credentials.",
+                        queue.getQueueUserId(),
+                        MessageOriginEnum.A
+                    );
                 default:
                     throw new UnsupportedOperationException("Reached not supported condition");
             }
