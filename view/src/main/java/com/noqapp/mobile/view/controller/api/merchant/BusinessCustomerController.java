@@ -451,22 +451,23 @@ public class BusinessCustomerController {
                 return getErrorReason("Please select all options on the form", USER_INPUT);
             }
 
-            BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQidAndAttribute(
-                customerPriority.getQueueUserId().getText(),
-                bizStore.getBizName().getId(),
-                CommonHelper.findBusinessCustomerAttribute(bizStore));
-
             QueueEntity queue = queueService.findQueuedOneByQid(customerPriority.getCodeQR().getText(), customerPriority.getQueueUserId().getText());
             if (null == queue) {
                 LOG.info("Customer {} is not in queue {}", customerPriority.getQueueUserId(), customerPriority.getCodeQR());
                 return getErrorReason("Person may not be active in queue", USER_INPUT);
             }
 
+            /* To be sent back as response. */
             JsonQueuedPerson jsonQueuedPerson = queueService.getJsonQueuedPerson(queue);
-            if (null == businessCustomer) {
-                return jsonQueuedPerson.asJson();
-            }
 
+            BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQidAndAttribute(
+                customerPriority.getQueueUserId().getText(),
+                bizStore.getBizName().getId(),
+                CommonHelper.findBusinessCustomerAttribute(bizStore));
+            if (businessCustomer == null) {
+                LOG.info("Customer {} is not in queue {}", customerPriority.getQueueUserId(), customerPriority.getCodeQR());
+                return getErrorReason("No such customer found", USER_INPUT);
+            }
             businessCustomer.setCustomerPriorityLevel(customerPriority.getCustomerPriorityLevel());
             switch (customerPriority.getActionType()) {
                 case APPROVE:
@@ -546,6 +547,7 @@ public class BusinessCustomerController {
                         queue.getQueueUserId(),
                         MessageOriginEnum.A
                     );
+                    break;
                 default:
                     throw new UnsupportedOperationException("Reached not supported condition");
             }
