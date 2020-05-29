@@ -1,36 +1,36 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_TIMEZONE_OFF;
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_AUTHORIZED_ONLY;
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_JOINING_IN_AUTHORIZED_QUEUE;
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_SERVICE_LIMIT;
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_TOKEN_LIMIT;
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_TIMEZONE_OFF;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_QUEUE_PERMISSION_DENIED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ORDER_PAYMENT_PAID_ALREADY_FAILED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_AS_EXTERNALLY_PAID;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOIN_PRE_APPROVED_QUEUE_ONLY;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_NOT_PRE_APPROVED_QUEUE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_JOIN_FAILED_PAYMENT_CALL_REQUEST;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_JOIN_PAYMENT_FAILED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_NO_SERVICE_NO_PAY;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_ORDER_ABORT_EXPIRED_LIMITED_TIME;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_SERVICE_LIMIT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_TOKEN_LIMIT;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_NO_LONGER_EXISTS;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.TRANSACTION_GATEWAY_DEFAULT;
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessCustomerEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
-import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.common.DomainCommonUtil;
-import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
@@ -40,7 +40,6 @@ import com.noqapp.domain.json.payment.cashfree.JsonResponseWithCFToken;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.BusinessCustomerAttributeEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
-import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PaymentStatusEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
@@ -48,7 +47,6 @@ import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.domain.types.cashfree.TxStatusEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.domain.body.client.QueueAuthorize;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -60,14 +58,14 @@ import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
-import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.ScheduleAppointmentService;
-import com.noqapp.service.exceptions.AuthorizedUserCanJoinQueueException;
 import com.noqapp.service.exceptions.BeforeStartOfStoreException;
-import com.noqapp.service.exceptions.JoiningNonAuthorizedQueueException;
+import com.noqapp.service.exceptions.JoiningNonApprovedQueueException;
+import com.noqapp.service.exceptions.JoiningQueuePermissionDeniedException;
+import com.noqapp.service.exceptions.JoiningQueuePreApprovedRequiredException;
 import com.noqapp.service.exceptions.LimitedPeriodException;
 import com.noqapp.service.exceptions.PurchaseOrderCancelException;
 import com.noqapp.service.exceptions.PurchaseOrderFailException;
@@ -126,7 +124,6 @@ public class TokenQueueAPIController {
     private ScheduleAppointmentService scheduleAppointmentService;
     private GeoIPLocationService geoIPLocationService;
     private BusinessCustomerService businessCustomerService;
-    private AccountService accountService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -140,7 +137,6 @@ public class TokenQueueAPIController {
         ScheduleAppointmentService scheduleAppointmentService,
         GeoIPLocationService geoIPLocationService,
         BusinessCustomerService businessCustomerService,
-        AccountService accountService,
         ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
@@ -152,7 +148,6 @@ public class TokenQueueAPIController {
         this.scheduleAppointmentService = scheduleAppointmentService;
         this.geoIPLocationService = geoIPLocationService;
         this.businessCustomerService = businessCustomerService;
-        this.accountService = accountService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -977,12 +972,15 @@ public class TokenQueueAPIController {
         }
     }
 
-    /** Abort the queue. App should un-subscribe user from topic. */
+    /**
+     * Pre-register for business approval. This set the priority of the user and allows them to be marked accepted for providing service
+     * to pre-approved user
+     */
     @PostMapping (
-        value = "/authorize",
+        value = "/businessApprove",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public String authorize(
+    public String businessApprove(
         @RequestHeader ("X-R-DID")
         ScrubbedInput did,
 
@@ -1053,16 +1051,16 @@ public class TokenQueueAPIController {
         } catch (Exception e) {
             LOG.error("Failed authorize queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
-                "/authorize",
-                "authorize",
+                "/businessApprove",
+                "businessApprove",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 HealthStatusEnum.F);
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/authorize",
-                "authorize",
+                "/businessApprove",
+                "businessApprove",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 HealthStatusEnum.G);

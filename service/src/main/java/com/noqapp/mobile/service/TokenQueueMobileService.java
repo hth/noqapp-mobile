@@ -12,6 +12,7 @@ import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.types.InvocationByEnum;
+import com.noqapp.domain.types.MessageOriginEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
@@ -32,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -417,5 +419,10 @@ public class TokenQueueMobileService {
             tokenQueue,
             /* Using queue state C so that message goes to Client and Merchant. This setting if for broadcast. */
             QueueStatusEnum.C);
+    }
+
+    @Async
+    public void sendMessageToSpecificUser(String title, String body, String qid, MessageOriginEnum messageOrigin) {
+        tokenQueueService.sendMessageToSpecificUser(title, body, qid, messageOrigin);
     }
 }
