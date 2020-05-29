@@ -977,11 +977,11 @@ public class QueueController {
             } catch (JoiningQueuePreApprovedRequiredException e) {
                 LOG.warn("Store has to pre-approve qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;
-                return ErrorEncounteredJson.toJson("Store has to pre-approve. Please complete pre-approval before joining the queue.", JOINING_NOT_PRE_APPROVED_QUEUE);
+                return ErrorEncounteredJson.toJson("Store has to pre-approve. Please complete pre-approval before joining the queue.", JOIN_PRE_APPROVED_QUEUE_ONLY);
             } catch (JoiningNonApprovedQueueException e) {
                 LOG.warn("This queue is not approved qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;
-                return ErrorEncounteredJson.toJson("This queue is not approved. Select correct pre-approved queue.", JOIN_PRE_APPROVED_QUEUE_ONLY);
+                return ErrorEncounteredJson.toJson("This queue is not approved. Select correct pre-approved queue.", JOINING_NOT_PRE_APPROVED_QUEUE);
             } catch(JoiningQueuePermissionDeniedException e) {
                 LOG.warn("Store prevented user from joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;
