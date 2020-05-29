@@ -20,9 +20,11 @@ import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.BusinessUserRegistrationStatusEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.GenderEnum;
+import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.domain.types.ProductTypeEnum;
 import com.noqapp.domain.types.UnitOfMeasurementEnum;
 import com.noqapp.domain.types.UserLevelEnum;
+import com.noqapp.domain.types.catgeory.CanteenStoreDepartmentEnum;
 import com.noqapp.domain.types.catgeory.HealthCareServiceEnum;
 import com.noqapp.domain.types.catgeory.MedicalDepartmentEnum;
 import com.noqapp.health.repository.ApiHealthNowManager;
@@ -361,7 +363,7 @@ public class ITest extends RealMongoForITest {
         deviceType = DeviceTypeEnum.A.getName();
         model = "Model";
         osVersion = "OS-Version";
-        appVersion = "1.2.250";
+        appVersion = "1.2.450";
 
         userAccountManager = new UserAccountManagerImpl(getMongoTemplate());
         userAuthenticationManager = new UserAuthenticationManagerImpl(getMongoTemplate());
@@ -729,6 +731,7 @@ public class ITest extends RealMongoForITest {
         createBusinessHealthCareService("9118000000061");
         createBusinessRestaurant("9118000000090");
         populateRestaurantWithProducts("9118000000021");
+        createBusinessCSD("9118000001100");
     }
 
     private void registerUser() {
@@ -743,6 +746,7 @@ public class ITest extends RealMongoForITest {
         addStoreUsersToPharmacy();
         addStoreUsersToHealthCare();
         addStoreUsersToRestaurant();
+        addStoreUsersToCSD();
     }
 
     private void addStoreUsersToDoctor() {
@@ -1058,6 +1062,83 @@ public class ITest extends RealMongoForITest {
                 storeManagerUserProfile.getLevel());
         accountService.save(storeManagerUserAccount);
     }
+
+    private void addStoreUsersToCSD() {
+        Registration queueAdmin = new Registration()
+            .setPhone("+9118000001100")
+            .setFirstName("CSD Gurugram")
+            .setMail("csd_business@r.com")
+            .setPassword("password")
+            .setBirthday("2000-12-12")
+            .setGender("M")
+            .setCountryShortName("IN")
+            .setTimeZoneId("Asia/Calcutta")
+            .setInviteCode("");
+
+        accountClientController.register(
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            queueAdmin.asJson(),
+            httpServletResponse);
+
+        UserProfileEntity merchantUserProfile = accountService.checkUserExistsByPhone("9118000001100");
+        merchantUserProfile.setLevel(UserLevelEnum.M_ADMIN);
+        accountService.save(merchantUserProfile);
+        UserAccountEntity merchantUserAccount = accountService.changeAccountRolesToMatchUserLevel(
+            merchantUserProfile.getQueueUserId(),
+            merchantUserProfile.getLevel());
+        accountService.save(merchantUserAccount);
+
+        Registration queueSupervisor = new Registration()
+            .setPhone("+9118000001101")
+            .setFirstName("CSD Gurugram")
+            .setMail("csd_store_supervisor@r.com")
+            .setPassword("password")
+            .setBirthday("2000-12-12")
+            .setGender("M")
+            .setCountryShortName("IN")
+            .setTimeZoneId("Asia/Calcutta")
+            .setInviteCode("");
+
+        accountClientController.register(
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            queueSupervisor.asJson(),
+            httpServletResponse);
+
+        UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000001101");
+        queueSupervisorUserProfile.setLevel(UserLevelEnum.Q_SUPERVISOR);
+        accountService.save(queueSupervisorUserProfile);
+        UserAccountEntity queueSupervisorUserAccount = accountService.changeAccountRolesToMatchUserLevel(
+            queueSupervisorUserProfile.getQueueUserId(),
+            queueSupervisorUserProfile.getLevel());
+        accountService.save(queueSupervisorUserAccount);
+
+        Registration queueManager = new Registration()
+            .setPhone("+9118000001102")
+            .setFirstName("Manager of CSD")
+            .setMail("manager_csd@r.com")
+            .setPassword("password")
+            .setBirthday("2000-12-12")
+            .setGender("F")
+            .setCountryShortName("IN")
+            .setTimeZoneId("Asia/Calcutta")
+            .setInviteCode("");
+
+        accountClientController.register(
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            queueManager.asJson(),
+            httpServletResponse);
+
+        UserProfileEntity storeManagerUserProfile = accountService.checkUserExistsByPhone("9118000001102");
+        storeManagerUserProfile.setLevel(UserLevelEnum.S_MANAGER);
+        accountService.save(storeManagerUserProfile);
+        UserAccountEntity storeManagerUserAccount = accountService.changeAccountRolesToMatchUserLevel(
+            storeManagerUserProfile.getQueueUserId(),
+            storeManagerUserProfile.getLevel());
+        accountService.save(storeManagerUserAccount);
+    }
     
     private void addClients() {
         Registration client1 = new Registration()
@@ -1282,9 +1363,10 @@ public class ITest extends RealMongoForITest {
         professionalProfileService.createProfessionalProfile(queueManagerUserProfile.getQueueUserId());
         ProfessionalProfileEntity professionalProfile = professionalProfileService.findByQid(queueManagerUserProfile.getQueueUserId());
         NameDatePair nameDatePair1 = new NameDatePair().setName("MBBS").setMonthYear("1985-01-22");
-        List<NameDatePair> nameDatePairs = new ArrayList<NameDatePair>() {{
-            add(nameDatePair1);
-        }};
+        List<NameDatePair> nameDatePairs = new ArrayList<>() {
+            private static final long serialVersionUID = 2822784240200676022L;
+            { add(nameDatePair1); }
+        };
         professionalProfile.setEducation(nameDatePairs).setAboutMe("About Me");
         professionalProfileService.save(professionalProfile);
     }
@@ -1593,5 +1675,168 @@ public class ITest extends RealMongoForITest {
                 .setPackageSize(1)
                 .setUnitOfMeasurement(UnitOfMeasurementEnum.CN);
         storeProductManager.save(storeProduct);
+    }
+
+    private void createBusinessCSD(String phone) {
+        UserProfileEntity userProfile = accountService.checkUserExistsByPhone(phone);
+
+        BizNameEntity bizName = BizNameEntity.newInstance(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))))
+            .setBusinessName("CSD Business")
+            .setBusinessType(BusinessTypeEnum.CDQ)
+            .setPhone("9118000000041")
+            .setPhoneRaw("18000000041")
+            .setAddress("Shop No 10 Plot No 102 Sector 29, Vashi, Navi Mumbai, Maharashtra 400703")
+            .setTown("Vashi")
+            .setStateShortName("MH")
+            .setTimeZone("Asia/Calcutta")
+            .setInviteeCode(userProfile.getInviteCode())
+            .setAddressOrigin(AddressOriginEnum.G)
+            .setCountryShortName("IN")
+            .setCoordinate(new double[]{71.022498, 18.0244723})
+            .setPriorityAccess(OnOffEnum.O);
+        String webLocation = bizService.buildWebLocationForBiz(
+            bizName.getTown(),
+            bizName.getStateShortName(),
+            bizName.getCountryShortName(),
+            bizName.getBusinessName(),
+            bizName.getId());
+
+        bizName.setWebLocation(webLocation);
+        bizName.setCodeQR(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))));
+        bizService.saveName(bizName);
+
+        BizStoreEntity bizStore = BizStoreEntity.newInstance()
+            .setBizName(bizName)
+            .setDisplayName("CSD Grocery for Ex-Servicemen")
+            .setBusinessType(bizName.getBusinessType())
+            .setBizCategoryId(CanteenStoreDepartmentEnum.EG.getName())
+            .setPhone("9118000000042")
+            .setPhoneRaw("18000000042")
+            .setAddress("Shop No 10 Plot No 102 Sector 29, Vashi, Navi Mumbai, Maharashtra 400703")
+            .setTimeZone("Asia/Calcutta")
+            .setCodeQR(ObjectId.get().toString())
+            .setAddressOrigin(AddressOriginEnum.G)
+            .setRemoteJoin(true)
+            .setAllowLoggedInUser(false)
+            .setAvailableTokenCount(0)
+            .setAverageServiceTime(50000)
+            .setCountryShortName("IN")
+            .setCoordinate(new double[]{73.022498, 19.0244723});
+        webLocation = bizService.buildWebLocationForBiz(
+            bizStore.getTown(),
+            bizStore.getStateShortName(),
+            bizStore.getCountryShortName(),
+            bizStore.getDisplayName(),
+            bizStore.getId());
+        bizStore.setWebLocation(webLocation);
+        bizStore.setCodeQR(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))));
+        bizService.saveStore(bizStore, "Created New Store");
+
+        List<StoreHourEntity> storeHours = new LinkedList<>();
+        for (int i = 1; i <= 7; i++) {
+            StoreHourEntity storeHour = new StoreHourEntity(bizStore.getId(), DayOfWeek.of(i).getValue());
+            storeHour.setStartHour(1)
+                .setTokenAvailableFrom(1)
+                .setTokenNotAvailableFrom(2359)
+                .setEndHour(2359);
+
+            storeHours.add(storeHour);
+        }
+
+        /* Add store hours. */
+        bizService.insertAll(storeHours);
+
+        /* Create Queue. */
+        tokenQueueService.createUpdate(bizStore);
+
+        /* Add Queue Admin, Queue Supervisor, Queue Manager to Business and Store. */
+        BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
+            userProfile.getQueueUserId(),
+            UserLevelEnum.M_ADMIN
+        );
+        businessUser.setBusinessUserRegistrationStatus(BusinessUserRegistrationStatusEnum.V)
+            .setValidateByQid(accountService.checkUserExistsByPhone("9118000001100").getQueueUserId())
+            .setBizName(bizName);
+        businessUserService.save(businessUser);
+
+        UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000001101");
+        BusinessUserStoreEntity businessUserStore = new BusinessUserStoreEntity(
+            queueSupervisorUserProfile.getQueueUserId(),
+            bizStore.getId(),
+            bizName.getId(),
+            bizStore.getCodeQR(),
+            queueSupervisorUserProfile.getLevel());
+        businessUserStoreService.save(businessUserStore);
+
+        UserProfileEntity queueManagerUserProfile = accountService.checkUserExistsByPhone("9118000001102");
+        businessUserStore = new BusinessUserStoreEntity(
+            queueManagerUserProfile.getQueueUserId(),
+            bizStore.getId(),
+            bizName.getId(),
+            bizStore.getCodeQR(),
+            queueManagerUserProfile.getLevel());
+        businessUserStoreService.save(businessUserStore);
+
+        bizStore = BizStoreEntity.newInstance()
+            .setBizName(bizName)
+            .setDisplayName("CSD Liquor for Ex-Servicemen")
+            .setBusinessType(bizName.getBusinessType())
+            .setBizCategoryId(CanteenStoreDepartmentEnum.EL.getName())
+            .setPhone("9118000000042")
+            .setPhoneRaw("18000000042")
+            .setAddress("Shop No 10 Plot No 102 Sector 29, Vashi, Navi Mumbai, Maharashtra 400703")
+            .setTimeZone("Asia/Calcutta")
+            .setCodeQR(ObjectId.get().toString())
+            .setAddressOrigin(AddressOriginEnum.G)
+            .setRemoteJoin(true)
+            .setAllowLoggedInUser(false)
+            .setAvailableTokenCount(0)
+            .setAverageServiceTime(50000)
+            .setCountryShortName("IN")
+            .setCoordinate(new double[]{73.022498, 19.0244723});
+        webLocation = bizService.buildWebLocationForBiz(
+            bizStore.getTown(),
+            bizStore.getStateShortName(),
+            bizStore.getCountryShortName(),
+            bizStore.getDisplayName(),
+            bizStore.getId());
+        bizStore.setWebLocation(webLocation);
+        bizStore.setCodeQR(CommonUtil.generateCodeQR(Objects.requireNonNull(mockEnvironment.getProperty("build.env"))));
+        bizService.saveStore(bizStore, "Created New Store");
+
+        storeHours = new LinkedList<>();
+        for (int i = 1; i <= 7; i++) {
+            StoreHourEntity storeHour = new StoreHourEntity(bizStore.getId(), DayOfWeek.of(i).getValue());
+            storeHour.setStartHour(1)
+                .setTokenAvailableFrom(1)
+                .setTokenNotAvailableFrom(2359)
+                .setEndHour(2359);
+
+            storeHours.add(storeHour);
+        }
+
+        /* Add store hours. */
+        bizService.insertAll(storeHours);
+
+        /* Create Queue. */
+        tokenQueueService.createUpdate(bizStore);
+
+        queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000001101");
+        businessUserStore = new BusinessUserStoreEntity(
+            queueSupervisorUserProfile.getQueueUserId(),
+            bizStore.getId(),
+            bizName.getId(),
+            bizStore.getCodeQR(),
+            queueSupervisorUserProfile.getLevel());
+        businessUserStoreService.save(businessUserStore);
+
+        queueManagerUserProfile = accountService.checkUserExistsByPhone("9118000001102");
+        businessUserStore = new BusinessUserStoreEntity(
+            queueManagerUserProfile.getQueueUserId(),
+            bizStore.getId(),
+            bizName.getId(),
+            bizStore.getCodeQR(),
+            queueManagerUserProfile.getLevel());
+        businessUserStoreService.save(businessUserStore);
     }
 }
