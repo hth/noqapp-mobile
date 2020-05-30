@@ -883,8 +883,9 @@ public class QueueController {
                 return null;
             }
 
-            joinAbortService.checkCustomerApprovedForTheQueue(businessCustomer.getQueueUserId(), bizStore);
             try {
+                joinAbortService.checkCustomerApprovedForTheQueue(businessCustomer.getQueueUserId(), bizStore);
+                
                 UserProfileEntity userProfile = null;
                 if (StringUtils.isNotBlank(businessCustomer.getCustomerPhone().getText())) {
                     LOG.info("Look up customer by phone {}", businessCustomer.getCustomerPhone());
