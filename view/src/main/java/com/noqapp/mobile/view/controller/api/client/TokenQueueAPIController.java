@@ -1053,6 +1053,8 @@ public class TokenQueueAPIController {
                                         addedAuthorizedUserSuccessfully = true;
                                         businessCustomerService.addBusinessCustomerAttribute(businessCustomerId, BusinessCustomerAttributeEnum.GR);
                                     }
+                                } else {
+                                    addedAuthorizedUserSuccessfully = true;
                                 }
                             }
 
@@ -1064,6 +1066,8 @@ public class TokenQueueAPIController {
                                         addedAuthorizedUserSuccessfully = true;
                                         businessCustomerService.addBusinessCustomerAttribute(businessCustomerId, BusinessCustomerAttributeEnum.LQ);
                                     }
+                                } else {
+                                    addedAuthorizedUserSuccessfully = true;
                                 }
                             }
 
