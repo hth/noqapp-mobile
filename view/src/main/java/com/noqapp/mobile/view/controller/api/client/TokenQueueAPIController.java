@@ -1081,7 +1081,7 @@ public class TokenQueueAPIController {
 
             return new JsonResponse(addedAuthorizedUserSuccessfully).asJson();
         } catch (Exception e) {
-            LOG.error("Failed authorize queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed pre-approve submit queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
                 "/businessApprove",
                 "businessApprove",
