@@ -3,7 +3,9 @@ package com.noqapp.mobile.view.controller.api.merchant;
 import static com.noqapp.domain.BizStoreEntity.UNDER_SCORE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.noqapp.common.errors.ErrorJsonList;
 import com.noqapp.common.utils.ScrubbedInput;
@@ -17,6 +19,7 @@ import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.BusinessTypeEnum;
+import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
@@ -572,8 +575,8 @@ class QueueControllerITest extends ITest {
             httpServletResponse
         );
         JsonStoreSetting jsonModifiedQueue = new ObjectMapper().readValue(queueStateResponse, JsonStoreSetting.class);
-        assertEquals(false, jsonModifiedQueue.isPreventJoining());
-        assertEquals(true, jsonModifiedQueue.isDayClosed());
+        assertFalse(jsonModifiedQueue.isPreventJoining());
+        assertTrue(jsonModifiedQueue.isDayClosed());
         assertEquals(0, jsonModifiedQueue.getAvailableTokenCount());
         /* Setup complete for test. */
 
@@ -647,5 +650,28 @@ class QueueControllerITest extends ITest {
             jsonStoreSetting,
             httpServletResponse
         );
+    }
+
+    @Test
+    void dispenseTokenWithoutClientInfo_With_PriorityAccess_On() throws IOException {
+        BizNameEntity bizName = bizService.findByPhone("9118000000000");
+        bizName.setPriorityAccess(OnOffEnum.O);
+        bizService.saveName(bizName);
+
+        BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
+
+        UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
+        UserAccountEntity queueUserAccount = accountService.findByQueueUserId(queueSupervisorUserProfile.getQueueUserId());
+        String jsonTokenResponse = queueController.dispenseTokenWithoutClientInfo(
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(queueUserAccount.getUserId()),
+            new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
+            new ScrubbedInput(bizStore.getCodeQR()),
+            httpServletResponse
+        );
+
+        JsonToken jsonToken = new ObjectMapper().readValue(jsonTokenResponse, JsonToken.class);
+        assertTrue(jsonToken.getToken() > 0);
     }
 }
