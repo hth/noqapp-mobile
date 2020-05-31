@@ -757,7 +757,6 @@ public class QueueController {
         value = "/dispenseToken/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @Deprecated
     public String dispenseTokenWithoutClientInfo(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
@@ -884,7 +883,22 @@ public class QueueController {
             }
 
             try {
-                return createTokenForRegisteredUser(did, businessCustomer, bizStore);
+                if (businessCustomer.isRegisteredUser()) {
+                    return createTokenForRegisteredUser(did, businessCustomer, bizStore);
+                } else {
+                    JsonToken jsonToken = joinAbortService.joinQueue(
+                        bizStore.getCodeQR(),
+                        CommonUtil.appendRandomToDeviceId(did.getText()),
+                        bizStore.getAverageServiceTime(),
+                        TokenServiceEnum.M);
+
+                    queueMobileService.updateUnregisteredUserWithNameAndPhone(
+                        jsonToken.getCodeQR(),
+                        jsonToken.getToken(),
+                        businessCustomer.getCustomerName().getText(),
+                        businessCustomer.getCustomerPhone().getText());
+                    return jsonToken.asJson();
+                }
             } catch (StoreDayClosedException e) {
                 LOG.warn("Failed joining queue store closed qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = false;
