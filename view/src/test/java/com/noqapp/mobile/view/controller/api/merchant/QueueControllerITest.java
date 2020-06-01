@@ -267,7 +267,7 @@ class QueueControllerITest extends ITest {
 
         UserProfileEntity client1 = accountService.checkUserExistsByPhone("9118000000001");
         UserAccountEntity userAccount1 = accountService.findByQueueUserId(client1.getQueueUserId());
-        tokenQueueAPIController.joinQueue(
+        String jsonTokenClient1_Response = tokenQueueAPIController.joinQueue(
             new ScrubbedInput(didClient1),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(userAccount1.getUserId()),
@@ -275,6 +275,8 @@ class QueueControllerITest extends ITest {
             new JoinQueue().setCodeQR(bizStore.getCodeQR()).setGuardianQid(null).setQueueUserId(client1.getQueueUserId()),
             httpServletResponse
         );
+        JsonToken jsonTokenClient1 = new ObjectMapper().readValue(jsonTokenClient1_Response, JsonToken.class);
+        assertTrue(jsonTokenClient1.getToken() == 1);
 
         UserProfileEntity client2 = accountService.checkUserExistsByPhone("9118000000002");
         UserAccountEntity userAccount2 = accountService.findByQueueUserId(client2.getQueueUserId());
@@ -654,14 +656,13 @@ class QueueControllerITest extends ITest {
 
     @Test
     void dispenseTokenWithoutClientInfo_With_PriorityAccess_On() throws IOException {
-        BizNameEntity bizName = bizService.findByPhone("9118000000000");
-        bizName.setPriorityAccess(OnOffEnum.O);
+        BizNameEntity bizName = bizService.findByPhone("9118000000041");
         bizService.saveName(bizName);
 
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
-        UserProfileEntity queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000000031");
-        UserAccountEntity queueUserAccount = accountService.findByQueueUserId(queueSupervisorUserProfile.getQueueUserId());
+        UserProfileEntity client4 = accountService.checkUserExistsByPhone("9118000001112");
+        UserAccountEntity queueUserAccount = accountService.findByQueueUserId(client4.getQueueUserId());
         String jsonTokenResponse = queueController.dispenseTokenWithoutClientInfo(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
