@@ -146,7 +146,12 @@ public class AccountClientController {
                     lastName = extractFirstLastName.getLastName();
                 }
 
-                String mail = StringUtils.lowerCase(map.get(ACCOUNT_REGISTRATION.EM.name()).getText());
+                String mail;
+                if (null == map.get(ACCOUNT_REGISTRATION.EM.name())) {
+                    mail = null;
+                } else {
+                    mail = StringUtils.lowerCase(map.get(ACCOUNT_REGISTRATION.EM.name()).getText());
+                }
                 String password = StringUtils.lowerCase(map.get(ACCOUNT_REGISTRATION_MERCHANT.PW.name()).getText());
                 String birthday = map.get(ACCOUNT_REGISTRATION.BD.name()).getText();
                 /* Required. */
