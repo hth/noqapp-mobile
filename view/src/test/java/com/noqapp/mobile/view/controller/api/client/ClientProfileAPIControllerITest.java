@@ -99,7 +99,7 @@ class ClientProfileAPIControllerITest extends ITest {
             .setQueueUserId(userProfile.getQueueUserId())
             .setAddress("Navi Mumbai, India")
             .setBirthday("2000-01-31")
-            .setFirstName("Shamsher Bhadur")
+            .setFirstName("PankAj  KUMAr SingH ")
             .setGender(GenderEnum.F.name())
             .setTimeZoneId("Asia/Calcutta");
 
@@ -114,7 +114,7 @@ class ClientProfileAPIControllerITest extends ITest {
             jsonProfileUpdatedAsJson,
             JsonProfile.class);
 
-        assertEquals("Shamsher Bhadur", jsonProfile.getName());
+        assertEquals("Pankaj Kumar Singh", jsonProfile.getName());
         assertEquals("1800 000 0001", jsonProfile.getPhoneRaw());
         assertEquals(userProfile.getQueueUserId(), jsonProfile.getQueueUserId());
     }

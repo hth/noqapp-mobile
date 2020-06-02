@@ -209,8 +209,8 @@ public class ClientCouponController {
 
         try {
             return couponService.findNearByCouponAsJson(
-                Double.valueOf(location.getLongitude().getText()),
-                Double.valueOf(location.getLatitude().getText())).asJson();
+                Double.parseDouble(location.getLongitude().getText()),
+                Double.parseDouble(location.getLatitude().getText())).asJson();
         } catch (Exception e) {
             LOG.error("Failed getting global coupons for reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
