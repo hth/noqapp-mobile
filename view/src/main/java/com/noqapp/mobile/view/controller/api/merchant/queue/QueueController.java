@@ -67,6 +67,7 @@ import com.noqapp.service.DeviceService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
+import com.noqapp.service.SmsService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.exceptions.BeforeStartOfStoreException;
 import com.noqapp.service.exceptions.JoiningNonApprovedQueueException;
@@ -75,6 +76,7 @@ import com.noqapp.service.exceptions.JoiningQueuePreApprovedRequiredException;
 import com.noqapp.service.exceptions.LimitedPeriodException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.TokenAvailableLimitReachedException;
+import com.noqapp.service.utils.ServiceUtils;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -137,6 +139,7 @@ public class QueueController {
     private PurchaseOrderService purchaseOrderService;
     private MedicalRecordService medicalRecordService;
     private DeviceService deviceService;
+    private SmsService smsService;
     private ApiHealthService apiHealthService;
 
     private ExecutorService executorService;
@@ -158,6 +161,7 @@ public class QueueController {
         PurchaseOrderService purchaseOrderService,
         MedicalRecordService medicalRecordService,
         DeviceService deviceService,
+        SmsService smsService,
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -173,6 +177,7 @@ public class QueueController {
         this.purchaseOrderService = purchaseOrderService;
         this.medicalRecordService = medicalRecordService;
         this.deviceService = deviceService;
+        this.smsService = smsService;
         this.apiHealthService = apiHealthService;
 
         /* For executing in order of sequence. */
@@ -897,6 +902,20 @@ public class QueueController {
                         jsonToken.getToken(),
                         businessCustomer.getCustomerName().getText(),
                         businessCustomer.getCustomerPhone().getText());
+
+                    String estimateWaitTime = ServiceUtils.calculateEstimatedWaitTime(
+                        bizStore.getAverageServiceTime(),
+                        jsonToken.getToken() - jsonToken.getServingNumber(),
+                        jsonToken.getQueueStatus(),
+                        tokenQueueMobileService.getBizService().getStoreHours(bizStore.getCodeQR(), bizStore).getStartHour(),
+                        bizStore.getTimeZone()
+                    );
+
+                    String message = "Your token number is " + jsonToken.getToken()
+                        + ", people waiting " + (jsonToken.getToken() - jsonToken.getServingNumber())
+                        + ", estimate wait " + estimateWaitTime;
+                    LOG.info("SMS length {}", message.length());
+                    smsService.sendTransactionalSMS(businessCustomer.getCustomerPhone().getText(), message);
                     return jsonToken.asJson();
                 }
             } catch (StoreDayClosedException e) {
