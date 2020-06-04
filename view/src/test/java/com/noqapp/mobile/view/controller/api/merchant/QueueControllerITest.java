@@ -70,6 +70,7 @@ class QueueControllerITest extends ITest {
             purchaseOrderService,
             medicalRecordService,
             deviceService,
+            smsService,
             apiHealthService
         );
 

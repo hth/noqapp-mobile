@@ -171,6 +171,7 @@ import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.ReviewService;
 import com.noqapp.service.ScheduleAppointmentService;
+import com.noqapp.service.SmsService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
 import com.noqapp.service.TextToSpeechService;
@@ -343,6 +344,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected FirebaseConfig firebaseConfig;
     @Mock protected TextToSpeechConfiguration textToSpeechConfiguration;
     @Mock protected GeoIPLocationService geoIPLocationService;
+    @Mock protected SmsService smsService;
 
     @BeforeAll
     public void globalISetup() {
