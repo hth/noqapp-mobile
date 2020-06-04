@@ -19,7 +19,6 @@ import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
 import com.noqapp.domain.json.JsonTopicList;
 import com.noqapp.domain.types.BusinessTypeEnum;
-import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
@@ -70,6 +69,7 @@ class QueueControllerITest extends ITest {
             purchaseOrderService,
             medicalRecordService,
             deviceService,
+            smsService,
             apiHealthService
         );
 
