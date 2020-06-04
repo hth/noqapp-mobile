@@ -39,6 +39,7 @@ import com.noqapp.service.DeviceService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
+import com.noqapp.service.SmsService;
 import com.noqapp.service.TokenQueueService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -88,6 +89,7 @@ class QueueControllerTest {
     @Mock private MedicalRecordService medicalRecordService;
     @Mock private PurchaseOrderService purchaseOrderService;
     @Mock private DeviceService deviceService;
+    @Mock private SmsService smsService;
 
     @Mock private HttpServletResponse response;
 
@@ -114,6 +116,7 @@ class QueueControllerTest {
             purchaseOrderService,
             medicalRecordService,
             deviceService,
+            smsService,
             apiHealthService);
 
         mapper = new ObjectMapper();
