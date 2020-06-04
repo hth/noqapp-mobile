@@ -911,9 +911,9 @@ public class QueueController {
                         bizStore.getTimeZone()
                     );
 
-                    String smsMessage = "Your token number is " + jsonToken.getToken()
+                    String smsMessage = "NoQueue token number at " + bizStore.getDisplayName() + " is " + jsonToken.getToken()
                         + ", people waiting " + (jsonToken.getToken() - jsonToken.getServingNumber())
-                        + ", estimate wait " + estimateWaitTime;
+                        + ", estimated wait " + estimateWaitTime;
                     LOG.info("SMS length {} {}", smsMessage, smsMessage.length());
 
                     executorService.submit(() -> smsService.sendTransactionalSMS(
