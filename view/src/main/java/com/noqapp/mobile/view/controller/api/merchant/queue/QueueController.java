@@ -911,11 +911,15 @@ public class QueueController {
                         bizStore.getTimeZone()
                     );
 
-                    String message = "Your token number is " + jsonToken.getToken()
+                    String smsMessage = "Your token number is " + jsonToken.getToken()
                         + ", people waiting " + (jsonToken.getToken() - jsonToken.getServingNumber())
                         + ", estimate wait " + estimateWaitTime;
-                    LOG.info("SMS length {}", message.length());
-                    smsService.sendTransactionalSMS(businessCustomer.getCustomerPhone().getText(), message);
+                    LOG.info("SMS length {} {}", smsMessage, smsMessage.length());
+
+                    executorService.submit(() -> smsService.sendTransactionalSMS(
+                        businessCustomer.getCustomerPhone().getText(),
+                        smsMessage
+                    ));
                     return jsonToken.asJson();
                 }
             } catch (StoreDayClosedException e) {
