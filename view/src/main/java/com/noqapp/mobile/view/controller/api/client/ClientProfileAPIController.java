@@ -33,6 +33,7 @@ import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.service.UserAddressService;
+import com.noqapp.service.exceptions.DuplicateAccountException;
 import com.noqapp.social.exception.AccountNotActiveException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -173,7 +174,7 @@ public class ClientProfileAPIController {
         return profileCommonHelper.updateProfile(mail, auth, updateProfileJson, response);
     }
 
-    /** Request change in Email address. */
+    /** Request change in Email address. This is the first step to start mail address migration. */
     @PostMapping(
         value="/changeMail",
         produces = MediaType.APPLICATION_JSON_VALUE
@@ -473,6 +474,15 @@ public class ClientProfileAPIController {
                     } else {
                         return ErrorEncounteredJson.toJson("Entered Mail OTP is incorrect", MAIL_OTP_FAILED);
                     }
+                } catch (DuplicateAccountException e) {
+                    LOG.error("Failed migration account exists for user={} reason={}", mail, e.getLocalizedMessage(), e);
+
+                    errors = new HashMap<>();
+                    errors.put(ErrorEncounteredJson.REASON, "User already exists. Cannot continue migration.");
+                    errors.put(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name(), mailMigrate);
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
+                    return ErrorEncounteredJson.toJson(errors);
                 } catch (Exception e) {
                     LOG.error("Failed migration for user={} reason={}", mail, e.getLocalizedMessage(), e);
 
