@@ -916,7 +916,7 @@ public class QueueController {
                         + ", estimated wait " + estimateWaitTime;
                     LOG.info("SMS length {} {}", smsMessage, smsMessage.length());
 
-                    executorService.submit(() -> smsService.sendTransactionalSMS(
+                    executorService.submit(() -> smsService.sendPromotionalSMS(
                         businessCustomer.getCustomerPhone().getText(),
                         smsMessage
                     ));
