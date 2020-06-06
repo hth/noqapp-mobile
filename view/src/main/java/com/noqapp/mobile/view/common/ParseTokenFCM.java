@@ -127,7 +127,7 @@ public class ParseTokenFCM {
                 LOG.info("Default ip {}", ipAddress);
             }
         } catch (IOException | NullPointerException e) {
-            LOG.error("Could not parse json={} errorResponse={}", tokenJson, e.getLocalizedMessage(), e);
+            LOG.error("Could not parse json={} errorResponse={}", tokenJson, e.getLocalizedMessage());
             errorResponse = ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
         }
     }
