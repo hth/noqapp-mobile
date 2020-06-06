@@ -82,8 +82,7 @@ class TokenQueueControllerITest extends ITest {
     private void getAllJoinedQueues_Before_Join() throws IOException {
         String allJoinedQueues = tokenQueueController.getAllJoinedQueues(
             new ScrubbedInput(did),
-            new ScrubbedInput(deviceType),
-            httpServletResponse
+            new ScrubbedInput(deviceType)
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());
@@ -123,8 +122,7 @@ class TokenQueueControllerITest extends ITest {
     private void getAllJoinedQueues_After_Joined() throws IOException {
         String allJoinedQueues = tokenQueueController.getAllJoinedQueues(
             new ScrubbedInput(did),
-            new ScrubbedInput(deviceType),
-            httpServletResponse
+            new ScrubbedInput(deviceType)
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());
@@ -149,8 +147,7 @@ class TokenQueueControllerITest extends ITest {
     private void getAllJoinedQueues_After_Abort() throws IOException {
         String allJoinedQueues = tokenQueueController.getAllJoinedQueues(
             new ScrubbedInput(did),
-            new ScrubbedInput(deviceType),
-            httpServletResponse
+            new ScrubbedInput(deviceType)
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());
