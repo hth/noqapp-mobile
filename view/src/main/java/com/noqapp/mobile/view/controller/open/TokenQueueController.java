@@ -230,15 +230,17 @@ public class TokenQueueController {
         ScrubbedInput did,
 
         @RequestHeader ("X-R-DT")
-        ScrubbedInput deviceType,
-
-        HttpServletResponse response
+        ScrubbedInput deviceType
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Queues for did={} dt={}", did.getText(), deviceType.getText());
         try {
             return queueMobileService.findAllJoinedQueues(did.getText()).asJson();
+        } catch (DeviceDetailMissingException e) {
+            LOG.error("Failed getting queues did missing reason={}", e.getLocalizedMessage());
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } catch (Exception e) {
             LOG.error("Failed getting queues did={}, reason={}", did, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

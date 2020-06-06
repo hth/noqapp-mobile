@@ -156,7 +156,8 @@ public class QueueMobileService {
      */
     public JsonTokenAndQueueList findAllJoinedQueues(String did) {
         if (StringUtils.isBlank(did)) {
-            throw new RuntimeException("DID should not be blank");
+            LOG.warn("DID is blank");
+            throw new DeviceDetailMissingException("DID should not be blank");
         }
 
         List<QueueEntity> queues = queueManager.findAllQueuedByDid(did);
