@@ -38,7 +38,7 @@ public enum LowestSupportedAppEnum {
     VAMS("1.2.458",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQMS,
-        "1.2.458",                      //Latest App Version on Play Store
+        "1.2.465",                      //Latest App Version on Play Store
         "Version Android Business Store"),
 
     VAMH("1.2.458",                     //Oldest Supported App Version in String
@@ -56,7 +56,7 @@ public enum LowestSupportedAppEnum {
     VAMI("1.2.458",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                              //Device Type
         AppFlavorEnum.NQMI,
-        "1.2.458",                      //Latest App Version on Play Store
+        "1.2.465",                      //Latest App Version on Play Store
         "Version Android Business Inventory");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
