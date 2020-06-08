@@ -11,6 +11,7 @@ import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.json.JsonQueuedPerson;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.domain.JsonInQueuePerson;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.service.BizService;
@@ -117,13 +118,13 @@ public class AuthenticateClientInQueue {
         }
 
         try {
-            JsonQueuedPerson jsonQueuedPerson = new JsonQueuedPerson();
+            JsonInQueuePerson jsonInQueuePerson = new JsonInQueuePerson();
             QueueEntity queue = queueManager.findOne(codeQR.getText(), Integer.parseInt(token.getText()));
             if (null == queue) {
-                return jsonQueuedPerson.asJson();
+                return jsonInQueuePerson.asJson();
             }
 
-            jsonQueuedPerson
+            jsonInQueuePerson
                 .setToken(queue.getTokenNumber())
                 .setCustomerName(queue.getCustomerName())
                 .setCustomerPhone(queue.getCustomerPhone())
@@ -141,7 +142,7 @@ public class AuthenticateClientInQueue {
                 queue.getCodeQR()
             );
 
-            return jsonQueuedPerson.asJson();
+            return jsonInQueuePerson.asJson();
         } catch (Exception e) {
             LOG.error("Failed authenticating client in queue for reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
