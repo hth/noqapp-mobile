@@ -284,10 +284,12 @@ public class AccountMobileService {
             case S_MANAGER:
             case Q_SUPERVISOR:
                 BusinessUserEntity businessUser = businessUserManager.findByQid(userProfile.getQueueUserId());
-                jsonProfile.setBizNameId(businessUser.getBizName().getId());
-                List<BusinessUserStoreEntity> businessUserStores = businessUserStoreManager.getQueues(qid, queueLimit);
-                for (BusinessUserStoreEntity businessUserStore : businessUserStores) {
-                     jsonProfile.addCodeQRAndBizStoreId(businessUserStore.getCodeQR(), businessUserStore.getBizStoreId());
+                if (null != businessUser) {
+                    jsonProfile.setBizNameId(businessUser.getBizName().getId());
+                    List<BusinessUserStoreEntity> businessUserStores = businessUserStoreManager.getQueues(qid, queueLimit);
+                    for (BusinessUserStoreEntity businessUserStore : businessUserStores) {
+                        jsonProfile.addCodeQRAndBizStoreId(businessUserStore.getCodeQR(), businessUserStore.getBizStoreId());
+                    }
                 }
                 break;
             default:
