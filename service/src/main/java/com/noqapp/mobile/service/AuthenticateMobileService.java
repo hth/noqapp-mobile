@@ -34,6 +34,8 @@ public class AuthenticateMobileService {
         this.userAccountManager = userAccountManager;
     }
 
+    /** Not being used. */
+    @Deprecated
     public boolean hasAccess(String mail, String auth) {
         return findUserAccount(mail, auth) != null;
     }
