@@ -189,7 +189,7 @@ public class QueueMobileService {
 
         JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
         jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
-        LOG.info("Current queue={} did={}", jsonTokenAndQueueList, did);
+        LOG.info("Current tokenAndQueueSize={} did={}", jsonTokenAndQueueList.getTokenAndQueues().size(), did);
 
         return jsonTokenAndQueueList;
     }
@@ -233,7 +233,7 @@ public class QueueMobileService {
 
         JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
         jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
-        LOG.info("Current queue={} qid={} did={}", jsonTokenAndQueueList, qid, did);
+        LOG.info("Current tokenAndQueueSize={} qid={} did={}", jsonTokenAndQueueList.getTokenAndQueues().size(), qid, did);
 
         return jsonTokenAndQueueList;
     }
