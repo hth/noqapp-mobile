@@ -22,6 +22,7 @@ import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_CLIENT;
 import com.noqapp.mobile.service.AccountMobileService.ACCOUNT_REGISTRATION_MERCHANT;
+import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.service.DeviceRegistrationService;
 import com.noqapp.service.AccountService;
@@ -73,6 +74,7 @@ public class AccountClientController {
     private AccountClientValidator accountClientValidator;
     private DeviceRegistrationService deviceRegistrationService;
     private HospitalVisitScheduleService hospitalVisitScheduleService;
+    private AuthenticateMobileService authenticateMobileService;
 
     @Autowired
     public AccountClientController(
@@ -80,13 +82,15 @@ public class AccountClientController {
         AccountMobileService accountMobileService,
         AccountClientValidator accountClientValidator,
         DeviceRegistrationService deviceRegistrationService,
-        HospitalVisitScheduleService hospitalVisitScheduleService
+        HospitalVisitScheduleService hospitalVisitScheduleService,
+        AuthenticateMobileService authenticateMobileService
     ) {
         this.accountService = accountService;
         this.accountMobileService = accountMobileService;
         this.accountClientValidator = accountClientValidator;
         this.deviceRegistrationService = deviceRegistrationService;
         this.hospitalVisitScheduleService = hospitalVisitScheduleService;
+        this.authenticateMobileService = authenticateMobileService;
     }
 
     @PostMapping(
@@ -333,6 +337,7 @@ public class AccountClientController {
                     }
 
                     UserAccountEntity userAccount = accountMobileService.findByQueueUserId(userProfile.getQueueUserId());
+                    authenticateMobileService.evictExisting(userAccount.getUserId(), userAccount.getUserAuthentication().getAuthenticationKey());
                     if (!userAccount.isPhoneValidated()) {
                         //TODO mark otp validated after verifying with FB server with token received
                         userAccount.setPhoneValidated(true);

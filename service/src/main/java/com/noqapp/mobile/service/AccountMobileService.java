@@ -284,6 +284,7 @@ public class AccountMobileService {
             case S_MANAGER:
             case Q_SUPERVISOR:
                 BusinessUserEntity businessUser = businessUserManager.findByQid(userProfile.getQueueUserId());
+                /* Null can happen when user still has the role but has been removed from all the business. */
                 if (null != businessUser) {
                     jsonProfile.setBizNameId(businessUser.getBizName().getId());
                     List<BusinessUserStoreEntity> businessUserStores = businessUserStoreManager.getQueues(qid, queueLimit);

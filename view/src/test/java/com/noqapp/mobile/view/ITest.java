@@ -663,16 +663,17 @@ public class ITest extends RealMongoForITest {
 
         hospitalVisitScheduleManager = new HospitalVisitScheduleManagerImpl(getMongoTemplate());
         hospitalVisitScheduleService = new HospitalVisitScheduleService(hospitalVisitScheduleManager, userProfileManager);
+        authenticateMobileService = new AuthenticateMobileService(
+            userAccountManager
+        );
+
         accountClientController = new AccountClientController(
             accountService,
             accountMobileService,
             accountClientValidator,
             deviceRegistrationService,
-            hospitalVisitScheduleService
-        );
-
-        authenticateMobileService = new AuthenticateMobileService(
-            userAccountManager
+            hospitalVisitScheduleService,
+            authenticateMobileService
         );
 
         preferredBusinessManager = new PreferredBusinessManagerImpl(getMongoTemplate());
