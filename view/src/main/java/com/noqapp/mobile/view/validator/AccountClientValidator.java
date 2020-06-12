@@ -3,6 +3,7 @@ package com.noqapp.mobile.view.validator;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
 
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.common.errors.ErrorEncounteredJson;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * User: hitender
@@ -215,6 +218,14 @@ public class AccountClientValidator {
             errors.put(AccountMobileService.ACCOUNT_REGISTRATION.EM.name(), StringUtils.isBlank(mail) ? EMPTY : mail);
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
+        } else {
+            if (!CommonUtil.validateMail(mail)) {
+                LOG.warn("Failed validation mail={}", mail);
+                errors.put(ErrorEncounteredJson.REASON, "Mail validation failed. Please correct your email address.");
+                errors.put(AccountMobileService.ACCOUNT_REGISTRATION.EM.name(), StringUtils.isBlank(mail) ? EMPTY : mail);
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
+                errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
+            }
         }
     }
 
