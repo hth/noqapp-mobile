@@ -1,7 +1,7 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QRCODE_DENIED_ACCESS;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QRCODE_INVALID;
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QRCODE_UNAUTH_ACCESS_QUEUE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
@@ -112,7 +112,7 @@ public class AuthenticateClientInQueue {
             return getErrorReason("Not a valid code.", QRCODE_INVALID);
         } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
             LOG.info("Un-authorized store access to /api/c/a/inQueue/{codeQR}/{token} by mail={}", mail);
-            return getErrorReason("Something went wrong. Engineers are looking into this.", QRCODE_UNAUTH_ACCESS_QUEUE);
+            return getErrorReason("Ask admin to correctly set permission to scan this code", QRCODE_DENIED_ACCESS);
         }
 
         try {
