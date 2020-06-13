@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -11,6 +12,7 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.merchant.MessageCustomer;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.MessageCustomerService;
 
 import org.slf4j.Logger;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -47,16 +51,19 @@ public class MessageCustomerController {
 
     private MessageCustomerService messageCustomerService;
     private AuthenticateMobileService authenticateMobileService;
+    private BusinessUserStoreService businessUserStoreService;
     private ApiHealthService apiHealthService;
 
     @Autowired
     public MessageCustomerController(
         MessageCustomerService messageCustomerService,
         AuthenticateMobileService authenticateMobileService,
+        BusinessUserStoreService businessUserStoreService,
         ApiHealthService apiHealthService
     ) {
         this.messageCustomerService = messageCustomerService;
         this.authenticateMobileService = authenticateMobileService;
+        this.businessUserStoreService = businessUserStoreService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -89,13 +96,15 @@ public class MessageCustomerController {
         if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/message/customer")) return null;
 
         try {
-            messageCustomerService.sendMessageToSubscribers(
-                messageCustomer.getTitle().getText(),
-                messageCustomer.getBody().getText(),
-                messageCustomer.getCodeQRs(),
-                qid
-            );
+            List<String> codeQRs = new ArrayList<>();
+            for (ScrubbedInput scrubbedInput : messageCustomer.getCodeQRs()) {
+                if (businessUserStoreService.hasAccess(qid, scrubbedInput.getText())) {
+                    LOG.error("Your are not authorized to access schedule for codeQR={} mail={}", scrubbedInput.getText(), mail);
+                    codeQRs.add(scrubbedInput.getText());
+                }
+            }
 
+            messageCustomerService.sendMessageToSubscribers(messageCustomer.getTitle().getText(), messageCustomer.getBody().getText(), codeQRs, qid);
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed sending message qid={}, reason={}", qid, e.getLocalizedMessage(), e);
