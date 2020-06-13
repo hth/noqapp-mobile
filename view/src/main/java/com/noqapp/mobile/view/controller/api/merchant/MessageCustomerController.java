@@ -99,7 +99,7 @@ public class MessageCustomerController {
             List<String> codeQRs = new ArrayList<>();
             for (ScrubbedInput scrubbedInput : messageCustomer.getCodeQRs()) {
                 if (businessUserStoreService.hasAccess(qid, scrubbedInput.getText())) {
-                    LOG.error("Your are not authorized to access schedule for codeQR={} mail={}", scrubbedInput.getText(), mail);
+                    LOG.error("Your are not authorized to access codeQR={} mail={}", scrubbedInput.getText(), mail);
                     codeQRs.add(scrubbedInput.getText());
                 }
             }
