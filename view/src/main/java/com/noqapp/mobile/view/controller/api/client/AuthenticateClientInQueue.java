@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QRCODE_DENIED_ACCESS;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QRCODE_INVALID;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
@@ -8,13 +9,11 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.QueueEntity;
-import com.noqapp.domain.json.JsonQueuedPerson;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.JsonInQueuePerson;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.repository.QueueManager;
-import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.JoinAbortService;
 
@@ -110,11 +109,10 @@ public class AuthenticateClientInQueue {
 
         if (StringUtils.isBlank(codeQR.getText())) {
             LOG.warn("Not a valid codeQR={} qid={}", codeQR.getText(), qid);
-            return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+            return getErrorReason("Not a valid code.", QRCODE_INVALID);
         } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
             LOG.info("Un-authorized store access to /api/c/a/inQueue/{codeQR}/{token} by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
+            return getErrorReason("Ask admin to correctly set permission to scan this code", QRCODE_DENIED_ACCESS);
         }
 
         try {
@@ -131,6 +129,7 @@ public class AuthenticateClientInQueue {
                 .setBusinessCustomerId(queue.getBusinessCustomerId())
                 .setDisplayName(queue.getDisplayName())
                 .setQueueUserState(queue.getQueueUserState())
+                .setExpectedServiceBegin(queue.getExpectedServiceBegin())
                 .setCustomerPriorityLevel(queue.getCustomerPriorityLevel())
                 .setTransactionId(queue.getTransactionId())
                 .setCreated(queue.getCreated());

@@ -55,6 +55,9 @@ public class JsonInQueuePerson extends AbstractDomain {
     @JsonProperty("qu")
     private QueueUserStateEnum queueUserState;
 
+    @JsonProperty ("e")
+    private String expectedServiceBegin;
+
     @JsonProperty("pl")
     private CustomerPriorityLevelEnum customerPriorityLevel = CustomerPriorityLevelEnum.I;
 
@@ -115,6 +118,15 @@ public class JsonInQueuePerson extends AbstractDomain {
 
     public JsonInQueuePerson setQueueUserState(QueueUserStateEnum queueUserState) {
         this.queueUserState = queueUserState;
+        return this;
+    }
+
+    public String getExpectedServiceBegin() {
+        return expectedServiceBegin;
+    }
+
+    public JsonInQueuePerson setExpectedServiceBegin(Date expectedServiceBegin) {
+        this.expectedServiceBegin = DateFormatUtils.format(expectedServiceBegin, ISO8601_FMT, TimeZone.getTimeZone("UTC"));;
         return this;
     }
 
