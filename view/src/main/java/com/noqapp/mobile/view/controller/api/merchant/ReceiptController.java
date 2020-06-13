@@ -133,7 +133,7 @@ public class ReceiptController {
             /* Required. */
             BizStoreEntity bizStore = bizStoreManager.findByCodeQR(receipt.getCodeQR());
             if (null == bizStore) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid token");
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid codeQR");
                 return null;
             }
 
