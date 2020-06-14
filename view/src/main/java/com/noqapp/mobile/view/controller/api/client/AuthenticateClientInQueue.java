@@ -119,7 +119,8 @@ public class AuthenticateClientInQueue {
             JsonInQueuePerson jsonInQueuePerson = new JsonInQueuePerson();
             QueueEntity queue = queueManager.findOne(codeQR.getText(), Integer.parseInt(token.getText()));
             if (null == queue) {
-                return jsonInQueuePerson.asJson();
+                LOG.warn("Valid but no data associated in queue for codeQR={} qid={}", codeQR.getText(), qid);
+                return getErrorReason("Not a valid code.", QRCODE_INVALID);
             }
 
             jsonInQueuePerson
