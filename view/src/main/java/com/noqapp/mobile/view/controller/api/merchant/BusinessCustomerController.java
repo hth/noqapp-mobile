@@ -451,7 +451,7 @@ public class BusinessCustomerController {
                 return getErrorReason("Please select all options on the form", USER_INPUT);
             }
 
-            QueueEntity queue = queueService.findQueuedOneByQid(customerPriority.getCodeQR().getText(), customerPriority.getQueueUserId().getText());
+            QueueEntity queue = queueService.findOneWithoutState(customerPriority.getQueueUserId().getText(), customerPriority.getCodeQR().getText());
             if (null == queue) {
                 LOG.info("Customer {} is not in queue {}", customerPriority.getQueueUserId(), customerPriority.getCodeQR());
                 return getErrorReason("Person may not be active in queue", USER_INPUT);
@@ -466,7 +466,7 @@ public class BusinessCustomerController {
                 CommonHelper.findBusinessCustomerAttribute(bizStore));
             if (businessCustomer == null) {
                 LOG.info("Customer {} is not in queue {}", customerPriority.getQueueUserId(), customerPriority.getCodeQR());
-                return getErrorReason("No such customer found", USER_INPUT);
+                return getErrorReason("No such customer found. Reset may have been already performed.", USER_INPUT);
             }
 
             switch (customerPriority.getActionType()) {
