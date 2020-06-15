@@ -466,7 +466,7 @@ public class BusinessCustomerController {
                 CommonHelper.findBusinessCustomerAttribute(bizStore));
             if (businessCustomer == null) {
                 LOG.info("Customer {} is not in queue {}", customerPriority.getQueueUserId(), customerPriority.getCodeQR());
-                return getErrorReason("No such customer found. Reset may have been already performed.", USER_INPUT);
+                return getErrorReason("No such customer found. Reset may have already been performed.", USER_INPUT);
             }
 
             switch (customerPriority.getActionType()) {
