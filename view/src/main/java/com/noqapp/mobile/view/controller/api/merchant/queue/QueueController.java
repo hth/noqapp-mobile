@@ -912,6 +912,7 @@ public class QueueController {
                         case CDQ:
                         case CD:
                             estimateWaitTime = DateUtil.timeSlot(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone());
+                            estimateWaitTime = ", " + DateUtil.timeSlot(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone());
                             break;
                         default:
                             estimateWaitTime = ", estimated wait " + ServiceUtils.calculateEstimatedWaitTime(
