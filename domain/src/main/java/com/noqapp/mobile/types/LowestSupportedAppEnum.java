@@ -33,7 +33,7 @@ public enum LowestSupportedAppEnum {
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQCH,
         "1.2.495",                      //Latest App Version on Play Store
-        "Version Android Business HealthCare"),
+        "Version Android Client HealthCare"),
 
     VAMS("1.2.488",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
