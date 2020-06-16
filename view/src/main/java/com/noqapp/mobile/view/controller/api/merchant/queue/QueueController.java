@@ -30,9 +30,11 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.CommonUtil;
+import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.TokenQueueEntity;
@@ -891,11 +893,13 @@ public class QueueController {
                 if (businessCustomer.isRegisteredUser()) {
                     return createTokenForRegisteredUser(did, businessCustomer, bizStore);
                 } else {
+                    BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, bizStore.getCodeQR());
                     JsonToken jsonToken = joinAbortService.joinQueue(
                         bizStore.getCodeQR(),
                         CommonUtil.appendRandomToDeviceId(did.getText()),
                         bizStore.getAverageServiceTime(),
-                        TokenServiceEnum.M);
+                        TokenServiceEnum.M,
+                        businessUserStore.getUserLevel());
 
                     queueMobileService.updateUnregisteredUserWithNameAndPhone(
                         jsonToken.getCodeQR(),
@@ -903,17 +907,26 @@ public class QueueController {
                         businessCustomer.getCustomerName().getText(),
                         businessCustomer.getCustomerPhone().getText());
 
-                    String estimateWaitTime = ServiceUtils.calculateEstimatedWaitTime(
-                        bizStore.getAverageServiceTime(),
-                        jsonToken.getToken() - jsonToken.getServingNumber(),
-                        jsonToken.getQueueStatus(),
-                        tokenQueueMobileService.getBizService().getStoreHours(bizStore.getCodeQR(), bizStore).getStartHour(),
-                        bizStore.getTimeZone()
-                    );
+                    String estimateWaitTime;
+                    switch (bizStore.getBusinessType()) {
+                        case CDQ:
+                        case CD:
+                            estimateWaitTime = DateUtil.timeSlot(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone());
+                            estimateWaitTime = ", " + DateUtil.timeSlot(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone());
+                            break;
+                        default:
+                            estimateWaitTime = ", estimated wait " + ServiceUtils.calculateEstimatedWaitTime(
+                                bizStore.getAverageServiceTime(),
+                                jsonToken.getToken() - jsonToken.getServingNumber(),
+                                jsonToken.getQueueStatus(),
+                                tokenQueueMobileService.getBizService().getStoreHours(bizStore.getCodeQR(), bizStore).getStartHour(),
+                                bizStore.getTimeZone()
+                            );
+                    }
 
                     String smsMessage = "NoQueue token number at " + bizStore.getDisplayName() + " is " + jsonToken.getToken()
                         + ", people waiting " + (jsonToken.getToken() - jsonToken.getServingNumber())
-                        + ", estimated wait " + estimateWaitTime;
+                        + estimateWaitTime;
                     LOG.info("SMS length {} {}", smsMessage, smsMessage.length());
 
                     executorService.submit(() -> smsService.sendTransactionalSMS(
