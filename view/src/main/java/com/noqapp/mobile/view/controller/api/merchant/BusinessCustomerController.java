@@ -471,15 +471,15 @@ public class BusinessCustomerController {
 
             switch (customerPriority.getActionType()) {
                 case APPROVE:
-                    businessCustomer.setBusinessCustomerAttributes(
+                    businessCustomerService.updateBusinessCustomer(
+                        businessCustomer.getId(),
                         new LinkedHashSet<BusinessCustomerAttributeEnum>() {{
                             add(CommonHelper.findBusinessCustomerAttribute(bizStore));
                             add(BusinessCustomerAttributeEnum.AP);
-                        }}
+                        }},
+                        customerPriority.getCustomerPriorityLevel(),
+                        bizStore.getBizCategoryId()
                     );
-                    businessCustomer.setCustomerPriorityLevel(customerPriority.getCustomerPriorityLevel());
-                    businessCustomer.setLimitBusinessCategory(bizStore.getBizCategoryId());
-                    businessCustomerService.save(businessCustomer);
 
                     jsonQueuedPerson.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.AP);
                     jsonQueuedPerson.setCustomerPriorityLevel(customerPriority.getCustomerPriorityLevel());
@@ -500,13 +500,15 @@ public class BusinessCustomerController {
                     );
                     break;
                 case REJECT:
-                    businessCustomer.setBusinessCustomerAttributes(
+                    businessCustomerService.updateBusinessCustomer(
+                        businessCustomer.getId(),
                         new LinkedHashSet<BusinessCustomerAttributeEnum>() {{
                             add(CommonHelper.findBusinessCustomerAttribute(bizStore));
                             add(BusinessCustomerAttributeEnum.RJ);
-                        }});
-                    businessCustomer.setCustomerPriorityLevel(CustomerPriorityLevelEnum.I);
-                    businessCustomerService.save(businessCustomer);
+                        }},
+                        CustomerPriorityLevelEnum.I,
+                        null
+                    );
 
                     jsonQueuedPerson.setCustomerPriorityLevel(CustomerPriorityLevelEnum.I);
                     jsonQueuedPerson.getBusinessCustomerAttributes().add(BusinessCustomerAttributeEnum.RJ);
