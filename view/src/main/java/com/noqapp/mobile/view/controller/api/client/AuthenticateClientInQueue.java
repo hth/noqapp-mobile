@@ -121,6 +121,9 @@ public class AuthenticateClientInQueue {
             if (null == queue) {
                 LOG.warn("Valid but no data associated in queue for codeQR={} qid={}", codeQR.getText(), qid);
                 return getErrorReason("Not a valid code.", QRCODE_INVALID);
+            } else {
+                queue.setAuthorizedCheckByQid(qid);
+                queueManager.save(queue);
             }
 
             jsonInQueuePerson
