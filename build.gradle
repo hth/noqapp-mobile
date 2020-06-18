@@ -607,8 +607,15 @@ task clean(type: Delete) {
     delete buildDir
 }
 
-task war(type: War, dependsOn: prepWar) {
+task oldWar(type: War, dependsOn: prepWar) {
     archiveBaseName = "noqapp-mobile-$env" + "." + project.version.toString()
+    from warDir
+    version ""
+    destinationDirectory = file("$buildDir/war/$env")
+}
+
+task war(type: War, dependsOn: prepWar) {
+    archiveBaseName = "ROOT-$env" + "." + project.version.toString()
     from warDir
     version ""
     destinationDirectory = file("$buildDir/war/$env")
@@ -624,4 +631,4 @@ task testReport(type: TestReport) {
     }
 }
 
-defaultTasks 'clean', 'build', 'jar', 'war', 'test', 'testReport', 'jacocoTestReport'
+defaultTasks 'clean', 'build', 'jar', 'oldWar', 'war', 'test', 'testReport', 'jacocoTestReport'
