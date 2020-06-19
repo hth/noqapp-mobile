@@ -101,10 +101,11 @@ public class LogContextFilter implements Filter {
 
         if (StringUtils.isNotBlank(countryCode)) {
             switch (countryCode) {
-                case "AE":
-                case "SA":
-                case "CN":
-                case "HK":
+                case "AE": //Saudi
+                case "SA": //South Africa
+                case "CN": //China
+                case "HK": //Hong Kong
+                case "CZ": //Czechia
                     LOG.warn("Request from county {} failed response", countryCode);
                     HttpServletResponse httpServletResponse = (HttpServletResponse) res;
                     httpServletResponse.setStatus(SC_NOT_FOUND);
