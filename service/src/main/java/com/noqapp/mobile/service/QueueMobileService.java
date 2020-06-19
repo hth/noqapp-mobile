@@ -60,6 +60,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -556,6 +557,7 @@ public class QueueMobileService {
     }
 
     @Async
+    @CacheEvict(value = "bizStore-codeQR", key = "#codeQR")
     public void updateBizStoreAvailableTokenCount(int availableTokenCount, String codeQR) {
         LOG.debug("Changed count {} for codeQR={}", availableTokenCount, codeQR);
         bizService.updateBizStoreAvailableTokenCount(availableTokenCount, codeQR);
