@@ -32,31 +32,31 @@ public enum LowestSupportedAppEnum {
     VACH("1.2.488",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQCH,
-        "1.2.495",                      //Latest App Version on Play Store
+        "1.2.500",                      //Latest App Version on Play Store
         "Version Android Client HealthCare"),
 
     VAMS("1.2.488",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMS,
-        "1.2.495",                      //Latest App Version on Play Store
+        "1.2.500",                      //Latest App Version on Play Store
         "Version Android Business Store"),
 
     VAMH("1.2.458",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMH,
-        "1.2.495",                      //Latest App Version on Play Store
+        "1.2.500",                      //Latest App Version on Play Store
         "Version Android Business HealthCare"),
 
     VAMT("1.2.458",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMT,
-        "1.2.495",                      //Latest App Version on Play Store
+        "1.2.500",                      //Latest App Version on Play Store
         "Version Android Business TV"),
 
     VAMI("1.2.458",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMI,
-        "1.2.495",                      //Latest App Version on Play Store
+        "1.2.500",                      //Latest App Version on Play Store
         "Version Android Business Inventory");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
