@@ -26,7 +26,7 @@ public enum LowestSupportedAppEnum {
     VACL("1.2.495",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQCL,
-        "1.2.495",                      //Latest App Version on Play Store
+        "1.2.500",                      //Latest App Version on Play Store
         "Version Android Client"),
 
     VACH("1.2.488",                     //Oldest Supported App Version in String
