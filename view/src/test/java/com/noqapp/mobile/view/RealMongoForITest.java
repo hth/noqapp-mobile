@@ -58,13 +58,13 @@ public abstract class RealMongoForITest extends ElasticForITest {
     private MongoClientSettings populateMongoClientSettings() {
         MongoClientSettings settings = MongoClientSettings.builder()
             .applicationName("NoQueue Test")
-            .applyToClusterSettings(builder -> builder.hosts(getMongoSeeds()))
+            .applyToClusterSettings(builder -> builder.hosts(mongoHosts()))
             .build();
 
         return settings;
     }
 
-    private List<ServerAddress> getMongoSeeds() {
+    public List<ServerAddress> mongoHosts() {
         List<ServerAddress> serverAddresses = new ArrayList<>();
         String mongoReplicaSet = "localhost:" + port;
 
