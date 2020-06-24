@@ -505,11 +505,11 @@ public class ITest extends RealMongoForITest {
         transactionService = new TransactionService(
             getMongoTemplate(),
             transactionManager(),
-            getMongoTemplate(),
             purchaseOrderManager,
             purchaseOrderProductManager,
             storeProductManager,
-            cashfreeService
+            cashfreeService,
+            mongoHosts()
         );
 
         queueService = new QueueService(
