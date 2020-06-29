@@ -38,6 +38,7 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
+import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonBusinessCustomer;
@@ -913,18 +914,19 @@ public class QueueController {
                         businessCustomer.getCustomerName().getText(),
                         businessCustomer.getCustomerPhone().getText());
 
+                    StoreHourEntity storeHour = tokenQueueMobileService.getBizService().getStoreHours(bizStore.getCodeQR(), bizStore);
                     String estimateWaitTime;
                     switch (bizStore.getBusinessType()) {
                         case CDQ:
                         case CD:
-                            estimateWaitTime = ", " + ServiceUtils.timeSlot(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone());
+                            estimateWaitTime = ", " + ServiceUtils.timeSlot(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone(), storeHour);
                             break;
                         default:
                             estimateWaitTime = ", estimated wait " + ServiceUtils.calculateEstimatedWaitTime(
                                 bizStore.getAverageServiceTime(),
                                 jsonToken.getToken() - jsonToken.getServingNumber(),
                                 jsonToken.getQueueStatus(),
-                                tokenQueueMobileService.getBizService().getStoreHours(bizStore.getCodeQR(), bizStore).getStartHour(),
+                                storeHour.getStartHour(),
                                 bizStore.getTimeZone()
                             );
                     }
