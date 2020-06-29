@@ -18,6 +18,7 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_NOT_START
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_NO_SERVICE_NO_PAY;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_SERVICE_LIMIT;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_TOKEN_LIMIT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SERVICE_AFTER_CLOSING_HOUR;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_ALREADY_IN_QUEUE;
@@ -37,6 +38,7 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
+import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonBusinessCustomer;
@@ -72,6 +74,7 @@ import com.noqapp.service.QueueService;
 import com.noqapp.service.SmsService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.exceptions.BeforeStartOfStoreException;
+import com.noqapp.service.exceptions.ExpectedServiceBeyondStoreClosingHour;
 import com.noqapp.service.exceptions.JoiningNonApprovedQueueException;
 import com.noqapp.service.exceptions.JoiningQueuePermissionDeniedException;
 import com.noqapp.service.exceptions.JoiningQueuePreApprovedRequiredException;
@@ -812,6 +815,10 @@ public class QueueController {
             LOG.warn("Failed joining queue as trying to join before store opens qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has not started. Please correct time on your device.", DEVICE_TIMEZONE_OFF);
+        } catch (ExpectedServiceBeyondStoreClosingHour e) {
+            LOG.warn("Failed joining queue as service time is after store close qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " will close by the time you receive service. Please do not visit.", SERVICE_AFTER_CLOSING_HOUR);
         } catch (LimitedPeriodException e) {
             /* This exception should not occur. It should be only for registered user. */
             LOG.error("Failed joining queue as limited join allowed qid={}, reason={}", qid, e.getLocalizedMessage());
@@ -907,23 +914,24 @@ public class QueueController {
                         businessCustomer.getCustomerName().getText(),
                         businessCustomer.getCustomerPhone().getText());
 
+                    StoreHourEntity storeHour = tokenQueueMobileService.getBizService().getStoreHours(bizStore.getCodeQR(), bizStore);
                     String estimateWaitTime;
                     switch (bizStore.getBusinessType()) {
                         case CDQ:
                         case CD:
-                            estimateWaitTime = ", " + DateUtil.timeSlot(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone());
+                            estimateWaitTime = ", " + ServiceUtils.timeSlot(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone(), storeHour);
                             break;
                         default:
                             estimateWaitTime = ", estimated wait " + ServiceUtils.calculateEstimatedWaitTime(
                                 bizStore.getAverageServiceTime(),
                                 jsonToken.getToken() - jsonToken.getServingNumber(),
                                 jsonToken.getQueueStatus(),
-                                tokenQueueMobileService.getBizService().getStoreHours(bizStore.getCodeQR(), bizStore).getStartHour(),
+                                storeHour.getStartHour(),
                                 bizStore.getTimeZone()
                             );
                     }
 
-                    String smsMessage = "NoQueue token number at " + bizStore.getDisplayName() + " is " + jsonToken.getToken()
+                    String smsMessage = "NoQueue token at " + bizStore.getDisplayName() + " is " + jsonToken.getToken()
                         + ", people waiting " + (jsonToken.getToken() - jsonToken.getServingNumber())
                         + estimateWaitTime;
                     LOG.info("SMS length {} {}", smsMessage, smsMessage.length());
@@ -942,6 +950,10 @@ public class QueueController {
                 LOG.warn("Failed joining queue as trying to join before store opens qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;
                 return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has not started. Please correct time on your device.", DEVICE_TIMEZONE_OFF);
+            } catch (ExpectedServiceBeyondStoreClosingHour e) {
+                LOG.warn("Failed joining queue as service time is after store close qid={}, reason={}", qid, e.getLocalizedMessage());
+                methodStatusSuccess = true;
+                return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " will close by the time you receive service. Please do not visit.", SERVICE_AFTER_CLOSING_HOUR);
             } catch (LimitedPeriodException e) {
                 LOG.warn("Failed joining queue as limited join allowed qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;
