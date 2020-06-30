@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -63,6 +65,9 @@ public class JsonInQueuePerson extends AbstractDomain {
 
     @JsonProperty("ti")
     private String transactionId;
+
+    @JsonProperty("sl")
+    private String timeSlotMessage;
 
     @JsonProperty("c")
     private String created;
@@ -145,6 +150,15 @@ public class JsonInQueuePerson extends AbstractDomain {
 
     public JsonInQueuePerson setTransactionId(String transactionId) {
         this.transactionId = transactionId;
+        return this;
+    }
+
+    public String getTimeSlotMessage() {
+        return timeSlotMessage;
+    }
+
+    public JsonInQueuePerson setTimeSlotMessage(String timeSlotMessage) {
+        this.timeSlotMessage = timeSlotMessage;
         return this;
     }
 

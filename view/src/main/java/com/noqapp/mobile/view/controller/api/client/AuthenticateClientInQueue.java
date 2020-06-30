@@ -136,6 +136,7 @@ public class AuthenticateClientInQueue {
                 .setExpectedServiceBegin(queue.getExpectedServiceBegin())
                 .setCustomerPriorityLevel(queue.getCustomerPriorityLevel())
                 .setTransactionId(queue.getTransactionId())
+                .setTimeSlotMessage(queue.getTimeSlotMessage())
                 .setCreated(queue.getCreated());
 
             joinAbortService.authenticateMessageToClient(
