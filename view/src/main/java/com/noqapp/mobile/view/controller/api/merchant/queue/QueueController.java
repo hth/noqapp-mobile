@@ -934,7 +934,7 @@ public class QueueController {
                     String smsMessage = "NoQueue token at " + bizStore.getDisplayName() + " is " + jsonToken.getToken()
                         + ", people waiting " + (jsonToken.getToken() - jsonToken.getServingNumber())
                         + estimateWaitTime;
-                    LOG.info("SMS length {} {}", smsMessage, smsMessage.length());
+                    LOG.info("SMS=\"{}\" length={}", smsMessage, smsMessage.length());
 
                     executorService.submit(() -> smsService.sendTransactionalSMS(
                         businessCustomer.getCustomerPhone().getText(),
