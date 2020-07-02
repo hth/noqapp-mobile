@@ -919,7 +919,7 @@ public class QueueController {
                     switch (bizStore.getBusinessType()) {
                         case CDQ:
                         case CD:
-                            estimateWaitTime = ", " + ServiceUtils.timeSlot(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone(), storeHour);
+                            estimateWaitTime = ", arrive between time slot " + ServiceUtils.timeSlot(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone(), storeHour);
                             break;
                         default:
                             estimateWaitTime = ", estimated wait " + ServiceUtils.calculateEstimatedWaitTime(
