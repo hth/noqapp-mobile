@@ -50,17 +50,14 @@
 
         <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear ${to},</strong></p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-            To reset your NoQueue ID password, simply click the link below. That will take you to a web page where you
-            can
-            create a new password.
+            To reset your NoQueue ID password, simply click the button below. That will take you to a web page where you
+            can create a new password.
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             This link will expire in three hours.
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-            <a href="${https}://${domain}/open/forgot/authenticate.htm?authenticationKey=${link}"
-                    style="padding:8px 15px; background:#ff1c79; color:#fff; text-decoration: none">Reset your NoQueue account
-                password</a>
+            <a href="${https}://${domain}/open/forgot/authenticate.htm?authenticationKey=${link}" style="padding:8px 15px; background:#ff1c79; color:#fff; text-decoration: none">Reset your NoQueue account password</a>
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             If you weren't trying to reset your password, don't worry - your account is still secure and no one has been

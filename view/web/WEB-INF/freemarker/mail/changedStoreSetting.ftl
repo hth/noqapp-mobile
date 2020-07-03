@@ -61,6 +61,7 @@
             Allows only registered users to join: ${allowLoggedInUser}<br/>
             Number of Available Token: ${availableTokenCount}<br/>
             Additional Note or Famous For: ${famousFor}<br/>
+            Average Handling Time: ${aht}<br/>
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             Store/Queue: <b>${onlineOrOffline?then('Online', 'Offline')}</b><br/>

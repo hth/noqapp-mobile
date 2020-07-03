@@ -66,6 +66,9 @@
             <strong>Customer Reviews for yesterday</strong><br/>
             Total Rating: ${totalRating}<br/>
             Clients/Patients Rated: ${totalCustomerRated}<br/>
+            <#if averageRating??>
+            Average Rating for the day: ${averageRating}<br/>
+            </#if>
             Total Hour Saved for Clients/Patients: ${totalHoursSaved}hrs<br/>
             <br/>
         </p>

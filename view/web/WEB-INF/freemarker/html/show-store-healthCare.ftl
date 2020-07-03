@@ -124,7 +124,7 @@
                     </div>
 
                     <div class="qr-footer">
-                        <p>TM and Copyright &copy; 2020 NoQueue.</p>
+                        <p>TM and Copyright &copy; 2020 NoQueue</p>
                         <p>All Rights Reserved &nbsp; | &nbsp; <a href="${page.parentHost}/#/pages/privacy">Privacy Policy</a>
                             &nbsp; | &nbsp; <a href="${page.parentHost}/#/pages/terms">Terms</a></p>
                     </div>
