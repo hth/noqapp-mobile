@@ -51,7 +51,7 @@
         <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear ${to},</strong></p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             You've entered ${contact_email} as the contact email address for your NoQueue ID. To complete the process, we
-            just need to verify that this email address belongs to you. Simply click the link below and sign in using your
+            just need to verify that this email address belongs to you. Simply click the button below and sign in using your
             email used during sign-up and password.
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
