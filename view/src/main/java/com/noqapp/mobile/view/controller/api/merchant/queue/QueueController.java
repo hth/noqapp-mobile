@@ -18,6 +18,7 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_NOT_START
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_NO_SERVICE_NO_PAY;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_SERVICE_LIMIT;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_TOKEN_LIMIT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SERVICED_TODAY;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SERVICE_AFTER_CLOSING_HOUR;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
@@ -73,6 +74,7 @@ import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.SmsService;
 import com.noqapp.service.TokenQueueService;
+import com.noqapp.service.exceptions.AlreadyServicedTodayException;
 import com.noqapp.service.exceptions.BeforeStartOfStoreException;
 import com.noqapp.service.exceptions.ExpectedServiceBeyondStoreClosingHour;
 import com.noqapp.service.exceptions.JoiningNonApprovedQueueException;
@@ -815,6 +817,10 @@ public class QueueController {
             LOG.warn("Failed joining queue as trying to join before store opens qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has not started. Please correct time on your device.", DEVICE_TIMEZONE_OFF);
+        } catch (AlreadyServicedTodayException e) {
+            LOG.warn("Failed joining queue as have been serviced or skipped today qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has either serviced or skipped you for today. Try another day for service", SERVICED_TODAY);
         } catch (ExpectedServiceBeyondStoreClosingHour e) {
             LOG.warn("Failed joining queue as service time is after store close qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
@@ -950,6 +956,10 @@ public class QueueController {
                 LOG.warn("Failed joining queue as trying to join before store opens qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;
                 return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has not started. Please correct time on your device.", DEVICE_TIMEZONE_OFF);
+            } catch (AlreadyServicedTodayException e) {
+                LOG.warn("Failed joining queue as have been serviced or skipped today qid={}, reason={}", qid, e.getLocalizedMessage());
+                methodStatusSuccess = true;
+                return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has either serviced or skipped you for today. Try another day for service", SERVICED_TODAY);
             } catch (ExpectedServiceBeyondStoreClosingHour e) {
                 LOG.warn("Failed joining queue as service time is after store close qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;
