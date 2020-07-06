@@ -13,6 +13,7 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonBusinessCustomerPriority;
 import com.noqapp.domain.json.JsonBusinessFeatures;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonProfile;
@@ -43,6 +44,8 @@ import com.noqapp.social.exception.AccountNotActiveException;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -203,16 +206,22 @@ public class MerchantProfileController {
                 }
             }
 
-            BizNameEntity bizName = bizService.getByBizNameId(jsonProfile.getBizNameId());
-            JsonBusinessFeatures jsonBusinessFeatures = new JsonBusinessFeatures()
-                .setLimitServiceByDays(bizName.getLimitServiceByDays())
-                .setPriorityAccess(bizName.getPriorityAccess());
+            JsonBusinessFeatures jsonBusinessFeatures = null;
+            List<JsonBusinessCustomerPriority> jsonBusinessCustomerPriorities = null;
+            if (StringUtils.isNotBlank(jsonProfile.getBizNameId())) {
+                BizNameEntity bizName = bizService.getByBizNameId(jsonProfile.getBizNameId());
+                jsonBusinessFeatures = new JsonBusinessFeatures()
+                    .setLimitServiceByDays(bizName.getLimitServiceByDays())
+                    .setPriorityAccess(bizName.getPriorityAccess());
+
+                jsonBusinessCustomerPriorities = businessCustomerPriorityService.findAllAsJson(bizName.getId());
+            }
 
             return new JsonMerchant()
                 .setJsonProfile(jsonProfile)
                 .setJsonProfessionalProfile(jsonProfessionalProfile)
                 .setTopics(jsonTopics)
-                .setCustomerPriorities(businessCustomerPriorityService.findAllAsJson(bizName.getId()))
+                .setCustomerPriorities(jsonBusinessCustomerPriorities)
                 .setJsonBusinessFeatures(jsonBusinessFeatures).asJson();
         } catch (JsonMappingException e) {
             LOG.error("Failed fetching profile qid={} reason={}", qid, e.getLocalizedMessage(), e);
