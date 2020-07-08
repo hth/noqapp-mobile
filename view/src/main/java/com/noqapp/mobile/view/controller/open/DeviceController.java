@@ -157,7 +157,7 @@ public class DeviceController {
 
     /** Checks is device version is supported. */
     @PostMapping(
-        value = {"/version", "/v1/version"},
+        value = "/version",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String isSupportedAppVersion(
