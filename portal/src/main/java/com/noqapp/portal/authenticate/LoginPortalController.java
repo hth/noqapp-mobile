@@ -132,7 +132,7 @@ public class LoginPortalController {
             deviceRegistrationService.updateRegisteredDevice(userAccount.getQueueUserId(), did.getText(), deviceTypeEnum);
             return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
         } catch (AccountNotActiveException e) {
-            LOG.error("Failed getting profile phone={}, reason={}", phone, e.getLocalizedMessage(), e);
+            LOG.error("Failed getting profile phone={}, reason={}", phone, e.getLocalizedMessage());
             return getErrorReason("Please contact support related to your account", ACCOUNT_INACTIVE);
         } catch (Exception e) {
             LOG.error("Failed login for phone={} cs={} reason={}", phone, countryShortName, e.getLocalizedMessage(), e);
