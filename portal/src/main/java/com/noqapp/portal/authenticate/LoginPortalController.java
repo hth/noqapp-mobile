@@ -133,7 +133,7 @@ public class LoginPortalController {
             return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
         } catch (AccountNotActiveException e) {
             LOG.error("Failed getting profile phone={}, reason={}", phone, e.getLocalizedMessage());
-            return getErrorReason("Account limit exceeded. Please contact support.", ACCOUNT_INACTIVE);
+            return getErrorReason("Account limit exceeded", ACCOUNT_INACTIVE);
         } catch (Exception e) {
             LOG.error("Failed login for phone={} cs={} reason={}", phone, countryShortName, e.getLocalizedMessage(), e);
 
