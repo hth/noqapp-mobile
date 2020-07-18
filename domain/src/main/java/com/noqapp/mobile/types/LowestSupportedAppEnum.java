@@ -41,10 +41,10 @@ public enum LowestSupportedAppEnum {
         "1.2.529",                      //Latest App Version on Play Store
         "Version Android Business Store"),
 
-    VAMH("1.2.529",                     //Oldest Supported App Version in String
+    VAMH("1.2.533",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMH,
-        "1.2.529",                      //Latest App Version on Play Store
+        "1.2.533",                      //Latest App Version on Play Store
         "Version Android Business HealthCare"),
 
     VAMT("1.2.529",                     //Oldest Supported App Version in String
