@@ -51,23 +51,23 @@ public class WebConnectorService {
 
     @Autowired
     public WebConnectorService(
-            @Value ("${api.mobile.get:/webapi/mobile/get.htm}")
-            String apiMobileGetPath,
+        @Value ("${api.mobile.get:/webapi/mobile/get.htm}")
+        String apiMobileGetPath,
 
-            @Value ("${no.response.from.web.server:could not connect to server}")
-            String noResponseFromWebServer,
+        @Value ("${no.response.from.web.server:could not connect to server}")
+        String noResponseFromWebServer,
 
-            @Value ("${web.access.api.token}")
-            String webApiAccessToken,
+        @Value ("${web.access.api.token}")
+        String webApiAccessToken,
 
-            @Value ("${secure.port}")
-            String securePort,
+        @Value ("${secure.port}")
+        String securePort,
 
-            @Value ("${https}")
-            String protocol,
+        @Value ("${https}")
+        String protocol,
 
-            @Value ("${host}")
-            String host
+        @Value ("${host}")
+        String host
     ) {
         this.apiMobileGetPath = apiMobileGetPath;
         this.noResponseFromWebServer = noResponseFromWebServer;
