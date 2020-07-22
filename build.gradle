@@ -477,7 +477,6 @@ task createBuildInfoFile {
 }
 
 task prepWar(dependsOn: [
-        createBuildInfoFile,
         unzip,
         copyJars
 ]) {
@@ -598,10 +597,10 @@ task prepWar(dependsOn: [
             into warLibDir
         }
 
-        copy {
-            from "${buildDir}/build-info.properties"
-            into warClassesDir
-        }
+//        copy {
+//            from "${buildDir}/build-info.properties"
+//            into warClassesDir
+//        }
     }
 }
 
@@ -610,6 +609,18 @@ task clean(type: Delete) {
 }
 
 task oldWar(type: War, dependsOn: prepWar) {
+    doFirst {
+        def buildInfoFile = new File("$warClassesDir/build-info.properties")
+        Properties props = new Properties()
+        props.setProperty('owner', 'NoQueue')
+        props.setProperty('copyright', 'All rights reserved')
+        props.setProperty('build.version', project.version.toString())
+        props.setProperty('build.env', "$env")
+        props.setProperty('deployed.server', "obsolete")
+
+        props.store(buildInfoFile.newWriter(), null)
+    }
+
     archiveBaseName = "noqapp-mobile-$env" + "." + project.version.toString()
     from warDir
     version ""
@@ -617,6 +628,18 @@ task oldWar(type: War, dependsOn: prepWar) {
 }
 
 task war(type: War, dependsOn: prepWar) {
+    doFirst {
+        def buildInfoFile = new File("$warClassesDir/build-info.properties")
+        Properties props = new Properties()
+        props.setProperty('owner', 'NoQueue')
+        props.setProperty('copyright', 'All rights reserved')
+        props.setProperty('build.version', project.version.toString())
+        props.setProperty('build.env', "$env")
+        props.setProperty('deployed.server', "standalone-mobile")
+
+        props.store(buildInfoFile.newWriter(), null)
+    }
+
     archiveBaseName = "ROOT-$env" + "." + project.version.toString()
     from warDir
     version ""

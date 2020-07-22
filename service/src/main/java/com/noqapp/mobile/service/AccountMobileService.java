@@ -10,14 +10,14 @@ import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.flow.RegisterUser;
 import com.noqapp.domain.helper.NameDatePair;
+import com.noqapp.domain.jms.ChangeMailOTP;
+import com.noqapp.domain.jms.SignupUserInfo;
 import com.noqapp.domain.json.JsonNameDatePair;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.domain.json.JsonUserAddressList;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.medical.service.UserMedicalProfileService;
-import com.noqapp.mobile.domain.mail.ChangeMailOTP;
-import com.noqapp.mobile.domain.mail.SignupUserInfo;
 import com.noqapp.repository.BusinessUserManager;
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.service.AccountService;
@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -69,6 +70,9 @@ public class AccountMobileService {
     private UserAddressService userAddressService;
     private BusinessUserManager businessUserManager;
     private BusinessUserStoreManager businessUserStoreManager;
+    private JMSProducerService jmsProducerService;
+
+    private String buildEnvironment;
 
     @Autowired
     public AccountMobileService(
@@ -81,6 +85,7 @@ public class AccountMobileService {
         @Value("${BusinessUserStoreService.queue.limit}")
         int queueLimit,
 
+        Environment environment,
         WebConnectorService webConnectorService,
         AccountService accountService,
         UserProfilePreferenceService userProfilePreferenceService,
@@ -88,11 +93,14 @@ public class AccountMobileService {
         ProfessionalProfileService professionalProfileService,
         UserAddressService userAddressService,
         BusinessUserManager businessUserManager,
-        BusinessUserStoreManager businessUserStoreManager
+        BusinessUserStoreManager businessUserStoreManager,
+        JMSProducerService jmsProducerService
     ) {
         this.accountSignup = accountSignup;
         this.mailChange = mailChange;
         this.queueLimit = queueLimit;
+
+        this.buildEnvironment = environment.getProperty("deployed.server");
 
         this.webConnectorService = webConnectorService;
         this.accountService = accountService;
@@ -102,6 +110,7 @@ public class AccountMobileService {
         this.userAddressService = userAddressService;
         this.businessUserManager = businessUserManager;
         this.businessUserStoreManager = businessUserStoreManager;
+        this.jmsProducerService = jmsProducerService;
     }
 
     /**
@@ -222,13 +231,17 @@ public class AccountMobileService {
     }
 
     private void sendValidationEmail(UserAccountEntity userAccount) {
-        boolean mailStatus = sendMailDuringSignup(
-            userAccount.getUserId(),
-            userAccount.getQueueUserId(),
-            userAccount.getName(),
-            HttpClientBuilder.create().build());
+        if (buildEnvironment.equalsIgnoreCase("standalone-mobile")) {
+            jmsProducerService.invokeMailOnSignUp(userAccount);
+        } else {
+            boolean mailStatus = sendMailDuringSignup(
+                userAccount.getUserId(),
+                userAccount.getQueueUserId(),
+                userAccount.getName(),
+                HttpClientBuilder.create().build());
 
-        LOG.info("mail sent={} to user={}", mailStatus, userAccount.getUserId());
+            LOG.info("mail sent={} to user={}", mailStatus, userAccount.getUserId());
+        }
     }
 
     /**
@@ -241,6 +254,7 @@ public class AccountMobileService {
      * @param httpClient
      * @return
      */
+    @Deprecated
     private boolean sendMailDuringSignup(String userId, String qid, String name, HttpClient httpClient) {
         LOG.debug("userId={} name={} webApiAccessToken={}", userId, name, AUTH_KEY_HIDDEN);
         HttpPost httpPost = webConnectorService.getHttpPost(accountSignup, httpClient);
@@ -336,15 +350,20 @@ public class AccountMobileService {
     }
 
     private void populateChangeMailWithData(UserProfileEntity userProfile, String migrateToMail) {
-        boolean mailStatus = sendMailWhenChangingMail(
-            migrateToMail,
-            userProfile.getName(),
-            userProfile.getMailOTP(),
-            HttpClientBuilder.create().build());
+        if (buildEnvironment.equalsIgnoreCase("standalone-mobile")) {
+            jmsProducerService.invokeMailOnMailChange(migrateToMail, userProfile.getName(), userProfile.getMailOTP());
+        } else {
+            boolean mailStatus = sendMailWhenChangingMail(
+                migrateToMail,
+                userProfile.getName(),
+                userProfile.getMailOTP(),
+                HttpClientBuilder.create().build());
 
-        LOG.info("Change mail confirmation sent={} to qid={} at {}", mailStatus, userProfile.getQueueUserId(), migrateToMail);
+            LOG.info("Change mail confirmation sent={} to qid={} at {}", mailStatus, userProfile.getQueueUserId(), migrateToMail);
+        }
     }
 
+    @Deprecated
     private boolean sendMailWhenChangingMail(String migrateToMail, String name, String mailOTP, HttpClient httpClient) {
         LOG.debug("migrateToMail={} name={} webApiAccessToken={}", migrateToMail, name, AUTH_KEY_HIDDEN);
         HttpPost httpPost = webConnectorService.getHttpPost(mailChange, httpClient);

@@ -59,6 +59,7 @@ import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.DeviceRegistrationService;
+import com.noqapp.mobile.service.JMSProducerService;
 import com.noqapp.mobile.service.MedicalRecordMobileService;
 import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
@@ -345,6 +346,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected TextToSpeechConfiguration textToSpeechConfiguration;
     @Mock protected GeoIPLocationService geoIPLocationService;
     @Mock protected SmsService smsService;
+    @Mock protected JMSProducerService jmsProducerService;
 
     @BeforeAll
     public void globalISetup() {
@@ -450,6 +452,7 @@ public class ITest extends RealMongoForITest {
             "/webapi/mobile/mail/accountSignup.htm",
             "/webapi/mobile/mail/mailChange.htm",
             10,
+            mockEnvironment,
             webConnectorService,
             accountService,
             userProfilePreferenceService,
@@ -457,7 +460,8 @@ public class ITest extends RealMongoForITest {
             professionalProfileService,
             userAddressService,
             businessUserManager,
-            businessUserStoreManager
+            businessUserStoreManager,
+            jmsProducerService
         );
 
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6, 6);
@@ -623,6 +627,7 @@ public class ITest extends RealMongoForITest {
 
         queueMobileService = new QueueMobileService(
             "/webapi/mobile/mail/negativeReview.htm",
+            mockEnvironment,
             queueManager,
             queueManagerJDBC,
             storeHourManager,
@@ -640,6 +645,7 @@ public class ITest extends RealMongoForITest {
             tokenQueueMobileService,
             firebaseMessageService,
             firebaseService,
+            jmsProducerService,
             webConnectorService
         );
 
