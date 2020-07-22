@@ -11,8 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import org.elasticsearch.client.RequestOptions;
@@ -21,6 +23,7 @@ import org.elasticsearch.client.core.MainResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -45,6 +48,7 @@ public class NoQAppInitializationCheckBean {
     private FirebaseConfig firebaseConfig;
     private RestHighLevelClient restHighLevelClient;
     private ElasticAdministrationService elasticAdministrationService;
+    private JmsTemplate jmsMailSignUpTemplate;
     private DatabaseReader databaseReader;
     private PaymentGatewayService paymentGatewayService;
 
@@ -57,6 +61,9 @@ public class NoQAppInitializationCheckBean {
         FirebaseConfig firebaseConfig,
         RestHighLevelClient restHighLevelClient,
         ElasticAdministrationService elasticAdministrationService,
+
+        @Qualifier("jmsMailSignUpTemplate")
+        JmsTemplate jmsMailSignUpTemplate,
         DatabaseReader databaseReader,
         PaymentGatewayService paymentGatewayService
     ) {
@@ -66,6 +73,7 @@ public class NoQAppInitializationCheckBean {
         this.firebaseConfig = firebaseConfig;
         this.restHighLevelClient = restHighLevelClient;
         this.elasticAdministrationService = elasticAdministrationService;
+        this.jmsMailSignUpTemplate = jmsMailSignUpTemplate;
         this.databaseReader = databaseReader;
         this.paymentGatewayService = paymentGatewayService;
     }
@@ -115,6 +123,16 @@ public class NoQAppInitializationCheckBean {
             LOG.warn("Elastic Index not found {}", BizStoreElastic.INDEX);
         } else {
             LOG.info("Elastic Index={} found", BizStoreElastic.INDEX);
+        }
+    }
+
+    @PostConstruct
+    public void checkJMS() {
+        if (Objects.requireNonNull(jmsMailSignUpTemplate.getDefaultDestinationName()).endsWith("jms.mail.signup")) {
+            LOG.info("ActiveMQ JMS running destinationName={}", jmsMailSignUpTemplate.getDefaultDestinationName());
+        } else {
+            LOG.error("Failed connecting ActiveMQ JMS");
+            throw new RuntimeException("ActiveMQ could not be connected");
         }
     }
 

@@ -16,6 +16,7 @@ import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.common.ComposeMessagesForFCM;
+import com.noqapp.domain.jms.ReviewSentiment;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueHistoricalList;
@@ -30,7 +31,6 @@ import com.noqapp.domain.types.MessageOriginEnum;
 import com.noqapp.domain.types.SentimentTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.domain.JsonStoreSetting;
-import com.noqapp.mobile.domain.mail.ReviewSentiment;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.BusinessUserManager;
 import com.noqapp.repository.QueueManager;
@@ -61,6 +61,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -100,15 +101,18 @@ public class QueueMobileService {
     private TokenQueueMobileService tokenQueueMobileService;
     private FirebaseMessageService firebaseMessageService;
     private FirebaseService firebaseService;
+    private JMSProducerService jmsProducerService;
     private WebConnectorService webConnectorService;
 
     private ExecutorService executorService;
+    private String buildEnvironment;
 
     @Autowired
     public QueueMobileService(
         @Value("${mailChange:/webapi/mobile/mail/negativeReview.htm}")
         String negativeReview,
 
+        Environment environment,
         QueueManager queueManager,
         QueueManagerJDBC queueManagerJDBC,
         StoreHourManager storeHourManager,
@@ -126,9 +130,12 @@ public class QueueMobileService {
         TokenQueueMobileService tokenQueueMobileService,
         FirebaseMessageService firebaseMessageService,
         FirebaseService firebaseService,
+        JMSProducerService jmsProducerService,
         WebConnectorService webConnectorService
     ) {
         this.negativeReview = negativeReview;
+
+        this.buildEnvironment = environment.getProperty("deployed.server");
 
         this.queueManager = queueManager;
         this.queueManagerJDBC = queueManagerJDBC;
@@ -147,6 +154,7 @@ public class QueueMobileService {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.firebaseMessageService = firebaseMessageService;
         this.firebaseService = firebaseService;
+        this.jmsProducerService = jmsProducerService;
         this.webConnectorService = webConnectorService;
 
         this.executorService = newCachedThreadPool();
@@ -461,16 +469,28 @@ public class QueueMobileService {
 
             QueueEntity queue = queueManager.findOne(codeQR, token);
             for (BusinessUserEntity businessUser : businessUsers) {
-                sendMailWhenNegativeReview(
-                    queue.getDisplayName(),
-                    queue.getCustomerName(),
-                    queue.getCustomerPhone(),
-                    ratingCount,
-                    hoursSaved,
-                    review,
-                    sentimentType.getDescription(),
-                    userProfileManager.findByQueueUserId(businessUser.getQueueUserId()).getEmail(),
-                    HttpClientBuilder.create().build());
+                if (buildEnvironment.equalsIgnoreCase("standalone-mobile")) {
+                    jmsProducerService.invokeMailOnReviewNegative(
+                        queue.getDisplayName(),
+                        queue.getCustomerName(),
+                        queue.getCustomerPhone(),
+                        ratingCount,
+                        hoursSaved,
+                        review,
+                        sentimentType.getDescription(),
+                        userProfileManager.findByQueueUserId(businessUser.getQueueUserId()).getEmail());
+                } else {
+                    sendMailWhenNegativeReview(
+                        queue.getDisplayName(),
+                        queue.getCustomerName(),
+                        queue.getCustomerPhone(),
+                        ratingCount,
+                        hoursSaved,
+                        review,
+                        sentimentType.getDescription(),
+                        userProfileManager.findByQueueUserId(businessUser.getQueueUserId()).getEmail(),
+                        HttpClientBuilder.create().build());
+                }
             }
         }
     }
