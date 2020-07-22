@@ -49,6 +49,7 @@ buildscript {
         classpath 'org.owasp:dependency-check-gradle:5.3.2'
         //classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1'
         classpath 'de.aaschmid:gradle-cpd-plugin:2.0'
+        classpath 'org.codehaus.groovy:groovy-all:2.4.15'
     }
 }
 
@@ -162,8 +163,6 @@ subprojects {
         implementation "com.squareup.okhttp3:okhttp:$okhttp"
         implementation "com.google.zxing:core:$zxing"
         implementation "aopalliance:aopalliance:1.0"
-        implementation "org.apache.commons:commons-vfs2:$vfs2"
-        implementation "org.apache.commons:commons-csv:$csv"
         implementation "com.jcraft:jsch:$jsch"
 
         implementation "org.aspectj:aspectjrt:$aspectjrt"
@@ -200,7 +199,7 @@ subprojects {
         implementation "commons-fileupload:commons-fileupload:$commonsfileupload"
         implementation "commons-io:commons-io:$commonsio"
         implementation "commons-validator:commons-validator:$commonsvalidator"
-        implementation "commons-codec:commons-codec:1.13"
+        implementation "commons-codec:commons-codec:1.14"
         implementation "commons-logging:commons-logging:1.2"
 
         implementation "javax.mail:javax.mail-api:$javaxMail"
@@ -213,6 +212,9 @@ subprojects {
         implementation "org.apache.tika:tika-parsers:$tika"
         implementation "org.apache.tika:tika-core:$tika"
         implementation "org.apache.commons:commons-collections4:$commonsCollections"
+        implementation "org.apache.commons:commons-vfs2:$vfs2"
+        implementation "org.apache.commons:commons-csv:$csv"
+        implementation "org.apache.activemq:activemq-client:$activemq"
 
         implementation "ch.qos.logback:logback-core:$logback"
         implementation "ch.qos.logback:logback-classic:$logback"
