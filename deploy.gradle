@@ -170,7 +170,7 @@ def deployMobile(def server, def ip, def serverName, def path, def mobileFile) {
         copyFiles(server, "/var/lib/jenkins/jobs/noqapp.mobile-$env-build/workspace/build/war/$env/$mobileFile")
     }
     sshExecute(server, "mkdir /usr/local/tomcat/webapps/ROOT")
-    sshExecute(server, "cd /usr/local/tomcat/webapps/; mv $rootFile ROOT/ROOT.war")
+    sshExecute(server, "cd /usr/local/tomcat/webapps/; mv $mobileFile ROOT/ROOT.war")
     sshExecute(server, "cd /usr/local/tomcat/webapps/ROOT; source ~/.bash_profile; jar xf ROOT.war")
     sshExecute(server, "cd /usr/local/tomcat/webapps/ROOT; rm -rf ROOT.war")
     sshExecute(server, "echo 'server=$serverName' >> /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/build-info.properties")
