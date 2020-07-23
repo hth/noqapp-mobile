@@ -86,13 +86,14 @@ remotes {
 task deployServer {
     if (env == 'sandbox') {
         deploy(remotes.sn1, "10.0.0.54", "1ns", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
-        deploy(remotes.sn2, "10.0.0.64", "2ns", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
-        deploy(remotes.sn4, "10.0.0.84", "4ns", "$env-loader", "ROOT-loader-$env.*.war", "noqapp-mobile-$env.*.war")
-        //deploy(remotes.sn14, "10.0.0.114", "14ns", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
-
         deployMobile(remotes.sr1, "10.0.0.52", "1rs", "$env", "ROOT-$env.*.war")
+
+        deploy(remotes.sn2, "10.0.0.64", "2ns", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
         deployMobile(remotes.sr2, "10.0.0.62", "2rs", "$env", "ROOT-$env.*.war")
+
+        deploy(remotes.sn4, "10.0.0.84", "4ns", "$env-loader", "ROOT-loader-$env.*.war", "noqapp-mobile-$env.*.war")
         deployMobile(remotes.sr3, "10.0.0.72", "3rs", "$env", "ROOT-$env.*.war")
+        //deploy(remotes.sn14, "10.0.0.114", "14ns", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
     }
     if (env == 'prod') {
         deploy(remotes.n1, "10.0.0.53", "1n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
