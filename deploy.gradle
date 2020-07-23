@@ -13,7 +13,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.hidetake:gradle-ssh-plugin:2.7.0'
+        classpath 'org.hidetake:gradle-ssh-plugin:2.10.1'
     }
 }
 
@@ -68,6 +68,19 @@ remotes {
         host = '10.0.0.114'
         user = 'db'
     }
+
+    sr1 {
+        host = '10.0.0.52'
+        user = 'db'
+    }
+    sr2 {
+        host = '10.0.0.62'
+        user = 'db'
+    }
+    sr3 {
+        host = '10.0.0.72'
+        user = 'db'
+    }
 }
 
 task deployServer {
@@ -76,6 +89,10 @@ task deployServer {
         deploy(remotes.sn2, "10.0.0.64", "2ns", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
         deploy(remotes.sn4, "10.0.0.84", "4ns", "$env-loader", "ROOT-loader-$env.*.war", "noqapp-mobile-$env.*.war")
         //deploy(remotes.sn14, "10.0.0.114", "14ns", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
+
+        deployMobile(remotes.sr1, "10.0.0.52", "1rs", "$env", "ROOT-$env.*.war")
+        deployMobile(remotes.sr2, "10.0.0.62", "2rs", "$env", "ROOT-$env.*.war")
+        deployMobile(remotes.sr3, "10.0.0.72", "3rs", "$env", "ROOT-$env.*.war")
     }
     if (env == 'prod') {
         deploy(remotes.n1, "10.0.0.53", "1n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
@@ -129,6 +146,43 @@ def deploy(def server, def ip, def serverName, def path, def rootFile, def mobil
     sshExecute(server, "curl -I http://$ip:8080/open/login.htm")
     sshExecute(server, "wget -qO- http://$ip:8080/open/login.htm > /dev/null 2>&1")
     sshExecute(server, "wget -qO- http://$ip:8080/noqapp-mobile/open/healthCheck.json > /dev/null 2>&1")
+}
+
+def deployMobile(def server, def ip, def serverName, def path, def mobileFile) {
+    logger.lifecycle("--------------------------------------------")
+    logger.lifecycle("         Deploying to $server for $env")
+    logger.lifecycle("--------------------------------------------")
+
+    sshExecute(server, 'sudo service tomcat stop')
+    if (env == 'prod') {
+        sshExecute(server, 'sleep 20')
+    } else {
+        sshExecute(server, "sleep 5")
+    }
+    sshExecute(server, 'cd /usr/local/tomcat/webapps/; rm -rf *')
+    if (env == 'sandbox') {
+        sshExecute(server, 'cd /usr/local/tomcat/logs; rm -rf *')
+    }
+
+    if (fastEnabled.toBoolean()) {
+        copyFiles(server, "/var/lib/jenkins/jobs/noqapp.mobile-$env-build-fast/workspace/build/war/$env/$mobileFile")
+    } else {
+        copyFiles(server, "/var/lib/jenkins/jobs/noqapp.mobile-$env-build/workspace/build/war/$env/$mobileFile")
+    }
+    sshExecute(server, "mkdir /usr/local/tomcat/webapps/ROOT")
+    sshExecute(server, "cd /usr/local/tomcat/webapps/; mv $rootFile ROOT/ROOT.war")
+    sshExecute(server, "cd /usr/local/tomcat/webapps/ROOT; source ~/.bash_profile; jar xf ROOT.war")
+    sshExecute(server, "cd /usr/local/tomcat/webapps/ROOT; rm -rf ROOT.war")
+    sshExecute(server, "echo 'server=$serverName' >> /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/build-info.properties")
+
+    sshExecute(server, "sudo service tomcat start")
+    if (env == 'prod') {
+        sshExecute(server, "sleep 35")
+    } else {
+        sshExecute(server, "sleep 5")
+    }
+    sshExecute(server, "sudo service tomcat status")
+    sshExecute(server, "wget -qO- http://$ip:8080/open/healthCheck.json > /dev/null 2>&1")
 }
 
 def sshExecute(def server, def cmd) {
