@@ -358,6 +358,7 @@ public class ITest extends RealMongoForITest {
         didQueueSupervisor = UUID.randomUUID().toString();
         mockEnvironment = new MockEnvironment();
         mockEnvironment.setProperty("build.env", "sandbox");
+        mockEnvironment.setProperty("deployed.server", "standalone-mobile");
 
         Properties nlpProperties = new Properties();
         nlpProperties.setProperty("annotators", "tokenize, ssplit, pos, lemma, parse, sentiment");
