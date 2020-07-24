@@ -49,6 +49,22 @@ remotes {
         host = '10.0.0.113'
         user = 'db'
     }
+    r1 {
+        host = '10.0.0.51'
+        user = 'db'
+    }
+    r2 {
+        host = '10.0.0.61'
+        user = 'db'
+    }
+    r3 {
+        host = '10.0.0.71'
+        user = 'db'
+    }
+    r4 {
+        host = '10.0.0.81'
+        user = 'db'
+    }
     
     //Sandbox
     sn1 {
@@ -96,10 +112,17 @@ task deployServer {
         //deploy(remotes.sn14, "10.0.0.114", "14ns", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
     }
     if (env == 'prod') {
-        deploy(remotes.n1, "10.0.0.53", "1n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
-        deploy(remotes.n2, "10.0.0.63", "2n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
-        deploy(remotes.n3, "10.0.0.73", "3n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
-        deploy(remotes.n4, "10.0.0.83", "4n", "$env-loader", "ROOT-loader-$env.*.war", "noqapp-mobile-$env.*.war")
+//        deploy(remotes.n1, "10.0.0.53", "1n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
+        deployMobile(remotes.r1, "10.0.0.51", "1r", "$env", "ROOT-$env.*.war")
+
+//        deploy(remotes.n2, "10.0.0.63", "2n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
+        deployMobile(remotes.r2, "10.0.0.61", "2r", "$env", "ROOT-$env.*.war")
+
+//        deploy(remotes.n3, "10.0.0.73", "3n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
+        deployMobile(remotes.r3, "10.0.0.71", "3r", "$env", "ROOT-$env.*.war")
+
+//        deploy(remotes.n4, "10.0.0.83", "4n", "$env-loader", "ROOT-loader-$env.*.war", "noqapp-mobile-$env.*.war")
+        deployMobile(remotes.r4, "10.0.0.81", "4r", "$env", "ROOT-$env.*.war")
         //deploy(remotes.n13, "10.0.0.113", "13n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
     }
 }
