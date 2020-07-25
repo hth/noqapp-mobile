@@ -15,7 +15,6 @@ import com.noqapp.mobile.domain.body.client.QueueAuthorize;
 import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.open.AccountClientController;
-import com.noqapp.mobile.view.validator.UserMedicalProfileValidator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,7 +31,6 @@ import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 
@@ -107,8 +105,8 @@ class TokenQueueAPIControllerITest extends ITest {
             .setTempDayClosed(false)
             .setPreventJoining(false);
         storeHourManager.save(storeHour);
-        long averageHandlingTime = bizService.computeAverageHandlingTime(DayOfWeek.of(storeHour.getDayOfWeek()), bizStore.getAvailableTokenCount(), bizStore);
-        bizService.updateStoreTokenAndHandlingTime(bizStore.getCodeQR(), averageHandlingTime, bizStore.getAvailableTokenCount());
+        long averageServiceTime = bizService.computeAverageServiceTime(DayOfWeek.of(storeHour.getDayOfWeek()), bizStore.getAvailableTokenCount(), bizStore);
+        bizService.updateStoreTokenAndServiceTime(bizStore.getCodeQR(), averageServiceTime, bizStore.getAvailableTokenCount());
 
         List<String> mails = new LinkedList<>();
         for (int i = 0; i < 150; i++) {
