@@ -82,6 +82,7 @@ class TokenQueueAPIControllerITest extends ITest {
         );
     }
 
+    //@Test
     @Ignore("Tests token issued when limited token available")
     void joinQueue() throws IOException {
         Authentication authentication = Mockito.mock(Authentication.class);
@@ -93,7 +94,6 @@ class TokenQueueAPIControllerITest extends ITest {
         BizNameEntity bizName = bizService.findByPhone("9118000000041");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
         bizStore.setAverageServiceTime(114000).setAvailableTokenCount(140);
-        bizStore.setTimeZone("US/Hawaii");
         bizService.saveStore(bizStore, "Changed AST");
 
         StoreHourEntity storeHour = bizService.getStoreHours(bizStore.getCodeQR(), bizStore);
