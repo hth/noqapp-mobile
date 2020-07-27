@@ -31,6 +31,7 @@ import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 
@@ -99,7 +100,7 @@ class TokenQueueAPIControllerITest extends ITest {
             .setEndHour(1600)
             .setLunchTimeStart(1300)
             .setLunchTimeEnd(1400)
-            .setTokenAvailableFrom(700)
+            .setTokenAvailableFrom(100)
             .setTokenNotAvailableFrom(1530)
             .setDayClosed(false)
             .setTempDayClosed(false)
