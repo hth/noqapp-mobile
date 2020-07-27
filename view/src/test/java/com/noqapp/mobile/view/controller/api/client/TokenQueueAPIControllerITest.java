@@ -100,7 +100,7 @@ class TokenQueueAPIControllerITest extends ITest {
             .setEndHour(1600)
             .setLunchTimeStart(1300)
             .setLunchTimeEnd(1400)
-            .setTokenAvailableFrom(700)
+            .setTokenAvailableFrom(100)
             .setTokenNotAvailableFrom(1530)
             .setDayClosed(false)
             .setTempDayClosed(false)
