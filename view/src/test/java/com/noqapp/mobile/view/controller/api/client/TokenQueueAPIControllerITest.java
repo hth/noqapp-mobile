@@ -106,7 +106,7 @@ class TokenQueueAPIControllerITest extends ITest {
             .setTempDayClosed(false)
             .setPreventJoining(false);
         storeHourManager.save(storeHour);
-        long averageServiceTime = bizService.computeAverageServiceTime(DayOfWeek.of(storeHour.getDayOfWeek()), bizStore.getAvailableTokenCount(), bizStore);
+        long averageServiceTime = bizService.computeAverageServiceTime(DayOfWeek.of(storeHour.getDayOfWeek()), bizStore.getAvailableTokenCount(), bizStore.getId());
         bizService.updateStoreTokenAndServiceTime(bizStore.getCodeQR(), averageServiceTime, bizStore.getAvailableTokenCount());
 
         List<String> mails = new LinkedList<>();
