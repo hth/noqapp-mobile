@@ -93,6 +93,7 @@ class TokenQueueAPIControllerITest extends ITest {
         BizNameEntity bizName = bizService.findByPhone("9118000000041");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
         bizStore.setAverageServiceTime(114000).setAvailableTokenCount(140);
+        bizStore.setTimeZone("Pacific/Honolulu");
         bizService.saveStore(bizStore, "Changed AST");
 
         StoreHourEntity storeHour = bizService.getStoreHours(bizStore.getCodeQR(), bizStore);
