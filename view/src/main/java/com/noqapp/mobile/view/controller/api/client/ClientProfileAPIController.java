@@ -475,7 +475,7 @@ public class ClientProfileAPIController {
                         return ErrorEncounteredJson.toJson("Entered Mail OTP is incorrect", MAIL_OTP_FAILED);
                     }
                 } catch (DuplicateAccountException e) {
-                    LOG.error("Failed migration account exists for user={} reason={}", mail, e.getLocalizedMessage(), e);
+                    LOG.error("Failed migration account exists for user={} mailMigrate={} reason={}", mail, mailMigrate, e.getLocalizedMessage());
 
                     errors = new HashMap<>();
                     errors.put(ErrorEncounteredJson.REASON, "User already exists. Cannot continue migration.");
