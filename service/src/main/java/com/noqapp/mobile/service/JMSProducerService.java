@@ -66,7 +66,7 @@ public class JMSProducerService {
     }
 
     public void invokeMailOnSignUp(UserAccountEntity userAccount) {
-        SignupUserInfo signupUserInfo = SignupUserInfo.newInstance(userAccount.getUserId(), userAccount.getName(), userAccount.getQueueUserId());
+        SignupUserInfo signupUserInfo = SignupUserInfo.newInstance(userAccount.getUserId(), userAccount.getQueueUserId(), userAccount.getName());
         jmsMailSignUpTemplate.send(activemqDestinationMailSignUp, session -> session.createObjectMessage(signupUserInfo));
     }
 
