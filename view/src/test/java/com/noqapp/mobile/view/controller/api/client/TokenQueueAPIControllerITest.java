@@ -85,7 +85,7 @@ class TokenQueueAPIControllerITest extends ITest {
         );
     }
 
-    @Test
+    //@Test
     @Ignore("Tests token issued when limited token available")
     void joinQueue() throws IOException {
         Authentication authentication = Mockito.mock(Authentication.class);
