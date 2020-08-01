@@ -50,6 +50,12 @@ public class JsonStoreSetting extends AbstractDomain {
     @JsonProperty ("e")
     private int endHour;
 
+    @JsonProperty("ls")
+    private int lunchTimeStart;
+
+    @JsonProperty("le")
+    private int lunchTimeEnd;
+
     @JsonProperty ("de")
     private int delayedInMinutes;
 
@@ -135,6 +141,8 @@ public class JsonStoreSetting extends AbstractDomain {
         this.startHour = storeHour.getStartHour();
         this.tokenNotAvailableFrom = storeHour.getTokenNotAvailableFrom();
         this.endHour = storeHour.getEndHour();
+        this.lunchTimeStart = storeHour.getLunchTimeStart();
+        this.lunchTimeEnd = storeHour.getLunchTimeEnd();
         this.delayedInMinutes = storeHour.getDelayedInMinutes();
         this.dayClosed = storeHour.isDayClosed();
         this.tempDayClosed = storeHour.isTempDayClosed();
@@ -168,6 +176,8 @@ public class JsonStoreSetting extends AbstractDomain {
         this.startHour = storeHour.getStartHour();
         this.tokenNotAvailableFrom = storeHour.getTokenNotAvailableFrom();
         this.endHour = storeHour.getEndHour();
+        this.lunchTimeStart = storeHour.getLunchTimeStart();
+        this.lunchTimeEnd = storeHour.getLunchTimeEnd();
         this.delayedInMinutes = storeHour.getDelayedInMinutes();
         this.dayClosed = storeHour.isDayClosed();
         this.tempDayClosed = storeHour.isTempDayClosed();
@@ -232,6 +242,24 @@ public class JsonStoreSetting extends AbstractDomain {
 
     public JsonStoreSetting setEndHour(int endHour) {
         this.endHour = endHour;
+        return this;
+    }
+
+    public int getLunchTimeStart() {
+        return lunchTimeStart;
+    }
+
+    public JsonStoreSetting setLunchTimeStart(int lunchTimeStart) {
+        this.lunchTimeStart = lunchTimeStart;
+        return this;
+    }
+
+    public int getLunchTimeEnd() {
+        return lunchTimeEnd;
+    }
+
+    public JsonStoreSetting setLunchTimeEnd(int lunchTimeEnd) {
+        this.lunchTimeEnd = lunchTimeEnd;
         return this;
     }
 
