@@ -37,6 +37,7 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -167,10 +168,20 @@ class TokenQueueAPIControllerITest extends ITest {
             LOG.info("Joined queue {} : {}", jsonToken.getToken(), jsonToken);
         }
 
+        Map<String, Integer> count = new HashMap<>();
         for (String key : display.keySet()) {
             LOG.info("{} {}", key, display.get(key));
+
+            if (count.containsKey(display.get(key))) {
+                count.put(display.get(key), count.get(display.get(key)) + 1);
+            } else {
+                count.put(display.get(key), 1);
+            }
         }
 
+        for (String key : count.keySet()) {
+            System.out.println(key + " " + count.get(key));
+        }
         assertEquals(140, display.size(), "Number of token issued must be equal");
     }
 }
