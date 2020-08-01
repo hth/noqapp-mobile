@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.utils.DateUtil.MINUTES_IN_MILLISECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.noqapp.common.utils.RandomString;
@@ -93,7 +94,7 @@ class TokenQueueAPIControllerITest extends ITest {
 
         BizNameEntity bizName = bizService.findByPhone("9118000000041");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
-        bizStore.setAverageServiceTime(114000).setAvailableTokenCount(140);
+        bizStore.setAverageServiceTime(114000).setAvailableTokenCount(200);
         bizStore.setTimeZone("Pacific/Honolulu");
         bizService.saveStore(bizStore, "Changed AST");
 
@@ -112,7 +113,7 @@ class TokenQueueAPIControllerITest extends ITest {
         bizService.updateStoreTokenAndServiceTime(bizStore.getCodeQR(), averageServiceTime, bizStore.getAvailableTokenCount());
 
         List<String> mails = new LinkedList<>();
-        for (int i = 0; i < 150; i++) {
+        for (int i = 0; i < 210; i++) {
             String phone = "+91" + StringUtils.leftPad(String.valueOf(i), 10, '0');
             String name = RandomString.newInstance(6).nextString().toLowerCase();
             Registration user = new Registration()
@@ -182,6 +183,7 @@ class TokenQueueAPIControllerITest extends ITest {
         for (String key : count.keySet()) {
             System.out.println(key + " " + count.get(key));
         }
-        assertEquals(140, display.size(), "Number of token issued must be equal");
+        System.out.println("averageServiceTime =" + averageServiceTime / MINUTES_IN_MILLISECONDS);
+        assertEquals(200, display.size(), "Number of token issued must be equal");
     }
 }
