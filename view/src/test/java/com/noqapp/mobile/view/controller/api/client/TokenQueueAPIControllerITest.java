@@ -37,6 +37,8 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -83,7 +85,7 @@ class TokenQueueAPIControllerITest extends ITest {
         );
     }
 
-    //@Test
+    @Test
     @Ignore("Tests token issued when limited token available")
     void joinQueue() throws IOException {
         Authentication authentication = Mockito.mock(Authentication.class);
@@ -183,7 +185,7 @@ class TokenQueueAPIControllerITest extends ITest {
         for (String key : count.keySet()) {
             System.out.println(key + " " + count.get(key));
         }
-        System.out.println("averageServiceTime =" + averageServiceTime / MINUTES_IN_MILLISECONDS);
+        System.out.println("averageServiceTime =" + new BigDecimal(averageServiceTime).divide(new BigDecimal(MINUTES_IN_MILLISECONDS), MathContext.DECIMAL64));
         assertEquals(200, display.size(), "Number of token issued must be equal");
     }
 }
