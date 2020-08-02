@@ -185,7 +185,7 @@ class TokenQueueAPIControllerITest extends ITest {
         for (String key : count.keySet()) {
             System.out.println(key + " " + count.get(key));
         }
-        System.out.println("averageServiceTime =" + new BigDecimal(averageServiceTime).divide(new BigDecimal(MINUTES_IN_MILLISECONDS), MathContext.DECIMAL64));
+        System.out.println("averageServiceTime=" + new BigDecimal(averageServiceTime).divide(new BigDecimal(MINUTES_IN_MILLISECONDS), MathContext.DECIMAL64) + " minutes per user");
         assertEquals(200, display.size(), "Number of token issued must be equal");
     }
 }
