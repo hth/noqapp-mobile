@@ -57,6 +57,9 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -85,6 +88,8 @@ public class StoreSettingController {
     private BizStoreElasticService bizStoreElasticService;
     private ApiHealthService apiHealthService;
 
+    private ScheduledExecutorService executorService;
+
     @Autowired
     public StoreSettingController(
         BizService bizService,
@@ -106,6 +111,8 @@ public class StoreSettingController {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.bizStoreElasticService = bizStoreElasticService;
         this.apiHealthService = apiHealthService;
+
+        this.executorService = Executors.newScheduledThreadPool(2);
     }
 
     /** Get existing state of the store to change the settings. */
@@ -245,7 +252,7 @@ public class StoreSettingController {
 
                 /* Send email when store setting changes. */
                 String changeInitiateReason = "Removed Scheduled " + scheduledTask.getScheduleTask() + " from App, modified by " + accountService.findProfileByQueueUserId(qid).getEmail();
-                bizService.sendMailWhenStoreSettingHasChanged(updatedBizStore, changeInitiateReason);
+                sendMailWhenStoreSettingHasChanged(updatedBizStore, changeInitiateReason);
             }
 
             StoreHourEntity storeHour = queueMobileService.getQueueStateForToday(codeQR.getText());
@@ -386,7 +393,7 @@ public class StoreSettingController {
 
             /* Send email when store setting changes. */
             String changeInitiateReason = "Modified Store Detail from App, modified by " +  accountService.findProfileByQueueUserId(qid).getEmail();
-            bizService.sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
+            sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
 
             return new JsonStoreSetting(
                 jsonStoreSetting.getCodeQR(),
@@ -489,7 +496,7 @@ public class StoreSettingController {
 
             /* Send email when store setting changes. */
             String changeInitiateReason = "Modified Service Price from App, modified by " +  accountService.findProfileByQueueUserId(qid).getEmail();
-            bizService.sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
+            sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
 
             return new JsonStoreSetting(
                 jsonStoreSetting.getCodeQR(),
@@ -602,7 +609,7 @@ public class StoreSettingController {
 
             /* Send email when store setting changes. */
             String changeInitiateReason = "Modified Appointment Settings from App, modified by " +  accountService.findProfileByQueueUserId(qid).getEmail();
-            bizService.sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
+            sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
 
             return new JsonStoreSetting(
                 jsonStoreSetting.getCodeQR(),
@@ -624,6 +631,16 @@ public class StoreSettingController {
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
 
+    }
+
+    private void sendMailWhenStoreSettingHasChanged(BizStoreEntity bizStore, String changeInitiateReason) {
+        executorService.schedule(() -> {
+            try {
+                bizService.sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
+            } catch (Exception e) {
+                LOG.warn("Failed sending change mail for store {} {}", bizStore.getId(), e.getLocalizedMessage(), e);
+            }
+        }, 20, TimeUnit.SECONDS);
     }
 
     private void updateChangesMadeOnElastic(BizStoreEntity bizStore) {
