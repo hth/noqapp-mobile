@@ -541,6 +541,8 @@ public class QueueMobileService {
             modifyQueue.getStartHour(),
             modifyQueue.getTokenNotAvailableFrom(),
             modifyQueue.getEndHour(),
+            modifyQueue.getLunchTimeStart(),
+            modifyQueue.getLunchTimeEnd(),
             modifyQueue.isDayClosed(),
             modifyQueue.isTempDayClosed(),
             modifyQueue.isPreventJoining(),

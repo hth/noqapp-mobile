@@ -11,7 +11,6 @@ import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.domain.BizStoreSearchElasticList;
 import com.noqapp.search.elastic.helper.GeoIP;
 import com.noqapp.search.elastic.json.ElasticBizStoreSearchSource;
-import com.noqapp.search.elastic.service.BizStoreElasticService;
 import com.noqapp.search.elastic.service.BizStoreSearchElasticService;
 import com.noqapp.search.elastic.service.BizStoreSpatialElasticService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;

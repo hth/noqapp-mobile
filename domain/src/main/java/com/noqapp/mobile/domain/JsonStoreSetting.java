@@ -16,38 +16,38 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * User: hitender
  * Date: 6/15/17 9:03 AM
  */
-@SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable",
-        "unused"
+@SuppressWarnings({
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable",
+    "unused"
 })
-@JsonAutoDetect (
-        fieldVisibility = JsonAutoDetect.Visibility.ANY,
-        getterVisibility = JsonAutoDetect.Visibility.NONE,
-        setterVisibility = JsonAutoDetect.Visibility.NONE
+@JsonAutoDetect(
+    fieldVisibility = JsonAutoDetect.Visibility.ANY,
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE
 )
-@JsonPropertyOrder (alphabetic = true)
-@JsonIgnoreProperties (ignoreUnknown = true)
+@JsonPropertyOrder(alphabetic = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 //@JsonInclude (JsonInclude.Include.NON_NULL)
 public class JsonStoreSetting extends AbstractDomain {
 
-    @JsonProperty ("qr")
+    @JsonProperty("qr")
     private String codeQR;
 
-    @JsonProperty ("f")
+    @JsonProperty("f")
     private int tokenAvailableFrom;
 
     /* Store business start hour. */
-    @JsonProperty ("b")
+    @JsonProperty("b")
     private int startHour;
 
-    @JsonProperty ("m")
+    @JsonProperty("m")
     private int tokenNotAvailableFrom;
 
     /* Store business end hour. */
-    @JsonProperty ("e")
+    @JsonProperty("e")
     private int endHour;
 
     @JsonProperty("ls")
@@ -56,31 +56,31 @@ public class JsonStoreSetting extends AbstractDomain {
     @JsonProperty("le")
     private int lunchTimeEnd;
 
-    @JsonProperty ("de")
+    @JsonProperty("de")
     private int delayedInMinutes;
 
-    @JsonProperty ("dc")
+    @JsonProperty("dc")
     private boolean dayClosed = false;
 
     @JsonProperty("tc")
     private boolean tempDayClosed;
 
-    @JsonProperty ("pj")
+    @JsonProperty("pj")
     private boolean preventJoining;
 
-    @JsonProperty ("at")
+    @JsonProperty("at")
     private int availableTokenCount;
 
-    @JsonProperty ("fr")
+    @JsonProperty("fr")
     private String fromDay;
 
-    @JsonProperty ("un")
+    @JsonProperty("un")
     private String untilDay;
 
-    @JsonProperty ("scFr")
+    @JsonProperty("scFr")
     private String scheduledFromDay;
 
-    @JsonProperty ("scUn")
+    @JsonProperty("scUn")
     private String scheduledUntilDay;
 
     //*********************************/
@@ -424,6 +424,8 @@ public class JsonStoreSetting extends AbstractDomain {
             ", startHour=" + startHour +
             ", tokenNotAvailableFrom=" + tokenNotAvailableFrom +
             ", endHour=" + endHour +
+            ", lunchTimeStart=" + lunchTimeStart +
+            ", lunchTimeEnd=" + lunchTimeEnd +
             ", delayedInMinutes=" + delayedInMinutes +
             ", dayClosed=" + dayClosed +
             ", tempDayClosed=" + tempDayClosed +
@@ -436,6 +438,12 @@ public class JsonStoreSetting extends AbstractDomain {
             ", enabledPayment=" + enabledPayment +
             ", productPrice=" + productPrice +
             ", cancellationPrice=" + cancellationPrice +
+            ", freeFollowupDays=" + freeFollowupDays +
+            ", discountedFollowupDays=" + discountedFollowupDays +
+            ", discountedFollowupProductPrice=" + discountedFollowupProductPrice +
+            ", appointmentState=" + appointmentState +
+            ", appointmentDuration=" + appointmentDuration +
+            ", appointmentOpenHowFar=" + appointmentOpenHowFar +
             ", storeActionType=" + storeActionType +
             '}';
     }
