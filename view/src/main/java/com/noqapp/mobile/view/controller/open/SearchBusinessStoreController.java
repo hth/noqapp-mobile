@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -148,9 +149,9 @@ public class SearchBusinessStoreController {
 
     /** Populated with lat and lng at the minimum, when missing uses IP address. */
     @PostMapping(
-        value = {"/nearMe", "/otherMerchant"},
+        value = "/otherMerchant",
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public String nearMe(
+    public String otherMerchant(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -189,7 +190,7 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
             LOG.info("NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
-            return bizStoreSpatialElasticService.nearMeSearch(
+            return bizStoreSpatialElasticService.filteredSearch(
                 BusinessTypeEnum.DO,
                 geoHash,
                 searchStoreQuery.getScrollId().getText()).asJson();
@@ -201,6 +202,70 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/nearMe",
                 "nearMe",
+                SearchBusinessStoreController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Populated with lat and lng at the minimum, when missing uses IP address. */
+    @PostMapping(
+        value = "/canteen",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public String canteen(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestBody
+        SearchStoreQuery searchStoreQuery,
+
+        HttpServletRequest request
+    ) {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("NearMe invoked did={} dt={}", did, dt);
+
+        try {
+            String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
+            LOG.debug("Canteen nearMe city=\"{}\" lat={} lng={} filters={} ip={} did={}",
+                searchStoreQuery.getCityName(),
+                searchStoreQuery.getLatitude(),
+                searchStoreQuery.getLongitude(),
+                searchStoreQuery.getFilters(),
+                ipAddress,
+                did.getText());
+
+            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
+            GeoIP geoIp = getGeoIP(
+                searchStoreQuery.getCityName().getText(),
+                searchStoreQuery.getLatitude().getText(),
+                searchStoreQuery.getLongitude().getText(),
+                ipAddress,
+                bizStoreElasticList);
+            String geoHash = geoIp.getGeoHash();
+            if (StringUtils.isBlank(geoHash)) {
+                /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
+                geoHash = "te7ut71tgd9n";
+            }
+            LOG.info("Canteen NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
+            return bizStoreSpatialElasticService.searchByBusinessType(
+                new ArrayList<BusinessTypeEnum>() {{
+                    add(BusinessTypeEnum.CD);
+                    add(BusinessTypeEnum.CDQ);
+                }},
+                geoHash,
+                searchStoreQuery.getScrollId().getText()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new BizStoreElasticList().asJson();
+        } finally {
+            apiHealthService.insert(
+                "/canteen",
+                "canteen",
                 SearchBusinessStoreController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
