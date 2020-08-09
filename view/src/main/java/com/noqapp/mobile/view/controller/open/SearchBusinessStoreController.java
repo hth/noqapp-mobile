@@ -379,7 +379,7 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
             LOG.info("HealthCare city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
-            return bizStoreSpatialElasticService.nearMeByBusinessTypes(
+            return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                 BusinessTypeEnum.excludeHospital(),
                 geoHash,
                 searchStoreQuery.getScrollId().getText()).asJson();
