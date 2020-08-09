@@ -660,10 +660,10 @@ public class StoreSettingController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Appointment for store associated with mail={} did={} deviceType={} {}", mail, did, deviceType, storeHours.asJson());
+        LOG.info("StoreHours for store associated with mail={} did={} deviceType={} {}", mail, did, deviceType, storeHours.asJson());
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/ss/appointment by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/ss/storeHours by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -672,7 +672,7 @@ public class StoreSettingController {
             LOG.warn("Not a valid codeQR={} qid={}", storeHours.getCodeQR(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
         } else if (!businessUserStoreService.hasAccess(qid, storeHours.getCodeQR())) {
-            LOG.info("Un-authorized store access to /api/m/ss/appointment by mail={}", mail);
+            LOG.info("Un-authorized store access to /api/m/ss/storeHours by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -684,7 +684,7 @@ public class StoreSettingController {
                 .setCodeQR(bizStore.getCodeQR())
                 .setJsonHours(jsonHours).asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting appointment reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed getting storeHours reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
@@ -722,10 +722,10 @@ public class StoreSettingController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Appointment for store associated with mail={} did={} deviceType={} {}", mail, did, deviceType, storeHours.asJson());
+        LOG.info("StoreHours for store associated with mail={} did={} deviceType={} {}", mail, did, deviceType, storeHours.asJson());
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/ss/appointment by mail={}", mail);
+            LOG.warn("Un-authorized access to /api/m/ss/storeHours by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -734,7 +734,7 @@ public class StoreSettingController {
             LOG.warn("Not a valid codeQR={} qid={}", storeHours.getCodeQR(), qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
         } else if (!businessUserStoreService.hasAccess(qid, storeHours.getCodeQR())) {
-            LOG.info("Un-authorized store access to /api/m/ss/appointment by mail={}", mail);
+            LOG.info("Un-authorized store access to /api/m/ss/storeHours by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
@@ -744,7 +744,7 @@ public class StoreSettingController {
             List<JsonHour> jsonHours = bizService.findAllStoreHoursAsJson(bizStore.getId());
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting appointment reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed updating storeHours appointment reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
