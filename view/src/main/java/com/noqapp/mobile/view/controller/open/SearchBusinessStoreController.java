@@ -200,8 +200,8 @@ public class SearchBusinessStoreController {
             return new BizStoreElasticList().asJson();
         } finally {
             apiHealthService.insert(
-                "/nearMe",
-                "nearMe",
+                "/otherMerchant",
+                "otherMerchant",
                 SearchBusinessStoreController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
@@ -251,7 +251,7 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
             LOG.info("Canteen NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
-            return bizStoreSpatialElasticService.searchByBusinessType(
+            return bizStoreSpatialElasticService.nearMeByBusinessTypes(
                 new ArrayList<BusinessTypeEnum>() {{
                     add(BusinessTypeEnum.CD);
                     add(BusinessTypeEnum.CDQ);
@@ -266,6 +266,69 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/canteen",
                 "canteen",
+                SearchBusinessStoreController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Populated with lat and lng at the minimum, when missing uses IP address. */
+    @PostMapping(
+        value = "/placeOfWorship",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public String placeOfWorship(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestBody
+        SearchStoreQuery searchStoreQuery,
+
+        HttpServletRequest request
+    ) {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("NearMe invoked did={} dt={}", did, dt);
+
+        try {
+            String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
+            LOG.debug("Canteen nearMe city=\"{}\" lat={} lng={} filters={} ip={} did={}",
+                searchStoreQuery.getCityName(),
+                searchStoreQuery.getLatitude(),
+                searchStoreQuery.getLongitude(),
+                searchStoreQuery.getFilters(),
+                ipAddress,
+                did.getText());
+
+            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
+            GeoIP geoIp = getGeoIP(
+                searchStoreQuery.getCityName().getText(),
+                searchStoreQuery.getLatitude().getText(),
+                searchStoreQuery.getLongitude().getText(),
+                ipAddress,
+                bizStoreElasticList);
+            String geoHash = geoIp.getGeoHash();
+            if (StringUtils.isBlank(geoHash)) {
+                /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
+                geoHash = "te7ut71tgd9n";
+            }
+            LOG.info("Worship NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
+            return bizStoreSpatialElasticService.nearMeByBusinessTypes(
+                new ArrayList<BusinessTypeEnum>() {{
+                    add(BusinessTypeEnum.PW);
+                }},
+                geoHash,
+                searchStoreQuery.getScrollId().getText()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed processing worship near me reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new BizStoreElasticList().asJson();
+        } finally {
+            apiHealthService.insert(
+                "/placeOfWorship",
+                "placeOfWorship",
                 SearchBusinessStoreController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
@@ -315,9 +378,11 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
             LOG.info("HealthCare city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
-            return bizStoreSpatialElasticService.searchByBusinessType(
-                BusinessTypeEnum.DO,
-                null,
+            return bizStoreSpatialElasticService.nearMeByBusinessTypes(
+                new ArrayList<BusinessTypeEnum>() {{
+                    add(BusinessTypeEnum.DO);
+                    add(BusinessTypeEnum.HS);
+                }},
                 geoHash,
                 searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
