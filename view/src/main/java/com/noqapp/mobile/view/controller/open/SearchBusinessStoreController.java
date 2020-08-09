@@ -191,7 +191,13 @@ public class SearchBusinessStoreController {
             }
             LOG.info("NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.filteredSearch(
-                BusinessTypeEnum.DO,
+                new ArrayList<BusinessTypeEnum> () {{
+                    add(BusinessTypeEnum.CD);
+                    add(BusinessTypeEnum.CDQ);
+                    add(BusinessTypeEnum.DO);
+                    add(BusinessTypeEnum.HS);
+                    add(BusinessTypeEnum.PW);
+                }},
                 geoHash,
                 searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
