@@ -18,12 +18,14 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.ScheduledTaskEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
+import com.noqapp.domain.json.JsonHour;
 import com.noqapp.domain.types.ActionTypeEnum;
 import com.noqapp.domain.types.AppointmentStateEnum;
 import com.noqapp.domain.types.ScheduleTaskEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.JsonStoreSetting;
+import com.noqapp.mobile.domain.body.merchant.StoreHours;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
@@ -630,7 +632,68 @@ public class StoreSettingController {
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
+    }
 
+    /** Modifies queue service cost. */
+    @PostMapping (
+        value = "/storeHours",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String storeHours(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        StoreHours storeHours,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Appointment for store associated with mail={} did={} deviceType={} {}", mail, did, deviceType, storeHours.asJson());
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/ss/appointment by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (StringUtils.isBlank(storeHours.getCodeQR())) {
+            LOG.warn("Not a valid codeQR={} qid={}", storeHours.getCodeQR(), qid);
+            return getErrorReason("Not a valid queue code.", MOBILE_JSON);
+        } else if (!businessUserStoreService.hasAccess(qid, storeHours.getCodeQR())) {
+            LOG.info("Un-authorized store access to /api/m/ss/appointment by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            BizStoreEntity bizStore = bizService.findByCodeQR(storeHours.getCodeQR());
+            List<JsonHour> jsonHours = bizService.findAllStoreHoursAsJson(bizStore.getId());
+            return storeHours
+                .setCodeQR(bizStore.getCodeQR())
+                .setJsonHours(jsonHours).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed getting appointment reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/appointment",
+                "appointment",
+                StoreSettingController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
     }
 
     private void sendMailWhenStoreSettingHasChanged(BizStoreEntity bizStore, String changeInitiateReason) {

@@ -1,6 +1,7 @@
 package com.noqapp.mobile.domain.body.merchant;
 
 import com.noqapp.common.utils.AbstractDomain;
+import com.noqapp.domain.json.JsonHour;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -32,8 +33,8 @@ public class StoreHours extends AbstractDomain {
     @JsonProperty("qr")
     private String codeQR;
 
-    @JsonProperty("shs")
-    private List<StoreHourDaily> storeHourDaily;
+    @JsonProperty("jhs")
+    private List<JsonHour> jsonHours;
 
     public String getCodeQR() {
         return codeQR;
@@ -44,12 +45,12 @@ public class StoreHours extends AbstractDomain {
         return this;
     }
 
-    public List<StoreHourDaily> getStoreHourDaily() {
-        return storeHourDaily;
+    public List<JsonHour> getJsonHours() {
+        return jsonHours;
     }
 
-    public StoreHours setStoreHourDaily(List<StoreHourDaily> storeHourDaily) {
-        this.storeHourDaily = storeHourDaily;
+    public StoreHours setJsonHours(List<JsonHour> jsonHours) {
+        this.jsonHours = jsonHours;
         return this;
     }
 }
