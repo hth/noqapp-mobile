@@ -635,7 +635,7 @@ public class StoreSettingController {
     }
 
     /** Modifies queue service cost. */
-    @PostMapping (
+    @GetMapping (
         value = "/storeHours",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -688,8 +688,8 @@ public class StoreSettingController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/appointment",
-                "appointment",
+                "/storeHours",
+                "storeHours",
                 StoreSettingController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
