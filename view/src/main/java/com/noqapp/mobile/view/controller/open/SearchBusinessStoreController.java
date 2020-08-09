@@ -257,11 +257,8 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
             LOG.info("Canteen NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
-            return bizStoreSpatialElasticService.nearMeByBusinessTypes(
-                new ArrayList<BusinessTypeEnum>() {{
-                    add(BusinessTypeEnum.CD);
-                    add(BusinessTypeEnum.CDQ);
-                }},
+            return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                BusinessTypeEnum.excludeCanteen(),
                 geoHash,
                 searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
@@ -321,10 +318,8 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
             LOG.info("Worship NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
-            return bizStoreSpatialElasticService.nearMeByBusinessTypes(
-                new ArrayList<BusinessTypeEnum>() {{
-                    add(BusinessTypeEnum.PW);
-                }},
+            return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                BusinessTypeEnum.excludePlaceOfWorship(),
                 geoHash,
                 searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
@@ -385,10 +380,7 @@ public class SearchBusinessStoreController {
             }
             LOG.info("HealthCare city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.nearMeByBusinessTypes(
-                new ArrayList<BusinessTypeEnum>() {{
-                    add(BusinessTypeEnum.DO);
-                    add(BusinessTypeEnum.HS);
-                }},
+                BusinessTypeEnum.excludeHospital(),
                 geoHash,
                 searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
