@@ -80,15 +80,15 @@ public class TokenQueueMobileService {
         try {
             BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
             if (bizStore.isDeleted()) {
-                LOG.info("Store has been deleted id={} displayName={}", bizStore.getId(), bizStore.getDisplayName());
+                LOG.info("Store has been deleted id={} displayName=\"{}\"", bizStore.getId(), bizStore.getDisplayName());
                 throw new StoreNoLongerExistsException("Store no longer exists");
             }
 
             StoreHourEntity storeHour = bizService.getStoreHours(codeQR, bizStore);
             TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
-            LOG.info("TokenState bizStore={} businessType={} averageServiceTime={} tokenQueue={}",
+            LOG.info("TokenState bizStore=\"{}\" businessType={} averageServiceTime={} tokenQueue={}",
                 bizStore.getBizName(),
-                bizStore.getBusinessType().getDescription(),
+                bizStore.getBusinessType().name(),
                 bizStore.getAverageServiceTime(),
                 tokenQueue.getCurrentlyServing());
 
@@ -343,7 +343,7 @@ public class TokenQueueMobileService {
                 if (StringUtils.isNotBlank(bizStore.getBizCategoryId())) {
                     bizStoreElastic.setBizCategoryName(bizCategories.get(bizStore.getBizCategoryId()));
                 } else {
-                    LOG.warn("No Category defined for bizStore name={} id={}", bizStore.getBizName(), bizStore.getId());
+                    LOG.warn("No Category defined for bizStore name=\"{}\" id={}", bizStore.getBizName(), bizStore.getId());
                 }
 
                 switch (bizStore.getBusinessType()) {
