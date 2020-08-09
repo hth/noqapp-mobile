@@ -190,7 +190,7 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
             LOG.info("NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
-            return bizStoreSpatialElasticService.filteredSearch(
+            return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                 new ArrayList<BusinessTypeEnum> () {{
                     add(BusinessTypeEnum.CD);
                     add(BusinessTypeEnum.CDQ);
