@@ -1,5 +1,6 @@
 package com.noqapp.mobile.service;
 
+import com.noqapp.common.utils.FileUtil;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
@@ -112,7 +113,7 @@ public class TokenQueueMobileService {
      * @return
      */
     private JsonQueue getJsonQueue(BizStoreEntity bizStore, StoreHourEntity storeHour, TokenQueueEntity tokenQueue) {
-        return new JsonQueue(bizStore.getId(), bizStore.getCodeQR())
+        JsonQueue jsonQueue = new JsonQueue(bizStore.getId(), bizStore.getCodeQR())
             .setBusinessName(bizStore.getBizName().getBusinessName())
             .setDisplayName(bizStore.getDisplayName())
             .setBusinessType(bizStore.getBusinessType())
@@ -156,6 +157,18 @@ public class TokenQueueMobileService {
             .setStoreInteriorImages(bizStore.getStoreInteriorImages())
             .setAmenities(bizStore.getAmenities())
             .setFacilities(bizStore.getFacilities());
+
+        switch (bizStore.getBusinessType()) {
+            case CD:
+            case CDQ:
+                jsonQueue.setStoreAddress(FileUtil.DASH);
+                jsonQueue.setArea(FileUtil.DASH);
+                jsonQueue.setTown(FileUtil.DASH);
+            default:
+                //Do nothing
+        }
+
+        return jsonQueue;
     }
 
     public JsonQueueList findAllTokenState(String codeQR) {
