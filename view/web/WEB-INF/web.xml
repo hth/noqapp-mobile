@@ -88,7 +88,7 @@
         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener>
     <listener>
-        <listener-class>com.noqapp.mobile.view.listener.NoQAppServletContextListener</listener-class>
+        <listener-class>com.noqapp.mobile.view.listener.NoQueueServletContextListener</listener-class>
     </listener>
 
     <servlet>

@@ -41,8 +41,8 @@ import javax.sql.DataSource;
 })
 @Component
 @PropertySource("classpath:build-info.properties")
-public class NoQAppInitializationCheckBean {
-    private static final Logger LOG = LoggerFactory.getLogger(NoQAppInitializationCheckBean.class);
+public class NoQueueInitializationCheckBean {
+    private static final Logger LOG = LoggerFactory.getLogger(NoQueueInitializationCheckBean.class);
 
     private DataSource dataSource;
     private FirebaseConfig firebaseConfig;
@@ -55,7 +55,7 @@ public class NoQAppInitializationCheckBean {
     private String buildEnvironment;
 
     @Autowired
-    public NoQAppInitializationCheckBean(
+    public NoQueueInitializationCheckBean(
         Environment environment,
         DataSource dataSource,
         FirebaseConfig firebaseConfig,
