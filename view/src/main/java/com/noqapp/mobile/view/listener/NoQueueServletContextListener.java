@@ -16,8 +16,8 @@ import javax.servlet.ServletContextListener;
         "PMD.MethodArgumentCouldBeFinal",
         "PMD.LongVariable"
 })
-public class NoQAppServletContextListener implements ServletContextListener {
-    private static final Logger LOG = LoggerFactory.getLogger(NoQAppServletContextListener.class);
+public class NoQueueServletContextListener implements ServletContextListener {
+    private static final Logger LOG = LoggerFactory.getLogger(NoQueueServletContextListener.class);
 
     @Override
     public void contextDestroyed(ServletContextEvent arg0) {
