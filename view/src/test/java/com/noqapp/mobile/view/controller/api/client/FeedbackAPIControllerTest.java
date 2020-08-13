@@ -58,7 +58,6 @@ class FeedbackAPIControllerTest {
     @Test
     void feedback() throws IOException {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("rid");
-        when(feedbackService.submitFeedback(anyString(), any(Feedback.class))).thenReturn(true);
 
         feedbackAPIController.feedback(
                 new ScrubbedInput(""),

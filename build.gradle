@@ -635,7 +635,6 @@ task war(type: War, dependsOn: prepWar) {
         props.setProperty('copyright', 'All rights reserved')
         props.setProperty('build.version', project.version.toString())
         props.setProperty('build.env', "$env")
-        props.setProperty('deployed.server', "standalone-mobile")
 
         props.store(buildInfoFile.newWriter(), null)
     }

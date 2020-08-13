@@ -65,7 +65,6 @@ import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.StoreDetailService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
-import com.noqapp.mobile.service.WebConnectorService;
 import com.noqapp.mobile.view.controller.open.AccountClientController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.repository.AdvertisementManager;
@@ -327,7 +326,6 @@ public class ITest extends RealMongoForITest {
     private AccountClientController accountClientController;
     private MockEnvironment mockEnvironment;
 
-    private WebConnectorService webConnectorService;
     private StanfordCoreNLP stanfordCoreNLP;
     private MaxentTagger maxentTagger;
     protected ExternalService externalService;
@@ -358,7 +356,6 @@ public class ITest extends RealMongoForITest {
         didQueueSupervisor = UUID.randomUUID().toString();
         mockEnvironment = new MockEnvironment();
         mockEnvironment.setProperty("build.env", "sandbox");
-        mockEnvironment.setProperty("deployed.server", "standalone-mobile");
 
         Properties nlpProperties = new Properties();
         nlpProperties.setProperty("annotators", "tokenize, ssplit, pos, lemma, parse, sentiment");
@@ -414,15 +411,6 @@ public class ITest extends RealMongoForITest {
             forgotRecoverManager
         );
 
-        webConnectorService = new WebConnectorService(
-            "/webapi/mobile/get.htm",
-            "could not connect to server",
-            "webApiAccessToken",
-            "8080",
-            "http",
-            "localhost"
-        );
-
         reviewService = new ReviewService(
             180,
             queueManager,
@@ -450,11 +438,7 @@ public class ITest extends RealMongoForITest {
         );
 
         accountMobileService = new AccountMobileService(
-            "/webapi/mobile/mail/accountSignup.htm",
-            "/webapi/mobile/mail/mailChange.htm",
             10,
-            mockEnvironment,
-            webConnectorService,
             accountService,
             userProfilePreferenceService,
             userMedicalProfileService,
@@ -627,8 +611,6 @@ public class ITest extends RealMongoForITest {
             firebaseMessageService);
 
         queueMobileService = new QueueMobileService(
-            "/webapi/mobile/mail/negativeReview.htm",
-            mockEnvironment,
             queueManager,
             queueManagerJDBC,
             storeHourManager,
@@ -646,8 +628,7 @@ public class ITest extends RealMongoForITest {
             tokenQueueMobileService,
             firebaseMessageService,
             firebaseService,
-            jmsProducerService,
-            webConnectorService
+            jmsProducerService
         );
 
         scheduleAppointmentService = new ScheduleAppointmentService(

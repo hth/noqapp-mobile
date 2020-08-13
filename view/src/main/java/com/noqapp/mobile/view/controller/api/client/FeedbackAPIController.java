@@ -88,10 +88,9 @@ public class FeedbackAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        boolean feedbackSuccess = false;
         try {
-            feedbackSuccess = feedbackService.submitFeedback(qid, feedbackJson);
-            return new JsonResponse(feedbackSuccess).asJson();
+            feedbackService.submitFeedback(qid, feedbackJson);
+            return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing feedback reason={}", e.getLocalizedMessage(), e);
             apiHealthService.insert(
@@ -100,7 +99,7 @@ public class FeedbackAPIController {
                 FeedbackAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 HealthStatusEnum.F);
-            return new JsonResponse(feedbackSuccess).asJson();
+            return new JsonResponse(false).asJson();
         } finally {
             apiHealthService.insert(
                 "/",
