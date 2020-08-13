@@ -7,7 +7,6 @@ import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.Validate;
-
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
@@ -16,7 +15,6 @@ import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.common.ComposeMessagesForFCM;
-import com.noqapp.domain.jms.ReviewSentiment;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueHistoricalList;
@@ -49,9 +47,6 @@ import com.noqapp.service.QueueService;
 import com.noqapp.service.nlp.NLPService;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
 
 import org.joda.time.DateTime;
 
@@ -59,7 +54,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
@@ -82,8 +76,6 @@ import java.util.concurrent.ExecutorService;
 public class QueueMobileService {
     private static final Logger LOG = LoggerFactory.getLogger(QueueMobileService.class);
 
-    private String negativeReview;
-
     private QueueManager queueManager;
     private QueueManagerJDBC queueManagerJDBC;
     private StoreHourManager storeHourManager;
@@ -102,17 +94,11 @@ public class QueueMobileService {
     private FirebaseMessageService firebaseMessageService;
     private FirebaseService firebaseService;
     private JMSProducerService jmsProducerService;
-    private WebConnectorService webConnectorService;
 
     private ExecutorService executorService;
-    private String buildEnvironment;
 
     @Autowired
     public QueueMobileService(
-        @Value("${mailChange:/webapi/mobile/mail/negativeReview.htm}")
-        String negativeReview,
-
-        Environment environment,
         QueueManager queueManager,
         QueueManagerJDBC queueManagerJDBC,
         StoreHourManager storeHourManager,
@@ -130,13 +116,8 @@ public class QueueMobileService {
         TokenQueueMobileService tokenQueueMobileService,
         FirebaseMessageService firebaseMessageService,
         FirebaseService firebaseService,
-        JMSProducerService jmsProducerService,
-        WebConnectorService webConnectorService
+        JMSProducerService jmsProducerService
     ) {
-        this.negativeReview = negativeReview;
-
-        this.buildEnvironment = environment.getProperty("deployed.server");
-
         this.queueManager = queueManager;
         this.queueManagerJDBC = queueManagerJDBC;
         this.storeHourManager = storeHourManager;
@@ -155,7 +136,6 @@ public class QueueMobileService {
         this.firebaseMessageService = firebaseMessageService;
         this.firebaseService = firebaseService;
         this.jmsProducerService = jmsProducerService;
-        this.webConnectorService = webConnectorService;
 
         this.executorService = newCachedThreadPool();
     }
@@ -469,28 +449,15 @@ public class QueueMobileService {
 
             QueueEntity queue = queueManager.findOne(codeQR, token);
             for (BusinessUserEntity businessUser : businessUsers) {
-                if (buildEnvironment.equalsIgnoreCase("standalone-mobile")) {
-                    jmsProducerService.invokeMailOnReviewNegative(
-                        queue.getDisplayName(),
-                        queue.getCustomerName(),
-                        queue.getCustomerPhone(),
-                        ratingCount,
-                        hoursSaved,
-                        review,
-                        sentimentType.getDescription(),
-                        userProfileManager.findByQueueUserId(businessUser.getQueueUserId()).getEmail());
-                } else {
-                    sendMailWhenNegativeReview(
-                        queue.getDisplayName(),
-                        queue.getCustomerName(),
-                        queue.getCustomerPhone(),
-                        ratingCount,
-                        hoursSaved,
-                        review,
-                        sentimentType.getDescription(),
-                        userProfileManager.findByQueueUserId(businessUser.getQueueUserId()).getEmail(),
-                        HttpClientBuilder.create().build());
-                }
+                jmsProducerService.invokeMailOnReviewNegative(
+                    queue.getDisplayName(),
+                    queue.getCustomerName(),
+                    queue.getCustomerPhone(),
+                    ratingCount,
+                    hoursSaved,
+                    review,
+                    sentimentType.getDescription(),
+                    userProfileManager.findByQueueUserId(businessUser.getQueueUserId()).getEmail());
             }
         }
     }
@@ -587,30 +554,6 @@ public class QueueMobileService {
 
     public JsonQueueHistoricalList findAllHistoricalQueueAsJson(String qid) {
         return queueService.findAllHistoricalQueueAsJson(qid);
-    }
-
-    private boolean sendMailWhenNegativeReview(
-        String storeName,
-        String reviewerName,
-        String reviewerPhone,
-        int ratingCount,
-        int hourSaved,
-        String review,
-        String sentiment,
-        String sentimentWatcherEmail,
-        HttpClient httpClient
-    ) {
-        LOG.debug("Sentiment {} {} {} {} {}", storeName, reviewerPhone, ratingCount, hourSaved, review);
-        HttpPost httpPost = webConnectorService.getHttpPost(negativeReview, httpClient);
-        if (null == httpPost) {
-            LOG.warn("failed connecting, reason={}", webConnectorService.getNoResponseFromWebServer());
-            return false;
-        }
-
-        webConnectorService.setEntityWithGson(
-            ReviewSentiment.newInstance(storeName, reviewerName, reviewerPhone, ratingCount, hourSaved, review, sentiment, sentimentWatcherEmail),
-            httpPost);
-        return webConnectorService.invokeHttpPost(httpClient, httpPost);
     }
 
     /** Sends personal message with all the current queue and orders. */

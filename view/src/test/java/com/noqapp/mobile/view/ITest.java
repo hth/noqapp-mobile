@@ -358,7 +358,6 @@ public class ITest extends RealMongoForITest {
         didQueueSupervisor = UUID.randomUUID().toString();
         mockEnvironment = new MockEnvironment();
         mockEnvironment.setProperty("build.env", "sandbox");
-        mockEnvironment.setProperty("deployed.server", "standalone-mobile");
 
         Properties nlpProperties = new Properties();
         nlpProperties.setProperty("annotators", "tokenize, ssplit, pos, lemma, parse, sentiment");
@@ -450,11 +449,7 @@ public class ITest extends RealMongoForITest {
         );
 
         accountMobileService = new AccountMobileService(
-            "/webapi/mobile/mail/accountSignup.htm",
-            "/webapi/mobile/mail/mailChange.htm",
             10,
-            mockEnvironment,
-            webConnectorService,
             accountService,
             userProfilePreferenceService,
             userMedicalProfileService,
@@ -627,8 +622,6 @@ public class ITest extends RealMongoForITest {
             firebaseMessageService);
 
         queueMobileService = new QueueMobileService(
-            "/webapi/mobile/mail/negativeReview.htm",
-            mockEnvironment,
             queueManager,
             queueManagerJDBC,
             storeHourManager,
@@ -646,8 +639,7 @@ public class ITest extends RealMongoForITest {
             tokenQueueMobileService,
             firebaseMessageService,
             firebaseService,
-            jmsProducerService,
-            webConnectorService
+            jmsProducerService
         );
 
         scheduleAppointmentService = new ScheduleAppointmentService(

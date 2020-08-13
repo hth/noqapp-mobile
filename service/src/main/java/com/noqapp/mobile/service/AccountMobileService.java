@@ -58,11 +58,8 @@ import java.util.List;
 public class AccountMobileService {
     private static final Logger LOG = LoggerFactory.getLogger(AccountMobileService.class);
 
-    private String accountSignup;
-    private String mailChange;
     private int queueLimit;
 
-    private WebConnectorService webConnectorService;
     private AccountService accountService;
     private UserProfilePreferenceService userProfilePreferenceService;
     private UserMedicalProfileService userMedicalProfileService;
@@ -72,21 +69,11 @@ public class AccountMobileService {
     private BusinessUserStoreManager businessUserStoreManager;
     private JMSProducerService jmsProducerService;
 
-    private String buildEnvironment;
-
     @Autowired
     public AccountMobileService(
-        @Value("${accountSignup:/webapi/mobile/mail/accountSignup.htm}")
-        String accountSignup,
-
-        @Value("${mailChange:/webapi/mobile/mail/mailChange.htm}")
-        String mailChange,
-
         @Value("${BusinessUserStoreService.queue.limit}")
         int queueLimit,
 
-        Environment environment,
-        WebConnectorService webConnectorService,
         AccountService accountService,
         UserProfilePreferenceService userProfilePreferenceService,
         UserMedicalProfileService userMedicalProfileService,
@@ -96,13 +83,8 @@ public class AccountMobileService {
         BusinessUserStoreManager businessUserStoreManager,
         JMSProducerService jmsProducerService
     ) {
-        this.accountSignup = accountSignup;
-        this.mailChange = mailChange;
         this.queueLimit = queueLimit;
 
-        this.buildEnvironment = environment.getProperty("deployed.server");
-
-        this.webConnectorService = webConnectorService;
         this.accountService = accountService;
         this.userProfilePreferenceService = userProfilePreferenceService;
         this.userMedicalProfileService = userMedicalProfileService;
@@ -231,40 +213,7 @@ public class AccountMobileService {
     }
 
     private void sendValidationEmail(UserAccountEntity userAccount) {
-        if (buildEnvironment.equalsIgnoreCase("standalone-mobile")) {
-            jmsProducerService.invokeMailOnSignUp(userAccount);
-        } else {
-            boolean mailStatus = sendMailDuringSignup(
-                userAccount.getUserId(),
-                userAccount.getQueueUserId(),
-                userAccount.getName(),
-                HttpClientBuilder.create().build());
-
-            LOG.info("mail sent={} to user={}", mailStatus, userAccount.getUserId());
-        }
-    }
-
-    /**
-     * Call this on terminal as below.
-     * http localhost:9090/receipt-mobile/authenticate.json < ~/Downloads/pid.json
-     *
-     * @param userId
-     * @param qid
-     * @param name
-     * @param httpClient
-     * @return
-     */
-    @Deprecated
-    private boolean sendMailDuringSignup(String userId, String qid, String name, HttpClient httpClient) {
-        LOG.debug("userId={} name={} webApiAccessToken={}", userId, name, AUTH_KEY_HIDDEN);
-        HttpPost httpPost = webConnectorService.getHttpPost(accountSignup, httpClient);
-        if (null == httpPost) {
-            LOG.warn("failed connecting, reason={}", webConnectorService.getNoResponseFromWebServer());
-            return false;
-        }
-
-        webConnectorService.setEntityWithGson(SignupUserInfo.newInstance(userId, qid, name), httpPost);
-        return webConnectorService.invokeHttpPost(httpClient, httpPost);
+        jmsProducerService.invokeMailOnSignUp(userAccount);
     }
 
     public UserAccountEntity findByQueueUserId(String qid) {
@@ -350,30 +299,7 @@ public class AccountMobileService {
     }
 
     private void populateChangeMailWithData(UserProfileEntity userProfile, String migrateToMail) {
-        if (buildEnvironment.equalsIgnoreCase("standalone-mobile")) {
-            jmsProducerService.invokeMailOnMailChange(migrateToMail, userProfile.getName(), userProfile.getMailOTP());
-        } else {
-            boolean mailStatus = sendMailWhenChangingMail(
-                migrateToMail,
-                userProfile.getName(),
-                userProfile.getMailOTP(),
-                HttpClientBuilder.create().build());
-
-            LOG.info("Change mail confirmation sent={} to qid={} at {}", mailStatus, userProfile.getQueueUserId(), migrateToMail);
-        }
-    }
-
-    @Deprecated
-    private boolean sendMailWhenChangingMail(String migrateToMail, String name, String mailOTP, HttpClient httpClient) {
-        LOG.debug("migrateToMail={} name={} webApiAccessToken={}", migrateToMail, name, AUTH_KEY_HIDDEN);
-        HttpPost httpPost = webConnectorService.getHttpPost(mailChange, httpClient);
-        if (null == httpPost) {
-            LOG.warn("failed connecting, reason={}", webConnectorService.getNoResponseFromWebServer());
-            return false;
-        }
-
-        webConnectorService.setEntityWithGson(ChangeMailOTP.newInstance(migrateToMail, name, mailOTP), httpPost);
-        return webConnectorService.invokeHttpPost(httpClient, httpPost);
+        jmsProducerService.invokeMailOnMailChange(migrateToMail, userProfile.getName(), userProfile.getMailOTP());
     }
 
     public void updateUserProfile(RegisterUser registerUser, String email) {
