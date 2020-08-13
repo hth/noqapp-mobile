@@ -112,7 +112,7 @@ public class SocialAuthenticationService {
             }
         }
 
-        /** Stream too big */
+        /* Stream too big */
         LOG.warn("Stream size bigger than {}", MAX_RESPONSE_SIZE);
         return ErrorEncounteredJson.toJson("Stream size bigger than " + MAX_RESPONSE_SIZE, SEVERE);
     }
