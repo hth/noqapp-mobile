@@ -31,11 +31,11 @@ import java.io.IOException;
  * User: hitender
  * Date: 1/14/17 12:17 PM
  */
-@SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+@SuppressWarnings({
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @Service
 public class SocialAuthenticationService {
@@ -43,7 +43,7 @@ public class SocialAuthenticationService {
     public static final int MIN_RESPONSE_SIZE = -1;
     private static final Logger LOG = LoggerFactory.getLogger(SocialAuthenticationService.class);
 
-    @Value ("${auth.create:/webapi/mobile/auth-create.htm}")
+    @Value("${auth.create:/webapi/mobile/auth-create.htm}")
     private String authCreateEndPoint;
 
     private WebConnectorService webConnectorService;
@@ -73,8 +73,7 @@ public class SocialAuthenticationService {
         try {
             response = httpClient.execute(httpPost);
         } catch (IOException e) {
-            LOG.error("error occurred while executing request path={} reason={}",
-                    httpPost.getURI(), e.getLocalizedMessage(), e);
+            LOG.error("error occurred while executing request path={} reason={}", httpPost.getURI(), e.getLocalizedMessage(), e);
         }
 
         if (response == null) {
@@ -127,10 +126,10 @@ public class SocialAuthenticationService {
      */
     private void populateEntity(String providerId, String accessToken, HttpPost httpPost) {
         httpPost.setEntity(
-                new StringEntity(
-                        new Gson().toJson(ProviderAndAccessToken.newInstance(providerId, accessToken)),
-                        ContentType.create(MediaType.APPLICATION_JSON_VALUE, "UTF-8")
-                )
+            new StringEntity(
+                new Gson().toJson(ProviderAndAccessToken.newInstance(providerId, accessToken)),
+                ContentType.create(MediaType.APPLICATION_JSON_VALUE, "UTF-8")
+            )
         );
     }
 }
