@@ -65,7 +65,6 @@ import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.StoreDetailService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
-import com.noqapp.mobile.service.WebConnectorService;
 import com.noqapp.mobile.view.controller.open.AccountClientController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.repository.AdvertisementManager;
@@ -327,7 +326,6 @@ public class ITest extends RealMongoForITest {
     private AccountClientController accountClientController;
     private MockEnvironment mockEnvironment;
 
-    private WebConnectorService webConnectorService;
     private StanfordCoreNLP stanfordCoreNLP;
     private MaxentTagger maxentTagger;
     protected ExternalService externalService;
@@ -411,15 +409,6 @@ public class ITest extends RealMongoForITest {
             emailValidateService,
             inviteService,
             forgotRecoverManager
-        );
-
-        webConnectorService = new WebConnectorService(
-            "/webapi/mobile/get.htm",
-            "could not connect to server",
-            "webApiAccessToken",
-            "8080",
-            "http",
-            "localhost"
         );
 
         reviewService = new ReviewService(
