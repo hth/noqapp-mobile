@@ -8,6 +8,7 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonLatestAppVersion;
+import com.noqapp.domain.shared.GeoPointOfQ;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
@@ -121,6 +122,11 @@ public class DeviceController {
 
         try {
             String deviceId = UUID.randomUUID().toString();
+            double[] coordinate =  parseTokenFCM.isMissingCoordinate()
+                ? getLocationAsDouble(parseTokenFCM, request)
+                : parseTokenFCM.getCoordinate();
+            GeoPointOfQ geoPointOfQ = new GeoPointOfQ(coordinate[1], coordinate[0]);
+
             deviceRegistrationService.registerDevice(
                 null,
                 deviceId,
@@ -130,12 +136,9 @@ public class DeviceController {
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
-                parseTokenFCM.isMissingCoordinate()
-                    ? geoIPLocationService.getLocationAsDouble(
-                        CommonUtil.retrieveIPV4(parseTokenFCM.getIpAddress(), HttpRequestResponseParser.getClientIpAddress(request)))
-                    : parseTokenFCM.getCoordinate(),
+                coordinate,
                 parseTokenFCM.getIpAddress());
-            return DeviceRegistered.newInstance(true, deviceId).asJson();
+            return DeviceRegistered.newInstance(true, deviceId).setGeoPointOfQ(geoPointOfQ).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
             return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
@@ -207,6 +210,10 @@ public class DeviceController {
         }
 
         try {
+            double[] coordinate =  parseTokenFCM.isMissingCoordinate()
+                ? getLocationAsDouble(parseTokenFCM, request)
+                : parseTokenFCM.getCoordinate();
+
             deviceRegistrationService.registerDevice(
                 null,
                 did.getText(),
@@ -216,10 +223,7 @@ public class DeviceController {
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
-                parseTokenFCM.isMissingCoordinate()
-                    ? geoIPLocationService.getLocationAsDouble(
-                        CommonUtil.retrieveIPV4(parseTokenFCM.getIpAddress(), HttpRequestResponseParser.getClientIpAddress(request)))
-                    : parseTokenFCM.getCoordinate(),
+                coordinate,
                 parseTokenFCM.getIpAddress());
             return DeviceRegistered.newInstance(true).asJson();
         } catch (DeviceDetailMissingException e) {
@@ -293,6 +297,13 @@ public class DeviceController {
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
+    }
+
+    private double[] getLocationAsDouble(ParseTokenFCM parseTokenFCM, HttpServletRequest request) {
+        return geoIPLocationService.getLocationAsDouble(
+            CommonUtil.retrieveIPV4(
+                parseTokenFCM.getIpAddress(),
+                HttpRequestResponseParser.getClientIpAddress(request)));
     }
 
     public static String getErrorReason(String reason, MobileSystemErrorCodeEnum mobileSystemErrorCode) {

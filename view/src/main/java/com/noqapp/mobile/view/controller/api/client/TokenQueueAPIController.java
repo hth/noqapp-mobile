@@ -391,6 +391,13 @@ public class TokenQueueAPIController {
         }
 
         try {
+            double[] coordinate =  parseTokenFCM.isMissingCoordinate()
+                ? geoIPLocationService.getLocationAsDouble(
+                    CommonUtil.retrieveIPV4(
+                        parseTokenFCM.getIpAddress(),
+                        HttpRequestResponseParser.getClientIpAddress(request)))
+                : parseTokenFCM.getCoordinate();
+
             JsonTokenAndQueueList jsonTokenAndQueues = queueMobileService.findHistoricalQueue(
                 qid,
                 did.getText(),
@@ -400,10 +407,7 @@ public class TokenQueueAPIController {
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
-                parseTokenFCM.isMissingCoordinate()
-                    ? geoIPLocationService.getLocationAsDouble(
-                        CommonUtil.retrieveIPV4(parseTokenFCM.getIpAddress(), HttpRequestResponseParser.getClientIpAddress(request)))
-                    : parseTokenFCM.getCoordinate(),
+                coordinate,
                 parseTokenFCM.getIpAddress()
             );
             //TODO(hth) get old historical order, it just gets todays historical order

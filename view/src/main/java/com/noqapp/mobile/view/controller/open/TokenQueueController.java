@@ -284,6 +284,13 @@ public class TokenQueueController {
         }
 
         try {
+            double[] coordinate =  parseTokenFCM.isMissingCoordinate()
+                ? geoIPLocationService.getLocationAsDouble(
+                    CommonUtil.retrieveIPV4(
+                        parseTokenFCM.getIpAddress(),
+                        HttpRequestResponseParser.getClientIpAddress(request)))
+                : parseTokenFCM.getCoordinate();
+
             return queueMobileService.findHistoricalQueue(
                 did.getText(),
                 DeviceTypeEnum.valueOf(deviceType.getText()),
@@ -292,10 +299,7 @@ public class TokenQueueController {
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
-                parseTokenFCM.isMissingCoordinate()
-                    ? geoIPLocationService.getLocationAsDouble(
-                        CommonUtil.retrieveIPV4(parseTokenFCM.getIpAddress(), HttpRequestResponseParser.getClientIpAddress(request)))
-                    : parseTokenFCM.getCoordinate(),
+                coordinate,
                 parseTokenFCM.getIpAddress()).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
