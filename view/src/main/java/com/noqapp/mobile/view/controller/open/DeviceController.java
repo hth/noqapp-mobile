@@ -76,7 +76,7 @@ public class DeviceController {
 
     /** Finds if device exists or saves the device when does not exists. Most likely this call would not be required. */
     @PostMapping(
-        value = "/register",
+        value = "/v1/register",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String registerDevice(
@@ -153,7 +153,11 @@ public class DeviceController {
         }
     }
 
-    /** Finds if device exists or saves the device when does not exists. Most likely this call would not be required. */
+    /**
+     * Finds if device exists or saves the device when does not exists. Most likely this call would not be required.
+     * @since 1.2.572 //Remove when lowest is this version
+     * */
+    @Deprecated
     @PostMapping(
         value = "/register",
         produces = MediaType.APPLICATION_JSON_VALUE
