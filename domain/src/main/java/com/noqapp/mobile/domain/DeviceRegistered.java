@@ -1,6 +1,7 @@
 package com.noqapp.mobile.domain;
 
 import com.noqapp.common.utils.AbstractDomain;
+import com.noqapp.domain.shared.GeoPointOfQ;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,6 +28,9 @@ public class DeviceRegistered extends AbstractDomain {
 
     @JsonProperty("did")
     private String deviceId;
+
+    @JsonProperty("cor")
+    private GeoPointOfQ geoPointOfQ;
 
     public DeviceRegistered() {
         //Required Default Constructor
@@ -55,5 +59,14 @@ public class DeviceRegistered extends AbstractDomain {
 
     public String getDeviceId() {
         return deviceId;
+    }
+
+    public GeoPointOfQ getGeoPointOfQ() {
+        return geoPointOfQ;
+    }
+
+    public DeviceRegistered setGeoPointOfQ(GeoPointOfQ geoPointOfQ) {
+        this.geoPointOfQ = geoPointOfQ;
+        return this;
     }
 }
