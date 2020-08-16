@@ -39,6 +39,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -71,6 +72,85 @@ public class DeviceController {
         this.deviceRegistrationService = deviceRegistrationService;
         this.geoIPLocationService = geoIPLocationService;
         this.apiHealthService = apiHealthService;
+    }
+
+    /** Finds if device exists or saves the device when does not exists. Most likely this call would not be required. */
+    @PostMapping(
+        value = "/register",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String registerDevice(
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader("X-R-AF")
+        ScrubbedInput appFlavor,
+
+        @RequestBody
+        String tokenJson,
+
+        HttpServletRequest request
+    ) {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Register deviceType={} appFlavor={} token={}",
+            deviceType.getText(),
+            appFlavor.getText(),
+            tokenJson);
+
+        DeviceTypeEnum deviceTypeEnum;
+        try {
+            deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
+        } catch (Exception e) {
+            LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
+            return getErrorReason("Incorrect device type.", USER_INPUT);
+        }
+
+        AppFlavorEnum appFlavorEnum;
+        try {
+            appFlavorEnum = AppFlavorEnum.valueOf(appFlavor.getText());
+        } catch (Exception e) {
+            LOG.error("Failed parsing appFlavor, reason={}", e.getLocalizedMessage(), e);
+            return getErrorReason("Incorrect appFlavor type.", USER_INPUT);
+        }
+
+        ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson, request);
+        if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
+            return parseTokenFCM.getErrorResponse();
+        }
+
+        try {
+            String deviceId = UUID.randomUUID().toString();
+            deviceRegistrationService.registerDevice(
+                null,
+                deviceId,
+                deviceTypeEnum,
+                appFlavorEnum,
+                parseTokenFCM.getTokenFCM(),
+                parseTokenFCM.getModel(),
+                parseTokenFCM.getOsVersion(),
+                parseTokenFCM.getAppVersion(),
+                parseTokenFCM.isMissingCoordinate()
+                    ? geoIPLocationService.getLocationAsDouble(
+                        CommonUtil.retrieveIPV4(parseTokenFCM.getIpAddress(), HttpRequestResponseParser.getClientIpAddress(request)))
+                    : parseTokenFCM.getCoordinate(),
+                parseTokenFCM.getIpAddress());
+            return DeviceRegistered.newInstance(true, deviceId).asJson();
+        } catch (DeviceDetailMissingException e) {
+            LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
+            return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
+        } catch (Exception e) {
+            LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/register",
+                "registerDevice",
+                DeviceController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
     }
 
     /** Finds if device exists or saves the device when does not exists. Most likely this call would not be required. */
