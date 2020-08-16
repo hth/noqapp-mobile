@@ -340,8 +340,10 @@ public class AccountClientController {
                     authenticateMobileService.evictExisting(userAccount.getUserId(), userAccount.getUserAuthentication().getAuthenticationKey());
                     if (!userAccount.isPhoneValidated()) {
                         //TODO mark otp validated after verifying with FB server with token received
-                        userAccount.setPhoneValidated(true);
+                        userAccount.setPhoneValidated(true).setOtpCount(1);
                         accountService.save(userAccount);
+                    } else {
+                        accountService.increaseOTPCount(userProfile.getQueueUserId());
                     }
 
                     /* Update authentication key after login. */
