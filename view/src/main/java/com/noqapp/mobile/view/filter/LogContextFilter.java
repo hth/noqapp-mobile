@@ -84,11 +84,15 @@ public class LogContextFilter implements Filter {
             CityResponse response = ipGeoConfiguration.getDatabaseReader().city(ipAddress);
             countryCode = response.getCountry().getIsoCode();
             city = StringUtils.isEmpty(response.getCity().getName()) ? "" : response.getCity().getName();
-            geoHash = new GeoPoint(response.getLocation().getLatitude(), response.getLocation().getLongitude()).getGeohash();
+            if (null != response.getLocation()) {
+                geoHash = new GeoPoint(response.getLocation().getLatitude(), response.getLocation().getLongitude()).getGeohash();
+            }
         } catch (AddressNotFoundException e) {
             LOG.warn("Failed finding ip={} reason={}", ip, e.getLocalizedMessage());
         } catch (GeoIp2Exception e) {
             LOG.error("Failed reason={}", e.getLocalizedMessage(), e);
+        } catch (IOException e) {
+            LOG.error("Failed databaseReader reason={}", e.getLocalizedMessage(), e);
         }
 
         LOG.info("Request received:"
