@@ -236,6 +236,7 @@ public class AccountClientController {
                     return accountMobileService.getProfileAsJson(userAccount.getQueueUserId()).asJson();
                 } catch (DuplicateAccountException e) {
                     LOG.info("Failed user registration as already exists phone={} mail={}", phone, mail);
+
                     errors = new HashMap<>();
                     errors.put(ErrorEncounteredJson.REASON, "User already exists. Would you like to recover your account?");
                     errors.put(ACCOUNT_REGISTRATION.EM.name(), mail);
