@@ -19,6 +19,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import org.elasticsearch.common.geo.GeoPoint;
+
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -76,11 +78,13 @@ public class LogContextFilter implements Filter {
         String ip = getHeader(headerMap, "x-forwarded-for");
         String countryCode = "";
         String city = "";
+        String geoHash = "";
         try {
             InetAddress ipAddress = InetAddress.getByName(ip);
             CityResponse response = ipGeoConfiguration.getDatabaseReader().city(ipAddress);
             countryCode = response.getCountry().getIsoCode();
             city = StringUtils.isEmpty(response.getCity().getName()) ? "" : response.getCity().getName();
+            geoHash = new GeoPoint(response.getLocation().getLatitude(), response.getLocation().getLongitude()).getGeohash();
         } catch (AddressNotFoundException e) {
             LOG.warn("Failed finding ip={} reason={}", ip, e.getLocalizedMessage());
         } catch (GeoIp2Exception e) {
@@ -94,6 +98,7 @@ public class LogContextFilter implements Filter {
             + " ip=\"" + ip + "\""
             + " country=\"" + countryCode + "\""
             + " city=\"" + city + "\""
+            + " geoHash=\"" + geoHash + "\""
             + " endpoint=\"" + extractDataFromURL(url, "$5") + "\""
             + " query=\"" + (query == null ? "none" : query) + "\""
             + " url=\"" + url + "\""
@@ -184,7 +189,7 @@ public class LogContextFilter implements Filter {
         }
     }
 
-    private class NoBodyResponseWrapper extends HttpServletResponseWrapper {
+    private static class NoBodyResponseWrapper extends HttpServletResponseWrapper {
         private final NoBodyOutputStream noBodyOutputStream = new NoBodyOutputStream();
         private PrintWriter writer;
 
@@ -192,7 +197,7 @@ public class LogContextFilter implements Filter {
             super(response);
         }
 
-        public ServletOutputStream getOutputStream() throws IOException {
+        public ServletOutputStream getOutputStream() {
             return noBodyOutputStream;
         }
 
@@ -209,7 +214,7 @@ public class LogContextFilter implements Filter {
         }
     }
 
-    private class NoBodyOutputStream extends ServletOutputStream {
+    private static class NoBodyOutputStream extends ServletOutputStream {
         private int contentLength = 0;
 
         int getContentLength() {
@@ -220,7 +225,7 @@ public class LogContextFilter implements Filter {
             contentLength++;
         }
 
-        public void write(byte buf[], int offset, int len) throws IOException {
+        public void write(byte[] buf, int offset, int len) {
             contentLength += len;
         }
 
