@@ -59,8 +59,7 @@ public class LogContextFilter implements Filter {
     private static final Logger LOG = LoggerFactory.getLogger(LogContextFilter.class);
 
     /* https://stackoverflow.com/questions/24894093/ruby-regular-expression-extracting-part-of-url */
-    private static final Pattern EXTRACT_ENDPOINT_PATTERN =
-        Pattern.compile("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
+    private static final Pattern EXTRACT_ENDPOINT_PATTERN = Pattern.compile("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
     private static final String REQUEST_ID_MDC_KEY = "X-REQUEST-ID";
     private IPGeoConfiguration ipGeoConfiguration;
 
