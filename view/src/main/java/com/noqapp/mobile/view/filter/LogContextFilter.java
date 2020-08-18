@@ -100,7 +100,7 @@ public class LogContextFilter implements Filter {
             + " ip=\"" + ip + "\""
             + " country=\"" + countryCode + "\""
             + " city=\"" + city + "\""
-            + " geoHash=" + geoHash 
+            + " geoHash=" + geoHash
             + " endpoint=\"" + extractDataFromURL(url, "$5") + "\""
             + " query=\"" + (query == null ? "none" : query) + "\""
             + " url=\"" + url + "\""
