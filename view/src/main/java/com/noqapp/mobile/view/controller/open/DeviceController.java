@@ -121,11 +121,10 @@ public class DeviceController {
         }
 
         try {
-            String deviceId = UUID.randomUUID().toString();
+            String deviceId = UUID.randomUUID().toString().toUpperCase();
             double[] coordinate =  parseTokenFCM.isMissingCoordinate()
                 ? getLocationAsDouble(parseTokenFCM, request)
                 : parseTokenFCM.getCoordinate();
-            GeoPointOfQ geoPointOfQ = new GeoPointOfQ(coordinate[1], coordinate[0]);
 
             deviceRegistrationService.registerDevice(
                 null,
@@ -138,7 +137,13 @@ public class DeviceController {
                 parseTokenFCM.getAppVersion(),
                 coordinate,
                 parseTokenFCM.getIpAddress());
-            return DeviceRegistered.newInstance(true, deviceId).setGeoPointOfQ(geoPointOfQ).asJson();
+
+            return DeviceRegistered.newInstance(true, deviceId)
+                .setGeoPointOfQ(
+                    coordinate != null
+                        ? new GeoPointOfQ(coordinate[1], coordinate[0])
+                        : null
+                ).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
             return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
