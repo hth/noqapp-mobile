@@ -32,7 +32,7 @@ public class ParseTokenFCM {
     private String model;
     private String osVersion;
     private String appVersion;
-    private double[] coordinate;
+    private final double[] coordinate = new double[2];
     private String ipAddress;
     private boolean missingCoordinate;
 
