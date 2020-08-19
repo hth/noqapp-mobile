@@ -12,6 +12,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.noqapp.common.errors.ErrorJsonList;
+import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.TokenQueueEntity;
@@ -26,20 +27,17 @@ import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.service.MedicalRecordService;
-import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.service.MerchantExtendingJoinService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.controller.api.merchant.queue.QueueController;
-import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
-import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.DeviceService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
-import com.noqapp.service.SmsService;
 import com.noqapp.service.TokenQueueService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -82,14 +80,12 @@ class QueueControllerTest {
     @Mock private BusinessUserStoreService businessUserStoreService;
     @Mock private ApiHealthService apiHealthService;
     @Mock private BizService bizService;
-    @Mock private AccountService accountService;
-    @Mock private BusinessCustomerService businessCustomerService;
+    @Mock private MerchantExtendingJoinService merchantExtendingJoinService;
     @Mock private TokenQueueMobileService tokenQueueMobileService;
     @Mock private JoinAbortService joinAbortService;
     @Mock private MedicalRecordService medicalRecordService;
     @Mock private PurchaseOrderService purchaseOrderService;
     @Mock private DeviceService deviceService;
-    @Mock private SmsService smsService;
 
     @Mock private HttpServletResponse response;
 
@@ -111,12 +107,10 @@ class QueueControllerTest {
             tokenQueueService,
             tokenQueueMobileService,
             joinAbortService,
-            accountService,
-            businessCustomerService,
             purchaseOrderService,
             medicalRecordService,
             deviceService,
-            smsService,
+            merchantExtendingJoinService,
             apiHealthService);
 
         mapper = new ObjectMapper();
