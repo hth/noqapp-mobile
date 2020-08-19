@@ -801,11 +801,11 @@ public class QueueController {
                     case CDQ:
                         BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, businessCustomer.getCodeQR().getText());
                         if (UserLevelEnum.S_MANAGER == businessUserStore.getUserLevel()) {
-                            return merchantExtendingJoinService.dispenseTokenWithClientInfo(did, businessCustomer, qid, bizStore);
+                            return merchantExtendingJoinService.dispenseTokenWithClientInfo(did.getText(), businessCustomer, bizStore);
                         }
                         throw new TokenAvailableLimitReachedException("Not authorized to create token");
                     default:
-                        return merchantExtendingJoinService.dispenseTokenWithClientInfo(did, businessCustomer, qid, bizStore);
+                        return merchantExtendingJoinService.dispenseTokenWithClientInfo(did.getText(), businessCustomer, bizStore);
                 }
             } catch (StoreDayClosedException e) {
                 LOG.warn("Failed joining queue store closed qid={}, reason={}", qid, e.getLocalizedMessage());

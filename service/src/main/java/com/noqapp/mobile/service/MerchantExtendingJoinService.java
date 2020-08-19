@@ -74,7 +74,7 @@ public class MerchantExtendingJoinService {
         this.executorService = newSingleThreadExecutor();
     }
 
-    public String dispenseTokenWithClientInfo(ScrubbedInput did, JsonBusinessCustomer businessCustomer, String qid, BizStoreEntity bizStore) {
+    public String dispenseTokenWithClientInfo(String did, JsonBusinessCustomer businessCustomer, BizStoreEntity bizStore) {
         if (businessCustomer.isRegisteredUser()) {
             return createTokenForRegisteredUser(did, businessCustomer, bizStore);
         } else {
@@ -82,10 +82,10 @@ public class MerchantExtendingJoinService {
         }
     }
 
-    private String createTokenForUnregisteredUser(ScrubbedInput did, JsonBusinessCustomer businessCustomer, BizStoreEntity bizStore) {
+    private String createTokenForUnregisteredUser(String did, JsonBusinessCustomer businessCustomer, BizStoreEntity bizStore) {
         JsonToken jsonToken = joinAbortService.joinQueue(
             bizStore.getCodeQR(),
-            CommonUtil.appendRandomToDeviceId(did.getText()),
+            CommonUtil.appendRandomToDeviceId(did),
             bizStore.getAverageServiceTime(),
             TokenServiceEnum.M);
 
@@ -125,7 +125,7 @@ public class MerchantExtendingJoinService {
         return jsonToken.asJson();
     }
 
-    private String createTokenForRegisteredUser(ScrubbedInput did, JsonBusinessCustomer businessCustomer, BizStoreEntity bizStore) {
+    private String createTokenForRegisteredUser(String did, JsonBusinessCustomer businessCustomer, BizStoreEntity bizStore) {
         joinAbortService.checkCustomerApprovedForTheQueue(businessCustomer.getQueueUserId(), bizStore);
 
         UserProfileEntity userProfile = null;
@@ -169,7 +169,7 @@ public class MerchantExtendingJoinService {
         if (bizStore.isEnabledPayment()) {
             jsonToken = joinAbortService.skipPayBeforeJoinQueue(
                 businessCustomer.getCodeQR().getText(),
-                DeviceService.getExistingDeviceId(registeredDevice, did.getText()),
+                DeviceService.getExistingDeviceId(registeredDevice, did),
                 userProfile.getQueueUserId(),
                 guardianQid,
                 bizStore,
@@ -177,7 +177,7 @@ public class MerchantExtendingJoinService {
         } else {
             jsonToken = joinAbortService.joinQueue(
                 businessCustomer.getCodeQR().getText(),
-                DeviceService.getExistingDeviceId(registeredDevice, did.getText()),
+                DeviceService.getExistingDeviceId(registeredDevice, did),
                 userProfile.getQueueUserId(),
                 guardianQid,
                 bizStore.getAverageServiceTime(),
