@@ -64,12 +64,10 @@ class QueueControllerITest extends ITest {
             tokenQueueService,
             tokenQueueMobileService,
             joinAbortService,
-            accountService,
-            businessCustomerService,
             purchaseOrderService,
             medicalRecordService,
             deviceService,
-            smsService,
+            merchantExtendingJoinService,
             apiHealthService
         );
 

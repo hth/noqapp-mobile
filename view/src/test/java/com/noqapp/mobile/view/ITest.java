@@ -61,6 +61,7 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.DeviceRegistrationService;
 import com.noqapp.mobile.service.JMSProducerService;
 import com.noqapp.mobile.service.MedicalRecordMobileService;
+import com.noqapp.mobile.service.MerchantExtendingJoinService;
 import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.StoreDetailService;
@@ -250,6 +251,7 @@ public class ITest extends RealMongoForITest {
     protected S3FileManager s3FileManager;
     protected ReviewService reviewService;
     protected CouponService couponService;
+    protected MerchantExtendingJoinService merchantExtendingJoinService;
     protected JoinAbortService joinAbortService;
     protected DeviceService deviceService;
     protected TextToSpeechService textToSpeechService;
@@ -629,6 +631,16 @@ public class ITest extends RealMongoForITest {
             firebaseMessageService,
             firebaseService,
             jmsProducerService
+        );
+
+        merchantExtendingJoinService = new MerchantExtendingJoinService(
+            joinAbortService,
+            queueMobileService,
+            tokenQueueMobileService,
+            smsService,
+            accountService,
+            businessCustomerService,
+            deviceService
         );
 
         scheduleAppointmentService = new ScheduleAppointmentService(
