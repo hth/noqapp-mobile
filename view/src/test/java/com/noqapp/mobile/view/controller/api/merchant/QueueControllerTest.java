@@ -13,9 +13,12 @@ import static org.mockito.Mockito.when;
 
 import com.noqapp.common.errors.ErrorJsonList;
 import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.TokenQueueEntity;
+import com.noqapp.domain.json.JsonBusinessCustomer;
 import com.noqapp.domain.json.JsonHour;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTopic;
@@ -25,6 +28,7 @@ import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
+import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -410,7 +414,7 @@ class QueueControllerTest {
 
         tokenQueue.setQueueStatus(QueueStatusEnum.N);
 
-        when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
+        when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("qid");
         when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
         when(queueService.updateAndGetNextInQueue(anyString(), anyInt(), ArgumentMatchers.any(QueueUserStateEnum.class), anyString(), anyString(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(null);
         when(tokenQueueService.findByCodeQR(anyString())).thenReturn(tokenQueue);
@@ -432,28 +436,150 @@ class QueueControllerTest {
     }
 
     @Test
-    @DisplayName("Dispense Token does not work")
-    void dispenseToken() throws Exception {
+    @DisplayName("Dispense Token fails for CD or CDQ when user level is store manager")
+    void dispenseToken_CSD_pass() throws Exception {
         tokenQueue.setQueueStatus(QueueStatusEnum.N);
         JsonToken jsonToken = new JsonToken(tokenQueue);
         jsonToken.setToken(11);
 
-        when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("1234");
-        when(tokenQueueMobileService.getBizService()).thenReturn(bizService);
-        when(tokenQueueMobileService.getBizService().findByCodeQR(anyString())).thenReturn(new BizStoreEntity().setAverageServiceTime(100));
-        when(joinAbortService.joinQueue(anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class))).thenReturn(jsonToken);
+        BizStoreEntity bizStore = new BizStoreEntity()
+            .setDisplayName("Store")
+            .setAverageServiceTime(100)
+            .setCodeQR("codeQR")
+            .setBusinessType(BusinessTypeEnum.CDQ);
 
-        String responseJson = queueController.dispenseTokenWithoutClientInfo(
+        BusinessUserStoreEntity businessUserStore = new BusinessUserStoreEntity(
+            "100000000003",
+            CommonUtil.generateHexFromObjectId(),
+            CommonUtil.generateHexFromObjectId(),
+            CommonUtil.generateHexFromObjectId(),
+            UserLevelEnum.S_MANAGER);
+
+        when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("qid");
+        when(tokenQueueMobileService.getBizService()).thenReturn(bizService);
+        when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
+        when(businessUserStoreService.findOneByQidAndCodeQR(anyString(), anyString())).thenReturn(businessUserStore);
+        when(tokenQueueMobileService.getBizService().findByCodeQR(anyString())).thenReturn(bizStore);
+        when(merchantExtendingJoinService.dispenseTokenWithClientInfo(anyString(), any(JsonBusinessCustomer.class), any(BizStoreEntity.class))).thenReturn(jsonToken.asJson());
+
+        JsonBusinessCustomer jsonBusinessCustomer = new JsonBusinessCustomer();
+        jsonBusinessCustomer
+            .setCustomerPhone(new ScrubbedInput("customerPhone"))
+            .setCustomerName(new ScrubbedInput("customerName"))
+            .setCodeQR(new ScrubbedInput("codeQR"))
+            .setRegisteredUser(false);
+
+        String responseJson = queueController.dispenseTokenWithClientInfo(
             new ScrubbedInput(""),
             new ScrubbedInput(""),
             new ScrubbedInput(""),
             new ScrubbedInput(""),
-            new ScrubbedInput(""),
+            jsonBusinessCustomer,
             response);
 
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
         verify(tokenQueueMobileService.getBizService(), times(1)).findByCodeQR(any(String.class));
-        verify(joinAbortService, times(1)).joinQueue(anyString(), anyString(), anyLong(), ArgumentMatchers.any(TokenServiceEnum.class));
+        verify(merchantExtendingJoinService, times(1)).dispenseTokenWithClientInfo(anyString(), any(JsonBusinessCustomer.class), any(BizStoreEntity.class));
+
+        JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
+        assertEquals(11, jo.get("t").getAsInt());
+    }
+
+    @Test
+    @DisplayName("Dispense Token fails for CD or CDQ when user level is store supervisor")
+    void dispenseToken_CSD_fail() throws Exception {
+        tokenQueue.setQueueStatus(QueueStatusEnum.N);
+        JsonToken jsonToken = new JsonToken(tokenQueue);
+        jsonToken.setToken(11);
+
+        BizStoreEntity bizStore = new BizStoreEntity()
+            .setDisplayName("Store")
+            .setAverageServiceTime(100)
+            .setCodeQR("codeQR")
+            .setBusinessType(BusinessTypeEnum.CDQ);
+
+        BusinessUserStoreEntity businessUserStore = new BusinessUserStoreEntity(
+            "100000000003",
+            CommonUtil.generateHexFromObjectId(),
+            CommonUtil.generateHexFromObjectId(),
+            CommonUtil.generateHexFromObjectId(),
+            UserLevelEnum.Q_SUPERVISOR);
+
+        when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("qid");
+        when(tokenQueueMobileService.getBizService()).thenReturn(bizService);
+        when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
+        when(businessUserStoreService.findOneByQidAndCodeQR(anyString(), anyString())).thenReturn(businessUserStore);
+        when(tokenQueueMobileService.getBizService().findByCodeQR(anyString())).thenReturn(bizStore);
+        when(merchantExtendingJoinService.dispenseTokenWithClientInfo(anyString(), any(JsonBusinessCustomer.class), any(BizStoreEntity.class))).thenReturn(jsonToken.asJson());
+
+        JsonBusinessCustomer jsonBusinessCustomer = new JsonBusinessCustomer();
+        jsonBusinessCustomer
+            .setCustomerPhone(new ScrubbedInput("customerPhone"))
+            .setCustomerName(new ScrubbedInput("customerName"))
+            .setCodeQR(new ScrubbedInput("codeQR"))
+            .setRegisteredUser(false);
+
+        String responseJson = queueController.dispenseTokenWithClientInfo(
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            jsonBusinessCustomer,
+            response);
+
+        verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
+        verify(tokenQueueMobileService.getBizService(), times(1)).findByCodeQR(any(String.class));
+        verify(merchantExtendingJoinService, times(0)).dispenseTokenWithClientInfo(anyString(), any(JsonBusinessCustomer.class), any(BizStoreEntity.class));
+
+        ErrorJsonList errorJsonList = new ObjectMapper().readValue(responseJson, ErrorJsonList.class);
+        assertEquals(errorJsonList.getError().getSystemError(), MobileSystemErrorCodeEnum.QUEUE_TOKEN_LIMIT.name());
+    }
+
+    @Test
+    @DisplayName("Dispense Token fails for RS when user level is store manager")
+    void dispenseToken_RS_pass() throws Exception {
+        tokenQueue.setQueueStatus(QueueStatusEnum.N);
+        JsonToken jsonToken = new JsonToken(tokenQueue);
+        jsonToken.setToken(11);
+
+        BizStoreEntity bizStore = new BizStoreEntity()
+            .setDisplayName("Store")
+            .setAverageServiceTime(100)
+            .setCodeQR("codeQR")
+            .setBusinessType(BusinessTypeEnum.RS);
+
+        BusinessUserStoreEntity businessUserStore = new BusinessUserStoreEntity(
+            "100000000003",
+            CommonUtil.generateHexFromObjectId(),
+            CommonUtil.generateHexFromObjectId(),
+            CommonUtil.generateHexFromObjectId(),
+            UserLevelEnum.S_MANAGER);
+
+        when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("qid");
+        when(tokenQueueMobileService.getBizService()).thenReturn(bizService);
+        when(businessUserStoreService.hasAccess(anyString(), anyString())).thenReturn(true);
+        when(businessUserStoreService.findOneByQidAndCodeQR(anyString(), anyString())).thenReturn(businessUserStore);
+        when(tokenQueueMobileService.getBizService().findByCodeQR(anyString())).thenReturn(bizStore);
+        when(merchantExtendingJoinService.dispenseTokenWithClientInfo(anyString(), any(JsonBusinessCustomer.class), any(BizStoreEntity.class))).thenReturn(jsonToken.asJson());
+
+        JsonBusinessCustomer jsonBusinessCustomer = new JsonBusinessCustomer();
+        jsonBusinessCustomer
+            .setCustomerPhone(new ScrubbedInput("customerPhone"))
+            .setCustomerName(new ScrubbedInput("customerName"))
+            .setCodeQR(new ScrubbedInput("codeQR"))
+            .setRegisteredUser(false);
+
+        String responseJson = queueController.dispenseTokenWithClientInfo(
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            jsonBusinessCustomer,
+            response);
+
+        verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
+        verify(tokenQueueMobileService.getBizService(), times(1)).findByCodeQR(any(String.class));
+        verify(merchantExtendingJoinService, times(1)).dispenseTokenWithClientInfo(anyString(), any(JsonBusinessCustomer.class), any(BizStoreEntity.class));
 
         JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
         assertEquals(11, jo.get("t").getAsInt());

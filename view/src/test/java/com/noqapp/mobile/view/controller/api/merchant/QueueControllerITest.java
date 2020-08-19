@@ -14,6 +14,7 @@ import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
+import com.noqapp.domain.json.JsonBusinessCustomer;
 import com.noqapp.domain.json.JsonQueuePersonList;
 import com.noqapp.domain.json.JsonQueuedPerson;
 import com.noqapp.domain.json.JsonToken;
@@ -485,6 +486,13 @@ class QueueControllerITest extends ITest {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
+        JsonBusinessCustomer jsonBusinessCustomer = new JsonBusinessCustomer();
+        jsonBusinessCustomer
+            .setCustomerPhone(new ScrubbedInput("919998887777"))
+            .setCustomerName(new ScrubbedInput("Customer 10"))
+            .setCodeQR(new ScrubbedInput(bizStore.getCodeQR()))
+            .setRegisteredUser(false);
+
         UserProfileEntity client1 = accountService.checkUserExistsByPhone("9118000000001");
         UserAccountEntity userAccount1 = accountService.findByQueueUserId(client1.getQueueUserId());
         tokenQueueAPIController.joinQueue(
@@ -513,12 +521,12 @@ class QueueControllerITest extends ITest {
         assertEquals(0, jsonTopic.getTopics().iterator().next().getServingNumber());
         assertEquals(1, jsonTopic.getTopics().iterator().next().getToken());
 
-        String dispenseToken1 = queueController.dispenseTokenWithoutClientInfo(
+        String dispenseToken1 = queueController.dispenseTokenWithClientInfo(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
             new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
-            new ScrubbedInput(jsonTopic.getTopics().iterator().next().getCodeQR()),
+            jsonBusinessCustomer,
             httpServletResponse
         );
         JsonToken jsonToken1 = new ObjectMapper().readValue(dispenseToken1, JsonToken.class);
@@ -536,12 +544,12 @@ class QueueControllerITest extends ITest {
             httpServletResponse
         );
 
-        String dispenseToken2 = queueController.dispenseTokenWithoutClientInfo(
+        String dispenseToken2 = queueController.dispenseTokenWithClientInfo(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
             new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
-            new ScrubbedInput(jsonTopic.getTopics().iterator().next().getCodeQR()),
+            jsonBusinessCustomer,
             httpServletResponse
         );
         JsonToken jsonToken2 = new ObjectMapper().readValue(dispenseToken2, JsonToken.class);
@@ -557,6 +565,13 @@ class QueueControllerITest extends ITest {
     void dispenseTokenFailWhenStoreIsClosedOrPreventJoin() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
+
+        JsonBusinessCustomer jsonBusinessCustomer = new JsonBusinessCustomer();
+        jsonBusinessCustomer
+            .setCustomerPhone(new ScrubbedInput("919998887777"))
+            .setCustomerName(new ScrubbedInput("Customer 10"))
+            .setCodeQR(new ScrubbedInput(bizStore.getCodeQR()))
+            .setRegisteredUser(false);
 
         JsonStoreSetting jsonStoreSetting = new JsonStoreSetting()
             .setCodeQR(bizStore.getCodeQR())
@@ -609,23 +624,23 @@ class QueueControllerITest extends ITest {
         assertEquals(0, jsonTopic.getTopics().iterator().next().getToken());
         assertEquals(bizStore.getCountryShortName() + UNDER_SCORE + bizStore.getCodeQR(), jsonTopic.getTopics().iterator().next().getTopic());
 
-        String dispenseToken1 = queueController.dispenseTokenWithoutClientInfo(
+        String dispenseToken1 = queueController.dispenseTokenWithClientInfo(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
             new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
-            new ScrubbedInput(jsonTopic.getTopics().iterator().next().getCodeQR()),
+            jsonBusinessCustomer,
             httpServletResponse
         );
         errorJsonList = new ObjectMapper().readValue(dispenseToken1, ErrorJsonList.class);
         assertEquals(STORE_DAY_CLOSED.getCode(), errorJsonList.getError().getSystemErrorCode());
 
-        String dispenseToken2 = queueController.dispenseTokenWithoutClientInfo(
+        String dispenseToken2 = queueController.dispenseTokenWithClientInfo(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
             new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
-            new ScrubbedInput(jsonTopic.getTopics().iterator().next().getCodeQR()),
+            jsonBusinessCustomer,
             httpServletResponse
         );
         errorJsonList = new ObjectMapper().readValue(dispenseToken2, ErrorJsonList.class);
@@ -662,19 +677,26 @@ class QueueControllerITest extends ITest {
         bizService.saveName(bizName);
 
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
+        JsonBusinessCustomer jsonBusinessCustomer = new JsonBusinessCustomer();
+        jsonBusinessCustomer
+            .setCustomerPhone(new ScrubbedInput("919998887777"))
+            .setCustomerName(new ScrubbedInput("Customer 10"))
+            .setCodeQR(new ScrubbedInput(bizStore.getCodeQR()))
+            .setRegisteredUser(false);
 
-        UserProfileEntity client4 = accountService.checkUserExistsByPhone("9118000001112");
+        UserProfileEntity client4 = accountService.checkUserExistsByPhone("9118000001102");
         UserAccountEntity queueUserAccount = accountService.findByQueueUserId(client4.getQueueUserId());
-        String jsonTokenResponse = queueController.dispenseTokenWithoutClientInfo(
+        String jsonTokenResponse = queueController.dispenseTokenWithClientInfo(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(queueUserAccount.getUserId()),
             new ScrubbedInput(queueUserAccount.getUserAuthentication().getAuthenticationKey()),
-            new ScrubbedInput(bizStore.getCodeQR()),
+            jsonBusinessCustomer,
             httpServletResponse
         );
 
         JsonToken jsonToken = new ObjectMapper().readValue(jsonTokenResponse, JsonToken.class);
         assertTrue(jsonToken.getToken() > 0);
+        assertEquals(jsonToken.getDisplayName(), "CSD Liquor for Ex-Servicemen");
     }
 }
