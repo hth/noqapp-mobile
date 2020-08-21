@@ -2,7 +2,6 @@ package com.noqapp.mobile.service;
 
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StoreCategoryEntity;
-import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.StoreProductEntity;
 import com.noqapp.domain.annotation.Mobile;
 import com.noqapp.domain.json.JsonHour;

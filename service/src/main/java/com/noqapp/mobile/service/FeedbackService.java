@@ -1,22 +1,14 @@
 package com.noqapp.mobile.service;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-
 import com.noqapp.domain.UserAccountEntity;
-import com.noqapp.domain.jms.FeedbackMail;
 import com.noqapp.mobile.domain.body.client.Feedback;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 /**

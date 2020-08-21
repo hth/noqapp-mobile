@@ -4,7 +4,6 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.JsonQueuePersonList;
 import com.noqapp.domain.json.tv.JsonQueueTV;
 import com.noqapp.domain.json.tv.JsonQueueTVList;
 import com.noqapp.domain.types.BusinessTypeEnum;

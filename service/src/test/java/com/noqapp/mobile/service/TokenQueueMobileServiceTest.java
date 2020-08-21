@@ -6,14 +6,10 @@ import static org.mockito.Mockito.when;
 
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
-import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
-import com.noqapp.service.FirebaseMessageService;
 import com.noqapp.service.ProfessionalProfileService;
-import com.noqapp.service.PurchaseOrderProductService;
-import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 
 import org.junit.jupiter.api.BeforeEach;

@@ -5,9 +5,7 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.CommonUtil;
-import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
-import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -16,7 +14,6 @@ import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessCustomerService;
-import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.DeviceService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.SmsService;
