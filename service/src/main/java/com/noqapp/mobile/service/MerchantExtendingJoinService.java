@@ -11,6 +11,7 @@ import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonBusinessCustomer;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.types.MessageCodeEnum;
 import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessCustomerService;
@@ -93,15 +94,17 @@ public class MerchantExtendingJoinService {
             businessCustomer.getCustomerPhone().getText());
 
         StoreHourEntity storeHour = tokenQueueMobileService.getBizService().getStoreHours(bizStore.getCodeQR(), bizStore);
+        MessageCodeEnum messageCode;
         String estimateWaitTime;
         switch (bizStore.getBusinessType()) {
             case CDQ:
             case CD:
-                estimateWaitTime = ", arrive between time slot "
-                    + ServiceUtils.timeSlot(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone(), storeHour);
+                messageCode = MessageCodeEnum.SMTS;
+                estimateWaitTime = ServiceUtils.timeSlot(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone(), storeHour);
                 break;
             default:
-                estimateWaitTime = ", estimated wait " + ServiceUtils.calculateEstimatedWaitTime(
+                messageCode = MessageCodeEnum.SMEW;
+                estimateWaitTime = ServiceUtils.calculateEstimatedWaitTime(
                     bizStore.getAverageServiceTime(),
                     jsonToken.getToken() - jsonToken.getServingNumber(),
                     jsonToken.getQueueStatus(),
@@ -110,15 +113,21 @@ public class MerchantExtendingJoinService {
                 );
         }
 
-        String smsMessage = "NoQueue token at " + bizStore.getDisplayName() + " is " + jsonToken.getToken()
-            + ", people waiting " + (jsonToken.getToken() - jsonToken.getServingNumber())
-            + estimateWaitTime;
-        LOG.info("SMS=\"{}\" length={}", smsMessage, smsMessage.length());
+        executorService.submit(() -> {
+            String smsMessage = smsService.smsMessage(
+                messageCode,
+                bizStore.getBizName().getSmsLocale(),
+                bizStore.getDisplayName(),
+                jsonToken.getToken(),
+                (jsonToken.getToken() - jsonToken.getServingNumber()),
+                estimateWaitTime);
 
-        executorService.submit(() -> smsService.sendTransactionalSMS(
-            businessCustomer.getCustomerPhone().getText(),
-            smsMessage
-        ));
+            LOG.info("SMS=\"{}\" length={}", smsMessage, smsMessage.length());
+            smsService.sendTransactionalSMS(
+                businessCustomer.getCustomerPhone().getText(),
+                smsMessage
+            );
+        });
         return jsonToken.asJson();
     }
 
