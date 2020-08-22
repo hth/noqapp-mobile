@@ -21,6 +21,7 @@
 
     <!--suppress SpringModelInspection -->
     <util:properties id="environmentProperty" location="classpath:/build-info.properties" />
+    <util:properties id="communication" location="classpath:/conf/communication.properties" />
     <!--suppress SpringModelInspection -->
     <context:property-placeholder location="classpath:/conf/config.properties"                  order="1" ignore-unresolvable="true" />
     <!--suppress SpringModelInspection -->
