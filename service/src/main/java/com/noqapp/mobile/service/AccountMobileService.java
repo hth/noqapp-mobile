@@ -1,7 +1,5 @@
 package com.noqapp.mobile.service;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-
 import com.noqapp.common.utils.RandomString;
 import com.noqapp.domain.BusinessUserEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
@@ -10,8 +8,6 @@ import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.flow.RegisterUser;
 import com.noqapp.domain.helper.NameDatePair;
-import com.noqapp.domain.jms.ChangeMailOTP;
-import com.noqapp.domain.jms.SignupUserInfo;
 import com.noqapp.domain.json.JsonNameDatePair;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonProfile;
@@ -27,16 +23,11 @@ import com.noqapp.service.UserProfilePreferenceService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 import com.noqapp.social.exception.AccountNotActiveException;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
