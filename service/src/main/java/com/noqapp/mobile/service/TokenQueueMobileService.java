@@ -5,6 +5,7 @@ import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
+import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -165,6 +166,12 @@ public class TokenQueueMobileService {
                 jsonQueue.setTown(FileUtil.DASH);
             default:
                 //Do nothing
+        }
+        QueueEntity queue = queueManager.findOne(bizStore.getCodeQR(), tokenQueue.getLastNumber());
+        if (null == queue) {
+            jsonQueue.setTimeSlotMessage("No one in queue");
+        } else {
+            jsonQueue.setTimeSlotMessage(queue.getTimeSlotMessage());
         }
 
         return jsonQueue;
