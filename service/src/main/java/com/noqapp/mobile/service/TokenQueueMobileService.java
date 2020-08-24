@@ -28,6 +28,7 @@ import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.service.BizService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.TokenQueueService;
+import com.noqapp.service.utils.ServiceUtils;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -39,8 +40,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * User: hitender
@@ -158,22 +161,35 @@ public class TokenQueueMobileService {
             .setAmenities(bizStore.getAmenities())
             .setFacilities(bizStore.getFacilities());
 
+        String timeSlotMessage;
         switch (bizStore.getBusinessType()) {
             case CD:
             case CDQ:
                 jsonQueue.setStoreAddress(FileUtil.DASH);
                 jsonQueue.setArea(FileUtil.DASH);
                 jsonQueue.setTown(FileUtil.DASH);
-            default:
-                //Do nothing
-        }
-        QueueEntity queue = queueManager.findOne(bizStore.getCodeQR(), tokenQueue.getLastNumber());
-        if (null == queue) {
-            jsonQueue.setTimeSlotMessage("No one in queue");
-        } else {
-            jsonQueue.setTimeSlotMessage(queue.getTimeSlotMessage());
-        }
 
+                ZonedDateTime zonedDateTime = tokenQueueService.computeExpectedServiceBeginTime(
+                    bizStore.getAverageServiceTime(),
+                    TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId(),
+                    storeHour,
+                    tokenQueue.getLastNumber()
+                );
+                timeSlotMessage = ServiceUtils.timeSlot(
+                    zonedDateTime,
+                    bizStore.getTimeZone(),
+                    storeHour);
+                break;
+            default:
+                timeSlotMessage = ServiceUtils.calculateEstimatedWaitTime(
+                    bizStore.getAverageServiceTime(),
+                    tokenQueue.getLastNumber() - tokenQueue.getCurrentlyServing(),
+                    tokenQueue.getQueueStatus(),
+                    storeHour.getStartHour(),
+                    bizStore.getTimeZone()
+                );
+        }
+        jsonQueue.setTimeSlotMessage(timeSlotMessage == null ? "Not Available" : timeSlotMessage);
         return jsonQueue;
     }
 
