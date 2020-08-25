@@ -170,22 +170,11 @@ public class TokenQueueMobileService {
                 jsonQueue.setArea(FileUtil.DASH);
                 jsonQueue.setTown(FileUtil.DASH);
 
-                try {
-                    ZonedDateTime zonedDateTime = tokenQueueService.computeExpectedServiceBeginTime(
-                        bizStore.getAverageServiceTime(),
-                        TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId(),
-                        storeHour,
-                        tokenQueue.getLastNumber());
-
-                    timeSlotMessage = ServiceUtils.timeSlot(
-                        zonedDateTime,
-                        bizStore.getTimeZone(),
-                        storeHour);
-
-                    LOG.info("ZonedDateTime {} timeSlotMessage={}", zonedDateTime, timeSlotMessage);
-                } catch (ExpectedServiceBeyondStoreClosingHour e) {
-                    timeSlotMessage = "May be closed";
-                }
+                timeSlotMessage = tokenQueueService.expectedService(
+                    bizStore.getAverageServiceTime(),
+                    TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId(),
+                    storeHour,
+                    tokenQueue.getLastNumber());
                 break;
             default:
                 timeSlotMessage = ServiceUtils.calculateEstimatedWaitTime(
@@ -195,9 +184,9 @@ public class TokenQueueMobileService {
                     storeHour.getStartHour(),
                     bizStore.getTimeZone()
                 );
-                LOG.info("timeSlotMessage={}", timeSlotMessage);
         }
         jsonQueue.setTimeSlotMessage(timeSlotMessage == null ? "Not Available" : timeSlotMessage);
+        LOG.info("Sending timeSlotMessage={}", jsonQueue.getTimeSlotMessage());
         return jsonQueue;
     }
 
