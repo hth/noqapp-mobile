@@ -28,6 +28,7 @@ import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.service.BizService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.TokenQueueService;
+import com.noqapp.service.exceptions.ExpectedServiceBeyondStoreClosingHour;
 import com.noqapp.service.utils.ServiceUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -169,16 +170,20 @@ public class TokenQueueMobileService {
                 jsonQueue.setArea(FileUtil.DASH);
                 jsonQueue.setTown(FileUtil.DASH);
 
-                ZonedDateTime zonedDateTime = tokenQueueService.computeExpectedServiceBeginTime(
-                    bizStore.getAverageServiceTime(),
-                    TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId(),
-                    storeHour,
-                    tokenQueue.getLastNumber()
-                );
-                timeSlotMessage = ServiceUtils.timeSlot(
-                    zonedDateTime,
-                    bizStore.getTimeZone(),
-                    storeHour);
+                try {
+                    ZonedDateTime zonedDateTime = tokenQueueService.computeExpectedServiceBeginTime(
+                        bizStore.getAverageServiceTime(),
+                        TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId(),
+                        storeHour,
+                        tokenQueue.getLastNumber()
+                    );
+                    timeSlotMessage = ServiceUtils.timeSlot(
+                        zonedDateTime,
+                        bizStore.getTimeZone(),
+                        storeHour);
+                } catch (ExpectedServiceBeyondStoreClosingHour e) {
+                    timeSlotMessage = "Closed now";
+                }
                 break;
             default:
                 timeSlotMessage = ServiceUtils.calculateEstimatedWaitTime(
