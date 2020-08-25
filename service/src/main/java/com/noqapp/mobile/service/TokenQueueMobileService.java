@@ -175,8 +175,8 @@ public class TokenQueueMobileService {
                         bizStore.getAverageServiceTime(),
                         TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId(),
                         storeHour,
-                        tokenQueue.getLastNumber()
-                    );
+                        tokenQueue.getLastNumber());
+
                     timeSlotMessage = ServiceUtils.timeSlot(
                         zonedDateTime,
                         bizStore.getTimeZone(),
