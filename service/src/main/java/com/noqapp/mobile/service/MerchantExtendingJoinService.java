@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -100,7 +101,7 @@ public class MerchantExtendingJoinService {
             case CDQ:
             case CD:
                 messageCode = MessageCodeEnum.SMTS;
-                estimateWaitTime = ServiceUtils.timeSlot(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone(), storeHour);
+                estimateWaitTime = ServiceUtils.timeSlot(jsonToken.getExpectedServiceBeginDate(), ZoneId.of(bizStore.getTimeZone()), storeHour);
                 break;
             default:
                 messageCode = MessageCodeEnum.SMEW;
