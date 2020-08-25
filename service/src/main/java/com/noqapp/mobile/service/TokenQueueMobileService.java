@@ -175,12 +175,14 @@ public class TokenQueueMobileService {
                         bizStore.getAverageServiceTime(),
                         TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId(),
                         storeHour,
-                        tokenQueue.getLastNumber()
-                    );
+                        tokenQueue.getLastNumber());
+
                     timeSlotMessage = ServiceUtils.timeSlot(
                         zonedDateTime,
                         bizStore.getTimeZone(),
                         storeHour);
+
+                    LOG.info("ZonedDateTime {} timeSlotMessage={}", zonedDateTime, timeSlotMessage);
                 } catch (ExpectedServiceBeyondStoreClosingHour e) {
                     timeSlotMessage = "Closed now";
                 }
@@ -193,6 +195,7 @@ public class TokenQueueMobileService {
                     storeHour.getStartHour(),
                     bizStore.getTimeZone()
                 );
+                LOG.info("timeSlotMessage={}", timeSlotMessage);
         }
         jsonQueue.setTimeSlotMessage(timeSlotMessage == null ? "Not Available" : timeSlotMessage);
         return jsonQueue;
