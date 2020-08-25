@@ -184,7 +184,7 @@ public class TokenQueueMobileService {
 
                     LOG.info("ZonedDateTime {} timeSlotMessage={}", zonedDateTime, timeSlotMessage);
                 } catch (ExpectedServiceBeyondStoreClosingHour e) {
-                    timeSlotMessage = "Closed now";
+                    timeSlotMessage = "May be closed";
                 }
                 break;
             default:
