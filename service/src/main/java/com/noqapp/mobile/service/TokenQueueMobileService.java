@@ -170,11 +170,21 @@ public class TokenQueueMobileService {
                 jsonQueue.setArea(FileUtil.DASH);
                 jsonQueue.setTown(FileUtil.DASH);
 
-                timeSlotMessage = tokenQueueService.expectedService(
-                    bizStore.getAverageServiceTime(),
-                    TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId(),
-                    storeHour,
-                    tokenQueue.getLastNumber());
+                if (bizStore.getAvailableTokenCount() > 0) {
+                    timeSlotMessage = tokenQueueService.expectedService(
+                        bizStore.getAverageServiceTime(),
+                        TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId(),
+                        storeHour,
+                        tokenQueue.getLastNumber());
+                } else {
+                    timeSlotMessage = ServiceUtils.calculateEstimatedWaitTime(
+                        bizStore.getAverageServiceTime(),
+                        tokenQueue.getLastNumber() - tokenQueue.getCurrentlyServing(),
+                        tokenQueue.getQueueStatus(),
+                        storeHour.getStartHour(),
+                        bizStore.getTimeZone()
+                    );
+                }
                 break;
             default:
                 timeSlotMessage = ServiceUtils.calculateEstimatedWaitTime(
