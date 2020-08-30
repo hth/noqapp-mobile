@@ -42,6 +42,9 @@ public class JsonInQueuePerson extends AbstractDomain {
     @JsonProperty("t")
     private int token;
 
+    @JsonProperty ("dt")
+    private String displayToken;
+
     @JsonProperty("n")
     private String customerName = "";
 
@@ -78,6 +81,15 @@ public class JsonInQueuePerson extends AbstractDomain {
 
     public JsonInQueuePerson setToken(int token) {
         this.token = token;
+        return this;
+    }
+
+    public String getDisplayToken() {
+        return displayToken;
+    }
+
+    public JsonInQueuePerson setDisplayToken(String displayToken) {
+        this.displayToken = displayToken;
         return this;
     }
 
