@@ -168,6 +168,7 @@ public class QueueMobileService {
             LOG.info("QID is {} should be null for did={}", queue.getQueueUserId(), did);
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
                 jsonToken.getToken(),
+                jsonToken.getDisplayToken(),
                 null,
                 jsonToken.getQueueStatus(),
                 jsonQueue,
@@ -212,6 +213,7 @@ public class QueueMobileService {
 
             JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
                 queue.getTokenNumber(),
+                queue.getDisplayToken(),
                 queue.getQueueUserId(),
                 tokenQueueMobileService.findByCodeQR(queue.getCodeQR()).getQueueStatus(),
                 jsonQueue,

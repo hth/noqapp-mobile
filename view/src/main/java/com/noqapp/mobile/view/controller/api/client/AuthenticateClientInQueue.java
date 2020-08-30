@@ -128,6 +128,7 @@ public class AuthenticateClientInQueue {
 
             jsonInQueuePerson
                 .setToken(queue.getTokenNumber())
+                .setDisplayToken(queue.getDisplayToken())
                 .setCustomerName(queue.getCustomerName())
                 .setCustomerPhone(queue.getCustomerPhone())
                 .setBusinessCustomerId(queue.getBusinessCustomerId())
@@ -141,7 +142,7 @@ public class AuthenticateClientInQueue {
 
             joinAbortService.authenticateMessageToClient(
                 StringUtils.isBlank(queue.getGuardianQid()) ? queue.getQueueUserId() : queue.getGuardianQid(),
-                "Your token " + queue.getTokenNumber(),
+                "Your token " + queue.getDisplayToken(),
                 "Current state " + queue.getQueueUserState(),
                 queue.getCodeQR()
             );
