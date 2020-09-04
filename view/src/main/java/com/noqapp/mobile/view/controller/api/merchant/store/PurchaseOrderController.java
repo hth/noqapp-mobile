@@ -1,14 +1,13 @@
 package com.noqapp.mobile.view.controller.api.merchant.store;
 
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.FAILED_PLACING_MEDICAL_ORDER_AS_INCORRECT_BUSINESS;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ORDER_PAYMENT_UPDATE_FAILED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NEGATIVE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRICE_MISMATCH;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRODUCT_NOT_FOUND;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_NOT_RE_STARTED;
@@ -18,12 +17,14 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_DAY_CLOSE
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_OFFLINE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_PREVENT_JOIN;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_TEMP_DAY_CLOSED;
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.CommonUtil;
-import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
@@ -54,7 +55,6 @@ import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.repository.MedicalPathologyManager;
 import com.noqapp.medical.repository.MedicalRadiologyManager;
 import com.noqapp.medical.service.MedicalRecordService;
-import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.LabFile;
 import com.noqapp.mobile.domain.body.merchant.OrderServed;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -68,6 +68,7 @@ import com.noqapp.service.DeviceService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.exceptions.PriceMismatchException;
+import com.noqapp.service.exceptions.PurchaseOrderNegativeException;
 import com.noqapp.service.exceptions.PurchaseOrderProductNFException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.StoreInActiveException;
@@ -1103,7 +1104,8 @@ public class PurchaseOrderController {
                     body = "Your order was cancelled by merchant";
                 }
 
-                executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
+                executorService.execute(() -> queueMobileService.notifyClient(
+                    registeredDevice,
                     title,
                     body,
                     jsonPurchaseOrderUpdated.getCodeQR()));
