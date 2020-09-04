@@ -685,6 +685,10 @@ public class PurchaseOrderController {
             LOG.error("Prices have changed since added to cart reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return ErrorEncounteredJson.toJson("Prices have changed since added to cart", PURCHASE_ORDER_PRICE_MISMATCH);
+        } catch (PurchaseOrderNegativeException e) {
+            LOG.error("Order cannot be less than 1 reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Minimum order price should be a positive amount", PURCHASE_ORDER_NEGATIVE);
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -812,6 +816,10 @@ public class PurchaseOrderController {
             LOG.error("Prices have changed since added to cart reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return ErrorEncounteredJson.toJson("Prices have changed since added to cart", PURCHASE_ORDER_PRICE_MISMATCH);
+        } catch (PurchaseOrderNegativeException e) {
+            LOG.error("Order cannot be less than 1 reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Minimum order price should be a positive amount", PURCHASE_ORDER_NEGATIVE);
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

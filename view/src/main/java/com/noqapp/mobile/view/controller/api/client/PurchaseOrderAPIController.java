@@ -1,13 +1,12 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.COUPON_NOT_APPLICABLE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_CANNOT_ACTIVATE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_AS_EXTERNALLY_PAID;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NEGATIVE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRICE_MISMATCH;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
@@ -16,9 +15,12 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_OFFLINE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_PREVENT_JOIN;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_TEMP_DAY_CLOSED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.TRANSACTION_GATEWAY_DEFAULT;
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.CouponEntity;
@@ -35,7 +37,6 @@ import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.domain.types.cashfree.TxStatusEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.OrderDetail;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.BizService;
@@ -44,6 +45,7 @@ import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.exceptions.OrderFailedReActivationException;
 import com.noqapp.service.exceptions.PriceMismatchException;
 import com.noqapp.service.exceptions.PurchaseOrderCancelException;
+import com.noqapp.service.exceptions.PurchaseOrderNegativeException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundPartialException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
@@ -173,6 +175,10 @@ public class PurchaseOrderAPIController {
             LOG.error("Prices have changed since added to cart reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return ErrorEncounteredJson.toJson("Prices have changed since added to cart", PURCHASE_ORDER_PRICE_MISMATCH);
+        } catch (PurchaseOrderNegativeException e) {
+            LOG.error("Order cannot be less than 1 reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Minimum order price should be a positive amount", PURCHASE_ORDER_NEGATIVE);
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
