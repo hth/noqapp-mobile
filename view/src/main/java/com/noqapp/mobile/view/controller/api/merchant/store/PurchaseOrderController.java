@@ -1,14 +1,13 @@
 package com.noqapp.mobile.view.controller.api.merchant.store;
 
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.FAILED_PLACING_MEDICAL_ORDER_AS_INCORRECT_BUSINESS;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ORDER_PAYMENT_UPDATE_FAILED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NEGATIVE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRICE_MISMATCH;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRODUCT_NOT_FOUND;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_NOT_RE_STARTED;
@@ -18,12 +17,14 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_DAY_CLOSE
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_OFFLINE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_PREVENT_JOIN;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_TEMP_DAY_CLOSED;
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.CommonUtil;
-import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
@@ -54,7 +55,6 @@ import com.noqapp.medical.domain.json.JsonMedicalRecord;
 import com.noqapp.medical.repository.MedicalPathologyManager;
 import com.noqapp.medical.repository.MedicalRadiologyManager;
 import com.noqapp.medical.service.MedicalRecordService;
-import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.LabFile;
 import com.noqapp.mobile.domain.body.merchant.OrderServed;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -68,6 +68,7 @@ import com.noqapp.service.DeviceService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.exceptions.PriceMismatchException;
+import com.noqapp.service.exceptions.PurchaseOrderNegativeException;
 import com.noqapp.service.exceptions.PurchaseOrderProductNFException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.StoreInActiveException;
@@ -468,6 +469,11 @@ public class PurchaseOrderController {
             JsonToken jsonToken;
             switch (tokenQueue.getQueueStatus()) {
                 case N:
+                case D:
+                    /*
+                     * When D, then allow accepting the order without payment, since it is cash pay later.
+                     * When N, system gets the next order.
+                     */
                     jsonToken = purchaseOrderService.getThisAsNextInQueue(codeQR, goTo, did.getText(), servedNumber);
                     break;
                 case S:
@@ -664,7 +670,7 @@ public class PurchaseOrderController {
                 executorService.execute(() -> queueMobileService.notifyClient(
                     registeredDevice,
                     "Order placed at " + bizStore.getDisplayName(),
-                    "Your order number is " + jsonPurchaseOrder.getToken(),
+                    "Your order number is " + jsonPurchaseOrder.getDisplayToken(),
                     bizStore.getCodeQR()));
             }
 
@@ -685,6 +691,10 @@ public class PurchaseOrderController {
             LOG.error("Prices have changed since added to cart reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return ErrorEncounteredJson.toJson("Prices have changed since added to cart", PURCHASE_ORDER_PRICE_MISMATCH);
+        } catch (PurchaseOrderNegativeException e) {
+            LOG.error("Order cannot be less than 1 reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Minimum order price should be a positive amount", PURCHASE_ORDER_NEGATIVE);
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -791,7 +801,7 @@ public class PurchaseOrderController {
                 executorService.execute(() -> queueMobileService.notifyClient(
                     registeredDevice,
                     "Order placed at " + bizStore.getDisplayName(),
-                    "Your order number is " + jsonPurchaseOrder.getToken(),
+                    "Your order number is " + jsonPurchaseOrder.getDisplayToken(),
                     bizStore.getCodeQR()));
             }
 
@@ -812,6 +822,10 @@ public class PurchaseOrderController {
             LOG.error("Prices have changed since added to cart reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return ErrorEncounteredJson.toJson("Prices have changed since added to cart", PURCHASE_ORDER_PRICE_MISMATCH);
+        } catch (PurchaseOrderNegativeException e) {
+            LOG.error("Order cannot be less than 1 reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return ErrorEncounteredJson.toJson("Minimum order price should be a positive amount", PURCHASE_ORDER_NEGATIVE);
         } catch (Exception e) {
             LOG.error("Failed processing purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -937,7 +951,7 @@ public class PurchaseOrderController {
                 executorService.execute(() -> queueMobileService.notifyClient(
                     registeredDevice,
                     "Partial payment applied for " + tokenQueue.getDisplayName(),
-                    "Your order at " + tokenQueue.getDisplayName() + " number " + jsonPurchaseOrder.getToken()
+                    "Your order " + jsonPurchaseOrder.getDisplayToken() + " at " + tokenQueue.getDisplayName()
                         + " has been partially paid at the counter via " + jsonPurchaseOrder.getPaymentMode().getDescription(),
                     jsonPurchaseOrder.getCodeQR()));
             }
@@ -1012,7 +1026,7 @@ public class PurchaseOrderController {
                 executorService.execute(() -> queueMobileService.notifyClient(
                     registeredDevice,
                     "Paid at counter for " + tokenQueue.getDisplayName(),
-                    "Your order at " + tokenQueue.getDisplayName() + " number " + jsonPurchaseOrder.getToken()
+                    "Your order " + jsonPurchaseOrder.getDisplayToken() + " at " + tokenQueue.getDisplayName()
                         + " has been paid at the counter via " + jsonPurchaseOrder.getPaymentMode().getDescription(),
                     jsonPurchaseOrder.getCodeQR()));
             }
@@ -1086,16 +1100,18 @@ public class PurchaseOrderController {
                 String title, body;
                 if (null != jsonPurchaseOrderUpdated.getPaymentMode() && new BigDecimal(jsonPurchaseOrderUpdated.getOrderPriceForDisplay()).intValue() > 0) {
                     title = "Refund initiated by " + tokenQueue.getDisplayName();
-                    body = "You have been refunded net total of " + CommonUtil.displayWithCurrencyCode(jsonPurchaseOrderUpdated.getOrderPriceForDisplay(), bizStore.getCountryShortName())
+                    body = "For order " + jsonPurchaseOrderUpdated.getDisplayToken() + ", you have been refunded net total of "
+                        + CommonUtil.displayWithCurrencyCode(jsonPurchaseOrderUpdated.getOrderPriceForDisplay(), bizStore.getCountryShortName())
                         + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
                         ? " via " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() + ".\n\n" + "Note: It takes 7 to 10 business days for this amount to show up in your account."
                         : " at counter");
                 } else {
                     title = "Cancelled order by "  + tokenQueue.getDisplayName();
-                    body = "Your order was cancelled by merchant";
+                    body = "Your order " + jsonPurchaseOrderUpdated.getDisplayToken() + " at " + jsonPurchaseOrderUpdated.getDisplayToken() + " was cancelled.";
                 }
 
-                executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
+                executorService.execute(() -> queueMobileService.notifyClient(
+                    registeredDevice,
                     title,
                     body,
                     jsonPurchaseOrderUpdated.getCodeQR()));

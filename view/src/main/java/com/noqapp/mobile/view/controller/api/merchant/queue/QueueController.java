@@ -1041,7 +1041,7 @@ public class QueueController {
             if (null != registeredDevice) {
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
                     "Paid at counter for " + queue.getDisplayName(),
-                    "Your order at " + queue.getDisplayName() + " number " + jsonPurchaseOrder.getToken()
+                    "Your order " + jsonPurchaseOrder.getDisplayToken() + " at " + queue.getDisplayName()
                         + " has been paid at the counter via " + jsonPurchaseOrder.getPaymentMode().getDescription(),
                     jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR()));
             }
@@ -1141,7 +1141,7 @@ public class QueueController {
                         : " at counter");
                 } else {
                     title = "Cancelled order by "  + queue.getDisplayName();
-                    body = "Your order was cancelled by merchant";
+                    body = "Your order " + jsonPurchaseOrderUpdated.getDisplayToken() + " was cancelled.";
                 }
 
                 executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
