@@ -469,6 +469,11 @@ public class PurchaseOrderController {
             JsonToken jsonToken;
             switch (tokenQueue.getQueueStatus()) {
                 case N:
+                case D:
+                    /*
+                     * When D, then allow accepting the order without payment, since it is cash pay later.
+                     * When N, system gets the next order.
+                     */
                     jsonToken = purchaseOrderService.getThisAsNextInQueue(codeQR, goTo, did.getText(), servedNumber);
                     break;
                 case S:
@@ -665,7 +670,7 @@ public class PurchaseOrderController {
                 executorService.execute(() -> queueMobileService.notifyClient(
                     registeredDevice,
                     "Order placed at " + bizStore.getDisplayName(),
-                    "Your order number is " + jsonPurchaseOrder.getToken(),
+                    "Your order number is " + jsonPurchaseOrder.getDisplayToken(),
                     bizStore.getCodeQR()));
             }
 
@@ -796,7 +801,7 @@ public class PurchaseOrderController {
                 executorService.execute(() -> queueMobileService.notifyClient(
                     registeredDevice,
                     "Order placed at " + bizStore.getDisplayName(),
-                    "Your order number is " + jsonPurchaseOrder.getToken(),
+                    "Your order number is " + jsonPurchaseOrder.getDisplayToken(),
                     bizStore.getCodeQR()));
             }
 
@@ -946,7 +951,7 @@ public class PurchaseOrderController {
                 executorService.execute(() -> queueMobileService.notifyClient(
                     registeredDevice,
                     "Partial payment applied for " + tokenQueue.getDisplayName(),
-                    "Your order at " + tokenQueue.getDisplayName() + " number " + jsonPurchaseOrder.getToken()
+                    "Your order " + jsonPurchaseOrder.getDisplayToken() + " at " + tokenQueue.getDisplayName()
                         + " has been partially paid at the counter via " + jsonPurchaseOrder.getPaymentMode().getDescription(),
                     jsonPurchaseOrder.getCodeQR()));
             }
@@ -1021,7 +1026,7 @@ public class PurchaseOrderController {
                 executorService.execute(() -> queueMobileService.notifyClient(
                     registeredDevice,
                     "Paid at counter for " + tokenQueue.getDisplayName(),
-                    "Your order at " + tokenQueue.getDisplayName() + " number " + jsonPurchaseOrder.getToken()
+                    "Your order " + jsonPurchaseOrder.getDisplayToken() + " at " + tokenQueue.getDisplayName()
                         + " has been paid at the counter via " + jsonPurchaseOrder.getPaymentMode().getDescription(),
                     jsonPurchaseOrder.getCodeQR()));
             }
@@ -1095,13 +1100,14 @@ public class PurchaseOrderController {
                 String title, body;
                 if (null != jsonPurchaseOrderUpdated.getPaymentMode() && new BigDecimal(jsonPurchaseOrderUpdated.getOrderPriceForDisplay()).intValue() > 0) {
                     title = "Refund initiated by " + tokenQueue.getDisplayName();
-                    body = "You have been refunded net total of " + CommonUtil.displayWithCurrencyCode(jsonPurchaseOrderUpdated.getOrderPriceForDisplay(), bizStore.getCountryShortName())
+                    body = "For order " + jsonPurchaseOrderUpdated.getDisplayToken() + ", you have been refunded net total of "
+                        + CommonUtil.displayWithCurrencyCode(jsonPurchaseOrderUpdated.getOrderPriceForDisplay(), bizStore.getCountryShortName())
                         + (jsonPurchaseOrderUpdated.getTransactionVia() == TransactionViaEnum.I
                         ? " via " + jsonPurchaseOrderUpdated.getPaymentMode().getDescription() + ".\n\n" + "Note: It takes 7 to 10 business days for this amount to show up in your account."
                         : " at counter");
                 } else {
                     title = "Cancelled order by "  + tokenQueue.getDisplayName();
-                    body = "Your order was cancelled by merchant";
+                    body = "Your order " + jsonPurchaseOrderUpdated.getDisplayToken() + " at " + jsonPurchaseOrderUpdated.getDisplayToken() + " was cancelled.";
                 }
 
                 executorService.execute(() -> queueMobileService.notifyClient(
