@@ -143,6 +143,7 @@ public class TokenQueueMobileService {
             .setTopic(bizStore.getTopic())
             .setGeoHash(bizStore.getGeoPoint().getGeohash())
             .setServingNumber(tokenQueue.getCurrentlyServing())
+            .setDisplayToken(tokenQueue.generateDisplayToken())
             .setLastNumber(tokenQueue.getLastNumber())
             .setQueueStatus(tokenQueue.getQueueStatus())
             .setCreated(tokenQueue.getCreated())
