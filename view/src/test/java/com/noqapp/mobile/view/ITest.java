@@ -3,6 +3,7 @@ package com.noqapp.mobile.view;
 import com.noqapp.common.config.FirebaseConfig;
 import com.noqapp.common.config.TextToSpeechConfiguration;
 import com.noqapp.common.utils.CommonUtil;
+import com.noqapp.common.utils.Constants;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
@@ -1329,7 +1330,7 @@ public class ITest extends RealMongoForITest {
         bizService.insertAll(storeHours);
 
         /* Create Queue. */
-        tokenQueueService.createUpdate(bizStore);
+        tokenQueueService.createUpdate(bizStore, Constants.appendPrefix);
 
         /* Add Queue Admin, Queue Supervisor, Queue Manager to Business and Store. */
         BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
@@ -1438,7 +1439,7 @@ public class ITest extends RealMongoForITest {
         bizService.insertAll(storeHours);
 
         /* Create Queue. */
-        tokenQueueService.createUpdate(bizStore);
+        tokenQueueService.createUpdate(bizStore, Constants.appendPrefix);
 
         /* Add Queue Admin, Queue Supervisor, Queue Manager to Business and Store. */
         BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
@@ -1532,7 +1533,7 @@ public class ITest extends RealMongoForITest {
         bizService.insertAll(storeHours);
 
         /* Create Queue. */
-        tokenQueueService.createUpdate(bizStore);
+        tokenQueueService.createUpdate(bizStore, Constants.appendPrefix);
 
         /* Add Queue Admin, Queue Supervisor, Queue Manager to Business and Store. */
         BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
@@ -1626,7 +1627,7 @@ public class ITest extends RealMongoForITest {
         bizService.insertAll(storeHours);
 
         /* Create Queue. */
-        tokenQueueService.createUpdate(bizStore);
+        tokenQueueService.createUpdate(bizStore, Constants.appendPrefix);
 
         /* Add Queue Admin, Queue Supervisor, Queue Manager to Business and Store. */
         BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
@@ -1751,7 +1752,7 @@ public class ITest extends RealMongoForITest {
         bizService.insertAll(storeHours);
 
         /* Create Queue. */
-        tokenQueueService.createUpdate(bizStore);
+        tokenQueueService.createUpdate(bizStore, Constants.appendPrefix);
 
         /* Add Queue Admin, Queue Supervisor, Queue Manager to Business and Store. */
         BusinessUserEntity businessUser = BusinessUserEntity.newInstance(
@@ -1823,7 +1824,7 @@ public class ITest extends RealMongoForITest {
         bizService.insertAll(storeHours);
 
         /* Create Queue. */
-        tokenQueueService.createUpdate(bizStore);
+        tokenQueueService.createUpdate(bizStore, Constants.appendPrefix);
 
         queueSupervisorUserProfile = accountService.checkUserExistsByPhone("9118000001101");
         businessUserStore = new BusinessUserStoreEntity(
