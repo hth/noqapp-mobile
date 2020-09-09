@@ -386,23 +386,26 @@ public class QueueMobileService {
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
             try {
-                //TODO(hth) might need add null check for bizStore
                 BizStoreEntity bizStore = bizService.findByCodeQR(queue.getCodeQR());
-                /* Currently gets all hours for the week. Can be replaced with just the specific day. */
-                bizStore.setStoreHours(bizService.findAllStoreHours(bizStore.getId()));
-                LOG.debug("BizStore codeQR={} bizStoreId={}", queue.getCodeQR(), bizStore.getId());
-                JsonPurchaseOrder jsonPurchaseOrder = null;
-                if (StringUtils.isNotBlank(queue.getTransactionId())) {
-                    PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(queue.getTransactionId());
-                    if (null == purchaseOrder) {
-                        purchaseOrder = purchaseOrderService.findHistoricalPurchaseOrder(queue.getQueueUserId(), queue.getTransactionId());
-                        jsonPurchaseOrder = purchaseOrderProductService.populateHistoricalJsonPurchaseOrder(purchaseOrder);
-                    } else {
-                        jsonPurchaseOrder = purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder);
+
+                /* Remove deleted store from history when displaying. */
+                if (!bizStore.isDeleted()) {
+                    /* Currently gets all hours for the week. Can be replaced with just the specific day. */
+                    bizStore.setStoreHours(bizService.findAllStoreHours(bizStore.getId()));
+                    LOG.debug("BizStore codeQR={} bizStoreId={}", queue.getCodeQR(), bizStore.getId());
+                    JsonPurchaseOrder jsonPurchaseOrder = null;
+                    if (StringUtils.isNotBlank(queue.getTransactionId())) {
+                        PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(queue.getTransactionId());
+                        if (null == purchaseOrder) {
+                            purchaseOrder = purchaseOrderService.findHistoricalPurchaseOrder(queue.getQueueUserId(), queue.getTransactionId());
+                            jsonPurchaseOrder = purchaseOrderProductService.populateHistoricalJsonPurchaseOrder(purchaseOrder);
+                        } else {
+                            jsonPurchaseOrder = purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder);
+                        }
                     }
+                    JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(queue, bizStore, jsonPurchaseOrder);
+                    jsonTokenAndQueues.add(jsonTokenAndQueue);
                 }
-                JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(queue, bizStore, jsonPurchaseOrder);
-                jsonTokenAndQueues.add(jsonTokenAndQueue);
             } catch (Exception e) {
                 LOG.error("Failed finding bizStore for codeQR={} reason={}", queue.getCodeQR(), e.getLocalizedMessage(), e);
             }
