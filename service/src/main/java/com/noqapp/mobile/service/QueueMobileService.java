@@ -405,6 +405,8 @@ public class QueueMobileService {
                     }
                     JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(queue, bizStore, jsonPurchaseOrder);
                     jsonTokenAndQueues.add(jsonTokenAndQueue);
+                } else {
+                    LOG.warn("Store {} is deleted mark queue={} as in active", bizStore.getDisplayName(), queue.getId());
                 }
             } catch (Exception e) {
                 LOG.error("Failed finding bizStore for codeQR={} reason={}", queue.getCodeQR(), e.getLocalizedMessage(), e);
