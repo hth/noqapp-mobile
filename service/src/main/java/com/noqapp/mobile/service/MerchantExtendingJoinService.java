@@ -119,7 +119,7 @@ public class MerchantExtendingJoinService {
                 messageCode,
                 bizStore.getBizName().getSmsLocale(),
                 bizStore.getDisplayName(),
-                jsonToken.getToken(),
+                jsonToken.getDisplayToken(),
                 (jsonToken.getToken() - jsonToken.getServingNumber()),
                 estimateWaitTime);
 
