@@ -5,6 +5,7 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.CommonUtil;
+import com.noqapp.common.utils.DateUtil;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.StoreHourEntity;
@@ -119,6 +120,7 @@ public class MerchantExtendingJoinService {
                 messageCode,
                 bizStore.getBizName().getSmsLocale(),
                 bizStore.getDisplayName(),
+                DateUtil.getLocalDateTimeToISODate(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone()),
                 jsonToken.getDisplayToken(),
                 (jsonToken.getToken() - jsonToken.getServingNumber()),
                 estimateWaitTime);
