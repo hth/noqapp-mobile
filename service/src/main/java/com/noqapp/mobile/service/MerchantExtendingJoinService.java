@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -120,7 +121,9 @@ public class MerchantExtendingJoinService {
                 messageCode,
                 bizStore.getBizName().getSmsLocale(),
                 bizStore.getDisplayName(),
-                DateUtil.getLocalDateTimeToISODate(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone()),
+                DateUtil.convertDateToStringOf_DTF_DD_MMM_YYYY_KK_MM(
+                    DateUtil.convertFromISODate(DateUtil.getLocalDateTimeToISODate(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone())),
+                    bizStore.getTimeZone()),
                 jsonToken.getDisplayToken(),
                 (jsonToken.getToken() - jsonToken.getServingNumber()),
                 estimateWaitTime);
