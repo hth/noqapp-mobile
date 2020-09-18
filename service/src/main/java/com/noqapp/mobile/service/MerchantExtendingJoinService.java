@@ -121,18 +121,13 @@ public class MerchantExtendingJoinService {
                 messageCode,
                 bizStore.getBizName().getSmsLocale(),
                 bizStore.getDisplayName(),
-                DateUtil.convertDateToStringOf_DTF_DD_MMM_YYYY_KK_MM(
-                    DateUtil.convertFromISODate(DateUtil.getLocalDateTimeToISODate(jsonToken.getExpectedServiceBeginDate(), bizStore.getTimeZone())),
-                    bizStore.getTimeZone()),
+                jsonToken.getExpectedServiceBeginDate().format(DateUtil.DTF_DD_MMM_YYYY_HH_MM),
                 jsonToken.getDisplayToken(),
                 (jsonToken.getToken() - jsonToken.getServingNumber()),
                 estimateWaitTime);
 
             LOG.info("SMS=\"{}\" length={}", smsMessage, smsMessage.length());
-            smsService.sendTransactionalSMS(
-                businessCustomer.getCustomerPhone().getText(),
-                smsMessage
-            );
+            smsService.sendTransactionalSMS(businessCustomer.getCustomerPhone().getText(), smsMessage);
         });
         return jsonToken.asJson();
     }
