@@ -65,7 +65,7 @@ public class StoreDetailService {
                 .setProductPrice(storeProduct.getProductPrice())
                 .setProductDiscount(storeProduct.getProductDiscount())
                 .setProductInfo(storeProduct.getProductInfo())
-                .setProductImage(null == storeProduct.getProductImage() ? null : storeProduct.getBizStoreId() + "/" + storeProduct.getProductImage())
+                .setProductImage(null == storeProduct.getProductImage() ? null : storeProduct.getProductImage())
                 .setStoreCategoryId(storeProduct.getStoreCategoryId())
                 .setProductType(storeProduct.getProductType())
                 .setUnitValue(storeProduct.getUnitValue())
