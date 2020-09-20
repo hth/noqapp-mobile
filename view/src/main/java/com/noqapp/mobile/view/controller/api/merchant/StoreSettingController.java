@@ -637,7 +637,7 @@ public class StoreSettingController {
 
     /** Modifies store hours for 7 days. */
     @GetMapping (
-        value = "/storeHours",
+        value = "/storeHours/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String storeHours(
@@ -653,14 +653,14 @@ public class StoreSettingController {
         @RequestHeader ("X-R-AUTH")
         ScrubbedInput auth,
 
-        @RequestBody
-        StoreHours storeHours,
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
 
         HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("StoreHours for store associated with mail={} did={} deviceType={} {}", mail, did, deviceType, storeHours.asJson());
+        LOG.info("StoreHours for store associated with mail={} did={} deviceType={} {}", mail, did, deviceType, codeQR.getText());
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             LOG.warn("Un-authorized access to /api/m/ss/storeHours by mail={}", mail);
@@ -668,19 +668,19 @@ public class StoreSettingController {
             return null;
         }
 
-        if (StringUtils.isBlank(storeHours.getCodeQR())) {
-            LOG.warn("Not a valid codeQR={} qid={}", storeHours.getCodeQR(), qid);
+        if (StringUtils.isBlank(codeQR.getText())) {
+            LOG.warn("Not a valid codeQR={} qid={}", codeQR, qid);
             return getErrorReason("Not a valid queue code.", MOBILE_JSON);
-        } else if (!businessUserStoreService.hasAccess(qid, storeHours.getCodeQR())) {
+        } else if (!businessUserStoreService.hasAccess(qid, codeQR.getText())) {
             LOG.info("Un-authorized store access to /api/m/ss/storeHours by mail={}", mail);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
             return null;
         }
 
         try {
-            BizStoreEntity bizStore = bizService.findByCodeQR(storeHours.getCodeQR());
+            BizStoreEntity bizStore = bizService.findByCodeQR(codeQR.getText());
             List<JsonHour> jsonHours = bizService.findAllStoreHoursAsJson(bizStore.getId());
-            return storeHours
+            return new StoreHours()
                 .setCodeQR(bizStore.getCodeQR())
                 .setJsonHours(jsonHours).asJson();
         } catch (Exception e) {
@@ -689,7 +689,7 @@ public class StoreSettingController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/storeHours",
+                "/storeHours/{codeQR}",
                 "storeHours",
                 StoreSettingController.class.getName(),
                 Duration.between(start, Instant.now()),
