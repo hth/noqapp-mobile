@@ -367,24 +367,24 @@ public class ScheduleController {
                         LOG.warn("Failed booking appointment qid={} {}, reason={}", qid, bookSchedule.getBookActionType(), e.getLocalizedMessage());
                         methodStatusSuccess = false;
                         return getErrorReason(e.getLocalizedMessage(), CANNOT_BOOK_APPOINTMENT);
+                    } catch (JoiningQueuePreApprovedRequiredException e) {
+                        LOG.warn("Store has to pre-approve qid={}, reason={}", qid, e.getLocalizedMessage());
+                        methodStatusSuccess = true;
+                        return ErrorEncounteredJson.toJson("Store has to pre-approve. Please complete pre-approval before joining the queue.", JOIN_PRE_APPROVED_QUEUE_ONLY);
+                    } catch (JoiningNonApprovedQueueException e) {
+                        LOG.warn("This queue is not approved qid={}, reason={}", qid, e.getLocalizedMessage());
+                        methodStatusSuccess = true;
+                        return ErrorEncounteredJson.toJson("This queue is not approved. Select correct pre-approved queue.", JOINING_NOT_PRE_APPROVED_QUEUE);
+                    } catch (JoiningQueuePermissionDeniedException e) {
+                        LOG.warn("Store prevented user from joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
+                        methodStatusSuccess = true;
+                        return ErrorEncounteredJson.toJson("Store has denied you from joining the queue. Please contact store for resolving this issue.", JOINING_QUEUE_PERMISSION_DENIED);
                     }
                 case EDIT:
                     return editBooking(bookSchedule);
             }
 
             return getErrorReason("Cannot decipher action", MOBILE);
-        } catch (JoiningQueuePreApprovedRequiredException e) {
-            LOG.warn("Store has to pre-approve qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("Store has to pre-approve. Please complete pre-approval before joining the queue.", JOIN_PRE_APPROVED_QUEUE_ONLY);
-        } catch (JoiningNonApprovedQueueException e) {
-            LOG.warn("This queue is not approved qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("This queue is not approved. Select correct pre-approved queue.", JOINING_NOT_PRE_APPROVED_QUEUE);
-        } catch (JoiningQueuePermissionDeniedException e) {
-            LOG.warn("Store prevented user from joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("Store has denied you from joining the queue. Please contact store for resolving this issue.", JOINING_QUEUE_PERMISSION_DENIED);
         } catch (Exception e) {
             LOG.error("Failed performing action on appointment qid={} {}, reason={}", qid, bookSchedule.getBookActionType(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
