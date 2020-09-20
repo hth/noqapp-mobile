@@ -1,5 +1,8 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_NOT_PRE_APPROVED_QUEUE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_QUEUE_PERMISSION_DENIED;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOIN_PRE_APPROVED_QUEUE_ONLY;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.APPOINTMENT_ACTION_NOT_PERMITTED;
@@ -12,8 +15,10 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.ScheduleAppointmentEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonSchedule;
@@ -24,9 +29,14 @@ import com.noqapp.mobile.domain.body.merchant.BookSchedule;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.client.AppointmentController;
 import com.noqapp.repository.UserProfileManager;
+import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.exceptions.AppointmentBookingException;
+import com.noqapp.service.exceptions.JoiningNonApprovedQueueException;
+import com.noqapp.service.exceptions.JoiningQueuePermissionDeniedException;
+import com.noqapp.service.exceptions.JoiningQueuePreApprovedRequiredException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -70,6 +80,8 @@ public class ScheduleController {
     private AuthenticateMobileService authenticateMobileService;
     private ScheduleAppointmentService scheduleAppointmentService;
     private BusinessUserStoreService businessUserStoreService;
+    private BizService bizService;
+    private JoinAbortService joinAbortService;
     private ApiHealthService apiHealthService;
 
     private int rescheduleLimit;
@@ -83,6 +95,8 @@ public class ScheduleController {
         AuthenticateMobileService authenticateMobileService,
         ScheduleAppointmentService scheduleAppointmentService,
         BusinessUserStoreService businessUserStoreService,
+        BizService bizService,
+        JoinAbortService joinAbortService,
         ApiHealthService apiHealthService
     ) {
         this.rescheduleLimit = rescheduleLimit;
@@ -91,6 +105,8 @@ public class ScheduleController {
         this.authenticateMobileService = authenticateMobileService;
         this.scheduleAppointmentService = scheduleAppointmentService;
         this.businessUserStoreService = businessUserStoreService;
+        this.bizService = bizService;
+        this.joinAbortService = joinAbortService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -357,6 +373,18 @@ public class ScheduleController {
             }
 
             return getErrorReason("Cannot decipher action", MOBILE);
+        } catch (JoiningQueuePreApprovedRequiredException e) {
+            LOG.warn("Store has to pre-approve qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson("Store has to pre-approve. Please complete pre-approval before joining the queue.", JOIN_PRE_APPROVED_QUEUE_ONLY);
+        } catch (JoiningNonApprovedQueueException e) {
+            LOG.warn("This queue is not approved qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson("This queue is not approved. Select correct pre-approved queue.", JOINING_NOT_PRE_APPROVED_QUEUE);
+        } catch (JoiningQueuePermissionDeniedException e) {
+            LOG.warn("Store prevented user from joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson("Store has denied you from joining the queue. Please contact store for resolving this issue.", JOINING_QUEUE_PERMISSION_DENIED);
         } catch (Exception e) {
             LOG.error("Failed performing action on appointment qid={} {}, reason={}", qid, bookSchedule.getBookActionType(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -373,6 +401,13 @@ public class ScheduleController {
 
     private String addBooking(BookSchedule bookSchedule) {
         JsonSchedule jsonSchedule = bookSchedule.getJsonSchedule();
+
+        /* Check if business only allow approved customer. */
+        BizStoreEntity bizStore = bizService.findByCodeQR(jsonSchedule.getCodeQR());
+        joinAbortService.checkCustomerApprovedForTheQueue(
+            StringUtils.isBlank(jsonSchedule.getGuardianQid()) ? jsonSchedule.getQueueUserId() : jsonSchedule.getGuardianQid(),
+            bizStore);
+
         if (scheduleAppointmentService.doesAppointmentExists(jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR(), jsonSchedule.getScheduleDate())) {
             LOG.warn("Cannot book when appointment already exists {} {} {}", jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR(), jsonSchedule.getScheduleDate());
             return getErrorReason("Appointment already exists for this day. Please cancel to re-book for the day.", APPOINTMENT_ALREADY_EXISTS);

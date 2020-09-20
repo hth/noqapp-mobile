@@ -842,7 +842,7 @@ public class QueueController {
                 LOG.warn("This queue is not approved qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;
                 return ErrorEncounteredJson.toJson("This queue is not approved. Select correct pre-approved queue.", JOINING_NOT_PRE_APPROVED_QUEUE);
-            } catch(JoiningQueuePermissionDeniedException e) {
+            } catch (JoiningQueuePermissionDeniedException e) {
                 LOG.warn("Store prevented user from joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;
                 return ErrorEncounteredJson.toJson("Store has denied you from joining the queue. Please contact store for resolving this issue.", JOINING_QUEUE_PERMISSION_DENIED);
