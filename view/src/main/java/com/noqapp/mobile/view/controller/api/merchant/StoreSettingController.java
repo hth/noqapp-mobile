@@ -608,7 +608,6 @@ public class StoreSettingController {
 
             ScheduledTaskEntity scheduledTask = getScheduledTaskIfAny(jsonStoreSetting);
             StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(jsonStoreSetting);
-
             updateChangesMadeOnElastic(bizStore);
 
             /* Send email when store setting changes. */
