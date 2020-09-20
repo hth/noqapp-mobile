@@ -748,9 +748,11 @@ public class StoreSettingController {
                 updatedStoreHours.add(storeHour.getDayOfWeek() - 1, StoreHourEntity.populateStoreHour(jsonHour, storeHour));
             }
             bizService.insertAll(updatedStoreHours);
-
-            sendMailWhenStoreSettingHasChanged(bizStore, "Changed business hours, modified by " + accountService.findProfileByQueueUserId(qid).getEmail());
             updateChangesMadeOnElastic(bizStore);
+
+            /* Send email when store setting changes. */
+            String changeInitiateReason = "Modified business hours from App, modified by " +  accountService.findProfileByQueueUserId(qid).getEmail();
+            sendMailWhenStoreSettingHasChanged(bizStore, changeInitiateReason);
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating storeHours appointment reason={}", e.getLocalizedMessage(), e);
