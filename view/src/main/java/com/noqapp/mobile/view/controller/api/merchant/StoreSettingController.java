@@ -58,6 +58,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.Executors;
@@ -741,7 +742,15 @@ public class StoreSettingController {
 
         try {
             BizStoreEntity bizStore = bizService.findByCodeQR(storeHours.getCodeQR());
-            List<JsonHour> jsonHours = bizService.findAllStoreHoursAsJson(bizStore.getId());
+            List<StoreHourEntity> updatedStoreHours = new LinkedList<>();
+            for (JsonHour jsonHour : storeHours.getJsonHours()) {
+                StoreHourEntity storeHour = bizService.findStoreHour(bizStore.getId(), jsonHour.getDayOfWeek());
+                updatedStoreHours.add(storeHour.getDayOfWeek() - 1, StoreHourEntity.populateStoreHour(jsonHour, storeHour));
+            }
+            bizService.insertAll(updatedStoreHours);
+
+            sendMailWhenStoreSettingHasChanged(bizStore, "Changed business hours, modified by " + accountService.findProfileByQueueUserId(qid).getEmail());
+            updateChangesMadeOnElastic(bizStore);
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating storeHours appointment reason={}", e.getLocalizedMessage(), e);
