@@ -256,15 +256,9 @@ public class AppointmentController {
         }
 
         try {
+            BizStoreEntity bizStore = bizStoreManager.findByCodeQR(jsonSchedule.getCodeQR());
             if (scheduleAppointmentService.doesAppointmentExists(jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR(), jsonSchedule.getScheduleDate())) {
                 LOG.warn("Cannot book when appointment already exists {} {} {}", jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR(), jsonSchedule.getScheduleDate());
-                BizStoreEntity bizStore = bizStoreManager.findByCodeQR(jsonSchedule.getCodeQR());
-
-                /* Check if business only allow approved customer. */
-                joinAbortService.checkCustomerApprovedForTheQueue(
-                    StringUtils.isBlank(jsonSchedule.getGuardianQid()) ? jsonSchedule.getQueueUserId() : jsonSchedule.getGuardianQid(),
-                    bizStore);
-
                 switch (bizStore.getAppointmentState()) {
                     case A:
                         return getErrorReason("Appointment already exists for this day. Please cancel to re-book for the day.", APPOINTMENT_ALREADY_EXISTS);
@@ -276,6 +270,11 @@ public class AppointmentController {
                         return getErrorReason("Appointment already exists for this day.", APPOINTMENT_ALREADY_EXISTS);
                 }
             }
+
+            /* Check if business only allow approved customer. */
+            joinAbortService.checkCustomerApprovedForTheQueue(
+                StringUtils.isBlank(jsonSchedule.getGuardianQid()) ? jsonSchedule.getQueueUserId() : jsonSchedule.getGuardianQid(),
+                bizStore);
 
             JsonSchedule bookedAppointment;
             if (jsonSchedule.getQueueUserId().equalsIgnoreCase(qid)) {
@@ -296,11 +295,11 @@ public class AppointmentController {
         } catch (JoiningQueuePreApprovedRequiredException e) {
             LOG.warn("Store has to pre-approve qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("Store has to pre-approve. Please complete pre-approval before joining the queue.", JOIN_PRE_APPROVED_QUEUE_ONLY);
+            return ErrorEncounteredJson.toJson("Store has to pre-approve. Please complete pre-approval before booking appointment.", JOIN_PRE_APPROVED_QUEUE_ONLY);
         } catch (JoiningNonApprovedQueueException e) {
             LOG.warn("This queue is not approved qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("This queue is not approved. Select correct pre-approved queue.", JOINING_NOT_PRE_APPROVED_QUEUE);
+            return ErrorEncounteredJson.toJson("This queue is not approved. Select correct pre-approved queue for booking.", JOINING_NOT_PRE_APPROVED_QUEUE);
         } catch (JoiningQueuePermissionDeniedException e) {
             LOG.warn("Store prevented user from joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
