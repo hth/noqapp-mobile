@@ -121,7 +121,7 @@ public class MerchantExtendingJoinService {
                 messageCode,
                 bizStore.getBizName().getSmsLocale(),
                 bizStore.getDisplayName(),
-                jsonToken.getExpectedServiceBeginDate().format(DateUtil.DTF_DD_MMM_YYYY_HH_MM),
+                jsonToken.getExpectedServiceBeginDate().withZoneSameInstant(ZoneId.of(bizStore.getTimeZone())).format(DateUtil.DTF_DD_MMM_YYYY_HH_MM),
                 jsonToken.getDisplayToken(),
                 (jsonToken.getToken() - jsonToken.getServingNumber()),
                 estimateWaitTime);
