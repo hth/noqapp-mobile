@@ -1,14 +1,15 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
-import static com.noqapp.common.utils.DateUtil.DAY.TODAY;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.CANNOT_ACCEPT_APPOINTMENT;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_ACTION_NOT_PERMITTED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PRODUCT_PRICE_CANNOT_BE_ZERO;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SERVICE_PAYMENT_NOT_ALLOWED_FOR_THIS_BUSINESS_TYPE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
+import static com.noqapp.common.utils.DateUtil.DAY.TODAY;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
 import com.noqapp.common.utils.CommonUtil;
@@ -30,6 +31,7 @@ import com.noqapp.mobile.domain.body.merchant.StoreHours;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
+import com.noqapp.mobile.view.controller.api.merchant.validator.StoreSettingValidator;
 import com.noqapp.repository.ScheduledTaskManager;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.search.elastic.service.BizStoreElasticService;
@@ -739,6 +741,11 @@ public class StoreSettingController {
         }
 
         try {
+            String errorMessage = StoreSettingValidator.validateBusinessHours(storeHours.getJsonHours());
+            if (StringUtils.isNotBlank(errorMessage)) {
+                return getErrorReason(errorMessage, USER_INPUT);
+            }
+
             BizStoreEntity bizStore = bizService.findByCodeQR(storeHours.getCodeQR());
             List<StoreHourEntity> updatedStoreHours = new LinkedList<>();
             for (JsonHour jsonHour : storeHours.getJsonHours()) {
