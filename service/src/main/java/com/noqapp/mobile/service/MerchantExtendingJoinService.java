@@ -127,7 +127,7 @@ public class MerchantExtendingJoinService {
                 estimateWaitTime);
 
             LOG.info("SMS=\"{}\" length={}", smsMessage, smsMessage.length());
-            smsService.sendTransactionalSMS(businessCustomer.getCustomerPhone().getText(), smsMessage);
+            smsService.sendTransactionalSMS(businessCustomer.getCustomerPhone().getText(), smsMessage, bizStore.getBizName().getSmsLocale());
         });
         return jsonToken.asJson();
     }
