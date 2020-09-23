@@ -117,12 +117,12 @@ public class LogContextFilter implements Filter {
                 case "HK": //Hong Kong
                 case "CZ": //Czechia
                 case "SG": //Singapore
-                    LOG.warn("Request from county {} failed response", countryCode);
+                    LOG.warn("Request from country {} failed response", countryCode);
                     HttpServletResponse httpServletResponse = (HttpServletResponse) res;
                     httpServletResponse.setStatus(SC_NOT_FOUND);
                     break;
                 default:
-                    LOG.warn("Request from county {} failed response", countryCode);
+                    LOG.warn("Request from country {} failed response", countryCode);
                     httpServletResponse = (HttpServletResponse) res;
                     httpServletResponse.setStatus(SC_NOT_FOUND);
             }
