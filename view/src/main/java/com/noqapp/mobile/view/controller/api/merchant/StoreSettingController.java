@@ -384,7 +384,9 @@ public class StoreSettingController {
                 bizStore.setScheduledTaskId(scheduledTask.getId());
             }
             StoreHourEntity storeHour = queueMobileService.updateQueueStateForToday(jsonStoreSetting);
-            queueMobileService.updateBizStoreAvailableTokenCount(jsonStoreSetting.getAvailableTokenCount(), jsonStoreSetting.getCodeQR());
+            if (jsonStoreSetting.getAvailableTokenCount() != bizStore.getAvailableTokenCount()) {
+                bizService.updateBizStoreAvailableTokenCount(jsonStoreSetting.getAvailableTokenCount(), jsonStoreSetting.getCodeQR());
+            }
 
             /* Store Offline or Online based on ActionType. */
             if (null != jsonStoreSetting.getStoreActionType()) {

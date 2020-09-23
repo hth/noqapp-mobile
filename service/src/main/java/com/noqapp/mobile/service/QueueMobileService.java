@@ -551,13 +551,6 @@ public class QueueMobileService {
         return bizService.findByCodeQR(codeQR);
     }
 
-    @Async
-    @CacheEvict(value = "bizStore-codeQR", key = "#codeQR")
-    public void updateBizStoreAvailableTokenCount(int availableTokenCount, String codeQR) {
-        LOG.debug("Changed count {} for codeQR={}", availableTokenCount, codeQR);
-        bizService.updateBizStoreAvailableTokenCount(availableTokenCount, codeQR);
-    }
-
     public JsonQueueHistoricalList findAllHistoricalQueueAsJson(String qid) {
         return queueService.findAllHistoricalQueueAsJson(qid);
     }
