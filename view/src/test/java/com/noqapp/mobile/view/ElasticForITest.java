@@ -2,6 +2,8 @@ package com.noqapp.mobile.view;
 
 import static org.junit.Assert.assertEquals;
 
+import com.noqapp.common.utils.Constants;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHost;
 
@@ -41,7 +43,7 @@ public abstract class ElasticForITest {
             restClient.performRequest(new Request("DELETE", "/*"));
             Response response = restClient.performRequest(new Request("GET", "/"));
             assertEquals(response.getStatusLine().getStatusCode(), 200);
-            String text = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8.name());
+            String text = IOUtils.toString(response.getEntity().getContent(), Constants.CHAR_SET_UTF8.name());
             JSONObject jsonObj = new JSONObject(text);
             assertEquals(jsonObj.getString("tagline"), "You Know, for Search");
             LOG.info("Integration tests ready to start... Cluster is running.");
