@@ -54,7 +54,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -187,6 +186,10 @@ public class QueueMobileService {
         Validate.isValidQid(qid);
         List<QueueEntity> queues = queueService.findAllQueuedByQid(qid);
         LOG.info("Currently joined queue size={} qid={} did={}", queues.size(), qid, did);
+        return populateJsonTokenAndQueue(queues);
+    }
+    
+    public JsonTokenAndQueueList populateJsonTokenAndQueue(List<QueueEntity> queues) {
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
             validateJoinedQueue(queue);
@@ -223,8 +226,7 @@ public class QueueMobileService {
 
         JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
         jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
-        LOG.info("Current tokenAndQueueSize={} qid={} did={}", jsonTokenAndQueueList.getTokenAndQueues().size(), qid, did);
-
+        LOG.info("Current tokenAndQueueSize={}", jsonTokenAndQueueList.getTokenAndQueues().size());
         return jsonTokenAndQueueList;
     }
 
