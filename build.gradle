@@ -213,6 +213,8 @@ subprojects {
         implementation "org.apache.commons:commons-vfs2:$vfs2"
         implementation "org.apache.commons:commons-csv:$csv"
         implementation "org.apache.activemq:activemq-client:$activemq"
+        implementation "org.apache.pdfbox:pdfbox:$pdfbox"
+        implementation "com.github.dhorions:boxable:$boxable"
 
         implementation "ch.qos.logback:logback-core:$logback"
         implementation "ch.qos.logback:logback-classic:$logback"
