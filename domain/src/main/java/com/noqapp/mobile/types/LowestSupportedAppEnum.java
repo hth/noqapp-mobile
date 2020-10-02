@@ -35,28 +35,28 @@ public enum LowestSupportedAppEnum {
         "1.2.618",                      //Latest App Version on Play Store
         "Version Android Client HealthCare"),
 
-    VAMS("1.2.618",                     //Oldest Supported App Version in String
+    VAMS("1.2.632",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMS,
-        "1.2.618",                      //Latest App Version on Play Store
+        "1.2.632",                      //Latest App Version on Play Store
         "Version Android Business Store"),
 
-    VAMH("1.2.618",                     //Oldest Supported App Version in String
+    VAMH("1.2.632",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMH,
-        "1.2.618",                      //Latest App Version on Play Store
+        "1.2.632",                      //Latest App Version on Play Store
         "Version Android Business HealthCare"),
 
-    VAMT("1.2.618",                     //Oldest Supported App Version in String
+    VAMT("1.2.632",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMT,
-        "1.2.618",                      //Latest App Version on Play Store
+        "1.2.632",                      //Latest App Version on Play Store
         "Version Android Business TV"),
 
-    VAMI("1.2.618",                     //Oldest Supported App Version in String
+    VAMI("1.2.632",                     //Oldest Supported App Version in String
         DeviceTypeEnum.A,                               //Device Type
         AppFlavorEnum.NQMI,
-        "1.2.618",                      //Latest App Version on Play Store
+        "1.2.632",                      //Latest App Version on Play Store
         "Version Android Business Inventory");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
