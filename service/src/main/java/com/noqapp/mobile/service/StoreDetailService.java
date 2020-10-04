@@ -15,8 +15,6 @@ import com.noqapp.service.BizService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
 
-import org.apache.commons.lang3.StringUtils;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +58,7 @@ public class StoreDetailService {
         for (BizStoreEntity bizStore : bizStores) {
             List<StoreProductEntity> storeProducts = storeProductService.findAllDisplayCase(bizStore.getId());
             for (StoreProductEntity storeProduct : storeProducts) {
-                JsonStoreProduct jsonStoreProduct = getJsonStoreProduct(storeProduct, bizStore.getId());
+                JsonStoreProduct jsonStoreProduct = getJsonStoreProduct(storeProduct);
                 jsonStoreProductList.addJsonStoreProduct(jsonStoreProduct);
             }
         }
@@ -68,23 +66,14 @@ public class StoreDetailService {
         return jsonStoreProductList;
     }
 
-    public JsonStoreProduct getJsonStoreProduct(StoreProductEntity storeProduct, String bizStoreId) {
-        String productImage;
-        if (StringUtils.isNotBlank(bizStoreId) && StringUtils.isNotBlank(storeProduct.getProductImage())) {
-            productImage = bizStoreId + "/" + storeProduct.getProductImage();
-        } else if (StringUtils.isBlank(bizStoreId) && StringUtils.isNotBlank(storeProduct.getProductImage())) {
-            productImage = storeProduct.getProductImage();
-        } else {
-            productImage = null;
-        }
-
+    public JsonStoreProduct getJsonStoreProduct(StoreProductEntity storeProduct) {
         return new JsonStoreProduct()
             .setProductId(storeProduct.getId())
             .setProductName(storeProduct.getProductName())
             .setProductPrice(storeProduct.getProductPrice())
             .setProductDiscount(storeProduct.getProductDiscount())
             .setProductInfo(storeProduct.getProductInfo())
-            .setProductImage(productImage)
+            .setProductImage(null == storeProduct.getProductImage() ? null : storeProduct.getProductImage())
             .setStoreCategoryId(storeProduct.getStoreCategoryId())
             .setProductType(storeProduct.getProductType())
             .setUnitValue(storeProduct.getUnitValue())
@@ -93,6 +82,7 @@ public class StoreDetailService {
             .setInventoryLimit(storeProduct.getInventoryLimit())
             .setUnitOfMeasurement(storeProduct.getUnitOfMeasurement())
             .setProductReference(storeProduct.getProductReference())
+            .setBizStoreId(storeProduct.getBizStoreId())
             .setActive(storeProduct.isActive());
     }
 
@@ -106,7 +96,7 @@ public class StoreDetailService {
 
         List<StoreProductEntity> storeProducts = storeProductService.findAll(bizStore.getId());
         for (StoreProductEntity storeProduct : storeProducts) {
-            JsonStoreProduct jsonStoreProduct = getJsonStoreProduct(storeProduct, null);
+            JsonStoreProduct jsonStoreProduct = getJsonStoreProduct(storeProduct);
             jsonStore.addJsonStoreProduct(jsonStoreProduct);
         }
 
