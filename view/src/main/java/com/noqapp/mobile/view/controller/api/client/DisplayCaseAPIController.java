@@ -4,6 +4,7 @@ import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.json.JsonStoreProductList;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -94,7 +95,7 @@ public class DisplayCaseAPIController {
         } catch (Exception e) {
             LOG.error("Failed getting store display case reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return new BizStoreElasticList().asJson();
+            return new JsonStoreProductList().asJson();
         } finally {
             apiHealthService.insert(
                 "/{codeQR}",
