@@ -66,7 +66,7 @@ public class DisplayCaseAPIController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
         @RequestHeader("X-R-MAIL")
