@@ -9,6 +9,7 @@ import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonStore;
 import com.noqapp.domain.json.JsonStoreCategory;
 import com.noqapp.domain.json.JsonStoreProduct;
+import com.noqapp.domain.json.JsonStoreProductList;
 import com.noqapp.domain.types.medical.PharmacyCategoryEnum;
 import com.noqapp.service.BizService;
 import com.noqapp.service.StoreCategoryService;
@@ -49,6 +50,41 @@ public class StoreDetailService {
         return storeDetail(codeQR).asJson();
     }
 
+    public JsonStoreProductList displayCaseStoreProducts(String codeQR) {
+        String bizNameId = bizService.findByCodeQR(codeQR).getBizName().getId();
+        List<BizStoreEntity> bizStores = bizService.getAllBizStores(bizNameId);
+
+        JsonStoreProductList jsonStoreProductList = new JsonStoreProductList();
+        for (BizStoreEntity bizStore : bizStores) {
+            List<StoreProductEntity> storeProducts = storeProductService.findAllDisplayCase(bizStore.getId());
+            for (StoreProductEntity storeProduct : storeProducts) {
+                JsonStoreProduct jsonStoreProduct = getJsonStoreProduct(storeProduct);
+                jsonStoreProductList.addJsonStoreProduct(jsonStoreProduct);
+            }
+        }
+
+        return jsonStoreProductList;
+    }
+
+    public JsonStoreProduct getJsonStoreProduct(StoreProductEntity storeProduct) {
+        return new JsonStoreProduct()
+            .setProductId(storeProduct.getId())
+            .setProductName(storeProduct.getProductName())
+            .setProductPrice(storeProduct.getProductPrice())
+            .setProductDiscount(storeProduct.getProductDiscount())
+            .setProductInfo(storeProduct.getProductInfo())
+            .setProductImage(null == storeProduct.getProductImage() ? null : storeProduct.getProductImage())
+            .setStoreCategoryId(storeProduct.getStoreCategoryId())
+            .setProductType(storeProduct.getProductType())
+            .setUnitValue(storeProduct.getUnitValue())
+            .setPackageSize(storeProduct.getPackageSize())
+            .setInventoryCurrent(storeProduct.getInventoryCurrent())
+            .setInventoryLimit(storeProduct.getInventoryLimit())
+            .setUnitOfMeasurement(storeProduct.getUnitOfMeasurement())
+            .setProductReference(storeProduct.getProductReference())
+            .setActive(storeProduct.isActive());
+    }
+
     @Mobile
     public JsonStore storeDetail(String codeQR) {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
@@ -59,22 +95,7 @@ public class StoreDetailService {
 
         List<StoreProductEntity> storeProducts = storeProductService.findAll(bizStore.getId());
         for (StoreProductEntity storeProduct : storeProducts) {
-            JsonStoreProduct jsonStoreProduct = new JsonStoreProduct()
-                .setProductId(storeProduct.getId())
-                .setProductName(storeProduct.getProductName())
-                .setProductPrice(storeProduct.getProductPrice())
-                .setProductDiscount(storeProduct.getProductDiscount())
-                .setProductInfo(storeProduct.getProductInfo())
-                .setProductImage(null == storeProduct.getProductImage() ? null : storeProduct.getProductImage())
-                .setStoreCategoryId(storeProduct.getStoreCategoryId())
-                .setProductType(storeProduct.getProductType())
-                .setUnitValue(storeProduct.getUnitValue())
-                .setPackageSize(storeProduct.getPackageSize())
-                .setInventoryCurrent(storeProduct.getInventoryCurrent())
-                .setInventoryLimit(storeProduct.getInventoryLimit())
-                .setUnitOfMeasurement(storeProduct.getUnitOfMeasurement())
-                .setProductReference(storeProduct.getProductReference())
-                .setActive(storeProduct.isActive());
+            JsonStoreProduct jsonStoreProduct = getJsonStoreProduct(storeProduct);
             jsonStore.addJsonStoreProduct(jsonStoreProduct);
         }
 
