@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -88,8 +89,11 @@ public class StoreDetailService {
             .setInventoryLimit(storeProduct.getInventoryLimit())
             .setUnitOfMeasurement(storeProduct.getUnitOfMeasurement())
             .setProductReference(storeProduct.getProductReference())
-            .setAvailableDate(DateFormatUtils.format(storeProduct.getAvailableDate(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
-            .setAvailableNow(Instant.now().isAfter(storeProduct.getAvailableDate().toInstant()))
+            .setAvailableDate(
+                storeProduct.getAvailableDate() == null
+                    ? DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC"))
+                    : DateFormatUtils.format(storeProduct.getAvailableDate(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+            .setAvailableNow(storeProduct.getAvailableDate() == null || Instant.now().isAfter(storeProduct.getAvailableDate().toInstant()))
             .setDisplayCaseTurnedOn(storeProduct.isDisplayCaseTurnedOn())
             .setBizStoreId(storeProduct.getBizStoreId())
             .setActive(storeProduct.isActive());
