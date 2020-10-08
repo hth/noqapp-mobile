@@ -78,6 +78,7 @@ public class StoreDetailService {
             .setProductId(storeProduct.getId())
             .setProductName(storeProduct.getProductName())
             .setProductPrice(storeProduct.getProductPrice())
+            .setTax(storeProduct.getTax())
             .setProductDiscount(storeProduct.getProductDiscount())
             .setProductInfo(storeProduct.getProductInfo())
             .setProductImage(null == storeProduct.getProductImage() ? null : storeProduct.getProductImage())
