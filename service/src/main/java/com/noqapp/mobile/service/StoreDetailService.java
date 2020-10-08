@@ -1,5 +1,7 @@
 package com.noqapp.mobile.service;
 
+import static com.noqapp.common.utils.AbstractDomain.ISO8601_FMT;
+
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StoreCategoryEntity;
 import com.noqapp.domain.StoreProductEntity;
@@ -15,11 +17,15 @@ import com.noqapp.service.BizService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreProductService;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * hitender
@@ -82,6 +88,9 @@ public class StoreDetailService {
             .setInventoryLimit(storeProduct.getInventoryLimit())
             .setUnitOfMeasurement(storeProduct.getUnitOfMeasurement())
             .setProductReference(storeProduct.getProductReference())
+            .setAvailableDate(DateFormatUtils.format(storeProduct.getAvailableDate(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
+            .setAvailableNow(Instant.now().isAfter(storeProduct.getAvailableDate().toInstant()))
+            .setDisplayCaseTurnedOn(storeProduct.isDisplayCaseTurnedOn())
             .setBizStoreId(storeProduct.getBizStoreId())
             .setActive(storeProduct.isActive());
     }
