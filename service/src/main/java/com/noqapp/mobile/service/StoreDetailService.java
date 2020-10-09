@@ -76,6 +76,7 @@ public class StoreDetailService {
     public JsonStoreProduct getJsonStoreProduct(StoreProductEntity storeProduct) {
         return new JsonStoreProduct()
             .setProductId(storeProduct.getId())
+            .setBarCode(storeProduct.getBarCode())
             .setProductName(storeProduct.getProductName())
             .setProductPrice(storeProduct.getProductPrice())
             .setTax(storeProduct.getTax())
