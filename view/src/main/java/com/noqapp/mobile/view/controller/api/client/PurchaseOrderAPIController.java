@@ -185,11 +185,11 @@ public class PurchaseOrderAPIController {
             return jsonPurchaseOrder.asJson();
         } finally {
             apiHealthService.insert(
-                    "/purchase",
-                    "purchase",
-                    PurchaseOrderAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/purchase",
+                "purchase",
+                PurchaseOrderAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
@@ -249,11 +249,11 @@ public class PurchaseOrderAPIController {
             return getErrorReason("Failed to cancel order", PURCHASE_ORDER_FAILED_TO_CANCEL);
         } finally {
             apiHealthService.insert(
-                    "/cancel",
-                    "cancel",
-                    PurchaseOrderAPIController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/cancel",
+                "cancel",
+                PurchaseOrderAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
