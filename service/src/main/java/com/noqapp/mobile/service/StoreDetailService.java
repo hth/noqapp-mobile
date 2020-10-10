@@ -92,7 +92,7 @@ public class StoreDetailService {
             .setUnitOfMeasurement(storeProduct.getUnitOfMeasurement())
             .setProductReference(storeProduct.getProductReference())
             .setAvailableDate(
-                storeProduct.getAvailableDate() == null
+                null == storeProduct.getAvailableDate()
                     ? DateFormatUtils.format(new Date(), ISO8601_FMT, TimeZone.getTimeZone("UTC"))
                     : DateFormatUtils.format(storeProduct.getAvailableDate(), ISO8601_FMT, TimeZone.getTimeZone("UTC")))
             .setAvailableNow(storeProduct.getAvailableDate() == null || Instant.now().isAfter(storeProduct.getAvailableDate().toInstant()))
