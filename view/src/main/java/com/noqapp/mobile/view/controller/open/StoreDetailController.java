@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonHour;
+import com.noqapp.domain.json.JsonHourList;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.StoreDetailService;
@@ -88,33 +89,33 @@ public class StoreDetailController {
     }
 
     @GetMapping(
-        value = "/{bizStoreId}",
+        value = "/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<JsonHour> storeHours(
+    public JsonHourList storeHours(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
         @RequestHeader ("X-R-DT")
         ScrubbedInput dt,
 
-        @PathVariable("bizStoreId")
-        ScrubbedInput bizStoreId,
+        @PathVariable("codeQR")
+        ScrubbedInput codeQR,
 
         HttpServletResponse response
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Store hours for bizStoreId={} did={} dt={}", bizStoreId, did, dt);
+        LOG.info("Store hours for codeQR={} did={} dt={}", codeQR, did, dt);
 
         try {
-            return storeDetailService.findAllStoreHoursAsJson(bizStoreId.getText());
+            return storeDetailService.findAllStoreHoursAsJson(codeQR.getText());
         } catch (Exception e) {
-            LOG.error("Failed getting store storeHours bizStoreId={} reason={}", bizStoreId, e.getLocalizedMessage(), e);
+            LOG.error("Failed getting store storeHours codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return new ArrayList<>();
+            return new JsonHourList();
         } finally {
             apiHealthService.insert(
-                "/{bizStoreId}",
+                "/{codeQR}",
                 "storeHours",
                 StoreDetailController.class.getName(),
                 Duration.between(start, Instant.now()),

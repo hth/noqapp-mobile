@@ -7,6 +7,7 @@ import com.noqapp.domain.StoreCategoryEntity;
 import com.noqapp.domain.StoreProductEntity;
 import com.noqapp.domain.annotation.Mobile;
 import com.noqapp.domain.json.JsonHour;
+import com.noqapp.domain.json.JsonHourList;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonStore;
 import com.noqapp.domain.json.JsonStoreCategory;
@@ -135,12 +136,12 @@ public class StoreDetailService {
                 }
         }
 
-        List<JsonHour> jsonHours = findAllStoreHoursAsJson(bizStore.getId());
+        List<JsonHour> jsonHours = bizService.findAllStoreHoursAsJson(bizStore.getId());
         jsonStore.setJsonHours(jsonHours);
         return jsonStore;
     }
 
-    public List<JsonHour> findAllStoreHoursAsJson(String bizStoreId) {
-        return bizService.findAllStoreHoursAsJson(bizStoreId);
+    public JsonHourList findAllStoreHoursAsJson(String codeQR) {
+        return new JsonHourList().setJsonHours(bizService.findAllStoreHoursAsJson(bizService.findByCodeQR(codeQR).getId()));
     }
 }
