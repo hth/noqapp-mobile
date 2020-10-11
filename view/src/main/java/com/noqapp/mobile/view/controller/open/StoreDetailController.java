@@ -89,7 +89,7 @@ public class StoreDetailController {
     }
 
     @GetMapping(
-        value = "/{codeQR}",
+        value = "/hours/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE)
     public JsonHourList storeHours(
         @RequestHeader("X-R-DID")
@@ -115,7 +115,7 @@ public class StoreDetailController {
             return new JsonHourList();
         } finally {
             apiHealthService.insert(
-                "/{codeQR}",
+                "/hours/{codeQR}",
                 "storeHours",
                 StoreDetailController.class.getName(),
                 Duration.between(start, Instant.now()),
