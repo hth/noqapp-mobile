@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.json.JsonHour;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.StoreDetailService;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -78,6 +81,41 @@ public class StoreDetailController {
             apiHealthService.insert(
                 "/{codeQR}",
                 "storeDetail",
+                StoreDetailController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @GetMapping(
+        value = "/{bizStoreId}",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<JsonHour> storeHours(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @PathVariable("bizStoreId")
+        ScrubbedInput bizStoreId,
+
+        HttpServletResponse response
+    ) {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Store hours for bizStoreId={} did={} dt={}", bizStoreId, did, dt);
+
+        try {
+            return storeDetailService.findAllStoreHoursAsJson(bizStoreId.getText());
+        } catch (Exception e) {
+            LOG.error("Failed getting store storeHours bizStoreId={} reason={}", bizStoreId, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new ArrayList<>();
+        } finally {
+            apiHealthService.insert(
+                "/{bizStoreId}",
+                "storeHours",
                 StoreDetailController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
