@@ -136,12 +136,12 @@ public class StoreDetailService {
                 }
         }
 
-        List<JsonHour> jsonHours = bizService.findAllStoreHoursAsJson(bizStore.getId());
+        List<JsonHour> jsonHours = bizService.findAllStoreHoursAsJson(bizStore);
         jsonStore.setJsonHours(jsonHours);
         return jsonStore;
     }
 
     public JsonHourList findAllStoreHoursAsJson(String codeQR) {
-        return new JsonHourList().setJsonHours(bizService.findAllStoreHoursAsJson(bizService.findByCodeQR(codeQR).getId()));
+        return new JsonHourList().setJsonHours(bizService.findAllStoreHoursAsJson(bizService.findByCodeQR(codeQR)));
     }
 }
