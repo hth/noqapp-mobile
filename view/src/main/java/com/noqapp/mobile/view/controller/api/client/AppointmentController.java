@@ -346,7 +346,10 @@ public class AppointmentController {
         }
 
         try {
-            boolean status = scheduleAppointmentService.cancelAppointment(jsonSchedule.getScheduleAppointmentId(), jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR());
+            boolean status = scheduleAppointmentService.cancelAppointment(
+                jsonSchedule.getScheduleAppointmentId(),
+                jsonSchedule.getQueueUserId(),
+                jsonSchedule.getCodeQR());
             return new JsonResponse(status).asJson();
         } catch (AppointmentCancellationException e) {
             LOG.warn("Failed cancelling appointments qid={}, reason={}", qid, e.getLocalizedMessage());
