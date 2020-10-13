@@ -682,7 +682,7 @@ public class StoreSettingController {
 
         try {
             BizStoreEntity bizStore = bizService.findByCodeQR(codeQR.getText());
-            List<JsonHour> jsonHours = bizService.findAllStoreHoursAsJson(bizStore.getId());
+            List<JsonHour> jsonHours = bizService.findAllStoreHoursAsJson(bizStore);
             return new StoreHours()
                 .setCodeQR(bizStore.getCodeQR())
                 .setJsonHours(jsonHours).asJson();
