@@ -184,8 +184,7 @@ public class TokenQueueMobileService {
                         tokenQueue.getLastNumber() - tokenQueue.getCurrentlyServing(),
                         tokenQueue.getQueueStatus(),
                         storeHour.getStartHour(),
-                        bizStore.getTimeZone()
-                    );
+                        bizStore.getTimeZone());
                 }
                 break;
             default:
