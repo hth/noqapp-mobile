@@ -193,8 +193,7 @@ public class TokenQueueMobileService {
                     tokenQueue.getLastNumber() - tokenQueue.getCurrentlyServing(),
                     tokenQueue.getQueueStatus(),
                     storeHour.getStartHour(),
-                    bizStore.getTimeZone()
-                );
+                    bizStore.getTimeZone());
         }
         jsonQueue.setTimeSlotMessage(timeSlotMessage == null ? "Not Available" : timeSlotMessage);
         LOG.info("Sending timeSlotMessage={}", jsonQueue.getTimeSlotMessage());
