@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,11 +52,11 @@ class PurchaseOrderAPIControllerITest extends ITest {
     @BeforeEach
     void setUp() {
         purchaseOrderAPIController = new PurchaseOrderAPIController(
-                purchaseOrderService,
-                couponService,
-                bizService,
-                apiHealthService,
-                authenticateMobileService
+            purchaseOrderService,
+            couponService,
+            bizService,
+            apiHealthService,
+            authenticateMobileService
         );
 
         userProfile = userProfileManager.findOneByPhone("9118000000001");
@@ -66,16 +67,17 @@ class PurchaseOrderAPIControllerITest extends ITest {
     void purchase() throws IOException {
         JsonPurchaseOrder jsonPurchaseOrder = createOrder();
         String jsonPurchaseOrderAsString = purchaseOrderAPIController.purchase(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                jsonPurchaseOrder,
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonPurchaseOrder,
+            httpServletResponse
         );
 
         JsonPurchaseOrder jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
-        assertEquals("990", jsonPurchaseOrderResponse.getOrderPrice());
+        assertEquals("900", jsonPurchaseOrderResponse.getOrderPrice());
+        assertEquals("45", jsonPurchaseOrderResponse.getTax());
         assertEquals(PurchaseOrderStateEnum.VB, jsonPurchaseOrderResponse.getPresentOrderState());
         assertEquals(jsonPurchaseOrder.getToken(), jsonPurchaseOrderResponse.getToken());
     }
@@ -89,12 +91,12 @@ class PurchaseOrderAPIControllerITest extends ITest {
         when(cashfreeService.createTokenForPurchaseOrder(any())).thenReturn(jsonResponseWithCFToken);
 
         String jsonPurchaseOrderAsString = purchaseOrderAPIController.purchase(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                jsonPurchaseOrder,
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonPurchaseOrder,
+            httpServletResponse
         );
         JsonPurchaseOrder jsonPurchaseOrderResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsString, JsonPurchaseOrder.class);
 
@@ -120,16 +122,17 @@ class PurchaseOrderAPIControllerITest extends ITest {
         JsonPurchaseOrder jsonPurchaseOrderCFResponse = new ObjectMapper().readValue(jsonPurchaseOrderAsStringAfterNotifyingCF, JsonPurchaseOrder.class);
         when(cashfreeService.refundInitiatedByClient(any())).thenReturn(new JsonResponseRefund().setStatus("OK"));
         String jsonPurchaseOrderCancelAsString = purchaseOrderAPIController.cancel(
-                new ScrubbedInput(did),
-                new ScrubbedInput(deviceType),
-                new ScrubbedInput(userProfile.getEmail()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                jsonPurchaseOrderResponse,
-                httpServletResponse
+            new ScrubbedInput(did),
+            new ScrubbedInput(deviceType),
+            new ScrubbedInput(userProfile.getEmail()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            jsonPurchaseOrderResponse,
+            httpServletResponse
         );
 
         JsonPurchaseOrder jsonPurchaseOrderCancelResponse = new ObjectMapper().readValue(jsonPurchaseOrderCancelAsString, JsonPurchaseOrder.class);
-        assertEquals("990", jsonPurchaseOrderCancelResponse.getOrderPrice());
+        assertEquals("900", jsonPurchaseOrderCancelResponse.getOrderPrice());
+        assertEquals("45", jsonPurchaseOrderCancelResponse.getTax());
         assertEquals(PurchaseOrderStateEnum.CO, jsonPurchaseOrderCancelResponse.getPresentOrderState());
         assertEquals(jsonPurchaseOrder.getToken(), jsonPurchaseOrderCancelResponse.getToken());
     }
@@ -140,34 +143,40 @@ class PurchaseOrderAPIControllerITest extends ITest {
         BizStoreEntity bizStore = bizStores.get(0);
         List<StoreProductEntity> storeProducts = storeProductService.findAll(bizStore.getId());
 
-        int orderPrice = 0;
+        int orderPrice = 0; int tax = 0;
         List<JsonPurchaseOrderProduct> jsonPurchaseOrderProducts = new ArrayList<>();
         for (StoreProductEntity storeProduct : storeProducts) {
             JsonPurchaseOrderProduct pop = new JsonPurchaseOrderProduct()
-                    .setProductId(storeProduct.getId())
-                    .setProductName(storeProduct.getProductName())
-                    .setProductPrice(storeProduct.getProductPrice())
-                    .setProductDiscount(storeProduct.getProductDiscount())
-                    .setProductQuantity(1);
-
+                .setProductId(storeProduct.getId())
+                .setProductName(storeProduct.getProductName())
+                .setProductPrice(storeProduct.getProductPrice())
+                .setTax(storeProduct.getTax())
+                .setProductDiscount(storeProduct.getProductDiscount())
+                .setProductQuantity(1);
 
             orderPrice = computePrice(orderPrice, pop);
+            tax = tax + computeTax(pop);
             jsonPurchaseOrderProducts.add(pop);
         }
 
         return new JsonPurchaseOrder()
-                .setJsonPurchaseOrderProducts(jsonPurchaseOrderProducts)
-                .setBizStoreId(bizStore.getId())
-                .setBusinessType(bizStore.getBusinessType())
-                .setCustomerName(userProfile.getName())
-                .setCustomerPhone(userProfile.getPhone())
-                .setDeliveryMode(DeliveryModeEnum.TO)
-                .setPaymentMode(PaymentModeEnum.CA)
-                .setStoreDiscount(bizStore.getDiscount())
-                .setOrderPrice(String.valueOf(orderPrice));
+            .setJsonPurchaseOrderProducts(jsonPurchaseOrderProducts)
+            .setBizStoreId(bizStore.getId())
+            .setBusinessType(bizStore.getBusinessType())
+            .setCustomerName(userProfile.getName())
+            .setCustomerPhone(userProfile.getPhone())
+            .setDeliveryMode(DeliveryModeEnum.TO)
+            .setPaymentMode(PaymentModeEnum.CA)
+            .setStoreDiscount(bizStore.getDiscount())
+            .setOrderPrice(String.valueOf(orderPrice))
+            .setTax(String.valueOf(tax));
     }
 
     private int computePrice(int orderPrice, JsonPurchaseOrderProduct pop) {
         return orderPrice + (pop.getProductPrice() - pop.getProductDiscount()) * pop.getProductQuantity();
+    }
+
+    private int computeTax(JsonPurchaseOrderProduct pop) {
+        return new BigDecimal(pop.getProductPrice() - pop.getProductDiscount()).multiply(pop.getTax().getValue().movePointLeft(2)).intValue();
     }
 }

@@ -23,6 +23,7 @@ import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.domain.types.ProductTypeEnum;
+import com.noqapp.domain.types.TaxEnum;
 import com.noqapp.domain.types.UnitOfMeasurementEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.domain.types.catgeory.CanteenStoreDepartmentEnum;
@@ -1668,18 +1669,19 @@ public class ITest extends RealMongoForITest {
                 .setBizNameId(bizName.getId());
         storeCategoryManager.save(storeCategory);
 
-        StoreProductEntity storeProduct = new StoreProductEntity()
+        StoreProductEntity storeProduct1 = new StoreProductEntity()
                 .setBizStoreId(bizStores.get(0).getId())
                 .setProductName("Alloo Tikkii")
                 .setProductPrice(1000)
-                .setProductDiscount(10)
+                .setTax(TaxEnum.FI)
+                .setProductDiscount(100)
                 .setProductInfo("Made from Alloo")
                 .setStoreCategoryId(storeCategory.getId())
                 .setProductType(ProductTypeEnum.VE)
                 .setUnitValue(1)
                 .setPackageSize(1)
                 .setUnitOfMeasurement(UnitOfMeasurementEnum.CN);
-        storeProductManager.save(storeProduct);
+        storeProductManager.save(storeProduct1);
     }
 
     private void createBusinessCSD(String phone) {
