@@ -21,6 +21,7 @@ import com.noqapp.domain.json.payment.cashfree.JsonResponseRefund;
 import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
+import com.noqapp.domain.types.TaxEnum;
 import com.noqapp.domain.types.cashfree.PaymentModeCFEnum;
 import com.noqapp.domain.types.cashfree.TxStatusEnum;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
@@ -37,6 +38,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,7 +136,8 @@ class HistoricalAPIControllerITest extends ITest {
         );
 
         JsonPurchaseOrder jsonPurchaseOrderCancelResponse = new ObjectMapper().readValue(jsonPurchaseOrderCancelAsString, JsonPurchaseOrder.class);
-        assertEquals("990", jsonPurchaseOrderCancelResponse.getOrderPrice());
+        assertEquals("900", jsonPurchaseOrderCancelResponse.getOrderPrice());
+        assertEquals("45", jsonPurchaseOrderCancelResponse.getTax());
         assertEquals(PurchaseOrderStateEnum.CO, jsonPurchaseOrderCancelResponse.getPresentOrderState());
 
         String orders = historicalAPIController.orders(
@@ -200,18 +203,19 @@ class HistoricalAPIControllerITest extends ITest {
         BizStoreEntity bizStore = bizStores.get(0);
         List<StoreProductEntity> storeProducts = storeProductService.findAll(bizStore.getId());
 
-        int orderPrice = 0;
+        int orderPrice = 0; int tax = 0;
         List<JsonPurchaseOrderProduct> jsonPurchaseOrderProducts = new ArrayList<>();
         for (StoreProductEntity storeProduct : storeProducts) {
             JsonPurchaseOrderProduct pop = new JsonPurchaseOrderProduct()
                 .setProductId(storeProduct.getId())
                 .setProductName(storeProduct.getProductName())
                 .setProductPrice(storeProduct.getProductPrice())
+                .setTax(TaxEnum.FI)
                 .setProductDiscount(storeProduct.getProductDiscount())
                 .setProductQuantity(1);
 
-
             orderPrice = computePrice(orderPrice, pop);
+            tax = tax + computeTax(pop);
             jsonPurchaseOrderProducts.add(pop);
         }
 
@@ -224,10 +228,15 @@ class HistoricalAPIControllerITest extends ITest {
             .setDeliveryMode(DeliveryModeEnum.TO)
             .setPaymentMode(PaymentModeEnum.CA)
             .setStoreDiscount(bizStore.getDiscount())
-            .setOrderPrice(String.valueOf(orderPrice));
+            .setOrderPrice(String.valueOf(orderPrice))
+            .setTax(String.valueOf(tax));
     }
 
     private int computePrice(int orderPrice, JsonPurchaseOrderProduct pop) {
         return orderPrice + (pop.getProductPrice() - pop.getProductDiscount()) * pop.getProductQuantity();
+    }
+
+    private int computeTax(JsonPurchaseOrderProduct pop) {
+        return new BigDecimal(pop.getProductPrice() - pop.getProductDiscount()).multiply(pop.getTax().getValue().movePointLeft(2)).intValue();
     }
 }
