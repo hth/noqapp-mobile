@@ -266,7 +266,7 @@ subprojects {
 
     pmd {
         ignoreFailures = true
-        toolVersion = '6.27.0'
+        toolVersion = '6.28.0'
         incrementalAnalysis = true
 
         ruleSets = [
@@ -315,11 +315,11 @@ subprojects {
     }
 
     jacoco {
-        toolVersion = "0.8.5"
+        toolVersion = "0.8.6"
     }
 
     spotbugs {
-        toolVersion = '4.0.4'
+        toolVersion = '4.1.4'
         ignoreFailures = true
         effort = 'max'
         showProgress = true
