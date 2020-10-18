@@ -60,7 +60,7 @@ subprojects {
     apply plugin: 'idea'
     apply plugin: 'java'
 
-    apply plugin: 'checkstyle'  //for java code conventions, you can use sonar instead but it need DB
+//    apply plugin: 'checkstyle'  //for java code conventions, you can use sonar instead but it need DB
     apply plugin: 'pmd'
     apply plugin: 'jacoco'      //for code coverage'
     apply plugin: 'com.github.spotbugs'
@@ -69,8 +69,8 @@ subprojects {
     apply plugin: "de.aaschmid.cpd"
 
     compileJava {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
         // Detecting annotation processors on the compile classpath is deprecated and Gradle 5.0 will ignore them.
         options.compilerArgs += ["-proc:none"]
     }
@@ -258,15 +258,15 @@ subprojects {
         }
     }
 
-    checkstyle {
-        toolVersion = '8.23'
-        ignoreFailures = true
-        configDir = file("$rootProject.projectDir/config/checkstyle")
-    }
+//    checkstyle {
+//        toolVersion = '8.36.2'
+//        ignoreFailures = true
+//        configDir = file("$project.rootDir/config/checkstyle")
+//    }
 
     pmd {
         ignoreFailures = true
-        toolVersion = '6.27.0'
+        toolVersion = '6.28.0'
         incrementalAnalysis = true
 
         ruleSets = [
@@ -315,11 +315,11 @@ subprojects {
     }
 
     jacoco {
-        toolVersion = "0.8.5"
+        toolVersion = "0.8.6"
     }
 
     spotbugs {
-        toolVersion = '4.0.4'
+        toolVersion = '4.1.4'
         ignoreFailures = true
         effort = 'max'
         showProgress = true
