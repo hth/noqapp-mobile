@@ -239,6 +239,7 @@ public class TokenQueueMobileService {
      * @return
      * @deprecated
      */
+    @Deprecated
     public JsonQueueList findAllQueuesByBizNameCodeQR(String codeQR) {
         try {
             BizNameEntity bizName = bizService.findBizNameByCodeQR(codeQR);
