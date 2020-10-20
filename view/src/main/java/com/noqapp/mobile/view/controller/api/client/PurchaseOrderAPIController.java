@@ -9,6 +9,7 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NEGATIVE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_PRICE_MISMATCH;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_ORDER_ABORT_EXPIRED_LIMITED_TIME;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_OFFLINE;
@@ -48,6 +49,7 @@ import com.noqapp.service.exceptions.PurchaseOrderCancelException;
 import com.noqapp.service.exceptions.PurchaseOrderNegativeException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundPartialException;
+import com.noqapp.service.exceptions.QueueAbortPaidPastDurationException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.StoreInActiveException;
 import com.noqapp.service.exceptions.StorePreventJoiningException;
@@ -241,8 +243,13 @@ public class PurchaseOrderAPIController {
                 "Cannot cancel as partial payment is done via cash. Go to merchant for cancellation. Cash payment will be performed by merchant.",
                 PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY);
         } catch(PurchaseOrderCancelException e) {
-            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
+            LOG.warn("Failed cancelling purchase order reason={}", e.getLocalizedMessage());
             return getErrorReason("Failed to cancel order", PURCHASE_ORDER_FAILED_TO_CANCEL);
+        } catch (QueueAbortPaidPastDurationException e) {
+            LOG.warn("Failed cancelling as the duration of cancellation has passed reason={}", e.getLocalizedMessage());
+            return getErrorReason(
+                "Cannot cancel as the duration of cancellation has passed. Please contact the business.",
+                QUEUE_ORDER_ABORT_EXPIRED_LIMITED_TIME);
         } catch (Exception e) {
             LOG.error("Failed cancelling purchase order reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
