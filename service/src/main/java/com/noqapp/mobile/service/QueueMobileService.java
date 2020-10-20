@@ -538,7 +538,7 @@ public class QueueMobileService {
     public JsonQueuePersonList findAllClient(String codeQR) {
         JsonQueuePersonList jsonQueuePersonList = queueService.findAllClient(codeQR);
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
-        String day = Formatter.toDefaultDateFormatAsString(DateUtil.dateAtTimeZone(bizStore.getTimeZone()));
+        String day = DateUtil.dateToString(DateUtil.dateAtTimeZone(bizStore.getTimeZone()));
         long appointmentCountForToday = scheduleAppointmentManager.countNumberOfAppointments(codeQR, day);
         LOG.info("Looking up appointments for {} {} {}", codeQR, day, appointmentCountForToday);
         jsonQueuePersonList.setAppointmentCountForToday(appointmentCountForToday);
