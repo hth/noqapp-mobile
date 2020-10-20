@@ -2,10 +2,10 @@ package com.noqapp.mobile.view.validator;
 
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.domain.json.JsonNameDatePair;
 import com.noqapp.domain.json.JsonProfessionalProfile;
-import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.service.ProfessionalProfileService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -52,8 +52,8 @@ public class ProfessionalProfileValidator {
         }
 
         if (StringUtils.isNotBlank(jsonProfessionalProfile.getPracticeStart()) && !DateUtil.DOB_PATTERN.matcher(jsonProfessionalProfile.getPracticeStart()).matches()) {
-            LOG.error("Practicing Since should be of format " + DateUtil.SDF_YYYY_MM_DD.toPattern());
-            errors.put(ErrorEncounteredJson.REASON, "Practicing Since should be of format " + DateUtil.SDF_YYYY_MM_DD.toPattern());
+            LOG.error("Practicing Since should be of format " + DateUtil.YYYY_MM_DD);
+            errors.put(ErrorEncounteredJson.REASON, "Practicing Since should be of format " + DateUtil.YYYY_MM_DD);
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
         }
@@ -89,8 +89,8 @@ public class ProfessionalProfileValidator {
         }
 
         if (StringUtils.isNotBlank(jsonNameDatePair.getMonthYear()) && !DateUtil.DOB_PATTERN.matcher(jsonNameDatePair.getMonthYear()).matches()) {
-            LOG.error(fieldName + " Date should be of format " + DateUtil.SDF_YYYY_MM_DD.toPattern());
-            errors.put(ErrorEncounteredJson.REASON, fieldName + " Date should be of format " + DateUtil.SDF_YYYY_MM_DD.toPattern());
+            LOG.error(fieldName + " Date should be of format " + DateUtil.YYYY_MM_DD);
+            errors.put(ErrorEncounteredJson.REASON, fieldName + " Date should be of format " + DateUtil.YYYY_MM_DD);
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_INPUT.name());
             errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_INPUT.getCode());
         }
