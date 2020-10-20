@@ -497,6 +497,7 @@ public class ITest extends RealMongoForITest {
         );
 
         transactionService = new TransactionService(
+            2,
             getMongoTemplate(),
             transactionManager(),
             purchaseOrderManager,
