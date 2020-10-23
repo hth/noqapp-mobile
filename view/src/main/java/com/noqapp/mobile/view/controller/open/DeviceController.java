@@ -75,9 +75,12 @@ public class DeviceController {
         this.apiHealthService = apiHealthService;
     }
 
-    /** Finds if device exists or saves the device when does not exists. Most likely this call would not be required. */
+    /**
+     * Finds if device exists or saves the device when does not exists. Most likely this call would not be required.
+     * v1 is deprecated since 1.2.655.
+     */
     @PostMapping(
-        value = "/v1/register",
+        value = {"/v1/register", "/register"},
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String registerDevice(
@@ -157,99 +160,15 @@ public class DeviceController {
     }
 
     /**
-     * Finds if device exists or saves the device when does not exists. Most likely this call would not be required.
-     * @since 1.2.572 //Remove when lowest is this version
-     * */
-    @Deprecated
-    @PostMapping(
-        value = "/register",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public String registerDevice(
-        @RequestHeader("X-R-DID")
-        ScrubbedInput did,
-
-        @RequestHeader("X-R-DT")
-        ScrubbedInput deviceType,
-
-        @RequestHeader("X-R-AF")
-        ScrubbedInput appFlavor,
-
-        @RequestBody
-        String tokenJson,
-
-        HttpServletRequest request
-    ) {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.info("Register deviceType={} appFlavor={} did={} token={}",
-            deviceType.getText(),
-            appFlavor.getText(),
-            did.getText(),
-            tokenJson);
-
-        DeviceTypeEnum deviceTypeEnum;
-        try {
-            deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
-        } catch (Exception e) {
-            LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
-            return getErrorReason("Incorrect device type.", USER_INPUT);
-        }
-
-        AppFlavorEnum appFlavorEnum;
-        try {
-            appFlavorEnum = AppFlavorEnum.valueOf(appFlavor.getText());
-        } catch (Exception e) {
-            LOG.error("Failed parsing appFlavor, reason={}", e.getLocalizedMessage(), e);
-            return getErrorReason("Incorrect appFlavor type.", USER_INPUT);
-        }
-
-        ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson, request);
-        if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
-            return parseTokenFCM.getErrorResponse();
-        }
-
-        try {
-            double[] coordinate =  parseTokenFCM.isMissingCoordinate()
-                ? getLocationAsDouble(parseTokenFCM, request)
-                : parseTokenFCM.getCoordinate();
-
-            deviceRegistrationService.registerDevice(
-                null,
-                did.getText(),
-                deviceTypeEnum,
-                appFlavorEnum,
-                parseTokenFCM.getTokenFCM(),
-                parseTokenFCM.getModel(),
-                parseTokenFCM.getOsVersion(),
-                parseTokenFCM.getAppVersion(),
-                coordinate,
-                parseTokenFCM.getIpAddress());
-            return DeviceRegistered.newInstance(true).asJson();
-        } catch (DeviceDetailMissingException e) {
-            LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
-            return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
-        } catch (Exception e) {
-            LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
-        } finally {
-            apiHealthService.insert(
-                "/register",
-                "registerDevice",
-                DeviceController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
-    /** Checks is device version is supported. */
+     * Checks is device version is supported.
+     * X-R-DID is deprecated since 1.2.655.
+     */
     @PostMapping(
         value = "/version",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String isSupportedAppVersion(
-        @RequestHeader("X-R-DID")
+        @RequestHeader(value = "X-R-DID", required = false)
         ScrubbedInput did,
 
         @RequestHeader("X-R-DT")
