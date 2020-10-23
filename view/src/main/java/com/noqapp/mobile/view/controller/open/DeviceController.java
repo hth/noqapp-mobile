@@ -141,7 +141,11 @@ public class DeviceController {
                 coordinate,
                 parseTokenFCM.getIpAddress());
 
-            return DeviceRegistered.newInstance(true, deviceId).setGeoPointOfQ(new GeoPointOfQ(coordinate[1], coordinate[0])).asJson();
+            DeviceRegistered deviceRegistered = DeviceRegistered.newInstance(true, deviceId);
+            if (null != coordinate) {
+                deviceRegistered.setGeoPointOfQ(new GeoPointOfQ(coordinate[1], coordinate[0]));
+            }
+            return  deviceRegistered.asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
             return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
