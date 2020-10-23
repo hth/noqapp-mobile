@@ -60,8 +60,8 @@ class DeviceControllerITest extends ITest {
         DeviceRegistered deviceRegistered = new ObjectMapper().readValue(jsonDeviceRegistered, DeviceRegistered.class);
         assertEquals(1, deviceRegistered.getRegistered());
 
-        await().atMost(5, SECONDS).until(awaitUntilDeviceIsRegistered(did));
-        assertTrue(deviceRegistrationService.isDeviceRegistered(null, did));
+        await().atMost(5, SECONDS).until(awaitUntilDeviceIsRegistered(deviceRegistered.getDeviceId()));
+        assertTrue(deviceRegistrationService.isDeviceRegistered(null, deviceRegistered.getDeviceId()));
     }
 
     @Test
