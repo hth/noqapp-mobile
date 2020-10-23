@@ -51,7 +51,6 @@ class DeviceControllerITest extends ITest {
         DeviceToken deviceToken = new DeviceToken(fcmToken, model, osVersion, appVersion);
 
         String jsonDeviceRegistered = deviceController.registerDevice(
-            new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
             deviceToken.asJson(),
@@ -68,7 +67,7 @@ class DeviceControllerITest extends ITest {
     @Test
     @DisplayName("Check mobile version with flavor. Upgrade Request.")
     void isSupportedWithFlavor_UpgradeRequested() throws IOException {
-        String version = "1.1.500";
+        String version = "1.1.600";
         String response = deviceController.isSupportedAppVersion(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),

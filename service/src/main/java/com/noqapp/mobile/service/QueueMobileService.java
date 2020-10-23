@@ -577,7 +577,7 @@ public class QueueMobileService {
     public void autoSubscribeClientToTopic(String codeQR, String token, DeviceTypeEnum deviceType) {
         if (StringUtils.isNotBlank(token)) {
             TokenQueueEntity tokenQueue = tokenQueueMobileService.findByCodeQR(codeQR);
-            List<String> registeredTokens = new ArrayList<String>() {{
+            List<String> registeredTokens = new ArrayList<>() {{
                 add(token);
             }};
             firebaseService.subscribeToTopic(registeredTokens, tokenQueue.getTopic() + "_" + deviceType.getName());
