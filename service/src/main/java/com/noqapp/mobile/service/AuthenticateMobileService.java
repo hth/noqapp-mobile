@@ -1,5 +1,6 @@
 package com.noqapp.mobile.service;
 
+import com.noqapp.common.utils.Constants;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.repository.UserAccountManager;
 
@@ -35,19 +36,13 @@ public class AuthenticateMobileService {
         this.userAccountManager = userAccountManager;
     }
 
-    /** Not being used. */
-    @Deprecated
-    public boolean hasAccess(String mail, String auth) {
-        return findUserAccount(mail, auth) != null;
-    }
-
     UserAccountEntity findUserAccount(String mail, String auth) {
         UserAccountEntity userAccount = userAccountManager.findByUserId(mail);
         try {
             if (null == userAccount) {
                 return null;
             } else {
-                return userAccount.getUserAuthentication().getAuthenticationKey().equals(URLDecoder.decode(auth, "UTF-8"))
+                return userAccount.getUserAuthentication().getAuthenticationKey().equals(URLDecoder.decode(auth, Constants.CHAR_SET_UTF8))
                     ? userAccount
                     : null;
             }
