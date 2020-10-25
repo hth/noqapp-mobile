@@ -12,7 +12,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 /**
@@ -38,17 +37,12 @@ public class AuthenticateMobileService {
 
     UserAccountEntity findUserAccount(String mail, String auth) {
         UserAccountEntity userAccount = userAccountManager.findByUserId(mail);
-        try {
-            if (null == userAccount) {
-                return null;
-            } else {
-                return userAccount.getUserAuthentication().getAuthenticationKey().equals(URLDecoder.decode(auth, Constants.CHAR_SET_UTF8))
-                    ? userAccount
-                    : null;
-            }
-        } catch (UnsupportedEncodingException e) {
-            LOG.error("Auth decoding issue for user={}, reason={}", mail, e.getLocalizedMessage(), e);
+        if (null == userAccount) {
             return null;
+        } else {
+            return userAccount.getUserAuthentication().getAuthenticationKey().equals(URLDecoder.decode(auth, Constants.CHAR_SET_UTF8))
+                ? userAccount
+                : null;
         }
     }
 
