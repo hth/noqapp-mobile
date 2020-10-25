@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.BUSINESS_APP_ACCESS_DENIED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
@@ -8,9 +9,12 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.RegisteredDeviceEntity;
+import com.noqapp.domain.UserAccountEntity;
+import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -19,6 +23,7 @@ import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
+import com.noqapp.service.AccountService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -58,6 +63,7 @@ public class DeviceRegistrationController {
     private AuthenticateMobileService authenticateMobileService;
     private DeviceRegistrationService deviceRegistrationService;
     private GeoIPLocationService geoIPLocationService;
+    private AccountService accountService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -65,11 +71,13 @@ public class DeviceRegistrationController {
         AuthenticateMobileService authenticateMobileService,
         DeviceRegistrationService deviceRegistrationService,
         GeoIPLocationService geoIPLocationService,
+        AccountService accountService,
         ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.deviceRegistrationService = deviceRegistrationService;
         this.geoIPLocationService = geoIPLocationService;
+        this.accountService = accountService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -108,6 +116,16 @@ public class DeviceRegistrationController {
         ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson, request);
         if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
             return parseTokenFCM.getErrorResponse();
+        }
+
+        UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
+        switch (userProfile.getLevel()) {
+            case Q_SUPERVISOR:
+            case S_MANAGER:
+                //Only allow these level
+                break;
+            default:
+                getErrorReason("Please ask admin to authorize", BUSINESS_APP_ACCESS_DENIED);
         }
 
         try {
