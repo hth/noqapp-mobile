@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -168,6 +169,9 @@ public class DeviceRegistrationController {
             }
 
             return new JsonResponse(true).asJson();
+        } catch (DeviceDetailMissingException e) {
+            LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
+            return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
         } catch (Exception e) {
             LOG.error("Failed getting queue state qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
