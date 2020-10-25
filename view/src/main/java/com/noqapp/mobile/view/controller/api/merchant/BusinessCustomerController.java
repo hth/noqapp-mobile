@@ -73,10 +73,10 @@ import javax.servlet.http.HttpServletResponse;
  * 6/17/18 1:54 PM
  */
 @SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @RestController
 @RequestMapping(value = "/api/m/bc")
@@ -115,26 +115,26 @@ public class BusinessCustomerController {
 
     /** Add Business Customer Id to existing QID. */
     @PostMapping(
-            value = "/addId",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/addId",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String addBusinessCustomerId(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String requestBodyJson,
+        @RequestBody
+        String requestBodyJson,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -193,10 +193,10 @@ public class BusinessCustomerController {
             }
 
             businessCustomerService.addBusinessCustomer(
-                    userProfile.getQueueUserId(),
-                    json.getCodeQR().getText(),
-                    businessUserStore.getBizNameId(),
-                    json.getBusinessCustomerId().getText());
+                userProfile.getQueueUserId(),
+                json.getCodeQR().getText(),
+                businessUserStore.getBizNameId(),
+                json.getBusinessCustomerId().getText());
             LOG.info("Added business customer number to qid={} businessCustomerId={}", userProfile.getQueueUserId(), json.getBusinessCustomerId());
             return queueService.findThisPersonInQueue(userProfile.getQueueUserId(), json.getCodeQR().getText());
         } catch (JsonMappingException e) {
@@ -209,36 +209,36 @@ public class BusinessCustomerController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/addId",
-                    "addId",
-                    BusinessCustomerController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/addId",
+                "addId",
+                BusinessCustomerController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
     /** Edit Business Customer Id to existing QID. */
     @PostMapping(
-            value = "/editId",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/editId",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String editBusinessCustomerId(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput deviceType,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            String requestBodyJson,
+        @RequestBody
+        String requestBodyJson,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -251,9 +251,7 @@ public class BusinessCustomerController {
         }
 
         try {
-            JsonBusinessCustomer json = new ObjectMapper().readValue(
-                    requestBodyJson,
-                    JsonBusinessCustomer.class);
+            JsonBusinessCustomer json = new ObjectMapper().readValue(requestBodyJson, JsonBusinessCustomer.class);
 
             if (StringUtils.isBlank(json.getCodeQR().getText())) {
                 LOG.warn("Not a valid codeQR={} qid={}", json.getCodeQR(), qid);
@@ -273,8 +271,8 @@ public class BusinessCustomerController {
 
             BusinessUserStoreEntity businessUserStore = businessUserStoreService.findOneByQidAndCodeQR(qid, json.getCodeQR().getText());
             BusinessCustomerEntity businessCustomer = businessCustomerService.findOneByQid(
-                    json.getQueueUserId(),
-                    businessUserStore.getBizNameId());
+                json.getQueueUserId(),
+                businessUserStore.getBizNameId());
             if (null == businessCustomer) {
                 LOG.warn("Could not find customer with qid={} bizNameId={}",json.getQueueUserId(), businessUserStore.getBizNameId());
                 return getErrorReason("Business customer id does not exists", BUSINESS_CUSTOMER_ID_DOES_NOT_EXISTS);
@@ -289,12 +287,12 @@ public class BusinessCustomerController {
             }
 
             businessCustomerService.editBusinessCustomer(
-                    json.getQueueUserId(),
-                    json.getCodeQR().getText(),
-                    businessUserStore.getBizNameId(),
-                    json.getBusinessCustomerId().getText());
+                json.getQueueUserId(),
+                json.getCodeQR().getText(),
+                businessUserStore.getBizNameId(),
+                json.getBusinessCustomerId().getText());
             LOG.info("Edit business customer number to qid={} businessCustomerId={}",
-                    json.getQueueUserId(), json.getBusinessCustomerId());
+                json.getQueueUserId(), json.getBusinessCustomerId());
 
             return queueService.findThisPersonInQueue(json.getQueueUserId(), json.getCodeQR().getText());
         } catch (JsonMappingException e) {
@@ -303,35 +301,35 @@ public class BusinessCustomerController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                    "/editId",
-                    "editId",
-                    BusinessCustomerController.class.getName(),
-                    Duration.between(start, Instant.now()),
-                    methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+                "/editId",
+                "editId",
+                BusinessCustomerController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
 
     @PostMapping(
-            value = "/findCustomer",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/findCustomer",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String findCustomer(
-            @RequestHeader("X-R-DID")
-            ScrubbedInput did,
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
 
-            @RequestHeader ("X-R-DT")
-            ScrubbedInput dt,
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
 
-            @RequestHeader ("X-R-MAIL")
-            ScrubbedInput mail,
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
 
-            @RequestHeader ("X-R-AUTH")
-            ScrubbedInput auth,
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
 
-            @RequestBody
-            JsonBusinessCustomerLookup businessCustomerLookup,
+        @RequestBody
+        JsonBusinessCustomerLookup businessCustomerLookup,
 
-            HttpServletResponse response
+        HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
@@ -360,14 +358,14 @@ public class BusinessCustomerController {
                 userProfile = accountService.checkUserExistsByPhone(businessCustomerLookup.getCustomerPhone().getText());
             } else if (StringUtils.isNotBlank(businessCustomerLookup.getBusinessCustomerId().getText())) {
                 userProfile = businessCustomerService.findByBusinessCustomerIdAndBizNameId(
-                        businessCustomerLookup.getBusinessCustomerId().getText(),
-                        bizStore.getBizName().getId());
+                    businessCustomerLookup.getBusinessCustomerId().getText(),
+                    bizStore.getBizName().getId());
             }
 
             if (null == userProfile) {
                 LOG.info("Failed as no user found with phone={} businessCustomerId={}",
-                        businessCustomerLookup.getCustomerPhone(),
-                        businessCustomerLookup.getBusinessCustomerId());
+                    businessCustomerLookup.getCustomerPhone(),
+                    businessCustomerLookup.getBusinessCustomerId());
 
                 Map<String, String> errors = new HashMap<>();
                 errors.put(ErrorEncounteredJson.REASON, "No user found. Would you like to register?");
@@ -471,7 +469,7 @@ public class BusinessCustomerController {
                 case APPROVE:
                     businessCustomerService.updateBusinessCustomer(
                         businessCustomer.getId(),
-                        new LinkedHashSet<BusinessCustomerAttributeEnum>() {{
+                        new LinkedHashSet<>() {{
                             add(CommonHelper.findBusinessCustomerAttribute(bizStore));
                             add(BusinessCustomerAttributeEnum.AP);
                         }},
@@ -500,7 +498,7 @@ public class BusinessCustomerController {
                 case REJECT:
                     businessCustomerService.updateBusinessCustomer(
                         businessCustomer.getId(),
-                        new LinkedHashSet<BusinessCustomerAttributeEnum>() {{
+                        new LinkedHashSet<>() {{
                             add(CommonHelper.findBusinessCustomerAttribute(bizStore));
                             add(BusinessCustomerAttributeEnum.RJ);
                         }},
@@ -530,7 +528,7 @@ public class BusinessCustomerController {
                     businessCustomerService.clearBusinessCustomer(businessCustomer.getQueueUserId(), businessCustomer.getBizNameId());
                     
                     jsonQueuedPerson.setBusinessCustomerAttributes(
-                        new LinkedHashSet<BusinessCustomerAttributeEnum>() {{
+                        new LinkedHashSet<>() {{
                             add(BusinessCustomerAttributeEnum.RJ);
                         }});
                     jsonQueuedPerson.setCustomerPriorityLevel(CustomerPriorityLevelEnum.I);
