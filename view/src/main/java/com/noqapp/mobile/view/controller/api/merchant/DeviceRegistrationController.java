@@ -125,7 +125,7 @@ public class DeviceRegistrationController {
                 //Only allow these level
                 break;
             default:
-                getErrorReason("Please ask admin to authorize", BUSINESS_APP_ACCESS_DENIED);
+                return getErrorReason("Please ask admin to authorize", BUSINESS_APP_ACCESS_DENIED);
         }
 
         try {
