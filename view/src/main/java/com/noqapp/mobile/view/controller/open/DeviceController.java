@@ -145,7 +145,7 @@ public class DeviceController {
             if (null != coordinate) {
                 deviceRegistered.setGeoPointOfQ(new GeoPointOfQ(coordinate[1], coordinate[0]));
             }
-            return  deviceRegistered.asJson();
+            return deviceRegistered.asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
             return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
