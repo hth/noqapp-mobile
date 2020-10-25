@@ -73,10 +73,10 @@ import javax.servlet.http.HttpServletResponse;
  * 6/17/18 1:54 PM
  */
 @SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @RestController
 @RequestMapping(value = "/api/m/bc")
@@ -115,8 +115,8 @@ public class BusinessCustomerController {
 
     /** Add Business Customer Id to existing QID. */
     @PostMapping(
-            value = "/addId",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/addId",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String addBusinessCustomerId(
         @RequestHeader("X-R-DID")
