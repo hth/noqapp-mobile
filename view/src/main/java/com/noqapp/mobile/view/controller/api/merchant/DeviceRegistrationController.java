@@ -126,7 +126,7 @@ public class DeviceRegistrationController {
                 break;
             case M_ADMIN:
                 LOG.warn("Denied access to business app is denied qid={} {} {}", qid, parseTokenFCM.getAppVersion(), parseTokenFCM.getOsVersion());
-                return getErrorReason("Access denied. Admin does not has app access.", BUSINESS_APP_ACCESS_DENIED);
+                return getErrorReason("Access denied. Admin is restricted from app access.", BUSINESS_APP_ACCESS_DENIED);
             default:
                 LOG.warn("Denied access to business app is denied qid={} {} {}", qid, parseTokenFCM.getAppVersion(), parseTokenFCM.getOsVersion());
                 return getErrorReason("Access denied. Please ask admin to authorize.", BUSINESS_APP_ACCESS_DENIED);
