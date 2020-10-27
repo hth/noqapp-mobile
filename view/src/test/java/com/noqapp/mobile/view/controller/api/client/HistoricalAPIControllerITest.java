@@ -229,7 +229,8 @@ class HistoricalAPIControllerITest extends ITest {
             .setPaymentMode(PaymentModeEnum.CA)
             .setStoreDiscount(bizStore.getDiscount())
             .setOrderPrice(String.valueOf(orderPrice))
-            .setTax(String.valueOf(tax));
+            .setTax(String.valueOf(tax))
+            .setGrandTotal(String.valueOf(orderPrice + tax));
     }
 
     private int computePrice(int orderPrice, JsonPurchaseOrderProduct pop) {
