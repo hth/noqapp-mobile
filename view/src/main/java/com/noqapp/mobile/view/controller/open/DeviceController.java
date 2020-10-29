@@ -186,7 +186,7 @@ public class DeviceController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Supported device did={} deviceType={} appFlavor={} versionRelease={}", did, deviceType, appFlavor, versionRelease);
+        LOG.info("Supported device deviceType={} appFlavor={} versionRelease={}", deviceType, appFlavor, versionRelease);
 
         try {
             DeviceTypeEnum deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
