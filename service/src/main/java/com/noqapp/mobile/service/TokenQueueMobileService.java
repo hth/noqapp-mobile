@@ -151,6 +151,7 @@ public class TokenQueueMobileService {
             .setRemoteJoinAvailable(bizStore.isRemoteJoin())
             .setAllowLoggedInUser(bizStore.isAllowLoggedInUser())
             .setAvailableTokenCount(bizStore.getAvailableTokenCount())
+            .setAvailableTokenAfterCancellation(bizStore.getAvailableTokenAfterCancellation())
             .setEnabledPayment(bizStore.isEnabledPayment())
             .setProductPrice(bizStore.getProductPrice())
             .setCancellationPrice(bizStore.getCancellationPrice())
