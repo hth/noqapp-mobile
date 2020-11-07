@@ -26,6 +26,7 @@ import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.CouponEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
+import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.common.DomainCommonUtil;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderHistorical;
@@ -43,6 +44,7 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.CouponService;
 import com.noqapp.service.PurchaseOrderService;
+import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.exceptions.OrderFailedReActivationException;
 import com.noqapp.service.exceptions.PriceMismatchException;
 import com.noqapp.service.exceptions.PurchaseOrderCancelException;
@@ -561,7 +563,7 @@ public class PurchaseOrderAPIController {
             }
 
             PaymentModeEnum paymentMode = DomainCommonUtil.derivePaymentMode(jsonCashfreeNotification.getPaymentMode());
-            PurchaseOrderEntity purchaseOrder = purchaseOrderService.updateOnPaymentGatewayNotification(
+            JsonPurchaseOrder jsonPurchaseOrder = purchaseOrderService.updateOnPaymentGatewayNotificationAsJsonPurchaseOrder(
                 transactionId,
                 jsonCashfreeNotification.getTxMsg(),
                 jsonCashfreeNotification.getReferenceId(),
@@ -569,16 +571,15 @@ public class PurchaseOrderAPIController {
                 purchaseOrderState,
                 paymentMode
             );
-            LOG.info("Order updated qid={} codeQR={} transactionId={} amount={} transactionVia={} businessType={} orderId={} orderState={}",
+            LOG.info("Order updated qid={} codeQR={} transactionId={} amount={} transactionVia={} businessType={} orderState={}",
                 qid,
-                purchaseOrder.getCodeQR(),
-                purchaseOrder.getTransactionId(),
-                purchaseOrder.getOrderPrice(),
-                purchaseOrder.getTransactionVia(),
-                purchaseOrder.getBusinessType(),
-                purchaseOrder.getId(),
-                purchaseOrder.getPresentOrderState());
-            return new JsonPurchaseOrder(purchaseOrder).asJson();
+                jsonPurchaseOrder.getCodeQR(),
+                jsonPurchaseOrder.getTransactionId(),
+                jsonPurchaseOrder.getOrderPrice(),
+                jsonPurchaseOrder.getTransactionVia(),
+                jsonPurchaseOrder.getBusinessType(),
+                jsonPurchaseOrder.getPresentOrderState());
+            return jsonPurchaseOrder.asJson();
         } catch (Exception e) {
             LOG.error("Failed updating with cashfree notification reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
