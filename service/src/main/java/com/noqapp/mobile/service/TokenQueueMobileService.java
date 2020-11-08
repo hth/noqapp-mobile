@@ -169,6 +169,7 @@ public class TokenQueueMobileService {
         switch (bizStore.getBusinessType()) {
             case CD:
             case CDQ:
+                jsonQueue.setStorePhone(FileUtil.DASH);
                 jsonQueue.setStoreAddress(FileUtil.DASH);
                 jsonQueue.setArea(FileUtil.DASH);
                 jsonQueue.setTown(FileUtil.DASH);
@@ -189,6 +190,7 @@ public class TokenQueueMobileService {
                 }
                 break;
             default:
+                jsonQueue.setStorePhone(FileUtil.DASH);
                 timeSlotMessage = ServiceUtils.calculateEstimatedWaitTime(
                     bizStore.getAverageServiceTime(),
                     tokenQueue.getLastNumber() - tokenQueue.getCurrentlyServing(),
