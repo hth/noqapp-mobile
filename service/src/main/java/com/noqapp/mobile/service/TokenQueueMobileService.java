@@ -5,7 +5,6 @@ import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
-import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -28,7 +27,6 @@ import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.service.BizService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.TokenQueueService;
-import com.noqapp.service.exceptions.ExpectedServiceBeyondStoreClosingHour;
 import com.noqapp.service.utils.ServiceUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +39,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -169,7 +166,6 @@ public class TokenQueueMobileService {
         switch (bizStore.getBusinessType()) {
             case CD:
             case CDQ:
-                jsonQueue.setStorePhone(FileUtil.DASH);
                 jsonQueue.setStoreAddress(FileUtil.DASH);
                 jsonQueue.setArea(FileUtil.DASH);
                 jsonQueue.setTown(FileUtil.DASH);
@@ -190,7 +186,6 @@ public class TokenQueueMobileService {
                 }
                 break;
             default:
-                jsonQueue.setStorePhone(FileUtil.DASH);
                 timeSlotMessage = ServiceUtils.calculateEstimatedWaitTime(
                     bizStore.getAverageServiceTime(),
                     tokenQueue.getLastNumber() - tokenQueue.getCurrentlyServing(),
@@ -330,7 +325,6 @@ public class TokenQueueMobileService {
                             bizStoreElastic
                                 .setWebProfileId(professionalProfile.getWebProfileId())
                                 .setEducation(professionalProfile.getEducationAsJson());
-
 
                             /*
                              * Since all bizStore are clubbed for this business type,
