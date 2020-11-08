@@ -1,7 +1,7 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
-import static com.noqapp.domain.BizStoreEntity.UNDER_SCORE;
+import static com.noqapp.common.utils.Constants.UNDER_SCORE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
