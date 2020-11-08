@@ -5,7 +5,6 @@ import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
-import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -28,7 +27,6 @@ import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.service.BizService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.TokenQueueService;
-import com.noqapp.service.exceptions.ExpectedServiceBeyondStoreClosingHour;
 import com.noqapp.service.utils.ServiceUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +39,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -163,7 +160,9 @@ public class TokenQueueMobileService {
             .setStoreServiceImages(bizStore.getStoreServiceImages())
             .setStoreInteriorImages(bizStore.getStoreInteriorImages())
             .setAmenities(bizStore.getAmenities())
-            .setFacilities(bizStore.getFacilities());
+            .setFacilities(bizStore.getFacilities())
+            .setAcceptedPayments(bizStore.getAcceptedPayments())
+            .setAcceptedDeliveries(bizStore.getAcceptedDeliveries());
 
         String timeSlotMessage;
         switch (bizStore.getBusinessType()) {
@@ -328,7 +327,6 @@ public class TokenQueueMobileService {
                             bizStoreElastic
                                 .setWebProfileId(professionalProfile.getWebProfileId())
                                 .setEducation(professionalProfile.getEducationAsJson());
-
 
                             /*
                              * Since all bizStore are clubbed for this business type,

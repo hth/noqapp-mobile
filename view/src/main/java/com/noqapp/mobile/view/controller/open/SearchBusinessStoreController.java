@@ -191,7 +191,7 @@ public class SearchBusinessStoreController {
             }
             LOG.info("NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
-                new ArrayList<BusinessTypeEnum> () {{
+                new ArrayList<> () {{
                     add(BusinessTypeEnum.CD);
                     add(BusinessTypeEnum.CDQ);
                     add(BusinessTypeEnum.DO);
