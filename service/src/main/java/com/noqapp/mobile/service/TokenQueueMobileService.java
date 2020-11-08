@@ -160,7 +160,9 @@ public class TokenQueueMobileService {
             .setStoreServiceImages(bizStore.getStoreServiceImages())
             .setStoreInteriorImages(bizStore.getStoreInteriorImages())
             .setAmenities(bizStore.getAmenities())
-            .setFacilities(bizStore.getFacilities());
+            .setFacilities(bizStore.getFacilities())
+            .setAcceptedPayments(bizStore.getAcceptedPayments())
+            .setAcceptedDeliveries(bizStore.getAcceptedDeliveries());
 
         String timeSlotMessage;
         switch (bizStore.getBusinessType()) {
