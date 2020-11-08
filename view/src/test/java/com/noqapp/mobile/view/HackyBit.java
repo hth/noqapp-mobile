@@ -52,7 +52,7 @@ public class HackyBit {
         int node3Port = Network.getFreeServerPort();
 
         try {
-            List<ServerAddress> serverAddresses = new ArrayList<ServerAddress>() {{
+            List<ServerAddress> serverAddresses = new ArrayList<>() {{
                 add(new ServerAddress(Network.getLocalHost(), node1Port));
                 add(new ServerAddress(Network.getLocalHost(), node2Port));
                 add(new ServerAddress(Network.getLocalHost(), node3Port));
