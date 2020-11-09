@@ -232,46 +232,6 @@ public class TokenQueueMobileService {
     }
 
     /**
-     * //TODO(hth) add GPS co-ordinate to this query for limiting data.
-     * Refer findAllBizStoreByBizNameCodeQR as simplified for using BizStoreElastic.
-     *
-     * @param codeQR
-     * @return
-     */
-    @Deprecated
-    public JsonQueueList findAllQueuesByBizNameCodeQR(String codeQR) {
-        try {
-            BizNameEntity bizName = bizService.findBizNameByCodeQR(codeQR);
-            if (null == bizName) {
-                BizStoreEntity bizStoreForCodeQR = bizService.findByCodeQR(codeQR);
-                bizName = bizStoreForCodeQR.getBizName();
-            }
-            Map<String, String> bizCategories = CommonHelper.getCategories(bizName.getBusinessType(), InvocationByEnum.BUSINESS);
-            JsonQueueList jsonQueues = new JsonQueueList();
-            for (String bizCategoryId : bizCategories.keySet()) {
-                JsonCategory jsonCategory = new JsonCategory()
-                    .setBizCategoryId(bizCategoryId)
-                    .setCategoryName(bizCategories.get(bizCategoryId))
-                    .setDisplayImage("");
-                jsonQueues.addCategories(jsonCategory);
-            }
-
-            List<BizStoreEntity> stores = bizService.getAllBizStores(bizName.getId());
-            for (BizStoreEntity bizStore : stores) {
-                StoreHourEntity storeHour = bizService.getStoreHours(bizStore.getCodeQR(), bizStore);
-                TokenQueueEntity tokenQueue = findByCodeQR(bizStore.getCodeQR());
-                jsonQueues.addQueues(getJsonQueue(bizStore, storeHour, tokenQueue));
-            }
-
-            return jsonQueues;
-        } catch (Exception e) {
-            //TODO remove this catch
-            LOG.error("Failed getting bizName for codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);
-            return null;
-        }
-    }
-
-    /**
      * It populates all the stores with BizName amenities and facilities.
      * Note: Store level facilities and amenities are ignored. When business is Hospital/Doctor, then it gets
      * BizName amenities and facilities.
