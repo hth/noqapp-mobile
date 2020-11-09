@@ -237,7 +237,6 @@ public class TokenQueueMobileService {
      *
      * @param codeQR
      * @return
-     * @deprecated
      */
     @Deprecated
     public JsonQueueList findAllQueuesByBizNameCodeQR(String codeQR) {
