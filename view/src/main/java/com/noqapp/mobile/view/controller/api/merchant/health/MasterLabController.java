@@ -12,7 +12,6 @@ import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.medical.domain.MasterLabEntity;
 import com.noqapp.medical.domain.json.JsonMasterLab;
 import com.noqapp.medical.service.MasterLabService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
@@ -142,68 +141,6 @@ public class MasterLabController {
             apiHealthService.insert(
                 "/api/m/h/lab/file",
                 "file",
-                MasterLabController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
-    /** Adds data to master data. We need not use this. */
-    @Deprecated
-    @PostMapping(
-        value = "/add",
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    public String add(
-        @RequestHeader("X-R-DID")
-        ScrubbedInput did,
-
-        @RequestHeader ("X-R-DT")
-        ScrubbedInput deviceType,
-
-        @RequestHeader ("X-R-MAIL")
-        ScrubbedInput mail,
-
-        @RequestHeader ("X-R-AUTH")
-        ScrubbedInput auth,
-
-        @RequestBody
-        JsonMasterLab jsonMasterLab,
-
-        HttpServletResponse response
-    ) throws IOException {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.info("Add medical record mail={} did={} deviceType={} auth={}", mail, did, deviceType, AUTH_KEY_HIDDEN);
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (null == qid) {
-            LOG.warn("Un-authorized access to /api/m/h/lab/add by mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        UserAccountEntity userAccount = authenticateMobileService.findByQueueUserId(qid);
-        if (!userAccount.getRoles().contains(ROLE_S_MANAGER)) {
-            LOG.info("Your are not authorized to get file for as roles not match mail={}", mail);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
-            return null;
-        }
-
-        try {
-            MasterLabEntity masterLab = new MasterLabEntity()
-                .setHealthCareService(jsonMasterLab.getHealthCareService())
-                .setProductName(jsonMasterLab.getProductName())
-                .setProductShortName(jsonMasterLab.getProductShortName())
-                .setMedicalDepartments(jsonMasterLab.getMedicalDepartments());
-            masterLabService.save(masterLab);
-            return new JsonResponse(true).asJson();
-        } catch (Exception e) {
-            LOG.error("Failed processing medical record json={} qid={} message={}", jsonMasterLab.asJson(), qid, e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
-        } finally {
-            apiHealthService.insert(
-                "/add",
-                "add",
                 MasterLabController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
