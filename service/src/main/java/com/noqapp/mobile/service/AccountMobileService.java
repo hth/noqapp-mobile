@@ -180,21 +180,6 @@ public class AccountMobileService {
         return userAccount;
     }
 
-    /**
-     * Updates existing userId with new userId and also sends out email to validate new userId.
-     *
-     * @param existingUserId
-     * @param newUserId
-     * @return
-     */
-    @Deprecated //has never been used. Can be deleted at some time later
-    public UserAccountEntity changeUID(String existingUserId, String newUserId) {
-        /* No QID hence using method without QID. */
-        UserAccountEntity userAccount = accountService.updateUID(existingUserId, newUserId);
-        sendValidationEmail(userAccount);
-        return userAccount;
-    }
-
     public UserAccountEntity changeUIDWithMailOTP(String existingUserId, String newUserId) {
         /* No QID hence using method without QID. */
         UserAccountEntity userAccount = accountService.updateUID(existingUserId, newUserId);
