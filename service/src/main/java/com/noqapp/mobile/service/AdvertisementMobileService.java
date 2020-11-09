@@ -111,11 +111,6 @@ public class AdvertisementMobileService {
         return jsonAdvertisementList;
     }
 
-    public JsonAdvertisementList findAllMobileApprovedAdvertisements() {
-        List<AdvertisementEntity> advertisements = advertisementService.findAllMobileApprovedAdvertisements();
-        return populateJsonAdvertisements(advertisements);
-    }
-
     public JsonAdvertisementList findAllMobileApprovedAdvertisementsByLocation(Point point) {
         List<AdvertisementEntity> advertisements = advertisementService.findAllMobileApprovedAdvertisements(point);
         return populateJsonAdvertisements(advertisements);
