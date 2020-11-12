@@ -6,6 +6,7 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StoreCategoryEntity;
 import com.noqapp.domain.StoreProductEntity;
 import com.noqapp.domain.annotation.Mobile;
+import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonHour;
 import com.noqapp.domain.json.JsonHourList;
 import com.noqapp.domain.json.JsonQueue;
@@ -108,6 +109,7 @@ public class StoreDetailService {
         JsonStore jsonStore = new JsonStore();
 
         JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(codeQR);
+        jsonQueue.setDisplayImage(CommonHelper.getBannerImage(bizStore));
         jsonStore.setJsonQueue(jsonQueue);
 
         List<StoreProductEntity> storeProducts = storeProductService.findAll(bizStore.getId());
