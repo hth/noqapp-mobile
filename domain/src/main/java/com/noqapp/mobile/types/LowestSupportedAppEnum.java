@@ -17,46 +17,46 @@ public enum LowestSupportedAppEnum {
 
     /* List lowest supported version of iPhone and Android app. */
     VI("1.1.10",                        //Oldest Supported App Version in String
-        DeviceTypeEnum.I,                             //Device Type
+        DeviceTypeEnum.I,
         AppFlavorEnum.NQCL,
         "1.1.10",                       //Latest App Version on App Store
         "Version iPhone"),
     /* 1.1.10 is not released. */
 
-    VACL("1.2.680",                     //Oldest Supported App Version in String
-        DeviceTypeEnum.A,                             //Device Type
+    VACL("1.2.690",                     //Oldest Supported App Version in String
+        DeviceTypeEnum.A,
         AppFlavorEnum.NQCL,
-        "1.2.680",                      //Latest App Version on Play Store
+        "1.2.690",                      //Latest App Version on Play Store
         "Version Android Client"),
 
-    VACH("1.2.680",                     //Oldest Supported App Version in String
-        DeviceTypeEnum.A,                             //Device Type
+    VACH("1.2.690",                     //Oldest Supported App Version in String
+        DeviceTypeEnum.A,
         AppFlavorEnum.NQCH,
-        "1.2.680",                      //Latest App Version on Play Store
+        "1.2.690",                      //Latest App Version on Play Store
         "Version Android Client HealthCare"),
 
-    VAMS("1.2.680",                     //Oldest Supported App Version in String
-        DeviceTypeEnum.A,                             //Device Type
+    VAMS("1.2.690",                     //Oldest Supported App Version in String
+        DeviceTypeEnum.A,
         AppFlavorEnum.NQMS,
-        "1.2.680",                      //Latest App Version on Play Store
+        "1.2.690",                      //Latest App Version on Play Store
         "Version Android Business Store"),
 
-    VAMH("1.2.680",                     //Oldest Supported App Version in String
-        DeviceTypeEnum.A,                             //Device Type
+    VAMH("1.2.690",                     //Oldest Supported App Version in String
+        DeviceTypeEnum.A,
         AppFlavorEnum.NQMH,
-        "1.2.680",                      //Latest App Version on Play Store
+        "1.2.690",                      //Latest App Version on Play Store
         "Version Android Business HealthCare"),
 
-    VAMT("1.2.680",                     //Oldest Supported App Version in String
-        DeviceTypeEnum.A,                             //Device Type
+    VAMT("1.2.690",                     //Oldest Supported App Version in String
+        DeviceTypeEnum.A,
         AppFlavorEnum.NQMT,
-        "1.2.680",                      //Latest App Version on Play Store
+        "1.2.690",                      //Latest App Version on Play Store
         "Version Android Business TV"),
 
-    VAMI("1.2.680",                     //Oldest Supported App Version in String
-        DeviceTypeEnum.A,                             //Device Type
+    VAMI("1.2.690",                     //Oldest Supported App Version in String
+        DeviceTypeEnum.A,
         AppFlavorEnum.NQMI,
-        "1.2.680",                      //Latest App Version on Play Store
+        "1.2.690",                      //Latest App Version on Play Store
         "Version Android Business Inventory");
 
     private static final Logger LOG = LoggerFactory.getLogger(LowestSupportedAppEnum.class);
