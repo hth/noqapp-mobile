@@ -400,8 +400,8 @@ project(':security') {
     dependencies {
         compile project(':domain')
 
-        providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
-        runtime 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2'
+        providedCompile 'javax.servlet:javax.servlet-api:3.1.+'
+        runtime 'javax.servlet:jstl:1.+'
     }
 }
 
@@ -440,8 +440,8 @@ project(':view') {
                 project(':security'),
                 project(':service')
 
-        providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
-        runtime 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2'
+        providedCompile 'javax.servlet:javax.servlet-api:3.1.+'
+        runtime 'javax.servlet:jstl:1.+'
     }
 }
 
