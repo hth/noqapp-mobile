@@ -16,6 +16,7 @@ import com.noqapp.mobile.domain.body.client.QueueAuthorize;
 import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.open.AccountClientController;
+import com.noqapp.service.utils.ServiceUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -111,7 +112,7 @@ class TokenQueueAPIControllerITest extends ITest {
             .setTempDayClosed(false)
             .setPreventJoining(false);
         storeHourManager.save(storeHour);
-        long averageServiceTime = bizService.computeAverageServiceTime(DayOfWeek.of(storeHour.getDayOfWeek()), bizStore.getAvailableTokenCount(), bizStore.getId());
+        long averageServiceTime = ServiceUtils.computeAverageServiceTime(storeHour, bizStore.getAvailableTokenCount());
         bizService.updateStoreTokenAndServiceTime(bizStore.getCodeQR(), averageServiceTime, bizStore.getAvailableTokenCount());
 
         List<String> mails = new LinkedList<>();
