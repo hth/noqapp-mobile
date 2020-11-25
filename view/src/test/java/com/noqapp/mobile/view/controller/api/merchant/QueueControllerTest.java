@@ -40,6 +40,7 @@ import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.DeviceService;
 import com.noqapp.service.JoinAbortService;
+import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
@@ -90,6 +91,7 @@ class QueueControllerTest {
     @Mock private MedicalRecordService medicalRecordService;
     @Mock private PurchaseOrderService purchaseOrderService;
     @Mock private DeviceService deviceService;
+    @Mock private NotifyMobileService notifyMobileService;
 
     @Mock private HttpServletResponse response;
 
@@ -115,6 +117,7 @@ class QueueControllerTest {
             medicalRecordService,
             deviceService,
             merchantExtendingJoinService,
+            notifyMobileService,
             apiHealthService);
 
         mapper = new ObjectMapper();

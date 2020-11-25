@@ -69,6 +69,7 @@ class QueueControllerITest extends ITest {
             medicalRecordService,
             deviceService,
             merchantExtendingJoinService,
+            notifyMobileService,
             apiHealthService
         );
 
@@ -82,6 +83,7 @@ class QueueControllerITest extends ITest {
             scheduleAppointmentService,
             geoIPLocationService,
             businessCustomerService,
+            notifyMobileService,
             apiHealthService
         );
 
@@ -94,6 +96,7 @@ class QueueControllerITest extends ITest {
             businessUserStoreService,
             tokenQueueMobileService,
             bizStoreElasticService,
+            storeHourService,
             apiHealthService
         );
     }

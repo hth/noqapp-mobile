@@ -58,6 +58,7 @@ class ReviewControllerITest extends ITest {
             joinAbortService,
             queueMobileService,
             geoIPLocationService,
+            queueService,
             apiHealthService
         );
     }

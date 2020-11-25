@@ -1,6 +1,5 @@
 package com.noqapp.mobile.service;
 
-import com.noqapp.common.utils.FileUtil;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
@@ -10,13 +9,11 @@ import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonCategory;
-import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueList;
 import com.noqapp.domain.types.InvocationByEnum;
 import com.noqapp.domain.types.MessageOriginEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.UserLevelEnum;
-import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
@@ -25,9 +22,11 @@ import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.service.BizService;
+import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.ProfessionalProfileService;
+import com.noqapp.service.QueueService;
+import com.noqapp.service.StoreHourService;
 import com.noqapp.service.TokenQueueService;
-import com.noqapp.service.utils.ServiceUtils;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -41,7 +40,6 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 /**
  * User: hitender
@@ -58,6 +56,9 @@ public class TokenQueueMobileService {
     private ProfessionalProfileService professionalProfileService;
     private UserProfileManager userProfileManager;
     private BusinessUserStoreManager businessUserStoreManager;
+    private NotifyMobileService notifyMobileService;
+    private StoreHourService storeHourService;
+    private QueueService queueService;
 
     @Autowired
     public TokenQueueMobileService(
@@ -67,7 +68,10 @@ public class TokenQueueMobileService {
         QueueManager queueManager,
         ProfessionalProfileService professionalProfileService,
         UserProfileManager userProfileManager,
-        BusinessUserStoreManager businessUserStoreManager
+        BusinessUserStoreManager businessUserStoreManager,
+        NotifyMobileService notifyMobileService,
+        StoreHourService storeHourService,
+        QueueService queueService
     ) {
         this.tokenQueueService = tokenQueueService;
         this.bizService = bizService;
@@ -76,128 +80,9 @@ public class TokenQueueMobileService {
         this.professionalProfileService = professionalProfileService;
         this.userProfileManager = userProfileManager;
         this.businessUserStoreManager = businessUserStoreManager;
-    }
-
-    public JsonQueue findTokenState(String codeQR) {
-        try {
-            BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
-            if (bizStore.isDeleted()) {
-                LOG.info("Store has been deleted id={} displayName=\"{}\"", bizStore.getId(), bizStore.getDisplayName());
-                throw new StoreNoLongerExistsException("Store no longer exists");
-            }
-
-            StoreHourEntity storeHour = bizService.getStoreHours(codeQR, bizStore);
-            TokenQueueEntity tokenQueue = findByCodeQR(codeQR);
-            LOG.info("TokenState bizStore=\"{}\" businessType={} averageServiceTime={} tokenQueue={}",
-                bizStore.getBizName().getBusinessName(),
-                bizStore.getBusinessType().name(),
-                bizStore.getAverageServiceTime(),
-                tokenQueue.getCurrentlyServing());
-
-            return getJsonQueue(bizStore, storeHour, tokenQueue);
-        } catch (StoreNoLongerExistsException e) {
-            throw e;
-        } catch (Exception e) {
-            //TODO remove this catch
-            LOG.error("Failed getting state codeQR={} reason={}", codeQR, e.getLocalizedMessage(), e);
-            return null;
-        }
-    }
-
-    /**
-     * Store Service Image and Store Interior Image are as is. Its not being appended with code QR like
-     * for BizStoreElastic.
-     *
-     * @param bizStore
-     * @param storeHour
-     * @param tokenQueue
-     * @return
-     */
-    private JsonQueue getJsonQueue(BizStoreEntity bizStore, StoreHourEntity storeHour, TokenQueueEntity tokenQueue) {
-        JsonQueue jsonQueue = new JsonQueue(bizStore.getId(), bizStore.getCodeQR())
-            .setBusinessName(bizStore.getBizName().getBusinessName())
-            .setDisplayName(bizStore.getDisplayName())
-            .setBusinessType(bizStore.getBusinessType())
-            .setStoreAddress(bizStore.getAddress())
-            .setArea(bizStore.getArea())
-            .setTown(bizStore.getTown())
-            .setCountryShortName(bizStore.getCountryShortName())
-            .setStorePhone(bizStore.getPhoneFormatted())
-            .setRating(bizStore.getRating())
-            .setReviewCount(bizStore.getReviewCount())
-            .setAverageServiceTime(bizStore.getAverageServiceTime())
-            .setLimitServiceByDays(bizStore.getBizName().getLimitServiceByDays())
-            .setPriorityAccess(bizStore.getBizName().getPriorityAccess())
-            .setTokenAvailableFrom(storeHour.getTokenAvailableFrom())
-            .setStartHour(storeHour.getStartHour())
-            .setTokenNotAvailableFrom(storeHour.getTokenNotAvailableFrom())
-            .setEndHour(storeHour.getEndHour())
-            .setLunchTimeStart(storeHour.getLunchTimeStart())
-            .setLunchTimeEnd(storeHour.getLunchTimeEnd())
-            .setDelayedInMinutes(storeHour.getDelayedInMinutes())
-            .setPreventJoining(storeHour.isPreventJoining())
-            .setDayClosed(bizStore.getBizName().isDayClosed() || storeHour.isDayClosed() || storeHour.isTempDayClosed())
-            .setTopic(bizStore.getTopic())
-            .setGeoHash(bizStore.getGeoPoint().getGeohash())
-            .setServingNumber(tokenQueue.getCurrentlyServing())
-            .setDisplayServingNumber(tokenQueue.generateDisplayServingNow())
-            .setDisplayToken(tokenQueue.generateDisplayToken())
-            .setLastNumber(tokenQueue.getLastNumber())
-            .setQueueStatus(tokenQueue.getQueueStatus())
-            .setCreated(tokenQueue.getCreated())
-            .setRemoteJoinAvailable(bizStore.isRemoteJoin())
-            .setAllowLoggedInUser(bizStore.isAllowLoggedInUser())
-            .setAvailableTokenCount(bizStore.getAvailableTokenCount())
-            .setAvailableTokenAfterCancellation(bizStore.getAvailableTokenAfterCancellation())
-            .setEnabledPayment(bizStore.isEnabledPayment())
-            .setProductPrice(bizStore.getProductPrice())
-            .setCancellationPrice(bizStore.getCancellationPrice())
-            .setBizCategoryId(bizStore.getBizCategoryId())
-            .setFamousFor(bizStore.getFamousFor())
-            .setDiscount(bizStore.getDiscount())
-            .setMinimumDeliveryOrder(bizStore.getMinimumDeliveryOrder())
-            .setDeliveryRange(bizStore.getDeliveryRange())
-            .setStoreServiceImages(bizStore.getStoreServiceImages())
-            .setStoreInteriorImages(bizStore.getStoreInteriorImages())
-            .setAmenities(bizStore.getAmenities())
-            .setFacilities(bizStore.getFacilities())
-            .setAcceptedPayments(bizStore.getAcceptedPayments())
-            .setAcceptedDeliveries(bizStore.getAcceptedDeliveries());
-
-        String timeSlotMessage;
-        switch (bizStore.getBusinessType()) {
-            case CD:
-            case CDQ:
-                jsonQueue.setStoreAddress(FileUtil.DASH);
-                jsonQueue.setArea(FileUtil.DASH);
-                jsonQueue.setTown(FileUtil.DASH);
-
-                if (bizStore.getAvailableTokenCount() > 0) {
-                    timeSlotMessage = tokenQueueService.expectedService(
-                        bizStore.getAverageServiceTime(),
-                        TimeZone.getTimeZone(bizStore.getTimeZone()).toZoneId(),
-                        storeHour,
-                        tokenQueue.getLastNumber());
-                } else {
-                    timeSlotMessage = ServiceUtils.calculateEstimatedWaitTime(
-                        bizStore.getAverageServiceTime(),
-                        tokenQueue.getLastNumber() - tokenQueue.getCurrentlyServing(),
-                        tokenQueue.getQueueStatus(),
-                        storeHour.getStartHour(),
-                        bizStore.getTimeZone());
-                }
-                break;
-            default:
-                timeSlotMessage = ServiceUtils.calculateEstimatedWaitTime(
-                    bizStore.getAverageServiceTime(),
-                    tokenQueue.getLastNumber() - tokenQueue.getCurrentlyServing(),
-                    tokenQueue.getQueueStatus(),
-                    storeHour.getStartHour(),
-                    bizStore.getTimeZone());
-        }
-        jsonQueue.setTimeSlotMessage(timeSlotMessage == null ? "Not Available" : timeSlotMessage);
-        LOG.info("Sending timeSlotMessage={}", jsonQueue.getTimeSlotMessage());
-        return jsonQueue;
+        this.notifyMobileService = notifyMobileService;
+        this.storeHourService = storeHourService;
+        this.queueService = queueService;
     }
 
     public JsonQueueList findAllTokenState(String codeQR) {
@@ -218,9 +103,9 @@ public class TokenQueueMobileService {
 
             List<BizStoreEntity> stores = bizService.getAllBizStores(bizStoreForCodeQR.getBizName().getId());
             for (BizStoreEntity bizStore : stores) {
-                StoreHourEntity storeHour = bizService.getStoreHours(bizStore.getCodeQR(), bizStore);
+                StoreHourEntity storeHour = storeHourService.getStoreHours(bizStore.getCodeQR(), bizStore);
                 TokenQueueEntity tokenQueue = findByCodeQR(bizStore.getCodeQR());
-                jsonQueues.addQueues(getJsonQueue(bizStore, storeHour, tokenQueue));
+                jsonQueues.addQueues(queueService.getJsonQueue(bizStore, storeHour, tokenQueue));
             }
 
             return jsonQueues;
@@ -258,7 +143,7 @@ public class TokenQueueMobileService {
             List<BizStoreEntity> stores = bizService.getAllBizStores(bizName.getId());
             for (BizStoreEntity bizStore : stores) {
                 BizStoreElastic bizStoreElastic = BizStoreElastic.getThisFromBizStore(bizStore);
-                List<StoreHourEntity> storeHours = bizService.findAllStoreHours(bizStore.getId());
+                List<StoreHourEntity> storeHours = storeHourService.findAllStoreHours(bizStore.getId());
                 if (bizName.isDayClosed()) {
                     bizStoreElastic.setStoreHourElasticList(DomainConversion.getStoreHourElasticsWithClosedAsDefault(storeHours));
                 } else {
@@ -335,10 +220,10 @@ public class TokenQueueMobileService {
                 BizStoreElastic bizStoreElastic = BizStoreElastic.getThisFromBizStore(bizStore);
                 if (matchedStore.getBizName().isDayClosed()) {
                     bizStoreElastic.setStoreHourElasticList(
-                        DomainConversion.getStoreHourElasticsWithClosedAsDefault(bizService.findAllStoreHours(bizStore.getId())));
+                        DomainConversion.getStoreHourElasticsWithClosedAsDefault(storeHourService.findAllStoreHours(bizStore.getId())));
                 } else {
                     bizStoreElastic.setStoreHourElasticList(
-                        DomainConversion.getStoreHourElastics(bizService.findAllStoreHours(bizStore.getId())));
+                        DomainConversion.getStoreHourElastics(storeHourService.findAllStoreHours(bizStore.getId())));
                 }
 
                 if (StringUtils.isNotBlank(bizStore.getBizCategoryId())) {

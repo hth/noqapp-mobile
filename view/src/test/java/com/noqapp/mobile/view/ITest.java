@@ -167,6 +167,7 @@ import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.MailService;
+import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.PreferredBusinessService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.PurchaseOrderProductService;
@@ -176,6 +177,7 @@ import com.noqapp.service.ReviewService;
 import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.SmsService;
 import com.noqapp.service.StoreCategoryService;
+import com.noqapp.service.StoreHourService;
 import com.noqapp.service.StoreProductService;
 import com.noqapp.service.TextToSpeechService;
 import com.noqapp.service.TokenQueueService;
@@ -239,6 +241,7 @@ public class ITest extends RealMongoForITest {
     protected BusinessUserStoreService businessUserStoreService;
     protected ProfessionalProfileService professionalProfileService;
     protected ScheduleAppointmentService scheduleAppointmentService;
+    protected NotifyMobileService notifyMobileService;
 
     protected UserAddressManager userAddressManager;
     protected UserAddressService userAddressService;
@@ -316,6 +319,7 @@ public class ITest extends RealMongoForITest {
     protected BizStoreElasticService bizStoreElasticService;
     protected BizStoreSpatialElasticService bizStoreSpatialElasticService;
     protected TransactionService transactionService;
+    protected StoreHourService storeHourService;
     protected MedicalRecordMobileService medicalRecordMobileService;
     protected HospitalVisitScheduleService hospitalVisitScheduleService;
     protected NLPService nlpService;
@@ -326,9 +330,7 @@ public class ITest extends RealMongoForITest {
     protected StatsBizStoreDailyManager statsBizStoreDailyManager;
 
     protected GenerateUserIdManager generateUserIdManager;
-
     private AccountClientController accountClientController;
-    private MockEnvironment mockEnvironment;
 
     private StanfordCoreNLP stanfordCoreNLP;
     private MaxentTagger maxentTagger;
@@ -350,9 +352,11 @@ public class ITest extends RealMongoForITest {
     @Mock protected SmsService smsService;
     @Mock protected JMSProducerService jmsProducerService;
 
+    private MockEnvironment mockEnvironment;
+
     @BeforeAll
     public void globalISetup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         did = UUID.randomUUID().toString();
         didClient1 = UUID.randomUUID().toString();
@@ -507,6 +511,8 @@ public class ITest extends RealMongoForITest {
             mongoHosts()
         );
 
+        storeHourService = new StoreHourService(storeHourManager);
+
         queueService = new QueueService(
             5,
             userProfileManager,
@@ -519,7 +525,9 @@ public class ITest extends RealMongoForITest {
             statsBizStoreDailyManager,
             purchaseOrderManager,
             purchaseOrderManagerJDBC,
-            purchaseOrderProductService
+            purchaseOrderProductService,
+            storeHourService,
+            couponService
         );
 
         bizService = new BizService(
@@ -534,7 +542,8 @@ public class ITest extends RealMongoForITest {
             businessUserStoreManager,
             mailService,
             userProfileManager,
-            scheduledTaskManager
+            scheduledTaskManager,
+            storeHourService
         );
 
         storeCategoryManager = new StoreCategoryManagerImpl(getMongoTemplate());
@@ -583,7 +592,7 @@ public class ITest extends RealMongoForITest {
             purchaseOrderProductService
         );
         purchaseOrderMobileService = new PurchaseOrderMobileService(queueManager, queueManagerJDBC, purchaseOrderService, purchaseOrderProductService);
-
+        notifyMobileService = new NotifyMobileService(purchaseOrderService, purchaseOrderProductService, firebaseMessageService, firebaseService, tokenQueueService, queueService);
         tokenQueueMobileService = new TokenQueueMobileService(
             tokenQueueService,
             bizService,
@@ -591,9 +600,12 @@ public class ITest extends RealMongoForITest {
             queueManager,
             professionalProfileService,
             userProfileManager,
-            businessUserStoreManager);
+            businessUserStoreManager,
+            notifyMobileService,
+            storeHourService,
+            queueService);
 
-        storeDetailService = new StoreDetailService(bizService, tokenQueueMobileService, storeProductService, storeCategoryService);
+        storeDetailService = new StoreDetailService(bizService, tokenQueueMobileService, storeProductService, storeCategoryService, queueService, storeHourService);
         bizStoreElasticManager = new BizStoreElasticManagerImpl(restHighLevelClient);
         bizStoreSpatialElasticManager = new BizStoreSpatialElasticManagerImpl(restHighLevelClient);
         bizStoreSpatialElasticService = new BizStoreSpatialElasticService(bizStoreSpatialElasticManager, elasticsearchClientConfiguration);
@@ -614,7 +626,8 @@ public class ITest extends RealMongoForITest {
             purchaseOrderProductService,
             bizService,
             businessCustomerService,
-            firebaseMessageService);
+            firebaseMessageService,
+            storeHourService);
 
         queueMobileService = new QueueMobileService(
             queueManager,
@@ -632,9 +645,8 @@ public class ITest extends RealMongoForITest {
             queueService,
             joinAbortService,
             tokenQueueMobileService,
-            firebaseMessageService,
-            firebaseService,
-            jmsProducerService
+            jmsProducerService,
+            storeHourService
         );
 
         merchantExtendingJoinService = new MerchantExtendingJoinService(
@@ -644,7 +656,9 @@ public class ITest extends RealMongoForITest {
             smsService,
             accountService,
             businessCustomerService,
-            deviceService
+            deviceService,
+            notifyMobileService,
+            storeHourService
         );
 
         scheduleAppointmentService = new ScheduleAppointmentService(
@@ -662,7 +676,8 @@ public class ITest extends RealMongoForITest {
             scheduledTaskManager,
             bizService,
             firebaseMessageService,
-            mailService
+            mailService,
+            storeHourService
         );
 
         hospitalVisitScheduleManager = new HospitalVisitScheduleManagerImpl(getMongoTemplate());
@@ -692,7 +707,8 @@ public class ITest extends RealMongoForITest {
             tokenQueueService,
             accountService,
             bizService,
-            professionalProfileService
+            professionalProfileService,
+            storeHourService
         );
 
         medicalRecordManager = new MedicalRecordManagerImpl(getMongoTemplate());
