@@ -9,7 +9,10 @@ import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
+import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.ProfessionalProfileService;
+import com.noqapp.service.QueueService;
+import com.noqapp.service.StoreHourService;
 import com.noqapp.service.TokenQueueService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -29,12 +32,15 @@ class TokenQueueMobileServiceTest {
     @Mock private ProfessionalProfileService professionalProfileService;
     @Mock private UserProfileManager userProfileManager;
     @Mock private BusinessUserStoreManager businessUserStoreManager;
+    @Mock private NotifyMobileService notifyMobileService;
+    @Mock private StoreHourService storeHourService;
+    @Mock private QueueService queueService;
 
     private TokenQueueMobileService tokenQueueMobileService;
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         this.tokenQueueMobileService = new TokenQueueMobileService(
             tokenQueueService,
             bizService,
@@ -42,7 +48,11 @@ class TokenQueueMobileServiceTest {
             queueManager,
             professionalProfileService,
             userProfileManager,
-            businessUserStoreManager);
+            businessUserStoreManager,
+            notifyMobileService,
+            storeHourService,
+            queueService
+        );
     }
 
     @Test

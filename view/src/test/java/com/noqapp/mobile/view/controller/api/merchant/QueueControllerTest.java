@@ -103,7 +103,7 @@ class QueueControllerTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         queueController = new QueueController(
             20,
             authenticateMobileService,
