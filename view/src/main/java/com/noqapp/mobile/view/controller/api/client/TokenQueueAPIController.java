@@ -130,7 +130,6 @@ public class TokenQueueAPIController {
     private ScheduleAppointmentService scheduleAppointmentService;
     private GeoIPLocationService geoIPLocationService;
     private BusinessCustomerService businessCustomerService;
-    private NotifyMobileService notifyMobileService;
     private QueueService queueService;
     private ApiHealthService apiHealthService;
 
@@ -145,7 +144,6 @@ public class TokenQueueAPIController {
         ScheduleAppointmentService scheduleAppointmentService,
         GeoIPLocationService geoIPLocationService,
         BusinessCustomerService businessCustomerService,
-        NotifyMobileService notifyMobileService,
         QueueService queueService,
         ApiHealthService apiHealthService
     ) {
@@ -158,7 +156,6 @@ public class TokenQueueAPIController {
         this.scheduleAppointmentService = scheduleAppointmentService;
         this.geoIPLocationService = geoIPLocationService;
         this.businessCustomerService = businessCustomerService;
-        this.notifyMobileService = notifyMobileService;
         this.queueService = queueService;
         this.apiHealthService = apiHealthService;
     }
