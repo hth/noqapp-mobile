@@ -16,7 +16,10 @@ import com.noqapp.domain.json.JsonStoreProduct;
 import com.noqapp.domain.json.JsonStoreProductList;
 import com.noqapp.domain.types.medical.PharmacyCategoryEnum;
 import com.noqapp.service.BizService;
+import com.noqapp.service.NotifyMobileService;
+import com.noqapp.service.QueueService;
 import com.noqapp.service.StoreCategoryService;
+import com.noqapp.service.StoreHourService;
 import com.noqapp.service.StoreProductService;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -41,18 +44,24 @@ public class StoreDetailService {
     private TokenQueueMobileService tokenQueueMobileService;
     private StoreProductService storeProductService;
     private StoreCategoryService storeCategoryService;
+    private QueueService queueService;
+    private StoreHourService storeHourService;
 
     @Autowired
     public StoreDetailService(
         BizService bizService,
         TokenQueueMobileService tokenQueueMobileService,
         StoreProductService storeProductService,
-        StoreCategoryService storeCategoryService
+        StoreCategoryService storeCategoryService,
+        QueueService queueService,
+        StoreHourService storeHourService
     ) {
         this.bizService = bizService;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.storeProductService = storeProductService;
         this.storeCategoryService = storeCategoryService;
+        this.queueService = queueService;
+        this.storeHourService = storeHourService;
     }
 
     public String populateStoreDetail(String codeQR) {
@@ -108,7 +117,7 @@ public class StoreDetailService {
         BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
         JsonStore jsonStore = new JsonStore();
 
-        JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(codeQR);
+        JsonQueue jsonQueue = queueService.findTokenState(codeQR);
         jsonQueue.setDisplayImage(CommonHelper.getBannerImage(bizStore));
         jsonStore.setJsonQueue(jsonQueue);
 
@@ -138,12 +147,12 @@ public class StoreDetailService {
                 }
         }
 
-        List<JsonHour> jsonHours = bizService.findAllStoreHoursAsJson(bizStore);
+        List<JsonHour> jsonHours = storeHourService.findAllStoreHoursAsJson(bizStore);
         jsonStore.setJsonHours(jsonHours);
         return jsonStore;
     }
 
     public JsonHourList findAllStoreHoursAsJson(String codeQR) {
-        return new JsonHourList().setJsonHours(bizService.findAllStoreHoursAsJson(bizService.findByCodeQR(codeQR)));
+        return new JsonHourList().setJsonHours(storeHourService.findAllStoreHoursAsJson(bizService.findByCodeQR(codeQR)));
     }
 }

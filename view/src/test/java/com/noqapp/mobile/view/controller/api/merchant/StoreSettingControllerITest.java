@@ -45,6 +45,7 @@ class StoreSettingControllerITest extends ITest {
             businessUserStoreService,
             tokenQueueMobileService,
             bizStoreElasticService,
+            storeHourService,
             apiHealthService
         );
     }

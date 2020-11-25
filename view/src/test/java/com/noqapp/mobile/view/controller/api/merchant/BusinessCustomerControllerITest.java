@@ -84,6 +84,7 @@ class BusinessCustomerControllerITest extends ITest {
             scheduleAppointmentService,
             geoIPLocationService,
             businessCustomerService,
+            notifyMobileService,
             apiHealthService
         );
 

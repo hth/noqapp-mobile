@@ -2,14 +2,14 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_TIMEZONE_OFF;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_NOT_PRE_APPROVED_QUEUE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_QUEUE_PERMISSION_DENIED;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOIN_PRE_APPROVED_QUEUE_ONLY;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ORDER_PAYMENT_PAID_ALREADY_FAILED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_AS_EXTERNALLY_PAID;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_PARTIAL_PAY;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_NOT_FOUND;
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOIN_PRE_APPROVED_QUEUE_ONLY;
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_NOT_PRE_APPROVED_QUEUE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_JOIN_FAILED_PAYMENT_CALL_REQUEST;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_JOIN_PAYMENT_FAILED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_NO_SERVICE_NO_PAY;
@@ -56,12 +56,12 @@ import com.noqapp.mobile.service.PurchaseOrderMobileService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
-import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.JoinAbortService;
+import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.ScheduleAppointmentService;
 import com.noqapp.service.exceptions.AlreadyServicedTodayException;
@@ -77,6 +77,7 @@ import com.noqapp.service.exceptions.PurchaseOrderRefundExternalException;
 import com.noqapp.service.exceptions.PurchaseOrderRefundPartialException;
 import com.noqapp.service.exceptions.QueueAbortPaidPastDurationException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
+import com.noqapp.service.exceptions.StoreNoLongerExistsException;
 import com.noqapp.service.exceptions.TokenAvailableLimitReachedException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -128,6 +129,7 @@ public class TokenQueueAPIController {
     private ScheduleAppointmentService scheduleAppointmentService;
     private GeoIPLocationService geoIPLocationService;
     private BusinessCustomerService businessCustomerService;
+    private NotifyMobileService notifyMobileService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -141,6 +143,7 @@ public class TokenQueueAPIController {
         ScheduleAppointmentService scheduleAppointmentService,
         GeoIPLocationService geoIPLocationService,
         BusinessCustomerService businessCustomerService,
+        NotifyMobileService notifyMobileService,
         ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
@@ -152,6 +155,7 @@ public class TokenQueueAPIController {
         this.scheduleAppointmentService = scheduleAppointmentService;
         this.geoIPLocationService = geoIPLocationService;
         this.businessCustomerService = businessCustomerService;
+        this.notifyMobileService = notifyMobileService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -191,7 +195,7 @@ public class TokenQueueAPIController {
         }
 
         try {
-            return tokenQueueMobileService.findTokenState(codeQR.getText()).asJson();
+            return notifyMobileService.findTokenState(codeQR.getText()).asJson();
         } catch (StoreNoLongerExistsException e) {
             LOG.info("Store no longer exists qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
@@ -292,7 +296,7 @@ public class TokenQueueAPIController {
         if (authorizeRequest(response, qid)) return null;
 
         try {
-            JsonTokenAndQueueList jsonTokenAndQueues = queueMobileService.findAllJoinedQueues(qid, did.getText());
+            JsonTokenAndQueueList jsonTokenAndQueues = notifyMobileService.findAllJoinedQueues(qid, did.getText());
             jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllOpenOrderAsJson(qid));
             jsonTokenAndQueues.setJsonScheduleList(scheduleAppointmentService.findLimitedUpComingAppointments(qid));
             return jsonTokenAndQueues.asJson();

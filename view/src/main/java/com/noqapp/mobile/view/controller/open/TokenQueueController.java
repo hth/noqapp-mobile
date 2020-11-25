@@ -17,12 +17,14 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
-import com.noqapp.mobile.service.exception.StoreNoLongerExistsException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.JoinAbortService;
+import com.noqapp.service.NotifyMobileService;
+import com.noqapp.service.QueueService;
 import com.noqapp.service.exceptions.QueueAbortPaidPastDurationException;
+import com.noqapp.service.exceptions.StoreNoLongerExistsException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -65,6 +67,7 @@ public class TokenQueueController {
     private JoinAbortService joinAbortService;
     private QueueMobileService queueMobileService;
     private GeoIPLocationService geoIPLocationService;
+    private QueueService queueService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -73,12 +76,14 @@ public class TokenQueueController {
         JoinAbortService joinAbortService,
         QueueMobileService queueMobileService,
         GeoIPLocationService geoIPLocationService,
+        QueueService queueService,
         ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.joinAbortService = joinAbortService;
         this.queueMobileService = queueMobileService;
         this.geoIPLocationService = geoIPLocationService;
+        this.queueService = queueService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -108,7 +113,7 @@ public class TokenQueueController {
         }
 
         try {
-            return tokenQueueMobileService.findTokenState(codeQR.getText()).asJson();
+            return queueService.findTokenState(codeQR.getText()).asJson();
         } catch (StoreNoLongerExistsException e) {
             LOG.info("Store no longer exists reason={}", e.getLocalizedMessage(), e);
             apiHealthService.insert(

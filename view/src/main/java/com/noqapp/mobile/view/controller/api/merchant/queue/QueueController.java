@@ -65,6 +65,7 @@ import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderControl
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.DeviceService;
 import com.noqapp.service.JoinAbortService;
+import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.TokenQueueService;
@@ -137,6 +138,7 @@ public class QueueController {
     private MedicalRecordService medicalRecordService;
     private DeviceService deviceService;
     private MerchantExtendingJoinService merchantExtendingJoinService;
+    private NotifyMobileService notifyMobileService;
     private ApiHealthService apiHealthService;
 
     private ExecutorService executorService;
@@ -157,6 +159,7 @@ public class QueueController {
         MedicalRecordService medicalRecordService,
         DeviceService deviceService,
         MerchantExtendingJoinService merchantExtendingJoinService,
+        NotifyMobileService notifyMobileService,
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -171,6 +174,7 @@ public class QueueController {
         this.medicalRecordService = medicalRecordService;
         this.deviceService = deviceService;
         this.merchantExtendingJoinService = merchantExtendingJoinService;
+        this.notifyMobileService = notifyMobileService;
         this.apiHealthService = apiHealthService;
 
         /* For executing in order of sequence. */
@@ -974,11 +978,11 @@ public class QueueController {
 
             RegisteredDeviceEntity registeredDevice = deviceService.findByDid(jsonPurchaseOrder.getDid());
             if (null != registeredDevice) {
-                executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
+                notifyMobileService.notifyClient(registeredDevice,
                     "Paid at counter for " + queue.getDisplayName(),
                     "Your order " + jsonPurchaseOrder.getDisplayToken() + " at " + queue.getDisplayName()
                         + " has been paid at the counter via " + jsonPurchaseOrder.getPaymentMode().getDescription(),
-                    jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR()));
+                    jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR());
             }
 
             return jsonQueuedPersonUpdated.asJson();
@@ -1079,10 +1083,10 @@ public class QueueController {
                     body = "Your order " + jsonPurchaseOrderUpdated.getDisplayToken() + " was cancelled.";
                 }
 
-                executorService.execute(() -> queueMobileService.notifyClient(registeredDevice,
+                notifyMobileService.notifyClient(registeredDevice,
                     title,
                     body,
-                    jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR()));
+                    jsonQueuedPerson.getJsonPurchaseOrder().getCodeQR());
             }
 
             JsonQueuedPerson jsonQueuedPersonUpdated = queueService.getJsonQueuedPerson(queue);

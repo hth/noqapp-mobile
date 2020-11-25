@@ -18,7 +18,9 @@ import com.noqapp.service.AccountService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.DeviceService;
 import com.noqapp.service.JoinAbortService;
+import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.SmsService;
+import com.noqapp.service.StoreHourService;
 import com.noqapp.service.utils.ServiceUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -50,6 +52,8 @@ public class MerchantExtendingJoinService {
     private AccountService accountService;
     private BusinessCustomerService businessCustomerService;
     private DeviceService deviceService;
+    private NotifyMobileService notifyMobileService;
+    private StoreHourService storeHourService;
 
     private ExecutorService executorService;
 
@@ -61,7 +65,9 @@ public class MerchantExtendingJoinService {
         SmsService smsService,
         AccountService accountService,
         BusinessCustomerService businessCustomerService,
-        DeviceService deviceService
+        DeviceService deviceService,
+        NotifyMobileService notifyMobileService,
+        StoreHourService storeHourService
     ) {
         this.joinAbortService = joinAbortService;
         this.queueMobileService = queueMobileService;
@@ -70,6 +76,8 @@ public class MerchantExtendingJoinService {
         this.accountService = accountService;
         this.businessCustomerService = businessCustomerService;
         this.deviceService = deviceService;
+        this.notifyMobileService = notifyMobileService;
+        this.storeHourService = storeHourService;
 
         /* For executing in order of sequence. */
         this.executorService = newSingleThreadExecutor();
@@ -96,7 +104,7 @@ public class MerchantExtendingJoinService {
             businessCustomer.getCustomerName().getText(),
             businessCustomer.getCustomerPhone().getText());
 
-        StoreHourEntity storeHour = tokenQueueMobileService.getBizService().getStoreHours(bizStore.getCodeQR(), bizStore);
+        StoreHourEntity storeHour = storeHourService.getStoreHours(bizStore.getCodeQR(), bizStore);
         MessageCodeEnum messageCode;
         String estimateWaitTime;
         switch (bizStore.getBusinessType()) {
@@ -192,16 +200,16 @@ public class MerchantExtendingJoinService {
         }
 
         if (null != registeredDevice) {
-            executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(
+            notifyMobileService.autoSubscribeClientToTopic(
                 businessCustomer.getCodeQR().getText(),
                 registeredDevice.getToken(),
-                registeredDevice.getDeviceType()));
+                registeredDevice.getDeviceType());
 
-            executorService.execute(() -> queueMobileService.notifyClient(
+            notifyMobileService.notifyClient(
                 registeredDevice,
                 "Joined " + bizStore.getDisplayName() + " Queue",
                 "Your token number is " + jsonToken.getToken(),
-                bizStore.getCodeQR()));
+                bizStore.getCodeQR());
         }
 
         return jsonToken.asJson();

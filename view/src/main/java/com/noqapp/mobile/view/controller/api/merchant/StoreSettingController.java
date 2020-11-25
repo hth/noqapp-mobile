@@ -38,6 +38,7 @@ import com.noqapp.search.elastic.service.BizStoreElasticService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.StoreHourService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -92,6 +93,7 @@ public class StoreSettingController {
     private BusinessUserStoreService businessUserStoreService;
     private TokenQueueMobileService tokenQueueMobileService;
     private BizStoreElasticService bizStoreElasticService;
+    private StoreHourService storeHourService;
     private ApiHealthService apiHealthService;
 
     private ScheduledExecutorService executorService;
@@ -106,6 +108,7 @@ public class StoreSettingController {
         BusinessUserStoreService businessUserStoreService,
         TokenQueueMobileService tokenQueueMobileService,
         BizStoreElasticService bizStoreElasticService,
+        StoreHourService storeHourService,
         ApiHealthService apiHealthService
     ) {
         this.bizService = bizService;
@@ -116,6 +119,7 @@ public class StoreSettingController {
         this.businessUserStoreService = businessUserStoreService;
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.bizStoreElasticService = bizStoreElasticService;
+        this.storeHourService = storeHourService;
         this.apiHealthService = apiHealthService;
 
         this.executorService = Executors.newScheduledThreadPool(2);
@@ -594,7 +598,7 @@ public class StoreSettingController {
                     jsonStoreSetting.getAppointmentDuration(),
                     jsonStoreSetting.getAppointmentOpenHowFar());
 
-                List<StoreHourEntity> storeHours = bizService.findAllStoreHours(bizStore.getId());
+                List<StoreHourEntity> storeHours = storeHourService.findAllStoreHours(bizStore.getId());
                 for (StoreHourEntity storeHour : storeHours) {
                     if (0 == storeHour.getAppointmentStartHour()) {
                         storeHour.setAppointmentStartHour(storeHour.getStartHour());
@@ -682,7 +686,7 @@ public class StoreSettingController {
 
         try {
             BizStoreEntity bizStore = bizService.findByCodeQR(codeQR.getText());
-            List<JsonHour> jsonHours = bizService.findAllStoreHoursAsJson(bizStore);
+            List<JsonHour> jsonHours = storeHourService.findAllStoreHoursAsJson(bizStore);
             return new StoreHours()
                 .setCodeQR(bizStore.getCodeQR())
                 .setJsonHours(jsonHours).asJson();
@@ -751,7 +755,7 @@ public class StoreSettingController {
             BizStoreEntity bizStore = bizService.findByCodeQR(storeHours.getCodeQR());
             List<StoreHourEntity> updatedStoreHours = new LinkedList<>();
             for (JsonHour jsonHour : storeHours.getJsonHours()) {
-                StoreHourEntity storeHour = bizService.findStoreHour(bizStore.getId(), jsonHour.getDayOfWeek());
+                StoreHourEntity storeHour = storeHourService.findStoreHour(bizStore.getId(), jsonHour.getDayOfWeek());
                 updatedStoreHours.add(storeHour.getDayOfWeek() - 1, StoreHourEntity.populateStoreHour(jsonHour, storeHour));
             }
             bizService.insertAll(updatedStoreHours);
@@ -787,7 +791,7 @@ public class StoreSettingController {
 
     private void updateChangesMadeOnElastic(BizStoreEntity bizStore) {
         if (bizStore.isActive()) {
-            bizStoreElasticService.save(DomainConversion.getAsBizStoreElastic(bizStore, bizService.findAllStoreHours(bizStore.getId())));
+            bizStoreElasticService.save(DomainConversion.getAsBizStoreElastic(bizStore, storeHourService.findAllStoreHours(bizStore.getId())));
         } else {
             bizStoreElasticService.delete(bizStore.getId());
         }

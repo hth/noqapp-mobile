@@ -13,7 +13,6 @@ import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
-import com.noqapp.domain.common.ComposeMessagesForFCM;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonQueueHistoricalList;
@@ -21,10 +20,8 @@ import com.noqapp.domain.json.JsonQueuePersonList;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
-import com.noqapp.domain.json.fcm.JsonMessage;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
-import com.noqapp.domain.types.MessageOriginEnum;
 import com.noqapp.domain.types.SentimentTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.domain.JsonStoreSetting;
@@ -37,12 +34,11 @@ import com.noqapp.repository.StoreHourManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.CouponService;
-import com.noqapp.service.FirebaseMessageService;
-import com.noqapp.service.FirebaseService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
+import com.noqapp.service.StoreHourService;
 import com.noqapp.service.nlp.NLPService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -88,9 +84,8 @@ public class QueueMobileService {
     private QueueService queueService;
     private JoinAbortService joinAbortService;
     private TokenQueueMobileService tokenQueueMobileService;
-    private FirebaseMessageService firebaseMessageService;
-    private FirebaseService firebaseService;
     private JMSProducerService jmsProducerService;
+    private StoreHourService storeHourService;
 
     private ExecutorService executorService;
 
@@ -111,9 +106,8 @@ public class QueueMobileService {
         QueueService queueService,
         JoinAbortService joinAbortService,
         TokenQueueMobileService tokenQueueMobileService,
-        FirebaseMessageService firebaseMessageService,
-        FirebaseService firebaseService,
-        JMSProducerService jmsProducerService
+        JMSProducerService jmsProducerService,
+        StoreHourService storeHourService
     ) {
         this.queueManager = queueManager;
         this.queueManagerJDBC = queueManagerJDBC;
@@ -130,9 +124,8 @@ public class QueueMobileService {
         this.queueService = queueService;
         this.joinAbortService = joinAbortService;
         this.tokenQueueMobileService = tokenQueueMobileService;
-        this.firebaseMessageService = firebaseMessageService;
-        this.firebaseService = firebaseService;
         this.jmsProducerService = jmsProducerService;
+        this.storeHourService = storeHourService;
 
         this.executorService = newCachedThreadPool();
     }
@@ -150,7 +143,7 @@ public class QueueMobileService {
         LOG.info("Currently joined queue size={} did={}", queues.size(), did);
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
-            validateJoinedQueue(queue);
+            queueService.validateJoinedQueue(queue);
 
             /*
              * Join Queue will join if user is not joined, hence fetch only queues with status is Queued.
@@ -158,7 +151,7 @@ public class QueueMobileService {
              * tokenService as null
              */
             JsonToken jsonToken = joinAbortService.joinQueue(queue.getCodeQR(), did, null, null, 0, null);
-            JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
+            JsonQueue jsonQueue = queueService.findTokenState(queue.getCodeQR());
 
             /* Override the create date of TokenAndQueue. This date helps in sorting of client side to show active queue. */
             jsonQueue.setCreated(queue.getCreated());
@@ -179,64 +172,6 @@ public class QueueMobileService {
         LOG.info("Current tokenAndQueueSize={} did={}", jsonTokenAndQueueList.getTokenAndQueues().size(), did);
 
         return jsonTokenAndQueueList;
-    }
-
-    public JsonTokenAndQueueList findAllJoinedQueues(String qid, String did) {
-        Validate.isValidQid(qid);
-        List<QueueEntity> queues = queueService.findAllQueuedByQid(qid);
-        LOG.info("Currently joined queue size={} qid={} did={}", queues.size(), qid, did);
-        return populateJsonTokenAndQueue(queues);
-    }
-    
-    public JsonTokenAndQueueList populateJsonTokenAndQueue(List<QueueEntity> queues) {
-        List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
-        for (QueueEntity queue : queues) {
-            validateJoinedQueue(queue);
-
-            /*
-             * Join Queue will join if user is not joined, hence fetch only queues with status is Queued.
-             * Since we are fetching only queues that are joined, we can send
-             * averageServiceTime as zero, and
-             * tokenService as null, and
-             * guardianQid as null too.
-             */
-            //JsonToken jsonToken = tokenQueueMobileService.joinQueue(queue.getCodeQR(), did, qid, queue.getGuardianQid(), 0, null);
-            JsonQueue jsonQueue = tokenQueueMobileService.findTokenState(queue.getCodeQR());
-
-            /* Override the create date of TokenAndQueue. This date helps in sorting of client side to show active queue. */
-            jsonQueue.setCreated(queue.getCreated());
-
-            JsonPurchaseOrder jsonPurchaseOrder = null;
-            if (StringUtils.isNotBlank(queue.getTransactionId())) {
-                PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(queue.getTransactionId());
-                jsonPurchaseOrder = purchaseOrderProductService.populateJsonPurchaseOrder(purchaseOrder);
-                couponService.addCouponInformationIfAny(jsonPurchaseOrder);
-            }
-
-            JsonTokenAndQueue jsonTokenAndQueue = new JsonTokenAndQueue(
-                queue.getTokenNumber(),
-                queue.getDisplayToken(),
-                queue.getQueueUserId(),
-                tokenQueueMobileService.findByCodeQR(queue.getCodeQR()).getQueueStatus(),
-                jsonQueue,
-                jsonPurchaseOrder);
-            jsonTokenAndQueues.add(jsonTokenAndQueue);
-        }
-
-        JsonTokenAndQueueList jsonTokenAndQueueList = new JsonTokenAndQueueList();
-        jsonTokenAndQueueList.setTokenAndQueues(jsonTokenAndQueues);
-        LOG.info("Current tokenAndQueueSize={}", jsonTokenAndQueueList.getTokenAndQueues().size());
-        return jsonTokenAndQueueList;
-    }
-
-    private void validateJoinedQueue(QueueEntity queue) {
-        switch (queue.getQueueUserState()) {
-            case A:
-            case S:
-            case N:
-                LOG.error("Failed as only Q status is supported");
-                throw new UnsupportedOperationException("Reached not supported condition");
-        }
     }
 
     public JsonTokenAndQueueList findHistoricalQueue(
@@ -392,7 +327,7 @@ public class QueueMobileService {
                 /* Remove deleted store from history when displaying. */
                 if (!bizStore.isDeleted()) {
                     /* Currently gets all hours for the week. Can be replaced with just the specific day. */
-                    bizStore.setStoreHours(bizService.findAllStoreHours(bizStore.getId()));
+                    bizStore.setStoreHours(storeHourService.findAllStoreHours(bizStore.getId()));
                     LOG.debug("BizStore codeQR={} bizStoreId={}", queue.getCodeQR(), bizStore.getId());
                     JsonPurchaseOrder jsonPurchaseOrder = null;
                     if (StringUtils.isNotBlank(queue.getTransactionId())) {
@@ -554,34 +489,6 @@ public class QueueMobileService {
 
     public JsonQueueHistoricalList findAllHistoricalQueueAsJson(String qid) {
         return queueService.findAllHistoricalQueueAsJson(qid);
-    }
-
-    /** Sends personal message with all the current queue and orders. */
-    public void notifyClient(RegisteredDeviceEntity registeredDevice, String title, String body, String codeQR) {
-        if (null != registeredDevice) {
-            JsonTokenAndQueueList jsonTokenAndQueues = findAllJoinedQueues(registeredDevice.getQueueUserId(), registeredDevice.getDeviceId());
-            jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllOpenOrderAsJson(registeredDevice.getQueueUserId()));
-
-            JsonMessage jsonMessage = ComposeMessagesForFCM.composeMessage(
-                registeredDevice,
-                jsonTokenAndQueues.getTokenAndQueues(),
-                body,
-                title,
-                codeQR,
-                MessageOriginEnum.CQO);
-            firebaseMessageService.messageToTopic(jsonMessage);
-        }
-    }
-
-    /** Subscribes client to a topic when merchant adds client to queue. */
-    public void autoSubscribeClientToTopic(String codeQR, String token, DeviceTypeEnum deviceType) {
-        if (StringUtils.isNotBlank(token)) {
-            TokenQueueEntity tokenQueue = tokenQueueMobileService.findByCodeQR(codeQR);
-            List<String> registeredTokens = new ArrayList<>() {{
-                add(token);
-            }};
-            firebaseService.subscribeToTopic(registeredTokens, tokenQueue.getTopic() + "_" + deviceType.getName());
-        }
     }
 
     @Async

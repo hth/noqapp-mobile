@@ -65,6 +65,7 @@ import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.repository.BizStoreManager;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.DeviceService;
+import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.exceptions.PriceMismatchException;
@@ -130,6 +131,7 @@ public class PurchaseOrderController {
     private TokenQueueService tokenQueueService;
     private MedicalRecordService medicalRecordService;
     private DeviceService deviceService;
+    private NotifyMobileService notifyMobileService;
     private ApiHealthService apiHealthService;
 
     private BizStoreManager bizStoreManager;
@@ -155,6 +157,7 @@ public class PurchaseOrderController {
         TokenQueueService tokenQueueService,
         MedicalRecordService medicalRecordService,
         DeviceService deviceService,
+        NotifyMobileService notifyMobileService,
         ApiHealthService apiHealthService
     ) {
         this.counterNameLength = counterNameLength;
@@ -171,6 +174,7 @@ public class PurchaseOrderController {
         this.tokenQueueService = tokenQueueService;
         this.medicalRecordService = medicalRecordService;
         this.deviceService = deviceService;
+        this.notifyMobileService = notifyMobileService;
         this.apiHealthService = apiHealthService;
 
         /* For executing in order of sequence. */
@@ -666,12 +670,12 @@ public class PurchaseOrderController {
             if (null != registeredDevice) {
                 /* Subscribe and Notify client. */
                 BizStoreEntity bizStore = bizStoreManager.findByCodeQR(jsonPurchaseOrder.getCodeQR());
-                executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(jsonPurchaseOrder.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType()));
-                executorService.execute(() -> queueMobileService.notifyClient(
+                notifyMobileService.autoSubscribeClientToTopic(jsonPurchaseOrder.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType());
+                notifyMobileService.notifyClient(
                     registeredDevice,
                     "Order placed at " + bizStore.getDisplayName(),
                     "Your order number is " + jsonPurchaseOrder.getDisplayToken(),
-                    bizStore.getCodeQR()));
+                    bizStore.getCodeQR());
             }
 
             return jsonPurchaseOrder.asJson();
@@ -797,12 +801,12 @@ public class PurchaseOrderController {
             executorService.execute(() -> purchaseOrderService.forceRefreshOnSomeActivity(jsonPurchaseOrder.getCodeQR(), jsonPurchaseOrder.getTransactionId()));
             if (null != registeredDevice) {
                 /* Subscribe and Notify client. */
-                executorService.execute(() -> queueMobileService.autoSubscribeClientToTopic(jsonPurchaseOrder.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType()));
-                executorService.execute(() -> queueMobileService.notifyClient(
+                notifyMobileService.autoSubscribeClientToTopic(jsonPurchaseOrder.getCodeQR(), registeredDevice.getToken(), registeredDevice.getDeviceType());
+                notifyMobileService.notifyClient(
                     registeredDevice,
                     "Order placed at " + bizStore.getDisplayName(),
                     "Your order number is " + jsonPurchaseOrder.getDisplayToken(),
-                    bizStore.getCodeQR()));
+                    bizStore.getCodeQR());
             }
 
             return jsonPurchaseOrder.asJson();
@@ -948,12 +952,12 @@ public class PurchaseOrderController {
             RegisteredDeviceEntity registeredDevice = deviceService.findByDid(jsonPurchaseOrderUpdated.getDid());
             if (null != registeredDevice) {
                 TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrder.getCodeQR());
-                executorService.execute(() -> queueMobileService.notifyClient(
+                notifyMobileService.notifyClient(
                     registeredDevice,
                     "Partial payment applied for " + tokenQueue.getDisplayName(),
                     "Your order " + jsonPurchaseOrder.getDisplayToken() + " at " + tokenQueue.getDisplayName()
                         + " has been partially paid at the counter via " + jsonPurchaseOrder.getPaymentMode().getDescription(),
-                    jsonPurchaseOrder.getCodeQR()));
+                    jsonPurchaseOrder.getCodeQR());
             }
 
             return jsonPurchaseOrderUpdated.asJson();
@@ -1023,12 +1027,12 @@ public class PurchaseOrderController {
             RegisteredDeviceEntity registeredDevice = deviceService.findByDid(jsonPurchaseOrderUpdated.getDid());
             if (null != registeredDevice) {
                 TokenQueueEntity tokenQueue = tokenQueueService.findByCodeQR(jsonPurchaseOrder.getCodeQR());
-                executorService.execute(() -> queueMobileService.notifyClient(
+                notifyMobileService.notifyClient(
                     registeredDevice,
                     "Paid at counter for " + tokenQueue.getDisplayName(),
                     "Your order " + jsonPurchaseOrder.getDisplayToken() + " at " + tokenQueue.getDisplayName()
                         + " has been paid at the counter via " + jsonPurchaseOrder.getPaymentMode().getDescription(),
-                    jsonPurchaseOrder.getCodeQR()));
+                    jsonPurchaseOrder.getCodeQR());
             }
 
             return jsonPurchaseOrderUpdated.asJson();
@@ -1110,11 +1114,11 @@ public class PurchaseOrderController {
                     body = "Your order " + jsonPurchaseOrderUpdated.getDisplayToken() + " at " + jsonPurchaseOrderUpdated.getDisplayToken() + " was cancelled.";
                 }
 
-                executorService.execute(() -> queueMobileService.notifyClient(
+                notifyMobileService.notifyClient(
                     registeredDevice,
                     title,
                     body,
-                    jsonPurchaseOrderUpdated.getCodeQR()));
+                    jsonPurchaseOrderUpdated.getCodeQR());
             }
 
             LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderList.getPurchaseOrders().get(0).getPresentOrderState());
