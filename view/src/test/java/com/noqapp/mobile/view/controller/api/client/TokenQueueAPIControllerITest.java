@@ -73,7 +73,7 @@ class TokenQueueAPIControllerITest extends ITest {
             scheduleAppointmentService,
             geoIPLocationService,
             businessCustomerService,
-            notifyMobileService,
+            queueService,
             apiHealthService
         );
 
@@ -102,7 +102,7 @@ class TokenQueueAPIControllerITest extends ITest {
         bizStore.setTimeZone("Pacific/Honolulu");
         bizService.saveStore(bizStore, "Changed AST");
 
-        StoreHourEntity storeHour = bizService.getStoreHours(bizStore.getCodeQR(), bizStore);
+        StoreHourEntity storeHour = storeHourService.getStoreHours(bizStore.getCodeQR(), bizStore);
         storeHour.setStartHour(930)
             .setEndHour(1600)
             .setLunchTimeStart(1300)
