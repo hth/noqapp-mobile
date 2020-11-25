@@ -28,11 +28,11 @@ import javax.servlet.http.HttpServletResponse;
  * User: hitender
  * Date: 10/6/18 9:39 PM
  */
-@SuppressWarnings ({
-        "PMD.BeanMembersShouldSerialize",
-        "PMD.LocalVariableCouldBeFinal",
-        "PMD.MethodArgumentCouldBeFinal",
-        "PMD.LongVariable"
+@SuppressWarnings({
+    "PMD.BeanMembersShouldSerialize",
+    "PMD.LocalVariableCouldBeFinal",
+    "PMD.MethodArgumentCouldBeFinal",
+    "PMD.LongVariable"
 })
 @DisplayName("Feedback API")
 class FeedbackAPIControllerTest {
@@ -47,11 +47,11 @@ class FeedbackAPIControllerTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         feedbackAPIController = new FeedbackAPIController(
-                authenticateMobileService,
-                feedbackService,
-                apiHealthService
+            authenticateMobileService,
+            feedbackService,
+            apiHealthService
         );
     }
 
@@ -60,13 +60,13 @@ class FeedbackAPIControllerTest {
         when(authenticateMobileService.getQueueUserId(anyString(), anyString())).thenReturn("rid");
 
         feedbackAPIController.feedback(
-                new ScrubbedInput(""),
-                new ScrubbedInput(DeviceTypeEnum.A.getName()),
-                new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-                new ScrubbedInput(""),
-                new ScrubbedInput(""),
-                new Feedback().setSubject(new ScrubbedInput("hi")).setBody(new ScrubbedInput("message")),
-                response
+            new ScrubbedInput(""),
+            new ScrubbedInput(DeviceTypeEnum.A.getName()),
+            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
+            new ScrubbedInput(""),
+            new ScrubbedInput(""),
+            new Feedback().setSubject(new ScrubbedInput("hi")).setBody(new ScrubbedInput("message")),
+            response
         );
         verify(authenticateMobileService, times(1)).getQueueUserId(any(String.class), any(String.class));
         verify(feedbackService, times(1)).submitFeedback(any(String.class), any(Feedback.class));
