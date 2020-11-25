@@ -63,7 +63,9 @@ import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.PurchaseOrderService;
+import com.noqapp.service.QueueService;
 import com.noqapp.service.ScheduleAppointmentService;
+import com.noqapp.service.StoreHourService;
 import com.noqapp.service.exceptions.AlreadyServicedTodayException;
 import com.noqapp.service.exceptions.BeforeStartOfStoreException;
 import com.noqapp.service.exceptions.ExpectedServiceBeyondStoreClosingHour;
@@ -130,6 +132,7 @@ public class TokenQueueAPIController {
     private GeoIPLocationService geoIPLocationService;
     private BusinessCustomerService businessCustomerService;
     private NotifyMobileService notifyMobileService;
+    private QueueService queueService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -144,6 +147,7 @@ public class TokenQueueAPIController {
         GeoIPLocationService geoIPLocationService,
         BusinessCustomerService businessCustomerService,
         NotifyMobileService notifyMobileService,
+        QueueService queueService,
         ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
@@ -156,6 +160,7 @@ public class TokenQueueAPIController {
         this.geoIPLocationService = geoIPLocationService;
         this.businessCustomerService = businessCustomerService;
         this.notifyMobileService = notifyMobileService;
+        this.queueService = queueService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -195,7 +200,7 @@ public class TokenQueueAPIController {
         }
 
         try {
-            return notifyMobileService.findTokenState(codeQR.getText()).asJson();
+            return queueService.findTokenState(codeQR.getText()).asJson();
         } catch (StoreNoLongerExistsException e) {
             LOG.info("Store no longer exists qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             apiHealthService.insert(
@@ -296,7 +301,7 @@ public class TokenQueueAPIController {
         if (authorizeRequest(response, qid)) return null;
 
         try {
-            JsonTokenAndQueueList jsonTokenAndQueues = notifyMobileService.findAllJoinedQueues(qid, did.getText());
+            JsonTokenAndQueueList jsonTokenAndQueues = queueService.findAllJoinedQueues(qid, did.getText());
             jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllOpenOrderAsJson(qid));
             jsonTokenAndQueues.setJsonScheduleList(scheduleAppointmentService.findLimitedUpComingAppointments(qid));
             return jsonTokenAndQueues.asJson();
