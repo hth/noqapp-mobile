@@ -65,7 +65,6 @@ import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.ScheduleAppointmentService;
-import com.noqapp.service.StoreHourService;
 import com.noqapp.service.exceptions.AlreadyServicedTodayException;
 import com.noqapp.service.exceptions.BeforeStartOfStoreException;
 import com.noqapp.service.exceptions.ExpectedServiceBeyondStoreClosingHour;
