@@ -208,7 +208,7 @@ public class MerchantExtendingJoinService {
             notifyMobileService.notifyClient(
                 registeredDevice,
                 "Joined " + bizStore.getDisplayName() + " Queue",
-                "Your token number is " + jsonToken.getToken(),
+                "Your token number is " + jsonToken.getDisplayToken(),
                 bizStore.getCodeQR());
         }
 
