@@ -8,7 +8,6 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOIN_PRE_APPROV
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MERCHANT_COULD_NOT_ACQUIRE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ORDER_PAYMENT_PAID_ALREADY_FAILED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ORDER_PAYMENT_UPDATE_FAILED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_ALREADY_CANCELLED;
@@ -23,6 +22,7 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SERVICE_AFTER_C
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_ALREADY_IN_QUEUE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.WAIT_UNTIL_SERVICE_BEGUN;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
@@ -78,6 +78,7 @@ import com.noqapp.service.exceptions.JoiningQueuePreApprovedRequiredException;
 import com.noqapp.service.exceptions.LimitedPeriodException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.TokenAvailableLimitReachedException;
+import com.noqapp.service.exceptions.WaitUntilServiceBegunException;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -758,6 +759,10 @@ public class QueueController {
                 LOG.warn("Failed joining queue as have been serviced or skipped today qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;
                 return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has either serviced or skipped you for today. Try another day for service", SERVICED_TODAY);
+            } catch (WaitUntilServiceBegunException e) {
+                LOG.warn("Failed joining queue as you have cancelled service today qid={}, reason={}", qid, e.getLocalizedMessage());
+                methodStatusSuccess = true;
+                return ErrorEncounteredJson.toJson("Cancelled service. Please wait until service has begun to reclaim your spot if available.", WAIT_UNTIL_SERVICE_BEGUN);
             } catch (ExpectedServiceBeyondStoreClosingHour e) {
                 LOG.warn("Failed joining queue as service time is after store close qid={}, reason={}", qid, e.getLocalizedMessage());
                 methodStatusSuccess = true;

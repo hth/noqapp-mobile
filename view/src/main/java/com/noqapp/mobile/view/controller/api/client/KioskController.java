@@ -10,6 +10,7 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SERVICED_TODAY;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SERVICE_AFTER_CLOSING_HOUR;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.WAIT_UNTIL_SERVICE_BEGUN;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
@@ -34,6 +35,7 @@ import com.noqapp.service.exceptions.JoiningQueuePreApprovedRequiredException;
 import com.noqapp.service.exceptions.LimitedPeriodException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.TokenAvailableLimitReachedException;
+import com.noqapp.service.exceptions.WaitUntilServiceBegunException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -148,6 +150,10 @@ public class KioskController {
             LOG.warn("Failed joining queue as have been serviced or skipped today qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has either serviced or skipped you for today. Try another day for service", SERVICED_TODAY);
+        } catch (WaitUntilServiceBegunException e) {
+            LOG.warn("Failed joining queue as you have cancelled service today qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson("Cancelled service. Please wait until service has begun to reclaim your spot if available.", WAIT_UNTIL_SERVICE_BEGUN);
         } catch (ExpectedServiceBeyondStoreClosingHour e) {
             LOG.warn("Failed joining queue as service time is after store close qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;

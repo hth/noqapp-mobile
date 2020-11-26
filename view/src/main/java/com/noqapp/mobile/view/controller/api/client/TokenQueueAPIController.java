@@ -22,6 +22,7 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_DAY_CLOSED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_NO_LONGER_EXISTS;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.TRANSACTION_GATEWAY_DEFAULT;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.WAIT_UNTIL_SERVICE_BEGUN;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
@@ -61,7 +62,6 @@ import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.JoinAbortService;
-import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.PurchaseOrderService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.ScheduleAppointmentService;
@@ -80,6 +80,7 @@ import com.noqapp.service.exceptions.QueueAbortPaidPastDurationException;
 import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.StoreNoLongerExistsException;
 import com.noqapp.service.exceptions.TokenAvailableLimitReachedException;
+import com.noqapp.service.exceptions.WaitUntilServiceBegunException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -500,6 +501,10 @@ public class TokenQueueAPIController {
             LOG.warn("Failed joining queue as have been serviced or skipped today qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
             return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has either serviced or skipped you for today. Try another day for service", SERVICED_TODAY);
+        } catch (WaitUntilServiceBegunException e) {
+            LOG.warn("Failed joining queue as you have cancelled service today qid={}, reason={}", qid, e.getLocalizedMessage());
+            methodStatusSuccess = true;
+            return ErrorEncounteredJson.toJson("Cancelled service. Please wait until service has begun to reclaim your spot if available.", WAIT_UNTIL_SERVICE_BEGUN);
         } catch (LimitedPeriodException e) {
             LOG.warn("Failed joining queue as limited join allowed qid={}, reason={}", qid, e.getLocalizedMessage());
             methodStatusSuccess = true;
