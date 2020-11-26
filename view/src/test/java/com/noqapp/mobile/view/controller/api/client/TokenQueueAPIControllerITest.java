@@ -87,7 +87,7 @@ class TokenQueueAPIControllerITest extends ITest {
         );
     }
 
-    //@Test
+    @Test
     @Ignore("Tests token issued when limited token available")
     void joinQueue() throws IOException {
         Authentication authentication = Mockito.mock(Authentication.class);
@@ -168,9 +168,12 @@ class TokenQueueAPIControllerITest extends ITest {
             );
 
             //{"error":{"reason":"CSD Liquor for Ex-Servicemen has not started. Please correct time on your device.","systemErrorCode":"4071","systemError":"DEVICE_TIMEZONE_OFF"}}
+            //{"error":{"reason":"CSD Liquor for Ex-Servicemen token limit for the day has reached.","systemErrorCode":"4309","systemError":"QUEUE_TOKEN_LIMIT"}}
             JsonToken jsonToken = new ObjectMapper().readValue(jsonToken_String, JsonToken.class);
-            display.put(String.valueOf(jsonToken.getToken()), jsonToken.getTimeSlotMessage());
-            LOG.info("Joined queue {} : {}", jsonToken.getToken(), jsonToken);
+            if (0 != jsonToken.getToken()) {
+                display.put(String.valueOf(jsonToken.getToken()), jsonToken.getTimeSlotMessage());
+                LOG.info("Joined queue {} : {}", jsonToken.getToken(), jsonToken);
+            }
         }
 
         Map<String, Integer> count = new HashMap<>();
