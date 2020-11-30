@@ -21,7 +21,6 @@ import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.JoinAbortService;
-import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.exceptions.QueueAbortPaidPastDurationException;
 import com.noqapp.service.exceptions.StoreNoLongerExistsException;
