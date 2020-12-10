@@ -7,6 +7,7 @@ import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.RegisteredDeviceManager;
+import com.noqapp.service.MessageCustomerService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,10 +15,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -34,13 +37,24 @@ import java.util.concurrent.ExecutorService;
 public class DeviceRegistrationService {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceRegistrationService.class);
 
+    private String information;
     private RegisteredDeviceManager registeredDeviceManager;
+    private MessageCustomerService messageCustomerService;
 
     private ExecutorService executorService;
 
     @Autowired
-    public DeviceRegistrationService(RegisteredDeviceManager registeredDeviceManager) {
+    public DeviceRegistrationService(
+        @Value("${subscribe.information}")
+        String information,
+
+        RegisteredDeviceManager registeredDeviceManager,
+        MessageCustomerService messageCustomerService
+    ) {
+        this.information = information;
+
         this.registeredDeviceManager = registeredDeviceManager;
+        this.messageCustomerService = messageCustomerService;
 
         this.executorService = newCachedThreadPool();
     }
@@ -95,8 +109,12 @@ public class DeviceRegistrationService {
                 try {
                     registeredDevice
                         .setModel(model)
-                        .setOsVersion(osVersion);
+                        .setOsVersion(osVersion)
+                        .addSubscriptionTopic(information);
                     registeredDeviceManager.save(registeredDevice);
+
+                    /* Always subscribe to information. */
+                    messageCustomerService.subscribeToTopic(new ArrayList<>() {{ add(token); }}, information);
                     LOG.info("Registered device for did={}", did);
                 } catch (DuplicateKeyException duplicateKeyException) {
                     LOG.warn("Its registered device, update existing with new details deviceType={} did={} qid={}", deviceType, did, qid);

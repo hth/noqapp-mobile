@@ -95,6 +95,8 @@ import com.noqapp.repository.GenerateUserIdManager;
 import com.noqapp.repository.GenerateUserIdManagerImpl;
 import com.noqapp.repository.InviteManager;
 import com.noqapp.repository.InviteManagerImpl;
+import com.noqapp.repository.NotificationMessageManager;
+import com.noqapp.repository.NotificationMessageManagerImpl;
 import com.noqapp.repository.PreferredBusinessManager;
 import com.noqapp.repository.PreferredBusinessManagerImpl;
 import com.noqapp.repository.ProfessionalProfileManager;
@@ -167,6 +169,7 @@ import com.noqapp.service.GenerateUserIdService;
 import com.noqapp.service.InviteService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.MailService;
+import com.noqapp.service.MessageCustomerService;
 import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.PreferredBusinessService;
 import com.noqapp.service.ProfessionalProfileService;
@@ -273,6 +276,7 @@ public class ITest extends RealMongoForITest {
     protected HospitalVisitScheduleManager hospitalVisitScheduleManager;
     protected MedicalRecordService medicalRecordService;
     protected MedicalFileService medicalFileService;
+    protected MessageCustomerService messageCustomerService;
 
     protected TokenQueueManager tokenQueueManager;
     protected FirebaseMessageService firebaseMessageService;
@@ -289,6 +293,7 @@ public class ITest extends RealMongoForITest {
     protected ForgotRecoverManager forgotRecoverManager;
     protected InviteManager inviteManager;
     protected RegisteredDeviceManager registeredDeviceManager;
+    protected NotificationMessageManager notificationMessageManager;
     protected BizNameManager bizNameManager;
     protected BusinessCustomerPriorityManager businessCustomerPriorityManager;
     protected BizStoreManager bizStoreManager;
@@ -459,7 +464,9 @@ public class ITest extends RealMongoForITest {
 
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6, 6);
         deviceService = new DeviceService(registeredDeviceManager, userProfileManager);
-        deviceRegistrationService = new DeviceRegistrationService(registeredDeviceManager);
+        notificationMessageManager = new NotificationMessageManagerImpl(getMongoTemplate());
+        messageCustomerService = new MessageCustomerService(1, queueService, tokenQueueService, notificationMessageManager, registeredDeviceManager, firebaseService, bizService, userProfileManager);
+        deviceRegistrationService = new DeviceRegistrationService("information", registeredDeviceManager, messageCustomerService);
         apiHealthService = new ApiHealthService(apiHealthNowManager);
         tokenQueueManager = new TokenQueueManagerImpl(getMongoTemplate());
         storeHourManager = new StoreHourManagerImpl(getMongoTemplate());
