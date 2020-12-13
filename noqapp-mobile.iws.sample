@@ -322,7 +322,7 @@
       <replace>2016-2020</replace>
       <replace>implementation</replace>
       <replace>2019</replace>
-      <replace>2020 NoQueue</replace>
+      <replace>2021 NoQueue</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/../receipt-mobile</dir>
