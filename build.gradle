@@ -398,7 +398,6 @@ project(':security') {
         compile project(':domain')
 
         providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
-        runtime 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2'
     }
 }
 
@@ -438,7 +437,6 @@ project(':view') {
                 project(':service')
 
         providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
-        runtime 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2'
     }
 }
 
