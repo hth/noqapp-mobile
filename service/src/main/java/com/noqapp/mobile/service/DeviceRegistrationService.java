@@ -1,7 +1,9 @@
 package com.noqapp.mobile.service;
 
+import static com.noqapp.common.utils.Constants.UNDER_SCORE;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.domain.RegisteredDeviceEntity;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
@@ -114,7 +116,7 @@ public class DeviceRegistrationService {
                     registeredDeviceManager.save(registeredDevice);
 
                     /* Always subscribe to information. */
-                    messageCustomerService.subscribeToTopic(new ArrayList<>() {{ add(token); }}, information);
+                    messageCustomerService.subscribeToTopic(new ArrayList<>() {{ add(token); }}, CommonUtil.buildTopic(information, deviceType.name()));
                     LOG.info("Registered device for did={}", did);
                 } catch (DuplicateKeyException duplicateKeyException) {
                     LOG.warn("Its registered device, update existing with new details deviceType={} did={} qid={}", deviceType, did, qid);
