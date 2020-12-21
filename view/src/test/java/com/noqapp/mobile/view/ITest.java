@@ -466,7 +466,7 @@ public class ITest extends RealMongoForITest {
         deviceService = new DeviceService(registeredDeviceManager, userProfileManager);
         notificationMessageManager = new NotificationMessageManagerImpl(getMongoTemplate());
         messageCustomerService = new MessageCustomerService(1, queueService, tokenQueueService, notificationMessageManager, registeredDeviceManager, firebaseService, bizService, userProfileManager);
-        deviceRegistrationService = new DeviceRegistrationService("information", registeredDeviceManager, messageCustomerService);
+        deviceRegistrationService = new DeviceRegistrationService("information", registeredDeviceManager, messageCustomerService, userProfilePreferenceService);
         apiHealthService = new ApiHealthService(apiHealthNowManager);
         tokenQueueManager = new TokenQueueManagerImpl(getMongoTemplate());
         storeHourManager = new StoreHourManagerImpl(getMongoTemplate());
@@ -506,6 +506,7 @@ public class ITest extends RealMongoForITest {
             businessCustomerService,
             textToSpeechService,
             firebaseService,
+            userProfilePreferenceService,
             apiHealthService
         );
 

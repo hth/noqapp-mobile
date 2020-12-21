@@ -4,11 +4,13 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.domain.RegisteredDeviceEntity;
+import com.noqapp.domain.UserPreferenceEntity;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.RegisteredDeviceManager;
 import com.noqapp.service.MessageCustomerService;
+import com.noqapp.service.UserProfilePreferenceService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -41,6 +43,7 @@ public class DeviceRegistrationService {
     private String information;
     private RegisteredDeviceManager registeredDeviceManager;
     private MessageCustomerService messageCustomerService;
+    private UserProfilePreferenceService userProfilePreferenceService;
 
     private ExecutorService executorService;
 
@@ -50,12 +53,14 @@ public class DeviceRegistrationService {
         String information,
 
         RegisteredDeviceManager registeredDeviceManager,
-        MessageCustomerService messageCustomerService
+        MessageCustomerService messageCustomerService,
+        UserProfilePreferenceService userProfilePreferenceService
     ) {
         this.information = information;
 
         this.registeredDeviceManager = registeredDeviceManager;
         this.messageCustomerService = messageCustomerService;
+        this.userProfilePreferenceService = userProfilePreferenceService;
 
         this.executorService = newCachedThreadPool();
     }
@@ -110,12 +115,14 @@ public class DeviceRegistrationService {
                 try {
                     registeredDevice
                         .setModel(model)
-                        .setOsVersion(osVersion)
-                        .addSubscriptionTopic(information);
+                        .setOsVersion(osVersion);
                     registeredDeviceManager.save(registeredDevice);
 
                     /* Always subscribe to information. */
-                    messageCustomerService.subscribeToTopic(new ArrayList<>() {{ add(token); }}, CommonUtil.buildTopic(information, deviceType.name()));
+                    messageCustomerService.subscribeToTopic(
+                        new ArrayList<>() {{ add(token); }},
+                        CommonUtil.buildTopic(information, deviceType.name()));
+
                     LOG.info("Registered device for did={}", did);
                 } catch (DuplicateKeyException duplicateKeyException) {
                     LOG.warn("Its registered device, update existing with new details deviceType={} did={} qid={}", deviceType, did, qid);
@@ -172,11 +179,24 @@ public class DeviceRegistrationService {
             return;
         }
 
+        if (null == registeredDevice.getQueueUserId()) {
+            executorService.submit(() -> subscribeToAllAssociatedTopics(qid, deviceType, registeredDevice.getToken()));
+        }
+
         registeredDevice.setQueueUserId(qid);
         registeredDevice.setDeviceType(deviceType);
         registeredDevice.setSinceBeginning(true);
         registeredDeviceManager.save(registeredDevice);
         LOG.info("Updated did={} with qid={} deviceType={}", did, qid, deviceType);
+    }
+
+    private void subscribeToAllAssociatedTopics(String qid, DeviceTypeEnum deviceType, String token) {
+        UserPreferenceEntity userPreference = userProfilePreferenceService.findByQueueUserId(qid);
+        for (String topicsToBeSubscribedTo : userPreference.getSubscriptionTopics()) {
+            messageCustomerService.subscribeToTopic(
+                new ArrayList<>() {{ add(token); }},
+                CommonUtil.buildTopic(topicsToBeSubscribedTo, deviceType.name()));
+        }
     }
 
     public void markFetchedSinceBeginningForDevice(String id) {
