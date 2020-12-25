@@ -89,12 +89,12 @@ public class FavouriteController {
         ElasticFavorite elasticFavorite = new ElasticFavorite();
 
         try {
-            for (BizStoreEntity bizStore : bizService.favoriteSuggested("")) {
+            for (BizStoreEntity bizStore : bizService.favoriteSuggested(qid)) {
                 BizStoreElastic bizStoreElastic = DomainConversion.getAsBizStoreElastic(bizStore, storeHourManager.findAll(bizStore.getId()));
                 elasticFavorite.addFavoriteSuggested(bizStoreElastic);
             }
 
-            for (BizStoreEntity bizStore : bizService.favoriteTagged("")) {
+            for (BizStoreEntity bizStore : bizService.favoriteTagged(qid)) {
                 BizStoreElastic bizStoreElastic = DomainConversion.getAsBizStoreElastic(bizStore, storeHourManager.findAll(bizStore.getId()));
                 elasticFavorite.addFavoriteTagged(bizStoreElastic);
             }
