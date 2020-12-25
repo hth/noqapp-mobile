@@ -87,7 +87,6 @@ public class FavouriteController {
         if (authorizeRequest(response, qid)) return null;
 
         ElasticFavorite elasticFavorite = new ElasticFavorite();
-
         try {
             for (BizStoreEntity bizStore : bizService.favoriteSuggested(qid)) {
                 BizStoreElastic bizStoreElastic = DomainConversion.getAsBizStoreElastic(bizStore, storeHourManager.findAll(bizStore.getId()));
