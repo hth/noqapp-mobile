@@ -11,8 +11,8 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
+import com.noqapp.search.elastic.domain.FavoriteElastic;
 import com.noqapp.search.elastic.helper.DomainConversion;
-import com.noqapp.search.elastic.json.ElasticFavorite;
 import com.noqapp.service.BizService;
 
 import org.slf4j.Logger;
@@ -86,23 +86,23 @@ public class FavouriteController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        ElasticFavorite elasticFavorite = new ElasticFavorite();
+        FavoriteElastic favoriteElastic = new FavoriteElastic();
         try {
             for (BizStoreEntity bizStore : bizService.favoriteSuggested(qid)) {
                 BizStoreElastic bizStoreElastic = DomainConversion.getAsBizStoreElastic(bizStore, storeHourManager.findAll(bizStore.getId()));
-                elasticFavorite.addFavoriteSuggested(bizStoreElastic);
+                favoriteElastic.addFavoriteSuggested(bizStoreElastic);
             }
 
             for (BizStoreEntity bizStore : bizService.favoriteTagged(qid)) {
                 BizStoreElastic bizStoreElastic = DomainConversion.getAsBizStoreElastic(bizStore, storeHourManager.findAll(bizStore.getId()));
-                elasticFavorite.addFavoriteTagged(bizStoreElastic);
+                favoriteElastic.addFavoriteTagged(bizStoreElastic);
             }
 
-            return elasticFavorite.asJson();
+            return favoriteElastic.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting favorite reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return elasticFavorite.asJson();
+            return favoriteElastic.asJson();
         } finally {
             apiHealthService.insert(
                 "/",
