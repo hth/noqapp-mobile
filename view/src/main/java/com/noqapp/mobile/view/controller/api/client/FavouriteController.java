@@ -82,7 +82,7 @@ public class FavouriteController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Feedback API for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
+        LOG.info("Load favorite API for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
