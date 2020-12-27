@@ -15,7 +15,9 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ScheduledTaskEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
@@ -24,6 +26,7 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.ActionTypeEnum;
 import com.noqapp.domain.types.AppointmentStateEnum;
 import com.noqapp.domain.types.ScheduleTaskEnum;
+import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.JsonStoreSetting;
@@ -38,6 +41,7 @@ import com.noqapp.search.elastic.service.BizStoreElasticService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessUserStoreService;
+import com.noqapp.service.MessageCustomerService;
 import com.noqapp.service.StoreHourService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -94,6 +98,7 @@ public class StoreSettingController {
     private TokenQueueMobileService tokenQueueMobileService;
     private BizStoreElasticService bizStoreElasticService;
     private StoreHourService storeHourService;
+    private MessageCustomerService messageCustomerService;
     private ApiHealthService apiHealthService;
 
     private ScheduledExecutorService executorService;
@@ -109,6 +114,7 @@ public class StoreSettingController {
         TokenQueueMobileService tokenQueueMobileService,
         BizStoreElasticService bizStoreElasticService,
         StoreHourService storeHourService,
+        MessageCustomerService messageCustomerService,
         ApiHealthService apiHealthService
     ) {
         this.bizService = bizService;
@@ -120,6 +126,7 @@ public class StoreSettingController {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.bizStoreElasticService = bizStoreElasticService;
         this.storeHourService = storeHourService;
+        this.messageCustomerService = messageCustomerService;
         this.apiHealthService = apiHealthService;
 
         this.executorService = Executors.newScheduledThreadPool(2);
@@ -773,6 +780,73 @@ public class StoreSettingController {
             apiHealthService.insert(
                 "/storeHours",
                 "storeHours",
+                StoreSettingController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Notify fresh arrival of stock. */
+    @PostMapping (
+        value = "/notifyFreshStockArrival",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String notifyFreshStockArrival(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("StoreHours for store associated with mail={} did={} deviceType={}", mail, did, deviceType);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            LOG.warn("Un-authorized access to /api/m/ss/notifyFreshStockArrival by mail={}", mail);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            List<BusinessUserStoreEntity> businessUserStores = businessUserStoreService.findAllStoreQueueAssociated(qid);
+            if (!businessUserStores.isEmpty()) {
+                if (UserLevelEnum.S_MANAGER != businessUserStores.get(0).getUserLevel()) {
+                    return getErrorReason("Only managers has access to this feature", MOBILE_ACTION_NOT_PERMITTED);
+                } else {
+                    BizNameEntity bizName = bizService.getByBizNameId(businessUserStores.get(0).getBizNameId());
+                    boolean status = bizService.notifyFreshStockArrival(qid, businessUserStores.get(0).getBizNameId());
+
+                    if (status) {
+                        messageCustomerService.sendMessageToPastClients(
+                            "New stock arrived",
+                            CommonUtil.appendBusinessNameToNotificationMessage("Today new stock has arrived. See you here. Happy shopping.", bizName.getBusinessName()),
+                            businessUserStores.get(0).getBizNameId(),
+                            qid
+                        );
+
+                        return new JsonResponse(true).asJson();
+                    }
+                }
+            }
+
+            return new JsonResponse(false).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed setting new arrival reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/notifyFreshStockArrival",
+                "notifyFreshStockArrival",
                 StoreSettingController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);

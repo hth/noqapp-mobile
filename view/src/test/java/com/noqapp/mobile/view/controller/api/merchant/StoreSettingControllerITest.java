@@ -46,10 +46,10 @@ class StoreSettingControllerITest extends ITest {
             tokenQueueMobileService,
             bizStoreElasticService,
             storeHourService,
+            messageCustomerService,
             apiHealthService
         );
     }
-
 
     @Test
     @DisplayName("Checks the state of a queue and the modify the state of it")
