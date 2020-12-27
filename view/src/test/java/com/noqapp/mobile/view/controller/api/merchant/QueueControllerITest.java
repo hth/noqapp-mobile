@@ -97,6 +97,7 @@ class QueueControllerITest extends ITest {
             tokenQueueMobileService,
             bizStoreElasticService,
             storeHourService,
+            messageCustomerService,
             apiHealthService
         );
     }
