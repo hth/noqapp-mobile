@@ -9,7 +9,6 @@ import com.noqapp.domain.UserPreferenceEntity;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.domain.body.client.Feedback;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
@@ -48,8 +47,8 @@ import javax.servlet.http.HttpServletResponse;
 })
 @RestController
 @RequestMapping(value = "/api/c/favourite")
-public class FavouriteController {
-    private static final Logger LOG = LoggerFactory.getLogger(FavouriteController.class);
+public class FavouriteAPIController {
+    private static final Logger LOG = LoggerFactory.getLogger(FavouriteAPIController.class);
 
     private BizService bizService;
     private StoreHourManager storeHourManager;
@@ -58,7 +57,7 @@ public class FavouriteController {
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public FavouriteController(
+    public FavouriteAPIController(
         BizService bizService,
         StoreHourManager storeHourManager,
         AuthenticateMobileService authenticateMobileService,
@@ -115,7 +114,7 @@ public class FavouriteController {
             apiHealthService.insert(
                 "/",
                 "favorite",
-                FavouriteController.class.getName(),
+                FavouriteAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -175,7 +174,7 @@ public class FavouriteController {
             apiHealthService.insert(
                 "/",
                 "favorite",
-                FavouriteController.class.getName(),
+                FavouriteAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
