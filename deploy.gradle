@@ -101,33 +101,33 @@ remotes {
 
 task deployServer {
     if (env == 'sandbox') {
-        deploy(remotes.sn1, "10.0.0.54", "1ns", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
+        deploy(remotes.sn1, "10.0.0.54", "1ns", "$env", "ROOT-$env.*.war")
         deployMobile(remotes.sr1, "10.0.0.52", "1rs", "$env", "ROOT-$env.*.war")
 
-        deploy(remotes.sn2, "10.0.0.64", "2ns", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
+        deploy(remotes.sn2, "10.0.0.64", "2ns", "$env", "ROOT-$env.*.war")
         deployMobile(remotes.sr2, "10.0.0.62", "2rs", "$env", "ROOT-$env.*.war")
 
-        deploy(remotes.sn4, "10.0.0.84", "4ns", "$env-loader", "ROOT-loader-$env.*.war", "noqapp-mobile-$env.*.war")
+        deploy(remotes.sn4, "10.0.0.84", "4ns", "$env-loader", "ROOT-loader-$env.*.war")
         deployMobile(remotes.sr3, "10.0.0.72", "3rs", "$env", "ROOT-$env.*.war")
         //deploy(remotes.sn14, "10.0.0.114", "14ns", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
     }
     if (env == 'prod') {
-        deploy(remotes.n1, "10.0.0.53", "1n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
+        deploy(remotes.n1, "10.0.0.53", "1n", "$env", "ROOT-$env.*.war")
         deployMobile(remotes.r1, "10.0.0.51", "1r", "$env", "ROOT-$env.*.war")
 
-        deploy(remotes.n2, "10.0.0.63", "2n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
+        deploy(remotes.n2, "10.0.0.63", "2n", "$env", "ROOT-$env.*.war")
         deployMobile(remotes.r2, "10.0.0.61", "2r", "$env", "ROOT-$env.*.war")
 
-        deploy(remotes.n3, "10.0.0.73", "3n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
+        deploy(remotes.n3, "10.0.0.73", "3n", "$env", "ROOT-$env.*.war")
         deployMobile(remotes.r3, "10.0.0.71", "3r", "$env", "ROOT-$env.*.war")
 
-        deploy(remotes.n4, "10.0.0.83", "4n", "$env-loader", "ROOT-loader-$env.*.war", "noqapp-mobile-$env.*.war")
+        deploy(remotes.n4, "10.0.0.83", "4n", "$env-loader", "ROOT-loader-$env.*.war")
         deployMobile(remotes.r4, "10.0.0.81", "4r", "$env", "ROOT-$env.*.war")
         //deploy(remotes.n13, "10.0.0.113", "13n", "$env", "ROOT-$env.*.war", "noqapp-mobile-$env.*.war")
     }
 }
 
-def deploy(def server, def ip, def serverName, def path, def rootFile, def mobileFile) {
+def deploy(def server, def ip, def serverName, def path, def rootFile) {
     logger.lifecycle("--------------------------------------------")
     logger.lifecycle("         Deploying to $server for $env")
     logger.lifecycle("--------------------------------------------")
@@ -144,21 +144,11 @@ def deploy(def server, def ip, def serverName, def path, def rootFile, def mobil
     }
 
     copyFiles(server, "/var/lib/jenkins/jobs/noqapp-$env-build/workspace/build/war/$path/$rootFile")
-    if (fastEnabled.toBoolean()) {
-        copyFiles(server, "/var/lib/jenkins/jobs/noqapp.mobile-$env-build-fast/workspace/build/war/$env/$mobileFile")
-    } else {
-        copyFiles(server, "/var/lib/jenkins/jobs/noqapp.mobile-$env-build/workspace/build/war/$env/$mobileFile")
-    }
     sshExecute(server, "mkdir /usr/local/tomcat/webapps/ROOT")
-    sshExecute(server, "mkdir /usr/local/tomcat/webapps/noqapp-mobile")
     sshExecute(server, "cd /usr/local/tomcat/webapps/; mv $rootFile ROOT/ROOT.war")
-    sshExecute(server, "cd /usr/local/tomcat/webapps/; mv $mobileFile noqapp-mobile/noqapp-mobile.war")
     sshExecute(server, "cd /usr/local/tomcat/webapps/ROOT; source ~/.bash_profile; jar xf ROOT.war")
-    sshExecute(server, "cd /usr/local/tomcat/webapps/noqapp-mobile; source ~/.bash_profile; jar xf noqapp-mobile.war")
     sshExecute(server, "cd /usr/local/tomcat/webapps/ROOT; rm -rf ROOT.war")
-    sshExecute(server, "cd /usr/local/tomcat/webapps/noqapp-mobile; rm -rf noqapp-mobile.war")
     sshExecute(server, "echo 'server=$serverName' >> /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/build-info.properties")
-    sshExecute(server, "echo 'server=$serverName' >> /usr/local/tomcat/webapps/noqapp-mobile/WEB-INF/classes/build-info.properties")
 
     sshExecute(server, "sudo service tomcat start")
     if (env == 'prod') {
@@ -169,7 +159,6 @@ def deploy(def server, def ip, def serverName, def path, def rootFile, def mobil
     sshExecute(server, "sudo service tomcat status")
     sshExecute(server, "curl -I http://$ip:8080/open/login.htm")
     sshExecute(server, "wget -qO- http://$ip:8080/open/login.htm > /dev/null 2>&1")
-    sshExecute(server, "wget -qO- http://$ip:8080/noqapp-mobile/open/healthCheck.json > /dev/null 2>&1")
 }
 
 def deployMobile(def server, def ip, def serverName, def path, def mobileFile) {
