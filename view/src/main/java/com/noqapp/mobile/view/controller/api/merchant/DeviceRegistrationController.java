@@ -9,12 +9,10 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.RegisteredDeviceEntity;
-import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
-import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
