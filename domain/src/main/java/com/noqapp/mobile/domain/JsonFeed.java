@@ -30,8 +30,8 @@ public class JsonFeed extends AbstractDomain {
     @JsonProperty("ti")
     private String title;
 
-    @JsonProperty("co")
-    private String content;
+    @JsonProperty("ds")
+    private String description;
 
     @JsonProperty("ct")
     private String contentType = "Health";
@@ -63,12 +63,12 @@ public class JsonFeed extends AbstractDomain {
         return this;
     }
 
-    public String getContent() {
-        return content;
+    public String getDescription() {
+        return description;
     }
 
-    public JsonFeed setContent(String content) {
-        this.content = content;
+    public JsonFeed setDescription(String description) {
+        this.description = description;
         return this;
     }
 

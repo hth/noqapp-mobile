@@ -96,7 +96,7 @@ public class FeedController {
                     .setTitle(publishArticle.getTitle())
                     .setImageUrl(publishArticle.getId() + "/" + publishArticle.getBannerImage())
                     .setContentId(publishArticle.getId())
-                    .setContent(publishArticle.getContent())
+                    .setDescription(publishArticle.getDescription())
             );
         }
 
@@ -181,7 +181,7 @@ public class FeedController {
             .setTitle("12 Ways to Take Care of Your Eyes Everyday")
             .setImageUrl("https://noqapp.com/imgs/appmages/eyes/single-blue-eye.jpg")
             .setContentId("feed-dec-18")
-            .setContent("<p>Eye problems&nbsp;can be easily prevented if you practice essential eye care habits everyday. Surprisingly, they are very practical and easy to accomplish yet they tend to be the most neglected.</p>\n" +
+            .setDescription("<p>Eye problems&nbsp;can be easily prevented if you practice essential eye care habits everyday. Surprisingly, they are very practical and easy to accomplish yet they tend to be the most neglected.</p>\n" +
                 "<p>To maintain your eye health and to keep your vision sharp, here are twelve things that should be part of your daily routine.</p>\n" +
                 "<p>&nbsp;</p>\n" +
                 "<h2>1. Avoid rubbing your eyes.</h2>\n" +
@@ -218,7 +218,7 @@ public class FeedController {
             .setTitle("7 ways to stay fit and healthy")
             .setImageUrl("https://noqapp.com/imgs/appmages/yoga/yoga.jpg")
             .setContentId("feed-dec-18")
-            .setContent("<p>Staying fit and healthy plays an important role in our life. People neglect their health because of the hectic daily schedules but there are little things that you can do each day that will add to being healthy and fit.</p>\n" +
+            .setDescription("<p>Staying fit and healthy plays an important role in our life. People neglect their health because of the hectic daily schedules but there are little things that you can do each day that will add to being healthy and fit.</p>\n" +
                 "<p>Here are some ways to stay fit and healthy:</p>\n" +
                 "<br>" +
                 "<h3>1. Regular Check-ups</h3>\n" +
@@ -252,7 +252,7 @@ public class FeedController {
             .setTitle("Benefits of Yoga: Part-1")
             .setImageUrl("https://noqapp.com/imgs/appmages/yoga/benefits-of-yoga.jpg")
             .setContentId("feed-dec-18")
-            .setContent("<h3>1.&nbsp;Improves your flexibility</h3>\n" +
+            .setDescription("<h3>1.&nbsp;Improves your flexibility</h3>\n" +
                 "<p>Improved&nbsp;flexibility&nbsp;is one of the first and most obvious benefits of yoga. During your first class, you probably won't be able to touch your toes, never mind do a backbend. But if you stick with it, you'll notice a gradual loosening, and eventually, seemingly impossible poses will become possible. You'll also probably notice that aches and pains start to disappear. That's no coincidence. Tight hips can strain the knee joint due to improper alignment of the thigh and shinbones. Tight&nbsp;hamstrings can lead to a flattening of the lumbar spine, which can cause back pain. And inflexibility in muscles and connective tissue, such as fascia and ligaments, can cause poor posture.</p><br />\n" +
                 "<h3>2.&nbsp;Builds muscle strength</h3>\n" +
                 "<p>Strong muscles do more than look good. They also protect us from conditions like arthritis and&nbsp;back pain, and help prevent falls in elderly people. And when you build strength through yoga, you balance it with flexibility. If you just went to the gym and lifted weights, you might build strength at the expense of flexibility.</p><br />\n" +
@@ -277,7 +277,7 @@ public class FeedController {
             .setTitle("Benefits of Yoga: Part-2")
             .setImageUrl("https://noqapp.com/imgs/appmages/yoga/benefits-of-yoga.jpg")
             .setContentId("feed-dec-18")
-            .setContent("<h3>11.&nbsp;Regulates your adrenal glands</h3>\n" +
+            .setDescription("<h3>11.&nbsp;Regulates your adrenal glands</h3>\n" +
                 "<p>Yoga lowers cortisol levels. If that doesn't sound like much, consider this. Normally, the adrenal glands secrete cortisol in response to an acute crisis, which temporarily boosts immune function. If your cortisol levels stay high even after the crisis, they can compromise the immune system. Temporary boosts of cortisol help with long-term memory, but chronically high levels undermine memory and may lead to permanent changes in the brain. Additionally, excessive cortisol has been linked with major depression, osteoporosis (it extracts calcium and other minerals from bones and interferes with the laying down of new bone), high blood pressure, and insulin resistance. In rats, high cortisol levels lead to what researchers call \"food-seeking behavior\" (the kind that drives you to eat when you're upset, angry, or stressed). The body takes those extra calories and distributes them as fat in the abdomen, contributing to weight gain and the risk of diabetes and heart attack.</p><br />\n" +
                 "<h3>12.&nbsp;Makes you happier</h3>\n" +
                 "<p>Feeling sad? Sit in Lotus. Better yet, rise up into a backbend or soar royally into King Dancer Pose. While it's not as simple as that, one study found that a consistent yoga practice improved depression and led to a significant increase in serotonin levels and a decrease in the levels of monoamine oxidase (an enzyme that breaks down neurotransmitters) and cortisol. At the University of Wisconsin, Richard Davidson, Ph.D., found that the left prefrontal cortex showed heightened activity in meditators, a finding that has been correlated with greater levels of happiness and better immune function. More dramatic left-sided activation was found in dedicated, long-term practitioners.</p><br />\n" +
@@ -302,7 +302,7 @@ public class FeedController {
             .setTitle("Benefits of Yoga: Part-3")
             .setImageUrl("https://noqapp.com/imgs/appmages/yoga/benefits-of-yoga.jpg")
             .setContentId("feed-dec-18")
-            .setContent("<h3>21.&nbsp;Boosts your immune system functionality</h3>\n" +
+            .setDescription("<h3>21.&nbsp;Boosts your immune system functionality</h3>\n" +
                 "<p>Asana and pranayama probably improve immune function, but, so far, meditation has the strongest scientific support in this area. It appears to have a beneficial effect on the functioning of the immune system, boosting it when needed (for example, raising antibody levels in response to a vaccine) and lowering it when needed (for instance, mitigating an inappropriately aggressive immune function in an autoimmune disease like psoriasis).</p><br />\n" +
                 "<h3>22.&nbsp;Gives your lungs room to breathe</h3>\n" +
                 "<p>Yogis tend to take fewer breaths of greater volume, which is both calming and more efficient. A 1998 study published in The Lancet taught a yogic technique known as \"complete breathing\" to people with lung problems due to congestive heart failure. After one month, their average respiratory rate decreased from 13.4 breaths per minute to 7.6. Meanwhile, their exercise capacity increased significantly, as did the oxygen saturation of their blood. In addition, yoga has been shown to improve various measures of&nbsp;lung function, including the maximum volume of the breath and the efficiency of the exhalation.</p><br />\n" +
@@ -333,7 +333,7 @@ public class FeedController {
             .setWebProfileId("")
             .setImageUrl("https://noqapp.com/imgs/appmages/skin/skin.jpg")
             .setContentId("feed-dec-18")
-            .setContent("<p>Summers can be severe. The skin feels the heat too. Proper care needs to be taken for it to radiate even when the temperatures rise. Dr. Thadani guides us by giving us some useful pointers. Read on..</p><br />\n" +
+            .setDescription("<p>Summers can be severe. The skin feels the heat too. Proper care needs to be taken for it to radiate even when the temperatures rise. Dr. Thadani guides us by giving us some useful pointers. Read on..</p><br />\n" +
                 "<p><strong>Effects of the summer heat and humidity on the skin</strong></p>\n" +
                 "<p>Excess heat increases sweat production and the humidity hinders its ability to evaporate away from the skin. This means more oil is available to clog pores which can exacerbate acne. Also, extreme heat and humidity can facilitate bacterial infections such as impetigo and fungal infections like athlete&rsquo;s footor intertrigo, which are rashes seen in body folds. This is that time of the year when a lot of patients who battle those conditions become very uncomfortable.</p><br />\n" +
                 "<p><strong>Essentials of skin care</strong></p>\n" +
@@ -360,7 +360,7 @@ public class FeedController {
             .setWebProfileId("")
             .setImageUrl("http://www.ssdhospital.in/wp-content/uploads/2017/09/Healing-techniques-for-acne-2.png")
             .setContentId("feed-dec-18")
-            .setContent("<p>If acne scars bother you, there are safe and effective treatments available. Treatment can diminish acne scars that cause depressions in the skin. Treatment can also safely reduce raised acne scars. There are several treatments possible in today&rsquo;s time and technology. Treatments include laser treatments,minor skin surgeries, chemical peels, and fillers. As we age, acne scars often become more noticeable because our skin loses collagen. The key to effective treatment is to select the best one for each scar type.</p>\n" +
+            .setDescription("<p>If acne scars bother you, there are safe and effective treatments available. Treatment can diminish acne scars that cause depressions in the skin. Treatment can also safely reduce raised acne scars. There are several treatments possible in today&rsquo;s time and technology. Treatments include laser treatments,minor skin surgeries, chemical peels, and fillers. As we age, acne scars often become more noticeable because our skin loses collagen. The key to effective treatment is to select the best one for each scar type.</p>\n" +
                 "<br>" +
                 "<p>Before getting treatment for acne scars, it is important to clear your acne. New acne breakouts can lead to new acne scars. Having acne also means that your skin is inflamed. Inflammation reduces the effectiveness of treatment for acne scars.</p>" +
                 "<br>" +
@@ -390,7 +390,7 @@ public class FeedController {
             .setWebProfileId("")
             .setImageUrl("https://noqapp.com/imgs/appmages/Pregnant_Woman_Holding_Apple.jpg")
             .setContentId("feed-dec-18")
-            .setContent("<h3><strong>What to eat and what not to eat?</strong></h3>" +
+            .setDescription("<h3><strong>What to eat and what not to eat?</strong></h3>" +
                 "<br>" +
                 "<p>Pregnancy brings in a lot of emotions. Every one you meet has a piece of advice to give you regarding what you should do and what you should eat. This brings in even more confusion. This Indian diet plan for pregnancy will help you clear the air a bit.</p>" +
                 "<br>" +
@@ -432,7 +432,7 @@ public class FeedController {
             .setWebProfileId("")
             .setImageUrl("https://noqapp.com/imgs/appmages/Pregnant_Woman_Holding_Apple.jpg")
             .setContentId("feed-dec-18")
-            .setContent("<p><strong>Morning sickness:</strong>&nbsp;When a mother-to-be is experiencing morning sickness, the biggest mistake she can make is thinking that if she doesn&rsquo;t eat, she&rsquo;ll feel better. And the phrase Morning sickness is definitely not happening only in the morning, It&rsquo;s any time of day. It is advisable to eat small amounts of foods that don&rsquo;t have an odour, since smells can also upset the stomach.</p>" +
+            .setDescription("<p><strong>Morning sickness:</strong>&nbsp;When a mother-to-be is experiencing morning sickness, the biggest mistake she can make is thinking that if she doesn&rsquo;t eat, she&rsquo;ll feel better. And the phrase Morning sickness is definitely not happening only in the morning, It&rsquo;s any time of day. It is advisable to eat small amounts of foods that don&rsquo;t have an odour, since smells can also upset the stomach.</p>" +
                 "<br>" +
                 "<p><strong>Food cravings:</strong>&nbsp;It is common for women to develop a sudden urge or a strong dislike for a food during pregnancy. Some common cravings are for sweets, salty or spicy foods. This food craving is a body&rsquo;s way of saying it needs a specific nutrient, such as more protein or additional liquids to quench a thirst, rather than a particular food.</p>" +
                 "<br>" +
@@ -446,7 +446,7 @@ public class FeedController {
             .setWebProfileId("")
             .setImageUrl("https://noqapp.com/imgs/appmages/preg.jpg")
             .setContentId("feed-dec-18")
-            .setContent("<p>Weight gain during pregnancy is a continuous process over the nine months. It&rsquo;s hard to measure where pregnancy weight is going whether the KGs are going to a woman&rsquo;s body fat, baby weight or fluid gains.<br />When it comes to pregnancy weight gain, women should look at the big picture: During regular prenatal check-ups, focus on that the baby is growing normally rather than worrying about the number on a scale.</p>" +
+            .setDescription("<p>Weight gain during pregnancy is a continuous process over the nine months. It&rsquo;s hard to measure where pregnancy weight is going whether the KGs are going to a woman&rsquo;s body fat, baby weight or fluid gains.<br />When it comes to pregnancy weight gain, women should look at the big picture: During regular prenatal check-ups, focus on that the baby is growing normally rather than worrying about the number on a scale.</p>" +
                 "<br>" +
                 "<p>The total number of calories needed per day during pregnancy depends on a woman&rsquo;s height, her weight before becoming pregnant, and how active she is on a daily basis. In general, underweight women need more calories during pregnancy; overweight and obese women need fewer of them.</p>" +
                 "<br>" +
@@ -466,7 +466,7 @@ public class FeedController {
             .setWebProfileId("")
             .setImageUrl("http://www.ssdhospital.in/wp-content/uploads/2017/01/183937263_wide.jpg")
             .setContentId("feed-dec-18")
-            .setContent("<p>Maintaining a regular exercise routine throughout your pregnancy can help you stay healthy and feel your best. Regular exercise during pregnancy can improve your posture and decrease some common discomforts such as backaches and fatigue. There is evidence that physical activity may prevent gestational diabetes (diabetes that develops during pregnancy), relieve stress, and build more stamina needed for labour and delivery.</p>" +
+            .setDescription("<p>Maintaining a regular exercise routine throughout your pregnancy can help you stay healthy and feel your best. Regular exercise during pregnancy can improve your posture and decrease some common discomforts such as backaches and fatigue. There is evidence that physical activity may prevent gestational diabetes (diabetes that develops during pregnancy), relieve stress, and build more stamina needed for labour and delivery.</p>" +
                 "<br>" +
                 "<p>Doctors generally recommend 30 minutes or more of moderate exercise per day, unless you have a medical or pregnancy complication.</p>" +
                 "<br>" +
@@ -476,7 +476,7 @@ public class FeedController {
 
 //        feedObjs.add(new FeedObj().setTitle("Stages of Pregnancy").
 //                setImageUrl("http://www.ssdhospital.in/wp-content/uploads/2017/01/15977659_1273843289338522_6523698174661880087_n-e1489668918984.jpg")
-//                .setContent("<p>In India, getting pregnant and giving birth are most celebrated milestones in a woman&rsquo;s life.<br />Pregnancy, specifically in India, is very important event due to its connection with our history, culture,religious beliefs and mythology.</p>\n" +
+//                .setDescription("<p>In India, getting pregnant and giving birth are most celebrated milestones in a woman&rsquo;s life.<br />Pregnancy, specifically in India, is very important event due to its connection with our history, culture,religious beliefs and mythology.</p>\n" +
 //                        "<p>However, Pregnancy, being one the most scientifically complicated process in human life, has its own sets of questions and concerns in the mind of every woman. This article is to give an overview of Pregnancy lifecycle and address the day to day concerns.</p><br />\n" +
 //                        "<h2><strong>Stages of Pregnancy:</strong></h2>\n" +
 //                        "<p>What really happens during the nine golden months in women&rsquo;s life?</p>\n" +
