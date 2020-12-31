@@ -5,7 +5,6 @@ import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.Notification;
-import com.noqapp.mobile.domain.body.client.Location;
 import com.noqapp.service.MessageCustomerService;
 
 import org.slf4j.Logger;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
 import java.time.Instant;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * hitender
