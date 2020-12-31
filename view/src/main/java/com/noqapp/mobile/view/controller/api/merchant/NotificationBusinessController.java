@@ -40,15 +40,15 @@ import javax.servlet.http.HttpServletResponse;
 })
 @RestController
 @RequestMapping(value = "/api/m/notification")
-public class NotificationController {
-    private static final Logger LOG = LoggerFactory.getLogger(NotificationController.class);
+public class NotificationBusinessController {
+    private static final Logger LOG = LoggerFactory.getLogger(NotificationBusinessController.class);
 
     private MessageCustomerService messageCustomerService;
     private AuthenticateMobileService authenticateMobileService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public NotificationController(
+    public NotificationBusinessController(
         MessageCustomerService messageCustomerService,
         AuthenticateMobileService authenticateMobileService,
         ApiHealthService apiHealthService
@@ -94,7 +94,7 @@ public class NotificationController {
             apiHealthService.insert(
                 "/",
                 "notificationViewed",
-                NotificationController.class.getName(),
+                NotificationBusinessController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
