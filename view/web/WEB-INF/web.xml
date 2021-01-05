@@ -10,7 +10,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/security/secure.xml
-            /WEB-INF/noqapp-mobile-servlet.xml
+            /WEB-INF/noqueue-mobile-servlet.xml
         </param-value>
     </context-param>
 
@@ -110,7 +110,7 @@
 
     <welcome-file-list>
         <!-- maps to LoginController index -->
-        <welcome-file>/open/isWorking.htm</welcome-file>
+        <welcome-file>open/isWorking.htm</welcome-file>
     </welcome-file-list>
 
     <!-- for all other errors -->
