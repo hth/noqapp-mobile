@@ -586,7 +586,7 @@ task prepWar(dependsOn: [
         }
 
         copy {
-            from "view/environment/$env/noqapp-mobile-servlet.xml"
+            from "view/environment/$env/noqueue-mobile-servlet.xml"
             into warWebInfDir
         }
 
