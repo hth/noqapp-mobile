@@ -159,6 +159,8 @@ subprojects {
         implementation "com.google.zxing:core:$zxing"
         implementation "aopalliance:aopalliance:1.0"
         implementation "com.jcraft:jsch:$jsch"
+        /** Added this for validation. Keep 6.2.0.Final. */
+        implementation "org.hibernate.validator:hibernate-validator:$hibernateValidator"
 
         implementation "org.aspectj:aspectjrt:$aspectjrt"
         implementation "org.slf4j:slf4j-api:$slf4japi"
