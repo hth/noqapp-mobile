@@ -110,7 +110,7 @@
 
     <welcome-file-list>
         <!-- maps to LoginController index -->
-        <welcome-file>/open/isWorking.htm</welcome-file>
+        <welcome-file>open/isWorking.htm</welcome-file>
     </welcome-file-list>
 
     <!-- for all other errors -->
