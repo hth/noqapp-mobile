@@ -56,8 +56,8 @@ public class AdvertisementMobileService {
         AdvertisementService advertisementService
     ) {
         this.bizNameManager = bizNameManager;
-        this.statsVigyaapanStoreDailyManager = statsVigyaapanStoreDailyManager;
         this.bizStoreManager = bizStoreManager;
+        this.statsVigyaapanStoreDailyManager = statsVigyaapanStoreDailyManager;
         this.professionalProfileService = professionalProfileService;
         this.medicalRecordManager = medicalRecordManager;
         this.advertisementService = advertisementService;
