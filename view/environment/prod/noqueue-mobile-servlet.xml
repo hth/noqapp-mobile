@@ -3,6 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:cache="http://www.springframework.org/schema/cache"
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/mvc
 		  http://www.springframework.org/schema/mvc/spring-mvc.xsd
@@ -41,7 +42,7 @@
     </bean>
 
     <!-- turn on declarative caching -->
-    <!--<cache:annotation-driven />-->
+    <cache:annotation-driven />
 
     <!-- <mvc:resources mapping="/resources/**" location="/resources/" /> -->
 
