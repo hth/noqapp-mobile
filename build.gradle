@@ -141,6 +141,7 @@ subprojects {
         implementation "$springSecurityGroup:spring-security-taglibs:$springSecurityVersion"
         implementation "$springSecurityGroup:spring-security-web:$springSecurityVersion"
 
+        implementation "$springDataGroup:spring-data-neo4j:$springDataNeo4j"
         implementation "$springDataGroup:spring-data-mongodb:$springDataMongo"
         implementation "$springDataGroup:spring-data-commons:$springDataCommon"
         implementation "org.mongodb:mongo-java-driver:$mongoJavaDriver"
@@ -385,7 +386,7 @@ project(':domain') {
     jar.archiveBaseName = 'noqapp.mobile-domain'
 
     dependencies {
-        compile project(':common')
+        implementation project(':common')
     }
 }
 
@@ -398,7 +399,7 @@ project(':security') {
     }
 
     dependencies {
-        compile project(':domain')
+        implementation project(':domain')
 
         providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
     }
@@ -408,7 +409,7 @@ project(':service') {
     jar.archiveBaseName = 'noqapp.mobile-service'
 
     dependencies {
-        compile project(':common'),
+        implementation project(':common'),
                 project(':domain')
     }
 }
@@ -417,7 +418,7 @@ project(':portal') {
     jar.archiveBaseName = 'noqapp.mobile-portal'
 
     dependencies {
-        compile project(':common'),
+        implementation project(':common'),
                 project(':domain'),
                 project(':security'),
                 project(':service')
@@ -427,14 +428,14 @@ project(':portal') {
 project(':view') {
     apply plugin: 'war'
     jar.archiveBaseName = 'noqapp.mobile-view'
-    war.baseName = 'noqapp.mobile-view'
+    war.archiveBaseName = 'noqapp.mobile-view'
 
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        compile project(':common'),
+        implementation project(':common'),
                 project(':domain'),
                 project(':security'),
                 project(':service')
