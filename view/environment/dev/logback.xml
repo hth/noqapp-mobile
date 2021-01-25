@@ -43,7 +43,10 @@
     <logger name="com.noqapp.mobile.service" level="DEBUG" />
 
     <logger name="org.springframework" level="WARN" />
+    <logger name="org.springframework.transaction" level="WARN" />
     <logger name="org.springframework.data.mongodb" level="WARN" />
+    <logger name="org.springframework.data.neo4j" level="WARN" />
+    <logger name="org.neo4j.ogm.drivers.bolt.request.BoltRequest" level="DEBUG" />
     <logger name="org.springframework.jdbc.core.JdbcTemplate" level="TRACE" />
     <logger name="org.springframework.cache" level="INFO" />
 
