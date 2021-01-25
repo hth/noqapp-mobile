@@ -496,6 +496,11 @@ task prepWar(dependsOn: [
         }
 
         copy {
+            from file("view/environment/$env/ogm" + ".properties")
+            into warConfDir
+        }
+
+        copy {
             from 'view/resources/xslfo'
             into warXslfoDir
         }
