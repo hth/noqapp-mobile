@@ -61,7 +61,7 @@ public class SearchBusinessStoreController {
 
     @Autowired
     public SearchBusinessStoreController(
-        @Value("${Search.useRestHighLevel:false}")
+        @Value("${search.useRestHighLevel:false}")
         boolean useRestHighLevel,
 
         BizStoreSpatialElasticService bizStoreSpatialElasticService,
