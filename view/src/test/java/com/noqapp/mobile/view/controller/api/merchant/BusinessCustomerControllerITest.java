@@ -85,6 +85,7 @@ class BusinessCustomerControllerITest extends ITest {
             geoIPLocationService,
             businessCustomerService,
             queueService,
+            graphDetailOfPerson,
             apiHealthService
         );
 

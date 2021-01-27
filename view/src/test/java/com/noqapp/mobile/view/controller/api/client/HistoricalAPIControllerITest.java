@@ -78,6 +78,7 @@ class HistoricalAPIControllerITest extends ITest {
             geoIPLocationService,
             businessCustomerService,
             queueService,
+            graphDetailOfPerson,
             apiHealthService
         );
 

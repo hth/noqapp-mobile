@@ -81,6 +81,7 @@ import com.noqapp.service.exceptions.StoreDayClosedException;
 import com.noqapp.service.exceptions.StoreNoLongerExistsException;
 import com.noqapp.service.exceptions.TokenAvailableLimitReachedException;
 import com.noqapp.service.exceptions.WaitUntilServiceBegunException;
+import com.noqapp.service.graph.GraphDetailOfPerson;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -132,6 +133,7 @@ public class TokenQueueAPIController {
     private GeoIPLocationService geoIPLocationService;
     private BusinessCustomerService businessCustomerService;
     private QueueService queueService;
+    private GraphDetailOfPerson graphDetailOfPerson;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -146,6 +148,7 @@ public class TokenQueueAPIController {
         GeoIPLocationService geoIPLocationService,
         BusinessCustomerService businessCustomerService,
         QueueService queueService,
+        GraphDetailOfPerson graphDetailOfPerson,
         ApiHealthService apiHealthService
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
@@ -158,6 +161,7 @@ public class TokenQueueAPIController {
         this.geoIPLocationService = geoIPLocationService;
         this.businessCustomerService = businessCustomerService;
         this.queueService = queueService;
+        this.graphDetailOfPerson = graphDetailOfPerson;
         this.apiHealthService = apiHealthService;
     }
 
@@ -301,6 +305,8 @@ public class TokenQueueAPIController {
             JsonTokenAndQueueList jsonTokenAndQueues = queueService.findAllJoinedQueues(qid, did.getText());
             jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllOpenOrderAsJson(qid));
             jsonTokenAndQueues.setJsonScheduleList(scheduleAppointmentService.findLimitedUpComingAppointments(qid));
+
+            graphDetailOfPerson.graphPerson(qid);
             return jsonTokenAndQueues.asJson();
         } catch (Exception e) {
             LOG.error("Failed getting queues qid={}, reason={}", qid, e.getLocalizedMessage(), e);
