@@ -63,7 +63,6 @@ public class DeviceRegistrationController {
     private DeviceRegistrationService deviceRegistrationService;
     private GeoIPLocationService geoIPLocationService;
     private AccountService accountService;
-    private GraphDetailOfPerson graphDetailOfPerson;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -72,14 +71,12 @@ public class DeviceRegistrationController {
         DeviceRegistrationService deviceRegistrationService,
         GeoIPLocationService geoIPLocationService,
         AccountService accountService,
-        GraphDetailOfPerson graphDetailOfPerson,
         ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.deviceRegistrationService = deviceRegistrationService;
         this.geoIPLocationService = geoIPLocationService;
         this.accountService = accountService;
-        this.graphDetailOfPerson = graphDetailOfPerson;
         this.apiHealthService = apiHealthService;
     }
 
@@ -192,7 +189,6 @@ public class DeviceRegistrationController {
                 }
             }
 
-            graphDetailOfPerson.graphPerson(qid);
             return new JsonResponse(true).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);

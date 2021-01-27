@@ -84,6 +84,7 @@ class QueueControllerITest extends ITest {
             geoIPLocationService,
             businessCustomerService,
             queueService,
+            graphDetailOfPerson,
             apiHealthService
         );
 

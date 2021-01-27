@@ -74,6 +74,7 @@ class TokenQueueAPIControllerITest extends ITest {
             geoIPLocationService,
             businessCustomerService,
             queueService,
+            graphDetailOfPerson,
             apiHealthService
         );
 

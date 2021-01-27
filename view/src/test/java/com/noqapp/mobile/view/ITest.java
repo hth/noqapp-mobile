@@ -142,6 +142,8 @@ import com.noqapp.repository.UserProfileManager;
 import com.noqapp.repository.UserProfileManagerImpl;
 import com.noqapp.repository.market.PropertyManager;
 import com.noqapp.repository.market.PropertyManagerImpl;
+import com.noqapp.repository.neo4j.BusinessCustomerN4jManager;
+import com.noqapp.repository.neo4j.PersonN4jManager;
 import com.noqapp.search.elastic.config.ElasticsearchClientConfiguration;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.repository.BizStoreElasticManager;
@@ -189,6 +191,9 @@ import com.noqapp.service.TextToSpeechService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
+import com.noqapp.service.graph.GraphBusinessCustomer;
+import com.noqapp.service.graph.GraphDetailOfPerson;
+import com.noqapp.service.graph.GraphQueue;
 import com.noqapp.service.nlp.NLPService;
 import com.noqapp.service.payment.CashfreeService;
 import com.noqapp.service.transaction.TransactionService;
@@ -340,6 +345,14 @@ public class ITest extends RealMongoForITest {
 
     protected GenerateUserIdManager generateUserIdManager;
     private AccountClientController accountClientController;
+
+    @Mock protected PersonN4jManager personN4jManager;
+    @Mock protected BusinessCustomerN4jManager businessCustomerN4jManager;
+
+    @Mock protected GraphQueue graphQueue;
+    @Mock protected GraphBusinessCustomer graphBusinessCustomer;
+
+    protected GraphDetailOfPerson graphDetailOfPerson;
 
     private StanfordCoreNLP stanfordCoreNLP;
     private MaxentTagger maxentTagger;
@@ -765,6 +778,14 @@ public class ITest extends RealMongoForITest {
             s3FileManager,
             fileService,
             ftpService
+        );
+
+        graphDetailOfPerson = new GraphDetailOfPerson(
+            personN4jManager,
+            businessCustomerN4jManager,
+            graphQueue,
+            graphBusinessCustomer,
+            userProfileManager
         );
 
         registerUser();
