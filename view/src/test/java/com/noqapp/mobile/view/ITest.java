@@ -142,6 +142,7 @@ import com.noqapp.repository.UserProfileManager;
 import com.noqapp.repository.UserProfileManagerImpl;
 import com.noqapp.repository.market.PropertyManager;
 import com.noqapp.repository.market.PropertyManagerImpl;
+import com.noqapp.repository.neo4j.AnomalyN4jManager;
 import com.noqapp.repository.neo4j.BusinessCustomerN4jManager;
 import com.noqapp.repository.neo4j.PersonN4jManager;
 import com.noqapp.search.elastic.config.ElasticsearchClientConfiguration;
@@ -348,6 +349,7 @@ public class ITest extends RealMongoForITest {
 
     @Mock protected PersonN4jManager personN4jManager;
     @Mock protected BusinessCustomerN4jManager businessCustomerN4jManager;
+    @Mock protected AnomalyN4jManager anomalyN4jManager;
 
     @Mock protected GraphQueue graphQueue;
     @Mock protected GraphBusinessCustomer graphBusinessCustomer;
@@ -783,6 +785,7 @@ public class ITest extends RealMongoForITest {
         graphDetailOfPerson = new GraphDetailOfPerson(
             personN4jManager,
             businessCustomerN4jManager,
+            anomalyN4jManager,
             graphQueue,
             graphBusinessCustomer
         );
