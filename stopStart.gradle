@@ -39,6 +39,22 @@ remotes {
         host = '10.0.0.83'
         user = 'db'
     }
+    r1 {
+        host = '10.0.0.51'
+        user = 'db'
+    }
+    r2 {
+        host = '10.0.0.61'
+        user = 'db'
+    }
+    r3 {
+        host = '10.0.0.71'
+        user = 'db'
+    }
+    r4 {
+        host = '10.0.0.81'
+        user = 'db'
+    }
     sn1 {
         host = '10.0.0.54'
         user = 'db'
@@ -51,19 +67,38 @@ remotes {
         host = '10.0.0.84'
         user = 'db'
     }
+    sr1 {
+        host = '10.0.0.52'
+        user = 'db'
+    }
+    sr2 {
+        host = '10.0.0.62'
+        user = 'db'
+    }
+    sr3 {
+        host = '10.0.0.72'
+        user = 'db'
+    }
 }
 
 task stopStartServer {
     if (env == 'sandbox') {
         stopStart(remotes.sn1, "10.0.0.54")
+        stopStart(remotes.sr1, "10.0.0.52")
         stopStart(remotes.sn2, "10.0.0.64")
+        stopStart(remotes.sr2, "10.0.0.62")
         stopStart(remotes.sn4, "10.0.0.84")
+        stopStart(remotes.sr3, "10.0.0.72")
     }
     if (env == 'prod') {
         stopStart(remotes.n1, "10.0.0.53")
+        stopStart(remotes.r1, "10.0.0.51")
         stopStart(remotes.n2, "10.0.0.63")
+        stopStart(remotes.r2, "10.0.0.61")
         stopStart(remotes.n3, "10.0.0.73")
+        stopStart(remotes.r3, "10.0.0.71")
         stopStart(remotes.n4, "10.0.0.83")
+        stopStart(remotes.r4, "10.0.0.81")
     }
 }
 
