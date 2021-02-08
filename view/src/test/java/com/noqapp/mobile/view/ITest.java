@@ -787,7 +787,9 @@ public class ITest extends RealMongoForITest {
             businessCustomerN4jManager,
             anomalyN4jManager,
             graphQueue,
-            graphBusinessCustomer
+            graphBusinessCustomer,
+            bizService,
+            queueManagerJDBC
         );
 
         registerUser();
