@@ -36,8 +36,6 @@ public class ParseTokenFCM {
     private String ipAddress;
     private boolean missingCoordinate;
 
-    private final boolean mobileLocationTurnedOff = true;
-
     private ParseTokenFCM(String tokenJson, HttpServletRequest request) {
         parseForFCM(tokenJson, request);
     }
@@ -75,7 +73,8 @@ public class ParseTokenFCM {
     }
 
     public boolean isMissingCoordinate() {
-        return mobileLocationTurnedOff;
+        //TODO change this when mobile location is turned on
+        return true;
     }
 
     private void parseForFCM(String tokenJson, HttpServletRequest request) {
