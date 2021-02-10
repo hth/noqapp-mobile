@@ -304,7 +304,12 @@ public class TokenQueueController {
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
                 coordinate,
-                parseTokenFCM.getIpAddress()).asJson();
+                parseTokenFCM.isMissingCoordinate()
+                    ? geoIPLocationService.getIpOfSelectedLocation(
+                        CommonUtil.retrieveIPV4(
+                            parseTokenFCM.getIpAddress(),
+                            HttpRequestResponseParser.getClientIpAddress(request)))
+                    : parseTokenFCM.getIpAddress()).asJson();
         } catch (DeviceDetailMissingException e) {
             LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

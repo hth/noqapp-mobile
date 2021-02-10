@@ -420,9 +420,13 @@ public class TokenQueueAPIController {
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
                 coordinate,
-                parseTokenFCM.getIpAddress()
-            );
-            //TODO(hth) get old historical order, it just gets todays historical order
+                parseTokenFCM.isMissingCoordinate()
+                    ? geoIPLocationService.getIpOfSelectedLocation(
+                        CommonUtil.retrieveIPV4(
+                            parseTokenFCM.getIpAddress(),
+                            HttpRequestResponseParser.getClientIpAddress(request)))
+                    : parseTokenFCM.getIpAddress());
+            //TODO(hth) get old historical order, it just gets today's historical order
             jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllDeliveredHistoricalOrderAsJson(qid));
             return jsonTokenAndQueues.asJson();
         } catch (DeviceDetailMissingException e) {
