@@ -22,7 +22,6 @@ import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.AccountService;
-import com.noqapp.service.graph.GraphDetailOfPerson;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -183,9 +182,12 @@ public class DeviceRegistrationController {
                             parseTokenFCM.getOsVersion(),
                             parseTokenFCM.getAppVersion(),
                             coordinate,
-                            parseTokenFCM.getIpAddress()
-                        );
-
+                            parseTokenFCM.isMissingCoordinate()
+                                ? geoIPLocationService.getIpOfSelectedLocation(
+                                CommonUtil.retrieveIPV4(
+                                    parseTokenFCM.getIpAddress(),
+                                    HttpRequestResponseParser.getClientIpAddress(request)))
+                                : parseTokenFCM.getIpAddress());
                     } catch (DeviceDetailMissingException e) {
                         LOG.error("Failed registration as cannot find did={} reason={}", did, e.getLocalizedMessage(), e);
                         throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
