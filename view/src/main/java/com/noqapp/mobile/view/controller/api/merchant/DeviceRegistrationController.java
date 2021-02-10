@@ -20,6 +20,7 @@ import com.noqapp.mobile.service.DeviceRegistrationService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
+import com.noqapp.search.elastic.helper.IpCoordinate;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.AccountService;
 
@@ -131,12 +132,20 @@ public class DeviceRegistrationController {
         }
 
         try {
-            double[] coordinate =  parseTokenFCM.isMissingCoordinate()
-                ? geoIPLocationService.getLocationAsDouble(
+            double[] coordinate;
+            String ip;
+            if (parseTokenFCM.isMissingCoordinate()) {
+                IpCoordinate ipCoordinate = geoIPLocationService.computeIpCoordinate(
                     CommonUtil.retrieveIPV4(
                         parseTokenFCM.getIpAddress(),
-                        HttpRequestResponseParser.getClientIpAddress(request)))
-                : parseTokenFCM.getCoordinate();
+                        HttpRequestResponseParser.getClientIpAddress(request)));
+
+                coordinate = ipCoordinate.getCoordinate();
+                ip = ipCoordinate.getIp();
+            } else {
+                coordinate = parseTokenFCM.getCoordinate();
+                ip = parseTokenFCM.getIpAddress();
+            }
 
             RegisteredDeviceEntity registeredDevice = deviceRegistrationService.lastAccessed(
                 qid,
@@ -157,12 +166,7 @@ public class DeviceRegistrationController {
                         parseTokenFCM.getOsVersion(),
                         parseTokenFCM.getAppVersion(),
                         coordinate,
-                        parseTokenFCM.isMissingCoordinate()
-                            ? geoIPLocationService.getIpOfSelectedLocation(
-                                CommonUtil.retrieveIPV4(
-                                    parseTokenFCM.getIpAddress(),
-                                    HttpRequestResponseParser.getClientIpAddress(request)))
-                            : parseTokenFCM.getIpAddress());
+                        ip);
                 } catch (DeviceDetailMissingException e) {
                     LOG.error("Failed registration as cannot find did={} token={} reason={}", did, parseTokenFCM.getTokenFCM(), e.getLocalizedMessage(), e);
                     throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -182,12 +186,7 @@ public class DeviceRegistrationController {
                             parseTokenFCM.getOsVersion(),
                             parseTokenFCM.getAppVersion(),
                             coordinate,
-                            parseTokenFCM.isMissingCoordinate()
-                                ? geoIPLocationService.getIpOfSelectedLocation(
-                                CommonUtil.retrieveIPV4(
-                                    parseTokenFCM.getIpAddress(),
-                                    HttpRequestResponseParser.getClientIpAddress(request)))
-                                : parseTokenFCM.getIpAddress());
+                            ip);
                     } catch (DeviceDetailMissingException e) {
                         LOG.error("Failed registration as cannot find did={} reason={}", did, e.getLocalizedMessage(), e);
                         throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
