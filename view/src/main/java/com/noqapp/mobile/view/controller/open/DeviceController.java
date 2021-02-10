@@ -21,6 +21,7 @@ import com.noqapp.mobile.types.LowestSupportedAppEnum;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.mobile.service.DeviceRegistrationService;
+import com.noqapp.search.elastic.helper.IpCoordinate;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -125,9 +126,20 @@ public class DeviceController {
 
         try {
             String deviceId = UUID.randomUUID().toString().toUpperCase();
-            double[] coordinate =  parseTokenFCM.isMissingCoordinate()
-                ? getLocationAsDouble(parseTokenFCM, request)
-                : parseTokenFCM.getCoordinate();
+            double[] coordinate;
+            String ip;
+            if (parseTokenFCM.isMissingCoordinate()) {
+                IpCoordinate ipCoordinate = geoIPLocationService.computeIpCoordinate(
+                    CommonUtil.retrieveIPV4(
+                        parseTokenFCM.getIpAddress(),
+                        HttpRequestResponseParser.getClientIpAddress(request)));
+
+                coordinate = ipCoordinate.getCoordinate();
+                ip = ipCoordinate.getIp();
+            } else {
+                coordinate = parseTokenFCM.getCoordinate();
+                ip = parseTokenFCM.getIpAddress();
+            }
 
             deviceRegistrationService.registerDevice(
                 null,
@@ -139,12 +151,7 @@ public class DeviceController {
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
                 coordinate,
-                parseTokenFCM.isMissingCoordinate()
-                    ? geoIPLocationService.getIpOfSelectedLocation(
-                        CommonUtil.retrieveIPV4(
-                            parseTokenFCM.getIpAddress(),
-                            HttpRequestResponseParser.getClientIpAddress(request)))
-                    : parseTokenFCM.getIpAddress());
+                ip);
 
             DeviceRegistered deviceRegistered = DeviceRegistered.newInstance(true, deviceId);
             if (null != coordinate) {
@@ -225,13 +232,6 @@ public class DeviceController {
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
-    }
-
-    private double[] getLocationAsDouble(ParseTokenFCM parseTokenFCM, HttpServletRequest request) {
-        return geoIPLocationService.getLocationAsDouble(
-            CommonUtil.retrieveIPV4(
-                parseTokenFCM.getIpAddress(),
-                HttpRequestResponseParser.getClientIpAddress(request)));
     }
 
     public static String getErrorReason(String reason, MobileSystemErrorCodeEnum mobileSystemErrorCode) {

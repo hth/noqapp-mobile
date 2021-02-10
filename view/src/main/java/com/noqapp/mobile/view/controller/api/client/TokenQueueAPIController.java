@@ -59,6 +59,7 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
+import com.noqapp.search.elastic.helper.IpCoordinate;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.JoinAbortService;
@@ -403,12 +404,20 @@ public class TokenQueueAPIController {
         }
 
         try {
-            double[] coordinate =  parseTokenFCM.isMissingCoordinate()
-                ? geoIPLocationService.getLocationAsDouble(
+            double[] coordinate;
+            String ip;
+            if (parseTokenFCM.isMissingCoordinate()) {
+                IpCoordinate ipCoordinate = geoIPLocationService.computeIpCoordinate(
                     CommonUtil.retrieveIPV4(
                         parseTokenFCM.getIpAddress(),
-                        HttpRequestResponseParser.getClientIpAddress(request)))
-                : parseTokenFCM.getCoordinate();
+                        HttpRequestResponseParser.getClientIpAddress(request)));
+
+                coordinate = ipCoordinate.getCoordinate();
+                ip = ipCoordinate.getIp();
+            } else {
+                coordinate = parseTokenFCM.getCoordinate();
+                ip = parseTokenFCM.getIpAddress();
+            }
 
             JsonTokenAndQueueList jsonTokenAndQueues = queueMobileService.findHistoricalQueue(
                 qid,
@@ -420,12 +429,7 @@ public class TokenQueueAPIController {
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
                 coordinate,
-                parseTokenFCM.isMissingCoordinate()
-                    ? geoIPLocationService.getIpOfSelectedLocation(
-                        CommonUtil.retrieveIPV4(
-                            parseTokenFCM.getIpAddress(),
-                            HttpRequestResponseParser.getClientIpAddress(request)))
-                    : parseTokenFCM.getIpAddress());
+                ip);
             //TODO(hth) get old historical order, it just gets today's historical order
             jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllDeliveredHistoricalOrderAsJson(qid));
             return jsonTokenAndQueues.asJson();
