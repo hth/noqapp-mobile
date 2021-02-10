@@ -199,18 +199,25 @@ import com.noqapp.service.nlp.NLPService;
 import com.noqapp.service.payment.CashfreeService;
 import com.noqapp.service.transaction.TransactionService;
 
+import com.maxmind.geoip2.DatabaseReader;
+
 import org.bson.types.ObjectId;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.env.MockEnvironment;
+import org.springframework.util.FileCopyUtils;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import okhttp3.OkHttpClient;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -347,6 +354,8 @@ public class ITest extends RealMongoForITest {
     protected GenerateUserIdManager generateUserIdManager;
     private AccountClientController accountClientController;
 
+    protected GeoIPLocationService geoIPLocationService;
+
     @Mock protected PersonN4jManager personN4jManager;
     @Mock protected BusinessCustomerN4jManager businessCustomerN4jManager;
     @Mock protected AnomalyN4jManager anomalyN4jManager;
@@ -372,7 +381,6 @@ public class ITest extends RealMongoForITest {
     @Mock protected CashfreeService cashfreeService;
     @Mock protected FirebaseConfig firebaseConfig;
     @Mock protected TextToSpeechConfiguration textToSpeechConfiguration;
-    @Mock protected GeoIPLocationService geoIPLocationService;
     @Mock protected SmsService smsService;
     @Mock protected JMSProducerService jmsProducerService;
     @Mock protected LanguageTranslationService languageTranslationService;
@@ -380,7 +388,7 @@ public class ITest extends RealMongoForITest {
     private MockEnvironment mockEnvironment;
 
     @BeforeAll
-    public void globalISetup() {
+    public void globalISetup() throws IOException {
         MockitoAnnotations.openMocks(this);
 
         did = UUID.randomUUID().toString();
@@ -390,6 +398,11 @@ public class ITest extends RealMongoForITest {
         mockEnvironment = new MockEnvironment();
         mockEnvironment.setProperty("build.env", "sandbox");
 
+        Mockito.when(httpServletRequest.getRemoteAddr()).thenReturn("223.165.26.161");
+        File database = new ClassPathResource("/geo_db/GeoLite2-City.mmdb").getFile();
+        DatabaseReader reader = new DatabaseReader.Builder(database).build();
+        geoIPLocationService = new GeoIPLocationService(reader);
+
         Properties nlpProperties = new Properties();
         nlpProperties.setProperty("annotators", "tokenize, ssplit, pos, lemma, parse, sentiment");
         stanfordCoreNLP = new StanfordCoreNLP(nlpProperties);
@@ -398,7 +411,7 @@ public class ITest extends RealMongoForITest {
         deviceType = DeviceTypeEnum.A.getName();
         model = "Model";
         osVersion = "OS-Version";
-        appVersion = "1.2.700";
+        appVersion = "1.2.800";
 
         userAccountManager = new UserAccountManagerImpl(getMongoTemplate());
         userAuthenticationManager = new UserAuthenticationManagerImpl(getMongoTemplate());
