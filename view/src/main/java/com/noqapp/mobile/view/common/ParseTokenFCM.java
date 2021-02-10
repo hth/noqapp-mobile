@@ -7,6 +7,7 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.common.errors.ErrorEncounteredJson;
+import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +36,8 @@ public class ParseTokenFCM {
     private final double[] coordinate = new double[] {0.0, 0.0};
     private String ipAddress;
     private boolean missingCoordinate;
+
+    private OnOffEnum locationOnMobile = OnOffEnum.F;
 
     private ParseTokenFCM(String tokenJson, HttpServletRequest request) {
         parseForFCM(tokenJson, request);
@@ -73,8 +76,7 @@ public class ParseTokenFCM {
     }
 
     public boolean isMissingCoordinate() {
-        //TODO change this when mobile location is turned on
-        return true;
+        return missingCoordinate;
     }
 
     private void parseForFCM(String tokenJson, HttpServletRequest request) {
@@ -109,16 +111,20 @@ public class ParseTokenFCM {
                 appVersion = map.get("av").getText();
             }
 
-            if (map.containsKey("lng") && map.get("lng") != null && map.containsKey("lat") && map.get("lat") != null) {
-                try {
-                    coordinate[0] = Double.parseDouble(map.get("lng").getText());
-                    coordinate[1] = Double.parseDouble(map.get("lat").getText());
-                } catch (NumberFormatException | NullPointerException e) {
-                    LOG.info("Coordinate missing errorResponse={}", e.getLocalizedMessage());
+            if (locationOnMobile == OnOffEnum.F) {
+                missingCoordinate = true;
+            } else {
+                if (map.containsKey("lng") && map.get("lng") != null && map.containsKey("lat") && map.get("lat") != null) {
+                    try {
+                        coordinate[0] = Double.parseDouble(map.get("lng").getText());
+                        coordinate[1] = Double.parseDouble(map.get("lat").getText());
+                    } catch (NumberFormatException | NullPointerException e) {
+                        LOG.info("Coordinate missing errorResponse={}", e.getLocalizedMessage());
+                        missingCoordinate = true;
+                    }
+                } else {
                     missingCoordinate = true;
                 }
-            } else {
-                missingCoordinate = true;
             }
 
             if (map.containsKey("ip") && map.get("ip") != null) {
