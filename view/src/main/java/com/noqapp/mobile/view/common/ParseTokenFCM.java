@@ -75,7 +75,7 @@ public class ParseTokenFCM {
     }
 
     public boolean isMissingCoordinate() {
-        return mobileLocationTurnedOff || missingCoordinate;
+        return mobileLocationTurnedOff;
     }
 
     private void parseForFCM(String tokenJson, HttpServletRequest request) {
