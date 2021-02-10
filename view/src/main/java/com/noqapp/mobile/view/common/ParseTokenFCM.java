@@ -4,9 +4,9 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.domain.types.OnOffEnum;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 
@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * User: hitender
