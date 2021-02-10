@@ -21,6 +21,14 @@ ext {
     warXslfoDir = file("$warDir$xslfo")
     warGeoDBDir = file("$warDir$geo_db")
 
+    activeProfilewarDir = file("$buildDir/activeProfile/$env")
+    activeProfilewarWebInfDir = file("$activeProfilewarDir$webInf")
+    activeProfilewarClassesDir = file("$activeProfilewarDir$javaClasses")
+    activeProfilewarConfDir = file("$activeProfilewarDir$conf")
+    activeProfilewarFreemarkerDir = file("$activeProfilewarDir$freemarker")
+    activeProfilewarXslfoDir = file("$activeProfilewarDir$xslfo")
+    activeProfilewarGeoDBDir = file("$activeProfilewarDir$geo_db")
+
     unzipDir = file("${buildDir}/unpacked/dist")
     unzipLibDir = file("$unzipDir$lib")
 
@@ -462,6 +470,136 @@ task unzip(type: Copy, dependsOn: [':view:war']) {
     into unzipDir
 }
 
+task setUpProfileForJunit() {
+    doLast {
+        delete buildDir
+        activeProfilewarClassesDir.mkdirs()
+        activeProfilewarConfDir.mkdirs()
+        activeProfilewarFreemarkerDir.mkdirs()
+        activeProfilewarXslfoDir.mkdirs()
+        activeProfilewarGeoDBDir.mkdirs()
+
+        copy {
+            from file("view/environment/$env/$env" + ".properties")
+            into activeProfilewarConfDir
+        }
+
+        copy {
+            from file("view/environment/$env/ogm" + ".properties")
+            into activeProfilewarConfDir
+        }
+
+        copy {
+            from 'view/resources/conf/application-messages.properties'
+            from 'view/resources/conf/communication.properties'
+            from 'view/resources/conf/config.properties'
+            from 'view/resources/conf/redis.properties'
+            from 'view/resources/conf/300x300_overlay_code_qr.png'
+
+            if (env == 'prod') {
+                if (passFileProd.exists()) {
+                    from passwordProdFileLocation
+                } else {
+                    throw new Exception("Required pass file does not exists: $passFileProd.canonicalPath")
+                }
+
+                if (firebaseFileProd.exists()) {
+                    from firebaseAdminProdFileLocation
+                } else {
+                    throw new Exception("Required firebase file does not exists: $firebaseFileProd.canonicalPath")
+                }
+            }
+
+            if (env == 'sandbox') {
+                if (passFileTest.exists()) {
+                    from passwordTestFileLocation
+                } else {
+                    throw new Exception("Required pass file does not exists: $passFileTest.canonicalPath")
+                }
+
+                if (firebaseFileTest.exists()) {
+                    from firebaseAdminTestFileLocation
+                } else {
+                    throw new Exception("Required firebase file does not exists: $firebaseFileTest.canonicalPath")
+                }
+            }
+
+            if (env == 'dev') {
+                println "Development environment, getting local pass file $passFileLocal.canonicalPath"
+                if (passFileLocal.exists()) {
+                    from 'view/resources/conf/pass.properties'
+                } else {
+                    throw new Exception("Required pass file does not exists: $passFileLocal.canonicalPath")
+                }
+
+                println "Development environment, getting local firebase file $firebaseFileLocal.canonicalPath"
+                if (firebaseFileLocal.exists()) {
+                    from 'view/resources/conf/noq-app-inc-firebase-adminsdk.json'
+                } else {
+                    throw new Exception("Required firebase file does not exists: $firebaseFileLocal.canonicalPath")
+                }
+            }
+
+            into activeProfilewarConfDir
+        }
+
+        copy {
+            if (env == 'prod') {
+                if (geoDBProd.exists()) {
+                    from geoDBProdFileLocation
+                } else {
+                    throw new Exception("Required GeoLite file does not exists: $geoDBProdFileLocation.canonicalPath")
+                }
+            }
+
+            if (env == 'sandbox') {
+                if (geoDBTest.exists()) {
+                    from geoDBTestFileLocation
+                } else {
+                    throw new Exception("Required GeoLite file does not exists: $geoDBTestFileLocation.canonicalPath")
+                }
+            }
+
+            if (env == 'dev') {
+                println "Development environment, getting local GeoLite file $geoDBLocal.canonicalPath"
+                if (geoDBLocal.exists()) {
+                    from 'view/resources/geo_db/GeoLite2-City.mmdb'
+                } else {
+                    throw new Exception("Required GeoLite file does not exists: $geoDBLocal.canonicalPath")
+                }
+            }
+
+            into activeProfilewarGeoDBDir
+        }
+
+        copy {
+            from "view/environment/$env/logback.xml"
+            from 'view/resources/conf/messages.properties'
+            into activeProfilewarClassesDir
+        }
+
+        copy {
+            from "view/environment/$env/noqueue-servlet.xml"
+            into activeProfilewarWebInfDir
+        }
+
+        copy {
+            from "view/environment/$env/mongo-config.xml"
+            into activeProfilewarWebInfDir
+        }
+
+        copy {
+            from "view/web$freemarker"
+            into activeProfilewarFreemarkerDir
+        }
+
+        copy {
+            from "view/resources/xslfo"
+            into activeProfilewarXslfoDir
+        }
+    }
+}
+
 task createBuildInfoFile {
     doLast {
         buildDir.mkdirs()
@@ -642,4 +780,4 @@ task testReport(type: TestReport) {
     }
 }
 
-defaultTasks 'clean', 'build', 'jar', 'war', 'test', 'testReport', 'jacocoTestReport'
+defaultTasks 'clean', 'setUpProfileForJunit', 'build', 'jar', 'war', 'test', 'testReport', 'jacocoTestReport'
