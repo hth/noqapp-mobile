@@ -426,6 +426,7 @@ public class TokenQueueAPIController {
                             parseTokenFCM.getIpAddress(),
                             HttpRequestResponseParser.getClientIpAddress(request)))
                     : parseTokenFCM.getIpAddress());
+            //TODO(hth) get old historical order, it just gets today's historical order
             jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllDeliveredHistoricalOrderAsJson(qid));
             return jsonTokenAndQueues.asJson();
         } catch (DeviceDetailMissingException e) {
