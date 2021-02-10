@@ -139,7 +139,12 @@ public class DeviceController {
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
                 coordinate,
-                parseTokenFCM.getIpAddress());
+                parseTokenFCM.isMissingCoordinate()
+                    ? geoIPLocationService.getIpOfSelectedLocation(
+                        CommonUtil.retrieveIPV4(
+                            parseTokenFCM.getIpAddress(),
+                            HttpRequestResponseParser.getClientIpAddress(request)))
+                    : parseTokenFCM.getIpAddress());
 
             DeviceRegistered deviceRegistered = DeviceRegistered.newInstance(true, deviceId);
             if (null != coordinate) {

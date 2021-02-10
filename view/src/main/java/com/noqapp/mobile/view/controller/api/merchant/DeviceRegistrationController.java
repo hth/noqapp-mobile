@@ -158,8 +158,12 @@ public class DeviceRegistrationController {
                         parseTokenFCM.getOsVersion(),
                         parseTokenFCM.getAppVersion(),
                         coordinate,
-                        parseTokenFCM.getIpAddress()
-                    );
+                        parseTokenFCM.isMissingCoordinate()
+                            ? geoIPLocationService.getIpOfSelectedLocation(
+                                CommonUtil.retrieveIPV4(
+                                    parseTokenFCM.getIpAddress(),
+                                    HttpRequestResponseParser.getClientIpAddress(request)))
+                            : parseTokenFCM.getIpAddress());
                 } catch (DeviceDetailMissingException e) {
                     LOG.error("Failed registration as cannot find did={} token={} reason={}", did, parseTokenFCM.getTokenFCM(), e.getLocalizedMessage(), e);
                     throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
