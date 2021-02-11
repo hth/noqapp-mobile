@@ -9,6 +9,8 @@ import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.RegisteredDeviceManager;
+import com.noqapp.search.elastic.helper.GeoIP;
+import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.MessageCustomerService;
 import com.noqapp.service.UserProfilePreferenceService;
 
@@ -44,6 +46,7 @@ public class DeviceRegistrationService {
     private RegisteredDeviceManager registeredDeviceManager;
     private MessageCustomerService messageCustomerService;
     private UserProfilePreferenceService userProfilePreferenceService;
+    private GeoIPLocationService geoIPLocationService;
 
     private ExecutorService executorService;
 
@@ -54,13 +57,15 @@ public class DeviceRegistrationService {
 
         RegisteredDeviceManager registeredDeviceManager,
         MessageCustomerService messageCustomerService,
-        UserProfilePreferenceService userProfilePreferenceService
+        UserProfilePreferenceService userProfilePreferenceService,
+        GeoIPLocationService geoIPLocationService
     ) {
         this.information = information;
 
         this.registeredDeviceManager = registeredDeviceManager;
         this.messageCustomerService = messageCustomerService;
         this.userProfilePreferenceService = userProfilePreferenceService;
+        this.geoIPLocationService = geoIPLocationService;
 
         this.executorService = newCachedThreadPool();
     }
@@ -109,9 +114,10 @@ public class DeviceRegistrationService {
     ) {
         try {
             RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(qid, did);
+            GeoIP geoIP = geoIPLocationService.getLocation(ipAddress);
             if (null == registeredDevice) {
                 LOG.info("Registering new deviceType={} appFlavor={} did={} qid={} ip={}", deviceType.getName(), appFlavor.getName(), did, qid, ipAddress);
-                registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token, appVersion, coordinate, ipAddress);
+                registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token, appVersion, geoIP.getCityName(), coordinate, ipAddress);
                 try {
                     registeredDevice
                         .setModel(model)
@@ -136,9 +142,9 @@ public class DeviceRegistrationService {
                         token,
                         model,
                         osVersion,
+                        geoIP.getCityName(),
                         coordinate,
-                        ipAddress
-                    );
+                        ipAddress);
                     LOG.info("existing registered device updateStatus={} with qid={} token={}", updateStatus, qid, token);
                 }
             } else if (StringUtils.isNotBlank(token)) {
@@ -152,6 +158,7 @@ public class DeviceRegistrationService {
                     token,
                     model,
                     osVersion,
+                    geoIP.getCityName(),
                     coordinate,
                     ipAddress,
                     true);
