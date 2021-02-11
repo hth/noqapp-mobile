@@ -110,7 +110,7 @@ public class DeviceRegistrationService {
         try {
             RegisteredDeviceEntity registeredDevice = registeredDeviceManager.find(qid, did);
             if (null == registeredDevice) {
-                LOG.info("Registering new deviceType={} appFlavor={} did={} qid={} internetIP={}", deviceType.getName(), appFlavor.getName(), did, qid, ipAddress);
+                LOG.info("Registering new deviceType={} appFlavor={} did={} qid={} ip={}", deviceType.getName(), appFlavor.getName(), did, qid, ipAddress);
                 registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token, appVersion, coordinate, ipAddress);
                 try {
                     registeredDevice
@@ -142,7 +142,7 @@ public class DeviceRegistrationService {
                     LOG.info("existing registered device updateStatus={} with qid={} token={}", updateStatus, qid, token);
                 }
             } else if (StringUtils.isNotBlank(token)) {
-                LOG.info("Updating registered device of deviceType={} appFlavor={} did={} qid={} internetIP={}", deviceType, appFlavor.getName(), did, qid, ipAddress);
+                LOG.info("Updating registered device of deviceType={} appFlavor={} did={} qid={} ip={}", deviceType, appFlavor.getName(), did, qid, ipAddress);
                 boolean updateSuccess = registeredDeviceManager.updateDevice(
                     registeredDevice.getId(),
                     registeredDevice.getDeviceId(),
