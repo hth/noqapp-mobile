@@ -173,8 +173,9 @@ public class DeviceRegistrationService {
         return registeredDeviceManager.find(qid, did) != null;
     }
 
-    public RegisteredDeviceEntity lastAccessed(String qid, String did, String token, String model, String osVersion) {
-        return registeredDeviceManager.lastAccessed(qid, did, token, model, osVersion);
+    public RegisteredDeviceEntity lastAccessed(String qid, String did, String token, String model, String osVersion, String ipAddress) {
+        GeoIP geoIP = geoIPLocationService.getLocation(ipAddress);
+        return registeredDeviceManager.lastAccessed(qid, did, token, model, osVersion, ipAddress, geoIP.getCityName());
     }
 
     /** Update Registered Device after register or login when token is not available. */
