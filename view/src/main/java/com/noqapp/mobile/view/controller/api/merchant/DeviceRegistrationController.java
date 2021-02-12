@@ -140,7 +140,7 @@ public class DeviceRegistrationController {
                         parseTokenFCM.getIpAddress(),
                         HttpRequestResponseParser.getClientIpAddress(request)));
 
-                coordinate = ipCoordinate.getCoordinate();
+                coordinate = ipCoordinate.getCoordinate() == null ? parseTokenFCM.getCoordinate() : ipCoordinate.getCoordinate();
                 ip = ipCoordinate.getIp();
             } else {
                 coordinate = parseTokenFCM.getCoordinate();
