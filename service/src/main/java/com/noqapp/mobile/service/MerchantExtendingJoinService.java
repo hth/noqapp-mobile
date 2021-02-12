@@ -47,7 +47,6 @@ public class MerchantExtendingJoinService {
 
     private JoinAbortService joinAbortService;
     private QueueMobileService queueMobileService;
-    private TokenQueueMobileService tokenQueueMobileService;
     private SmsService smsService;
     private AccountService accountService;
     private BusinessCustomerService businessCustomerService;
@@ -61,7 +60,6 @@ public class MerchantExtendingJoinService {
     public MerchantExtendingJoinService(
         JoinAbortService joinAbortService,
         QueueMobileService queueMobileService,
-        TokenQueueMobileService tokenQueueMobileService,
         SmsService smsService,
         AccountService accountService,
         BusinessCustomerService businessCustomerService,
@@ -71,7 +69,6 @@ public class MerchantExtendingJoinService {
     ) {
         this.joinAbortService = joinAbortService;
         this.queueMobileService = queueMobileService;
-        this.tokenQueueMobileService = tokenQueueMobileService;
         this.smsService = smsService;
         this.accountService = accountService;
         this.businessCustomerService = businessCustomerService;

@@ -699,7 +699,6 @@ public class ITest extends RealMongoForITest {
         merchantExtendingJoinService = new MerchantExtendingJoinService(
             joinAbortService,
             queueMobileService,
-            tokenQueueMobileService,
             smsService,
             accountService,
             businessCustomerService,
