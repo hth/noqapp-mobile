@@ -201,6 +201,11 @@ public class DeviceController {
         LOG.info("Supported device deviceType={} appFlavor={} versionRelease={}", deviceType, appFlavor, versionRelease);
 
         try {
+            if (null != did) {
+                LOG.warn("Old app version did={} versionRelease={}", did, versionRelease);
+                return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
+            }
+
             DeviceTypeEnum deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
             AppFlavorEnum appFlavorEnum = AppFlavorEnum.valueOf(appFlavor.getText());
             LOG.info("Check if API version is supported for {} versionRelease={}", deviceTypeEnum.getDescription(), versionRelease);
