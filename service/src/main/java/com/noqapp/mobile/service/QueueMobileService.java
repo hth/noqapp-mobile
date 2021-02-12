@@ -185,7 +185,7 @@ public class QueueMobileService {
         double[] coordinate,
         String ipAddress
     ) {
-        RegisteredDeviceEntity registeredDevice = deviceRegistrationService.lastAccessed(null, did, token, model, osVersion, ipAddress);
+        RegisteredDeviceEntity registeredDevice = deviceRegistrationService.lastAccessed(null, did, token, model, osVersion, appVersion, ipAddress);
 
         /* Get all the queues that have been serviced for today. */
         List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByDid(did);
@@ -241,7 +241,7 @@ public class QueueMobileService {
         String ipAddress
     ) {
         Validate.isValidQid(qid);
-        RegisteredDeviceEntity registeredDevice = deviceRegistrationService.lastAccessed(qid, did, token, model, osVersion, ipAddress);
+        RegisteredDeviceEntity registeredDevice = deviceRegistrationService.lastAccessed(qid, did, token, model, osVersion, appVersion, ipAddress);
 
         /* Get all the queues that have been serviced for today. This first for sorting reasons. */
         List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByQid(qid);

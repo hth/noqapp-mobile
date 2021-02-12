@@ -153,6 +153,7 @@ public class DeviceRegistrationController {
                 parseTokenFCM.getTokenFCM(),
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
+                parseTokenFCM.getAppVersion(),
                 ip);
 
             if (null == registeredDevice) {
