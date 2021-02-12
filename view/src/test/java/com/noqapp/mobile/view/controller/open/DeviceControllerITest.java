@@ -84,7 +84,7 @@ class DeviceControllerITest extends ITest {
     void isSupportedWithFlavor_Success_NQCL() throws IOException {
         String version = "1.2.800";
         String response = deviceController.isSupportedAppVersion(
-            new ScrubbedInput(did),
+            null,
             new ScrubbedInput(deviceType),
             new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
             new ScrubbedInput(version)
@@ -99,7 +99,7 @@ class DeviceControllerITest extends ITest {
     void isSupportedWithFlavor_Success_NQMH() throws IOException {
         String version = "1.2.800";
         String response = deviceController.isSupportedAppVersion(
-            new ScrubbedInput(did),
+            null,
             new ScrubbedInput(deviceType),
             new ScrubbedInput(AppFlavorEnum.NQMH.getName()),
             new ScrubbedInput(version)
