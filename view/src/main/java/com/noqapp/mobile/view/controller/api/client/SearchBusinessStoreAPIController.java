@@ -10,9 +10,7 @@ import com.noqapp.search.elastic.domain.BizStoreSearchElasticList;
 import com.noqapp.search.elastic.helper.GeoIP;
 import com.noqapp.search.elastic.json.ElasticBizStoreSearchSource;
 import com.noqapp.search.elastic.service.BizStoreSearchElasticService;
-import com.noqapp.search.elastic.service.BizStoreSpatialElasticService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
-import com.noqapp.service.BizService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -50,9 +48,7 @@ public class SearchBusinessStoreAPIController {
     private static final Logger LOG = LoggerFactory.getLogger(SearchBusinessStoreAPIController.class);
 
     private boolean useRestHighLevel;
-    private BizStoreSpatialElasticService bizStoreSpatialElasticService;
     private BizStoreSearchElasticService bizStoreSearchElasticService;
-    private BizService bizService;
     private GeoIPLocationService geoIPLocationService;
     private ApiHealthService apiHealthService;
 
@@ -61,17 +57,13 @@ public class SearchBusinessStoreAPIController {
         @Value("${search.useRestHighLevel:false}")
         boolean useRestHighLevel,
 
-        BizStoreSpatialElasticService bizStoreSpatialElasticService,
         BizStoreSearchElasticService bizStoreSearchElasticService,
-        BizService bizService,
         GeoIPLocationService geoIPLocationService,
         ApiHealthService apiHealthService
     ) {
         this.useRestHighLevel = useRestHighLevel;
 
-        this.bizStoreSpatialElasticService = bizStoreSpatialElasticService;
         this.bizStoreSearchElasticService = bizStoreSearchElasticService;
-        this.bizService = bizService;
         this.geoIPLocationService = geoIPLocationService;
         this.apiHealthService = apiHealthService;
     }
