@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.open;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
+import com.noqapp.domain.UserSearchEntity;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -15,6 +16,7 @@ import com.noqapp.search.elastic.service.BizStoreSearchElasticService;
 import com.noqapp.search.elastic.service.BizStoreSpatialElasticService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.BizService;
+import com.noqapp.service.UserSearchService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -57,6 +59,7 @@ public class SearchBusinessStoreController {
     private BizStoreSearchElasticService bizStoreSearchElasticService;
     private BizService bizService;
     private GeoIPLocationService geoIPLocationService;
+    private UserSearchService userSearchService;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -68,6 +71,7 @@ public class SearchBusinessStoreController {
         BizStoreSearchElasticService bizStoreSearchElasticService,
         BizService bizService,
         GeoIPLocationService geoIPLocationService,
+        UserSearchService userSearchService,
         ApiHealthService apiHealthService
     ) {
         this.useRestHighLevel = useRestHighLevel;
@@ -76,6 +80,7 @@ public class SearchBusinessStoreController {
         this.bizStoreSearchElasticService = bizStoreSearchElasticService;
         this.bizService = bizService;
         this.geoIPLocationService = geoIPLocationService;
+        this.userSearchService = userSearchService;
         this.apiHealthService = apiHealthService;
     }
 
@@ -131,6 +136,13 @@ public class SearchBusinessStoreController {
                     searchStoreQuery.getScrollId().getText()).asJson();
             } else {
                 List<ElasticBizStoreSearchSource> elasticBizStoreSearchSources = bizStoreSearchElasticService.createBizStoreSearchDSLQuery(query, geoHash);
+                UserSearchEntity userSearch = new UserSearchEntity()
+                    .setQuery(searchStoreQuery.getQuery().getText())
+                    .setDid(did.getText())
+                    .setCityName(searchStoreQuery.getCityName().getText())
+                    .setGeoHash(geoHash)
+                    .setResultCount(elasticBizStoreSearchSources.size());
+                userSearchService.save(userSearch);
                 return bizStoreSearchElasticList.populateSearchBizStoreElasticArray(elasticBizStoreSearchSources).asJson();
             }
         } catch (Exception e) {
