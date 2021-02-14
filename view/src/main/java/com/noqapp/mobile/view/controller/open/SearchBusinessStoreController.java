@@ -126,7 +126,7 @@ public class SearchBusinessStoreController {
             }
 
             if (useRestHighLevel) {
-                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} qid={}", query, searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
+                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={}", query, searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
                 return bizStoreSearchElasticService.executeNearMeSearchOnBizStoreUsingRestClient(
                     query,
                     searchStoreQuery.getCityName().getText(),
@@ -135,7 +135,7 @@ public class SearchBusinessStoreController {
                     searchStoreQuery.getScrollId().getText()).asJson();
             } else {
                 List<ElasticBizStoreSearchSource> elasticBizStoreSearchSources = bizStoreSearchElasticService.createBizStoreSearchDSLQuery(query, geoHash);
-                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} qid={} result={}", query, searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText(), elasticBizStoreSearchSources.size());
+                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} result={}", query, searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText(), elasticBizStoreSearchSources.size());
                 UserSearchEntity userSearch = new UserSearchEntity()
                     .setQuery(searchStoreQuery.getQuery().getText())
                     .setDid(did.getText())
