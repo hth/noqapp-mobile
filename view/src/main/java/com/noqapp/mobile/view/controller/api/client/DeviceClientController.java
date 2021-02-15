@@ -1,6 +1,5 @@
-package com.noqapp.mobile.view.controller.api.merchant;
+package com.noqapp.mobile.view.controller.api.client;
 
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.BUSINESS_APP_ACCESS_DENIED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
@@ -8,13 +7,12 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.domain.RegisteredDeviceEntity;
-import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.shared.GeoPointOfQ;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.domain.DeviceRegistered;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.DeviceRegistrationService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
@@ -22,7 +20,6 @@ import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.helper.IpCoordinate;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
-import com.noqapp.service.AccountService;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -40,64 +37,63 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * hitender
- * 10/25/20 2:08 AM
+ * 2/14/21 11:00 PM
  */
-@SuppressWarnings ({
+@SuppressWarnings({
     "PMD.BeanMembersShouldSerialize",
     "PMD.LocalVariableCouldBeFinal",
     "PMD.MethodArgumentCouldBeFinal",
     "PMD.LongVariable"
 })
 @RestController
-@RequestMapping(value = "/api/m/dv")
-public class DeviceRegistrationController {
-    private static final Logger LOG = LoggerFactory.getLogger(DeviceRegistrationController.class);
+@RequestMapping(value = "/api/c/device")
+public class DeviceClientController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(com.noqapp.mobile.view.controller.open.DeviceController.class);
 
     private AuthenticateMobileService authenticateMobileService;
     private DeviceRegistrationService deviceRegistrationService;
     private GeoIPLocationService geoIPLocationService;
-    private AccountService accountService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public DeviceRegistrationController(
+    public DeviceClientController(
         AuthenticateMobileService authenticateMobileService,
         DeviceRegistrationService deviceRegistrationService,
         GeoIPLocationService geoIPLocationService,
-        AccountService accountService,
         ApiHealthService apiHealthService
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.deviceRegistrationService = deviceRegistrationService;
         this.geoIPLocationService = geoIPLocationService;
-        this.accountService = accountService;
         this.apiHealthService = apiHealthService;
     }
 
     @PostMapping(
-        value = "/registration",
+        value = {"/register"},
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public String registration(
+    public String registerDevice(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput deviceType,
 
         @RequestHeader (value = "X-R-AF")
         ScrubbedInput appFlavor,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         @RequestBody
@@ -108,7 +104,7 @@ public class DeviceRegistrationController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Business device registration did={} dt={} mail={}", did, deviceType, mail);
+        LOG.info("Client device registration did={} dt={} mail={}", did, deviceType, mail);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
@@ -117,21 +113,8 @@ public class DeviceRegistrationController {
             return parseTokenFCM.getErrorResponse();
         }
 
-        UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
-        switch (userProfile.getLevel()) {
-            case Q_SUPERVISOR:
-            case S_MANAGER:
-                //Only allow these level
-                break;
-            case M_ADMIN:
-                LOG.warn("Denied access to business app is denied qid={} {} {}", qid, parseTokenFCM.getAppVersion(), parseTokenFCM.getOsVersion());
-                return getErrorReason("Access denied. Admin is restricted from app access.", BUSINESS_APP_ACCESS_DENIED);
-            default:
-                LOG.warn("Denied access to business app is denied qid={} {} {}", qid, parseTokenFCM.getAppVersion(), parseTokenFCM.getOsVersion());
-                return getErrorReason("Access denied. Please ask admin to authorize.", BUSINESS_APP_ACCESS_DENIED);
-        }
-
         try {
+            String deviceId = UUID.randomUUID().toString().toUpperCase();
             double[] coordinate;
             String ip;
             if (parseTokenFCM.isMissingCoordinate()) {
@@ -147,68 +130,35 @@ public class DeviceRegistrationController {
                 ip = parseTokenFCM.getIpAddress();
             }
 
-            RegisteredDeviceEntity registeredDevice = deviceRegistrationService.lastAccessed(
+            deviceRegistrationService.registerDevice(
                 qid,
-                did.getText(),
+                deviceId,
+                DeviceTypeEnum.valueOf(deviceType.getText()),
+                AppFlavorEnum.valueOf(appFlavor.getText()),
                 parseTokenFCM.getTokenFCM(),
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
+                coordinate,
                 ip);
 
-            if (null == registeredDevice) {
-                try {
-                    deviceRegistrationService.registerDevice(
-                        qid,
-                        did.getText(),
-                        DeviceTypeEnum.valueOf(deviceType.getText()),
-                        AppFlavorEnum.valueOf(appFlavor.getText()),
-                        parseTokenFCM.getTokenFCM(),
-                        parseTokenFCM.getModel(),
-                        parseTokenFCM.getOsVersion(),
-                        parseTokenFCM.getAppVersion(),
-                        coordinate,
-                        ip);
-                } catch (DeviceDetailMissingException e) {
-                    LOG.error("Failed registration as cannot find did={} token={} reason={}", did, parseTokenFCM.getTokenFCM(), e.getLocalizedMessage(), e);
-                    throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
-                }
-                LOG.info("Historical new device queue did={} qid={} deviceType={}", did, qid, deviceType);
-            } else {
-                if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
-                    try {
-                        /* Save with QID when missing in registered device. */
-                        deviceRegistrationService.registerDevice(
-                            qid,
-                            did.getText(),
-                            DeviceTypeEnum.valueOf(deviceType.getText()),
-                            AppFlavorEnum.valueOf(appFlavor.getText()),
-                            parseTokenFCM.getTokenFCM(),
-                            parseTokenFCM.getModel(),
-                            parseTokenFCM.getOsVersion(),
-                            parseTokenFCM.getAppVersion(),
-                            coordinate,
-                            ip);
-                    } catch (DeviceDetailMissingException e) {
-                        LOG.error("Failed registration as cannot find did={} reason={}", did, e.getLocalizedMessage(), e);
-                        throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
-                    }
-                }
+            DeviceRegistered deviceRegistered = DeviceRegistered.newInstance(true, deviceId);
+            if (null != coordinate) {
+                deviceRegistered.setGeoPointOfQ(new GeoPointOfQ(coordinate[1], coordinate[0]));
             }
-
-            return new JsonResponse(true).asJson();
+            return deviceRegistered.asJson();
         } catch (DeviceDetailMissingException e) {
-            LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
+            LOG.error("Failed registering deviceType={}, reason={}", deviceType.getText(), e.getLocalizedMessage(), e);
             return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
         } catch (Exception e) {
-            LOG.error("Failed getting queue state qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed registering deviceType={}, reason={}", deviceType.getText(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/registration",
-                "registration",
-                DeviceRegistrationController.class.getName(),
+                "/register",
+                "registerDevice",
+                com.noqapp.mobile.view.controller.open.DeviceController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
