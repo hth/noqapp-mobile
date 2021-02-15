@@ -191,10 +191,7 @@ public class DeviceRegistrationService {
             executorService.submit(() -> subscribeToAllAssociatedTopics(qid, deviceType, registeredDevice.getToken()));
         }
 
-        registeredDevice.setQueueUserId(qid);
-        registeredDevice.setDeviceType(deviceType);
-        registeredDevice.setSinceBeginning(true);
-        registeredDeviceManager.save(registeredDevice);
+        registeredDeviceManager.updateRegisteredDevice(registeredDevice.getDeviceId(), qid, deviceType, true);
         LOG.info("Updated did={} with qid={} deviceType={}", did, qid, deviceType);
     }
 
