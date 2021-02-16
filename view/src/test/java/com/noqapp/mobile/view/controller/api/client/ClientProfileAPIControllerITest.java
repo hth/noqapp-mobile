@@ -16,6 +16,7 @@ import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
+import com.noqapp.service.InviteService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -68,7 +69,8 @@ class ClientProfileAPIControllerITest extends ITest {
             userAddressService,
             profileCommonHelper,
             imageCommonHelper,
-            new ImageValidator()
+            new ImageValidator(),
+            inviteService
         );
     }
 
