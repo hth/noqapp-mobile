@@ -491,7 +491,8 @@ public class ITest extends RealMongoForITest {
             userAddressService,
             businessUserManager,
             businessUserStoreManager,
-            jmsProducerService
+            jmsProducerService,
+            inviteService
         );
 
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6, 6);
