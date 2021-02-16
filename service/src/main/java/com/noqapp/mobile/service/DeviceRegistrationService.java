@@ -126,7 +126,13 @@ public class DeviceRegistrationService {
 
                     /* Always subscribe to information. */
                     messageCustomerService.subscribeToTopic(
-                        new ArrayList<>() {{ add(token); }},
+                        new ArrayList<>() {
+                            private static final long serialVersionUID = -4512369320581819200L;
+
+                            {
+                                add(token);
+                            }
+                        },
                         CommonUtil.buildTopic(information, deviceType.name()));
 
                     LOG.info("Registered device for did={}", did);
@@ -199,7 +205,13 @@ public class DeviceRegistrationService {
         UserPreferenceEntity userPreference = userProfilePreferenceService.findByQueueUserId(qid);
         for (String topicsToBeSubscribedTo : userPreference.getSubscriptionTopics()) {
             messageCustomerService.subscribeToTopic(
-                new ArrayList<>() {{ add(token); }},
+                new ArrayList<>() {
+                    private static final long serialVersionUID = 356234509938382570L;
+
+                    {
+                        add(token);
+                    }
+                },
                 CommonUtil.buildTopic(topicsToBeSubscribedTo, deviceType.name()));
         }
     }

@@ -203,13 +203,17 @@ public class SearchBusinessStoreController {
             }
             LOG.info("NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
-                new ArrayList<> () {{
-                    add(BusinessTypeEnum.CD);
-                    add(BusinessTypeEnum.CDQ);
-                    add(BusinessTypeEnum.DO);
-                    add(BusinessTypeEnum.HS);
-                    add(BusinessTypeEnum.PW);
-                }},
+                new ArrayList<> () {
+                    private static final long serialVersionUID = -1371033286799633594L;
+
+                    {
+                        add(BusinessTypeEnum.CD);
+                        add(BusinessTypeEnum.CDQ);
+                        add(BusinessTypeEnum.DO);
+                        add(BusinessTypeEnum.HS);
+                        add(BusinessTypeEnum.PW);
+                    }
+                },
                 geoHash,
                 searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {

@@ -469,10 +469,14 @@ public class BusinessCustomerController {
                 case APPROVE:
                     businessCustomerService.updateBusinessCustomer(
                         businessCustomer.getId(),
-                        new LinkedHashSet<>() {{
-                            add(CommonHelper.findBusinessCustomerAttribute(bizStore));
-                            add(BusinessCustomerAttributeEnum.AP);
-                        }},
+                        new LinkedHashSet<>() {
+                            private static final long serialVersionUID = 4595103375421355566L;
+
+                            {
+                                add(CommonHelper.findBusinessCustomerAttribute(bizStore));
+                                add(BusinessCustomerAttributeEnum.AP);
+                            }
+                        },
                         customerPriority.getCustomerPriorityLevel(),
                         bizStore.getBizCategoryId()
                     );
@@ -498,10 +502,14 @@ public class BusinessCustomerController {
                 case REJECT:
                     businessCustomerService.updateBusinessCustomer(
                         businessCustomer.getId(),
-                        new LinkedHashSet<>() {{
-                            add(CommonHelper.findBusinessCustomerAttribute(bizStore));
-                            add(BusinessCustomerAttributeEnum.RJ);
-                        }},
+                        new LinkedHashSet<>() {
+                            private static final long serialVersionUID = 8275250072965569342L;
+
+                            {
+                                add(CommonHelper.findBusinessCustomerAttribute(bizStore));
+                                add(BusinessCustomerAttributeEnum.RJ);
+                            }
+                        },
                         CustomerPriorityLevelEnum.I,
                         null
                     );
@@ -528,9 +536,13 @@ public class BusinessCustomerController {
                     businessCustomerService.clearBusinessCustomer(businessCustomer.getQueueUserId(), businessCustomer.getBizNameId());
                     
                     jsonQueuedPerson.setBusinessCustomerAttributes(
-                        new LinkedHashSet<>() {{
-                            add(BusinessCustomerAttributeEnum.RJ);
-                        }});
+                        new LinkedHashSet<>() {
+                            private static final long serialVersionUID = 6762042550962853642L;
+
+                            {
+                                add(BusinessCustomerAttributeEnum.RJ);
+                            }
+                        });
                     jsonQueuedPerson.setCustomerPriorityLevel(CustomerPriorityLevelEnum.I);
 
                     queueService.updateCustomerPriorityAndCustomerAttributes(
