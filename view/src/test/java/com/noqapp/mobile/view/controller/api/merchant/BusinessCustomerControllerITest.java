@@ -129,7 +129,7 @@ class BusinessCustomerControllerITest extends ITest {
             .setActionType(ActionTypeEnum.APPROVE)
             .setCodeQR(new ScrubbedInput(businessUserStores.get(0).getCodeQR()))
             .setCustomerPriorityLevel(CustomerPriorityLevelEnum.I)
-            .setBusinessCustomerAttributes(new ArrayList<BusinessCustomerAttributeEnum>() {{ add(BusinessCustomerAttributeEnum.AP); }});
+            .setBusinessCustomerAttributes(new ArrayList<>() {{ add(BusinessCustomerAttributeEnum.AP); }});
         String jsonQueuedPersonResponse = businessCustomerController.accessAction(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
@@ -161,7 +161,7 @@ class BusinessCustomerControllerITest extends ITest {
             .setActionType(ActionTypeEnum.APPROVE)
             .setCodeQR(new ScrubbedInput(businessUserStores.get(1).getCodeQR()))
             .setCustomerPriorityLevel(CustomerPriorityLevelEnum.I)
-            .setBusinessCustomerAttributes(new ArrayList<BusinessCustomerAttributeEnum>() {{ add(BusinessCustomerAttributeEnum.AP); }});
+            .setBusinessCustomerAttributes(new ArrayList<>() {{ add(BusinessCustomerAttributeEnum.AP); }});
         jsonQueuedPersonResponse = businessCustomerController.accessAction(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
@@ -199,7 +199,7 @@ class BusinessCustomerControllerITest extends ITest {
             .setActionType(ActionTypeEnum.REJECT)
             .setCodeQR(new ScrubbedInput(businessUserStores.get(0).getCodeQR()))
             .setCustomerPriorityLevel(CustomerPriorityLevelEnum.I)
-            .setBusinessCustomerAttributes(new ArrayList<BusinessCustomerAttributeEnum>() {{ add(BusinessCustomerAttributeEnum.RJ); }});
+            .setBusinessCustomerAttributes(new ArrayList<>() {{ add(BusinessCustomerAttributeEnum.RJ); }});
         String jsonQueuedPersonResponse = businessCustomerController.accessAction(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
@@ -231,7 +231,7 @@ class BusinessCustomerControllerITest extends ITest {
             .setActionType(ActionTypeEnum.REJECT)
             .setCodeQR(new ScrubbedInput(businessUserStores.get(1).getCodeQR()))
             .setCustomerPriorityLevel(CustomerPriorityLevelEnum.I)
-            .setBusinessCustomerAttributes(new ArrayList<BusinessCustomerAttributeEnum>() {{ add(BusinessCustomerAttributeEnum.RJ); }});
+            .setBusinessCustomerAttributes(new ArrayList<>() {{ add(BusinessCustomerAttributeEnum.RJ); }});
         jsonQueuedPersonResponse = businessCustomerController.accessAction(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
