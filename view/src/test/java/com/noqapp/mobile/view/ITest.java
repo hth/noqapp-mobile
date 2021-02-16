@@ -205,7 +205,6 @@ import org.bson.types.ObjectId;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.env.MockEnvironment;
-import org.springframework.util.FileCopyUtils;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mock;
