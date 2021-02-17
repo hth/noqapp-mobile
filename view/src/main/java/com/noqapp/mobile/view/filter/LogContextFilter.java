@@ -109,6 +109,7 @@ public class LogContextFilter implements Filter {
             switch (countryCode) {
                 case "IN":
                 case "US":
+                case "NP":
                     //Allowed country
                     break;
                 case "AE": //Saudi
