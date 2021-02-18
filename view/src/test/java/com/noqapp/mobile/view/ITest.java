@@ -144,6 +144,7 @@ import com.noqapp.repository.market.PropertyManager;
 import com.noqapp.repository.market.PropertyManagerImpl;
 import com.noqapp.repository.neo4j.AnomalyN4jManager;
 import com.noqapp.repository.neo4j.BusinessCustomerN4jManager;
+import com.noqapp.repository.neo4j.NotificationN4jManager;
 import com.noqapp.repository.neo4j.PersonN4jManager;
 import com.noqapp.search.elastic.config.ElasticsearchClientConfiguration;
 import com.noqapp.search.elastic.domain.BizStoreElastic;
@@ -358,6 +359,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected PersonN4jManager personN4jManager;
     @Mock protected BusinessCustomerN4jManager businessCustomerN4jManager;
     @Mock protected AnomalyN4jManager anomalyN4jManager;
+    @Mock protected NotificationN4jManager notificationN4jManager;
 
     @Mock protected GraphQueue graphQueue;
     @Mock protected GraphBusinessCustomer graphBusinessCustomer;
@@ -498,7 +500,7 @@ public class ITest extends RealMongoForITest {
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6, 6);
         deviceService = new DeviceService(registeredDeviceManager, userProfileManager);
         notificationMessageManager = new NotificationMessageManagerImpl(getMongoTemplate());
-        messageCustomerService = new MessageCustomerService(1, queueService, tokenQueueService, notificationMessageManager, registeredDeviceManager, firebaseService, bizService);
+        messageCustomerService = new MessageCustomerService(1, queueService, tokenQueueService, notificationMessageManager, registeredDeviceManager, firebaseService, bizService, graphDetailOfPerson, notificationN4jManager);
         deviceRegistrationService = new DeviceRegistrationService("information", registeredDeviceManager, messageCustomerService, userProfilePreferenceService, geoIPLocationService);
         apiHealthService = new ApiHealthService(apiHealthNowManager);
         tokenQueueManager = new TokenQueueManagerImpl(getMongoTemplate());
@@ -798,6 +800,7 @@ public class ITest extends RealMongoForITest {
             personN4jManager,
             businessCustomerN4jManager,
             anomalyN4jManager,
+            notificationN4jManager,
             graphQueue,
             graphBusinessCustomer,
             bizService,
