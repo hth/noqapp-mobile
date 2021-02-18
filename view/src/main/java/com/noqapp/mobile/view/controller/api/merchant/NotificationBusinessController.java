@@ -84,7 +84,7 @@ public class NotificationBusinessController {
         if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/notification")) return null;
 
         try {
-            boolean status = messageCustomerService.increaseViewUnregisteredCount(notification.getId().getText());
+            boolean status = messageCustomerService.increaseViewBusinessCount(notification.getId().getText(), qid);
             return new JsonResponse(status).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing notification view reason={}", e.getLocalizedMessage(), e);
