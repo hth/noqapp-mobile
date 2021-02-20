@@ -1,8 +1,11 @@
 package com.noqapp.mobile.service;
 
+import static com.noqapp.common.utils.Constants.UNDER_SCORE;
+
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
+import com.noqapp.domain.NotificationMessageEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.TokenQueueEntity;
@@ -10,11 +13,14 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonQueueList;
+import com.noqapp.domain.types.BusinessTypeEnum;
+import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.InvocationByEnum;
 import com.noqapp.domain.types.MessageOriginEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.repository.BusinessUserStoreManager;
+import com.noqapp.repository.NotificationMessageManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
@@ -56,7 +62,7 @@ public class TokenQueueMobileService {
     private ProfessionalProfileService professionalProfileService;
     private UserProfileManager userProfileManager;
     private BusinessUserStoreManager businessUserStoreManager;
-    private NotifyMobileService notifyMobileService;
+    private NotificationMessageManager notificationMessageManager;
     private StoreHourService storeHourService;
     private QueueService queueService;
 
@@ -69,7 +75,7 @@ public class TokenQueueMobileService {
         ProfessionalProfileService professionalProfileService,
         UserProfileManager userProfileManager,
         BusinessUserStoreManager businessUserStoreManager,
-        NotifyMobileService notifyMobileService,
+        NotificationMessageManager notificationMessageManager,
         StoreHourService storeHourService,
         QueueService queueService
     ) {
@@ -80,7 +86,7 @@ public class TokenQueueMobileService {
         this.professionalProfileService = professionalProfileService;
         this.userProfileManager = userProfileManager;
         this.businessUserStoreManager = businessUserStoreManager;
-        this.notifyMobileService = notifyMobileService;
+        this.notificationMessageManager = notificationMessageManager;
         this.storeHourService = storeHourService;
         this.queueService = queueService;
     }
@@ -275,19 +281,28 @@ public class TokenQueueMobileService {
         return bizService.isValidCodeQR(codeQR);
     }
 
-    public long notifyAllInQueueWhenStoreClosesForTheDay(String codeQR, String serverDeviceId) {
+    public long notifyAllInQueueWhenStoreClosesForTheDay(String qid, String codeQR, String serverDeviceId) {
         TokenQueueEntity tokenQueue = tokenQueueManager.findByCodeQR(codeQR);
-        tokenQueueService.sendAlertMessageToAllOnSpecificTopic(
-            tokenQueue.getDisplayName(),
-            "Is Closed Today. We are informing you to not visit today. Sorry for inconvenience.",
-            tokenQueue,
-            QueueStatusEnum.C);
+
+        String title = tokenQueue.getDisplayName();
+        String body = "Is Closed Today. We are informing you to not visit today. Sorry for inconvenience.";
+
+        NotificationMessageEntity notificationMessage = new NotificationMessageEntity()
+            .setTitle(title)
+            .setBody(body)
+            .setTopic(tokenQueue.getCorrectTopic(QueueStatusEnum.C) + UNDER_SCORE + DeviceTypeEnum.onlyForLogging())
+            .setQueueUserId(qid)
+            .setMessageSendCount(tokenQueue.getLastNumber());
+        notificationMessageManager.save(notificationMessage);
+
+        /* Using queue state QueueStatusEnum.C so that message goes to Client and Merchant. This setting if for broadcast. */
+        tokenQueueService.sendAlertMessageToAllOnSpecificTopic(notificationMessage.getId(), title, body, tokenQueue, QueueStatusEnum.C);
 
         /* Mark all of the people in queue as aborted. */
         return queueManager.markAllAbortWhenQueueClosed(codeQR, serverDeviceId);
     }
 
-    public void notifyAllInQueueAboutDelay(String codeQR, int delayInMinutes) {
+    public void notifyAllInQueueAboutDelay(String qid, String codeQR, int delayInMinutes) {
         TokenQueueEntity tokenQueue = tokenQueueManager.findByCodeQR(codeQR);
         String delayed;
         if (delayInMinutes > 59) {
@@ -301,16 +316,23 @@ public class TokenQueueMobileService {
             delayed = delayInMinutes + " minutes";
         }
 
-        tokenQueueService.sendAlertMessageToAllOnSpecificTopic(
-            tokenQueue.getDisplayName(),
-            "Delayed by " + delayed + ". Sorry for inconvenience.",
-            tokenQueue,
-            /* Using queue state C so that message goes to Client and Merchant. This setting if for broadcast. */
-            QueueStatusEnum.C);
+        String title = tokenQueue.getDisplayName();
+        String body = "Delayed by " + delayed + ". Sorry for inconvenience.";
+
+        NotificationMessageEntity notificationMessage = new NotificationMessageEntity()
+            .setTitle(title)
+            .setBody(body)
+            .setTopic(tokenQueue.getCorrectTopic(QueueStatusEnum.C) + UNDER_SCORE + DeviceTypeEnum.onlyForLogging())
+            .setQueueUserId(qid)
+            .setMessageSendCount(tokenQueue.getLastNumber());
+        notificationMessageManager.save(notificationMessage);
+
+        /* Using queue state QueueStatusEnum.C so that message goes to Client and Merchant. This setting if for broadcast. */
+        tokenQueueService.sendAlertMessageToAllOnSpecificTopic(notificationMessage.getId(), title, body, tokenQueue, QueueStatusEnum.C);
     }
 
     @Async
-    public void sendMessageToSpecificUser(String title, String body, String qid, MessageOriginEnum messageOrigin) {
-        tokenQueueService.sendMessageToSpecificUser(title, body, qid, messageOrigin);
+    public void sendMessageToSpecificUser(String title, String body, String qid, MessageOriginEnum messageOrigin, BusinessTypeEnum businessType) {
+        tokenQueueService.sendMessageToSpecificUser(title, body, qid, messageOrigin, businessType);
     }
 }

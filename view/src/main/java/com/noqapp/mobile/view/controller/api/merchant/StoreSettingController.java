@@ -367,6 +367,7 @@ public class StoreSettingController {
             if (tokenQueue.getLastNumber() > 0 && (jsonStoreSetting.isDayClosed() || jsonStoreSetting.isTempDayClosed())) {
                 /* Notify everyone about day closed. */
                 long notified = tokenQueueMobileService.notifyAllInQueueWhenStoreClosesForTheDay(
+                    qid,
                     jsonStoreSetting.getCodeQR(),
                     did.getText());
 
@@ -379,6 +380,7 @@ public class StoreSettingController {
             } else if (jsonStoreSetting.getDelayedInMinutes() > 0) {
                 /* Notify everyone about delay. */
                 tokenQueueMobileService.notifyAllInQueueAboutDelay(
+                    qid,
                     jsonStoreSetting.getCodeQR(),
                     jsonStoreSetting.getDelayedInMinutes());
 

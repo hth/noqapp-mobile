@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import com.noqapp.repository.BusinessUserStoreManager;
+import com.noqapp.repository.NotificationMessageManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
@@ -32,7 +33,7 @@ class TokenQueueMobileServiceTest {
     @Mock private ProfessionalProfileService professionalProfileService;
     @Mock private UserProfileManager userProfileManager;
     @Mock private BusinessUserStoreManager businessUserStoreManager;
-    @Mock private NotifyMobileService notifyMobileService;
+    @Mock private NotificationMessageManager notificationMessageManager;
     @Mock private StoreHourService storeHourService;
     @Mock private QueueService queueService;
 
@@ -49,7 +50,7 @@ class TokenQueueMobileServiceTest {
             professionalProfileService,
             userProfileManager,
             businessUserStoreManager,
-            notifyMobileService,
+            notificationMessageManager,
             storeHourService,
             queueService
         );

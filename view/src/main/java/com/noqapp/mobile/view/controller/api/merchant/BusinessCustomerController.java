@@ -496,8 +496,8 @@ public class BusinessCustomerController {
                         "Your credential has been approved. " +
                             "Going forward please join " + bizStore.getDisplayName(),
                         queue.getQueueUserId(),
-                        MessageOriginEnum.A
-                    );
+                        MessageOriginEnum.A,
+                        bizStore.getBusinessType());
                     break;
                 case REJECT:
                     businessCustomerService.updateBusinessCustomer(
@@ -529,8 +529,8 @@ public class BusinessCustomerController {
                         "Your credential has been rejected. " +
                             "Business has permanently blocked you from joining this queue. Please contact business for any queries.",
                         queue.getQueueUserId(),
-                        MessageOriginEnum.A
-                    );
+                        MessageOriginEnum.A,
+                        bizStore.getBusinessType());
                     break;
                 case CLEAR:
                     businessCustomerService.clearBusinessCustomer(businessCustomer.getQueueUserId(), businessCustomer.getBizNameId());
@@ -557,8 +557,8 @@ public class BusinessCustomerController {
                         "Your credential has been reset. " +
                             "Please register yourself with correct credentials.",
                         queue.getQueueUserId(),
-                        MessageOriginEnum.A
-                    );
+                        MessageOriginEnum.A,
+                        bizStore.getBusinessType());
                     break;
                 default:
                     throw new UnsupportedOperationException("Reached not supported condition");

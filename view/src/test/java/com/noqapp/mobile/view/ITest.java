@@ -650,7 +650,7 @@ public class ITest extends RealMongoForITest {
             professionalProfileService,
             userProfileManager,
             businessUserStoreManager,
-            notifyMobileService,
+            notificationMessageManager,
             storeHourService,
             queueService);
 
