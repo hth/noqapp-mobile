@@ -10,6 +10,7 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.helper.CommonHelper;
 import com.noqapp.domain.json.JsonCategory;
 import com.noqapp.domain.json.JsonQueueList;
+import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.InvocationByEnum;
 import com.noqapp.domain.types.MessageOriginEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
@@ -310,7 +311,7 @@ public class TokenQueueMobileService {
     }
 
     @Async
-    public void sendMessageToSpecificUser(String title, String body, String qid, MessageOriginEnum messageOrigin) {
-        tokenQueueService.sendMessageToSpecificUser(title, body, qid, messageOrigin);
+    public void sendMessageToSpecificUser(String title, String body, String qid, MessageOriginEnum messageOrigin, BusinessTypeEnum businessType) {
+        tokenQueueService.sendMessageToSpecificUser(title, body, qid, messageOrigin, businessType);
     }
 }
