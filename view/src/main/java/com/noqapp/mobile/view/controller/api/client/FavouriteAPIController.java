@@ -151,13 +151,13 @@ public class FavouriteAPIController {
 
             switch (favoriteElastic.getActionType()) {
                 case ADD:
-                    if (!userPreference.getFavoriteTagged().contains(bizStore.getBizName().getCodeQR())) {
-                        userProfilePreferenceService.addFavorite(qid, favoriteElastic.getCodeQR());
+                    if (!userPreference.getFavoriteTagged().contains(bizStore.getBizName().getId())) {
+                        userProfilePreferenceService.addFavorite(qid, bizStore.getBizName().getId());
                     }
                     break;
                 case REMOVE:
-                    if (userPreference.getFavoriteTagged().contains(bizStore.getBizName().getCodeQR())) {
-                        userProfilePreferenceService.removeFavorite(qid, favoriteElastic.getCodeQR());
+                    if (userPreference.getFavoriteTagged().contains(bizStore.getBizName().getId())) {
+                        userProfilePreferenceService.removeFavorite(qid, bizStore.getBizName().getId());
                     }
                     break;
                 default:
