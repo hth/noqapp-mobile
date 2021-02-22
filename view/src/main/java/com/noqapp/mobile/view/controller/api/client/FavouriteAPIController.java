@@ -147,17 +147,18 @@ public class FavouriteAPIController {
 
         try {
             UserPreferenceEntity userPreference = userProfilePreferenceService.findByQueueUserId(qid);
-            BizStoreEntity bizStore = bizService.findByCodeQR(favoriteElastic.getCodeQR());
-
             switch (favoriteElastic.getActionType()) {
                 case ADD:
-                    if (!userPreference.getFavoriteTagged().contains(bizStore.getBizName().getId())) {
-                        userProfilePreferenceService.addFavorite(qid, bizStore.getBizName().getId());
+                    if (!userPreference.getFavoriteTagged().contains(favoriteElastic.getCodeQR())) {
+                        BizStoreEntity bizStore = bizService.findByCodeQR(favoriteElastic.getCodeQR());
+                        if (null != bizStore) {
+                            userProfilePreferenceService.addFavorite(qid, bizStore.getCodeQR());
+                        }
                     }
                     break;
                 case REMOVE:
-                    if (userPreference.getFavoriteTagged().contains(bizStore.getBizName().getId())) {
-                        userProfilePreferenceService.removeFavorite(qid, bizStore.getBizName().getId());
+                    if (userPreference.getFavoriteTagged().contains(favoriteElastic.getCodeQR())) {
+                        userProfilePreferenceService.removeFavorite(qid, favoriteElastic.getCodeQR());
                     }
                     break;
                 default:
