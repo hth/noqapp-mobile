@@ -98,11 +98,13 @@ public class FavouriteAPIController {
             for (BizStoreEntity bizStore : bizService.favoriteSuggested(qid)) {
                 BizStoreElastic bizStoreElastic = DomainConversion.getAsBizStoreElastic(bizStore, storeHourManager.findAll(bizStore.getId()));
                 favoriteElastic.addFavoriteSuggested(bizStoreElastic);
+                favoriteElastic.addFavoriteSuggestedBizNameId(bizStore.getBizName().getId());
             }
 
             for (BizStoreEntity bizStore : bizService.favoriteTagged(qid)) {
                 BizStoreElastic bizStoreElastic = DomainConversion.getAsBizStoreElastic(bizStore, storeHourManager.findAll(bizStore.getId()));
                 favoriteElastic.addFavoriteTagged(bizStoreElastic);
+                favoriteElastic.addFavoriteTaggedBizNameId(bizStore.getBizName().getId());
             }
 
             return favoriteElastic.asJson();
