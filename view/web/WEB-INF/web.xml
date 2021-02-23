@@ -104,14 +104,13 @@
 
     <servlet-mapping>
         <servlet-name>noqueue-mobile</servlet-name>
-        <url-pattern>*.json</url-pattern>
-        <url-pattern>*.htm</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
     <!--Do no include html servlet mapping here as this would result in not throwing the right error codes listed below -->
 
     <welcome-file-list>
         <!-- maps to LoginController index -->
-        <welcome-file>open/isWorking.htm</welcome-file>
+        <welcome-file>open/isWorking</welcome-file>
     </welcome-file-list>
 
     <!-- for all other errors -->
