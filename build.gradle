@@ -43,6 +43,8 @@ ext {
     geoDBLocal = file('view/resources/geo_db/GeoLite2-City.mmdb')
     geoDBTest = file(geoDBTestFileLocation)
     geoDBProd = file(geoDBProdFileLocation)
+
+    archiveName = "noqapp.mobile"
 }
 
 buildscript {
@@ -387,11 +389,11 @@ subprojects {
 }
 
 project(':common') {
-    jar.archiveBaseName = 'noqapp.mobile-common'
+    jar.archiveBaseName = archiveName + '-common'
 }
 
 project(':domain') {
-    jar.archiveBaseName = 'noqapp.mobile-domain'
+    jar.archiveBaseName = archiveName + '-domain'
 
     dependencies {
         implementation project(':common')
@@ -400,7 +402,7 @@ project(':domain') {
 
 project(':security') {
     apply plugin: 'war'
-    jar.archiveBaseName = 'noqapp.mobile-security'
+    jar.archiveBaseName = archiveName + '-security'
 
     repositories {
         mavenCentral()
@@ -414,7 +416,7 @@ project(':security') {
 }
 
 project(':service') {
-    jar.archiveBaseName = 'noqapp.mobile-service'
+    jar.archiveBaseName = archiveName + '-service'
 
     dependencies {
         implementation project(':common'),
@@ -423,7 +425,7 @@ project(':service') {
 }
 
 project(':portal') {
-    jar.archiveBaseName = 'noqapp.mobile-portal'
+    jar.archiveBaseName = archiveName + '-portal'
 
     dependencies {
         implementation project(':common'),
@@ -435,8 +437,8 @@ project(':portal') {
 
 project(':view') {
     apply plugin: 'war'
-    jar.archiveBaseName = 'noqapp.mobile-view'
-    war.archiveBaseName = 'noqapp.mobile-view'
+    jar.archiveBaseName = archiveName + '-view'
+    war.archiveBaseName = archiveName + '-view'
 
     repositories {
         mavenCentral()
@@ -464,7 +466,7 @@ task copyJars(type: Copy) {
 }
 
 task unzip(type: Copy, dependsOn: [':view:war']) {
-    def zipFile = file("view/build/libs/noqapp.mobile-view-${version}.war")
+    def zipFile = file("view/build/libs/$archiveName" + '-view-' + version + '.war')
 
     from zipTree(zipFile)
     into unzipDir
