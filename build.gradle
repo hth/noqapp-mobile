@@ -741,6 +741,7 @@ task prepWar(dependsOn: [
             into warLibDir
         }
 
+//        This is not required  as task war creates the build.properties file
 //        copy {
 //            from "${buildDir}/build-info.properties"
 //            into warClassesDir
