@@ -643,6 +643,8 @@ task prepWar(dependsOn: [
         copy {
             from 'view/resources/xslfo'
             into warXslfoDir
+            //Print files being copied
+            //eachFile { println it.name }
         }
 
         copy {
