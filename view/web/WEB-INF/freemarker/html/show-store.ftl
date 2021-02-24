@@ -8,8 +8,8 @@
     <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/>
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
 
-    <link rel="stylesheet" href="${parentHost}/static2/internal/css/style.css" type='text/css'/>
-    <link rel="stylesheet" href="${parentHost}/static2/internal/css/phone-style.css" type='text/css' media="screen"/>
+    <link rel="stylesheet" href="${parentHost}/static/internal/css/style.css" type='text/css'/>
+    <link rel="stylesheet" href="${parentHost}/static/internal/css/phone-style.css" type='text/css' media="screen"/>
 
     <style type="text/css">
         p {
@@ -36,7 +36,7 @@
     <div class="header">
         <div class="warp-inner">
             <div class="logo">
-                <a href="${parentHost}"><img src="${parentHost}/static2/internal/img/logo.png" alt="NoQueue"/></a>
+                <a href="${parentHost}"><img src="${parentHost}/static/internal/img/logo.png" alt="NoQueue"/></a>
             </div>
         </div>
     </div>
@@ -51,8 +51,8 @@
                     <div class="qr-address">
                         <h3>${bizName}</h3>
                         <p>${storeAddress}</p>
-                        <p>&nbsp;</p>
-                        <p>${phone}</p>
+                        <#--<p>&nbsp;</p>-->
+                        <#--<p>${phone}</p>-->
                     </div>
                     <div class="qr-queue">
                         <h3>${displayName}</h3>
@@ -86,10 +86,10 @@
                         <p>Get NoQueue</p>
                         <div>
                             <#--<a href="https://itunes.apple.com/us/app/noqapp/id1237327532?ls=1&mt=8">-->
-                            <#--<img src="${parentHost}/static2/internal/img/apple-store.png"/>-->
+                            <#--<img src="${parentHost}/static/internal/img/apple-store.png"/>-->
                             <#--</a>-->
                             <a href="https://play.google.com/store/apps/details?id=com.noqapp.android.client">
-                                <img src="${parentHost}/static2/internal/img/google-play.png"/>
+                                <img src="${parentHost}/static/internal/img/google-play.png"/>
                             </a>
                         </div>
                     </div>
@@ -118,21 +118,21 @@
 
 </body>
 <script type="text/javascript" src="${https}://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="text/javascript" src="${parentHost}/static2/external/raty/jquery.raty.js"></script>
+<script type="text/javascript" src="${parentHost}/static/external/raty/jquery.raty.js"></script>
 <script type="text/javascript">
     $('#store_rating').raty({
         score: ${rating},
         halfShow: true,
         readOnly: true,
         noRatedMsg: 'Not rated yet!',
-        starHalf: '${parentHost}/static2/external/raty/img/star-half.png',
-        starOff: '${parentHost}/static2/external/raty/img/star-off.png',
-        starOn: '${parentHost}/static2/external/raty/img/star-on.png',
+        starHalf: '${parentHost}/static/external/raty/img/star-half.png',
+        starOff: '${parentHost}/static/external/raty/img/star-off.png',
+        starOn: '${parentHost}/static/external/raty/img/star-on.png',
         hints: ['Bad', 'Poor', 'Good', 'Best', 'Awesome']
     });
 </script>
-<script type="text/javascript" src="${https}://${domain}/static2/external/ladda/js/spin.min.js"></script>
-<script type="text/javascript" src="${https}://${domain}/static2/external/ladda/js/ladda.min.js"></script>
+<script type="text/javascript" src="${https}://${domain}/static/external/ladda/js/spin.min.js"></script>
+<script type="text/javascript" src="${https}://${domain}/static/external/ladda/js/ladda.min.js"></script>
 <script type="text/javascript">
     // Bind normal buttons
     Ladda.bind('.button-btn button', {timeout: 6000});
