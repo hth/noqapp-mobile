@@ -7,9 +7,9 @@
     <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/>
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
 
-    <link rel="stylesheet" href="${parentHost}/static2/internal/css/style.css" type='text/css'/>
-    <link rel="stylesheet" href="${parentHost}/static2/internal/css/phone-style.css" type='text/css' media="screen"/>
-    <link rel="stylesheet" href="${parentHost}/static2/internal/css/css-menu/menu-style.css" type='text/css' media="screen"/>
+    <link rel="stylesheet" href="${parentHost}/static/internal/css/style.css" type='text/css'/>
+    <link rel="stylesheet" href="${parentHost}/static/internal/css/phone-style.css" type='text/css' media="screen"/>
+    <link rel="stylesheet" href="${parentHost}/static/internal/css/css-menu/menu-style.css" type='text/css' media="screen"/>
 </head>
 
 <body>
@@ -23,17 +23,17 @@
             <img src="/i/${qrFileName}.htm" height="50%" width="50%"/>
             <br>
             <br>
-            <img src="${https}://${domain}/static2/internal/img/logo_under_qr.png" alt="NoQueue"/>
+            <img src="${https}://${domain}/static/internal/img/logo_under_qr.png" alt="NoQueue"/>
             <div style="font-size: smaller">&copy; &reg; 2021 NoQueue</div>
             <br>
             <h3><span style="color: black">Download NoQueue</span></h3>
             <div class="download-app-icon" style="background: white">
                 <div>
                     <a href="https://itunes.apple.com/us/app/noqapp/id1237327532?ls=1&mt=8">
-                        <img src="${parentHost}/static2/internal/img/apple-store.png"/>
+                        <img src="${parentHost}/static/internal/img/apple-store.png"/>
                     </a>
                     <a href="https://play.google.com/store/apps/details?id=com.noqapp.android.client">
-                        <img src="${parentHost}/static2/internal/img/google-play.png"/>
+                        <img src="${parentHost}/static/internal/img/google-play.png"/>
                     </a>
                 </div>
             </div>
