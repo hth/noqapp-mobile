@@ -236,7 +236,7 @@ public class DeviceController {
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Deprecated
-    public String obsolete(
+    public String versionObsolete(
         @RequestHeader(value = "X-R-DID", required = false)
         ScrubbedInput did,
 
@@ -286,7 +286,7 @@ public class DeviceController {
         } finally {
             apiHealthService.insert(
                 "/version",
-                "/version",
+                "versionObsolete",
                 DeviceController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
@@ -338,7 +338,7 @@ public class DeviceController {
         } finally {
             apiHealthService.insert(
                 "/versionCheck",
-                "/versionCheck",
+                "isSupportedAppVersion",
                 DeviceController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);

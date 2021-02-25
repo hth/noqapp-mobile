@@ -337,7 +337,8 @@ public class TokenQueueController {
         value = "/queue/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public String joinQueue(
+    @Deprecated
+    public String joinQueueObsolete(
         @RequestHeader ("X-R-DID")
         ScrubbedInput did,
 
@@ -374,7 +375,7 @@ public class TokenQueueController {
         } finally {
             apiHealthService.insert(
                 "/queue/{codeQR}",
-                "joinQueue",
+                "joinQueueObsolete",
                 TokenQueueController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
