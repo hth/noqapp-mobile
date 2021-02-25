@@ -81,7 +81,59 @@ public class DeviceController {
      * v1 is deprecated since 1.2.655.
      */
     @PostMapping(
-        value = {"/v1/register", "/register"},
+        value = "/v1/register",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Deprecated
+    public String registerDeviceObsolete(
+        @RequestHeader("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader("X-R-AF")
+        ScrubbedInput appFlavor,
+
+        @RequestBody
+        String tokenJson,
+
+        HttpServletRequest request
+    ) {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Register deviceType={} appFlavor={} token={}",
+            deviceType.getText(),
+            appFlavor.getText(),
+            tokenJson);
+
+        DeviceTypeEnum deviceTypeEnum;
+        try {
+            deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
+        } catch (Exception e) {
+            LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
+            return getErrorReason("Incorrect device type.", USER_INPUT);
+        }
+
+        try {
+            LOG.warn("Older registration process version deviceType={} appFlavor={}", deviceType, appFlavor);
+            return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
+        } catch (DeviceDetailMissingException e) {
+            LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
+            return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
+        } catch (Exception e) {
+            LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/v1/register",
+                "registerDeviceObsolete",
+                DeviceController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping(
+        value = "/register",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String registerDevice(
