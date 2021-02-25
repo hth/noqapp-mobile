@@ -450,9 +450,12 @@ public class TokenQueueAPIController {
         }
     }
 
-    /** Join the queue. */
+    /**
+     * Join the queue.
+     * Note: /queue is obsolete since 1.2.700. After support, always return message to upgrade app.
+     */
     @PostMapping (
-        value = "/queue",
+        value = {"/queue", "/joinQueue"},
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String joinQueue(
@@ -548,7 +551,7 @@ public class TokenQueueAPIController {
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
             apiHealthService.insert(
-                "/queue",
+                "/joinQueue",
                 "joinQueue",
                 TokenQueueAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
