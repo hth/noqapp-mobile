@@ -109,7 +109,7 @@ class TokenQueueControllerITest extends ITest {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
-        String afterJoin = tokenQueueController.joinQueue(
+        String afterJoin = tokenQueueController.joinQueueObsolete(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(bizStore.getCodeQR()),

@@ -97,7 +97,7 @@ class ReviewControllerITest extends ITest {
         );
         JsonQueue jsonQueue = new ObjectMapper().readValue(beforeJoin, JsonQueue.class);
 
-        String afterJoin = tokenQueueController.joinQueue(
+        String afterJoin = tokenQueueController.joinQueueObsolete(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(jsonQueue.getCodeQR()),
