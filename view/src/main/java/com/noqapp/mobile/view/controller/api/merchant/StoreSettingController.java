@@ -830,7 +830,7 @@ public class StoreSettingController {
                     if (status) {
                         messageCustomerService.sendMessageToPastClients(
                             "New stock arrived",
-                            CommonUtil.appendBusinessNameToNotificationMessage("Today new stock has arrived. See you here. Happy shopping.", bizName.getBusinessName()),
+                            CommonUtil.appendBusinessNameToNotificationMessage("New stock has arrived in store.", bizName.getBusinessName()),
                             businessUserStores.get(0).getBizNameId(),
                             qid
                         );
