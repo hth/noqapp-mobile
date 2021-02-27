@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>NoQueue</title>
+    <title>${bizName} ${displayName} - NoQueue</title>
     <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/>
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
 
@@ -57,7 +57,7 @@
                     <div class="qr-queue">
                         <h3>${displayName}</h3>
                         <#if categoryName??><p><strong>${categoryName}</strong></p></#if>
-                        <p>${rating} &nbsp; <span id="store_rating"></span>&nbsp;&nbsp;${reviewCount} Reviews &nbsp;</p>
+                        <p>${rating} &nbsp; <span id="store_rating"></span>&nbsp;&nbsp;&nbsp;&nbsp;${reviewCount} <a href="#user_review">Reviews</a> &nbsp;</p>
                         <#if storeClosed == "Yes">
                             <p><strong>Closed Today</strong></p>
                         <#else>
@@ -94,6 +94,26 @@
                         </div>
                     </div>
 
+                    <div id="user_review">
+                        <#if reviews?has_content>
+                            <p style="font-weight: bold; font-size: large; padding-bottom: 20px;">Latest reviews</p>
+                            <#list reviews as review>
+                                <div class="review">
+                                    <input type="hidden" name="score" value="${review.ratingCount}" readonly="readonly">
+                                    <p style="color: #1b1b1b; font-weight: bold">
+                                        <span id="review_rating"></span>
+                                    </p>
+                                    ${review.name} &nbsp;
+                                </div>
+                                <div style="padding-bottom: 20px;">
+                                    <span style="font-size: small; color: #404040">Reviewed on ${review.created}</span><br/>
+                                    <span style="font-size: x-small; color: #ff1c79">Verified Review</span><br/>
+                                    <p style="color: #1b1b1b; padding-top: 10px;">${review.review}</p>
+                                </div>
+                            </#list>
+                        </#if>
+                    </div>
+
                     <div class="qr-footer">
                         <p>TM and Copyright &copy; 2021 NoQueue</p>
                         <p>All Rights Reserved &nbsp; | &nbsp; <a href="${parentHost}/#/pages/privacy">Privacy Policy</a>
@@ -122,6 +142,16 @@
 <script type="text/javascript">
     $('#store_rating').raty({
         score: ${rating},
+        halfShow: true,
+        readOnly: true,
+        noRatedMsg: 'Not rated yet!',
+        starHalf: '${parentHost}/static/external/raty/img/star-half.png',
+        starOff: '${parentHost}/static/external/raty/img/star-off.png',
+        starOn: '${parentHost}/static/external/raty/img/star-on.png',
+        hints: ['Bad', 'Poor', 'Good', 'Best', 'Awesome']
+    });
+    $('.review').raty({
+        score: 3,
         halfShow: true,
         readOnly: true,
         noRatedMsg: 'Not rated yet!',
