@@ -98,11 +98,9 @@
                         <#if reviews?has_content>
                             <p style="font-weight: bold; font-size: large; padding-bottom: 20px;">Latest reviews</p>
                             <#list reviews as review>
-                                <div class="review">
+                                <div class="review" style="color: #1b1b1b; font-weight: bold">
                                     <input type="hidden" name="score" value="${review.ratingCount}" readonly="readonly">
-                                    <p style="color: #1b1b1b; font-weight: bold">
-                                        <span id="review_rating"></span>
-                                    </p>
+                                    <p><span id="review_rating"></span></p>
                                     ${review.name} &nbsp;
                                 </div>
                                 <div style="padding-bottom: 20px;">
@@ -151,7 +149,9 @@
         hints: ['Bad', 'Poor', 'Good', 'Best', 'Awesome']
     });
     $('.review').raty({
-        score: 3,
+        score: function() {
+            return $('input').val();
+        },
         halfShow: true,
         readOnly: true,
         noRatedMsg: 'Not rated yet!',
