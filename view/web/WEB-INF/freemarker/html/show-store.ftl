@@ -7,6 +7,7 @@
     <title>${bizName} ${displayName} - NoQueue</title>
     <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/>
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
+    <meta name="description" content="Complete your booking on NoQueue. Get instant token and real-time status. Search for items, look for store timing, get updates on store.">
 
     <link rel="stylesheet" href="${parentHost}/static/internal/css/style.css" type='text/css'/>
     <link rel="stylesheet" href="${parentHost}/static/internal/css/phone-style.css" type='text/css' media="screen"/>
@@ -70,7 +71,7 @@
                         <p><strong>People in Queue: </strong>${peopleInQueue}</p>
 
                         <div class="button-btn" style="margin-bottom: 100px;">
-                            <form action="${https}://${domain}/open/join/queue/${codeQR}.htm">
+                            <form action="${https}://${domain}/open/join/queue/${codeQR}">
                                 <#if claimed == "No">
                                     <p style="padding: 20px 20px 20px 0; color: #9f1313">Not accepting Walk-ins</p>
                                 <#elseif storeClosed == "Yes">

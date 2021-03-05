@@ -7,6 +7,7 @@
     <title>NoQueue</title>
     <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/>
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
+    <meta name="description" content="Complete your booking on NoQueue. Get instant token and real-time status. Search for doctors, hospital related service, doctors timing, pay online.">
 
     <link rel="stylesheet" href="${page.parentHost}/static/internal/css/style.css" type='text/css'/>
     <link rel="stylesheet" href="${page.parentHost}/static/internal/css/phone-style.css" type='text/css' media="screen"/>
@@ -97,7 +98,7 @@
                                 <p><strong>People in Queue: </strong>${value.peopleInQueue}</p>
 
                                 <div class="button-btn" style="margin-bottom: 50px;">
-                                    <form action="${page.https}://${page.domain}/open/join/queue/${value.codeQR}.htm">
+                                    <form action="${page.https}://${page.domain}/open/join/queue/${value.codeQR}">
                                         <#if value.claimed == "No">
                                             <p style="padding: 20px 20px 20px 0; color: #9f1313">Not accepting Walk-ins</p>
                                         <#elseif value.storeClosed == "Yes">

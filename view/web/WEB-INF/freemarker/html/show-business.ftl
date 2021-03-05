@@ -20,7 +20,7 @@
                 <h3><span style="font-size: 100%;">${bizName}</span></h3>
             </div>
             <br>
-            <img src="/i/${qrFileName}.htm" height="50%" width="50%"/>
+            <img src="/i/${qrFileName}" height="50%" width="50%"/>
             <br>
             <br>
             <img src="${https}://${domain}/static/internal/img/logo_under_qr.png" alt="NoQueue"/>
