@@ -5,6 +5,7 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_TIMEZONE
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_NOT_PRE_APPROVED_QUEUE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_QUEUE_PERMISSION_DENIED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOIN_PRE_APPROVED_QUEUE_ONLY;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ORDER_PAYMENT_PAID_ALREADY_FAILED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.PURCHASE_ORDER_FAILED_TO_CANCEL_AS_EXTERNALLY_PAID;
@@ -454,8 +455,55 @@ public class TokenQueueAPIController {
      * Join the queue.
      * Note: /queue is obsolete since 1.2.700. After support, always return message to upgrade app.
      */
+    @Deprecated
     @PostMapping (
-        value = {"/queue", "/joinQueue"},
+        value = "/queue",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String joinQueueObsolete(
+        @RequestHeader ("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput deviceType,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JoinQueue joinQueue,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Join queue did={} dt={}", did, deviceType);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        try {
+            LOG.warn("Sent warning to upgrade qid={}", qid);
+            return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
+        } catch (Exception e) {
+            LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
+        } finally {
+            apiHealthService.insert(
+                "/joinQueue",
+                "joinQueue",
+                TokenQueueAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Join the queue. */
+    @PostMapping (
+        value = "/joinQueue",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String joinQueue(
