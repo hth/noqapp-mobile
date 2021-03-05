@@ -55,7 +55,7 @@
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             If you would like to create an account on NoQueue just visit our sign-up page:
-            <a href="${https}://${domain}/open/register.htm"
+            <a href="${https}://${domain}/open/register"
                     style="padding:8px 15px; background:#ff1c79; color:#fff; text-decoration: none">Register</a>
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">

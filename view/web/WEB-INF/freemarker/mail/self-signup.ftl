@@ -55,7 +55,7 @@
             email used during sign-up and password.
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-            <a href="${https}://${domain}/open/validate.htm?authenticationKey=${link}" style="padding:8px 15px; background:#ff1c79; color:#fff; text-decoration: none">Activate Account</a>
+            <a href="${https}://${domain}/open/validate?authenticationKey=${link}" style="padding:8px 15px; background:#ff1c79; color:#fff; text-decoration: none">Activate Account</a>
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             <strong>Wondering why you got this email?</strong>

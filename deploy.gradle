@@ -157,8 +157,8 @@ def deploy(def server, def ip, def serverName, def path, def rootFile) {
         sshExecute(server, "sleep 5")
     }
     sshExecute(server, "sudo service tomcat status")
-    sshExecute(server, "curl -I http://$ip:8080/open/login.htm")
-    sshExecute(server, "wget -qO- http://$ip:8080/open/login.htm > /dev/null 2>&1")
+    sshExecute(server, "curl -I http://$ip:8080/open/login")
+    sshExecute(server, "wget -qO- http://$ip:8080/open/login > /dev/null 2>&1")
 }
 
 def deployMobile(def server, def ip, def serverName, def path, def mobileFile) {
@@ -195,7 +195,7 @@ def deployMobile(def server, def ip, def serverName, def path, def mobileFile) {
         sshExecute(server, "sleep 5")
     }
     sshExecute(server, "sudo service tomcat status")
-    sshExecute(server, "wget -qO- http://$ip:8080/open/healthCheck.json > /dev/null 2>&1")
+    sshExecute(server, "wget -qO- http://$ip:8080/open/healthCheck > /dev/null 2>&1")
 }
 
 def sshExecute(def server, def cmd) {
