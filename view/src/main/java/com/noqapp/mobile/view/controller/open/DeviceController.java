@@ -104,22 +104,14 @@ public class DeviceController {
             appFlavor.getText(),
             tokenJson);
 
-        DeviceTypeEnum deviceTypeEnum;
-        try {
-            deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
-        } catch (Exception e) {
-            LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
-            return getErrorReason("Incorrect device type.", USER_INPUT);
-        }
-
         try {
             LOG.warn("Older registration process version deviceType={} appFlavor={}", deviceType, appFlavor);
             return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
         } catch (DeviceDetailMissingException e) {
-            LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
+            LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
             return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
         } catch (Exception e) {
-            LOG.error("Failed registering deviceType={}, reason={}", deviceTypeEnum, e.getLocalizedMessage(), e);
+            LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
@@ -254,31 +246,8 @@ public class DeviceController {
         LOG.info("Supported device deviceType={} appFlavor={} versionRelease={}", deviceType, appFlavor, versionRelease);
 
         try {
-            //TODO remove me
-            if (null != did) {
-                LOG.warn("Old app version did={} versionRelease={}", did, versionRelease);
-                return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
-            }
-
-            DeviceTypeEnum deviceTypeEnum = DeviceTypeEnum.valueOf(deviceType.getText());
-            AppFlavorEnum appFlavorEnum = AppFlavorEnum.valueOf(appFlavor.getText());
-            LOG.info("Check if supported app version {} {} versionRelease={}", deviceTypeEnum.getDescription(), appFlavor, versionRelease);
-
-            try {
-                LowestSupportedAppEnum lowestSupportedApp = LowestSupportedAppEnum.findBasedOnDeviceType(deviceTypeEnum, appFlavorEnum);
-                if (!LowestSupportedAppEnum.isSupportedVersion(lowestSupportedApp, versionRelease.getText())) {
-                    LOG.warn("Sent warning to upgrade versionNumber={}", versionRelease.getText());
-                    return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
-                }
-
-                return new JsonLatestAppVersion(lowestSupportedApp.getLatestAppVersion()).asJson();
-            } catch (NumberFormatException e) {
-                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
-                return getErrorReason("Failed to read API version type.", USER_INPUT);
-            } catch (Exception e) {
-                LOG.error("Failed parsing API version, reason={}", e.getLocalizedMessage(), e);
-                return getErrorReason("Incorrect API version type.", USER_INPUT);
-            }
+            LOG.warn("Sent warning to upgrade versionNumber={}", versionRelease.getText());
+            return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
         } catch (Exception e) {
             LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
