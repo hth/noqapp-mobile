@@ -104,6 +104,6 @@ public abstract class RealMongoForITest extends ElasticForITest {
     }
 
     MongoTransactionManager transactionManager() {
-        return new MongoTransactionManager(mongoTemplate.getMongoDbFactory());
+        return new MongoTransactionManager(mongoTemplate.getMongoDatabaseFactory());
     }
 }
