@@ -1,10 +1,17 @@
 package com.noqapp.mobile.view;
 
 import com.mongodb.BasicDBList;
-import com.mongodb.MongoClient;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+
+import org.bson.Document;
+
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodProcess;
@@ -16,9 +23,6 @@ import de.flapdoodle.embed.mongo.distribution.IFeatureAwareVersion;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.distribution.GenericVersion;
 import de.flapdoodle.embed.process.runtime.Network;
-import org.bson.Document;
-import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -85,7 +89,12 @@ public class HackyBit {
                 .net(net3)
                 .build());
             node3Mongod = node3MongodExe.start();
-            mongo = new MongoClient(serverAddresses);
+            MongoClientSettings settings = MongoClientSettings.builder()
+                .applicationName("NoQueue-I-Test")
+                .applyToClusterSettings(builder -> builder.hosts(serverAddresses))
+                .build();
+
+            mongo = MongoClients.create(settings);
 
             MongoDatabase adminDatabase = mongo.getDatabase("admin");
 
