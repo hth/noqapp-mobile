@@ -140,8 +140,8 @@ import com.noqapp.repository.UserPreferenceManager;
 import com.noqapp.repository.UserPreferenceManagerImpl;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.repository.UserProfileManagerImpl;
-import com.noqapp.repository.market.PropertyManager;
-import com.noqapp.repository.market.PropertyManagerImpl;
+import com.noqapp.repository.market.PropertyRentalManager;
+import com.noqapp.repository.market.PropertyRentalManagerImpl;
 import com.noqapp.repository.neo4j.AnomalyN4jManager;
 import com.noqapp.repository.neo4j.BusinessCustomerN4jManager;
 import com.noqapp.repository.neo4j.NotificationN4jManager;
@@ -326,7 +326,7 @@ public class ITest extends RealMongoForITest {
     protected ScheduledTaskManager scheduledTaskManager;
     protected PublishArticleManager publishArticleManager;
     protected AdvertisementManager advertisementManager;
-    protected PropertyManager propertyManager;
+    protected PropertyRentalManager propertyRentalManager;
     protected ScheduleAppointmentManager scheduleAppointmentManager;
     protected CouponManager couponManager;
     protected CustomTextToSpeechManager customTextToSpeechManager;
@@ -597,7 +597,7 @@ public class ITest extends RealMongoForITest {
         storeCategoryService = new StoreCategoryService(storeCategoryManager, storeProductManager);
         publishArticleManager = new PublishArticleManagerImpl(getMongoTemplate());
         advertisementManager = new AdvertisementManagerImpl(getMongoTemplate());
-        propertyManager = new PropertyManagerImpl(getMongoTemplate());
+        propertyRentalManager = new PropertyRentalManagerImpl(getMongoTemplate());
 
         fileService = new FileService(
             192, 192, 300, 150,
@@ -609,7 +609,7 @@ public class ITest extends RealMongoForITest {
             storeProductManager,
             publishArticleManager,
             advertisementManager,
-            propertyManager,
+            propertyRentalManager,
             bizService,
             storeCategoryService
         );
