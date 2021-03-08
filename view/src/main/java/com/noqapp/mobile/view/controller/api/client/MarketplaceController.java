@@ -133,7 +133,7 @@ public class MarketplaceController {
         }
     }
 
-    /** Finds all my post on marketplace. */
+    /** Get details of the post. */
     @PostMapping(
         value = "/view",
         produces = MediaType.APPLICATION_JSON_VALUE)
