@@ -165,16 +165,17 @@ public class MarketplaceController {
         try {
             switch (jsonMarketplace.getBusinessType()) {
                 case HI:
-                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(propertyRentalService.findOneById(jsonMarketplace.getId()));
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(propertyRentalService.findOneByIdAndExpressInterest(jsonMarketplace.getId()));
                     break;
                 case PR:
-                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItemService.findOneById(jsonMarketplace.getId()));
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItemService.findOneByIdAndExpressInterest(jsonMarketplace.getId()));
                     break;
                 default:
                     LOG.warn("Un-authorized access to /api/c/marketplace/view by mail={}", mail);
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid marketplace");
                     return null;
             }
+            marketplaceElasticService.save(marketplaceElastic);
             return marketplaceElastic.asJson();
         } catch (Exception e) {
             LOG.error("Failed finding all posting on marketplace reason={}", e.getLocalizedMessage(), e);
