@@ -16,6 +16,7 @@ import com.noqapp.domain.shared.Geocode;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.search.elastic.domain.MarketplaceElastic;
 import com.noqapp.search.elastic.domain.MarketplaceElasticList;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.search.elastic.service.MarketplaceElasticService;
@@ -126,6 +127,63 @@ public class MarketplaceController {
             apiHealthService.insert(
                 "/",
                 "showMyPostOnMarketplace",
+                MarketplaceController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** Finds all my post on marketplace. */
+    @PostMapping(
+        value = "/view",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public String viewMarketplace(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonMarketplace jsonMarketplace,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Load favorite API for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        MarketplaceElastic marketplaceElastic;
+        try {
+            switch (jsonMarketplace.getBusinessType()) {
+                case HI:
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(propertyRentalService.findOneById(jsonMarketplace.getId()));
+                    break;
+                case PR:
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItemService.findOneById(jsonMarketplace.getId()));
+                    break;
+                default:
+                    LOG.warn("Un-authorized access to /api/c/marketplace/view by mail={}", mail);
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid marketplace");
+                    return null;
+            }
+            return marketplaceElastic.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed finding all posting on marketplace reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonResponse(false).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/view",
+                "viewMarketplace",
                 MarketplaceController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
