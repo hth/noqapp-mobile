@@ -214,6 +214,17 @@ public class SearchBusinessStoreController {
                         add(BusinessTypeEnum.PW);
                     }
                 },
+                new ArrayList<> () {
+                    private static final long serialVersionUID = 6730480722223803218L;
+
+                    {
+                        add(BusinessTypeEnum.CD);
+                        add(BusinessTypeEnum.CDQ);
+                        add(BusinessTypeEnum.DO);
+                        add(BusinessTypeEnum.HS);
+                        add(BusinessTypeEnum.PW);
+                    }
+                },
                 geoHash,
                 searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
@@ -275,6 +286,7 @@ public class SearchBusinessStoreController {
             LOG.info("Canteen NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                 BusinessTypeEnum.excludeCanteen(),
+                BusinessTypeEnum.includeCanteen(),
                 geoHash,
                 searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
@@ -336,6 +348,7 @@ public class SearchBusinessStoreController {
             LOG.info("Worship NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                 BusinessTypeEnum.excludePlaceOfWorship(),
+                BusinessTypeEnum.includePlaceOfWorship(),
                 geoHash,
                 searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
@@ -397,6 +410,7 @@ public class SearchBusinessStoreController {
             LOG.info("HealthCare city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                 BusinessTypeEnum.excludeHospital(),
+                BusinessTypeEnum.includeHospital(),
                 geoHash,
                 searchStoreQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
