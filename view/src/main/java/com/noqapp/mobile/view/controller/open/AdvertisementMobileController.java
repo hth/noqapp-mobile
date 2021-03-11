@@ -69,10 +69,8 @@ public class AdvertisementMobileController {
         ScrubbedInput deviceType,
 
         @RequestBody
-        Location location,
-
-        HttpServletResponse response
-    ) throws IOException {
+        Location location
+    ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
         LOG.info("Get advt near city=\"{}\" latitude={} longitude={} for request from did={} deviceType={}",
@@ -80,10 +78,10 @@ public class AdvertisementMobileController {
 
         try {
             Point point = new Point(Double.parseDouble(location.getLongitude().getText()), Double.parseDouble(location.getLatitude().getText()));
-            String adtv = advertisementMobileService.findAllMobileApprovedAdvertisementsByLocation(point).asJson();
-            LOG.info("{}", adtv);
+            String advt = advertisementMobileService.findAllMobileApprovedAdvertisementsByLocation(point).asJson();
+            LOG.info("Vigyapan={}", advt);
 
-            return adtv;
+            return advt;
         } catch (Exception e) {
             LOG.error("Failed getting advt reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
