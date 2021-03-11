@@ -53,7 +53,7 @@ public class AdvertisementMobileController {
 
     /**
      * Tag every time store profile is displayed. For example doctor is associated to store, hence mark store is displayed.
-     **/
+     */
     @PostMapping(
         value = "/near",
         produces = MediaType.APPLICATION_JSON_VALUE
@@ -76,7 +76,7 @@ public class AdvertisementMobileController {
         try {
             Point point = new Point(Double.parseDouble(location.getLongitude().getText()), Double.parseDouble(location.getLatitude().getText()));
             String advt = advertisementMobileService.findAllMobileApprovedAdvertisementsByLocation(point).asJson();
-            LOG.info("Vigyapan={}", advt);
+            LOG.info("Vigyapan=\"{}\"", advt);
 
             return advt;
         } catch (Exception e) {
