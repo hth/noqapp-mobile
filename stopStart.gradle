@@ -118,8 +118,8 @@ def stopStart(def server, def ip) {
     sshExecute(server, "sudo service tomcat start")
     sshExecute(server, "sleep 35")
     sshExecute(server, "sudo service tomcat status")
-    sshExecute(server, "curl -I http://$ip:8080/open/login.htm")
-    sshExecute(server, "wget -qO- http://$ip:8080/open/login.htm > /dev/null 2>&1")
+    sshExecute(server, "curl -I http://$ip:8080/open/login")
+    sshExecute(server, "wget -qO- http://$ip:8080/open/login > /dev/null 2>&1")
 }
 
 def stopStartMobile(def server, def ip) {
