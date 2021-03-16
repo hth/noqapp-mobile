@@ -662,7 +662,7 @@ public class PurchaseOrderController {
 
         try {
             RegisteredDeviceEntity registeredDevice = deviceService.findRecentDevice(jsonPurchaseOrder.getQueueUserId());
-            purchaseOrderService.createOrder(jsonPurchaseOrder, DeviceService.getExistingDeviceId(registeredDevice, did.getText()), TokenServiceEnum.M);
+            purchaseOrderService.createOrderInitiatedByBusiness(jsonPurchaseOrder, DeviceService.getExistingDeviceId(registeredDevice, did.getText()), TokenServiceEnum.M);
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
 
             /* Send notification to all merchant. As there can be multiple merchants that needs notification for update. */
@@ -757,7 +757,7 @@ public class PurchaseOrderController {
 
             jsonPurchaseOrder.setDeliveryMode(DeliveryModeEnum.TO);
             RegisteredDeviceEntity registeredDevice = deviceService.findRegisteredDeviceByQid(jsonPurchaseOrder.getQueueUserId());
-            purchaseOrderService.createOrder(jsonPurchaseOrder, DeviceService.getExistingDeviceId(registeredDevice, did.getText()), TokenServiceEnum.M);
+            purchaseOrderService.createOrderInitiatedByBusiness(jsonPurchaseOrder, DeviceService.getExistingDeviceId(registeredDevice, did.getText()), TokenServiceEnum.M);
             PurchaseOrderEntity purchaseOrder = purchaseOrderService.findByTransactionId(jsonPurchaseOrder.getTransactionId());
 
             JsonMedicalRecord jsonMedicalRecord = new JsonMedicalRecord()
