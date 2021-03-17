@@ -632,14 +632,13 @@ public class PurchaseOrderAPIController {
                 return getErrorReason("Order not found", PURCHASE_ORDER_NOT_FOUND);
             }
 
-            PurchaseOrderEntity purchaseOrder = purchaseOrderService.updateOnCashPayment(
+            return purchaseOrderService.updateOnCashPayment(
                 jsonPurchaseOrder.getTransactionId(),
                 "Cash Pay Client",
                 PaymentStatusEnum.PP,
                 PurchaseOrderStateEnum.PO,
                 PaymentModeEnum.CA
-            );
-            return new JsonPurchaseOrder(purchaseOrder).asJson();
+            ).asJson();
         } catch (Exception e) {
             LOG.error("Failed updating when client paying cash reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
