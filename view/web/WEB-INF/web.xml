@@ -108,8 +108,8 @@
     </servlet-mapping>
     <!--Do no include html servlet mapping here as this would result in not throwing the right error codes listed below -->
 
+    <!-- maps to LoginController index -->
     <welcome-file-list>
-        <!-- maps to LoginController index -->
         <welcome-file>open/isWorking</welcome-file>
     </welcome-file-list>
 </web-app>
