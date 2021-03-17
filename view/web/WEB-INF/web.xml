@@ -112,9 +112,4 @@
         <!-- maps to LoginController index -->
         <welcome-file>open/isWorking</welcome-file>
     </welcome-file-list>
-
-    <!-- for all other errors -->
-    <error-page>
-        <location>/error.html</location>
-    </error-page>
 </web-app>
