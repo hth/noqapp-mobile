@@ -154,8 +154,8 @@ subprojects {
         implementation "$springDataGroup:spring-data-neo4j:$springDataNeo4j"
         implementation "$springDataGroup:spring-data-mongodb:$springDataMongo"
         implementation "$springDataGroup:spring-data-commons:$springDataCommon"
-        implementation "org.mongodb:mongodb-driver-core:$mongoJavaDriver"
-        implementation "org.mongodb:mongodb-driver-sync:$mongoJavaDriver"
+        implementation "org.mongodb:mongodb-driver-core:$mongoDriver"
+        implementation "org.mongodb:mongodb-driver-sync:$mongoDriver"
 
         implementation "org.elasticsearch.client:elasticsearch-rest-high-level-client:$elastic"
         /* For elastic. */
