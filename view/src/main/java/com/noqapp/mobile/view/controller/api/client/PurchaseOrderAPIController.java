@@ -482,7 +482,7 @@ public class PurchaseOrderAPIController {
             purchaseOrderService.cancelOrderWhenBackedAwayFromGatewayForOrder(jsonPurchaseOrder.getTransactionId());
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
-            LOG.error("Failed updating with cashfree notification qid={} reason={}", qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed updating with cashfree notification qid={} codeQR={} reason={}", qid, jsonPurchaseOrder.getCodeQR(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {

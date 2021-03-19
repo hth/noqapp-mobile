@@ -916,7 +916,7 @@ public class TokenQueueAPIController {
             joinAbortService.deleteReferenceToTransactionId(jsonToken.getCodeQR(), jsonToken.getJsonPurchaseOrder().getTransactionId());
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
-            LOG.error("Failed updating with cashfree notification qid={} reason={}", qid, e.getLocalizedMessage(), e);
+            LOG.error("Failed updating with cashfree notification qid={} codeQR={} reason={}", qid, jsonToken.getCodeQR(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
         } finally {
