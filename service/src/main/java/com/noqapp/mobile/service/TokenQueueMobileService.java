@@ -28,7 +28,6 @@ import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.service.BizService;
-import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.StoreHourService;

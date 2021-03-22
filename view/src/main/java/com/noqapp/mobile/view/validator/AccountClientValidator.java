@@ -1,12 +1,12 @@
 package com.noqapp.mobile.view.validator;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.domain.types.GenderEnum;
-import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.service.AccountMobileService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,8 +19,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * User: hitender

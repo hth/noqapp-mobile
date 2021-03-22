@@ -1,9 +1,8 @@
 package com.noqapp.mobile.view.validator;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.noqapp.mobile.service.AccountMobileService;
-import com.noqapp.mobile.view.controller.open.StoreDetailController;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

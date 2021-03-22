@@ -1,7 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 
 import com.noqapp.common.utils.ScrubbedInput;
@@ -10,8 +9,6 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.StoreDetailService;
-import com.noqapp.mobile.view.controller.open.StoreDetailController;
-import com.noqapp.search.elastic.domain.BizStoreElasticList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -6,7 +6,6 @@ import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.types.BusinessTypeEnum;
 
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

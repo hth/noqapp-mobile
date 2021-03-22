@@ -10,7 +10,6 @@ import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
-import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.StoreHourService;

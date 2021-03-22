@@ -1,7 +1,6 @@
 package com.noqapp.mobile.domain;
 
 import com.noqapp.common.utils.AbstractDomain;
-import com.noqapp.domain.json.JsonQueuedPerson;
 import com.noqapp.domain.types.CustomerPriorityLevelEnum;
 import com.noqapp.domain.types.QueueUserStateEnum;
 
@@ -11,8 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
-
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
 import java.util.TimeZone;

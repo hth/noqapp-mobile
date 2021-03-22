@@ -1,8 +1,6 @@
 package com.noqapp.mobile.domain.body.merchant;
 
 import com.noqapp.common.utils.AbstractDomain;
-import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.medical.domain.json.JsonMedicalRecord;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

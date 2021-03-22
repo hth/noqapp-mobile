@@ -2,7 +2,6 @@ package com.noqapp.portal.domain;
 
 import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.domain.json.JsonQueueList;
-import com.noqapp.domain.json.JsonQueuePersonList;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

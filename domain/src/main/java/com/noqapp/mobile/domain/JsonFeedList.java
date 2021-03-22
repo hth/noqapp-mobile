@@ -1,8 +1,6 @@
 package com.noqapp.mobile.domain;
 
 import com.noqapp.common.utils.AbstractDomain;
-import com.noqapp.medical.domain.json.JsonMedicalRecord;
-import com.noqapp.medical.domain.json.JsonMedicalRecordList;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
