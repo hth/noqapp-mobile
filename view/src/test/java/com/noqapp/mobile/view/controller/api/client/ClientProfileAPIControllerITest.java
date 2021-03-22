@@ -8,6 +8,8 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.domain.json.JsonUserAddress;
 import com.noqapp.domain.json.JsonUserAddressList;
+import com.noqapp.domain.shared.DecodedAddress;
+import com.noqapp.domain.shared.Geocode;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.mobile.domain.body.client.MigrateProfile;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
@@ -16,7 +18,6 @@ import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
-import com.noqapp.service.InviteService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -163,27 +164,52 @@ class ClientProfileAPIControllerITest extends ITest {
 
         assertEquals(0, jsonUserAddressList.getJsonUserAddresses().size());
 
-        JsonUserAddress jsonUserAddress = new JsonUserAddress().setAddress("665 W Olive Ave, Sunnyvale, CA 94086, USA");
+        String updatedAddressTo = "Chhatrapati Shivaji International Airport, Terminal 2, Navpada, Departures area, Andheri East, Mumbai, Maharashtra 400099, India";
+        Geocode geocode = Geocode.newInstance(externalService.getGeocodingResults(updatedAddressTo), updatedAddressTo);
+        DecodedAddress decodedAddress = DecodedAddress.newInstance(geocode.getResults(), 0);
+
+        JsonUserAddress jsonUserAddress = new JsonUserAddress()
+            .setAddress(updatedAddressTo)
+            .setArea(decodedAddress.getArea())
+            .setTown(decodedAddress.getTown())
+            .setDistrict(decodedAddress.getDistrict())
+            .setState(decodedAddress.getState())
+            .setStateShortName(decodedAddress.getStateShortName())
+            .setCountryShortName(decodedAddress.getCountryShortName())
+            .setLatitude(String.valueOf(decodedAddress.getCoordinate()[1]))
+            .setLongitude(String.valueOf(decodedAddress.getCoordinate()[0]));
+
         addressJson = clientProfileAPIController.addressAdd(
             new ScrubbedInput(userProfile.getEmail()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            jsonUserAddress.asJson(),
+            jsonUserAddress,
             httpServletResponse
         );
 
         jsonUserAddressList = new ObjectMapper().readValue(addressJson, JsonUserAddressList.class);
         /* Size of address list is now 1. */
         assertEquals(1, jsonUserAddressList.getJsonUserAddresses().size());
-        assertEquals("665 W Olive Ave, Sunnyvale, CA 94086, USA", jsonUserAddressList.getJsonUserAddresses().get(0).getAddress());
-        assertEquals("9q9hwgmc86ye", jsonUserAddressList.getJsonUserAddresses().get(0).getGeoHash());
-        assertEquals("US", jsonUserAddressList.getJsonUserAddresses().get(0).getCountryShortName());
+        assertEquals(updatedAddressTo, jsonUserAddressList.getJsonUserAddresses().get(0).getAddress());
+        assertEquals("te7ud55hezu1", jsonUserAddressList.getJsonUserAddresses().get(0).getGeoHash());
+        assertEquals("IN", jsonUserAddressList.getJsonUserAddresses().get(0).getCountryShortName());
 
         /* Add address again. */
-        jsonUserAddress = new JsonUserAddress().setAddress("665 W Olive Ave, Sunnyvale, CA 94086, USA");
+        decodedAddress = DecodedAddress.newInstance(geocode.getResults(), 0);
+        jsonUserAddress = new JsonUserAddress()
+            .setAddress(updatedAddressTo)
+            .setArea(decodedAddress.getArea())
+            .setTown(decodedAddress.getTown())
+            .setDistrict(decodedAddress.getDistrict())
+            .setState(decodedAddress.getState())
+            .setStateShortName(decodedAddress.getStateShortName())
+            .setCountryShortName(decodedAddress.getCountryShortName())
+            .setLatitude(String.valueOf(decodedAddress.getCoordinate()[1]))
+            .setLongitude(String.valueOf(decodedAddress.getCoordinate()[0]));
+
         addressJson = clientProfileAPIController.addressAdd(
             new ScrubbedInput(userProfile.getEmail()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            jsonUserAddress.asJson(),
+            jsonUserAddress,
             httpServletResponse
         );
 

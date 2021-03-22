@@ -477,7 +477,7 @@ public class ITest extends RealMongoForITest {
 
         userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
         externalService = new ExternalService("AIzaSyDUM3yIIrwrx3ciwZ57O9YamC4uISWAlAk", 0, bizStoreManager);
-        userAddressService = new UserAddressService(userAddressManager, externalService);
+        userAddressService = new UserAddressService(userAddressManager, userProfileManager);
         userProfilePreferenceService = new UserProfilePreferenceService(
             userProfileManager,
             userPreferenceManager,
