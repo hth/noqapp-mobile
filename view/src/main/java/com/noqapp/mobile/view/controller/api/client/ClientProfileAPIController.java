@@ -579,13 +579,13 @@ public class ClientProfileAPIController {
         ScrubbedInput auth,
 
         @RequestBody
-        String jsonUserAddressBody,
+        JsonUserAddress jsonUserAddress,
 
         HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Add address {} mail={}, auth={}", jsonUserAddressBody, mail, AUTH_KEY_HIDDEN);
+        LOG.info("Add address {} mail={}, auth={}", jsonUserAddress, mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
@@ -593,39 +593,29 @@ public class ClientProfileAPIController {
         }
 
         try {
-            Map<String, ScrubbedInput> map;
-            try {
-                map = ParseJsonStringToMap.jsonStringToMap(jsonUserAddressBody);
-            } catch (IOException e) {
-                LOG.error("Could not parse json={} reason={}", jsonUserAddressBody, e.getLocalizedMessage(), e);
-                return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
-            }
-
             JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
 
             String id = null;
-            if (map.containsKey("id")) {
-                id = map.get("id").getText();
+            if (StringUtils.isNotBlank(jsonUserAddress.getId())) {
+                id = jsonUserAddress.getId();
             }
-            String address = StringUtils.capitalize(map.get("ad").getText());
-
             UserAddressEntity userAddress = null;
             if (StringUtils.isBlank(id)) {
                 id = CommonUtil.generateHexFromObjectId();
-                userAddress = userAddressService.saveAddress(id, qid, address);
+                userAddress = userAddressService.saveAddress(
+                    id,
+                    qid,
+                    jsonUserAddress
+                );
             }
 
             if (null == userAddress || StringUtils.isBlank(userAddress.getGeoHash())) {
-                LOG.warn("Failed to find address qid={} {}", qid, address);
+                LOG.warn("Failed to find address qid={} {}", qid, jsonUserAddress.getAddress());
                 return getErrorReason("Could not find address. Please add more details to correctly find address", FAILED_FINDING_ADDRESS);
             }
 
-            return jsonUserAddressList.addJsonUserAddresses(
-                new JsonUserAddress()
-                    .setId(id)
-                    .setAddress(address)
-                    .setGeoHash(userAddress.getGeoHash())
-                    .setCountryShortName(userAddress.getCountryShortName())).asJson();
+            jsonUserAddress.setId(id).setGeoHash(userAddress.getGeoHash());
+            return jsonUserAddressList.addJsonUserAddresses(jsonUserAddress).asJson();
         } catch (Exception e) {
             LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
