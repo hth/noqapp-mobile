@@ -16,7 +16,6 @@ import com.noqapp.domain.json.JsonStoreProduct;
 import com.noqapp.domain.json.JsonStoreProductList;
 import com.noqapp.domain.types.medical.PharmacyCategoryEnum;
 import com.noqapp.service.BizService;
-import com.noqapp.service.NotifyMobileService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreHourService;

@@ -1,16 +1,17 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_EXISTING;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_MAX_DEPENDENT;
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.view.controller.open.AccountClientController.invalidElementsInMapDuringRegistration;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
@@ -21,13 +22,12 @@ import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.service.HospitalVisitScheduleService;
-import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.service.DeviceRegistrationService;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
-import com.noqapp.mobile.service.DeviceRegistrationService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 

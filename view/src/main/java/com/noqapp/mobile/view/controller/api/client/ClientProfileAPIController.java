@@ -1,15 +1,16 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ACCOUNT_INACTIVE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.FAILED_FINDING_ADDRESS;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MAIL_OTP_FAILED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_EXISTING;
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.ParseJsonStringToMap;
@@ -23,7 +24,6 @@ import com.noqapp.domain.json.JsonUserAddress;
 import com.noqapp.domain.json.JsonUserAddressList;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;

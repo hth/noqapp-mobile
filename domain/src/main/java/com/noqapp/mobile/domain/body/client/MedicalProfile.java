@@ -2,7 +2,6 @@ package com.noqapp.mobile.domain.body.client;
 
 import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.domain.json.medical.JsonUserMedicalProfile;
-import com.noqapp.domain.types.medical.HospitalVisitForEnum;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.noqapp.common.errors.ErrorJsonList;
+import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserAuthenticationEntity;
@@ -14,7 +15,6 @@ import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.domain.types.RoleEnum;
 import com.noqapp.domain.types.UserLevelEnum;
-import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.domain.body.client.Login;
 import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.view.ITest;

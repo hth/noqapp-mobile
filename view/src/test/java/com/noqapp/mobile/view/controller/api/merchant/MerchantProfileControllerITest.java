@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.noqapp.common.errors.ErrorJsonList;
+import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
@@ -13,7 +14,6 @@ import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.UserLevelEnum;
-import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
 import com.noqapp.mobile.domain.JsonMerchant;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.view.ITest;

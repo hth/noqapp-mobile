@@ -1,7 +1,5 @@
 package com.noqapp.mobile.view.controller.api.merchant.health;
 
-import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
-import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.BUSINESS_NOT_AUTHORIZED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MEDICAL_RECORD_ACCESS_DENIED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MEDICAL_RECORD_DOES_NOT_EXISTS;
@@ -10,8 +8,11 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MEDICAL_RECORD_
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.json.JsonResponse;
@@ -27,7 +28,6 @@ import com.noqapp.medical.exception.ExistingLabResultException;
 import com.noqapp.medical.service.HospitalVisitScheduleService;
 import com.noqapp.medical.service.MedicalRecordService;
 import com.noqapp.medical.service.UserMedicalProfileService;
-import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.mobile.domain.body.merchant.CodeQRDateRangeLookup;
 import com.noqapp.mobile.domain.body.merchant.FindMedicalProfile;
 import com.noqapp.mobile.domain.body.merchant.HospitalVisitFor;

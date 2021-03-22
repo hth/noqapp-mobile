@@ -8,7 +8,6 @@ import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.portal.body.Login;
-import com.noqapp.portal.view.medical.MedicalDashboardController;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

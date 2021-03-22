@@ -1,40 +1,26 @@
 package com.noqapp.mobile.view.controller.api.merchant;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.errors.ErrorJsonList;
 import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonQueuedPerson;
-import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.ActionTypeEnum;
-import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.BusinessCustomerAttributeEnum;
 import com.noqapp.domain.types.CustomerPriorityLevelEnum;
-import com.noqapp.domain.types.DeviceTypeEnum;
-import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.domain.body.client.QueueAuthorize;
 import com.noqapp.mobile.domain.body.merchant.CustomerPriority;
-import com.noqapp.mobile.service.AccountMobileService;
-import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController;
-import com.noqapp.service.AccountService;
-import com.noqapp.service.BusinessCustomerService;
-import com.noqapp.service.BusinessUserStoreService;
-import com.noqapp.service.QueueService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jr.ob.JSON;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,10 +30,7 @@ import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 /**
  * hitender

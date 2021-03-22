@@ -1,9 +1,9 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_TIMEZONE_OFF;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_NOT_PRE_APPROVED_QUEUE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_QUEUE_PERMISSION_DENIED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOIN_PRE_APPROVED_QUEUE_ONLY;
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_NOT_PRE_APPROVED_QUEUE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_SERVICE_LIMIT;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_TOKEN_LIMIT;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SERVICED_TODAY;
