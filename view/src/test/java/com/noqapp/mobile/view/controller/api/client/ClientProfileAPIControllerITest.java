@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
@@ -20,6 +21,8 @@ import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.apache.commons.lang3.StringUtils;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -230,6 +233,10 @@ class ClientProfileAPIControllerITest extends ITest {
         /* Size of address list is now 1. */
         assertEquals(1, jsonUserAddressList.getJsonUserAddresses().size());
         assertEquals(id, jsonUserAddressList.getJsonUserAddresses().get(0).getId());
+
+        UserProfileEntity userProfileAfter = userProfileManager.findByQueueUserId(userProfile.getQueueUserId());
+        assertEquals(updatedAddressTo, userProfileAfter.getAddress());
+        assertTrue(StringUtils.isBlank(userProfile.getAddress()));
     }
 
     @Test
