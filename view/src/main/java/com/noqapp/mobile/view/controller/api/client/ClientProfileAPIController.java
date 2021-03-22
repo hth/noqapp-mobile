@@ -643,7 +643,7 @@ public class ClientProfileAPIController {
         ScrubbedInput auth,
 
         @RequestBody
-        String jsonUserAddressBody,
+        JsonUserAddress jsonUserAddress,
 
         HttpServletResponse response
     ) throws IOException {
@@ -657,23 +657,10 @@ public class ClientProfileAPIController {
         }
 
         try {
-            Map<String, ScrubbedInput> map;
-            try {
-                map = ParseJsonStringToMap.jsonStringToMap(jsonUserAddressBody);
-            } catch (IOException e) {
-                LOG.error("Could not parse json={} reason={}", jsonUserAddressBody, e.getLocalizedMessage(), e);
-                return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
-            }
-
             JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
-
-            String id = null;
-            if (map.containsKey("id")) {
-                id = map.get("id").getText();
-            }
-            if (StringUtils.isNotBlank(id)) {
-                userAddressService.deleteAddress(id, qid);
-                jsonUserAddressList.removeJsonUserAddresses(id);
+            if (StringUtils.isNotBlank(jsonUserAddress.getId())) {
+                userAddressService.deleteAddress(jsonUserAddress.getId(), qid);
+                jsonUserAddressList.removeJsonUserAddresses(jsonUserAddress.getId());
             }
 
             return jsonUserAddressList.asJson();

@@ -225,7 +225,7 @@ class ClientProfileAPIControllerITest extends ITest {
         addressJson = clientProfileAPIController.addressDelete(
             new ScrubbedInput(userProfile.getEmail()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            jsonUserAddress.asJson(),
+            jsonUserAddress,
             httpServletResponse
         );
 
