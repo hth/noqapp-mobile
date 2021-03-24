@@ -659,7 +659,7 @@ public class ClientProfileAPIController {
         try {
             userAddressService.markAddressPrimary(jsonUserAddress.getId(), qid);
             JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
-            jsonUserAddressList.markJsonUserAddressesPrimary(jsonUserAddress.getId());
+            jsonUserAddressList.markPrimaryJsonUserAddresses(jsonUserAddress.getId());
             return jsonUserAddressList.asJson();
         } catch (Exception e) {
             LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
@@ -704,7 +704,7 @@ public class ClientProfileAPIController {
         try {
             JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
             if (StringUtils.isNotBlank(jsonUserAddress.getId())) {
-                userAddressService.deleteAddress(jsonUserAddress.getId(), qid);
+                userAddressService.markAddressAsInactive(jsonUserAddress.getId(), qid);
                 jsonUserAddressList.removeJsonUserAddresses(jsonUserAddress.getId());
             }
 
