@@ -630,6 +630,49 @@ public class ClientProfileAPIController {
         }
     }
 
+    /** Mark user address as primary. */
+    @PostMapping(
+        value = "/address/primary",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String addressPrimary(
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonUserAddress jsonUserAddress,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        try {
+            userAddressService.markAddressPrimary(jsonUserAddress.getId(), qid);
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonUserAddressList().asJson();
+        } finally {
+            apiHealthService.insert(
+                "/address/delete",
+                "addressDelete",
+                ClientProfileAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
     /** Delete user address. */
     @PostMapping(
         value = "/address/delete",
