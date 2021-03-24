@@ -40,6 +40,7 @@ import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.client.OrderDetail;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.repository.UserAddressManager;
 import com.noqapp.service.BizService;
 import com.noqapp.service.CouponService;
 import com.noqapp.service.PurchaseOrderService;
@@ -92,6 +93,7 @@ public class PurchaseOrderAPIController {
     private PurchaseOrderService purchaseOrderService;
     private CouponService couponService;
     private BizService bizService;
+    private UserAddressManager userAddressManager;
     private ApiHealthService apiHealthService;
     private AuthenticateMobileService authenticateMobileService;
 
@@ -100,12 +102,14 @@ public class PurchaseOrderAPIController {
         PurchaseOrderService purchaseOrderService,
         CouponService couponService,
         BizService bizService,
+        UserAddressManager userAddressManager,
         ApiHealthService apiHealthService,
         AuthenticateMobileService authenticateMobileService
     ) {
         this.purchaseOrderService = purchaseOrderService;
-        this.bizService = bizService;
         this.couponService = couponService;
+        this.bizService = bizService;
+        this.userAddressManager = userAddressManager;
         this.apiHealthService = apiHealthService;
         this.authenticateMobileService = authenticateMobileService;
     }
@@ -422,7 +426,7 @@ public class PurchaseOrderAPIController {
                 purchaseOrder.getBusinessType(),
                 purchaseOrder.getId(),
                 purchaseOrder.getPresentOrderState());
-            JsonPurchaseOrder jsonPurchaseOrderPopulated = new JsonPurchaseOrder(purchaseOrder);
+            JsonPurchaseOrder jsonPurchaseOrderPopulated = new JsonPurchaseOrder(purchaseOrder, userAddressManager.findById(purchaseOrder.getUserAddressId()));
             purchaseOrderService.populateWithCFToken(jsonPurchaseOrderPopulated, purchaseOrder);
             return jsonPurchaseOrderPopulated.asJson();
         } catch (Exception e) {

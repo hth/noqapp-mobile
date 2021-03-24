@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StoreProductEntity;
 import com.noqapp.domain.UserAccountEntity;
+import com.noqapp.domain.UserAddressEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonPurchaseOrder;
 import com.noqapp.domain.json.JsonPurchaseOrderHistoricalList;
@@ -16,8 +18,11 @@ import com.noqapp.domain.json.JsonPurchaseOrderProduct;
 import com.noqapp.domain.json.JsonQueueHistoricalList;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.json.JsonUserAddress;
 import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
 import com.noqapp.domain.json.payment.cashfree.JsonResponseRefund;
+import com.noqapp.domain.shared.DecodedAddress;
+import com.noqapp.domain.shared.Geocode;
 import com.noqapp.domain.types.DeliveryModeEnum;
 import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
@@ -55,6 +60,7 @@ class HistoricalAPIControllerITest extends ITest {
 
     private UserProfileEntity userProfile;
     private UserAccountEntity userAccount;
+    private UserAddressEntity userAddress;
 
     @BeforeEach
     void setUp() {
@@ -76,6 +82,7 @@ class HistoricalAPIControllerITest extends ITest {
             geoIPLocationService,
             businessCustomerService,
             queueService,
+            userAddressManager,
             graphDetailOfPerson,
             apiHealthService
         );
@@ -84,12 +91,34 @@ class HistoricalAPIControllerITest extends ITest {
             purchaseOrderService,
             couponService,
             bizService,
+            userAddressManager,
             apiHealthService,
             authenticateMobileService
         );
 
+        String updatedAddressTo = "Chhatrapati Shivaji International Airport, Terminal 2, Navpada, Departures area, Andheri East, Mumbai, Maharashtra 400099, India";
+        Geocode geocode = Geocode.newInstance(externalService.getGeocodingResults(updatedAddressTo), updatedAddressTo);
+        DecodedAddress decodedAddress = DecodedAddress.newInstance(geocode.getResults(), 0);
+
+        JsonUserAddress jsonUserAddress = new JsonUserAddress()
+            .setAddress(updatedAddressTo)
+            .setArea(decodedAddress.getArea())
+            .setTown(decodedAddress.getTown())
+            .setDistrict(decodedAddress.getDistrict())
+            .setState(decodedAddress.getState())
+            .setStateShortName(decodedAddress.getStateShortName())
+            .setCountryShortName(decodedAddress.getCountryShortName())
+            .setLatitude(String.valueOf(decodedAddress.getCoordinate()[1]))
+            .setLongitude(String.valueOf(decodedAddress.getCoordinate()[0]));
+
         userProfile = userProfileManager.findOneByPhone("9118000000001");
+        userAddressService.saveAddress(
+            CommonUtil.generateHexFromObjectId(),
+            userProfile.getQueueUserId(),
+            jsonUserAddress
+        );
         userAccount = userAccountManager.findByQueueUserId(userProfile.getQueueUserId());
+        userAddress = userAddressManager.findOne(userProfile.getQueueUserId());
     }
 
     @Test
@@ -225,6 +254,7 @@ class HistoricalAPIControllerITest extends ITest {
             .setBusinessType(bizStore.getBusinessType())
             .setCustomerName(userProfile.getName())
             .setCustomerPhone(userProfile.getPhone())
+            .setUserAddressId(null == userAddress ? null : userAddress.getId())
             .setDeliveryMode(DeliveryModeEnum.TO)
             .setPaymentMode(PaymentModeEnum.CA)
             .setStoreDiscount(bizStore.getDiscount())
