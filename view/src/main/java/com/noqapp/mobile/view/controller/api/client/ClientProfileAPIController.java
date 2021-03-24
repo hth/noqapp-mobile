@@ -675,7 +675,7 @@ public class ClientProfileAPIController {
         }
     }
 
-    /** Delete user address. */
+    /** Delete user address only if greater than 1. */
     @PostMapping(
         value = "/address/delete",
         produces = MediaType.APPLICATION_JSON_VALUE
@@ -703,9 +703,16 @@ public class ClientProfileAPIController {
 
         try {
             JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
-            if (StringUtils.isNotBlank(jsonUserAddress.getId())) {
+            if (StringUtils.isNotBlank(jsonUserAddress.getId()) && jsonUserAddressList.getJsonUserAddresses().size() > 1) {
                 userAddressService.markAddressAsInactive(jsonUserAddress.getId(), qid);
                 jsonUserAddressList.removeJsonUserAddresses(jsonUserAddress.getId());
+
+                /* When last remaining address, then mark it as primary. */
+                if (jsonUserAddressList.getJsonUserAddresses().size() == 1) {
+                    JsonUserAddress lastRemainingAddress = jsonUserAddressList.getJsonUserAddresses().get(0);
+                    userAddressService.markAddressPrimary(lastRemainingAddress.getId(), qid);
+                    jsonUserAddressList.markPrimaryJsonUserAddresses(lastRemainingAddress.getId());
+                }
             }
 
             return jsonUserAddressList.asJson();
