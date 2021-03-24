@@ -12,7 +12,10 @@ import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonPurchaseOrderList;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.json.JsonUserAddress;
 import com.noqapp.domain.json.medical.JsonUserMedicalProfile;
+import com.noqapp.domain.shared.DecodedAddress;
+import com.noqapp.domain.shared.Geocode;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.medical.DailyFrequencyEnum;
 import com.noqapp.domain.types.medical.LabCategoryEnum;
@@ -56,6 +59,7 @@ class MedicalRecordControllerTest extends ITest {
     private BizStoreEntity bizStore;
     private UserProfileEntity queueManager_Doctor_UserProfile;
     private ImageValidator imageValidator;
+    private UserProfileEntity userProfile;
 
     @BeforeEach
     void setUp() {
@@ -102,6 +106,28 @@ class MedicalRecordControllerTest extends ITest {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
         bizStore = bizService.findOneBizStore(bizName.getId());
         queueManager_Doctor_UserProfile = accountService.checkUserExistsByPhone("9118000000032");
+
+        String updatedAddressTo = "Chhatrapati Shivaji International Airport, Terminal 2, Navpada, Departures area, Andheri East, Mumbai, Maharashtra 400099, India";
+        Geocode geocode = Geocode.newInstance(externalService.getGeocodingResults(updatedAddressTo), updatedAddressTo);
+        DecodedAddress decodedAddress = DecodedAddress.newInstance(geocode.getResults(), 0);
+
+        JsonUserAddress jsonUserAddress = new JsonUserAddress()
+            .setAddress(updatedAddressTo)
+            .setArea(decodedAddress.getArea())
+            .setTown(decodedAddress.getTown())
+            .setDistrict(decodedAddress.getDistrict())
+            .setState(decodedAddress.getState())
+            .setStateShortName(decodedAddress.getStateShortName())
+            .setCountryShortName(decodedAddress.getCountryShortName())
+            .setLatitude(String.valueOf(decodedAddress.getCoordinate()[1]))
+            .setLongitude(String.valueOf(decodedAddress.getCoordinate()[0]));
+
+        userProfile = userProfileManager.findOneByPhone("9118000000001");
+        userAddressService.saveAddress(
+            CommonUtil.generateHexFromObjectId(),
+            userProfile.getQueueUserId(),
+            jsonUserAddress
+        );
     }
 
     @DisplayName("Update medical record")

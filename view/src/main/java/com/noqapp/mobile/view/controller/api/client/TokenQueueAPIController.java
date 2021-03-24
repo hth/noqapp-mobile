@@ -60,6 +60,7 @@ import com.noqapp.mobile.service.TokenQueueMobileService;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
+import com.noqapp.repository.UserAddressManager;
 import com.noqapp.search.elastic.helper.IpCoordinate;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.BusinessCustomerService;
@@ -135,6 +136,7 @@ public class TokenQueueAPIController {
     private GeoIPLocationService geoIPLocationService;
     private BusinessCustomerService businessCustomerService;
     private QueueService queueService;
+    private UserAddressManager userAddressManager;
     private GraphDetailOfPerson graphDetailOfPerson;
     private ApiHealthService apiHealthService;
 
@@ -150,6 +152,7 @@ public class TokenQueueAPIController {
         GeoIPLocationService geoIPLocationService,
         BusinessCustomerService businessCustomerService,
         QueueService queueService,
+        UserAddressManager userAddressManager,
         GraphDetailOfPerson graphDetailOfPerson,
         ApiHealthService apiHealthService
     ) {
@@ -163,6 +166,7 @@ public class TokenQueueAPIController {
         this.geoIPLocationService = geoIPLocationService;
         this.businessCustomerService = businessCustomerService;
         this.queueService = queueService;
+        this.userAddressManager = userAddressManager;
         this.graphDetailOfPerson = graphDetailOfPerson;
         this.apiHealthService = apiHealthService;
     }
@@ -780,8 +784,9 @@ public class TokenQueueAPIController {
                 return getErrorReason("Payment Failed", QUEUE_JOIN_PAYMENT_FAILED);
             }
 
-            JsonToken jsonToken = joinAbortService.updateWhenPaymentSuccessful(purchaseOrder.getCodeQR(), purchaseOrder.getTransactionId())
-                .setJsonPurchaseOrder(new JsonPurchaseOrder(purchaseOrder));
+            JsonToken jsonToken = joinAbortService
+                .updateWhenPaymentSuccessful(purchaseOrder.getCodeQR(), purchaseOrder.getTransactionId())
+                .setJsonPurchaseOrder(new JsonPurchaseOrder(purchaseOrder, userAddressManager.findById(purchaseOrder.getUserAddressId())));
 
             return jsonToken.asJson();
         } catch (Exception e) {
