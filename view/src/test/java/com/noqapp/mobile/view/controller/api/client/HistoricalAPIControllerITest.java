@@ -118,7 +118,7 @@ class HistoricalAPIControllerITest extends ITest {
             jsonUserAddress
         );
         userAccount = userAccountManager.findByQueueUserId(userProfile.getQueueUserId());
-        userAddress = userAddressManager.findOne(userProfile.getQueueUserId());
+        userAddress = userAddressManager.findPrimaryOrAnyExistingAddress(userProfile.getQueueUserId());
     }
 
     @Test
