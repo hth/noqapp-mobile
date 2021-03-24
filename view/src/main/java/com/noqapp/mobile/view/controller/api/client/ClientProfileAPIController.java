@@ -665,8 +665,8 @@ public class ClientProfileAPIController {
             return new JsonUserAddressList().asJson();
         } finally {
             apiHealthService.insert(
-                "/address/delete",
-                "addressDelete",
+                "/address/addressPrimary",
+                "addressPrimary",
                 ClientProfileAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
