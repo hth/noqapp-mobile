@@ -658,15 +658,17 @@ public class ClientProfileAPIController {
 
         try {
             userAddressService.markAddressPrimary(jsonUserAddress.getId(), qid);
-            return new JsonResponse(true).asJson();
+            JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
+            jsonUserAddressList.markJsonUserAddressesPrimary(jsonUserAddress.getId());
+            return jsonUserAddressList.asJson();
         } catch (Exception e) {
             LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new JsonUserAddressList().asJson();
         } finally {
             apiHealthService.insert(
-                "/address/delete",
-                "addressDelete",
+                "/address/addressPrimary",
+                "addressPrimary",
                 ClientProfileAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
