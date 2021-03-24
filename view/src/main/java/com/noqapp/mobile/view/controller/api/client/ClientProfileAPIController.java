@@ -713,6 +713,8 @@ public class ClientProfileAPIController {
                     userAddressService.markAddressPrimary(lastRemainingAddress.getId(), qid);
                     jsonUserAddressList.markPrimaryJsonUserAddresses(lastRemainingAddress.getId());
                 }
+            } else {
+                LOG.info("Cannot delete the last remaining address {} {}", qid, jsonUserAddress.getId());
             }
 
             return jsonUserAddressList.asJson();
