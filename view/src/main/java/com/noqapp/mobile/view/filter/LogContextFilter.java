@@ -112,8 +112,9 @@ public class LogContextFilter implements Filter {
                 case "NP":
                     //Allowed country
                     break;
-                case "AE": //Saudi
-                case "SA": //South Africa
+                case "AE": //UAE
+                case "OM": //Oman & Muscat
+                case "SA": //Saudi
                 case "CN": //China
                 case "HK": //Hong Kong
                 case "CZ": //Czechia
