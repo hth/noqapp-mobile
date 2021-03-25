@@ -593,6 +593,14 @@ public class ClientProfileAPIController {
         }
 
         try {
+            if (jsonUserAddress.getCoordinate() == null) {
+                return getErrorReason("Please wait for new release. Inconvenience regretted", MOBILE_JSON);
+            }
+        } catch (NullPointerException npe) {
+            return getErrorReason("Please wait for new release. Inconvenience regretted", MOBILE_JSON);
+        }
+
+        try {
             JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
 
             String id = null;
