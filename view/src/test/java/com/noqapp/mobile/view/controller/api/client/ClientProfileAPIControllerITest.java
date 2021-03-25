@@ -193,7 +193,7 @@ class ClientProfileAPIControllerITest extends ITest {
         /* Size of address list is now 1. */
         assertEquals(1, jsonUserAddressList.getJsonUserAddresses().size());
         assertEquals(updatedAddressTo, jsonUserAddressList.getJsonUserAddresses().get(0).getAddress());
-        assertEquals("te7udk9c98vg", jsonUserAddressList.getJsonUserAddresses().get(0).getGeoHash());
+        assertEquals("te7ud55hezu1", jsonUserAddressList.getJsonUserAddresses().get(0).getGeoHash());
         assertEquals("IN", jsonUserAddressList.getJsonUserAddresses().get(0).getCountryShortName());
 
         /* Add address again. */
