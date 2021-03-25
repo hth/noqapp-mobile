@@ -617,7 +617,7 @@ public class ClientProfileAPIController {
             jsonUserAddress.setId(id).setGeoHash(userAddress.getGeoHash());
             return jsonUserAddressList.addJsonUserAddresses(jsonUserAddress).asJson();
         } catch (Exception e) {
-            LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed adding address {} reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new JsonUserAddressList().asJson();
         } finally {
@@ -662,7 +662,7 @@ public class ClientProfileAPIController {
             jsonUserAddressList.markPrimaryJsonUserAddresses(jsonUserAddress.getId());
             return jsonUserAddressList.asJson();
         } catch (Exception e) {
-            LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed making address primary {} reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new JsonUserAddressList().asJson();
         } finally {
@@ -719,7 +719,7 @@ public class ClientProfileAPIController {
 
             return jsonUserAddressList.asJson();
         } catch (Exception e) {
-            LOG.error("Failed adding address reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed marking address inactive {} reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new JsonUserAddressList().asJson();
         } finally {
