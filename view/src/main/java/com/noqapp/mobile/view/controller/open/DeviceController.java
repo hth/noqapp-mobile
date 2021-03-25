@@ -4,6 +4,7 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_DETAIL_M
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
+import static org.apiguardian.api.API.Status.DEPRECATED;
 
 import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
@@ -36,6 +37,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.apiguardian.api.API;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -80,6 +83,7 @@ public class DeviceController {
      * Finds if device exists or saves the device when does not exists. Most likely this call would not be required.
      * v1 is deprecated since 1.2.655.
      */
+    @API(status = DEPRECATED, since = "1.2.655")
     @PostMapping(
         value = "/v1/register",
         produces = MediaType.APPLICATION_JSON_VALUE
@@ -223,6 +227,7 @@ public class DeviceController {
      * Checks is device version is supported.
      * X-R-DID is deprecated since 1.2.655.
      */
+    @API(status = DEPRECATED, since = "1.2.655")
     @PostMapping(
         value = "/version",
         produces = MediaType.APPLICATION_JSON_VALUE
