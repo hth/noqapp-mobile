@@ -593,6 +593,7 @@ public class ClientProfileAPIController {
         }
 
         try {
+            //TODO Revert me after release
             if (jsonUserAddress.getCoordinate() == null) {
                 return getErrorReason("Please wait for new release. Inconvenience regretted", MOBILE_JSON);
             }
