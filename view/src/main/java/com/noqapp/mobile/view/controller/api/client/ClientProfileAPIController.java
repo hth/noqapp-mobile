@@ -595,9 +595,11 @@ public class ClientProfileAPIController {
         try {
             //TODO Revert me after release
             if (jsonUserAddress.getCoordinate() == null) {
+                LOG.error("No coordinates {}", jsonUserAddress);
                 return getErrorReason("Please wait for new release. Inconvenience regretted", MOBILE_JSON);
             }
         } catch (NullPointerException npe) {
+            LOG.error("Failed reason {}", npe.getLocalizedMessage(), npe);
             return getErrorReason("Please wait for new release. Inconvenience regretted", MOBILE_JSON);
         }
 
