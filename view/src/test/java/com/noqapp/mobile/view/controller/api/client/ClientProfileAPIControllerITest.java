@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
+import com.noqapp.domain.UserAddressEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.domain.json.JsonUserAddress;
@@ -53,6 +54,7 @@ class ClientProfileAPIControllerITest extends ITest {
             authenticateMobileService,
             accountClientValidator,
             accountMobileService,
+            externalService,
             professionalProfileValidator,
             apiHealthService
         );
@@ -103,7 +105,6 @@ class ClientProfileAPIControllerITest extends ITest {
 
         UpdateProfile updateProfile = new UpdateProfile()
             .setQueueUserId(userProfile.getQueueUserId())
-            .setAddress("Navi Mumbai, India")
             .setBirthday("2000-01-31")
             .setFirstName("PankAj  KUMAr SingH ")
             .setGender(GenderEnum.F.name())
@@ -112,7 +113,7 @@ class ClientProfileAPIControllerITest extends ITest {
         String jsonProfileUpdatedAsJson = clientProfileAPIController.update(
             new ScrubbedInput(userProfile.getEmail()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            updateProfile.asJson(),
+            updateProfile,
             httpServletResponse
         );
 
@@ -154,6 +155,7 @@ class ClientProfileAPIControllerITest extends ITest {
     void address_Add_Delete() throws IOException {
         UserProfileEntity userProfile = userProfileManager.findOneByPhone("9118000000001");
         UserAccountEntity userAccount = userAccountManager.findByQueueUserId(userProfile.getQueueUserId());
+        UserAddressEntity userAddress = userAddressService.findOneUserAddress(userProfile.getQueueUserId());
 
         String addressJson = clientProfileAPIController.address(
             new ScrubbedInput(userProfile.getEmail()),
@@ -234,9 +236,10 @@ class ClientProfileAPIControllerITest extends ITest {
         assertEquals(1, jsonUserAddressList.getJsonUserAddresses().size());
         assertEquals(id, jsonUserAddressList.getJsonUserAddresses().get(0).getId());
 
-        UserProfileEntity userProfileAfter = userProfileManager.findByQueueUserId(userProfile.getQueueUserId());
-        assertEquals(updatedAddressTo, userProfileAfter.getAddress());
-        assertTrue(StringUtils.isBlank(userProfile.getAddress()));
+        UserAddressEntity userAddressAfterAdding = userAddressService.findOneUserAddress(userProfile.getQueueUserId());
+        assertEquals(updatedAddressTo, userAddressAfterAdding.getAddress());
+        assertTrue(userAddressAfterAdding.isPrimaryAddress());
+        assertTrue(null == userAddress);
     }
 
     @Test
