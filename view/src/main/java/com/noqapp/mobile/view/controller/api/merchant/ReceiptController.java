@@ -90,6 +90,7 @@ public class ReceiptController {
         this.professionalProfileService = professionalProfileService;
         this.purchaseOrderProductService = purchaseOrderProductService;
         this.apiHealthService = apiHealthService;
+
         this.bizStoreManager = bizStoreManager;
     }
 
