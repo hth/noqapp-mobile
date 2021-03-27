@@ -360,7 +360,6 @@ public class AccountMobileService {
 
     public enum ACCOUNT_UPDATE {
         QID,//QueueUserId
-        AD, //Address
         FN, //FirstName
         BD, //Birthday
         GE, //Gender            //TODO add this to token merchant registration

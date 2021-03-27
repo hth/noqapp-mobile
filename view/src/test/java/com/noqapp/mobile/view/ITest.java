@@ -438,6 +438,7 @@ public class ITest extends RealMongoForITest {
         scheduleAppointmentManager = new ScheduleAppointmentManagerImpl(getMongoTemplate());
         couponManager = new CouponManagerImpl(getMongoTemplate());
         apiHealthNowManager = new ApiHealthNowManagerImpl(getMongoTemplate());
+        userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
 
         generateUserIdService = new GenerateUserIdService(generateUserIdManager);
         emailValidateService = new EmailValidateService(emailValidateManager);
@@ -445,6 +446,7 @@ public class ITest extends RealMongoForITest {
         userMedicalProfileService = new UserMedicalProfileService(userMedicalProfileManager, userMedicalProfileHistoryManager);
         nlpService = new NLPService(stanfordCoreNLP, maxentTagger);
         businessCustomerPriorityService = new BusinessCustomerPriorityService(businessCustomerPriorityManager, bizNameManager, bizStoreManager);
+        userAddressService = new UserAddressService(userAddressManager);
 
         accountService = new AccountService(
             5,
@@ -455,7 +457,8 @@ public class ITest extends RealMongoForITest {
             generateUserIdService,
             emailValidateService,
             inviteService,
-            forgotRecoverManager
+            forgotRecoverManager,
+            userAddressService
         );
 
         reviewService = new ReviewService(
@@ -475,9 +478,7 @@ public class ITest extends RealMongoForITest {
             businessUserStoreManager,
             bizStoreManager);
 
-        userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
         externalService = new ExternalService("AIzaSyDUM3yIIrwrx3ciwZ57O9YamC4uISWAlAk", 0, bizStoreManager);
-        userAddressService = new UserAddressService(userAddressManager, userProfileManager);
         userProfilePreferenceService = new UserProfilePreferenceService(
             userProfileManager,
             userPreferenceManager,
@@ -518,7 +519,6 @@ public class ITest extends RealMongoForITest {
         );
 
         couponService = new CouponService(couponManager, bizStoreManager, userProfileManager);
-        userAddressService = new UserAddressService(userAddressManager, userProfileManager);
         purchaseOrderProductService = new PurchaseOrderProductService(couponService, purchaseOrderProductManager, purchaseOrderProductManagerJDBC, userAddressService);
 
         customTextToSpeechService = new CustomTextToSpeechService(customTextToSpeechManager);
@@ -757,7 +757,8 @@ public class ITest extends RealMongoForITest {
             accountService,
             bizService,
             professionalProfileService,
-            storeHourService
+            storeHourService,
+            userAddressService
         );
 
         medicalRecordManager = new MedicalRecordManagerImpl(getMongoTemplate());

@@ -56,6 +56,7 @@ class MerchantProfileControllerITest extends ITest {
             authenticateMobileService,
             accountClientValidator,
             accountMobileService,
+            externalService,
             professionalProfileValidator,
             apiHealthService
         );
@@ -121,7 +122,6 @@ class MerchantProfileControllerITest extends ITest {
         JsonProfile jsonProfile = jsonMerchant.getJsonProfile();
         UpdateProfile updateProfile = new UpdateProfile()
             .setQueueUserId(jsonProfile.getQueueUserId())
-            .setAddress(jsonProfile.getAddress())
             .setFirstName("My new Name")
             .setBirthday(jsonProfile.getBirthday())
             .setGender(jsonProfile.getGender().name())
@@ -130,17 +130,15 @@ class MerchantProfileControllerITest extends ITest {
         String jsonProfileAsString = merchantProfileController.update(
             new ScrubbedInput(userAccount.getUserId()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            updateProfile.asJson(),
+            updateProfile,
             httpServletResponse
         );
 
         JsonProfile jsonProfileUpdated = new ObjectMapper().readValue(jsonProfileAsString, JsonProfile.class);
         assertEquals("My New Name", jsonProfileUpdated.getName());
-        assertNull(jsonProfileUpdated.getAddress());
 
         updateProfile = new UpdateProfile()
             .setQueueUserId(jsonProfile.getQueueUserId())
-            .setAddress("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India")
             .setFirstName("My new Name")
             .setBirthday(jsonProfile.getBirthday())
             .setGender(jsonProfile.getGender().name())
@@ -149,13 +147,12 @@ class MerchantProfileControllerITest extends ITest {
         jsonProfileAsString = merchantProfileController.update(
             new ScrubbedInput(userAccount.getUserId()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            updateProfile.asJson(),
+            updateProfile,
             httpServletResponse
         );
 
         jsonProfileUpdated = new ObjectMapper().readValue(jsonProfileAsString, JsonProfile.class);
         assertEquals("My New Name", jsonProfileUpdated.getName());
-        assertEquals("Shop NO RB.1, Haware's centurion Mall, 1st Floor, Sector No 19, Nerul - East, Seawoods, Navi Mumbai, Mumbai, 400706, India", jsonProfileUpdated.getAddress());
     }
 
     @Test
