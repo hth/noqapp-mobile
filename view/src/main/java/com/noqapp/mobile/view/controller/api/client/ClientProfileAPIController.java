@@ -4,6 +4,7 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ACCOUNT_INACTIV
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.FAILED_FINDING_ADDRESS;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MAIL_OTP_FAILED;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_JSON;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.ONE_ADDRESS_AT_LEAST;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_EXISTING;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
@@ -618,6 +619,8 @@ public class ClientProfileAPIController {
                     qid,
                     jsonUserAddress
                 );
+
+                LOG.info("Address added successfully {} {}", qid, jsonUserAddress.getId());
             }
 
             if (null == userAddress || StringUtils.isBlank(userAddress.getGeoHash())) {
@@ -671,6 +674,7 @@ public class ClientProfileAPIController {
             userAddressService.markAddressPrimary(jsonUserAddress.getId(), qid);
             JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
             jsonUserAddressList.markPrimaryJsonUserAddresses(jsonUserAddress.getId());
+            LOG.info("Marked address primary {} {}", qid, jsonUserAddress.getId());
             return jsonUserAddressList.asJson();
         } catch (Exception e) {
             LOG.error("Failed making address primary {} {} reason={}", qid, jsonUserAddress.getId(), e.getLocalizedMessage(), e);
@@ -726,6 +730,7 @@ public class ClientProfileAPIController {
                 }
             } else {
                 LOG.info("Cannot delete the last remaining address {} {}", qid, jsonUserAddress.getId());
+                return getErrorReason("This address cannot be deleted.", ONE_ADDRESS_AT_LEAST);
             }
 
             return jsonUserAddressList.asJson();
