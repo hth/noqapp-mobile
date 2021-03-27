@@ -730,7 +730,7 @@ public class ClientProfileAPIController {
                 }
             } else {
                 LOG.info("Cannot delete the last remaining address {} {}", qid, jsonUserAddress.getId());
-                return getErrorReason("At least one address required.", ONE_ADDRESS_AT_LEAST);
+                return getErrorReason("This address cannot be deleted.", ONE_ADDRESS_AT_LEAST);
             }
 
             return jsonUserAddressList.asJson();
