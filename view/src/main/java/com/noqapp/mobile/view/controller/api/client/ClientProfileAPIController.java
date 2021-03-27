@@ -728,6 +728,7 @@ public class ClientProfileAPIController {
                     userAddressService.markAddressPrimary(lastRemainingAddress.getId(), qid);
                     jsonUserAddressList.markPrimaryJsonUserAddresses(lastRemainingAddress.getId());
                 }
+                LOG.info("Address deleted successfully {} {}", qid, jsonUserAddress.getId());
             } else {
                 LOG.info("Cannot delete the last remaining address {} {}", qid, jsonUserAddress.getId());
                 return getErrorReason("This address cannot be deleted.", ONE_ADDRESS_AT_LEAST);
