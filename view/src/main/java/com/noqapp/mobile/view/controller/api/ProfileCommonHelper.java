@@ -12,16 +12,21 @@ import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.flow.RegisterUser;
 import com.noqapp.domain.json.JsonProfessionalProfile;
+import com.noqapp.domain.json.JsonUserAddress;
+import com.noqapp.domain.shared.DecodedAddress;
+import com.noqapp.domain.shared.Geocode;
 import com.noqapp.domain.types.AddressOriginEnum;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.common.util.ExtractFirstLastName;
+import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
+import com.noqapp.service.ExternalService;
 import com.noqapp.social.exception.AccountNotActiveException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -57,6 +62,7 @@ public class ProfileCommonHelper extends CommonHelper {
     private AuthenticateMobileService authenticateMobileService;
     private AccountClientValidator accountClientValidator;
     private AccountMobileService accountMobileService;
+    private ExternalService externalService;
     private ProfessionalProfileValidator professionalProfileValidator;
     private ApiHealthService apiHealthService;
 
@@ -65,6 +71,7 @@ public class ProfileCommonHelper extends CommonHelper {
         AuthenticateMobileService authenticateMobileService,
         AccountClientValidator accountClientValidator,
         AccountMobileService accountMobileService,
+        ExternalService externalService,
         ProfessionalProfileValidator professionalProfileValidator,
         ApiHealthService apiHealthService
     ) {
@@ -72,6 +79,7 @@ public class ProfileCommonHelper extends CommonHelper {
         this.authenticateMobileService = authenticateMobileService;
         this.accountClientValidator = accountClientValidator;
         this.accountMobileService = accountMobileService;
+        this.externalService = externalService;
         this.professionalProfileValidator = professionalProfileValidator;
         this.apiHealthService = apiHealthService;
     }
@@ -84,14 +92,14 @@ public class ProfileCommonHelper extends CommonHelper {
      * @param response
      * @return
      */
-    private String updateProfile(String qidOfSubmitter, String updateProfileJson, HttpServletResponse response) {
+    private String updateProfile(String qidOfSubmitter, UpdateProfile updateProfileJson, HttpServletResponse response) {
         LOG.info("Update Profile qidOfSubmitter={} updateProfileJson={}", qidOfSubmitter, updateProfileJson);
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
 
         Map<String, ScrubbedInput> map;
         try {
-            map = ParseJsonStringToMap.jsonStringToMap(updateProfileJson);
+            map = ParseJsonStringToMap.jsonStringToMap(updateProfileJson.asJson());
         } catch (IOException e) {
             LOG.error("Could not parse json={} reason={}", updateProfileJson, e.getLocalizedMessage(), e);
             return ErrorEncounteredJson.toJson("Could not parse JSON", MOBILE_JSON);
@@ -135,7 +143,6 @@ public class ProfileCommonHelper extends CommonHelper {
                     lastName = extractFirstLastName.getLastName();
                 }
 
-                ScrubbedInput address = map.get(AccountMobileService.ACCOUNT_UPDATE.AD.name()) == null ? new ScrubbedInput("") : map.get(AccountMobileService.ACCOUNT_UPDATE.AD.name());
                 ScrubbedInput birthday = map.get(AccountMobileService.ACCOUNT_UPDATE.BD.name());
                 /* Required. */
                 String gender = map.get(AccountMobileService.ACCOUNT_UPDATE.GE.name()).getText();
@@ -162,13 +169,13 @@ public class ProfileCommonHelper extends CommonHelper {
                     .setQueueUserId(qid)
                     .setFirstName(new ScrubbedInput(firstName))
                     .setLastName(new ScrubbedInput(lastName))
-                    .setAddress(address)
-                    .setAddressOrigin(StringUtils.isBlank(address.getText()) ? null : AddressOriginEnum.S)
                     .setBirthday(birthday)
                     .setGender(GenderEnum.valueOf(gender))
                     .setCountryShortName(new ScrubbedInput(countryShortName))
                     .setTimeZone(timeZone)
                     .setPhone(new ScrubbedInput(phone));
+
+                /* Note: Address is no longer getting updated when profile is update on mobile. */
                 accountMobileService.updateUserProfile(registerUser, userProfile.getEmail());
             }
 
@@ -191,12 +198,10 @@ public class ProfileCommonHelper extends CommonHelper {
         }
     }
 
-
-
     public String updateProfile(
         ScrubbedInput mail,
         ScrubbedInput auth,
-        String updateProfileJson,
+        UpdateProfile updateProfileJson,
         HttpServletResponse response
     ) throws IOException {
         LOG.debug("mail={}, auth={}", mail, AUTH_KEY_HIDDEN);

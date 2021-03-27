@@ -259,7 +259,7 @@ public class MerchantProfileController {
         ScrubbedInput auth,
 
         @RequestBody
-        String updateProfileJson,
+        UpdateProfile updateProfileJson,
 
         HttpServletResponse response
     ) throws IOException {
