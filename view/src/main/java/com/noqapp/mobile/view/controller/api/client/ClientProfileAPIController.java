@@ -618,6 +618,8 @@ public class ClientProfileAPIController {
                     qid,
                     jsonUserAddress
                 );
+
+                LOG.info("Address added successfully {} {}", qid, jsonUserAddress.getId());
             }
 
             if (null == userAddress || StringUtils.isBlank(userAddress.getGeoHash())) {
@@ -671,6 +673,7 @@ public class ClientProfileAPIController {
             userAddressService.markAddressPrimary(jsonUserAddress.getId(), qid);
             JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
             jsonUserAddressList.markPrimaryJsonUserAddresses(jsonUserAddress.getId());
+            LOG.info("Marked address primary {} {}", qid, jsonUserAddress.getId());
             return jsonUserAddressList.asJson();
         } catch (Exception e) {
             LOG.error("Failed making address primary {} {} reason={}", qid, jsonUserAddress.getId(), e.getLocalizedMessage(), e);
