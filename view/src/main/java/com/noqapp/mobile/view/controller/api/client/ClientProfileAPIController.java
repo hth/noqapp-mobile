@@ -605,8 +605,6 @@ public class ClientProfileAPIController {
         }
 
         try {
-            JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
-
             String id = null;
             if (StringUtils.isNotBlank(jsonUserAddress.getId())) {
                 id = jsonUserAddress.getId();
@@ -628,6 +626,7 @@ public class ClientProfileAPIController {
                 return getErrorReason("Could not find address. Please add more details to correctly find address", FAILED_FINDING_ADDRESS);
             }
 
+            JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
             jsonUserAddress.setId(id).setGeoHash(userAddress.getGeoHash());
             return jsonUserAddressList.addJsonUserAddresses(jsonUserAddress).asJson();
         } catch (Exception e) {
