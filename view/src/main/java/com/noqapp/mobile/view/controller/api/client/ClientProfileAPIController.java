@@ -605,30 +605,14 @@ public class ClientProfileAPIController {
         }
 
         try {
-            String id = null;
-            if (StringUtils.isNotBlank(jsonUserAddress.getId())) {
-                id = jsonUserAddress.getId();
-            }
-            UserAddressEntity userAddress = null;
-            if (StringUtils.isBlank(id)) {
-                id = CommonUtil.generateHexFromObjectId();
-                userAddress = userAddressService.saveAddress(
-                    id,
-                    qid,
-                    jsonUserAddress
-                );
-
-                LOG.info("Address added successfully {} {}", qid, jsonUserAddress.getId());
-            }
-
-            if (null == userAddress || StringUtils.isBlank(userAddress.getGeoHash())) {
+            if (!jsonUserAddress.isValidCoordinate()) {
                 LOG.warn("Failed to find address qid={} {}", qid, jsonUserAddress.getAddress());
                 return getErrorReason("Could not find address. Please add more details to correctly find address", FAILED_FINDING_ADDRESS);
             }
 
-            JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
-            jsonUserAddress.setId(id).setGeoHash(userAddress.getGeoHash());
-            return jsonUserAddressList.addJsonUserAddresses(jsonUserAddress).asJson();
+            JsonUserAddressList jsonUserAddressList = userAddressService.addAddress(CommonUtil.generateHexFromObjectId(), qid, jsonUserAddress);
+            LOG.info("Address added successfully {} {}", qid, jsonUserAddress.getId());
+            return jsonUserAddressList.asJson();
         } catch (Exception e) {
             LOG.error("Failed adding address {} {} reason={}", qid, jsonUserAddress.getAddress(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

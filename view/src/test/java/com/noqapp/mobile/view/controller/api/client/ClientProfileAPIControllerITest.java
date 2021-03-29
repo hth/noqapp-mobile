@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.noqapp.common.utils.ScrubbedInput;
@@ -239,7 +240,7 @@ class ClientProfileAPIControllerITest extends ITest {
         UserAddressEntity userAddressAfterAdding = userAddressService.findOneUserAddress(userProfile.getQueueUserId());
         assertEquals(updatedAddressTo, userAddressAfterAdding.getAddress());
         assertTrue(userAddressAfterAdding.isPrimaryAddress());
-        assertTrue(null == userAddress);
+        assertNull(userAddress);
     }
 
     @Test
