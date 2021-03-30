@@ -1,6 +1,7 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -196,7 +197,7 @@ class ClientProfileAPIControllerITest extends ITest {
         /* Size of address list is now 1. */
         assertEquals(1, jsonUserAddressList.getJsonUserAddresses().size());
         assertEquals(updatedAddressTo, jsonUserAddressList.getJsonUserAddresses().get(0).getAddress());
-        assertEquals("te7ud55hezu1", jsonUserAddressList.getJsonUserAddresses().get(0).getGeoHash());
+        assertNotNull(jsonUserAddressList.getJsonUserAddresses().get(0).getGeoHash());
         assertEquals("IN", jsonUserAddressList.getJsonUserAddresses().get(0).getCountryShortName());
 
         /* Add address again. */
