@@ -501,7 +501,19 @@ public class ITest extends RealMongoForITest {
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6, 6);
         deviceService = new DeviceService(registeredDeviceManager, userProfileManager);
         notificationMessageManager = new NotificationMessageManagerImpl(getMongoTemplate());
-        messageCustomerService = new MessageCustomerService(1, queueService, tokenQueueService, notificationMessageManager, registeredDeviceManager, firebaseService, bizService, graphDetailOfPerson, notificationN4jManager);
+        messageCustomerService = new MessageCustomerService(
+            1,
+            queueService,
+            tokenQueueService, 
+            notificationMessageManager,
+            registeredDeviceManager,
+            bizStoreManager,
+            bizNameManager,
+            firebaseService,
+            graphDetailOfPerson,
+            notificationN4jManager
+        );
+
         deviceRegistrationService = new DeviceRegistrationService("information", registeredDeviceManager, messageCustomerService, userProfilePreferenceService, geoIPLocationService);
         apiHealthService = new ApiHealthService(apiHealthNowManager);
         tokenQueueManager = new TokenQueueManagerImpl(getMongoTemplate());
