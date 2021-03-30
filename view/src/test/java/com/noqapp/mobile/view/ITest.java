@@ -562,15 +562,15 @@ public class ITest extends RealMongoForITest {
 
         queueService = new QueueService(
             userProfileManager,
-            businessCustomerService,
             bizStoreManager,
             queueManager,
             queueManagerJDBC,
-            tokenQueueService,
             businessUserStoreManager,
             statsBizStoreDailyManager,
             purchaseOrderManager,
             purchaseOrderManagerJDBC,
+            businessCustomerService,
+            tokenQueueService,
             purchaseOrderProductService,
             storeHourService,
             couponService
