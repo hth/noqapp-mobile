@@ -503,13 +503,15 @@ public class ITest extends RealMongoForITest {
         notificationMessageManager = new NotificationMessageManagerImpl(getMongoTemplate());
         messageCustomerService = new MessageCustomerService(
             1,
-            queueService,
-            tokenQueueService,
             notificationMessageManager,
             registeredDeviceManager,
             bizStoreManager,
             bizNameManager,
+            queueManagerJDBC,
+            tokenQueueManager,
             firebaseService,
+            firebaseMessageService,
+            languageTranslationService,
             graphDetailOfPerson,
             notificationN4jManager
         );
@@ -555,7 +557,7 @@ public class ITest extends RealMongoForITest {
             textToSpeechService,
             firebaseService,
             userProfilePreferenceService,
-            languageTranslationService,
+            messageCustomerService,
             apiHealthService
         );
 
@@ -664,7 +666,8 @@ public class ITest extends RealMongoForITest {
             businessUserStoreManager,
             notificationMessageManager,
             storeHourService,
-            queueService);
+            queueService,
+            messageCustomerService);
 
         storeDetailService = new StoreDetailService(bizService, tokenQueueMobileService, storeProductService, storeCategoryService, queueService, storeHourService);
         bizStoreElasticManager = new BizStoreElasticManagerImpl(restHighLevelClient);
@@ -817,7 +820,7 @@ public class ITest extends RealMongoForITest {
             notificationN4jManager,
             graphQueue,
             graphBusinessCustomer,
-            bizService,
+            bizNameManager,
             queueManagerJDBC
         );
 

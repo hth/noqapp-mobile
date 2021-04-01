@@ -10,6 +10,7 @@ import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.TokenQueueManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
+import com.noqapp.service.MessageCustomerService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.StoreHourService;
@@ -35,6 +36,7 @@ class TokenQueueMobileServiceTest {
     @Mock private NotificationMessageManager notificationMessageManager;
     @Mock private StoreHourService storeHourService;
     @Mock private QueueService queueService;
+    @Mock private MessageCustomerService messageCustomerService;
 
     private TokenQueueMobileService tokenQueueMobileService;
 
@@ -51,7 +53,8 @@ class TokenQueueMobileServiceTest {
             businessUserStoreManager,
             notificationMessageManager,
             storeHourService,
-            queueService
+            queueService,
+            messageCustomerService
         );
     }
 
