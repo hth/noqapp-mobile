@@ -28,6 +28,7 @@ import com.noqapp.search.elastic.domain.BizStoreElastic;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.service.BizService;
+import com.noqapp.service.MessageCustomerService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.QueueService;
 import com.noqapp.service.StoreHourService;
@@ -64,6 +65,7 @@ public class TokenQueueMobileService {
     private NotificationMessageManager notificationMessageManager;
     private StoreHourService storeHourService;
     private QueueService queueService;
+    private MessageCustomerService messageCustomerService;
 
     @Autowired
     public TokenQueueMobileService(
@@ -76,7 +78,8 @@ public class TokenQueueMobileService {
         BusinessUserStoreManager businessUserStoreManager,
         NotificationMessageManager notificationMessageManager,
         StoreHourService storeHourService,
-        QueueService queueService
+        QueueService queueService,
+        MessageCustomerService messageCustomerService
     ) {
         this.tokenQueueService = tokenQueueService;
         this.bizService = bizService;
@@ -88,6 +91,7 @@ public class TokenQueueMobileService {
         this.notificationMessageManager = notificationMessageManager;
         this.storeHourService = storeHourService;
         this.queueService = queueService;
+        this.messageCustomerService = messageCustomerService;
     }
 
     public JsonQueueList findAllTokenState(String codeQR) {
@@ -295,7 +299,7 @@ public class TokenQueueMobileService {
         notificationMessageManager.save(notificationMessage);
 
         /* Using queue state QueueStatusEnum.C so that message goes to Client and Merchant. This setting if for broadcast. */
-        tokenQueueService.sendAlertMessageToAllOnSpecificTopic(notificationMessage.getId(), title, body, tokenQueue, QueueStatusEnum.C);
+        messageCustomerService.sendAlertMessageToAllOnSpecificTopic(notificationMessage.getId(), title, body, tokenQueue, QueueStatusEnum.C);
 
         /* Mark all of the people in queue as aborted. */
         return queueManager.markAllAbortWhenQueueClosed(codeQR, serverDeviceId);
@@ -327,11 +331,11 @@ public class TokenQueueMobileService {
         notificationMessageManager.save(notificationMessage);
 
         /* Using queue state QueueStatusEnum.C so that message goes to Client and Merchant. This setting if for broadcast. */
-        tokenQueueService.sendAlertMessageToAllOnSpecificTopic(notificationMessage.getId(), title, body, tokenQueue, QueueStatusEnum.C);
+        messageCustomerService.sendAlertMessageToAllOnSpecificTopic(notificationMessage.getId(), title, body, tokenQueue, QueueStatusEnum.C);
     }
 
     @Async
     public void sendMessageToSpecificUser(String title, String body, String qid, MessageOriginEnum messageOrigin, BusinessTypeEnum businessType) {
-        tokenQueueService.sendMessageToSpecificUser(title, body, qid, messageOrigin, businessType);
+        messageCustomerService.sendMessageToSpecificUser(title, body, qid, messageOrigin, businessType);
     }
 }
