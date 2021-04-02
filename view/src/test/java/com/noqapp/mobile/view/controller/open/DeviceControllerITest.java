@@ -67,7 +67,7 @@ class DeviceControllerITest extends ITest {
     @Test
     @DisplayName("Check mobile version with flavor. Upgrade Request.")
     void isSupportedWithFlavor_UpgradeRequested() throws IOException {
-        String version = "1.2.600";
+        String version = "1.3.100";
         String response = deviceController.isSupportedAppVersion(
             new ScrubbedInput(deviceType),
             new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
