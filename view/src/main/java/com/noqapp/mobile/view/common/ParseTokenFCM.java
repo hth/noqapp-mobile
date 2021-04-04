@@ -32,6 +32,7 @@ public class ParseTokenFCM {
     private String model;
     private String osVersion;
     private String appVersion;
+    private String deviceLanguage = "en";
     private final double[] coordinate = new double[] {0.0, 0.0};
     private String ipAddress;
     private boolean missingCoordinate;
@@ -64,6 +65,10 @@ public class ParseTokenFCM {
 
     public String getAppVersion() {
         return appVersion;
+    }
+
+    public String getDeviceLanguage() {
+        return deviceLanguage;
     }
 
     public double[] getCoordinate() {
@@ -108,6 +113,10 @@ public class ParseTokenFCM {
 
             if (map.containsKey("av")) {
                 appVersion = map.get("av").getText();
+            }
+
+            if (map.containsKey("dl")) {
+                deviceLanguage = map.get("dl").getText();
             }
 
             if (locationOnMobile == OnOffEnum.F) {

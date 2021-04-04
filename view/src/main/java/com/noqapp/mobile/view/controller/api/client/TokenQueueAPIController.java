@@ -433,6 +433,7 @@ public class TokenQueueAPIController {
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
+                parseTokenFCM.getDeviceLanguage(),
                 coordinate,
                 ip);
             //TODO(hth) get old historical order, it just gets today's historical order

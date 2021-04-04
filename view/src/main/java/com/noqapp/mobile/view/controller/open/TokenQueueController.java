@@ -312,6 +312,7 @@ public class TokenQueueController {
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
+                parseTokenFCM.getDeviceLanguage(),
                 coordinate,
                 ip).asJson();
         } catch (DeviceDetailMissingException e) {
