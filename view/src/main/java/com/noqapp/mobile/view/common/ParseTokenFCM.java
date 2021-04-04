@@ -116,7 +116,9 @@ public class ParseTokenFCM {
             }
 
             if (map.containsKey("dl")) {
-                deviceLanguage = map.get("dl").getText();
+                if (null != map.get("dl")) {
+                    deviceLanguage = map.get("dl").getText();
+                }
             }
 
             if (locationOnMobile == OnOffEnum.F) {
