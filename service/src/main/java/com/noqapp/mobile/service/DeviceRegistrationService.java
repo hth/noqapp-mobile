@@ -79,13 +79,14 @@ public class DeviceRegistrationService {
         String model,
         String osVersion,
         String appVersion,
+        String deviceLanguage,
         double[] coordinate,
         String ipAddress
     ) {
         try {
             Assert.hasLength(did, "DID cannot be blank");
             Assert.hasLength(token, "FCM Token cannot be blank");
-            executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion, coordinate, ipAddress));
+            executorService.submit(() -> registeringDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion, deviceLanguage, coordinate, ipAddress));
         } catch (Exception e) {
             LOG.error("Failed registration as cannot find qid={} did={} token={} reason={}", qid, did, token, e.getLocalizedMessage(), e);
             throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -109,6 +110,7 @@ public class DeviceRegistrationService {
         String model,
         String osVersion,
         String appVersion,
+        String deviceLanguage,
         double[] coordinate,
         String ipAddress
     ) {
@@ -117,7 +119,7 @@ public class DeviceRegistrationService {
             GeoIP geoIP = geoIPLocationService.getLocation(ipAddress);
             if (null == registeredDevice) {
                 LOG.info("Registering new deviceType={} appFlavor={} did={} qid={} ip={}", deviceType.getName(), appFlavor.getName(), did, qid, ipAddress);
-                registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token, appVersion, geoIP.getCityName(), coordinate, ipAddress);
+                registeredDevice = RegisteredDeviceEntity.newInstance(qid, did, deviceType, appFlavor, token, appVersion, deviceLanguage, geoIP.getCityName(), coordinate, ipAddress);
                 try {
                     registeredDevice
                         .setModel(model)
@@ -148,6 +150,7 @@ public class DeviceRegistrationService {
                         token,
                         model,
                         osVersion,
+                        deviceLanguage,
                         geoIP.getCityName(),
                         coordinate,
                         ipAddress);
@@ -164,6 +167,7 @@ public class DeviceRegistrationService {
                     token,
                     model,
                     osVersion,
+                    deviceLanguage,
                     geoIP.getCityName(),
                     coordinate,
                     ipAddress,
@@ -179,9 +183,9 @@ public class DeviceRegistrationService {
         return registeredDeviceManager.find(qid, did) != null;
     }
 
-    public RegisteredDeviceEntity lastAccessed(String qid, String did, String token, String model, String osVersion, String appVersion, String ipAddress) {
+    public RegisteredDeviceEntity lastAccessed(String qid, String did, String token, String model, String osVersion, String appVersion, String deviceLanguage, String ipAddress) {
         GeoIP geoIP = geoIPLocationService.getLocation(ipAddress);
-        return registeredDeviceManager.lastAccessed(qid, did, token, model, osVersion, appVersion, ipAddress, geoIP.getCityName());
+        return registeredDeviceManager.lastAccessed(qid, did, token, model, osVersion, appVersion, ipAddress, deviceLanguage, geoIP.getCityName());
     }
 
     /** Update Registered Device after register or login when token is not available. */

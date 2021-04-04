@@ -182,10 +182,11 @@ public class QueueMobileService {
         String model,
         String osVersion,
         String appVersion,
+        String deviceLanguage,
         double[] coordinate,
         String ipAddress
     ) {
-        RegisteredDeviceEntity registeredDevice = deviceRegistrationService.lastAccessed(null, did, token, model, osVersion, appVersion, ipAddress);
+        RegisteredDeviceEntity registeredDevice = deviceRegistrationService.lastAccessed(null, did, token, model, osVersion, appVersion, deviceLanguage, ipAddress);
 
         /* Get all the queues that have been serviced for today. */
         List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByDid(did);
@@ -195,7 +196,7 @@ public class QueueMobileService {
         if (null == registeredDevice) {
             historyQueues = queueService.getByDid(did);
             try {
-                deviceRegistrationService.registerDevice(null, did, deviceType, appFlavor, token, model, osVersion, appVersion, coordinate, ipAddress);
+                deviceRegistrationService.registerDevice(null, did, deviceType, appFlavor, token, model, osVersion, appVersion, deviceLanguage, coordinate, ipAddress);
             } catch (DeviceDetailMissingException e) {
                 LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
                 throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -237,11 +238,12 @@ public class QueueMobileService {
         String model,
         String osVersion,
         String appVersion,
+        String deviceLanguage,
         double[] coordinate,
         String ipAddress
     ) {
         Validate.isValidQid(qid);
-        RegisteredDeviceEntity registeredDevice = deviceRegistrationService.lastAccessed(qid, did, token, model, osVersion, appVersion, ipAddress);
+        RegisteredDeviceEntity registeredDevice = deviceRegistrationService.lastAccessed(qid, did, token, model, osVersion, appVersion, deviceLanguage, ipAddress);
 
         /* Get all the queues that have been serviced for today. This first for sorting reasons. */
         List<QueueEntity> servicedQueues = queueService.findAllNotQueuedByQid(qid);
@@ -251,7 +253,7 @@ public class QueueMobileService {
         if (null == registeredDevice) {
             historyQueues = queueService.getByQid(qid);
             try {
-                deviceRegistrationService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion, coordinate, ipAddress);
+                deviceRegistrationService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion, deviceLanguage, coordinate, ipAddress);
             } catch (DeviceDetailMissingException e) {
                 LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
                 throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");
@@ -261,7 +263,7 @@ public class QueueMobileService {
             if (StringUtils.isBlank(registeredDevice.getQueueUserId())) {
                 try {
                     /* Save with QID when missing in registered device. */
-                    deviceRegistrationService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion, coordinate, ipAddress);
+                    deviceRegistrationService.registerDevice(qid, did, deviceType, appFlavor, token, model, osVersion, appVersion, deviceLanguage, coordinate, ipAddress);
                 } catch (DeviceDetailMissingException e) {
                     LOG.error("Failed registration as cannot find did={} token={} reason={}", did, token, e.getLocalizedMessage(), e);
                     throw new DeviceDetailMissingException("Something went wrong. Please restart the app.");

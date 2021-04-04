@@ -139,6 +139,7 @@ public class DeviceClientController {
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
+                parseTokenFCM.getDeviceLanguage(),
                 coordinate,
                 ip);
 

@@ -154,6 +154,7 @@ public class DeviceRegistrationController {
                 parseTokenFCM.getModel(),
                 parseTokenFCM.getOsVersion(),
                 parseTokenFCM.getAppVersion(),
+                parseTokenFCM.getDeviceLanguage(),
                 ip);
 
             if (null == registeredDevice) {
@@ -167,6 +168,7 @@ public class DeviceRegistrationController {
                         parseTokenFCM.getModel(),
                         parseTokenFCM.getOsVersion(),
                         parseTokenFCM.getAppVersion(),
+                        parseTokenFCM.getDeviceLanguage(),
                         coordinate,
                         ip);
                 } catch (DeviceDetailMissingException e) {
@@ -187,6 +189,7 @@ public class DeviceRegistrationController {
                             parseTokenFCM.getModel(),
                             parseTokenFCM.getOsVersion(),
                             parseTokenFCM.getAppVersion(),
+                            parseTokenFCM.getDeviceLanguage(),
                             coordinate,
                             ip);
                     } catch (DeviceDetailMissingException e) {
