@@ -164,8 +164,8 @@ public class SearchBusinessStoreController {
         }
     }
 
-    @API(status = STABLE, since = "1.3.120")
     /** Populated with lat and lng at the minimum, when missing uses IP address. */
+    @API(status = STABLE, since = "1.3.120")
     @PostMapping(
         value = "/business",
         produces = MediaType.APPLICATION_JSON_VALUE)
@@ -287,7 +287,6 @@ public class SearchBusinessStoreController {
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
-
 
     /** Populated with lat and lng at the minimum, when missing uses IP address. */
     @PostMapping(
