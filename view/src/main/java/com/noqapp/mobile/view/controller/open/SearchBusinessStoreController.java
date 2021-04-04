@@ -165,7 +165,7 @@ public class SearchBusinessStoreController {
     }
 
     /** Populated with lat and lng at the minimum, when missing uses IP address. */
-    @API(status = STABLE, since = "1.3.120")
+    @API(status = STABLE, since = "1.3.112")
     @PostMapping(
         value = "/business",
         produces = MediaType.APPLICATION_JSON_VALUE)
