@@ -1,5 +1,8 @@
 package com.noqapp.mobile.view.controller.open;
 
+import static org.apiguardian.api.API.Status.DEPRECATED;
+import static org.apiguardian.api.API.Status.STABLE;
+
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.UserSearchEntity;
@@ -31,6 +34,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.apiguardian.api.API;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -158,6 +163,131 @@ public class SearchBusinessStoreController {
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
     }
+
+    @API(status = STABLE, since = "1.3.120")
+    /** Populated with lat and lng at the minimum, when missing uses IP address. */
+    @PostMapping(
+        value = "/business",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public String business(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestBody
+        SearchStoreQuery searchStoreQuery,
+
+        HttpServletRequest request
+    ) {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("NearMe invoked did={} dt={} businessType={}", did, dt, searchStoreQuery.getSearchedOnBusinessType());
+
+        try {
+            String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
+            LOG.debug("NearMe city=\"{}\" lat={} lng={} filters={} ip={} did={}",
+                searchStoreQuery.getCityName(),
+                searchStoreQuery.getLatitude(),
+                searchStoreQuery.getLongitude(),
+                searchStoreQuery.getFilters(),
+                ipAddress,
+                did.getText());
+
+            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
+            GeoIP geoIp = getGeoIP(
+                searchStoreQuery.getCityName().getText(),
+                searchStoreQuery.getLatitude().getText(),
+                searchStoreQuery.getLongitude().getText(),
+                ipAddress,
+                bizStoreElasticList);
+            String geoHash = geoIp.getGeoHash();
+            if (StringUtils.isBlank(geoHash)) {
+                /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
+                geoHash = "te7ut71tgd9n";
+            }
+
+            LOG.info("NearMe {} city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getSearchedOnBusinessType(), searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
+            switch (searchStoreQuery.getSearchedOnBusinessType()) {
+                case CD:
+                case CDQ:
+                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                        BusinessTypeEnum.excludeCanteen(),
+                        BusinessTypeEnum.includeCanteen(),
+                        searchStoreQuery.getSearchedOnBusinessType(),
+                        geoHash,
+                        searchStoreQuery.getScrollId().getText()).asJson();
+                case RS:
+                case RSQ:
+                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                        BusinessTypeEnum.excludeRestaurant(),
+                        BusinessTypeEnum.includeRestaurant(),
+                        searchStoreQuery.getSearchedOnBusinessType(),
+                        geoHash,
+                        searchStoreQuery.getScrollId().getText()).asJson();
+                case HS:
+                case DO:
+                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                        BusinessTypeEnum.excludeHospital(),
+                        BusinessTypeEnum.includeHospital(),
+                        searchStoreQuery.getSearchedOnBusinessType(),
+                        geoHash,
+                        searchStoreQuery.getScrollId().getText()).asJson();
+                case PW:
+                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                        BusinessTypeEnum.excludePlaceOfWorship(),
+                        BusinessTypeEnum.includePlaceOfWorship(),
+                        searchStoreQuery.getSearchedOnBusinessType(),
+                        geoHash,
+                        searchStoreQuery.getScrollId().getText()).asJson();
+                case ZZ:
+                default:
+                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                        new ArrayList<> () {
+                            private static final long serialVersionUID = -1371033286799633594L;
+
+                            {
+                                add(BusinessTypeEnum.CD);
+                                add(BusinessTypeEnum.CDQ);
+                                add(BusinessTypeEnum.RS);
+                                add(BusinessTypeEnum.RSQ);
+                                add(BusinessTypeEnum.DO);
+                                add(BusinessTypeEnum.HS);
+                                add(BusinessTypeEnum.PW);
+                            }
+                        },
+                        new ArrayList<> () {
+                            private static final long serialVersionUID = 6730480722223803218L;
+
+                            {
+                                add(BusinessTypeEnum.CD);
+                                add(BusinessTypeEnum.CDQ);
+                                add(BusinessTypeEnum.RS);
+                                add(BusinessTypeEnum.RSQ);
+                                add(BusinessTypeEnum.DO);
+                                add(BusinessTypeEnum.HS);
+                                add(BusinessTypeEnum.PW);
+                            }
+                        },
+                        searchStoreQuery.getSearchedOnBusinessType(),
+                        geoHash,
+                        searchStoreQuery.getScrollId().getText()).asJson();
+            }
+        } catch (Exception e) {
+            LOG.error("Failed listing near me business={} reason={}", searchStoreQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new BizStoreElasticList().asJson();
+        } finally {
+            apiHealthService.insert(
+                "/business",
+                "business",
+                SearchBusinessStoreController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
 
     /** Populated with lat and lng at the minimum, when missing uses IP address. */
     @PostMapping(
