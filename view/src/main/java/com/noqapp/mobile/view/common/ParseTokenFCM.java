@@ -116,6 +116,7 @@ public class ParseTokenFCM {
             }
 
             if (map.containsKey("dl")) {
+                //TODO remove null check after 1.3.120
                 if (null != map.get("dl")) {
                     deviceLanguage = map.get("dl").getText();
                 }
