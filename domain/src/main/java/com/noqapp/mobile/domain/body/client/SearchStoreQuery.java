@@ -1,6 +1,7 @@
 package com.noqapp.mobile.domain.body.client;
 
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.types.BusinessTypeEnum;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -48,6 +49,9 @@ public class SearchStoreQuery {
 
     @JsonProperty("qr")
     private ScrubbedInput codeQR;
+
+    @JsonProperty("bt")
+    private BusinessTypeEnum searchedOnBusinessType;
 
     public ScrubbedInput getQuery() {
         return query;
@@ -109,6 +113,15 @@ public class SearchStoreQuery {
 
     public SearchStoreQuery setCodeQR(ScrubbedInput codeQR) {
         this.codeQR = codeQR;
+        return this;
+    }
+
+    public BusinessTypeEnum getSearchedOnBusinessType() {
+        return searchedOnBusinessType;
+    }
+
+    public SearchStoreQuery setSearchedOnBusinessType(BusinessTypeEnum searchedOnBusinessType) {
+        this.searchedOnBusinessType = searchedOnBusinessType;
         return this;
     }
 }
