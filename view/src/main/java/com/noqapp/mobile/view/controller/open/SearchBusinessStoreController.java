@@ -277,7 +277,9 @@ public class SearchBusinessStoreController {
         } catch (Exception e) {
             LOG.error("Failed listing near me business={} reason={}", searchStoreQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return new BizStoreElasticList().asJson();
+            return new BizStoreElasticList()
+                .setSearchedOnBusinessType(searchStoreQuery.getSearchedOnBusinessType())
+                .asJson();
         } finally {
             apiHealthService.insert(
                 "/business",
