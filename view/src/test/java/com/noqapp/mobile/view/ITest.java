@@ -445,7 +445,7 @@ public class ITest extends RealMongoForITest {
         inviteService = new InviteService(inviteManager);
         userMedicalProfileService = new UserMedicalProfileService(userMedicalProfileManager, userMedicalProfileHistoryManager);
         nlpService = new NLPService(stanfordCoreNLP, maxentTagger);
-        businessCustomerPriorityService = new BusinessCustomerPriorityService(businessCustomerPriorityManager, bizNameManager, bizStoreManager);
+        businessCustomerPriorityService = new BusinessCustomerPriorityService(businessCustomerPriorityManager, bizNameManager);
         userAddressService = new UserAddressService(5, userAddressManager);
 
         accountService = new AccountService(
@@ -528,9 +528,7 @@ public class ITest extends RealMongoForITest {
         businessCustomerService = new BusinessCustomerService(
             businessCustomerManager,
             userProfileManager,
-            queueManager,
-            bizNameManager,
-            businessCustomerPriorityManager
+            queueManager
         );
 
         couponService = new CouponService(couponManager, bizStoreManager, userProfileManager);
