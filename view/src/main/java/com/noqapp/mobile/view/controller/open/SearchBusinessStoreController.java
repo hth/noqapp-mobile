@@ -1,8 +1,8 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static org.apiguardian.api.API.Status.DEPRECATED;
 import static org.apiguardian.api.API.Status.STABLE;
 
+import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.UserSearchEntity;
@@ -164,6 +164,67 @@ public class SearchBusinessStoreController {
         }
     }
 
+    @PostMapping(
+        value = "/nearMe",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public String nearMe(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestBody
+        SearchStoreQuery searchStoreQuery,
+
+        HttpServletRequest request
+    ) {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("NearMe invoked did={} dt={} businessType={}", did, dt, searchStoreQuery.getSearchedOnBusinessType());
+
+        try {
+            String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
+            LOG.debug("NearMe city=\"{}\" lat={} lng={} filters={} ip={} did={} bt={}",
+                searchStoreQuery.getCityName(),
+                searchStoreQuery.getLatitude(),
+                searchStoreQuery.getLongitude(),
+                searchStoreQuery.getFilters(),
+                ipAddress,
+                did.getText(),
+                searchStoreQuery.getSearchedOnBusinessType());
+
+            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
+            GeoIP geoIp = getGeoIP(
+                searchStoreQuery.getCityName().getText(),
+                searchStoreQuery.getLatitude().getText(),
+                searchStoreQuery.getLongitude().getText(),
+                ipAddress,
+                bizStoreElasticList);
+            String geoHash = geoIp.getGeoHash();
+            if (StringUtils.isBlank(geoHash)) {
+                /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
+                geoHash = "te7ut71tgd9n";
+            }
+
+            LOG.info("NearMe Business {} city=\"{}\" geoHash={} ip={} did={} bt={}", searchStoreQuery.getSearchedOnBusinessType(), searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText(), searchStoreQuery.getSearchedOnBusinessType());
+            return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(geoHash, searchStoreQuery.getScrollId().getText()).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed listing nearMe business={} reason={}", searchStoreQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new BizStoreElasticList()
+                .setSearchedOnBusinessType(searchStoreQuery.getSearchedOnBusinessType())
+                .asJson();
+        } finally {
+            apiHealthService.insert(
+                "/nearMe",
+                "nearMe",
+                SearchBusinessStoreController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
     /** Populated with lat and lng at the minimum, when missing uses IP address. */
     @API(status = STABLE, since = "1.3.112")
     @PostMapping(
@@ -183,17 +244,18 @@ public class SearchBusinessStoreController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("NearMe invoked did={} dt={} businessType={}", did, dt, searchStoreQuery.getSearchedOnBusinessType());
+        LOG.info("Business invoked did={} dt={} businessType={}", did, dt, searchStoreQuery.getSearchedOnBusinessType());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.debug("NearMe city=\"{}\" lat={} lng={} filters={} ip={} did={}",
+            LOG.debug("Business city=\"{}\" lat={} lng={} filters={} ip={} did={} bt={}",
                 searchStoreQuery.getCityName(),
                 searchStoreQuery.getLatitude(),
                 searchStoreQuery.getLongitude(),
                 searchStoreQuery.getFilters(),
                 ipAddress,
-                did.getText());
+                did.getText(),
+                searchStoreQuery.getSearchedOnBusinessType());
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
@@ -208,7 +270,7 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
 
-            LOG.info("NearMe {} city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getSearchedOnBusinessType(), searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
+            LOG.info("Business {} city=\"{}\" geoHash={} ip={} did={} bt={}", searchStoreQuery.getSearchedOnBusinessType(), searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText(), searchStoreQuery.getSearchedOnBusinessType());
             switch (searchStoreQuery.getSearchedOnBusinessType()) {
                 case CD:
                 case CDQ:
@@ -275,7 +337,7 @@ public class SearchBusinessStoreController {
                         searchStoreQuery.getScrollId().getText()).asJson();
             }
         } catch (Exception e) {
-            LOG.error("Failed listing near me business={} reason={}", searchStoreQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
+            LOG.error("Failed listing business={} reason={}", searchStoreQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new BizStoreElasticList()
                 .setSearchedOnBusinessType(searchStoreQuery.getSearchedOnBusinessType())
@@ -689,37 +751,21 @@ public class SearchBusinessStoreController {
         }
     }
 
-    private GeoIP getGeoIP(String cityName, String lat, String lng, String ipAddress, BizStoreElasticList bizStoreElasticList) {
+    private GeoIP getGeoIP(String cityName, String lat, String lng, String ipAddress, AbstractDomain abstractDomain) {
         GeoIP geoIp;
-        if (StringUtils.isNotBlank(cityName)) {
-            //TODO search based on city when lat lng is disabled
-            geoIp = new GeoIP(ipAddress, "", Double.parseDouble(lat), Double.parseDouble(lng));
-            bizStoreElasticList.setCityName(cityName);
-        } else if (StringUtils.isNotBlank(lng) && StringUtils.isNotBlank(lat)) {
-            geoIp = new GeoIP(ipAddress, "", Double.parseDouble(lat), Double.parseDouble(lng));
-            bizStoreElasticList.setCityName(geoIp.getCityName());
+        if (StringUtils.isNotBlank(lng) && StringUtils.isNotBlank(lat)) {
+            geoIp = new GeoIP(ipAddress, cityName, Double.parseDouble(lat), Double.parseDouble(lng));
         } else {
             geoIp = geoIPLocationService.getLocation(ipAddress);
-            bizStoreElasticList.setCityName(geoIp.getCityName());
-            LOG.info("city={} based on ip={}", geoIp.getCityName(), ipAddress);
         }
-        return geoIp;
-    }
 
-    private GeoIP getGeoIP(String cityName, String lat, String lng, String ipAddress, BizStoreSearchElasticList bizStoreSearchElasticList) {
-        GeoIP geoIp;
-        if (StringUtils.isNotBlank(cityName)) {
-            //TODO search based on city when lat lng is disabled
-            geoIp = new GeoIP(ipAddress, "", Double.parseDouble(lat), Double.parseDouble(lng));
-            bizStoreSearchElasticList.setCityName(cityName);
-        } else if (StringUtils.isNotBlank(lng) && StringUtils.isNotBlank(lat)) {
-            geoIp = new GeoIP(ipAddress, "", Double.parseDouble(lat), Double.parseDouble(lng));
-            bizStoreSearchElasticList.setCityName(geoIp.getCityName());
-        } else {
-            geoIp = geoIPLocationService.getLocation(ipAddress);
-            bizStoreSearchElasticList.setCityName(geoIp.getCityName());
-            LOG.info("city={} based on ip={}", geoIp.getCityName(), ipAddress);
+        if (abstractDomain instanceof BizStoreElasticList) {
+            ((BizStoreElasticList) abstractDomain).setCityName(geoIp.getCityName());
+        } else if(abstractDomain instanceof BizStoreSearchElasticList) {
+            ((BizStoreSearchElasticList) abstractDomain).setCityName(geoIp.getCityName());
         }
+
+        LOG.info("city={} based on ip={}", geoIp.getCityName(), ipAddress);
         return geoIp;
     }
 }
