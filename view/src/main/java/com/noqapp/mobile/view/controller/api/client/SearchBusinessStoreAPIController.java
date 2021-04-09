@@ -2,6 +2,7 @@ package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 
+import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserSearchEntity;
 import com.noqapp.health.domain.types.HealthStatusEnum;
@@ -168,20 +169,19 @@ public class SearchBusinessStoreAPIController {
         }
     }
 
-    private GeoIP getGeoIP(String cityName, String lat, String lng, String ipAddress, BizStoreSearchElasticList bizStoreSearchElasticList) {
+    private GeoIP getGeoIP(String cityName, String lat, String lng, String ipAddress, AbstractDomain abstractDomain) {
         GeoIP geoIp;
-        if (StringUtils.isNotBlank(cityName)) {
-            //TODO search based on city when lat lng is disabled
-            geoIp = new GeoIP(ipAddress, "", Double.parseDouble(lat), Double.parseDouble(lng));
-            bizStoreSearchElasticList.setCityName(cityName);
-        } else if (StringUtils.isNotBlank(lng) && StringUtils.isNotBlank(lat)) {
-            geoIp = new GeoIP(ipAddress, "", Double.parseDouble(lat), Double.parseDouble(lng));
-            bizStoreSearchElasticList.setCityName(geoIp.getCityName());
+        if (StringUtils.isNotBlank(lng) && StringUtils.isNotBlank(lat)) {
+            geoIp = new GeoIP(ipAddress, cityName, Double.parseDouble(lat), Double.parseDouble(lng));
         } else {
             geoIp = geoIPLocationService.getLocation(ipAddress);
-            bizStoreSearchElasticList.setCityName(geoIp.getCityName());
-            LOG.info("city={} based on ip={}", geoIp.getCityName(), ipAddress);
         }
+
+        if (abstractDomain instanceof BizStoreSearchElasticList) {
+            ((BizStoreSearchElasticList) abstractDomain).setCityName(geoIp.getCityName());
+        }
+
+        LOG.info("city={} based on ip={}", geoIp.getCityName(), ipAddress);
         return geoIp;
     }
 }
