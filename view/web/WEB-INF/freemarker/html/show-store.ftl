@@ -4,10 +4,34 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>${bizName} ${displayName} - NoQueue</title>
+
+    <#if businessType == "DO" || businessType == "HS">
+        <title>${displayName} - ${bizName} </title>
+    <#else>
+        <title>${displayName}</title>
+    </#if>
+
     <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/>
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
-    <meta name="description" content="Complete your booking on NoQueue. Get instant token and real-time status. Search for items, look for store timing, get updates on store.">
+    <#if businessType == "CD" || businessType == "CDQ">
+        <#if famousFor??>
+            <meta name="description" content="${famousFor}. Complete your canteen booking. Servicemen and Ex-Servicemen get instant token and real-time status on mobile. Search for items, look for store timing, get updates on store.">
+        <#else>
+            <meta name="description" content="Complete your canteen booking. Servicemen and Ex-Servicemen get instant token and real-time status on mobile. Search for items, look for store timing, get updates on store.">
+        </#if>
+    <#elseif businessType == "DO" || businessType == "HS">
+        <#if famousFor??>
+            <meta name="description" content="${famousFor}. Complete your booking. Get instant token and real-time status. Search for doctors, medical services. Book your doctors appointment. Place online orders, get your order delivered at home.">
+        <#else>
+            <meta name="description" content="Complete your booking. Get instant token and real-time status. Search for doctors, medical services. Book your doctors appointment. Place online orders, get your order delivered at home.">
+        </#if>
+    <#else>
+        <#if famousFor??>
+            <meta name="description" content="${famousFor}. Place online orders, get your order delivered at home. Get instant token and real-time status. Search for items, look for store timing, get updates on store.">
+        <#else>
+            <meta name="description" content="Place online orders, get your order delivered at home. Get instant token and real-time status. Search for items, look for store timing, get updates on store.">
+        </#if>
+    </#if>
 
     <link rel="stylesheet" href="${parentHost}/static/internal/css/style.css" type='text/css'/>
     <link rel="stylesheet" href="${parentHost}/static/internal/css/phone-style.css" type='text/css' media="screen"/>
@@ -26,6 +50,34 @@
         gtag('js', new Date());
 
         gtag('config', 'UA-101872684-1');
+    </script>
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "${businessTypeDescription}",
+            <#if image??>
+            "image": ["${image}"],
+            </#if>
+            "@id": "${linkId}",
+            "name": "${displayName}",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "${addressLocality}",
+                 <#if addressRegion??>
+                "addressRegion": "${addressRegion}",
+                </#if>
+                <#if postalCode??>
+                "postalCode": "${postalCode}",
+                </#if>
+                "addressCountry": "${addressCountry}"
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": ${latitude},
+                "longitude": ${longitude}
+            }
+        }
     </script>
 </head>
 
@@ -49,14 +101,15 @@
             <!-- login-box -->
             <div class="qr-box">
                 <div class="qr-data">
-                    <div class="qr-address">
-                        <h3>${bizName}</h3>
-                        <p>${storeAddress}</p>
-                        <#--<p>&nbsp;</p>-->
-                        <#--<p>${phone}</p>-->
-                    </div>
                     <div class="qr-queue">
-                        <h3>${displayName}</h3>
+                        <h3 title="${displayName}">${displayName}</h3>
+                        <#if businessType == "DO" || businessType == "HS" || businessType == "CD" || businessType == "CDQ">
+                            <p title="${bizName}" style="font-size: large">${bizName}</p>
+                            <p>&nbsp;</p>
+                            <#--<p>${storeAddress}</p>-->
+                            <#--<p>&nbsp;</p>-->
+                            <#--<p>${phone}</p>-->
+                        </#if>
                         <#if categoryName??><p><strong>${categoryName}</strong></p></#if>
                         <p>${rating} &nbsp; <span id="store_rating"></span>&nbsp;&nbsp;&nbsp;&nbsp;${reviewCount} <a href="#user_review">Reviews</a> &nbsp;</p>
                         <#if storeClosed == "Yes">
@@ -71,17 +124,55 @@
                         <p><strong>People in Queue: </strong>${peopleInQueue}</p>
 
                         <div class="button-btn" style="margin-bottom: 100px;">
-                            <form action="${https}://${domain}/open/join/queue/${codeQR}">
-                                <#if claimed == "No">
-                                    <p style="padding: 20px 20px 20px 0; color: #9f1313">Not accepting Walk-ins</p>
-                                <#elseif storeClosed == "Yes">
-                                    <button class="ladda-button next-btn" style="width:48%; float: left; background: grey; border: grey;">Closed Queue</button>
+                            <#if claimed == "No">
+                                <#if isOrderPlacingAllowed??>
+                                    <p style="padding: 20px 20px 20px 0; color: #9f1313">Not accepting Online Order</p>
                                 <#else>
-                                    <button class="ladda-button next-btn" style="width:48%; float: left;">Join Queue</button>
+                                    <p style="padding: 20px 20px 20px 0; color: #9f1313">Not accepting Walk-ins</p>
                                 </#if>
-                            </form>
+                            <#else>
+                                <#if isOrderPlacingAllowed??>
+                                    <#if isOrderPlacingAllowed>
+                                        <#if storeClosed == "Yes">
+                                            <button class="ladda-button next-btn" style="width:48%; float: left; background: grey; border: grey;">Closed Not Accepting Orders</button>
+                                        <#else>
+                                            <button class="ladda-button next-btn" style="width:48%; float: left;">Place Order</button>
+                                        </#if>
+                                    <#else>
+                                        <form action="${https}://${domain}/open/join/queue/${codeQR}">
+                                            <#if storeClosed == "Yes">
+                                                <button class="ladda-button next-btn" style="width:48%; float: left; background: grey; border: grey;">Closed Queue</button>
+                                            <#else>
+                                                <button class="ladda-button next-btn" style="width:48%; float: left;">Join Queue</button>
+                                            </#if>
+                                        </form>
+                                    </#if>
+                                <#else>
+                                    <#--  Does nothing for now. Should not reach here   -->
+                                </#if>
+                            </#if>
                         </div>
                     </div>
+
+                    <#if storeProducts??>
+                         <#list storeProducts as storeProduct>
+                             <table width="100%" border="1">
+                                 <tr>
+                                     <td>
+                                         <p style="font-weight: normal; font-size: medium; padding-bottom: 20px; color: #1c1c1c;">${storeProduct.productName}</p>
+                                     </td>
+                                     <td>
+                                         <p style="font-weight: normal; font-size: medium; padding-bottom: 20px; color: #1c1c1c; text-align: right;">${storeProduct.displayPrice}</p>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <p style="font-weight: normal; font-size: medium; padding-bottom: 30px;">${storeProduct.productInfo}</p>
+                                     </td>
+                                 </tr>
+                             </table>
+                         </#list>
+                    </#if>
 
                     <div class="download-app-icon">
                         <p>Get NoQueue</p>
@@ -171,8 +262,8 @@
     // Bind progress buttons and simulate loading progress
     Ladda.bind('.progress-demo button', {
         callback: function (instance) {
-            var progress = 0;
-            var interval = setInterval(function () {
+            let progress = 0;
+            let interval = setInterval(function () {
                 progress = Math.min(progress + Math.random() * 0.1, 1);
                 instance.setProgress(progress);
 
