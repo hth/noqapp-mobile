@@ -181,7 +181,7 @@ public class SearchBusinessStoreAPIController {
             ((BizStoreSearchElasticList) abstractDomain).setCityName(geoIp.getCityName());
         }
 
-        LOG.info("city={} based on ip={}", geoIp.getCityName(), ipAddress);
+        LOG.info("city=\"{}\" based on ip={}", geoIp.getCityName(), ipAddress);
         return geoIp;
     }
 }

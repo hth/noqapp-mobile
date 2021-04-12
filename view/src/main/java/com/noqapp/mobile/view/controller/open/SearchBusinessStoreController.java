@@ -646,7 +646,7 @@ public class SearchBusinessStoreController {
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.debug("HealthCare city={} lat={} lng={} filters={} ip={} did={}",
+            LOG.debug("HealthCare city=\"{}\" lat={} lng={} filters={} ip={} did={}",
                 searchStoreQuery.getCityName(),
                 searchStoreQuery.getLatitude(),
                 searchStoreQuery.getLongitude(),
@@ -765,7 +765,7 @@ public class SearchBusinessStoreController {
             ((BizStoreSearchElasticList) abstractDomain).setCityName(geoIp.getCityName());
         }
 
-        LOG.info("city={} based on ip={}", geoIp.getCityName(), ipAddress);
+        LOG.info("city=\"{}\" based on ip={}", geoIp.getCityName(), ipAddress);
         return geoIp;
     }
 }
