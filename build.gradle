@@ -151,9 +151,10 @@ subprojects {
         implementation "$springSecurityGroup:spring-security-taglibs:$springSecurityVersion"
         implementation "$springSecurityGroup:spring-security-web:$springSecurityVersion"
 
-        implementation "$springDataGroup:spring-data-neo4j:$springDataNeo4j"
-        implementation "$springDataGroup:spring-data-mongodb:$springDataMongo"
         implementation "$springDataGroup:spring-data-commons:$springDataCommon"
+        implementation "$springDataGroup:spring-data-neo4j:$springDataNeo4j"
+        implementation "$springDataGroup:spring-data-redis:$springDataRedis"
+        implementation "$springDataGroup:spring-data-mongodb:$springDataMongo"
         implementation "org.mongodb:mongodb-driver-core:$mongoDriver"
         implementation "org.mongodb:mongodb-driver-sync:$mongoDriver"
 
@@ -161,10 +162,9 @@ subprojects {
         /* For elastic. */
         implementation "org.apache.logging.log4j:log4j-to-slf4j:$log4jToSlf4j"
 
-        implementation "com.braintreepayments.gateway:braintree-java:$braintree"
-        implementation "$springDataGroup:spring-data-redis:$redis"
         implementation "io.lettuce:lettuce-core:$lettuce"
         implementation "org.quartz-scheduler:quartz:$quartz"
+        implementation "com.braintreepayments.gateway:braintree-java:$braintree"
 
         implementation "com.github.ben-manes.caffeine:caffeine:$caffeine"
         implementation "com.squareup.okhttp3:okhttp:$okhttp"
