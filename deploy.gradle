@@ -10,7 +10,7 @@ println "Building for environment: $env & fastEnabled: $fastEnabled"
 
 buildscript {
     repositories {
-        jcenter()
+
     }
     dependencies {
         classpath 'org.hidetake:gradle-ssh-plugin:2.7.0'
