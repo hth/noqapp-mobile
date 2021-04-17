@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 )
 @JsonPropertyOrder(alphabetic = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SearchStoreQuery {
+public class SearchQuery {
 
     @JsonProperty("q")
     private ScrubbedInput query;
@@ -57,7 +57,7 @@ public class SearchStoreQuery {
         return query;
     }
 
-    public SearchStoreQuery setQuery(ScrubbedInput query) {
+    public SearchQuery setQuery(ScrubbedInput query) {
         this.query = query;
         return this;
     }
@@ -66,7 +66,7 @@ public class SearchStoreQuery {
         return cityName;
     }
 
-    public SearchStoreQuery setCityName(ScrubbedInput cityName) {
+    public SearchQuery setCityName(ScrubbedInput cityName) {
         this.cityName = cityName;
         return this;
     }
@@ -75,7 +75,7 @@ public class SearchStoreQuery {
         return latitude;
     }
 
-    public SearchStoreQuery setLatitude(ScrubbedInput latitude) {
+    public SearchQuery setLatitude(ScrubbedInput latitude) {
         this.latitude = latitude;
         return this;
     }
@@ -84,7 +84,7 @@ public class SearchStoreQuery {
         return longitude;
     }
 
-    public SearchStoreQuery setLongitude(ScrubbedInput longitude) {
+    public SearchQuery setLongitude(ScrubbedInput longitude) {
         this.longitude = longitude;
         return this;
     }
@@ -93,7 +93,7 @@ public class SearchStoreQuery {
         return filters;
     }
 
-    public SearchStoreQuery setFilters(ScrubbedInput filters) {
+    public SearchQuery setFilters(ScrubbedInput filters) {
         this.filters = filters;
         return this;
     }
@@ -102,7 +102,7 @@ public class SearchStoreQuery {
         return scrollId;
     }
 
-    public SearchStoreQuery setScrollId(ScrubbedInput scrollId) {
+    public SearchQuery setScrollId(ScrubbedInput scrollId) {
         this.scrollId = scrollId;
         return this;
     }
@@ -111,7 +111,7 @@ public class SearchStoreQuery {
         return codeQR;
     }
 
-    public SearchStoreQuery setCodeQR(ScrubbedInput codeQR) {
+    public SearchQuery setCodeQR(ScrubbedInput codeQR) {
         this.codeQR = codeQR;
         return this;
     }
@@ -120,7 +120,7 @@ public class SearchStoreQuery {
         return searchedOnBusinessType;
     }
 
-    public SearchStoreQuery setSearchedOnBusinessType(BusinessTypeEnum searchedOnBusinessType) {
+    public SearchQuery setSearchedOnBusinessType(BusinessTypeEnum searchedOnBusinessType) {
         this.searchedOnBusinessType = searchedOnBusinessType;
         return this;
     }
