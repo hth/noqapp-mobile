@@ -59,7 +59,7 @@ public class NotificationAPIController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String notificationViewed(
+    public String notificationAPIViewed(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -84,8 +84,8 @@ public class NotificationAPIController {
         if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/c/notification")) return null;
 
         try {
-            boolean status = messageCustomerService.increaseViewClientCount(notification.getId().getText(), qid);
-            return new JsonResponse(status).asJson();
+            messageCustomerService.increaseViewClientCount(notification.getId().getText(), qid);
+            return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing notification view reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -93,7 +93,7 @@ public class NotificationAPIController {
         } finally {
             apiHealthService.insert(
                 "/",
-                "notificationViewed",
+                "notificationAPIViewed",
                 NotificationAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);

@@ -60,8 +60,8 @@ public class NotificationController {
         Instant start = Instant.now();
         LOG.info("Notification read for {} did={} dt={}", notification.getId(), did, dt);
         try {
-            boolean status = messageCustomerService.increaseViewUnregisteredCount(notification.getId().getText());
-            return new JsonResponse(status).asJson();
+            messageCustomerService.increaseViewUnregisteredCount(notification.getId().getText());
+            return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing notification view reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
