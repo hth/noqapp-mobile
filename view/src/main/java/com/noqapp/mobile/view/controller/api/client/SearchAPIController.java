@@ -52,8 +52,8 @@ import javax.servlet.http.HttpServletResponse;
 })
 @RestController
 @RequestMapping(value = "/api/c/search")
-public class SearchBusinessStoreAPIController {
-    private static final Logger LOG = LoggerFactory.getLogger(SearchBusinessStoreAPIController.class);
+public class SearchAPIController {
+    private static final Logger LOG = LoggerFactory.getLogger(SearchAPIController.class);
 
     private boolean useRestHighLevel;
 
@@ -64,7 +64,7 @@ public class SearchBusinessStoreAPIController {
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public SearchBusinessStoreAPIController(
+    public SearchAPIController(
         @Value("${search.useRestHighLevel:false}")
         boolean useRestHighLevel,
 
@@ -163,7 +163,7 @@ public class SearchBusinessStoreAPIController {
             apiHealthService.insert(
                 "/search",
                 "search",
-                SearchBusinessStoreAPIController.class.getName(),
+                SearchAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }

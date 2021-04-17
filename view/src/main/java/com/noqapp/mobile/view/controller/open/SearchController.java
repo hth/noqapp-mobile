@@ -56,8 +56,8 @@ import javax.servlet.http.HttpServletRequest;
 })
 @RestController
 @RequestMapping(value = "/open/search")
-public class SearchBusinessStoreController {
-    private static final Logger LOG = LoggerFactory.getLogger(SearchBusinessStoreController.class);
+public class SearchController {
+    private static final Logger LOG = LoggerFactory.getLogger(SearchController.class);
 
     private boolean useRestHighLevel;
     private BizStoreSpatialElasticService bizStoreSpatialElasticService;
@@ -68,7 +68,7 @@ public class SearchBusinessStoreController {
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public SearchBusinessStoreController(
+    public SearchController(
         @Value("${search.useRestHighLevel:false}")
         boolean useRestHighLevel,
 
@@ -158,7 +158,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/search",
                 "search",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -219,7 +219,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/nearMe",
                 "nearMe",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -346,7 +346,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/business",
                 "business",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -432,7 +432,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/otherMerchant",
                 "otherMerchant",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -494,7 +494,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/canteen",
                 "canteen",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -556,7 +556,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/restaurant",
                 "restaurant",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -618,7 +618,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/placeOfWorship",
                 "placeOfWorship",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -680,7 +680,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/healthCare",
                 "healthCare",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -745,7 +745,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/kiosk",
                 "kiosk",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
