@@ -1,5 +1,7 @@
 package com.noqapp.mobile.view.controller.open;
 
+import static com.noqapp.common.utils.Constants.SUGGESTED_SEARCH;
+import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static org.apiguardian.api.API.Status.STABLE;
 
 import com.noqapp.common.utils.AbstractDomain;
@@ -10,6 +12,7 @@ import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.client.SearchQuery;
+import com.noqapp.mobile.view.controller.api.client.SearchAPIController;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.domain.BizStoreSearchElasticList;
@@ -29,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -37,12 +41,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.apiguardian.api.API;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * hitender
@@ -87,6 +93,34 @@ public class SearchController {
         this.geoIPLocationService = geoIPLocationService;
         this.userSearchService = userSearchService;
         this.apiHealthService = apiHealthService;
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public String searchHint(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader("X-R-DT")
+        ScrubbedInput dt
+    ) {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+
+        LOG.info("Search Hint did={} dt={}", did, dt);
+        try {
+            return new SearchQuery().setSuggestedSearch(SUGGESTED_SEARCH).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed search hint reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new SearchQuery().setSuggestedSearch(SUGGESTED_SEARCH).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/searchHint",
+                "searchHint",
+                SearchController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -151,7 +185,7 @@ public class SearchController {
                 return bizStoreSearchElasticList.populateSearchBizStoreElasticArray(elasticBizStoreSearchSources).asJson();
             }
         } catch (Exception e) {
-            LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed search reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new BizStoreElasticList().asJson();
         } finally {

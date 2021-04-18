@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.utils.Constants.SUGGESTED_SEARCH;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 
 import com.noqapp.common.utils.AbstractDomain;
@@ -26,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -81,6 +83,47 @@ public class SearchAPIController {
         this.geoIPLocationService = geoIPLocationService;
         this.userSearchService = userSearchService;
         this.apiHealthService = apiHealthService;
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public String searchHint(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        LOG.info("Search Hint did={} dt={} mail={} auth={}", did, dt, mail, auth);
+        try {
+            SearchQuery searchQuery = new SearchQuery()
+                .setPastSearch(userSearchService.lastFewSearches(qid, 5))
+                .setSuggestedSearch(SUGGESTED_SEARCH);
+            return searchQuery.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed search hint reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new SearchQuery().setSuggestedSearch(SUGGESTED_SEARCH).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/searchHint",
+                "searchHint",
+                SearchAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -156,7 +199,7 @@ public class SearchAPIController {
                 return bizStoreSearchElasticList.populateSearchBizStoreElasticArray(elasticBizStoreSearchSources).asJson();
             }
         } catch (Exception e) {
-            LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed search reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new BizStoreElasticList().asJson();
         } finally {

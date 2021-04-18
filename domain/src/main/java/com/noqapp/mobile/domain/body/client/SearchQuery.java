@@ -1,5 +1,6 @@
 package com.noqapp.mobile.domain.body.client;
 
+import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.types.BusinessTypeEnum;
 
@@ -7,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import java.util.List;
 
 /**
  * User: hitender
@@ -26,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 )
 @JsonPropertyOrder(alphabetic = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SearchQuery {
+public class SearchQuery extends AbstractDomain {
 
     @JsonProperty("q")
     private ScrubbedInput query;
@@ -52,6 +55,12 @@ public class SearchQuery {
 
     @JsonProperty("bt")
     private BusinessTypeEnum searchedOnBusinessType;
+
+    @JsonProperty("ps")
+    private List<String> pastSearch;
+
+    @JsonProperty("ss")
+    private List<String> suggestedSearch;
 
     public ScrubbedInput getQuery() {
         return query;
@@ -122,6 +131,24 @@ public class SearchQuery {
 
     public SearchQuery setSearchedOnBusinessType(BusinessTypeEnum searchedOnBusinessType) {
         this.searchedOnBusinessType = searchedOnBusinessType;
+        return this;
+    }
+
+    public List<String> getPastSearch() {
+        return pastSearch;
+    }
+
+    public SearchQuery setPastSearch(List<String> pastSearch) {
+        this.pastSearch = pastSearch;
+        return this;
+    }
+
+    public List<String> getSuggestedSearch() {
+        return suggestedSearch;
+    }
+
+    public SearchQuery setSuggestedSearch(List<String> suggestedSearch) {
+        this.suggestedSearch = suggestedSearch;
         return this;
     }
 }
