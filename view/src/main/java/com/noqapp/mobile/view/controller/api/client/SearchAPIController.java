@@ -1,5 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.Constants.SUGGESTED_SEARCH;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 
@@ -151,7 +152,7 @@ public class SearchAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        LOG.info("Searching for query=\"{}\" did={} dt={} mail={} auth={}", searchQuery.getQuery(), did, dt, mail, auth);
+        LOG.info("Searching for query=\"{}\" did={} dt={} mail={} auth={}", searchQuery.getQuery(), did, dt, mail, AUTH_KEY_HIDDEN);
 
         try {
             String query = searchQuery.getQuery().getText();
