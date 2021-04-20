@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.StringJoiner;
+
 /**
  * hitender
  * 6/21/18 2:12 PM
@@ -84,5 +86,16 @@ public class UpdateProfile extends AbstractDomain {
     public UpdateProfile setTimeZoneId(String timeZoneId) {
         this.timeZoneId = timeZoneId;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", UpdateProfile.class.getSimpleName() + "[", "]")
+            .add("queueUserId='" + queueUserId + "'")
+            .add("firstName='" + firstName + "'")
+            .add("birthday='" + birthday + "'")
+            .add("gender='" + gender + "'")
+            .add("timeZoneId='" + timeZoneId + "'")
+            .toString();
     }
 }
