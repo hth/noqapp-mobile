@@ -1,5 +1,6 @@
 package com.noqapp.mobile.domain.body.client;
 
+import com.noqapp.common.utils.AbstractDomain;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.types.BusinessTypeEnum;
 
@@ -7,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import java.util.List;
 
 /**
  * User: hitender
@@ -26,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 )
 @JsonPropertyOrder(alphabetic = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SearchStoreQuery {
+public class SearchQuery extends AbstractDomain {
 
     @JsonProperty("q")
     private ScrubbedInput query;
@@ -53,11 +56,17 @@ public class SearchStoreQuery {
     @JsonProperty("bt")
     private BusinessTypeEnum searchedOnBusinessType;
 
+    @JsonProperty("ps")
+    private List<String> pastSearch;
+
+    @JsonProperty("ss")
+    private List<String> suggestedSearch;
+
     public ScrubbedInput getQuery() {
         return query;
     }
 
-    public SearchStoreQuery setQuery(ScrubbedInput query) {
+    public SearchQuery setQuery(ScrubbedInput query) {
         this.query = query;
         return this;
     }
@@ -66,7 +75,7 @@ public class SearchStoreQuery {
         return cityName;
     }
 
-    public SearchStoreQuery setCityName(ScrubbedInput cityName) {
+    public SearchQuery setCityName(ScrubbedInput cityName) {
         this.cityName = cityName;
         return this;
     }
@@ -75,7 +84,7 @@ public class SearchStoreQuery {
         return latitude;
     }
 
-    public SearchStoreQuery setLatitude(ScrubbedInput latitude) {
+    public SearchQuery setLatitude(ScrubbedInput latitude) {
         this.latitude = latitude;
         return this;
     }
@@ -84,7 +93,7 @@ public class SearchStoreQuery {
         return longitude;
     }
 
-    public SearchStoreQuery setLongitude(ScrubbedInput longitude) {
+    public SearchQuery setLongitude(ScrubbedInput longitude) {
         this.longitude = longitude;
         return this;
     }
@@ -93,7 +102,7 @@ public class SearchStoreQuery {
         return filters;
     }
 
-    public SearchStoreQuery setFilters(ScrubbedInput filters) {
+    public SearchQuery setFilters(ScrubbedInput filters) {
         this.filters = filters;
         return this;
     }
@@ -102,7 +111,7 @@ public class SearchStoreQuery {
         return scrollId;
     }
 
-    public SearchStoreQuery setScrollId(ScrubbedInput scrollId) {
+    public SearchQuery setScrollId(ScrubbedInput scrollId) {
         this.scrollId = scrollId;
         return this;
     }
@@ -111,7 +120,7 @@ public class SearchStoreQuery {
         return codeQR;
     }
 
-    public SearchStoreQuery setCodeQR(ScrubbedInput codeQR) {
+    public SearchQuery setCodeQR(ScrubbedInput codeQR) {
         this.codeQR = codeQR;
         return this;
     }
@@ -120,8 +129,26 @@ public class SearchStoreQuery {
         return searchedOnBusinessType;
     }
 
-    public SearchStoreQuery setSearchedOnBusinessType(BusinessTypeEnum searchedOnBusinessType) {
+    public SearchQuery setSearchedOnBusinessType(BusinessTypeEnum searchedOnBusinessType) {
         this.searchedOnBusinessType = searchedOnBusinessType;
+        return this;
+    }
+
+    public List<String> getPastSearch() {
+        return pastSearch;
+    }
+
+    public SearchQuery setPastSearch(List<String> pastSearch) {
+        this.pastSearch = pastSearch;
+        return this;
+    }
+
+    public List<String> getSuggestedSearch() {
+        return suggestedSearch;
+    }
+
+    public SearchQuery setSuggestedSearch(List<String> suggestedSearch) {
+        this.suggestedSearch = suggestedSearch;
         return this;
     }
 }

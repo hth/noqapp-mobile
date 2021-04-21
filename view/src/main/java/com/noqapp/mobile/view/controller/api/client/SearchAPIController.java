@@ -1,5 +1,7 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
+import static com.noqapp.common.utils.Constants.SUGGESTED_SEARCH;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 
 import com.noqapp.common.utils.AbstractDomain;
@@ -7,7 +9,7 @@ import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserSearchEntity;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.domain.body.client.SearchStoreQuery;
+import com.noqapp.mobile.domain.body.client.SearchQuery;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
@@ -26,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -52,8 +55,8 @@ import javax.servlet.http.HttpServletResponse;
 })
 @RestController
 @RequestMapping(value = "/api/c/search")
-public class SearchBusinessStoreAPIController {
-    private static final Logger LOG = LoggerFactory.getLogger(SearchBusinessStoreAPIController.class);
+public class SearchAPIController {
+    private static final Logger LOG = LoggerFactory.getLogger(SearchAPIController.class);
 
     private boolean useRestHighLevel;
 
@@ -64,7 +67,7 @@ public class SearchBusinessStoreAPIController {
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public SearchBusinessStoreAPIController(
+    public SearchAPIController(
         @Value("${search.useRestHighLevel:false}")
         boolean useRestHighLevel,
 
@@ -83,6 +86,47 @@ public class SearchBusinessStoreAPIController {
         this.apiHealthService = apiHealthService;
     }
 
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public String searchHint(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        LOG.info("Search Hint did={} dt={} mail={} auth={}", did, dt, mail, auth);
+        try {
+            SearchQuery searchQuery = new SearchQuery()
+                .setPastSearch(userSearchService.lastFewSearches(qid, 5))
+                .setSuggestedSearch(SUGGESTED_SEARCH);
+            return searchQuery.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed search hint reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new SearchQuery().setSuggestedSearch(SUGGESTED_SEARCH).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/searchHint",
+                "searchHint",
+                SearchAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public String search(
         @RequestHeader("X-R-DID")
@@ -98,7 +142,7 @@ public class SearchBusinessStoreAPIController {
         ScrubbedInput auth,
 
         @RequestBody
-        SearchStoreQuery searchStoreQuery,
+        SearchQuery searchQuery,
 
         HttpServletRequest request,
         HttpServletResponse response
@@ -108,24 +152,24 @@ public class SearchBusinessStoreAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        LOG.info("Searching for query=\"{}\" did={} dt={} mail={} auth={}", searchStoreQuery.getQuery(), did, dt, mail, auth);
+        LOG.info("Searching for query=\"{}\" did={} dt={} mail={} auth={}", searchQuery.getQuery(), did, dt, mail, AUTH_KEY_HIDDEN);
 
         try {
-            String query = searchStoreQuery.getQuery().getText();
+            String query = searchQuery.getQuery().getText();
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.debug("Searching query=\"{}\" city=\"{}\" lat={} lng={} filters={} ip={}",
                 query,
-                searchStoreQuery.getCityName(),
-                searchStoreQuery.getLatitude(),
-                searchStoreQuery.getLongitude(),
-                searchStoreQuery.getFilters(),
+                searchQuery.getCityName(),
+                searchQuery.getLatitude(),
+                searchQuery.getLongitude(),
+                searchQuery.getFilters(),
                 ipAddress);
 
             BizStoreSearchElasticList bizStoreSearchElasticList = new BizStoreSearchElasticList();
             GeoIP geoIp = getGeoIP(
-                searchStoreQuery.getCityName().getText(),
-                searchStoreQuery.getLatitude().getText(),
-                searchStoreQuery.getLongitude().getText(),
+                searchQuery.getCityName().getText(),
+                searchQuery.getLatitude().getText(),
+                searchQuery.getLongitude().getText(),
                 ipAddress,
                 bizStoreSearchElasticList);
             String geoHash = geoIp.getGeoHash();
@@ -135,35 +179,35 @@ public class SearchBusinessStoreAPIController {
             }
 
             if (useRestHighLevel) {
-                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} qid={}", query, searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText(), qid);
+                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} qid={}", query, searchQuery.getCityName(), geoHash, ipAddress, did.getText(), qid);
                 return bizStoreSearchElasticService.executeNearMeSearchOnBizStoreUsingRestClient(
                     query,
-                    searchStoreQuery.getCityName().getText(),
+                    searchQuery.getCityName().getText(),
                     geoHash,
-                    searchStoreQuery.getFilters().getText(),
-                    searchStoreQuery.getScrollId().getText()).asJson();
+                    searchQuery.getFilters().getText(),
+                    searchQuery.getScrollId().getText()).asJson();
             } else {
                 List<ElasticBizStoreSearchSource> elasticBizStoreSearchSources = bizStoreSearchElasticService.createBizStoreSearchDSLQuery(query, geoHash);
-                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} qid={} result={}", query, searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText(), qid, elasticBizStoreSearchSources.size());
+                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} qid={} result={}", query, searchQuery.getCityName(), geoHash, ipAddress, did.getText(), qid, elasticBizStoreSearchSources.size());
                 UserSearchEntity userSearch = new UserSearchEntity()
-                    .setQuery(searchStoreQuery.getQuery().getText())
+                    .setQuery(searchQuery.getQuery().getText())
                     .setQid(qid)
                     .setDid(did.getText())
-                    .setCityName(searchStoreQuery.getCityName().getText())
+                    .setCityName(searchQuery.getCityName().getText())
                     .setGeoHash(geoHash)
                     .setResultCount(elasticBizStoreSearchSources.size());
                 userSearchService.save(userSearch);
                 return bizStoreSearchElasticList.populateSearchBizStoreElasticArray(elasticBizStoreSearchSources).asJson();
             }
         } catch (Exception e) {
-            LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed search reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new BizStoreElasticList().asJson();
         } finally {
             apiHealthService.insert(
                 "/search",
                 "search",
-                SearchBusinessStoreAPIController.class.getName(),
+                SearchAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }

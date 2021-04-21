@@ -1,5 +1,7 @@
 package com.noqapp.mobile.view.controller.open;
 
+import static com.noqapp.common.utils.Constants.SUGGESTED_SEARCH;
+import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static org.apiguardian.api.API.Status.STABLE;
 
 import com.noqapp.common.utils.AbstractDomain;
@@ -9,7 +11,8 @@ import com.noqapp.domain.UserSearchEntity;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
-import com.noqapp.mobile.domain.body.client.SearchStoreQuery;
+import com.noqapp.mobile.domain.body.client.SearchQuery;
+import com.noqapp.mobile.view.controller.api.client.SearchAPIController;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.domain.BizStoreSearchElasticList;
@@ -29,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -37,12 +41,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.apiguardian.api.API;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * hitender
@@ -56,8 +62,8 @@ import javax.servlet.http.HttpServletRequest;
 })
 @RestController
 @RequestMapping(value = "/open/search")
-public class SearchBusinessStoreController {
-    private static final Logger LOG = LoggerFactory.getLogger(SearchBusinessStoreController.class);
+public class SearchController {
+    private static final Logger LOG = LoggerFactory.getLogger(SearchController.class);
 
     private boolean useRestHighLevel;
     private BizStoreSpatialElasticService bizStoreSpatialElasticService;
@@ -68,7 +74,7 @@ public class SearchBusinessStoreController {
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public SearchBusinessStoreController(
+    public SearchController(
         @Value("${search.useRestHighLevel:false}")
         boolean useRestHighLevel,
 
@@ -89,6 +95,34 @@ public class SearchBusinessStoreController {
         this.apiHealthService = apiHealthService;
     }
 
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public String searchHint(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader("X-R-DT")
+        ScrubbedInput dt
+    ) {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+
+        LOG.info("Search Hint did={} dt={}", did, dt);
+        try {
+            return new SearchQuery().setSuggestedSearch(SUGGESTED_SEARCH).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed search hint reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new SearchQuery().setSuggestedSearch(SUGGESTED_SEARCH).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/searchHint",
+                "searchHint",
+                SearchController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public String search(
         @RequestHeader("X-R-DID")
@@ -98,30 +132,30 @@ public class SearchBusinessStoreController {
         ScrubbedInput dt,
 
         @RequestBody
-        SearchStoreQuery searchStoreQuery,
+        SearchQuery searchQuery,
 
         HttpServletRequest request
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Searching for query=\"{}\" did={} dt={}", searchStoreQuery.getQuery(), did, dt);
+        LOG.info("Searching for query=\"{}\" did={} dt={}", searchQuery.getQuery(), did, dt);
 
         try {
-            String query = searchStoreQuery.getQuery().getText();
+            String query = searchQuery.getQuery().getText();
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.debug("Searching query=\"{}\" city=\"{}\" lat={} lng={} filters={} ip={}",
                 query,
-                searchStoreQuery.getCityName(),
-                searchStoreQuery.getLatitude(),
-                searchStoreQuery.getLongitude(),
-                searchStoreQuery.getFilters(),
+                searchQuery.getCityName(),
+                searchQuery.getLatitude(),
+                searchQuery.getLongitude(),
+                searchQuery.getFilters(),
                 ipAddress);
 
             BizStoreSearchElasticList bizStoreSearchElasticList = new BizStoreSearchElasticList();
             GeoIP geoIp = getGeoIP(
-                searchStoreQuery.getCityName().getText(),
-                searchStoreQuery.getLatitude().getText(),
-                searchStoreQuery.getLongitude().getText(),
+                searchQuery.getCityName().getText(),
+                searchQuery.getLatitude().getText(),
+                searchQuery.getLongitude().getText(),
                 ipAddress,
                 bizStoreSearchElasticList);
             String geoHash = geoIp.getGeoHash();
@@ -131,34 +165,34 @@ public class SearchBusinessStoreController {
             }
 
             if (useRestHighLevel) {
-                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={}", query, searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
+                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={}", query, searchQuery.getCityName(), geoHash, ipAddress, did.getText());
                 return bizStoreSearchElasticService.executeNearMeSearchOnBizStoreUsingRestClient(
                     query,
-                    searchStoreQuery.getCityName().getText(),
+                    searchQuery.getCityName().getText(),
                     geoHash,
-                    searchStoreQuery.getFilters().getText(),
-                    searchStoreQuery.getScrollId().getText()).asJson();
+                    searchQuery.getFilters().getText(),
+                    searchQuery.getScrollId().getText()).asJson();
             } else {
                 List<ElasticBizStoreSearchSource> elasticBizStoreSearchSources = bizStoreSearchElasticService.createBizStoreSearchDSLQuery(query, geoHash);
-                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} result={}", query, searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText(), elasticBizStoreSearchSources.size());
+                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} result={}", query, searchQuery.getCityName(), geoHash, ipAddress, did.getText(), elasticBizStoreSearchSources.size());
                 UserSearchEntity userSearch = new UserSearchEntity()
-                    .setQuery(searchStoreQuery.getQuery().getText())
+                    .setQuery(searchQuery.getQuery().getText())
                     .setDid(did.getText())
-                    .setCityName(searchStoreQuery.getCityName().getText())
+                    .setCityName(searchQuery.getCityName().getText())
                     .setGeoHash(geoHash)
                     .setResultCount(elasticBizStoreSearchSources.size());
                 userSearchService.save(userSearch);
                 return bizStoreSearchElasticList.populateSearchBizStoreElasticArray(elasticBizStoreSearchSources).asJson();
             }
         } catch (Exception e) {
-            LOG.error("Failed processing search reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed search reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new BizStoreElasticList().asJson();
         } finally {
             apiHealthService.insert(
                 "/search",
                 "search",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -175,30 +209,30 @@ public class SearchBusinessStoreController {
         ScrubbedInput dt,
 
         @RequestBody
-        SearchStoreQuery searchStoreQuery,
+        SearchQuery searchQuery,
 
         HttpServletRequest request
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("NearMe invoked did={} dt={} businessType={}", did, dt, searchStoreQuery.getSearchedOnBusinessType());
+        LOG.info("NearMe invoked did={} dt={} businessType={}", did, dt, searchQuery.getSearchedOnBusinessType());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.debug("NearMe city=\"{}\" lat={} lng={} filters={} ip={} did={} bt={}",
-                searchStoreQuery.getCityName(),
-                searchStoreQuery.getLatitude(),
-                searchStoreQuery.getLongitude(),
-                searchStoreQuery.getFilters(),
+                searchQuery.getCityName(),
+                searchQuery.getLatitude(),
+                searchQuery.getLongitude(),
+                searchQuery.getFilters(),
                 ipAddress,
                 did.getText(),
-                searchStoreQuery.getSearchedOnBusinessType());
+                searchQuery.getSearchedOnBusinessType());
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchStoreQuery.getCityName().getText(),
-                searchStoreQuery.getLatitude().getText(),
-                searchStoreQuery.getLongitude().getText(),
+                searchQuery.getCityName().getText(),
+                searchQuery.getLatitude().getText(),
+                searchQuery.getLongitude().getText(),
                 ipAddress,
                 bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
@@ -207,19 +241,19 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
 
-            LOG.info("NearMe Business {} city=\"{}\" geoHash={} ip={} did={} bt={}", searchStoreQuery.getSearchedOnBusinessType(), searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText(), searchStoreQuery.getSearchedOnBusinessType());
-            return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(geoHash, searchStoreQuery.getScrollId().getText()).asJson();
+            LOG.info("NearMe Business {} city=\"{}\" geoHash={} ip={} did={} bt={}", searchQuery.getSearchedOnBusinessType(), searchQuery.getCityName(), geoHash, ipAddress, did.getText(), searchQuery.getSearchedOnBusinessType());
+            return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(geoHash, searchQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
-            LOG.error("Failed listing nearMe business={} reason={}", searchStoreQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
+            LOG.error("Failed listing nearMe business={} reason={}", searchQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new BizStoreElasticList()
-                .setSearchedOnBusinessType(searchStoreQuery.getSearchedOnBusinessType())
+                .setSearchedOnBusinessType(searchQuery.getSearchedOnBusinessType())
                 .asJson();
         } finally {
             apiHealthService.insert(
                 "/nearMe",
                 "nearMe",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -238,30 +272,30 @@ public class SearchBusinessStoreController {
         ScrubbedInput dt,
 
         @RequestBody
-        SearchStoreQuery searchStoreQuery,
+        SearchQuery searchQuery,
 
         HttpServletRequest request
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Business invoked did={} dt={} businessType={}", did, dt, searchStoreQuery.getSearchedOnBusinessType());
+        LOG.info("Business invoked did={} dt={} businessType={}", did, dt, searchQuery.getSearchedOnBusinessType());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.debug("Business city=\"{}\" lat={} lng={} filters={} ip={} did={} bt={}",
-                searchStoreQuery.getCityName(),
-                searchStoreQuery.getLatitude(),
-                searchStoreQuery.getLongitude(),
-                searchStoreQuery.getFilters(),
+                searchQuery.getCityName(),
+                searchQuery.getLatitude(),
+                searchQuery.getLongitude(),
+                searchQuery.getFilters(),
                 ipAddress,
                 did.getText(),
-                searchStoreQuery.getSearchedOnBusinessType());
+                searchQuery.getSearchedOnBusinessType());
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchStoreQuery.getCityName().getText(),
-                searchStoreQuery.getLatitude().getText(),
-                searchStoreQuery.getLongitude().getText(),
+                searchQuery.getCityName().getText(),
+                searchQuery.getLatitude().getText(),
+                searchQuery.getLongitude().getText(),
                 ipAddress,
                 bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
@@ -270,39 +304,39 @@ public class SearchBusinessStoreController {
                 geoHash = "te7ut71tgd9n";
             }
 
-            LOG.info("Business {} city=\"{}\" geoHash={} ip={} did={} bt={}", searchStoreQuery.getSearchedOnBusinessType(), searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText(), searchStoreQuery.getSearchedOnBusinessType());
-            switch (searchStoreQuery.getSearchedOnBusinessType()) {
+            LOG.info("Business {} city=\"{}\" geoHash={} ip={} did={} bt={}", searchQuery.getSearchedOnBusinessType(), searchQuery.getCityName(), geoHash, ipAddress, did.getText(), searchQuery.getSearchedOnBusinessType());
+            switch (searchQuery.getSearchedOnBusinessType()) {
                 case CD:
                 case CDQ:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludeCanteen(),
                         BusinessTypeEnum.includeCanteen(),
-                        searchStoreQuery.getSearchedOnBusinessType(),
+                        searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchStoreQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText()).asJson();
                 case RS:
                 case RSQ:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludeRestaurant(),
                         BusinessTypeEnum.includeRestaurant(),
-                        searchStoreQuery.getSearchedOnBusinessType(),
+                        searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchStoreQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText()).asJson();
                 case HS:
                 case DO:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludeHospital(),
                         BusinessTypeEnum.includeHospital(),
-                        searchStoreQuery.getSearchedOnBusinessType(),
+                        searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchStoreQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText()).asJson();
                 case PW:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludePlaceOfWorship(),
                         BusinessTypeEnum.includePlaceOfWorship(),
-                        searchStoreQuery.getSearchedOnBusinessType(),
+                        searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchStoreQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText()).asJson();
                 case ZZ:
                 default:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
@@ -332,21 +366,21 @@ public class SearchBusinessStoreController {
                                 add(BusinessTypeEnum.PW);
                             }
                         },
-                        searchStoreQuery.getSearchedOnBusinessType(),
+                        searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchStoreQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText()).asJson();
             }
         } catch (Exception e) {
-            LOG.error("Failed listing business={} reason={}", searchStoreQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
+            LOG.error("Failed listing business={} reason={}", searchQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new BizStoreElasticList()
-                .setSearchedOnBusinessType(searchStoreQuery.getSearchedOnBusinessType())
+                .setSearchedOnBusinessType(searchQuery.getSearchedOnBusinessType())
                 .asJson();
         } finally {
             apiHealthService.insert(
                 "/business",
                 "business",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -364,7 +398,7 @@ public class SearchBusinessStoreController {
         ScrubbedInput dt,
 
         @RequestBody
-        SearchStoreQuery searchStoreQuery,
+        SearchQuery searchQuery,
 
         HttpServletRequest request
     ) {
@@ -375,18 +409,18 @@ public class SearchBusinessStoreController {
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.debug("NearMe city=\"{}\" lat={} lng={} filters={} ip={} did={}",
-                searchStoreQuery.getCityName(),
-                searchStoreQuery.getLatitude(),
-                searchStoreQuery.getLongitude(),
-                searchStoreQuery.getFilters(),
+                searchQuery.getCityName(),
+                searchQuery.getLatitude(),
+                searchQuery.getLongitude(),
+                searchQuery.getFilters(),
                 ipAddress,
                 did.getText());
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchStoreQuery.getCityName().getText(),
-                searchStoreQuery.getLatitude().getText(),
-                searchStoreQuery.getLongitude().getText(),
+                searchQuery.getCityName().getText(),
+                searchQuery.getLatitude().getText(),
+                searchQuery.getLongitude().getText(),
                 ipAddress,
                 bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
@@ -394,7 +428,7 @@ public class SearchBusinessStoreController {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
-            LOG.info("NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
+            LOG.info("NearMe city=\"{}\" geoHash={} ip={} did={}", searchQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                 new ArrayList<> () {
                     private static final long serialVersionUID = -1371033286799633594L;
@@ -423,7 +457,7 @@ public class SearchBusinessStoreController {
                     }
                 },
                 geoHash,
-                searchStoreQuery.getScrollId().getText()).asJson();
+                searchQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -432,7 +466,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/otherMerchant",
                 "otherMerchant",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -450,7 +484,7 @@ public class SearchBusinessStoreController {
         ScrubbedInput dt,
 
         @RequestBody
-        SearchStoreQuery searchStoreQuery,
+        SearchQuery searchQuery,
 
         HttpServletRequest request
     ) {
@@ -461,18 +495,18 @@ public class SearchBusinessStoreController {
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.debug("Canteen nearMe city=\"{}\" lat={} lng={} filters={} ip={} did={}",
-                searchStoreQuery.getCityName(),
-                searchStoreQuery.getLatitude(),
-                searchStoreQuery.getLongitude(),
-                searchStoreQuery.getFilters(),
+                searchQuery.getCityName(),
+                searchQuery.getLatitude(),
+                searchQuery.getLongitude(),
+                searchQuery.getFilters(),
                 ipAddress,
                 did.getText());
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchStoreQuery.getCityName().getText(),
-                searchStoreQuery.getLatitude().getText(),
-                searchStoreQuery.getLongitude().getText(),
+                searchQuery.getCityName().getText(),
+                searchQuery.getLatitude().getText(),
+                searchQuery.getLongitude().getText(),
                 ipAddress,
                 bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
@@ -480,12 +514,12 @@ public class SearchBusinessStoreController {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
-            LOG.info("Canteen NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
+            LOG.info("Canteen NearMe city=\"{}\" geoHash={} ip={} did={}", searchQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                 BusinessTypeEnum.excludeCanteen(),
                 BusinessTypeEnum.includeCanteen(),
                 geoHash,
-                searchStoreQuery.getScrollId().getText()).asJson();
+                searchQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -494,7 +528,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/canteen",
                 "canteen",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -512,7 +546,7 @@ public class SearchBusinessStoreController {
         ScrubbedInput dt,
 
         @RequestBody
-        SearchStoreQuery searchStoreQuery,
+        SearchQuery searchQuery,
 
         HttpServletRequest request
     ) {
@@ -523,18 +557,18 @@ public class SearchBusinessStoreController {
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.debug("Restaurant nearMe city=\"{}\" lat={} lng={} filters={} ip={} did={}",
-                searchStoreQuery.getCityName(),
-                searchStoreQuery.getLatitude(),
-                searchStoreQuery.getLongitude(),
-                searchStoreQuery.getFilters(),
+                searchQuery.getCityName(),
+                searchQuery.getLatitude(),
+                searchQuery.getLongitude(),
+                searchQuery.getFilters(),
                 ipAddress,
                 did.getText());
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchStoreQuery.getCityName().getText(),
-                searchStoreQuery.getLatitude().getText(),
-                searchStoreQuery.getLongitude().getText(),
+                searchQuery.getCityName().getText(),
+                searchQuery.getLatitude().getText(),
+                searchQuery.getLongitude().getText(),
                 ipAddress,
                 bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
@@ -542,12 +576,12 @@ public class SearchBusinessStoreController {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
-            LOG.info("Restaurant NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
+            LOG.info("Restaurant NearMe city=\"{}\" geoHash={} ip={} did={}", searchQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                 BusinessTypeEnum.excludeRestaurant(),
                 BusinessTypeEnum.includeRestaurant(),
                 geoHash,
-                searchStoreQuery.getScrollId().getText()).asJson();
+                searchQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -556,7 +590,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/restaurant",
                 "restaurant",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -574,7 +608,7 @@ public class SearchBusinessStoreController {
         ScrubbedInput dt,
 
         @RequestBody
-        SearchStoreQuery searchStoreQuery,
+        SearchQuery searchQuery,
 
         HttpServletRequest request
     ) {
@@ -585,18 +619,18 @@ public class SearchBusinessStoreController {
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.debug("Canteen nearMe city=\"{}\" lat={} lng={} filters={} ip={} did={}",
-                searchStoreQuery.getCityName(),
-                searchStoreQuery.getLatitude(),
-                searchStoreQuery.getLongitude(),
-                searchStoreQuery.getFilters(),
+                searchQuery.getCityName(),
+                searchQuery.getLatitude(),
+                searchQuery.getLongitude(),
+                searchQuery.getFilters(),
                 ipAddress,
                 did.getText());
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchStoreQuery.getCityName().getText(),
-                searchStoreQuery.getLatitude().getText(),
-                searchStoreQuery.getLongitude().getText(),
+                searchQuery.getCityName().getText(),
+                searchQuery.getLatitude().getText(),
+                searchQuery.getLongitude().getText(),
                 ipAddress,
                 bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
@@ -604,12 +638,12 @@ public class SearchBusinessStoreController {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
-            LOG.info("Worship NearMe city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
+            LOG.info("Worship NearMe city=\"{}\" geoHash={} ip={} did={}", searchQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                 BusinessTypeEnum.excludePlaceOfWorship(),
                 BusinessTypeEnum.includePlaceOfWorship(),
                 geoHash,
-                searchStoreQuery.getScrollId().getText()).asJson();
+                searchQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing worship near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -618,7 +652,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/placeOfWorship",
                 "placeOfWorship",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -636,7 +670,7 @@ public class SearchBusinessStoreController {
         ScrubbedInput dt,
 
         @RequestBody
-        SearchStoreQuery searchStoreQuery,
+        SearchQuery searchQuery,
 
         HttpServletRequest request
     ) {
@@ -647,18 +681,18 @@ public class SearchBusinessStoreController {
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.debug("HealthCare city=\"{}\" lat={} lng={} filters={} ip={} did={}",
-                searchStoreQuery.getCityName(),
-                searchStoreQuery.getLatitude(),
-                searchStoreQuery.getLongitude(),
-                searchStoreQuery.getFilters(),
+                searchQuery.getCityName(),
+                searchQuery.getLatitude(),
+                searchQuery.getLongitude(),
+                searchQuery.getFilters(),
                 ipAddress,
                 did.getText());
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchStoreQuery.getCityName().getText(),
-                searchStoreQuery.getLatitude().getText(),
-                searchStoreQuery.getLongitude().getText(),
+                searchQuery.getCityName().getText(),
+                searchQuery.getLatitude().getText(),
+                searchQuery.getLongitude().getText(),
                 ipAddress,
                 bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
@@ -666,12 +700,12 @@ public class SearchBusinessStoreController {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
-            LOG.info("HealthCare city=\"{}\" geoHash={} ip={} did={}", searchStoreQuery.getCityName(), geoHash, ipAddress, did.getText());
+            LOG.info("HealthCare city=\"{}\" geoHash={} ip={} did={}", searchQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                 BusinessTypeEnum.excludeHospital(),
                 BusinessTypeEnum.includeHospital(),
                 geoHash,
-                searchStoreQuery.getScrollId().getText()).asJson();
+                searchQuery.getScrollId().getText()).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing near me reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -680,7 +714,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/healthCare",
                 "healthCare",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -697,24 +731,24 @@ public class SearchBusinessStoreController {
         ScrubbedInput dt,
 
         @RequestBody
-        SearchStoreQuery searchStoreQuery,
+        SearchQuery searchQuery,
 
         HttpServletRequest request
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Kiosk search query=\"{}\" qr=\"{}\" did={} dt={}", searchStoreQuery.getQuery(), searchStoreQuery.getCodeQR(), did, dt);
+        LOG.info("Kiosk search query=\"{}\" qr=\"{}\" did={} dt={}", searchQuery.getQuery(), searchQuery.getCodeQR(), did, dt);
 
         try {
-            String query = searchStoreQuery.getQuery().getText();
-            String codeQR = searchStoreQuery.getCodeQR().getText();
+            String query = searchQuery.getQuery().getText();
+            String codeQR = searchQuery.getCodeQR().getText();
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.debug("Kiosk search query=\"{}\" city=\"{}\" lat={} lng={} filters={} ip={}",
                 query,
-                searchStoreQuery.getCityName(),
-                searchStoreQuery.getLatitude(),
-                searchStoreQuery.getLongitude(),
-                searchStoreQuery.getFilters(),
+                searchQuery.getCityName(),
+                searchQuery.getLatitude(),
+                searchQuery.getLongitude(),
+                searchQuery.getFilters(),
                 ipAddress);
 
             BizStoreEntity bizStore = bizService.findByCodeQR(codeQR);
@@ -728,7 +762,7 @@ public class SearchBusinessStoreController {
                         return bizStoreSearchElasticService.kioskSearchUsingRestClient(
                             query,
                             bizStore.getBizName().getId(),
-                            searchStoreQuery.getScrollId().getText()).asJson();
+                            searchQuery.getScrollId().getText()).asJson();
                     default:
                         LOG.error("Reached unsupported condition for bizNameId={} businessType={}",
                             bizStore.getBizName().getId(),
@@ -745,7 +779,7 @@ public class SearchBusinessStoreController {
             apiHealthService.insert(
                 "/kiosk",
                 "kiosk",
-                SearchBusinessStoreController.class.getName(),
+                SearchController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
