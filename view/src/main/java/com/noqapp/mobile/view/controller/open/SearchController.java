@@ -1,7 +1,6 @@
 package com.noqapp.mobile.view.controller.open;
 
 import static com.noqapp.common.utils.Constants.SUGGESTED_SEARCH;
-import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static org.apiguardian.api.API.Status.STABLE;
 
 import com.noqapp.common.utils.AbstractDomain;
@@ -12,7 +11,6 @@ import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.client.SearchQuery;
-import com.noqapp.mobile.view.controller.api.client.SearchAPIController;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.domain.BizStoreSearchElasticList;
@@ -41,14 +39,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.apiguardian.api.API;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * hitender
