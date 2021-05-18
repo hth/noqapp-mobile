@@ -62,6 +62,7 @@ public class SearchController {
     private static final Logger LOG = LoggerFactory.getLogger(SearchController.class);
 
     private boolean useRestHighLevel;
+
     private BizStoreSpatialElasticService bizStoreSpatialElasticService;
     private BizStoreSearchElasticService bizStoreSearchElasticService;
     private BizService bizService;
