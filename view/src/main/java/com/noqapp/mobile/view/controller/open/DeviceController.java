@@ -4,7 +4,6 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_DETAIL_M
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
-import static org.apiguardian.api.API.Status.DEPRECATED;
 
 import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
@@ -37,8 +36,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import org.apiguardian.api.API;
 
 import java.time.Duration;
 import java.time.Instant;
