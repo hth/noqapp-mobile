@@ -95,13 +95,13 @@ public class ParseTokenFCM {
             if (null == map.get("tk")) {
                 LOG.error("Found empty firebase token contains={} but value={}", map.containsKey("tk"), map.get("tk"));
                 /* Validation failure as there is not data in the map. */
-                errorResponse = getErrorReason("Failed data validation.", USER_INPUT);
+                errorResponse = getErrorReason("Something went wrong. Please delete and reinstall NoQueue app.", USER_INPUT);
             }
 
             tokenFCM = map.get("tk").getText();
             if (StringUtils.isBlank(tokenFCM)) {
                 LOG.error("Failed missing tokenFCM");
-                errorResponse = getErrorReason("Failed data validation.", USER_INPUT);
+                errorResponse = getErrorReason("Something went wrong. Please delete and reinstall NoQueue app.", USER_INPUT);
             }
 
             if (map.containsKey("mo")) {
