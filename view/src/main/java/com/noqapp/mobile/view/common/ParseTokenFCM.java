@@ -100,6 +100,7 @@ public class ParseTokenFCM {
 
             tokenFCM = map.get("tk").getText();
             if (StringUtils.isBlank(tokenFCM)) {
+                LOG.error("Failed missing tokenFCM");
                 errorResponse = getErrorReason("Failed data validation.", USER_INPUT);
             }
 
