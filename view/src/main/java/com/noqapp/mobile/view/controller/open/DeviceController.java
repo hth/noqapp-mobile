@@ -4,7 +4,6 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_DETAIL_M
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_INPUT;
-import static org.apiguardian.api.API.Status.DEPRECATED;
 
 import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
@@ -37,8 +36,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import org.apiguardian.api.API;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -77,55 +74,6 @@ public class DeviceController {
         this.deviceRegistrationService = deviceRegistrationService;
         this.geoIPLocationService = geoIPLocationService;
         this.apiHealthService = apiHealthService;
-    }
-
-    /**
-     * Finds if device exists or saves the device when does not exists. Most likely this call would not be required.
-     * v1 is deprecated since 1.2.655.
-     */
-    @API(status = DEPRECATED, since = "1.2.655")
-    @PostMapping(
-        value = "/v1/register",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @Deprecated
-    public String registerDeviceObsolete(
-        @RequestHeader("X-R-DT")
-        ScrubbedInput deviceType,
-
-        @RequestHeader("X-R-AF")
-        ScrubbedInput appFlavor,
-
-        @RequestBody
-        String tokenJson,
-
-        HttpServletRequest request
-    ) {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.info("Register deviceType={} appFlavor={} token={}",
-            deviceType.getText(),
-            appFlavor.getText(),
-            tokenJson);
-
-        try {
-            LOG.warn("Older registration process version deviceType={} appFlavor={}", deviceType, appFlavor);
-            return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
-        } catch (DeviceDetailMissingException e) {
-            LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
-            return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
-        } catch (Exception e) {
-            LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
-        } finally {
-            apiHealthService.insert(
-                "/v1/register",
-                "registerDeviceObsolete",
-                DeviceController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
     }
 
     @PostMapping(
@@ -218,50 +166,6 @@ public class DeviceController {
             apiHealthService.insert(
                 "/register",
                 "registerDevice",
-                DeviceController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
-    /**
-     * Checks is device version is supported.
-     * X-R-DID is deprecated since 1.2.655.
-     */
-    @API(status = DEPRECATED, since = "1.2.655")
-    @PostMapping(
-        value = "/version",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @Deprecated
-    public String versionObsolete(
-        @RequestHeader(value = "X-R-DID", required = false)
-        ScrubbedInput did,
-
-        @RequestHeader("X-R-DT")
-        ScrubbedInput deviceType,
-
-        @RequestHeader("X-R-AF")
-        ScrubbedInput appFlavor,
-
-        @RequestHeader(value = "X-R-VR")
-        ScrubbedInput versionRelease
-    ) {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.info("Supported device deviceType={} appFlavor={} versionRelease={}", deviceType, appFlavor, versionRelease);
-
-        try {
-            LOG.warn("Sent warning to upgrade versionNumber={}", versionRelease.getText());
-            return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
-        } catch (Exception e) {
-            LOG.error("Failed parsing deviceType, reason={}", e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Incorrect device type.", USER_INPUT);
-        } finally {
-            apiHealthService.insert(
-                "/version",
-                "versionObsolete",
                 DeviceController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
