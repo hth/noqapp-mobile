@@ -81,13 +81,14 @@ public class LogContextFilter implements Filter {
         String city = "";
         String geoHash = "";
         try {
+            InetAddress ipAddress = InetAddress.getByName(ip);
+            CityResponse response = ipGeoConfiguration.getDatabaseReader().city(ipAddress);
+            countryCode = response.getCountry().getIsoCode();
+
             if (StringUtils.isNotBlank(lat) && StringUtils.isNotBlank(lng)) {
                 geoHash = new GeoPoint(Double.parseDouble(lat), Double.parseDouble(lng)).getGeohash();
             } else {
-                @Deprecated //After 1.3.120 release
-                InetAddress ipAddress = InetAddress.getByName(ip);
-                CityResponse response = ipGeoConfiguration.getDatabaseReader().city(ipAddress);
-                countryCode = response.getCountry().getIsoCode();
+                //Remove After 1.3.120 release
                 city = StringUtils.isEmpty(response.getCity().getName()) ? "" : response.getCity().getName();
                 if (null != response.getLocation()) {
                     geoHash = new GeoPoint(response.getLocation().getLatitude(), response.getLocation().getLongitude()).getGeohash();
