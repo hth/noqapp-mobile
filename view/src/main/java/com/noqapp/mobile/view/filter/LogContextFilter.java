@@ -75,6 +75,8 @@ public class LogContextFilter implements Filter {
         String ip = getHeader(headerMap, "x-forwarded-for");
         String lat = getHeader(headerMap, "x-r-lat");
         String lng = getHeader(headerMap, "x-r-lng");
+        String ver = getHeader(headerMap, "x-r-ver");
+        String flavor = getHeader(headerMap, "x-r-fla");
         String countryCode = "";
         String city = "";
         String geoHash = "";
@@ -82,6 +84,7 @@ public class LogContextFilter implements Filter {
             if (StringUtils.isNotBlank(lat) && StringUtils.isNotBlank(lng)) {
                 geoHash = new GeoPoint(Double.parseDouble(lat), Double.parseDouble(lng)).getGeohash();
             } else {
+                @Deprecated //After 1.3.120 release
                 InetAddress ipAddress = InetAddress.getByName(ip);
                 CityResponse response = ipGeoConfiguration.getDatabaseReader().city(ipAddress);
                 countryCode = response.getCountry().getIsoCode();
@@ -106,6 +109,8 @@ public class LogContextFilter implements Filter {
             + " country=\"" + countryCode + "\""
 //            + " city=\"" + city + "\""
             + " geoHash=\"" + geoHash + "\""
+            + " version=\"" + ver + "\""
+            + " flavor=\"" + flavor + "\""
             + " endpoint=\"" + extractDataFromURL(url, "$5") + "\""
             + " query=\"" + (query == null ? "none" : query) + "\""
             + " url=\"" + url + "\""
