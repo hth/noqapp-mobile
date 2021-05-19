@@ -73,16 +73,22 @@ public class LogContextFilter implements Filter {
         String url = httpServletRequest.getRequestURL().toString();
         String query = httpServletRequest.getQueryString();
         String ip = getHeader(headerMap, "x-forwarded-for");
+        String lat = getHeader(headerMap, "x-r-lat");
+        String lng = getHeader(headerMap, "x-r-lng");
         String countryCode = "";
         String city = "";
         String geoHash = "";
         try {
-            InetAddress ipAddress = InetAddress.getByName(ip);
-            CityResponse response = ipGeoConfiguration.getDatabaseReader().city(ipAddress);
-            countryCode = response.getCountry().getIsoCode();
-            city = StringUtils.isEmpty(response.getCity().getName()) ? "" : response.getCity().getName();
-            if (null != response.getLocation()) {
-                geoHash = new GeoPoint(response.getLocation().getLatitude(), response.getLocation().getLongitude()).getGeohash();
+            if (StringUtils.isNotBlank(lat) && StringUtils.isNotBlank(lng)) {
+                geoHash = new GeoPoint(Double.parseDouble(lat), Double.parseDouble(lng)).getGeohash();
+            } else {
+                InetAddress ipAddress = InetAddress.getByName(ip);
+                CityResponse response = ipGeoConfiguration.getDatabaseReader().city(ipAddress);
+                countryCode = response.getCountry().getIsoCode();
+                city = StringUtils.isEmpty(response.getCity().getName()) ? "" : response.getCity().getName();
+                if (null != response.getLocation()) {
+                    geoHash = new GeoPoint(response.getLocation().getLatitude(), response.getLocation().getLongitude()).getGeohash();
+                }
             }
         } catch (AddressNotFoundException e) {
             LOG.warn("Failed finding ip={} reason={}", ip, e.getLocalizedMessage());
@@ -99,7 +105,7 @@ public class LogContextFilter implements Filter {
             + " ip=\"" + ip + "\""
             + " country=\"" + countryCode + "\""
 //            + " city=\"" + city + "\""
-//            + " geoHash=\"" + geoHash + "\""
+            + " geoHash=\"" + geoHash + "\""
             + " endpoint=\"" + extractDataFromURL(url, "$5") + "\""
             + " query=\"" + (query == null ? "none" : query) + "\""
             + " url=\"" + url + "\""
