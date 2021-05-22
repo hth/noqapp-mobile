@@ -59,9 +59,7 @@ public class FeedbackAPIController {
     }
 
     /** Add review to service. This includes today's service or historical service. */
-    @PostMapping(
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public String feedback(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
