@@ -37,7 +37,8 @@ public class ParseTokenFCM {
     private String ipAddress;
     private boolean missingCoordinate;
 
-    private OnOffEnum locationOnMobile = OnOffEnum.F;
+    /** This feature is now on phone. */
+    private OnOffEnum locationOnMobile = OnOffEnum.O;
 
     private ParseTokenFCM(String tokenJson, HttpServletRequest request) {
         parseForFCM(tokenJson, request);
