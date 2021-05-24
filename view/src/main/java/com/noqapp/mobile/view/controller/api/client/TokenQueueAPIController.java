@@ -201,9 +201,10 @@ public class TokenQueueAPIController {
         if (authorizeRequest(response, qid)) return null;
 
         if (!tokenQueueMobileService.isValidCodeQR(codeQR.getText())) {
-            LOG.error("No such codeQR found {}", codeQR.getText());
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid codeQR");
-            return null;
+            LOG.error("No such codeQR found {} please upgrade", codeQR.getText());
+//            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid codeQR");
+//            return null;
+            return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
         }
 
         try {
