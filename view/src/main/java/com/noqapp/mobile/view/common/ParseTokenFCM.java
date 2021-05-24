@@ -101,7 +101,7 @@ public class ParseTokenFCM {
 
             tokenFCM = map.get("tk").getText();
             if (StringUtils.isBlank(tokenFCM)) {
-                LOG.error("Failed missing tokenFCM. Suggested to close app and restart. If problem persist, please delete and reinstall app.");
+                LOG.warn("Failed missing tokenFCM. Suggested to close app and restart. If problem persist, please delete and reinstall app.");
                 errorResponse = getErrorReason("Something went wrong. Close app and restart. If problem persist, please delete and reinstall app.", USER_INPUT);
             }
 
