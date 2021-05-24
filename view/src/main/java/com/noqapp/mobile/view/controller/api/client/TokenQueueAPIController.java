@@ -200,6 +200,7 @@ public class TokenQueueAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
+        /* Delete me. */
         if (codeQR.getText().endsWith(".json")) {
             LOG.error("No such codeQR found {} please upgrade", codeQR.getText());
             return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
