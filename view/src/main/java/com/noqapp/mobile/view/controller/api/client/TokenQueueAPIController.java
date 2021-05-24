@@ -202,7 +202,7 @@ public class TokenQueueAPIController {
 
         /* Delete me. */
         if (codeQR.getText().endsWith(".json")) {
-            LOG.error("No such codeQR found {} {} {} please upgrade", codeQR.getText(), qid, did);
+            LOG.warn("No such codeQR found {} {} {} please upgrade", codeQR.getText(), qid, did);
             return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
         }
 
