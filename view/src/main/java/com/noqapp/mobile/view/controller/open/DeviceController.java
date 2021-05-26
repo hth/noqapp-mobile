@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -170,6 +171,24 @@ public class DeviceController {
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
+    }
+
+    @Deprecated
+    @PostMapping(
+        value = "/{version}",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String version(
+        @PathVariable("version")
+        ScrubbedInput version
+    ) {
+        LOG.warn("Supported version={} obsolete", version);
+        if (version.getText().endsWith(".json")) {
+            LOG.warn("No such codeQR found {} please upgrade", version.getText());
+            return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
+        }
+
+        return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
     }
 
     @PostMapping(
