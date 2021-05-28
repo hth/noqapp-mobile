@@ -11,7 +11,7 @@ import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.RegisteredDeviceManager;
 import com.noqapp.search.elastic.helper.GeoIP;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
-import com.noqapp.service.MessageCustomerService;
+import com.noqapp.service.FirebaseService;
 import com.noqapp.service.UserProfilePreferenceService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +44,7 @@ public class DeviceRegistrationService {
 
     private String information;
     private RegisteredDeviceManager registeredDeviceManager;
-    private MessageCustomerService messageCustomerService;
+    private FirebaseService firebaseService;
     private UserProfilePreferenceService userProfilePreferenceService;
     private GeoIPLocationService geoIPLocationService;
 
@@ -56,14 +56,14 @@ public class DeviceRegistrationService {
         String information,
 
         RegisteredDeviceManager registeredDeviceManager,
-        MessageCustomerService messageCustomerService,
+        FirebaseService firebaseService,
         UserProfilePreferenceService userProfilePreferenceService,
         GeoIPLocationService geoIPLocationService
     ) {
         this.information = information;
 
         this.registeredDeviceManager = registeredDeviceManager;
-        this.messageCustomerService = messageCustomerService;
+        this.firebaseService = firebaseService;
         this.userProfilePreferenceService = userProfilePreferenceService;
         this.geoIPLocationService = geoIPLocationService;
 
@@ -127,7 +127,7 @@ public class DeviceRegistrationService {
                     registeredDeviceManager.save(registeredDevice);
 
                     /* Always subscribe to information. */
-                    messageCustomerService.subscribeToTopic(
+                    firebaseService.subscribeToTopic(
                         new ArrayList<>() {
                             private static final long serialVersionUID = -4512369320581819200L;
 
@@ -208,7 +208,7 @@ public class DeviceRegistrationService {
     private void subscribeToAllAssociatedTopics(String qid, DeviceTypeEnum deviceType, String token) {
         UserPreferenceEntity userPreference = userProfilePreferenceService.findByQueueUserId(qid);
         for (String topicsToBeSubscribedTo : userPreference.getSubscriptionTopics()) {
-            messageCustomerService.subscribeToTopic(
+            firebaseService.subscribeToTopic(
                 new ArrayList<>() {
                     private static final long serialVersionUID = 356234509938382570L;
 

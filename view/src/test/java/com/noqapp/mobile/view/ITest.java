@@ -517,14 +517,14 @@ public class ITest extends RealMongoForITest {
             notificationN4jManager
         );
 
-        deviceRegistrationService = new DeviceRegistrationService("information", registeredDeviceManager, messageCustomerService, userProfilePreferenceService, geoIPLocationService);
+        firebaseService = new FirebaseService(firebaseConfig, userProfileManager);
+        deviceRegistrationService = new DeviceRegistrationService("information", registeredDeviceManager, firebaseService, userProfilePreferenceService, geoIPLocationService);
         apiHealthService = new ApiHealthService(apiHealthNowManager);
         tokenQueueManager = new TokenQueueManagerImpl(getMongoTemplate());
         storeHourManager = new StoreHourManagerImpl(getMongoTemplate());
         businessCustomerManager = new BusinessCustomerManagerImpl(getMongoTemplate());
         s3FileManager = new S3FileManagerImpl(getMongoTemplate());
         firebaseMessageService = new FirebaseMessageService("", okHttpClient);
-        firebaseService = new FirebaseService(firebaseConfig, userProfileManager);
         businessCustomerService = new BusinessCustomerService(
             businessCustomerManager,
             userProfileManager,
