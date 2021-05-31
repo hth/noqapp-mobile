@@ -6,13 +6,17 @@ import static com.noqapp.domain.types.IncidentEventEnum.SOSP;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
 
+import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
+import com.noqapp.domain.IncidentEventEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonIncidentEvent;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.search.elastic.helper.DomainConversion;
+import com.noqapp.search.elastic.service.IncidentEventElasticService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.IncidentEvenService;
 
@@ -51,6 +55,7 @@ public class IncidentEventAPIController {
     private static final Logger LOG = LoggerFactory.getLogger(IncidentEventAPIController.class);
 
     private IncidentEvenService incidentEvenService;
+    private IncidentEventElasticService incidentEventElasticService;
     private AuthenticateMobileService authenticateMobileService;
     private AccountService accountService;
     private ApiHealthService apiHealthService;
@@ -58,11 +63,13 @@ public class IncidentEventAPIController {
     @Autowired
     public IncidentEventAPIController(
         IncidentEvenService incidentEvenService,
+        IncidentEventElasticService incidentEventElasticService,
         AuthenticateMobileService authenticateMobileService,
         AccountService accountService,
         ApiHealthService apiHealthService
     ) {
         this.incidentEvenService = incidentEvenService;
+        this.incidentEventElasticService = incidentEventElasticService;
         this.authenticateMobileService = authenticateMobileService;
         this.accountService = accountService;
         this.apiHealthService = apiHealthService;
@@ -100,7 +107,9 @@ public class IncidentEventAPIController {
             if (StringUtils.isBlank(jsonIncidentEvent.getTitle())) {
                 jsonIncidentEvent.setTitle(jsonIncidentEvent.getIncidentEvent().getDescription() + " reported in your vicinity");
             }
-            incidentEvenService.add(jsonIncidentEvent, qid);
+            IncidentEventEntity incidentEvent = populateFrom(jsonIncidentEvent, qid);
+            incidentEvenService.save(incidentEvent);
+            incidentEventElasticService.save(DomainConversion.getAsIncidentEventElastic(incidentEvent));
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing incidentEvent reason={}", e.getLocalizedMessage(), e);
@@ -163,7 +172,9 @@ public class IncidentEventAPIController {
 
             UserProfileEntity userProfile = accountService.findProfileByQueueUserId(qid);
             jsonIncidentEvent.setTitle(userProfile.getName() + " activated SOS");
-            incidentEvenService.add(jsonIncidentEvent, qid);
+            IncidentEventEntity incidentEvent = populateFrom(jsonIncidentEvent, qid);
+            incidentEvenService.save(incidentEvent);
+            incidentEventElasticService.save(DomainConversion.getAsIncidentEventElastic(incidentEvent));
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing incidentEvent reason={}", e.getLocalizedMessage(), e);
@@ -185,4 +196,25 @@ public class IncidentEventAPIController {
     }
 
     //TODO add when message is viewed
+
+    private IncidentEventEntity populateFrom(JsonIncidentEvent jsonIncidentEvent, String qid) {
+        IncidentEventEntity incidentEvent = new IncidentEventEntity()
+            .setIncidentEvent(jsonIncidentEvent.getIncidentEvent())
+            .setQid(qid)
+            .setCoordinate(jsonIncidentEvent.getCoordinate())
+            .setAddress(jsonIncidentEvent.getAddress())
+            .setArea(jsonIncidentEvent.getArea())
+            .setTown(jsonIncidentEvent.getTown())
+            .setDistrict(jsonIncidentEvent.getDistrict())
+            .setState(jsonIncidentEvent.getState())
+            .setStateShortName(jsonIncidentEvent.getStateShortName())
+            .setPostalCode(jsonIncidentEvent.getPostalCode())
+            .setCountry(jsonIncidentEvent.getCountry())
+            .setCountryShortName(jsonIncidentEvent.getCountryShortName())
+            .setTitle(jsonIncidentEvent.getTitle())
+            .setDescription(jsonIncidentEvent.getDescription());
+        
+        incidentEvent.setId(CommonUtil.generateHexFromObjectId());
+        return incidentEvent;
+    }
 }

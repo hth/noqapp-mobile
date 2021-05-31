@@ -229,6 +229,7 @@ public class MarketplaceController {
                             .setItemCondition(jsonHouseholdItem.getItemCondition());
                     }
                     populateFrom(householdItem, jsonMarketplace, qid);
+                    householdItemService.save(householdItem);
                     marketplaceElasticService.save(DomainConversion.getAsMarketplaceElastic(householdItem));
                     break;
                 case PR:
@@ -245,6 +246,7 @@ public class MarketplaceController {
 
                     }
                     populateFrom(propertyRental, jsonMarketplace, qid);
+                    propertyRentalService.save(propertyRental);
                     marketplaceElasticService.save(DomainConversion.getAsMarketplaceElastic(propertyRental));
                     break;
                 default:
