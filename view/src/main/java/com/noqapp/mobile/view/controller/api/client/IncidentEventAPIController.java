@@ -213,7 +213,7 @@ public class IncidentEventAPIController {
             .setCountryShortName(jsonIncidentEvent.getCountryShortName())
             .setTitle(jsonIncidentEvent.getTitle())
             .setDescription(jsonIncidentEvent.getDescription());
-        
+
         incidentEvent.setId(CommonUtil.generateHexFromObjectId());
         return incidentEvent;
     }
