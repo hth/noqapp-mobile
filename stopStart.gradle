@@ -133,7 +133,7 @@ def stopStartMobile(def server, def ip) {
     sshExecute(server, "sudo service tomcat start")
     sshExecute(server, "sleep 35")
     sshExecute(server, "sudo service tomcat status")
-    sshExecute(server, "wget -qO- http://$ip:8080/open/healthCheck.json > /dev/null 2>&1")
+    sshExecute(server, "wget -qO- http://$ip:8080/open/healthCheck > /dev/null 2>&1")
 }
 
 def sshExecute(def server, def cmd) {
