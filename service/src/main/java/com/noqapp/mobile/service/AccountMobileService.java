@@ -35,6 +35,7 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * User: hitender
@@ -201,12 +202,34 @@ public class AccountMobileService {
     }
 
     public JsonProfile getProfileAsJson(String qid) {
-        UserAccountEntity userAccount = findByQueueUserId(qid);
-        if (!userAccount.isActive()) {
-            LOG.warn("Account In Active {} qid={}", userAccount.getAccountInactiveReason(), qid);
-            throw new AccountNotActiveException("Account is blocked. Contact support.");
+        try {
+            UserAccountEntity userAccount = findByQueueUserId(qid);
+            if (!userAccount.isActive()) {
+                LOG.warn("Account In Active {} qid={}", userAccount.getAccountInactiveReason(), qid);
+                throw new AccountNotActiveException("Account is blocked. Contact support.");
+            }
+            return getProfileAsJson(qid, userAccount);
+        } catch (NullPointerException e) {
+            LOG.error("Failed with NPE loading account again after sleep for qid={} reason={}", qid, e.getLocalizedMessage(), e);
+            try {
+                /* Force sleep as the data may not have been propagated to replica. */
+                TimeUnit.SECONDS.sleep(4);
+                UserAccountEntity userAccount = findByQueueUserId(qid);
+                if (!userAccount.isActive()) {
+                    LOG.warn("Account In Active {} qid={}", userAccount.getAccountInactiveReason(), qid);
+                    throw new AccountNotActiveException("Account is blocked. Contact support.");
+                }
+                return getProfileAsJson(qid, userAccount);
+            } catch (InterruptedException ie) {
+                LOG.error("Failed loading account after waiting for qid={} reason={}", qid, e.getLocalizedMessage(), e);
+                /* InterruptedException should contain Thread.currentThread().interrupt() as well. */
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Failed loading profile after registration " + qid);
+            }
+        } catch (Exception e) {
+            LOG.error("Failed loading account for qid={} reason={}", qid, e.getLocalizedMessage(), e);
+            throw e;
         }
-        return getProfileAsJson(qid, userAccount);
     }
 
     /** Medical profile should not care about inactive account. */
