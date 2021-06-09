@@ -73,10 +73,13 @@ public class LogContextFilter implements Filter {
         String url = httpServletRequest.getRequestURL().toString();
         String query = httpServletRequest.getQueryString();
         String ip = getHeader(headerMap, "x-forwarded-for");
-        String lat = getHeader(headerMap, "x-r-lat");
-        String lng = getHeader(headerMap, "x-r-lng");
         String ver = getHeader(headerMap, "x-r-ver");
         String flavor = getHeader(headerMap, "x-r-fla");
+        String lat = getHeader(headerMap, "x-r-lat");
+        String lng = getHeader(headerMap, "x-r-lng");
+        String did = getHeader(headerMap, "x-r-did");
+        String mail = getHeader(headerMap, "x-r-mail");
+        String qid = getHeader(headerMap, "x-r-qid");
         String countryCode = "";
         String city = "";
         String geoHash = "";
@@ -98,6 +101,9 @@ public class LogContextFilter implements Filter {
                         + " geoHash=\"" + geoHash + "\""
                         + " version=\"" + ver + "\""
                         + " flavor=\"" + flavor + "\""
+                        + " did=\"" + did + "\""
+                        + " mail=\"" + mail + "\""
+                        + " qid=\"" + qid + "\""
                         + " endpoint=\"" + extractDataFromURL(url, "$5") + "\""
                         + " query=\"" + (query == null ? "none" : query) + "\""
                         + " url=\"" + url + "\""
