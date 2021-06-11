@@ -48,7 +48,11 @@
             <#include "../NoQApp.svg">
         </div>
 
+        <#if agent??>
+        <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear Admin (${profileName}),</strong></p>
+        <#else>
         <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear ${profileName},</strong></p>
+        </#if>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             To confirm your ${message}, please enter the OTP below in your screen
             <span style="padding: 15px; display: block; font-size: x-large; color: black; font-weight: bold; font-family: 'Roboto', sans-serif">${mailOTP}</span>

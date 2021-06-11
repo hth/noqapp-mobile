@@ -54,6 +54,7 @@
             Business Approvals Pending ${awaitingBusinessApproval} <br/>
             Publish Article Approvals Pending ${awaitingPublishArticleApproval} <br/>
             Advertisement Approvals Pending ${awaitingAdvertisementApproval} <br/>
+            Marketplace Approvals Pending ${pendingMarketplaceApproval} <br/>
             Registered New User ${registeredUser} <br/>
             Registered New Devices ${deviceRegistered} <br/>
             Registered New Android Devices ${androidDeviceRegistered} <br/>
