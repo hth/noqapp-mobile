@@ -15,21 +15,21 @@
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
     <#if businessType == "CD" || businessType == "CDQ">
         <#if famousFor??>
-            <meta name="description" content="${famousFor}. Complete your canteen booking. Servicemen and Ex-Servicemen get instant token and real-time status on mobile. Search for items, look for store timing, get updates on store.">
+            <meta name="description" content="${famousFor}. Reviews ${reviewCount} &#xb7; Rating ${rating}. Complete your canteen booking. Servicemen and Ex-Servicemen get instant token and real-time status on mobile. Search for items, look for store timing, get updates on store.">
         <#else>
-            <meta name="description" content="Complete your canteen booking. Servicemen and Ex-Servicemen get instant token and real-time status on mobile. Search for items, look for store timing, get updates on store.">
+            <meta name="description" content="Reviews ${reviewCount} &#xb7; Rating ${rating}. Complete your canteen booking. Servicemen and Ex-Servicemen get instant token and real-time status on mobile. Search for items, look for store timing, get updates on store.">
         </#if>
     <#elseif businessType == "DO" || businessType == "HS">
         <#if famousFor??>
-            <meta name="description" content="${famousFor}. Complete your booking. Get instant token and real-time status. Search for doctors, medical services. Book your doctors appointment. Place online orders, get your order delivered at home.">
+            <meta name="description" content="${famousFor}. Reviews ${reviewCount} &#xb7; Rating ${rating}. Complete your booking. Get instant token and real-time status. Search for doctors, medical services. Book your doctors appointment. Place online orders, get your order delivered at home.">
         <#else>
-            <meta name="description" content="Complete your booking. Get instant token and real-time status. Search for doctors, medical services. Book your doctors appointment. Place online orders, get your order delivered at home.">
+            <meta name="description" content="Reviews ${reviewCount} &#xb7; Rating ${rating}. Complete your booking. Get instant token and real-time status. Search for doctors, medical services. Book your doctors appointment. Place online orders, get your order delivered at home.">
         </#if>
     <#else>
         <#if famousFor??>
-            <meta name="description" content="${famousFor}. Place online orders, get your order delivered at home. Get instant token and real-time status. Search for items, look for store timing, get updates on store.">
+            <meta name="description" content="${famousFor}. Reviews ${reviewCount} &#xb7; Rating ${rating}. Place online orders, get your order delivered at home. Get instant token and real-time status. Search for items, look for store timing, get updates on store.">
         <#else>
-            <meta name="description" content="Place online orders, get your order delivered at home. Get instant token and real-time status. Search for items, look for store timing, get updates on store.">
+            <meta name="description" content="Reviews ${reviewCount} &#xb7; Rating ${rating}. Place online orders, get your order delivered at home. Get instant token and real-time status. Search for items, look for store timing, get updates on store.">
         </#if>
     </#if>
 
@@ -76,7 +76,10 @@
                 "@type": "GeoCoordinates",
                 "latitude": ${latitude},
                 "longitude": ${longitude}
-            }
+            },
+            "telephone": "Not Applicable",
+            "servesCuisine": "Not Applicable",
+            "priceRange": "Not Applicable"
         }
     </script>
 </head>
@@ -119,7 +122,11 @@
                         </#if>
 
                         </br>
-                        <p><strong>Queue Status: </strong>${queueStatus}</p>
+                        <#if isOrderPlacingAllowed??>
+                            <p><strong>Order Status: </strong>${queueStatus}</p>
+                        <#else>
+                            <p><strong>Queue Status: </strong>${queueStatus}</p>
+                        </#if>
                         <p><strong>Currently Serving: </strong>${currentlyServing}</p>
                         <p><strong>People in Queue: </strong>${peopleInQueue}</p>
 

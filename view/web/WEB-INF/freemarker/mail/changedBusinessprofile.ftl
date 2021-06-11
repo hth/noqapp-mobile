@@ -50,7 +50,7 @@
 
         <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear ${profileName},</strong></p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
-            This email is to confirm changes made to <strong>${displayName}</strong> queue.
+            This email is to confirm changes made to <strong>${displayName}</strong>.
         </p>
         <p style="padding-bottom:10px; font-family: 'Roboto', sans-serif;">
             Reason for Change was associated to: <strong>${changeInitiateReason}</strong>
