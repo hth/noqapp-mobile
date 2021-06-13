@@ -207,6 +207,7 @@ import com.maxmind.geoip2.DatabaseReader;
 import org.bson.types.ObjectId;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mock.env.MockEnvironment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -392,6 +393,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected SmsService smsService;
     @Mock protected JMSProducerService jmsProducerService;
     @Mock protected LanguageTranslationService languageTranslationService;
+    @Mock protected StringRedisTemplate stringRedisTemplate;
 
     private MockEnvironment mockEnvironment;
 
@@ -465,7 +467,8 @@ public class ITest extends RealMongoForITest {
             emailValidateService,
             inviteService,
             forgotRecoverManager,
-            userAddressService
+            userAddressService,
+            stringRedisTemplate
         );
 
         reviewService = new ReviewService(
