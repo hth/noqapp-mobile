@@ -160,21 +160,21 @@ public class LogContextFilter implements Filter {
                 case "NP":
                     //Allowed country
                     break;
-                case "AE": //UAE
-                case "OM": //Oman & Muscat
-                case "SA": //Saudi
-                case "CN": //China
-                case "HK": //Hong Kong
-                case "CZ": //Czechia
-                case "SG": //Singapore
-                    LOG.warn("Request from country {} failed response", countryCode);
-                    HttpServletResponse httpServletResponse = (HttpServletResponse) res;
-                    httpServletResponse.setStatus(SC_NOT_FOUND);
-                    break;
+//                case "AE": //UAE
+//                case "OM": //Oman & Muscat
+//                case "SA": //Saudi
+//                case "CN": //China
+//                case "HK": //Hong Kong
+//                case "CZ": //Czechia
+//                case "SG": //Singapore
+//                    LOG.warn("Request from country {} failed response", countryCode);
+//                    HttpServletResponse httpServletResponse = (HttpServletResponse) res;
+//                    httpServletResponse.setStatus(SC_NOT_FOUND);
+//                    break;
                 default:
-                    LOG.warn("Request from country {} failed response", countryCode);
-                    httpServletResponse = (HttpServletResponse) res;
-                    httpServletResponse.setStatus(SC_NOT_FOUND);
+                    LOG.warn("Request from country {} allowed response", countryCode);
+//                    httpServletResponse = (HttpServletResponse) res;
+//                    httpServletResponse.setStatus(SC_NOT_FOUND);
             }
         }
 
