@@ -541,7 +541,8 @@ public class ITest extends RealMongoForITest {
         businessCustomerService = new BusinessCustomerService(
             businessCustomerManager,
             userProfileManager,
-            queueManager
+            queueManager,
+            messageCustomerService
         );
 
         couponService = new CouponService(couponManager, bizStoreManager, userProfileManager);
