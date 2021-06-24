@@ -356,9 +356,7 @@ public class QueueMobileService {
             .setSinceBeginning(sinceBeginning);
     }
 
-    /**
-     * Since review can be done in background. Moved logic to thread.
-     */
+    /** Since review can be done in background. Moved logic to thread. */
     public boolean reviewService(String codeQR, int token, String did, String qid, int ratingCount, int hoursSaved, String review) {
         executorService.submit(() -> reviewingService(codeQR, token, did, qid, ratingCount, hoursSaved, review));
         return true;

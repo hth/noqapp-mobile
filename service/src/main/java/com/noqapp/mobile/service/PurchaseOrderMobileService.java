@@ -42,9 +42,7 @@ public class PurchaseOrderMobileService {
         this.purchaseOrderProductService = purchaseOrderProductService;
     }
 
-    /**
-     * Since review can be done in background. Moved logic to thread.
-     */
+    /** Since review can be done in background. Moved logic to thread. */
     public boolean reviewService(String codeQR, int token, String did, String qid, int ratingCount, String review) {
         //TODO(hth) when adding new review increase ratingCount. Make sure when editing review, do not increase count.
         return purchaseOrderService.reviewService(codeQR, token, did, qid, ratingCount, review);
