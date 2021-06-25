@@ -32,6 +32,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -154,7 +157,27 @@ public class FavouriteAPIController {
                     if (!userPreference.getFavoriteTagged().contains(favoriteElastic.getCodeQR())) {
                         BizStoreEntity bizStore = bizService.findByCodeQR(favoriteElastic.getCodeQR());
                         if (null != bizStore) {
-                            userProfilePreferenceService.addFavorite(qid, bizStore.getCodeQR());
+                            switch (bizStore.getBusinessType()) {
+                                case DO:
+                                case CD:
+                                case CDQ:
+                                case BK:
+                                case HS:
+                                case PW:
+                                    Set<String> codeQRs = new HashSet<>();
+                                    List<BizStoreEntity> bizStores = bizService.getAllBizStores(bizStore.getBizName().getId());
+                                    for (BizStoreEntity bizStoreFound : bizStores) {
+                                        codeQRs.add(bizStoreFound.getCodeQR());
+                                    }
+
+                                    codeQRs.retainAll(userPreference.getFavoriteSuggested());
+                                    if (codeQRs.isEmpty()) {
+                                        userProfilePreferenceService.addFavorite(qid, bizStore.getCodeQR());
+                                    }
+                                    break;
+                                default:
+                                    userProfilePreferenceService.addFavorite(qid, bizStore.getCodeQR());
+                            }
                         }
                     }
                     break;
