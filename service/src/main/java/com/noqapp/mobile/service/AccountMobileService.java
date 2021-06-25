@@ -17,7 +17,6 @@ import com.noqapp.medical.service.UserMedicalProfileService;
 import com.noqapp.repository.BusinessUserManager;
 import com.noqapp.repository.BusinessUserStoreManager;
 import com.noqapp.service.AccountService;
-import com.noqapp.service.InviteService;
 import com.noqapp.service.ProfessionalProfileService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.UserProfilePreferenceService;
@@ -61,7 +60,6 @@ public class AccountMobileService {
     private BusinessUserManager businessUserManager;
     private BusinessUserStoreManager businessUserStoreManager;
     private JMSProducerService jmsProducerService;
-    private InviteService inviteService;
 
     @Autowired
     public AccountMobileService(
@@ -75,8 +73,7 @@ public class AccountMobileService {
         UserAddressService userAddressService,
         BusinessUserManager businessUserManager,
         BusinessUserStoreManager businessUserStoreManager,
-        JMSProducerService jmsProducerService,
-        InviteService inviteService
+        JMSProducerService jmsProducerService
     ) {
         this.queueLimit = queueLimit;
 
@@ -88,7 +85,6 @@ public class AccountMobileService {
         this.businessUserManager = businessUserManager;
         this.businessUserStoreManager = businessUserStoreManager;
         this.jmsProducerService = jmsProducerService;
-        this.inviteService = inviteService;
     }
 
     /**
@@ -242,7 +238,7 @@ public class AccountMobileService {
     private JsonProfile getProfileAsJson(String qid, UserAccountEntity userAccount) {
         UserProfileEntity userProfile = findProfileByQueueUserId(qid);
         JsonUserAddressList jsonUserAddressList = userAddressService.getAllAsJson(qid);
-        JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount, inviteService.computePoints(qid))
+        JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount, getEarnedPoint(qid))
             .setJsonUserAddresses(jsonUserAddressList.getJsonUserAddresses())
             .setJsonUserPreference(userProfilePreferenceService.findUserPreferenceAsJson(qid));
 
@@ -268,7 +264,8 @@ public class AccountMobileService {
                 jsonProfile.addDependents(
                     JsonProfile.newInstance(
                         findProfileByQueueUserId(qidOfDependent),
-                        findByQueueUserId(qidOfDependent)));
+                        findByQueueUserId(qidOfDependent),
+                        getEarnedPoint(qidOfDependent)));
             }
         }
 
@@ -281,6 +278,10 @@ public class AccountMobileService {
 
     public String updatePhoneNumber(String qid, String phone, String countryShortName, String timeZone) {
         return accountService.updatePhoneNumber(qid, phone, countryShortName, timeZone);
+    }
+
+    public int getEarnedPoint(String qid) {
+        return accountService.getEarnedPoint(qid);
     }
 
     public UserProfileEntity checkUserExistsByPhone(String phone) {

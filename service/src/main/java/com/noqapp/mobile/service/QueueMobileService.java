@@ -8,6 +8,7 @@ import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.Validate;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserEntity;
+import com.noqapp.domain.PointEarnedEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.QueueEntity;
 import com.noqapp.domain.RegisteredDeviceEntity;
@@ -22,18 +23,19 @@ import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
+import com.noqapp.domain.types.PointActivityEnum;
 import com.noqapp.domain.types.SentimentTypeEnum;
 import com.noqapp.domain.types.UserLevelEnum;
 import com.noqapp.mobile.domain.JsonStoreSetting;
 import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
 import com.noqapp.repository.BusinessUserManager;
+import com.noqapp.repository.PointEarnedManager;
 import com.noqapp.repository.QueueManager;
 import com.noqapp.repository.QueueManagerJDBC;
 import com.noqapp.repository.ScheduleAppointmentManager;
 import com.noqapp.repository.StoreHourManager;
 import com.noqapp.repository.UserProfileManager;
 import com.noqapp.service.BizService;
-import com.noqapp.service.CouponService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.PurchaseOrderProductService;
 import com.noqapp.service.PurchaseOrderService;
@@ -75,12 +77,12 @@ public class QueueMobileService {
     private BusinessUserManager businessUserManager;
     private UserProfileManager userProfileManager;
     private ScheduleAppointmentManager scheduleAppointmentManager;
+    private PointEarnedManager pointEarnedManager;
     private BizService bizService;
     private DeviceRegistrationService deviceRegistrationService;
     private NLPService nlpService;
     private PurchaseOrderService purchaseOrderService;
     private PurchaseOrderProductService purchaseOrderProductService;
-    private CouponService couponService;
     private QueueService queueService;
     private JoinAbortService joinAbortService;
     private TokenQueueMobileService tokenQueueMobileService;
@@ -97,12 +99,12 @@ public class QueueMobileService {
         BusinessUserManager businessUserManager,
         UserProfileManager userProfileManager,
         ScheduleAppointmentManager scheduleAppointmentManager,
+        PointEarnedManager pointEarnedManager,
         BizService bizService,
         DeviceRegistrationService deviceRegistrationService,
         NLPService nlpService,
         PurchaseOrderService purchaseOrderService,
         PurchaseOrderProductService purchaseOrderProductService,
-        CouponService couponService,
         QueueService queueService,
         JoinAbortService joinAbortService,
         TokenQueueMobileService tokenQueueMobileService,
@@ -115,12 +117,12 @@ public class QueueMobileService {
         this.businessUserManager = businessUserManager;
         this.userProfileManager = userProfileManager;
         this.scheduleAppointmentManager = scheduleAppointmentManager;
+        this.pointEarnedManager = pointEarnedManager;
         this.bizService = bizService;
         this.deviceRegistrationService = deviceRegistrationService;
         this.nlpService = nlpService;
         this.purchaseOrderService = purchaseOrderService;
         this.purchaseOrderProductService = purchaseOrderProductService;
-        this.couponService = couponService;
         this.queueService = queueService;
         this.joinAbortService = joinAbortService;
         this.tokenQueueMobileService = tokenQueueMobileService;
@@ -370,6 +372,12 @@ public class QueueMobileService {
             //TODO(hth) make sure for Guardian this is taken care. Right now its ignore "GQ" add to MySQL Table
             reviewSubmitStatus = reviewHistoricalService(codeQR, token, did, qid, ratingCount, hoursSaved, review, sentimentType);
         }
+
+        /* Add points on review submission. */
+        if (reviewSubmitStatus && StringUtils.isNotBlank(review)) {
+            pointEarnedManager.save(new PointEarnedEntity(qid, PointActivityEnum.REV));
+        }
+
         sendMailWhenSentimentIsNegative(codeQR, token, ratingCount, hoursSaved, review, sentimentType);
 
         LOG.info("Review update status={} codeQR={} token={} ratingCount={} hoursSaved={} did={} qid={} review={} sentimentType={}",

@@ -17,7 +17,6 @@ import com.noqapp.common.utils.Formatter;
 import com.noqapp.common.utils.ParseJsonStringToMap;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
-import com.noqapp.domain.UserAddressEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfile;
 import com.noqapp.domain.json.JsonResponse;
@@ -33,7 +32,6 @@ import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.ImageValidator;
-import com.noqapp.service.InviteService;
 import com.noqapp.service.UserAddressService;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 import com.noqapp.social.exception.AccountNotActiveException;
@@ -90,7 +88,6 @@ public class ClientProfileAPIController {
     private ProfileCommonHelper profileCommonHelper;
     private ImageCommonHelper imageCommonHelper;
     private ImageValidator imageValidator;
-    private InviteService inviteService;
 
     @Autowired
     public ClientProfileAPIController(
@@ -101,8 +98,7 @@ public class ClientProfileAPIController {
         UserAddressService userAddressService,
         ProfileCommonHelper profileCommonHelper,
         ImageCommonHelper imageCommonHelper,
-        ImageValidator imageValidator,
-        InviteService inviteService
+        ImageValidator imageValidator
     ) {
         this.authenticateMobileService = authenticateMobileService;
         this.apiHealthService = apiHealthService;
@@ -112,7 +108,6 @@ public class ClientProfileAPIController {
         this.profileCommonHelper = profileCommonHelper;
         this.imageCommonHelper = imageCommonHelper;
         this.imageValidator = imageValidator;
-        this.inviteService = inviteService;
     }
 
     @GetMapping(
@@ -374,14 +369,15 @@ public class ClientProfileAPIController {
                 }
 
                 userProfile = accountMobileService.findProfileByQueueUserId(userAccount.getQueueUserId());
-                JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount, inviteService.computePoints(userAccount.getQueueUserId()));
+                JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount, accountMobileService.getEarnedPoint(userAccount.getQueueUserId()));
 
                 if (null != userProfile.getQidOfDependents()) {
                     for (String qidOfDependent : userProfile.getQidOfDependents()) {
                         jsonProfile.addDependents(
                             JsonProfile.newInstance(
                                 accountMobileService.findProfileByQueueUserId(qidOfDependent),
-                                accountMobileService.findByQueueUserId(qidOfDependent)));
+                                accountMobileService.findByQueueUserId(qidOfDependent),
+                                accountMobileService.getEarnedPoint(qidOfDependent)));
                     }
                 }
 
@@ -501,14 +497,15 @@ public class ClientProfileAPIController {
 
                 /* Note: Added temp mail directly, without updating profile data. */
                 userProfile.setEmail(mailMigrate);
-                JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount, inviteService.computePoints(qid));
+                JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount, accountMobileService.getEarnedPoint(qid));
 
                 if (null != userProfile.getQidOfDependents()) {
                     for (String qidOfDependent : userProfile.getQidOfDependents()) {
                         jsonProfile.addDependents(
                             JsonProfile.newInstance(
                                 accountMobileService.findProfileByQueueUserId(qidOfDependent),
-                                accountMobileService.findByQueueUserId(qidOfDependent)));
+                                accountMobileService.findByQueueUserId(qidOfDependent),
+                                accountMobileService.getEarnedPoint(qidOfDependent)));
                     }
                 }
 

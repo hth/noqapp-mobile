@@ -95,10 +95,10 @@ import com.noqapp.repository.ForgotRecoverManager;
 import com.noqapp.repository.ForgotRecoverManagerImpl;
 import com.noqapp.repository.GenerateUserIdManager;
 import com.noqapp.repository.GenerateUserIdManagerImpl;
-import com.noqapp.repository.InviteManager;
-import com.noqapp.repository.InviteManagerImpl;
 import com.noqapp.repository.NotificationMessageManager;
 import com.noqapp.repository.NotificationMessageManagerImpl;
+import com.noqapp.repository.PointEarnedManager;
+import com.noqapp.repository.PointEarnedManagerImpl;
 import com.noqapp.repository.PreferredBusinessManager;
 import com.noqapp.repository.PreferredBusinessManagerImpl;
 import com.noqapp.repository.ProfessionalProfileManager;
@@ -176,7 +176,6 @@ import com.noqapp.service.FirebaseMessageService;
 import com.noqapp.service.FirebaseService;
 import com.noqapp.service.FtpService;
 import com.noqapp.service.GenerateUserIdService;
-import com.noqapp.service.InviteService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.LanguageTranslationService;
 import com.noqapp.service.MailService;
@@ -258,7 +257,6 @@ public class ITest extends RealMongoForITest {
     protected AccountService accountService;
     protected AccountMobileService accountMobileService;
     protected UserProfilePreferenceService userProfilePreferenceService;
-    protected InviteService inviteService;
     protected AccountClientValidator accountClientValidator;
     protected DeviceRegistrationService deviceRegistrationService;
     protected TokenQueueMobileService tokenQueueMobileService;
@@ -317,7 +315,6 @@ public class ITest extends RealMongoForITest {
     protected EmailValidateManager emailValidateManager;
     protected EmailValidateService emailValidateService;
     protected ForgotRecoverManager forgotRecoverManager;
-    protected InviteManager inviteManager;
     protected RegisteredDeviceManager registeredDeviceManager;
     protected NotificationMessageManager notificationMessageManager;
     protected BizNameManager bizNameManager;
@@ -339,6 +336,7 @@ public class ITest extends RealMongoForITest {
     protected PropertyRentalManager propertyRentalManager;
     protected HouseholdItemManager householdItemManager;
     protected ScheduleAppointmentManager scheduleAppointmentManager;
+    protected PointEarnedManager pointEarnedManager;
     protected CouponManager couponManager;
     protected CustomTextToSpeechManager customTextToSpeechManager;
 
@@ -432,7 +430,6 @@ public class ITest extends RealMongoForITest {
         userProfileManager = new UserProfileManagerImpl(getMongoTemplate());
         generateUserIdManager = new GenerateUserIdManagerImpl(getMongoTemplate());
         emailValidateManager = new EmailValidateManagerImpl(getMongoTemplate());
-        inviteManager = new InviteManagerImpl(getMongoTemplate());
         forgotRecoverManager = new ForgotRecoverManagerImpl(getMongoTemplate());
         registeredDeviceManager = new RegisteredDeviceManagerImpl(getMongoTemplate());
         userMedicalProfileManager = new UserMedicalProfileManagerImpl(getMongoTemplate());
@@ -448,27 +445,26 @@ public class ITest extends RealMongoForITest {
         bizStoreManager = new BizStoreManagerImpl(getMongoTemplate());
         statsBizStoreDailyManager = new StatsBizStoreDailyManagerImpl(getMongoTemplate());
         scheduleAppointmentManager = new ScheduleAppointmentManagerImpl(getMongoTemplate());
+        pointEarnedManager = new PointEarnedManagerImpl(getMongoTemplate());
         couponManager = new CouponManagerImpl(getMongoTemplate());
         apiHealthNowManager = new ApiHealthNowManagerImpl(getMongoTemplate());
         userAddressManager = new UserAddressManagerImpl(5, getMongoTemplate());
 
         generateUserIdService = new GenerateUserIdService(generateUserIdManager);
         emailValidateService = new EmailValidateService(emailValidateManager);
-        inviteService = new InviteService(inviteManager);
         userMedicalProfileService = new UserMedicalProfileService(userMedicalProfileManager, userMedicalProfileHistoryManager);
         nlpService = new NLPService(stanfordCoreNLP, maxentTagger);
         businessCustomerPriorityService = new BusinessCustomerPriorityService(businessCustomerPriorityManager, bizNameManager);
         userAddressService = new UserAddressService(5, userAddressManager);
 
         accountService = new AccountService(
-            5,
             userAccountManager,
             userAuthenticationManager,
             userPreferenceManager,
             userProfileManager,
+            pointEarnedManager,
             generateUserIdService,
             emailValidateService,
-            inviteService,
             forgotRecoverManager,
             userAddressService,
             stringRedisTemplate
@@ -507,8 +503,7 @@ public class ITest extends RealMongoForITest {
             userAddressService,
             businessUserManager,
             businessUserStoreManager,
-            jmsProducerService,
-            inviteService
+            jmsProducerService
         );
 
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6, 6);
@@ -655,6 +650,7 @@ public class ITest extends RealMongoForITest {
             purchaseOrderProductManagerJDBC,
             queueManager,
             queueManagerJDBC,
+            pointEarnedManager,
             couponService,
             userAddressService,
             firebaseMessageService,
@@ -684,7 +680,7 @@ public class ITest extends RealMongoForITest {
             queueService,
             messageCustomerService);
 
-        storeDetailService = new StoreDetailService(bizService, tokenQueueMobileService, storeProductService, storeCategoryService, queueService, storeHourService);
+        storeDetailService = new StoreDetailService(bizService, storeProductService, storeCategoryService, queueService, storeHourService);
         bizStoreElasticManager = new BizStoreElasticManagerImpl(restHighLevelClient);
         bizStoreSpatialElasticManager = new BizStoreSpatialElasticManagerImpl(restHighLevelClient);
         bizStoreSpatialElasticService = new BizStoreSpatialElasticService(bizStoreSpatialElasticManager, elasticsearchClientConfiguration);
@@ -715,12 +711,12 @@ public class ITest extends RealMongoForITest {
             businessUserManager,
             userProfileManager,
             scheduleAppointmentManager,
+            pointEarnedManager,
             bizService,
             deviceRegistrationService,
             nlpService,
             purchaseOrderService,
             purchaseOrderProductService,
-            couponService,
             queueService,
             joinAbortService,
             tokenQueueMobileService,
@@ -749,6 +745,7 @@ public class ITest extends RealMongoForITest {
             storeHourManager,
             userProfileManager,
             userAccountManager,
+            userPreferenceManager,
             registeredDeviceManager,
             tokenQueueManager,
             scheduledTaskManager,
