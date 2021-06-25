@@ -77,8 +77,7 @@ class ClientProfileAPIControllerITest extends ITest {
             userAddressService,
             profileCommonHelper,
             imageCommonHelper,
-            new ImageValidator(),
-            inviteService
+            new ImageValidator()
         );
     }
 

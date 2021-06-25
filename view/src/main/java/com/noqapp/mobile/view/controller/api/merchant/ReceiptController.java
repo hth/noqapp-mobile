@@ -157,7 +157,8 @@ public class ReceiptController {
 
             UserAccountEntity userAccount = accountService.findByQueueUserId(purchaseOrder.getQueueUserId());
             UserProfileEntity userProfile = accountService.findProfileByQueueUserId(purchaseOrder.getQueueUserId());
-            JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount);
+            int earnedPoint = accountService.getEarnedPoint(purchaseOrder.getQueueUserId());
+            JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount, earnedPoint);
             receipt.setJsonProfile(jsonProfile);
 
             switch (bizStore.getBusinessType()) {

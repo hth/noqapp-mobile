@@ -40,7 +40,6 @@ import java.util.TimeZone;
 public class StoreDetailService {
 
     private BizService bizService;
-    private TokenQueueMobileService tokenQueueMobileService;
     private StoreProductService storeProductService;
     private StoreCategoryService storeCategoryService;
     private QueueService queueService;
@@ -49,14 +48,12 @@ public class StoreDetailService {
     @Autowired
     public StoreDetailService(
         BizService bizService,
-        TokenQueueMobileService tokenQueueMobileService,
         StoreProductService storeProductService,
         StoreCategoryService storeCategoryService,
         QueueService queueService,
         StoreHourService storeHourService
     ) {
         this.bizService = bizService;
-        this.tokenQueueMobileService = tokenQueueMobileService;
         this.storeProductService = storeProductService;
         this.storeCategoryService = storeCategoryService;
         this.queueService = queueService;
