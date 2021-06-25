@@ -193,7 +193,7 @@ public class FavouriteAPIController {
 
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
-            LOG.error("Failed getting favorite reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed action on favorite reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new JsonResponse(false).asJson();
         } finally {
