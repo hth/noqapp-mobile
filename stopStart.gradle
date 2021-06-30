@@ -2,11 +2,15 @@ if (!hasProperty('env')) {
     ext.env = System.env['GRADLE_ENV']
 }
 
+boolean simultaneouslyShutdownStart = false
+if (!hasProperty('simultaneouslyShutdownStart')) {
+    simultaneouslyShutdownStart = true
+}
+
 println "Building for environment: $env"
 
 buildscript {
     repositories {
-        jcenter()
     }
     dependencies {
         classpath 'org.hidetake:gradle-ssh-plugin:2.7.0'
@@ -83,33 +87,79 @@ remotes {
 
 task stopStartServer {
     if (env == 'sandbox') {
-        stopStart(remotes.sn1, "10.0.0.54")
-        stopStartMobile(remotes.sr1, "10.0.0.52")
+        if (simultaneouslyShutdownStart) {
+            stop(remotes.sn1, "10.0.0.54")
+            stop(remotes.sr1, "10.0.0.52")
 
-        stopStart(remotes.sn2, "10.0.0.64")
-        stopStartMobile(remotes.sr2, "10.0.0.62")
+            stop(remotes.sn2, "10.0.0.64")
+            stop(remotes.sr2, "10.0.0.62")
 
-        stopStart(remotes.sn4, "10.0.0.84")
-        stopStartMobile(remotes.sr3, "10.0.0.72")
+            stop(remotes.sn4, "10.0.0.84")
+            stop(remotes.sr3, "10.0.0.72")
+
+            start(remotes.sn1, "10.0.0.54")
+            startMobile(remotes.sr1, "10.0.0.52")
+
+            start(remotes.sn2, "10.0.0.64")
+            startMobile(remotes.sr2, "10.0.0.62")
+
+            start(remotes.sn4, "10.0.0.84")
+            startMobile(remotes.sr3, "10.0.0.72")
+        } else {
+            stopStart(remotes.sn1, "10.0.0.54")
+            stopStartMobile(remotes.sr1, "10.0.0.52")
+
+            stopStart(remotes.sn2, "10.0.0.64")
+            stopStartMobile(remotes.sr2, "10.0.0.62")
+
+            stopStart(remotes.sn4, "10.0.0.84")
+            stopStartMobile(remotes.sr3, "10.0.0.72")
+        }
     }
     if (env == 'prod') {
-        stopStart(remotes.n1, "10.0.0.53")
-        stopStartMobile(remotes.r1, "10.0.0.51")
+        if (simultaneouslyShutdownStart) {
+            stop(remotes.n1, "10.0.0.53")
+            stop(remotes.r1, "10.0.0.51")
 
-        stopStart(remotes.n2, "10.0.0.63")
-        stopStartMobile(remotes.r2, "10.0.0.61")
+            stop(remotes.n2, "10.0.0.63")
+            stop(remotes.r2, "10.0.0.61")
 
-        stopStart(remotes.n3, "10.0.0.73")
-        stopStartMobile(remotes.r3, "10.0.0.71")
+            stop(remotes.n3, "10.0.0.73")
+            stop(remotes.r3, "10.0.0.71")
 
-        stopStart(remotes.n4, "10.0.0.83")
-        stopStartMobile(remotes.r4, "10.0.0.81")
+            stop(remotes.n4, "10.0.0.83")
+            stop(remotes.r4, "10.0.0.81")
+
+            start(remotes.n1, "10.0.0.53")
+            startMobile(remotes.r1, "10.0.0.51")
+
+            start(remotes.n2, "10.0.0.63")
+            startMobile(remotes.r2, "10.0.0.61")
+
+            start(remotes.n3, "10.0.0.73")
+            startMobile(remotes.r3, "10.0.0.71")
+
+            start(remotes.n4, "10.0.0.83")
+            startMobile(remotes.r4, "10.0.0.81")
+        } else {
+            stopStart(remotes.n1, "10.0.0.53")
+            stopStartMobile(remotes.r1, "10.0.0.51")
+
+            stopStart(remotes.n2, "10.0.0.63")
+            stopStartMobile(remotes.r2, "10.0.0.61")
+
+            stopStart(remotes.n3, "10.0.0.73")
+            stopStartMobile(remotes.r3, "10.0.0.71")
+
+            stopStart(remotes.n4, "10.0.0.83")
+            stopStartMobile(remotes.r4, "10.0.0.81")
+        }
     }
 }
 
 def stopStart(def server, def ip) {
     logger.lifecycle("--------------------------------------------")
-    logger.lifecycle("         Stop and Start to $server for $env")
+    logger.lifecycle("Stop and Start to $server for $env and simultaneouslyShutdownStart = $simultaneouslyShutdownStart")
     logger.lifecycle("--------------------------------------------")
 
     sshExecute(server, 'sudo service tomcat stop')
@@ -124,11 +174,42 @@ def stopStart(def server, def ip) {
 
 def stopStartMobile(def server, def ip) {
     logger.lifecycle("--------------------------------------------")
-    logger.lifecycle("         Stop and Start to $server for $env")
+    logger.lifecycle("Stop and Start to $server for $env and simultaneouslyShutdownStart = $simultaneouslyShutdownStart")
     logger.lifecycle("--------------------------------------------")
 
     sshExecute(server, 'sudo service tomcat stop')
     sshExecute(server, 'sleep 20')
+
+    sshExecute(server, "sudo service tomcat start")
+    sshExecute(server, "sleep 35")
+    sshExecute(server, "sudo service tomcat status")
+    sshExecute(server, "wget -qO- http://$ip:8080/open/healthCheck > /dev/null 2>&1")
+}
+
+def stop(def server, def ip) {
+    logger.lifecycle("--------------------------------------------")
+    logger.lifecycle("Stop to $server for $env and simultaneouslyShutdownStart = $simultaneouslyShutdownStart")
+    logger.lifecycle("--------------------------------------------")
+
+    sshExecute(server, 'sudo service tomcat stop')
+}
+
+def start(def server, def ip) {
+    logger.lifecycle("--------------------------------------------")
+    logger.lifecycle("Start to $server for $env and simultaneouslyShutdownStart = $simultaneouslyShutdownStart")
+    logger.lifecycle("--------------------------------------------")
+
+    sshExecute(server, "sudo service tomcat start")
+    sshExecute(server, "sleep 35")
+    sshExecute(server, "sudo service tomcat status")
+    sshExecute(server, "curl -I http://$ip:8080/open/login")
+    sshExecute(server, "wget -qO- http://$ip:8080/open/login > /dev/null 2>&1")
+}
+
+def startMobile(def server, def ip) {
+    logger.lifecycle("--------------------------------------------")
+    logger.lifecycle("Start Mobile to $server for $env and simultaneouslyShutdownStart = $simultaneouslyShutdownStart")
+    logger.lifecycle("--------------------------------------------")
 
     sshExecute(server, "sudo service tomcat start")
     sshExecute(server, "sleep 35")
