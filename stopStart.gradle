@@ -6,12 +6,12 @@ if (!hasProperty('env')) {
     ext.env = System.env['GRADLE_ENV']
 }
 
-boolean simultaneouslyShutdownStart = false
+ext.simultaneouslyShutdownStart = false;
 if (!hasProperty('simultaneouslyShutdownStart')) {
-    simultaneouslyShutdownStart = true
+    ext.simultaneouslyShutdownStart = System.getProperty("simultaneouslyShutdownStart")
 }
 
-println "Building for environment: $env"
+println "Building for environment: $env & simultaneouslyShutdownStart: $simultaneouslyShutdownStart"
 
 ssh.settings {
     dryRun = false
@@ -81,7 +81,7 @@ remotes {
 
 task stopStartServer {
     if (env == 'sandbox') {
-        if (simultaneouslyShutdownStart) {
+        if (simultaneouslyShutdownStart.toBoolean()) {
             stop(remotes.sn1, "10.0.0.54")
             stop(remotes.sr1, "10.0.0.52")
 
@@ -111,7 +111,7 @@ task stopStartServer {
         }
     }
     if (env == 'prod') {
-        if (simultaneouslyShutdownStart) {
+        if (simultaneouslyShutdownStart.toBoolean()) {
             stop(remotes.n1, "10.0.0.53")
             stop(remotes.r1, "10.0.0.51")
 
