@@ -13,9 +13,8 @@ if (!hasProperty('env')) {
     ext.env = System.env['GRADLE_ENV']
 }
 
-ext.simultaneouslyShutdownStart = false;
 if (!hasProperty('simultaneouslyShutdownStart')) {
-    ext.simultaneouslyShutdownStart = System.getProperty("simultaneouslyShutdownStart")
+    println "Please set simultaneouslyShutdownStart: $simultaneouslyShutdownStart property"
 }
 
 println "Building for environment: $env & simultaneouslyShutdownStart: $simultaneouslyShutdownStart"
