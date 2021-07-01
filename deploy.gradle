@@ -13,7 +13,8 @@ if (!hasProperty('fastEnabled')) {
 println "Building for environment: $env & fastEnabled: $fastEnabled"
 
 ssh.settings {
-    dryRun = false
+    // ./gradlew -PdryRun -i reload
+    dryRun = true
     logging = 'stdout'
     timeoutSec = 600000
     identity = file("${System.properties['user.home']}/.ssh/id_rsa")
