@@ -5,6 +5,7 @@ import com.noqapp.domain.BusinessUserEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.ProfessionalProfileEntity;
 import com.noqapp.domain.UserAccountEntity;
+import com.noqapp.domain.UserPreferenceEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.flow.RegisterUser;
 import com.noqapp.domain.helper.NameDatePair;
@@ -280,7 +281,7 @@ public class AccountMobileService {
         return accountService.updatePhoneNumber(qid, phone, countryShortName, timeZone);
     }
 
-    public int getEarnedPoint(String qid) {
+    public UserPreferenceEntity getEarnedPoint(String qid) {
         return accountService.getEarnedPoint(qid);
     }
 

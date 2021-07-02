@@ -12,6 +12,7 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessUserStoreEntity;
 import com.noqapp.domain.PurchaseOrderEntity;
 import com.noqapp.domain.UserAccountEntity;
+import com.noqapp.domain.UserPreferenceEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfessionalProfile;
 import com.noqapp.domain.json.JsonProfile;
@@ -157,8 +158,8 @@ public class ReceiptController {
 
             UserAccountEntity userAccount = accountService.findByQueueUserId(purchaseOrder.getQueueUserId());
             UserProfileEntity userProfile = accountService.findProfileByQueueUserId(purchaseOrder.getQueueUserId());
-            int earnedPoint = accountService.getEarnedPoint(purchaseOrder.getQueueUserId());
-            JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount, earnedPoint);
+            UserPreferenceEntity userPreference = accountService.getEarnedPoint(purchaseOrder.getQueueUserId());
+            JsonProfile jsonProfile = JsonProfile.newInstance(userProfile, userAccount, userPreference);
             receipt.setJsonProfile(jsonProfile);
 
             switch (bizStore.getBusinessType()) {
