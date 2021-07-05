@@ -3,6 +3,7 @@ package com.noqapp.mobile.service;
 import com.noqapp.common.utils.Constants;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.repository.UserAccountManager;
+import com.noqapp.service.cache.MailAuthCache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,7 @@ public class AuthenticateMobileService {
     }
 
     /** Finds authenticated queue user id. */
-    @Cacheable(value = "mail-auth")
+    @MailAuthCache
     public String getQueueUserId(String mail, String auth) {
         UserAccountEntity userAccount = findUserAccount(mail, auth);
         if (null != userAccount) {
