@@ -60,7 +60,7 @@ public class AccountMobileService {
     private UserAddressService userAddressService;
     private BusinessUserManager businessUserManager;
     private BusinessUserStoreManager businessUserStoreManager;
-    private JMSProducerService jmsProducerService;
+    private JMSProducerMobileService jmsProducerMobileService;
 
     @Autowired
     public AccountMobileService(
@@ -74,7 +74,7 @@ public class AccountMobileService {
         UserAddressService userAddressService,
         BusinessUserManager businessUserManager,
         BusinessUserStoreManager businessUserStoreManager,
-        JMSProducerService jmsProducerService
+        JMSProducerMobileService jmsProducerMobileService
     ) {
         this.queueLimit = queueLimit;
 
@@ -85,7 +85,7 @@ public class AccountMobileService {
         this.userAddressService = userAddressService;
         this.businessUserManager = businessUserManager;
         this.businessUserStoreManager = businessUserStoreManager;
-        this.jmsProducerService = jmsProducerService;
+        this.jmsProducerMobileService = jmsProducerMobileService;
     }
 
     /**
@@ -191,7 +191,7 @@ public class AccountMobileService {
     }
 
     private void sendValidationEmail(UserAccountEntity userAccount) {
-        jmsProducerService.invokeMailOnSignUp(userAccount);
+        jmsProducerMobileService.invokeMailOnSignUp(userAccount);
     }
 
     public UserAccountEntity findByQueueUserId(String qid) {
@@ -304,7 +304,7 @@ public class AccountMobileService {
     }
 
     private void populateChangeMailWithData(UserProfileEntity userProfile, String migrateToMail) {
-        jmsProducerService.invokeMailOnMailChange(migrateToMail, userProfile.getName(), userProfile.getMailOTP());
+        jmsProducerMobileService.invokeMailOnMailChange(migrateToMail, userProfile.getName(), userProfile.getMailOTP());
     }
 
     public void updateUserProfile(RegisterUser registerUser, String email) {

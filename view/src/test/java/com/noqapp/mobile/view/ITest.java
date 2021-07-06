@@ -63,7 +63,7 @@ import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.DeviceRegistrationService;
-import com.noqapp.mobile.service.JMSProducerService;
+import com.noqapp.mobile.service.JMSProducerMobileService;
 import com.noqapp.mobile.service.MedicalRecordMobileService;
 import com.noqapp.mobile.service.MerchantExtendingJoinService;
 import com.noqapp.mobile.service.PurchaseOrderMobileService;
@@ -392,7 +392,7 @@ public class ITest extends RealMongoForITest {
     @Mock protected FirebaseConfig firebaseConfig;
     @Mock protected TextToSpeechConfiguration textToSpeechConfiguration;
     @Mock protected SmsService smsService;
-    @Mock protected JMSProducerService jmsProducerService;
+    @Mock protected JMSProducerMobileService jmsProducerMobileService;
     @Mock protected LanguageTranslationService languageTranslationService;
     @Mock protected StringRedisTemplate stringRedisTemplate;
 
@@ -503,7 +503,7 @@ public class ITest extends RealMongoForITest {
             userAddressService,
             businessUserManager,
             businessUserStoreManager,
-            jmsProducerService
+            jmsProducerMobileService
         );
 
         accountClientValidator = new AccountClientValidator(4, 5, 1, 2, 6, 6);
@@ -720,7 +720,7 @@ public class ITest extends RealMongoForITest {
             queueService,
             joinAbortService,
             tokenQueueMobileService,
-            jmsProducerService,
+            jmsProducerMobileService,
             storeHourService
         );
 

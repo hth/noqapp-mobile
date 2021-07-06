@@ -26,21 +26,21 @@ public class FeedbackService {
     private static final Logger LOG = LoggerFactory.getLogger(FeedbackService.class);
 
     private AccountMobileService accountMobileService;
-    private JMSProducerService jmsProducerService;
+    private JMSProducerMobileService jmsProducerMobileService;
 
     @Autowired
     public FeedbackService(
         AccountMobileService accountMobileService,
-        JMSProducerService jmsProducerService
+        JMSProducerMobileService jmsProducerMobileService
     ) {
 
         this.accountMobileService = accountMobileService;
-        this.jmsProducerService = jmsProducerService;
+        this.jmsProducerMobileService = jmsProducerMobileService;
     }
 
     public void submitFeedback(String qid, Feedback feedback) {
         UserAccountEntity userAccount = accountMobileService.findByQueueUserId(qid);
-        jmsProducerService.invokeMailOnFeedback(
+        jmsProducerMobileService.invokeMailOnFeedback(
             userAccount.getUserId(),
             qid,
             userAccount.getName(),

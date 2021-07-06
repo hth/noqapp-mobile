@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  * 7/20/20 7:41 PM
  */
 @Service
-public class JMSProducerService {
+public class JMSProducerMobileService {
     private String activemqDestinationMailSignUp;
     private String activemqDestinationMailChange;
     private String activemqDestinationFeedback;
@@ -29,7 +29,7 @@ public class JMSProducerService {
     private JmsTemplate jmsReviewNegativeTemplate;
 
     @Autowired
-    public JMSProducerService(
+    public JMSProducerMobileService(
         @Value("${activemq.destination.mail.signup}")
         String activemqDestinationMailSignUp,
 

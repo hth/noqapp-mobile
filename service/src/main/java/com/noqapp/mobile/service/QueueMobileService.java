@@ -86,7 +86,7 @@ public class QueueMobileService {
     private QueueService queueService;
     private JoinAbortService joinAbortService;
     private TokenQueueMobileService tokenQueueMobileService;
-    private JMSProducerService jmsProducerService;
+    private JMSProducerMobileService jmsProducerMobileService;
     private StoreHourService storeHourService;
 
     private ExecutorService executorService;
@@ -108,7 +108,7 @@ public class QueueMobileService {
         QueueService queueService,
         JoinAbortService joinAbortService,
         TokenQueueMobileService tokenQueueMobileService,
-        JMSProducerService jmsProducerService,
+        JMSProducerMobileService jmsProducerMobileService,
         StoreHourService storeHourService
     ) {
         this.queueManager = queueManager;
@@ -126,7 +126,7 @@ public class QueueMobileService {
         this.queueService = queueService;
         this.joinAbortService = joinAbortService;
         this.tokenQueueMobileService = tokenQueueMobileService;
-        this.jmsProducerService = jmsProducerService;
+        this.jmsProducerMobileService = jmsProducerMobileService;
         this.storeHourService = storeHourService;
 
         this.executorService = newCachedThreadPool();
@@ -399,7 +399,7 @@ public class QueueMobileService {
 
             QueueEntity queue = queueManager.findOne(codeQR, token);
             for (BusinessUserEntity businessUser : businessUsers) {
-                jmsProducerService.invokeMailOnReviewNegative(
+                jmsProducerMobileService.invokeMailOnReviewNegative(
                     queue.getDisplayName(),
                     queue.getCustomerName(),
                     queue.getCustomerPhone(),
