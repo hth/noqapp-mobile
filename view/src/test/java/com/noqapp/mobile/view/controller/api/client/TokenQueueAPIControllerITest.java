@@ -1,14 +1,17 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.utils.DateUtil.DTF_YYYY_MM_DD;
 import static com.noqapp.common.utils.DateUtil.MINUTES_IN_MILLISECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.RandomString;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.UserAccountEntity;
+import com.noqapp.domain.json.JsonSchedule;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.AppointmentStateEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
@@ -59,6 +62,7 @@ class TokenQueueAPIControllerITest extends ITest {
 
     private TokenQueueAPIController tokenQueueAPIController;
     private AccountClientController accountClientController;
+    private AppointmentController appointmentController;
 
     private final List<String> mails = new LinkedList<>();
     private final List<String> flexAppointmentUsers = new LinkedList<>();
@@ -68,6 +72,9 @@ class TokenQueueAPIControllerITest extends ITest {
 
     private BizStoreEntity bizStore2;
     private StoreHourEntity storeHour2;
+
+    private final int registeredUser = 210;
+    private final int flexAppointmentUser = 250;
 
     @BeforeEach
     void setUp() throws IOException {
@@ -94,6 +101,16 @@ class TokenQueueAPIControllerITest extends ITest {
             deviceRegistrationService,
             hospitalVisitScheduleService,
             authenticateMobileService
+        );
+
+        appointmentController = new AppointmentController(
+            userProfileManager,
+            bizStoreManager,
+            tokenQueueMobileService,
+            authenticateMobileService,
+            scheduleAppointmentService,
+            joinAbortService,
+            apiHealthService
         );
 
         registerStore();
@@ -148,7 +165,7 @@ class TokenQueueAPIControllerITest extends ITest {
 
     /** Create new users. */
     private void registerUsers() {
-        for (int i = 0; i < 210; i++) {
+        for (int i = 0; i < registeredUser; i++) {
             String phone = "+91" + StringUtils.leftPad(String.valueOf(i), 10, '0');
             String name = RandomString.newInstance(6).nextString().toLowerCase();
             Registration user = new Registration()
@@ -172,7 +189,7 @@ class TokenQueueAPIControllerITest extends ITest {
             mails.add(name + "@r.com");
         }
 
-        for (int i = 210; i <= 250; i++) {
+        for (int i = registeredUser; i < flexAppointmentUser; i++) {
             String phone = "+91" + StringUtils.leftPad(String.valueOf(i), 10, '0');
             String name = RandomString.newInstance(6).nextString().toLowerCase();
             Registration user = new Registration()
@@ -217,9 +234,28 @@ class TokenQueueAPIControllerITest extends ITest {
         }
     }
 
-    void joinQueueWithFlexAppointment() {
+    @Test
+    void joinQueueWithFlexAppointment() throws IOException {
         for (String mail : flexAppointmentUsers) {
+            UserAccountEntity userAccount = userAccountManager.findByUserId(mail);
 
+            JsonSchedule jsonSchedule = new JsonSchedule()
+                .setCodeQR(bizStore2.getCodeQR())
+                .setScheduleDate(DateUtil.getZonedDateTimeAtUTC().format(DTF_YYYY_MM_DD))
+                .setStartTime(930)
+                .setEndTime(1000)
+                .setQueueUserId(userAccount.getQueueUserId())
+                .setAppointmentState(bizStore2.getAppointmentState());
+
+            String bookedAppointment_String = appointmentController.bookAppointment(
+                new ScrubbedInput(userAccount.getUserId()),
+                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+                jsonSchedule,
+                httpServletResponse
+            );
+
+            JsonSchedule bookedAppointment = new ObjectMapper().readValue(bookedAppointment_String, JsonSchedule.class);
+            LOG.info("Appointment booked {}", bookedAppointment_String);
         }
     }
 
