@@ -33,6 +33,7 @@ import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 
@@ -59,8 +60,12 @@ class TokenQueueAPIControllerITest extends ITest {
     private TokenQueueAPIController tokenQueueAPIController;
     private AccountClientController accountClientController;
 
+    private final List<String> mails = new LinkedList<>();
+    private BizStoreEntity bizStore;
+    private StoreHourEntity storeHour;
+
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         tokenQueueAPIController = new TokenQueueAPIController(
             tokenQueueMobileService,
             joinAbortService,
@@ -85,25 +90,21 @@ class TokenQueueAPIControllerITest extends ITest {
             hospitalVisitScheduleService,
             authenticateMobileService
         );
+
+        registerStore();
+        registerUsers();
+        preAuthorizeUser();
     }
 
-    /** Test works but fails when store hours have ended. */
-//    @Test
-    @Ignore("Tests token issued when limited token available")
-    void joinQueue() throws IOException {
-        Authentication authentication = Mockito.mock(Authentication.class);
-        // Mockito.whens() for your authorization object
-        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
-        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-
+    /** Registers new users. */
+    private void registerStore() {
         BizNameEntity bizName = bizService.findByPhone("9118000000041");
-        BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
+        bizStore = bizService.findOneBizStore(bizName.getId());
         bizStore.setAverageServiceTime(114000).setAvailableTokenCount(200);
         bizStore.setTimeZone("Pacific/Honolulu");
         bizService.saveStore(bizStore, "Changed AST");
 
-        StoreHourEntity storeHour = storeHourService.getStoreHours(bizStore.getCodeQR(), bizStore);
+        storeHour = storeHourService.getStoreHours(bizStore.getCodeQR(), bizStore);
         storeHour.setStartHour(930)
             .setEndHour(1600)
             .setLunchTimeStart(1300)
@@ -116,8 +117,10 @@ class TokenQueueAPIControllerITest extends ITest {
         storeHourManager.save(storeHour);
         long averageServiceTime = ServiceUtils.computeAverageServiceTime(storeHour, bizStore.getAvailableTokenCount());
         bizService.updateStoreTokenAndServiceTime(bizStore.getCodeQR(), averageServiceTime, bizStore.getAvailableTokenCount());
+    }
 
-        List<String> mails = new LinkedList<>();
+    /** Create new users. */
+    private void registerUsers() {
         for (int i = 0; i < 210; i++) {
             String phone = "+91" + StringUtils.leftPad(String.valueOf(i), 10, '0');
             String name = RandomString.newInstance(6).nextString().toLowerCase();
@@ -141,8 +144,10 @@ class TokenQueueAPIControllerITest extends ITest {
 
             mails.add(name + "@r.com");
         }
+    }
 
-        Map<String, String> display = new LinkedHashMap<>();
+    /** Authorized user for Stores. */
+    private void preAuthorizeUser() throws IOException {
         for (String mail : mails) {
             UserAccountEntity userAccount = userAccountManager.findByUserId(mail);
             QueueAuthorize queueAuthorize = new QueueAuthorize()
@@ -158,6 +163,22 @@ class TokenQueueAPIControllerITest extends ITest {
                 queueAuthorize,
                 httpServletResponse
             );
+        }
+    }
+
+    /** Test works but fails when store hours have ended. Tested working on 2021-07-08 */
+    @Test
+    //@Ignore("Tests token issued when limited token available")
+    void joinQueue() throws IOException {
+        Authentication authentication = Mockito.mock(Authentication.class);
+        // Mockito.whens() for your authorization object
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        Map<String, String> display = new LinkedHashMap<>();
+        for (String mail : mails) {
+            UserAccountEntity userAccount = userAccountManager.findByUserId(mail);
 
             String jsonToken_String = tokenQueueAPIController.joinQueue(
                 new ScrubbedInput(UUID.randomUUID().toString()),
@@ -191,6 +212,8 @@ class TokenQueueAPIControllerITest extends ITest {
         for (String key : count.keySet()) {
             System.out.println(key + " " + count.get(key));
         }
+
+        long averageServiceTime = ServiceUtils.computeAverageServiceTime(storeHour, bizStore.getAvailableTokenCount());
         System.out.println("averageServiceTime=" + new BigDecimal(averageServiceTime).divide(new BigDecimal(MINUTES_IN_MILLISECONDS), MathContext.DECIMAL64) + " minutes per user");
         assertEquals(200, display.size(), "Number of token issued must be equal");
     }
