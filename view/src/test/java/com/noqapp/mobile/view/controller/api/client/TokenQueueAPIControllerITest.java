@@ -10,6 +10,7 @@ import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.json.JsonToken;
+import com.noqapp.domain.types.AppointmentStateEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.domain.body.client.QueueAuthorize;
@@ -29,7 +30,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -61,8 +61,13 @@ class TokenQueueAPIControllerITest extends ITest {
     private AccountClientController accountClientController;
 
     private final List<String> mails = new LinkedList<>();
-    private BizStoreEntity bizStore;
-    private StoreHourEntity storeHour;
+    private final List<String> flexAppointmentUsers = new LinkedList<>();
+
+    private BizStoreEntity bizStore1;
+    private StoreHourEntity storeHour1;
+
+    private BizStoreEntity bizStore2;
+    private StoreHourEntity storeHour2;
 
     @BeforeEach
     void setUp() throws IOException {
@@ -99,12 +104,31 @@ class TokenQueueAPIControllerITest extends ITest {
     /** Registers new users. */
     private void registerStore() {
         BizNameEntity bizName = bizService.findByPhone("9118000000041");
-        bizStore = bizService.findOneBizStore(bizName.getId());
+        List<BizStoreEntity> all = bizService.getAllBizStores(bizName.getId());
+        all.stream().iterator().forEachRemaining(bizStore -> {
+            if (bizStore.getPhone().equalsIgnoreCase("9118000000042")) {
+                bizStore1 = bizStore;
+                LOG.info("Assigned {} {}", bizStore1.getDisplayName(), bizStore1.getPhone());
+            } else {
+                bizStore2 = bizStore;
+                LOG.info("Assigned {} {}", bizStore2.getDisplayName(), bizStore2.getPhone());
+            }
+        });
+
+        storeHour1 = storeHourService.getStoreHours(bizStore1.getCodeQR(), bizStore1);
+        setBizStoreHours(bizStore1, storeHour1);
+
+        storeHour2 = storeHourService.getStoreHours(bizStore2.getCodeQR(), bizStore2);
+        setBizStoreHours(bizStore2, storeHour2);
+    }
+
+    private void setBizStoreHours(BizStoreEntity bizStore, StoreHourEntity storeHour) {
         bizStore.setAverageServiceTime(114000).setAvailableTokenCount(200);
-        bizStore.setTimeZone("Pacific/Honolulu");
+        bizStore
+            .setTimeZone("Pacific/Honolulu")
+            .setAppointmentState(AppointmentStateEnum.F);
         bizService.saveStore(bizStore, "Changed AST");
 
-        storeHour = storeHourService.getStoreHours(bizStore.getCodeQR(), bizStore);
         storeHour.setStartHour(930)
             .setEndHour(1600)
             .setLunchTimeStart(1300)
@@ -115,8 +139,11 @@ class TokenQueueAPIControllerITest extends ITest {
             .setTempDayClosed(false)
             .setPreventJoining(false);
         storeHourManager.save(storeHour);
-        long averageServiceTime = ServiceUtils.computeAverageServiceTime(storeHour, bizStore.getAvailableTokenCount());
-        bizService.updateStoreTokenAndServiceTime(bizStore.getCodeQR(), averageServiceTime, bizStore.getAvailableTokenCount());
+
+        bizService.updateStoreTokenAndServiceTime(
+            bizStore.getCodeQR(),
+            ServiceUtils.computeAverageServiceTime(storeHour, bizStore.getAvailableTokenCount()),
+            bizStore.getAvailableTokenCount());
     }
 
     /** Create new users. */
@@ -144,6 +171,30 @@ class TokenQueueAPIControllerITest extends ITest {
 
             mails.add(name + "@r.com");
         }
+
+        for (int i = 210; i <= 250; i++) {
+            String phone = "+91" + StringUtils.leftPad(String.valueOf(i), 10, '0');
+            String name = RandomString.newInstance(6).nextString().toLowerCase();
+            Registration user = new Registration()
+                .setPhone(phone)
+                .setFirstName(name)
+                .setMail(name + "@flex.com")
+                .setPassword("password")
+                .setBirthday("2000-12-12")
+                .setGender("M")
+                .setCountryShortName("IN")
+                .setTimeZoneId("Asia/Calcutta")
+                .setInviteCode("");
+
+            accountClientController.register(
+                new ScrubbedInput(UUID.randomUUID().toString()),
+                new ScrubbedInput(DeviceTypeEnum.A.getName()),
+                user.asJson(),
+                httpServletResponse
+            );
+
+            flexAppointmentUsers.add(name + "@flex.com");
+        }
     }
 
     /** Authorized user for Stores. */
@@ -151,7 +202,7 @@ class TokenQueueAPIControllerITest extends ITest {
         for (String mail : mails) {
             UserAccountEntity userAccount = userAccountManager.findByUserId(mail);
             QueueAuthorize queueAuthorize = new QueueAuthorize()
-                .setCodeQR(new ScrubbedInput(bizStore.getCodeQR()))
+                .setCodeQR(new ScrubbedInput(bizStore1.getCodeQR()))
                 .setFirstCustomerId(new ScrubbedInput("G" + StringUtils.leftPad(String.valueOf(userAccount.getQueueUserId()), 18, '0')))
                 .setAdditionalCustomerId(new ScrubbedInput("L" + StringUtils.leftPad(String.valueOf(userAccount.getQueueUserId()), 18, '0')));
 
@@ -166,7 +217,13 @@ class TokenQueueAPIControllerITest extends ITest {
         }
     }
 
-    /** Test works but fails when store hours have ended. Tested working on 2021-07-08 */
+    void joinQueueWithFlexAppointment() {
+        for (String mail : flexAppointmentUsers) {
+
+        }
+    }
+
+    /** Test works but fails when store hours have ended. Tested working on 2021-07-08. */
     @Test
     //@Ignore("Tests token issued when limited token available")
     void joinQueue() throws IOException {
@@ -185,7 +242,7 @@ class TokenQueueAPIControllerITest extends ITest {
                 new ScrubbedInput(DeviceTypeEnum.A.getName()),
                 new ScrubbedInput(userAccount.getUserId()),
                 new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                new JoinQueue().setCodeQR(userAccount.getQueueUserId()).setCodeQR(bizStore.getCodeQR()),
+                new JoinQueue().setCodeQR(userAccount.getQueueUserId()).setCodeQR(bizStore1.getCodeQR()),
                 httpServletResponse
             );
 
@@ -213,8 +270,8 @@ class TokenQueueAPIControllerITest extends ITest {
             System.out.println(key + " " + count.get(key));
         }
 
-        long averageServiceTime = ServiceUtils.computeAverageServiceTime(storeHour, bizStore.getAvailableTokenCount());
+        long averageServiceTime = ServiceUtils.computeAverageServiceTime(storeHour1, bizStore1.getAvailableTokenCount());
         System.out.println("averageServiceTime=" + new BigDecimal(averageServiceTime).divide(new BigDecimal(MINUTES_IN_MILLISECONDS), MathContext.DECIMAL64) + " minutes per user");
-        assertEquals(200, display.size(), "Number of token issued must be equal");
+        assertEquals(200, display.size(), "Number of token issued must be equal " + bizStore1.getDisplayName());
     }
 }
