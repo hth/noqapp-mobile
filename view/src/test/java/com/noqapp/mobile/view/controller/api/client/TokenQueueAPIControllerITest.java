@@ -67,6 +67,9 @@ class TokenQueueAPIControllerITest extends ITest {
 
     private final int registeredUser = 210;
 
+    //    private String timeZone = "Asia/Calcutta";
+    private String timeZone = "Pacific/Honolulu";
+
     @BeforeAll
     void setUp() throws IOException {
         tokenQueueAPIController = new TokenQueueAPIController(
@@ -110,7 +113,7 @@ class TokenQueueAPIControllerITest extends ITest {
     private void setBizStoreHours(BizStoreEntity bizStore, StoreHourEntity storeHour) {
         bizStore.setAverageServiceTime(114000).setAvailableTokenCount(200);
         bizStore
-            .setTimeZone("Asia/Kolkata")
+            .setTimeZone(timeZone)
             .setAppointmentState(AppointmentStateEnum.O);
         bizService.saveStore(bizStore, "Changed AST without Appointment");
 
@@ -144,7 +147,7 @@ class TokenQueueAPIControllerITest extends ITest {
                 .setBirthday("2000-12-12")
                 .setGender("M")
                 .setCountryShortName("IN")
-                .setTimeZoneId("Asia/Calcutta")
+                .setTimeZoneId(timeZone)
                 .setInviteCode("");
 
             accountClientController.register(
