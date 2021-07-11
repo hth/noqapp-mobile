@@ -259,6 +259,7 @@ public class AppointmentController {
                 LOG.warn("Cannot book when appointment already exists {} {} {}", jsonSchedule.getQueueUserId(), jsonSchedule.getCodeQR(), jsonSchedule.getScheduleDate());
                 switch (bizStore.getAppointmentState()) {
                     case A:
+                    case F:
                         return getErrorReason("Appointment already exists for this day. Please cancel to re-book for the day.", APPOINTMENT_ALREADY_EXISTS);
                     case S:
                         return getErrorReason("Appointment already exists for this day.", APPOINTMENT_ALREADY_EXISTS);

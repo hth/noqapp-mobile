@@ -176,6 +176,7 @@ import com.noqapp.service.FirebaseMessageService;
 import com.noqapp.service.FirebaseService;
 import com.noqapp.service.FtpService;
 import com.noqapp.service.GenerateUserIdService;
+import com.noqapp.service.JMSProducerService;
 import com.noqapp.service.JoinAbortService;
 import com.noqapp.service.LanguageTranslationService;
 import com.noqapp.service.MailService;
@@ -192,6 +193,7 @@ import com.noqapp.service.SmsService;
 import com.noqapp.service.StoreCategoryService;
 import com.noqapp.service.StoreHourService;
 import com.noqapp.service.StoreProductService;
+import com.noqapp.service.SubscribeTopicService;
 import com.noqapp.service.TextToSpeechService;
 import com.noqapp.service.TokenQueueService;
 import com.noqapp.service.UserAddressService;
@@ -209,6 +211,7 @@ import org.bson.types.ObjectId;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.mock.env.MockEnvironment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -393,6 +396,8 @@ public class ITest extends RealMongoForITest {
     @Mock protected TextToSpeechConfiguration textToSpeechConfiguration;
     @Mock protected SmsService smsService;
     @Mock protected JMSProducerMobileService jmsProducerMobileService;
+    @Mock protected JMSProducerService jmsProducerService;;
+    @Mock private SubscribeTopicService subscribeTopicService;
     @Mock protected LanguageTranslationService languageTranslationService;
     @Mock protected StringRedisTemplate stringRedisTemplate;
 
@@ -563,9 +568,9 @@ public class ITest extends RealMongoForITest {
             bizStoreManager,
             businessCustomerService,
             textToSpeechService,
-            firebaseService,
-            userProfilePreferenceService,
             messageCustomerService,
+            jmsProducerService,
+            subscribeTopicService,
             apiHealthService
         );
 
@@ -663,10 +668,11 @@ public class ITest extends RealMongoForITest {
             nlpService,
             mailService,
             cashfreeService,
-            purchaseOrderProductService
+            purchaseOrderProductService,
+            subscribeTopicService
         );
         purchaseOrderMobileService = new PurchaseOrderMobileService(queueManager, queueManagerJDBC, purchaseOrderService, purchaseOrderProductService);
-        notifyMobileService = new NotifyMobileService(purchaseOrderService, purchaseOrderProductService, firebaseMessageService, firebaseService, tokenQueueService, queueService);
+        notifyMobileService = new NotifyMobileService(purchaseOrderService, firebaseMessageService, firebaseService, tokenQueueManager, queueService);
         tokenQueueMobileService = new TokenQueueMobileService(
             tokenQueueService,
             bizService,

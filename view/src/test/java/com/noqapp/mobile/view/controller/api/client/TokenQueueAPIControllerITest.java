@@ -1,17 +1,14 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import static com.noqapp.common.utils.DateUtil.DTF_YYYY_MM_DD;
 import static com.noqapp.common.utils.DateUtil.MINUTES_IN_MILLISECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.RandomString;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.UserAccountEntity;
-import com.noqapp.domain.json.JsonSchedule;
 import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.types.AppointmentStateEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
@@ -33,7 +30,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -62,21 +59,15 @@ class TokenQueueAPIControllerITest extends ITest {
 
     private TokenQueueAPIController tokenQueueAPIController;
     private AccountClientController accountClientController;
-    private AppointmentController appointmentController;
 
     private final List<String> mails = new LinkedList<>();
-    private final List<String> flexAppointmentUsers = new LinkedList<>();
 
-    private BizStoreEntity bizStore1;
-    private StoreHourEntity storeHour1;
-
-    private BizStoreEntity bizStore2;
-    private StoreHourEntity storeHour2;
+    private BizStoreEntity bizStore;
+    private StoreHourEntity storeHour;
 
     private final int registeredUser = 210;
-    private final int flexAppointmentUser = 250;
 
-    @BeforeEach
+    @BeforeAll
     void setUp() throws IOException {
         tokenQueueAPIController = new TokenQueueAPIController(
             tokenQueueMobileService,
@@ -103,16 +94,6 @@ class TokenQueueAPIControllerITest extends ITest {
             authenticateMobileService
         );
 
-        appointmentController = new AppointmentController(
-            userProfileManager,
-            bizStoreManager,
-            tokenQueueMobileService,
-            authenticateMobileService,
-            scheduleAppointmentService,
-            joinAbortService,
-            apiHealthService
-        );
-
         registerStore();
         registerUsers();
         preAuthorizeUser();
@@ -121,30 +102,17 @@ class TokenQueueAPIControllerITest extends ITest {
     /** Registers new users. */
     private void registerStore() {
         BizNameEntity bizName = bizService.findByPhone("9118000000041");
-        List<BizStoreEntity> all = bizService.getAllBizStores(bizName.getId());
-        all.stream().iterator().forEachRemaining(bizStore -> {
-            if (bizStore.getPhone().equalsIgnoreCase("9118000000042")) {
-                bizStore1 = bizStore;
-                LOG.info("Assigned {} {}", bizStore1.getDisplayName(), bizStore1.getPhone());
-            } else {
-                bizStore2 = bizStore;
-                LOG.info("Assigned {} {}", bizStore2.getDisplayName(), bizStore2.getPhone());
-            }
-        });
-
-        storeHour1 = storeHourService.getStoreHours(bizStore1.getCodeQR(), bizStore1);
-        setBizStoreHours(bizStore1, storeHour1);
-
-        storeHour2 = storeHourService.getStoreHours(bizStore2.getCodeQR(), bizStore2);
-        setBizStoreHours(bizStore2, storeHour2);
+        bizStore = bizService.findOneBizStore(bizName.getId());
+        storeHour = storeHourService.getStoreHours(bizStore.getCodeQR(), bizStore);
+        setBizStoreHours(bizStore, storeHour);
     }
 
     private void setBizStoreHours(BizStoreEntity bizStore, StoreHourEntity storeHour) {
         bizStore.setAverageServiceTime(114000).setAvailableTokenCount(200);
         bizStore
-            .setTimeZone("Pacific/Honolulu")
-            .setAppointmentState(AppointmentStateEnum.F);
-        bizService.saveStore(bizStore, "Changed AST");
+            .setTimeZone("Asia/Kolkata")
+            .setAppointmentState(AppointmentStateEnum.O);
+        bizService.saveStore(bizStore, "Changed AST without Appointment");
 
         storeHour.setStartHour(930)
             .setEndHour(1600)
@@ -188,75 +156,30 @@ class TokenQueueAPIControllerITest extends ITest {
 
             mails.add(name + "@r.com");
         }
-
-        for (int i = registeredUser; i < flexAppointmentUser; i++) {
-            String phone = "+91" + StringUtils.leftPad(String.valueOf(i), 10, '0');
-            String name = RandomString.newInstance(6).nextString().toLowerCase();
-            Registration user = new Registration()
-                .setPhone(phone)
-                .setFirstName(name)
-                .setMail(name + "@flex.com")
-                .setPassword("password")
-                .setBirthday("2000-12-12")
-                .setGender("M")
-                .setCountryShortName("IN")
-                .setTimeZoneId("Asia/Calcutta")
-                .setInviteCode("");
-
-            accountClientController.register(
-                new ScrubbedInput(UUID.randomUUID().toString()),
-                new ScrubbedInput(DeviceTypeEnum.A.getName()),
-                user.asJson(),
-                httpServletResponse
-            );
-
-            flexAppointmentUsers.add(name + "@flex.com");
-        }
     }
 
     /** Authorized user for Stores. */
     private void preAuthorizeUser() throws IOException {
         for (String mail : mails) {
-            UserAccountEntity userAccount = userAccountManager.findByUserId(mail);
-            QueueAuthorize queueAuthorize = new QueueAuthorize()
-                .setCodeQR(new ScrubbedInput(bizStore1.getCodeQR()))
-                .setFirstCustomerId(new ScrubbedInput("G" + StringUtils.leftPad(String.valueOf(userAccount.getQueueUserId()), 18, '0')))
-                .setAdditionalCustomerId(new ScrubbedInput("L" + StringUtils.leftPad(String.valueOf(userAccount.getQueueUserId()), 18, '0')));
-
-            tokenQueueAPIController.businessApprove(
-                new ScrubbedInput(UUID.randomUUID().toString()),
-                new ScrubbedInput(DeviceTypeEnum.A.getName()),
-                new ScrubbedInput(userAccount.getUserId()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                queueAuthorize,
-                httpServletResponse
-            );
+            preApproveUser(mail);
         }
     }
 
-    @Test
-    void joinQueueWithFlexAppointment() throws IOException {
-        for (String mail : flexAppointmentUsers) {
-            UserAccountEntity userAccount = userAccountManager.findByUserId(mail);
+    private void preApproveUser(String mail) throws IOException {
+        UserAccountEntity userAccount = userAccountManager.findByUserId(mail);
+        QueueAuthorize queueAuthorize = new QueueAuthorize()
+            .setCodeQR(new ScrubbedInput(bizStore.getCodeQR()))
+            .setFirstCustomerId(new ScrubbedInput("G" + StringUtils.leftPad(String.valueOf(userAccount.getQueueUserId()), 18, '0')))
+            .setAdditionalCustomerId(new ScrubbedInput("L" + StringUtils.leftPad(String.valueOf(userAccount.getQueueUserId()), 18, '0')));
 
-            JsonSchedule jsonSchedule = new JsonSchedule()
-                .setCodeQR(bizStore2.getCodeQR())
-                .setScheduleDate(DateUtil.getZonedDateTimeAtUTC().format(DTF_YYYY_MM_DD))
-                .setStartTime(930)
-                .setEndTime(1000)
-                .setQueueUserId(userAccount.getQueueUserId())
-                .setAppointmentState(bizStore2.getAppointmentState());
-
-            String bookedAppointment_String = appointmentController.bookAppointment(
-                new ScrubbedInput(userAccount.getUserId()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                jsonSchedule,
-                httpServletResponse
-            );
-
-            JsonSchedule bookedAppointment = new ObjectMapper().readValue(bookedAppointment_String, JsonSchedule.class);
-            LOG.info("Appointment booked {}", bookedAppointment_String);
-        }
+        tokenQueueAPIController.businessApprove(
+            new ScrubbedInput(UUID.randomUUID().toString()),
+            new ScrubbedInput(DeviceTypeEnum.A.getName()),
+            new ScrubbedInput(userAccount.getUserId()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            queueAuthorize,
+            httpServletResponse
+        );
     }
 
     /** Test works but fails when store hours have ended. Tested working on 2021-07-08. */
@@ -271,24 +194,7 @@ class TokenQueueAPIControllerITest extends ITest {
 
         Map<String, String> display = new LinkedHashMap<>();
         for (String mail : mails) {
-            UserAccountEntity userAccount = userAccountManager.findByUserId(mail);
-
-            String jsonToken_String = tokenQueueAPIController.joinQueue(
-                new ScrubbedInput(UUID.randomUUID().toString()),
-                new ScrubbedInput(DeviceTypeEnum.A.getName()),
-                new ScrubbedInput(userAccount.getUserId()),
-                new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-                new JoinQueue().setCodeQR(userAccount.getQueueUserId()).setCodeQR(bizStore1.getCodeQR()),
-                httpServletResponse
-            );
-
-            //{"error":{"reason":"CSD Liquor for Ex-Servicemen has not started. Please correct time on your device.","systemErrorCode":"4071","systemError":"DEVICE_TIMEZONE_OFF"}}
-            //{"error":{"reason":"CSD Liquor for Ex-Servicemen token limit for the day has reached.","systemErrorCode":"4309","systemError":"QUEUE_TOKEN_LIMIT"}}
-            JsonToken jsonToken = new ObjectMapper().readValue(jsonToken_String, JsonToken.class);
-            if (0 != jsonToken.getToken()) {
-                display.put(String.valueOf(jsonToken.getToken()), jsonToken.getTimeSlotMessage());
-                LOG.info("Joined queue {} : {}", jsonToken.getToken(), jsonToken);
-            }
+            getAToken(display, mail, bizStore);
         }
 
         Map<String, Integer> count = new HashMap<>();
@@ -306,8 +212,29 @@ class TokenQueueAPIControllerITest extends ITest {
             System.out.println(key + " " + count.get(key));
         }
 
-        long averageServiceTime = ServiceUtils.computeAverageServiceTime(storeHour1, bizStore1.getAvailableTokenCount());
+        long averageServiceTime = ServiceUtils.computeAverageServiceTime(storeHour, bizStore.getAvailableTokenCount());
         System.out.println("averageServiceTime=" + new BigDecimal(averageServiceTime).divide(new BigDecimal(MINUTES_IN_MILLISECONDS), MathContext.DECIMAL64) + " minutes per user");
-        assertEquals(200, display.size(), "Number of token issued must be equal " + bizStore1.getDisplayName());
+        assertEquals(200, display.size(), "Number of token issued must be equal " + bizStore.getDisplayName());
+    }
+
+    private void getAToken(Map<String, String> display, String mail, BizStoreEntity bizStore) throws IOException {
+        UserAccountEntity userAccount = userAccountManager.findByUserId(mail);
+
+        String jsonToken_String = tokenQueueAPIController.joinQueue(
+            new ScrubbedInput(UUID.randomUUID().toString()),
+            new ScrubbedInput(DeviceTypeEnum.A.getName()),
+            new ScrubbedInput(userAccount.getUserId()),
+            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
+            new JoinQueue().setCodeQR(userAccount.getQueueUserId()).setCodeQR(bizStore.getCodeQR()),
+            httpServletResponse
+        );
+
+        //{"error":{"reason":"CSD Liquor for Ex-Servicemen has not started. Please correct time on your device.","systemErrorCode":"4071","systemError":"DEVICE_TIMEZONE_OFF"}}
+        //{"error":{"reason":"CSD Liquor for Ex-Servicemen token limit for the day has reached.","systemErrorCode":"4309","systemError":"QUEUE_TOKEN_LIMIT"}}
+        JsonToken jsonToken = new ObjectMapper().readValue(jsonToken_String, JsonToken.class);
+        if (0 != jsonToken.getToken()) {
+            display.put(String.valueOf(jsonToken.getToken()), jsonToken.getTimeSlotMessage());
+            LOG.info("Joined queue {} : {}", jsonToken.getToken(), jsonToken);
+        }
     }
 }
