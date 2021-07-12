@@ -3,6 +3,7 @@ package com.noqapp.mobile.view.controller.api.client;
 import static com.noqapp.common.utils.DateUtil.MINUTES_IN_MILLISECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.RandomString;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
@@ -40,6 +41,7 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -67,11 +69,17 @@ class TokenQueueAPIControllerITest extends ITest {
 
     private final int registeredUser = 210;
 
-    //    private String timeZone = "Asia/Calcutta";
-    private String timeZone = "Pacific/Honolulu";
+    private String timeZone;
 
     @BeforeAll
     void setUp() throws IOException {
+        ZonedDateTime zonedDateTime = DateUtil.getZonedDateTimeAtUTC();
+        if (zonedDateTime.getHour() < 12) {
+            timeZone = "Asia/Calcutta";
+        } else {
+            timeZone = "Pacific/Honolulu";
+        }
+
         tokenQueueAPIController = new TokenQueueAPIController(
             tokenQueueMobileService,
             joinAbortService,
@@ -187,7 +195,6 @@ class TokenQueueAPIControllerITest extends ITest {
 
     /** Test works but fails when store hours have ended. Tested working on 2021-07-08. */
     @Test
-    //@Ignore("Tests token issued when limited token available")
     void joinQueue() throws IOException {
         Authentication authentication = Mockito.mock(Authentication.class);
         // Mockito.whens() for your authorization object
