@@ -1,22 +1,16 @@
 package com.noqapp.mobile.view.controller.open;
 
-import static org.awaitility.Awaitility.await;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.noqapp.common.errors.ErrorJsonList;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
-import com.noqapp.domain.QueueEntity;
-import com.noqapp.domain.TokenQueueEntity;
 import com.noqapp.domain.json.JsonQueue;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonToken;
-import com.noqapp.domain.types.QueueStatusEnum;
-import com.noqapp.domain.types.QueueUserStateEnum;
-import com.noqapp.domain.types.SentimentTypeEnum;
-import com.noqapp.domain.types.TokenServiceEnum;
 import com.noqapp.mobile.domain.body.client.QueueReview;
 import com.noqapp.mobile.view.ITest;
 
@@ -29,8 +23,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
-import java.time.Duration;
-import java.util.UUID;
 
 /**
  * hitender
@@ -103,56 +95,8 @@ class ReviewControllerITest extends ITest {
             new ScrubbedInput(jsonQueue.getCodeQR()),
             httpServletResponse
         );
-        JsonToken jsonToken = new ObjectMapper().readValue(afterJoin, JsonToken.class);
-        assertEquals(QueueStatusEnum.S, jsonToken.getQueueStatus());
-
-        submitReview(bizStore, jsonToken);
-
-        /* Submit review fails when person is not served. */
-        QueueEntity queue = queueManager.findOne(bizStore.getCodeQR(), jsonToken.getToken());
-        assertEquals(QueueUserStateEnum.Q, queue.getQueueUserState());
-        assertEquals(did, queue.getDid());
-
-        /* Initial state of Queue. */
-        TokenQueueEntity tokenQueue = queueMobileService.getTokenQueueByCodeQR(bizStore.getCodeQR());
-        assertEquals(QueueStatusEnum.S, tokenQueue.getQueueStatus());
-
-        String sid = UUID.randomUUID().toString();
-
-        /* After starting queue state. */
-        JsonToken nextInQueue = queueService.getNextInQueue(bizStore.getCodeQR(), "Go To Counter", sid);
-        assertEquals(jsonToken.getToken(), nextInQueue.getToken());
-        assertNotEquals(jsonToken.getServingNumber(), nextInQueue.getServingNumber());
-        assertEquals(QueueStatusEnum.N, nextInQueue.getQueueStatus());
-        TokenQueueEntity tokenQueueAfterPressingNext = queueMobileService.getTokenQueueByCodeQR(bizStore.getCodeQR());
-        assertEquals(QueueStatusEnum.N, tokenQueueAfterPressingNext.getQueueStatus());
-
-        /* When no more to serve, service is done. Queue state is set to Done. */
-        nextInQueue = queueService.updateAndGetNextInQueue(
-            bizStore.getCodeQR(),
-            queue.getTokenNumber(),
-            QueueUserStateEnum.S,
-            "Go To Counter",
-            sid,
-            TokenServiceEnum.M);
-        assertEquals(QueueStatusEnum.D, nextInQueue.getQueueStatus());
-        TokenQueueEntity tokenQueueAfterReachingDoneWhenThereIsNoNext = queueMobileService.getTokenQueueByCodeQR(bizStore.getCodeQR());
-        assertEquals(QueueStatusEnum.D, tokenQueueAfterReachingDoneWhenThereIsNoNext.getQueueStatus());
-
-        /* Review after user has been serviced. */
-        submitReview(bizStore, jsonToken);
-
-        /* Check for submitted review. */
-        QueueEntity queueAfterService = queueManager.findOne(bizStore.getCodeQR(), jsonToken.getToken());
-        while (queueAfterService.getSentimentType() == null) {
-            await()
-                .atLeast(Duration.ofMillis(500))
-                .atMost(Duration.ofSeconds(5));
-            queueAfterService = queueManager.findOne(bizStore.getCodeQR(), jsonToken.getToken());
-        }
-        assertEquals(QueueUserStateEnum.S, queueAfterService.getQueueUserState());
-        assertEquals(did, queueAfterService.getDid());
-        assertEquals(SentimentTypeEnum.P, queueAfterService.getSentimentType());
+        ErrorJsonList errorJsonList = new ObjectMapper().readValue(afterJoin, ErrorJsonList.class);
+        assertEquals(MOBILE_UPGRADE.getCode(), errorJsonList.getError().getSystemErrorCode());
     }
 
     private void submitReview(BizStoreEntity bizStore, JsonToken jsonToken) throws IOException {
