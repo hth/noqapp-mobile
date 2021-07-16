@@ -98,23 +98,4 @@ class ReviewControllerITest extends ITest {
         ErrorJsonList errorJsonList = new ObjectMapper().readValue(afterJoin, ErrorJsonList.class);
         assertEquals(MOBILE_UPGRADE.getCode(), errorJsonList.getError().getSystemErrorCode());
     }
-
-    private void submitReview(BizStoreEntity bizStore, JsonToken jsonToken) throws IOException {
-        QueueReview queueReview = new QueueReview()
-            .setCodeQR(bizStore.getCodeQR())
-            .setToken(jsonToken.getToken())
-            .setRatingCount(5)
-            .setHoursSaved(1)
-            .setReview("This is a good review");
-
-        /* Fails to update as its still under Queued state. */
-        String response = reviewController.queue(
-            new ScrubbedInput(did),
-            new ScrubbedInput(deviceType),
-            queueReview,
-            httpServletResponse
-        );
-        JsonResponse jsonResponse = new ObjectMapper().readValue(response, JsonResponse.class);
-        assertEquals(1, jsonResponse.getResponse());
-    }
 }
