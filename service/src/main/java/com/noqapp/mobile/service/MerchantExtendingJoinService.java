@@ -88,10 +88,9 @@ public class MerchantExtendingJoinService {
     }
 
     private String createTokenForUnregisteredUser(String did, JsonBusinessCustomer businessCustomer, BizStoreEntity bizStore) {
-        JsonToken jsonToken = joinAbortService.joinQueue(
-            bizStore.getCodeQR(),
+        JsonToken jsonToken = joinAbortService.joinQueueObsolete(
             CommonUtil.appendRandomToDeviceId(did),
-            bizStore.getAverageServiceTime(),
+            bizStore,
             TokenServiceEnum.M);
 
         queueMobileService.updateUnregisteredUserWithNameAndPhone(
@@ -187,11 +186,10 @@ public class MerchantExtendingJoinService {
                 TokenServiceEnum.M);
         } else {
             jsonToken = joinAbortService.joinQueue(
-                businessCustomer.getCodeQR().getText(),
                 DeviceService.getExistingDeviceId(registeredDevice, did),
                 userProfile.getQueueUserId(),
                 guardianQid,
-                bizStore.getAverageServiceTime(),
+                bizStore,
                 TokenServiceEnum.M);
         }
 

@@ -552,11 +552,10 @@ public class TokenQueueAPIController {
             joinAbortService.checkCustomerApprovedForTheQueue(qid, bizStore);
             if (!bizStore.isEnabledPayment()) {
                 return joinAbortService.joinQueue(
-                    joinQueue.getCodeQR(),
                     did.getText(),
                     joinQueue.getQueueUserId(),
                     joinQueue.getGuardianQid(),
-                    bizStore.getAverageServiceTime(),
+                    bizStore,
                     TokenServiceEnum.C).asJson();
             }
 
