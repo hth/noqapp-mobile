@@ -2,6 +2,7 @@ package com.noqapp.mobile.service;
 
 import static com.noqapp.common.utils.DateUtil.DAY.TODAY;
 import static java.util.concurrent.Executors.newCachedThreadPool;
+import static org.apiguardian.api.API.Status.DEPRECATED;
 
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.DateUtil;
@@ -54,6 +55,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import org.apiguardian.api.API;
 
 import java.time.DayOfWeek;
 import java.time.ZonedDateTime;
@@ -132,9 +135,8 @@ public class QueueMobileService {
         this.executorService = newCachedThreadPool();
     }
 
-    /**
-     * Note: Since un-registered user, order will not be supported.
-     */
+    @API(status = DEPRECATED, since = "1.3.121")
+    /* Note: Since un-registered user, return blank jsonTokenAndQueueList. */
     public JsonTokenAndQueueList findAllJoinedQueues(String did) {
         if (StringUtils.isBlank(did)) {
             LOG.warn("DID is blank");
@@ -152,7 +154,8 @@ public class QueueMobileService {
              * Since we are fetching only queues that are joined, we can send averageServiceTime as zero, and
              * tokenService as null
              */
-            JsonToken jsonToken = joinAbortService.joinQueue(queue.getCodeQR(), did, null, null, 0, null);
+            BizStoreEntity bizStore = bizService.findByCodeQR(queue.getCodeQR());
+            JsonToken jsonToken = joinAbortService.joinQueue(did, null, null, bizStore, null);
             JsonQueue jsonQueue = queueService.findTokenState(queue.getCodeQR());
 
             /* Override the create date of TokenAndQueue. This date helps in sorting of client side to show active queue. */

@@ -1,10 +1,12 @@
 package com.noqapp.mobile.view.controller.open;
 
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.QUEUE_ORDER_ABORT_EXPIRED_LIMITED_TIME;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.SEVERE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_NO_LONGER_EXISTS;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+import static org.apiguardian.api.API.Status.DEPRECATED;
 
 import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
@@ -40,6 +42,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.apiguardian.api.API;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -334,6 +338,7 @@ public class TokenQueueController {
     }
 
     /** Join the queue. */
+    @API(status = DEPRECATED, since = "1.3.121")
     @PostMapping (
         value = "/queue/{codeQR}",
         produces = MediaType.APPLICATION_JSON_VALUE
@@ -363,11 +368,10 @@ public class TokenQueueController {
 
         try {
             return joinAbortService.joinQueue(
-                codeQR.getText(),
                 did.getText(),
                 null,
                 null,
-                bizStore.getAverageServiceTime(),
+                bizStore,
                 TokenServiceEnum.C).asJson();
         } catch (Exception e) {
             LOG.error("Failed joining queue did={}, reason={}", did, e.getLocalizedMessage(), e);

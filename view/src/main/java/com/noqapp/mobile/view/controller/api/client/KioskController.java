@@ -132,11 +132,10 @@ public class KioskController {
             LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
             joinAbortService.checkCustomerApprovedForTheQueue(qid, bizStore);
             return joinAbortService.joinQueue(
-                joinQueue.getCodeQR(),
                 deviceService.getExistingDeviceId(joinQueue.getQueueUserId(), did.getText()),
                 joinQueue.getQueueUserId(),
                 joinQueue.getGuardianQid(),
-                bizStore.getAverageServiceTime(),
+                bizStore,
                 TokenServiceEnum.C).asJson();
         } catch (StoreDayClosedException e) {
             LOG.warn("Failed joining queue store closed qid={}, reason={}", qid, e.getLocalizedMessage());
