@@ -1,9 +1,11 @@
 package com.noqapp.mobile.view.controller.open;
 
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE_UPGRADE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.noqapp.common.errors.ErrorJsonList;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizNameEntity;
 import com.noqapp.domain.BizStoreEntity;
@@ -56,7 +58,7 @@ class TokenQueueControllerITest extends ITest {
         getQueueState();
         getAllJoinedQueues_Before_Join();
         getAllHistoricalJoinedQueues_Before_Join();
-        joinQueue();
+        joinQueueObsolete();
         getAllJoinedQueues_After_Joined();
         abortQueue();
         getAllJoinedQueues_After_Abort();
@@ -105,7 +107,7 @@ class TokenQueueControllerITest extends ITest {
     }
 
     @DisplayName("Join a Queue")
-    private void joinQueue() throws IOException {
+    private void joinQueueObsolete() throws IOException {
         BizNameEntity bizName = bizService.findByPhone("9118000000000");
         BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
@@ -115,8 +117,8 @@ class TokenQueueControllerITest extends ITest {
             new ScrubbedInput(bizStore.getCodeQR()),
             httpServletResponse
         );
-        JsonToken jsonToken = new ObjectMapper().readValue(afterJoin, JsonToken.class);
-        assertEquals(QueueStatusEnum.S, jsonToken.getQueueStatus());
+        ErrorJsonList errorJsonList = new ObjectMapper().readValue(afterJoin, ErrorJsonList.class);
+        assertEquals(MOBILE_UPGRADE.getCode(), errorJsonList.getError().getSystemErrorCode());
     }
 
     @DisplayName("Get all joined queues after join")
@@ -127,7 +129,7 @@ class TokenQueueControllerITest extends ITest {
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());
-        assertEquals(1, jsonTokenAndQueueList.getTokenAndQueues().size());
+        assertEquals(0, jsonTokenAndQueueList.getTokenAndQueues().size());
     }
 
     @DisplayName("Abort Queue")
@@ -167,11 +169,7 @@ class TokenQueueControllerITest extends ITest {
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertTrue(jsonTokenAndQueueList.isSinceBeginning());
-        assertEquals(1, jsonTokenAndQueueList.getTokenAndQueues().size());
-        JsonTokenAndQueue jsonTokenAndQueue = jsonTokenAndQueueList.getTokenAndQueues().iterator().next();
-        assertEquals("Dr Aaj Kal", jsonTokenAndQueue.getDisplayName());
-        assertEquals(1, jsonTokenAndQueue.getToken());
-        assertEquals(0, jsonTokenAndQueue.getRatingCount());
+        assertEquals(0, jsonTokenAndQueueList.getTokenAndQueues().size());
 
         /* On second fetch, its not complete history, gets latest. */
         allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
@@ -183,7 +181,7 @@ class TokenQueueControllerITest extends ITest {
         );
         jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
         assertFalse(jsonTokenAndQueueList.isSinceBeginning());
-        assertEquals(1, jsonTokenAndQueueList.getTokenAndQueues().size());
+        assertEquals(0, jsonTokenAndQueueList.getTokenAndQueues().size());
 
         /* After changing device Id, it is assumed to be a new user. This person has no history. */
         allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(

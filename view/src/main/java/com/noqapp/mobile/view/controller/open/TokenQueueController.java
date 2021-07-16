@@ -367,12 +367,8 @@ public class TokenQueueController {
         }
 
         try {
-            return joinAbortService.joinQueue(
-                did.getText(),
-                null,
-                null,
-                bizStore,
-                TokenServiceEnum.C).asJson();
+            LOG.warn("Obsolete joinQueue called for {} please upgrade", codeQR.getText());
+            return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
         } catch (Exception e) {
             LOG.error("Failed joining queue did={}, reason={}", did, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
