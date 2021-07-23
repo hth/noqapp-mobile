@@ -170,7 +170,7 @@ public class FavouriteAPIController {
                                         codeQRs.add(bizStoreFound.getCodeQR());
                                     }
 
-                                    codeQRs.retainAll(userPreference.getFavoriteSuggested());
+                                    codeQRs.retainAll(userPreference.getFavoriteTagged());
                                     if (codeQRs.isEmpty()) {
                                         userProfilePreferenceService.addFavorite(qid, bizStore.getCodeQR());
                                     }
