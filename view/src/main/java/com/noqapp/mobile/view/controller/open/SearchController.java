@@ -135,7 +135,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Searching for query=\"{}\" did={} dt={}", searchQuery.getQuery(), did, dt);
+        LOG.info("Searching for query=\"{}\" {} did={} dt={}", searchQuery.getQuery(), searchQuery.getCityName(), did, dt);
 
         try {
             String query = searchQuery.getQuery().getText();
@@ -150,7 +150,7 @@ public class SearchController {
 
             BizStoreSearchElasticList bizStoreSearchElasticList = new BizStoreSearchElasticList();
             GeoIP geoIp = getGeoIP(
-                searchQuery.getCityName().getText(),
+                null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                 searchQuery.getLatitude().getText(),
                 searchQuery.getLongitude().getText(),
                 ipAddress,
@@ -212,7 +212,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("NearMe invoked did={} dt={} businessType={}", did, dt, searchQuery.getSearchedOnBusinessType());
+        LOG.info("NearMe invoked did={} dt={} businessType={} {}", did, dt, searchQuery.getSearchedOnBusinessType(), searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
@@ -227,7 +227,7 @@ public class SearchController {
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchQuery.getCityName().getText(),
+                null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                 searchQuery.getLatitude().getText(),
                 searchQuery.getLongitude().getText(),
                 ipAddress,
@@ -275,7 +275,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Business invoked did={} dt={} businessType={}", did, dt, searchQuery.getSearchedOnBusinessType());
+        LOG.info("Business invoked did={} dt={} businessType={} cityName={}", did, dt, searchQuery.getSearchedOnBusinessType(), searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
@@ -290,7 +290,7 @@ public class SearchController {
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchQuery.getCityName().getText(),
+                null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                 searchQuery.getLatitude().getText(),
                 searchQuery.getLongitude().getText(),
                 ipAddress,
@@ -401,7 +401,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("NearMe invoked did={} dt={}", did, dt);
+        LOG.info("NearMe invoked did={} dt={} {}", did, dt, searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
@@ -415,7 +415,7 @@ public class SearchController {
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchQuery.getCityName().getText(),
+                null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                 searchQuery.getLatitude().getText(),
                 searchQuery.getLongitude().getText(),
                 ipAddress,
@@ -487,7 +487,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("NearMe invoked did={} dt={}", did, dt);
+        LOG.info("NearMe invoked did={} dt={} {}", did, dt, searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
@@ -501,7 +501,7 @@ public class SearchController {
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchQuery.getCityName().getText(),
+                null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                 searchQuery.getLatitude().getText(),
                 searchQuery.getLongitude().getText(),
                 ipAddress,
@@ -549,7 +549,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("NearMe invoked did={} dt={}", did, dt);
+        LOG.info("NearMe invoked did={} dt={} {}", did, dt, searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
@@ -563,7 +563,7 @@ public class SearchController {
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchQuery.getCityName().getText(),
+                null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                 searchQuery.getLatitude().getText(),
                 searchQuery.getLongitude().getText(),
                 ipAddress,
@@ -611,7 +611,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("NearMe invoked did={} dt={}", did, dt);
+        LOG.info("NearMe invoked did={} dt={} {}", did, dt, searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
@@ -625,7 +625,7 @@ public class SearchController {
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchQuery.getCityName().getText(),
+                null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                 searchQuery.getLatitude().getText(),
                 searchQuery.getLongitude().getText(),
                 ipAddress,
@@ -673,7 +673,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("HealthCare invoked did={} dt={}", did, dt);
+        LOG.info("HealthCare invoked did={} dt={} {}", did, dt, searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
@@ -687,7 +687,7 @@ public class SearchController {
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchQuery.getCityName().getText(),
+                null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                 searchQuery.getLatitude().getText(),
                 searchQuery.getLongitude().getText(),
                 ipAddress,
@@ -734,7 +734,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Kiosk search query=\"{}\" qr=\"{}\" did={} dt={}", searchQuery.getQuery(), searchQuery.getCodeQR(), did, dt);
+        LOG.info("Kiosk search query=\"{}\" qr=\"{}\" did={} dt={} {}", searchQuery.getQuery(), searchQuery.getCodeQR(), did, dt, searchQuery.getCityName());
 
         try {
             String query = searchQuery.getQuery().getText();

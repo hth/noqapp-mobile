@@ -157,7 +157,7 @@ public class SearchAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        LOG.info("Searching for query=\"{}\" did={} dt={} mail={}", searchQuery.getQuery(), did, dt, mail);
+        LOG.info("Searching for query=\"{}\" {} did={} dt={} mail={}", searchQuery.getQuery(), searchQuery.getCityName(), did, dt, mail);
         try {
             String query = searchQuery.getQuery().getText();
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
@@ -171,7 +171,7 @@ public class SearchAPIController {
 
             BizStoreSearchElasticList bizStoreSearchElasticList = new BizStoreSearchElasticList();
             GeoIP geoIp = getGeoIP(
-                searchQuery.getCityName().getText(),
+                null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                 searchQuery.getLatitude().getText(),
                 searchQuery.getLongitude().getText(),
                 ipAddress,
@@ -245,7 +245,7 @@ public class SearchAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        LOG.info("Business businessType={} did={} dt={} mail={}", searchQuery.getSearchedOnBusinessType(), did, dt, mail);
+        LOG.info("Business businessType={} {} did={} dt={} mail={}", searchQuery.getSearchedOnBusinessType(),  searchQuery.getCityName(), did, dt, mail);
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.debug("Business city=\"{}\" lat={} lng={} filters={} ip={} did={} bt={}",
@@ -259,7 +259,7 @@ public class SearchAPIController {
 
             BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
             GeoIP geoIp = getGeoIP(
-                searchQuery.getCityName().getText(),
+                null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                 searchQuery.getLatitude().getText(),
                 searchQuery.getLongitude().getText(),
                 ipAddress,
