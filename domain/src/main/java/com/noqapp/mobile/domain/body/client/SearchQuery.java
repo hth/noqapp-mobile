@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * User: hitender
@@ -150,5 +151,17 @@ public class SearchQuery extends AbstractDomain {
     public SearchQuery setSuggestedSearch(List<String> suggestedSearch) {
         this.suggestedSearch = suggestedSearch;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", SearchQuery.class.getSimpleName() + "[", "]")
+            .add("query=" + query)
+            .add("cityName=" + cityName)
+            .add("latitude=" + latitude)
+            .add("longitude=" + longitude)
+            .add("codeQR=" + codeQR)
+            .add("searchedOnBusinessType=" + searchedOnBusinessType)
+            .toString();
     }
 }
