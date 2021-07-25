@@ -165,7 +165,7 @@ public class SearchController {
                 LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={}", query, searchQuery.getCityName(), geoHash, ipAddress, did.getText());
                 return bizStoreSearchElasticService.executeNearMeSearchOnBizStoreUsingRestClient(
                     query,
-                    searchQuery.getCityName().getText(),
+                    null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                     geoHash,
                     searchQuery.getFilters().getText(),
                     searchQuery.getScrollId().getText()).asJson();
@@ -175,7 +175,7 @@ public class SearchController {
                 UserSearchEntity userSearch = new UserSearchEntity()
                     .setQuery(searchQuery.getQuery().getText())
                     .setDid(did.getText())
-                    .setCityName(searchQuery.getCityName().getText())
+                    .setCityName(null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText())
                     .setGeoHash(geoHash)
                     .setResultCount(elasticBizStoreSearchSources.size());
                 userSearchService.save(userSearch);
