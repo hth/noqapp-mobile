@@ -73,7 +73,7 @@ public class LogContextFilter implements Filter {
         String url = httpServletRequest.getRequestURL().toString();
         String query = httpServletRequest.getQueryString();
         String ip = getHeader(headerMap, "x-forwarded-for");
-        String ver = getHeader(headerMap, "x-r-ver");
+        String appVersion = getHeader(headerMap, "x-r-ver");
         String flavor = getHeader(headerMap, "x-r-fla");
         String lat = getHeader(headerMap, "x-r-lat");
         String lng = getHeader(headerMap, "x-r-lng");
@@ -99,7 +99,7 @@ public class LogContextFilter implements Filter {
                         + " country=\"" + countryCode + "\""
 //                        + " city=\"" + city + "\""
                         + " geoHash=\"" + geoHash + "\""
-                        + " version=\"" + ver + "\""
+                        + " appVersion=\"" + appVersion + "\""
                         + " flavor=\"" + flavor + "\""
                         + " did=\"" + did + "\""
                         + " mail=\"" + mail + "\""
@@ -122,7 +122,7 @@ public class LogContextFilter implements Filter {
                             + " country=\"" + countryCode + "\""
 //                            + " city=\"" + city + "\""
 //                            + " geoHash=\"" + geoHash + "\""
-                            + " version=\"" + ver + "\""
+                            + " appVersion=\"" + appVersion + "\""
                             + " flavor=\"" + flavor + "\""
                             + " endpoint=\"" + extractDataFromURL(url, "$5") + "\""
                             + " query=\"" + (query == null ? "none" : query) + "\""
