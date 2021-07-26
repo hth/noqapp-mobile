@@ -33,7 +33,7 @@ import java.util.UUID;
  * hitender
  * 12/9/17 9:10 AM
  */
-@DisplayName("TokenQueue API")
+@DisplayName("TokenQueue")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
 class TokenQueueControllerITest extends ITest {
@@ -159,40 +159,14 @@ class TokenQueueControllerITest extends ITest {
 
     @DisplayName("All Historical Queues any joined")
     private void allHistoricalJoinedQueues_After_Abort() throws IOException {
-        /* For the first time fetches from beginning. */
-        String allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
+        String response = tokenQueueController.allHistoricalJoinedQueues(
             new ScrubbedInput(did),
             new ScrubbedInput(deviceType),
             new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
             new DeviceToken(fcmToken, model, osVersion, appVersion).asJson(),
             httpServletRequest
         );
-        JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
-        assertTrue(jsonTokenAndQueueList.isSinceBeginning());
-        assertEquals(0, jsonTokenAndQueueList.getTokenAndQueues().size());
-
-        /* On second fetch, its not complete history, gets latest. */
-        allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
-            new ScrubbedInput(did),
-            new ScrubbedInput(deviceType),
-            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson(),
-            httpServletRequest
-        );
-        jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
-        assertFalse(jsonTokenAndQueueList.isSinceBeginning());
-        assertEquals(0, jsonTokenAndQueueList.getTokenAndQueues().size());
-
-        /* After changing device Id, it is assumed to be a new user. This person has no history. */
-        allJoinedQueues = tokenQueueController.allHistoricalJoinedQueues(
-            new ScrubbedInput(UUID.randomUUID().toString()),
-            new ScrubbedInput(deviceType),
-            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-            new DeviceToken(fcmToken, model, osVersion, appVersion).asJson(),
-            httpServletRequest
-        );
-        jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
-        assertFalse(jsonTokenAndQueueList.isSinceBeginning());
-        assertEquals(0, jsonTokenAndQueueList.getTokenAndQueues().size());
+        ErrorJsonList errorJsonList = new ObjectMapper().readValue(response, ErrorJsonList.class);
+        assertEquals(MOBILE_UPGRADE.getCode(), errorJsonList.getError().getSystemErrorCode());
     }
 }

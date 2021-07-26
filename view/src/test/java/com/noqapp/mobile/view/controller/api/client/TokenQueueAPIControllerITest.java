@@ -3,7 +3,6 @@ package com.noqapp.mobile.view.controller.api.client;
 import static com.noqapp.common.utils.DateUtil.MINUTES_IN_MILLISECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.noqapp.common.utils.DateUtil;
 import com.noqapp.common.utils.RandomString;
@@ -14,13 +13,14 @@ import com.noqapp.domain.StoreHourEntity;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonQueue;
+import com.noqapp.domain.json.JsonQueueHistorical;
+import com.noqapp.domain.json.JsonQueueHistoricalList;
 import com.noqapp.domain.json.JsonToken;
-import com.noqapp.domain.json.JsonTokenAndQueue;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
-import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.AppointmentStateEnum;
 import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.QueueStatusEnum;
+import com.noqapp.domain.types.QueueUserStateEnum;
 import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.domain.body.client.QueueAuthorize;
 import com.noqapp.mobile.domain.body.client.Registration;
@@ -39,7 +39,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -62,13 +61,14 @@ import java.util.UUID;
  * hitender
  * 7/24/20 9:56 AM
  */
-@DisplayName("Queue API")
+@DisplayName("TokenQueue API")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("api")
 class TokenQueueAPIControllerITest extends ITest {
     private static final Logger LOG = LoggerFactory.getLogger(TokenQueueAPIControllerITest.class);
 
     private TokenQueueAPIController tokenQueueAPIController;
+    private HistoricalAPIController historicalAPIController;
     private AccountClientController accountClientController;
 
     private final List<String> mails = new LinkedList<>();
@@ -96,7 +96,6 @@ class TokenQueueAPIControllerITest extends ITest {
         tokenQueueAPIController = new TokenQueueAPIController(
             tokenQueueMobileService,
             joinAbortService,
-            queueMobileService,
             authenticateMobileService,
             purchaseOrderService,
             purchaseOrderMobileService,
@@ -116,6 +115,13 @@ class TokenQueueAPIControllerITest extends ITest {
             deviceRegistrationService,
             hospitalVisitScheduleService,
             authenticateMobileService
+        );
+
+        historicalAPIController = new HistoricalAPIController(
+            authenticateMobileService,
+            purchaseOrderService,
+            queueMobileService,
+            apiHealthService
         );
 
         registerStore();
@@ -311,29 +317,13 @@ class TokenQueueAPIControllerITest extends ITest {
 
     @DisplayName("Get Historical Queues before join")
     private void getAllHistoricalJoinedQueues_Before_Join() throws IOException {
-        JSONObject jsonObject = new JSONObject()
-            .put("tk", UUID.randomUUID().toString())
-            .put("mo", model)
-            .put("os", osVersion)
-            .put("av", appVersion)
-            .put("dl", "en")
-            .put("ip", "127.0.0.1")
-            .put("lng", "0.0")
-            .put("lat", "0.0");
-
-        String allJoinedQueues = tokenQueueAPIController.allHistoricalJoinedQueues(
-            new ScrubbedInput(did),
-            new ScrubbedInput(deviceType),
-            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-            new ScrubbedInput(userAccount.getUserId()),
+        String allJoinedQueues = historicalAPIController.queues(
+            new ScrubbedInput(userProfile.getEmail()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            jsonObject.toString(),
-            httpServletRequest,
             httpServletResponse
         );
-        JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
-        assertFalse(jsonTokenAndQueueList.isSinceBeginning());
-        assertEquals(0, jsonTokenAndQueueList.getTokenAndQueues().size());
+        JsonQueueHistoricalList jsonQueueHistoricalList = new ObjectMapper().readValue(allJoinedQueues, JsonQueueHistoricalList.class);
+        assertEquals(0, jsonQueueHistoricalList.getQueueHistoricals().size());
     }
 
     @DisplayName("Join a Queue")
@@ -400,63 +390,21 @@ class TokenQueueAPIControllerITest extends ITest {
 
     @DisplayName("All Historical Queues any joined")
     private void allHistoricalJoinedQueues_After_Abort() throws IOException {
-        JSONObject jsonObject = new JSONObject()
-            .put("tk", UUID.randomUUID().toString())
-            .put("mo", model)
-            .put("os", osVersion)
-            .put("av", appVersion)
-            .put("dl", "en")
-            .put("ip", "127.0.0.1")
-            .put("lng", "0.0")
-            .put("lat", "0.0");
+        BizNameEntity bizName = bizService.findByPhone("9118000000000");
+        BizStoreEntity bizStore = bizService.findOneBizStore(bizName.getId());
 
-        /* For the first time fetches from beginning. */
-        String allJoinedQueues = tokenQueueAPIController.allHistoricalJoinedQueues(
-            new ScrubbedInput(did),
-            new ScrubbedInput(deviceType),
-            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-            new ScrubbedInput(userAccount.getUserId()),
+        /* Fetch complete history. */
+        String allJoinedQueues = historicalAPIController.queues(
+            new ScrubbedInput(userProfile.getEmail()),
             new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            jsonObject.toString(),
-            httpServletRequest,
             httpServletResponse
         );
-        JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
-        assertTrue(jsonTokenAndQueueList.isSinceBeginning());
-        assertEquals(1, jsonTokenAndQueueList.getTokenAndQueues().size());
-        JsonTokenAndQueue jsonTokenAndQueue = jsonTokenAndQueueList.getTokenAndQueues().iterator().next();
-        assertEquals("Dr Aaj Kal", jsonTokenAndQueue.getDisplayName());
-        assertEquals(1, jsonTokenAndQueue.getToken());
-        assertEquals(0, jsonTokenAndQueue.getRatingCount());
-
-        /* On second fetch, its not complete history, gets latest. */
-        allJoinedQueues = tokenQueueAPIController.allHistoricalJoinedQueues(
-            new ScrubbedInput(did),
-            new ScrubbedInput(deviceType),
-            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-            new ScrubbedInput(userAccount.getUserId()),
-            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            jsonObject.toString(),
-            httpServletRequest,
-            httpServletResponse
-        );
-        jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
-        assertFalse(jsonTokenAndQueueList.isSinceBeginning());
-        assertEquals(1, jsonTokenAndQueueList.getTokenAndQueues().size());
-
-        /* After changing device Id, it is assumed to be a old user. This person has old history. */
-        allJoinedQueues = tokenQueueAPIController.allHistoricalJoinedQueues(
-            new ScrubbedInput(UUID.randomUUID().toString()),
-            new ScrubbedInput(deviceType),
-            new ScrubbedInput(AppFlavorEnum.NQCL.getName()),
-            new ScrubbedInput(userAccount.getUserId()),
-            new ScrubbedInput(userAccount.getUserAuthentication().getAuthenticationKey()),
-            jsonObject.toString(),
-            httpServletRequest,
-            httpServletResponse
-        );
-        jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
-        assertFalse(jsonTokenAndQueueList.isSinceBeginning());
-        assertEquals(1, jsonTokenAndQueueList.getTokenAndQueues().size());
+        JsonQueueHistoricalList jsonQueueHistoricalList = new ObjectMapper().readValue(allJoinedQueues, JsonQueueHistoricalList.class);
+        assertEquals(1, jsonQueueHistoricalList.getQueueHistoricals().size());
+        JsonQueueHistorical jsonQueueHistorical = jsonQueueHistoricalList.getQueueHistoricals().iterator().next();
+        assertEquals(bizStore.getCodeQR(), jsonQueueHistorical.getCodeQR());
+        assertEquals(1, jsonQueueHistorical.getTokenNumber());
+        assertEquals(0, jsonQueueHistorical.getRatingCount());
+        assertEquals(QueueUserStateEnum.A, jsonQueueHistorical.getQueueUserState());
     }
 }
