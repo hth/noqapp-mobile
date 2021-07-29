@@ -43,7 +43,7 @@
 <div class="email-style" style="background:#f1f1f1;  font-size: 14px; padding:10px 5px; font-family: 'Roboto', sans-serif; color: #222">
     <div class="content-txt" style="font-size:16px; padding:0 15px; font-family: 'Roboto', sans-serif;">
         <div class="logo" style="width:220px; padding:15px 0 10px 0">
-            <#include "../NoQApp.svg">
+            <#include "../NoQueue.svg">
         </div>
 
         <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear ${storeName},</strong></p>
