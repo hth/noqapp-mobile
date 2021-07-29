@@ -264,6 +264,8 @@ public class TokenQueueController {
         }
     }
 
+    @API(status = DEPRECATED, since = "1.3.122")
+    @Deprecated
     /** Get all the historical queues user has token from. In short all the queues user has joined in past. */
     @PostMapping(
         value = "/historical",
@@ -293,36 +295,8 @@ public class TokenQueueController {
         }
 
         try {
-            double[] coordinate;
-            String ip;
-            if (parseTokenFCM.isMissingCoordinate()) {
-                IpCoordinate ipCoordinate = geoIPLocationService.computeIpCoordinate(
-                    CommonUtil.retrieveIPV4(
-                        parseTokenFCM.getIpAddress(),
-                        HttpRequestResponseParser.getClientIpAddress(request)));
-
-                coordinate = ipCoordinate.getCoordinate() == null ? parseTokenFCM.getCoordinate() : ipCoordinate.getCoordinate();
-                ip = ipCoordinate.getIp();
-            } else {
-                coordinate = parseTokenFCM.getCoordinate();
-                ip = parseTokenFCM.getIpAddress();
-            }
-
-            return queueMobileService.findHistoricalQueue(
-                did.getText(),
-                DeviceTypeEnum.valueOf(deviceType.getText()),
-                AppFlavorEnum.valueOf(appFlavor.getText()),
-                parseTokenFCM.getTokenFCM(),
-                parseTokenFCM.getModel(),
-                parseTokenFCM.getOsVersion(),
-                parseTokenFCM.getAppVersion(),
-                parseTokenFCM.getDeviceLanguage(),
-                coordinate,
-                ip).asJson();
-        } catch (DeviceDetailMissingException e) {
-            LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
+            LOG.warn("Sent warning to upgrade did={}", did);
+            return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
         } catch (Exception e) {
             LOG.error("Failed getting history did={}, reason={}", did, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

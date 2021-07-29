@@ -27,6 +27,7 @@ import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.WAIT_UNTIL_SERV
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorReason;
+import static org.apiguardian.api.API.Status.DEPRECATED;
 
 import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.CommonUtil;
@@ -101,6 +102,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.apiguardian.api.API;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -128,7 +131,6 @@ public class TokenQueueAPIController {
 
     private TokenQueueMobileService tokenQueueMobileService;
     private JoinAbortService joinAbortService;
-    private QueueMobileService queueMobileService;
     private AuthenticateMobileService authenticateMobileService;
     private PurchaseOrderMobileService purchaseOrderMobileService;
     private PurchaseOrderService purchaseOrderService;
@@ -144,7 +146,6 @@ public class TokenQueueAPIController {
     public TokenQueueAPIController(
         TokenQueueMobileService tokenQueueMobileService,
         JoinAbortService joinAbortService,
-        QueueMobileService queueMobileService,
         AuthenticateMobileService authenticateMobileService,
         PurchaseOrderService purchaseOrderService,
         PurchaseOrderMobileService purchaseOrderMobileService,
@@ -158,7 +159,6 @@ public class TokenQueueAPIController {
     ) {
         this.tokenQueueMobileService = tokenQueueMobileService;
         this.joinAbortService = joinAbortService;
-        this.queueMobileService = queueMobileService;
         this.authenticateMobileService = authenticateMobileService;
         this.purchaseOrderService = purchaseOrderService;
         this.purchaseOrderMobileService = purchaseOrderMobileService;
@@ -377,6 +377,8 @@ public class TokenQueueAPIController {
     }
     
     /** Get all the historical queues user has token from. In short all the queues and order user has joined in past. */
+    @API(status = DEPRECATED, since = "1.3.122")
+    @Deprecated
     @PostMapping(
         value = "/historical",
         produces = MediaType.APPLICATION_JSON_VALUE
@@ -409,45 +411,9 @@ public class TokenQueueAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        ParseTokenFCM parseTokenFCM = ParseTokenFCM.newInstance(tokenJson, request);
-        if (StringUtils.isNotBlank(parseTokenFCM.getErrorResponse())) {
-            return parseTokenFCM.getErrorResponse();
-        }
-
         try {
-            double[] coordinate;
-            String ip;
-            if (parseTokenFCM.isMissingCoordinate()) {
-                IpCoordinate ipCoordinate = geoIPLocationService.computeIpCoordinate(
-                    CommonUtil.retrieveIPV4(
-                        parseTokenFCM.getIpAddress(),
-                        HttpRequestResponseParser.getClientIpAddress(request)));
-
-                coordinate = ipCoordinate.getCoordinate() == null ? parseTokenFCM.getCoordinate() : ipCoordinate.getCoordinate();
-                ip = ipCoordinate.getIp();
-            } else {
-                coordinate = parseTokenFCM.getCoordinate();
-                ip = parseTokenFCM.getIpAddress();
-            }
-
-            JsonTokenAndQueueList jsonTokenAndQueues = queueMobileService.findHistoricalQueue(
-                qid,
-                did.getText(),
-                DeviceTypeEnum.valueOf(deviceType.getText()),
-                AppFlavorEnum.valueOf(appFlavor.getText()),
-                parseTokenFCM.getTokenFCM(),
-                parseTokenFCM.getModel(),
-                parseTokenFCM.getOsVersion(),
-                parseTokenFCM.getAppVersion(),
-                parseTokenFCM.getDeviceLanguage(),
-                coordinate,
-                ip);
-            //TODO(hth) get old historical order, it just gets today's historical order
-            jsonTokenAndQueues.getTokenAndQueues().addAll(purchaseOrderService.findAllDeliveredHistoricalOrderAsJson(qid));
-            return jsonTokenAndQueues.asJson();
-        } catch (DeviceDetailMissingException e) {
-            LOG.error("Failed registering deviceType={}, reason={}", deviceType, e.getLocalizedMessage(), e);
-            return getErrorReason("Missing device details", DEVICE_DETAIL_MISSING);
+            LOG.warn("Sent warning to upgrade qid={}", qid);
+            return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
         } catch (Exception e) {
             LOG.error("Failed getting history qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

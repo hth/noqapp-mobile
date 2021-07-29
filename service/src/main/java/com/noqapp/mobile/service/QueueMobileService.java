@@ -179,6 +179,8 @@ public class QueueMobileService {
         return jsonTokenAndQueueList;
     }
 
+    @API(status = DEPRECATED, since = "1.3.122")
+    @Deprecated
     public JsonTokenAndQueueList findHistoricalQueue(
         String did,
         DeviceTypeEnum deviceType,
@@ -234,6 +236,8 @@ public class QueueMobileService {
         return getJsonTokenAndQueueList(servicedQueues, sinceBeginning);
     }
 
+    @API(status = DEPRECATED, since = "1.3.122")
+    @Deprecated
     public JsonTokenAndQueueList findHistoricalQueue(
         String qid,
         String did,
@@ -325,6 +329,8 @@ public class QueueMobileService {
         }
     }
 
+    @API(status = DEPRECATED, since = "1.3.122")
+    @Deprecated
     private JsonTokenAndQueueList getJsonTokenAndQueueList(List<QueueEntity> queues, boolean sinceBeginning) {
         List<JsonTokenAndQueue> jsonTokenAndQueues = new ArrayList<>();
         for (QueueEntity queue : queues) {
