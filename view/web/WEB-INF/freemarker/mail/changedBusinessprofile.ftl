@@ -45,7 +45,7 @@
 
     <div class="content-txt" style="font-size:16px; padding:0 15px; font-family: 'Roboto', sans-serif;">
         <div class="logo" style="width:220px; padding:15px 0 10px 0">
-            <#include "../NoQueue.svg">
+            <#include "../noqueue.svg">
         </div>
 
         <p style="padding-bottom:15px; font-family: 'Roboto', sans-serif;"><strong>Dear ${profileName},</strong></p>
