@@ -75,6 +75,7 @@ public class LogContextFilter implements Filter {
         String ip = getHeader(headerMap, "x-forwarded-for");
         String appVersion = getHeader(headerMap, "x-r-ver");
         String flavor = getHeader(headerMap, "x-r-fla");
+        String model = getHeader(headerMap, "x-r-mod");
         String lat = getHeader(headerMap, "x-r-lat");
         String lng = getHeader(headerMap, "x-r-lng");
         String did = getHeader(headerMap, "x-r-did");
@@ -101,6 +102,7 @@ public class LogContextFilter implements Filter {
                         + " geoHash=\"" + geoHash + "\""
                         + " appVersion=\"" + appVersion + "\""
                         + " flavor=\"" + flavor + "\""
+                        + " model=\"" + model + "\""
                         + " did=\"" + did + "\""
                         + " mail=\"" + mail + "\""
                         + " qid=\"" + qid + "\""
