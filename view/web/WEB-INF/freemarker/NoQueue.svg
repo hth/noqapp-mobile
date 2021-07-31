@@ -2,84 +2,31 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="118.91368mm"
-   height="33.313408mm"
-   viewBox="0 0 118.91368 33.313408"
+   width="120.33579mm"
+   height="33.313427mm"
+   viewBox="0 0 120.33579 33.313427"
    version="1.1"
-   id="svg39"
-   inkscape:version="1.1 (c4e8f9e, 2021-05-24)"
-   sodipodi:docname="NoQueue_Plan.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   id="svg61721"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview41"
-     pagecolor="#505050"
-     bordercolor="#ffffff"
-     borderopacity="1"
-     inkscape:pageshadow="0"
-     inkscape:pageopacity="0"
-     inkscape:pagecheckerboard="1"
-     inkscape:document-units="mm"
-     showgrid="false"
-     inkscape:zoom="0.68111408"
-     inkscape:cx="-251.79335"
-     inkscape:cy="41.109119"
-     inkscape:window-width="2272"
-     inkscape:window-height="1232"
-     inkscape:window-x="1080"
-     inkscape:window-y="25"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="g14-2"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0" />
   <defs
-     id="defs36">
-    <rect
-       x="209.50832"
-       y="626.40442"
-       width="5.9374828"
-       height="103.48184"
-       id="rect51087" />
-    <rect
-       x="325.31213"
-       y="642.9093"
-       width="347.17105"
-       height="163.29897"
-       id="rect46131" />
-    <rect
-       x="72.005844"
-       y="426.89178"
-       width="684.05554"
-       height="356.17178"
-       id="rect5083" />
-  </defs>
+     id="defs61718" />
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-20.986316,-107.20788)">
+     transform="translate(-45.594304,-88.126792)">
     <text
        xml:space="preserve"
-       transform="matrix(0.25944213,0,0,0.25679843,0.40779178,3.1544015)"
-       id="text5081"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:96px;line-height:1.25;font-family:'Al Bayan';-inkscape-font-specification:'Al Bayan, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect5083);fill:#000000;fill-opacity:1;stroke:none"><tspan
-         x="72.005859"
-         y="513.365"
-         id="tspan473"><tspan
-           style="font-family:Arial;-inkscape-font-specification:'Arial, Normal'"
-           id="tspan471">No     ueue</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       transform="scale(0.26458333)"
-       id="text46129"
-       style="font-size:96px;line-height:1.25;font-family:'Al Bayan';-inkscape-font-specification:'Al Bayan, Normal';white-space:pre;shape-inside:url(#rect46131)" />
+       style="font-size:25.4px;line-height:1.25;font-family:'Al Bayan';-inkscape-font-specification:'Al Bayan, Normal';stroke-width:0.264583"
+       x="43.659538"
+       y="115.51886"
+       id="text62475"><tspan
+         id="tspan62473"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.4px;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="43.659538"
+         y="115.51886">No</tspan></text>
     <g
        id="g14-2"
-       transform="matrix(1.4392877,0,0,1.5185905,-10.255421,86.459467)">
+       transform="matrix(1.4392877,0,0,1.5185905,14.054297,67.378396)">
       <path
          class="st0"
          d="m 61.4,27 v 0 c -0.7,-0.6 -1.3,-0.9 -2.1,-1.1 1.3,-0.9 2,-2.5 2,-4.3 0,-3.5 -2,-6 -5.5,-6 -1.6,0 -2.8,0.5 -3.7,1.3 0.7,0.1 1.4,0.2 2.1,0.5 0.5,-0.3 1,-0.4 1.7,-0.4 2.2,0 3.5,1.7 3.5,4.6 0,1.2 -0.2,2.1 -0.7,2.9 0,0.2 0,0.4 0,0.6 0,0.8 -0.1,1.5 -0.3,2.2 0.5,0 1.1,0.2 2.1,0.9 0.4,0.4 1,1 1.3,2 l 1.4,-0.5 C 62.7,28.4 62,27.5 61.4,27 Z"
@@ -93,13 +40,18 @@
     </g>
     <path
        class="st0"
-       d="m 83.078603,121.63448 v 0 c -0.863573,-0.75929 -1.583218,-1.21485 -2.446792,-1.36675 1.583219,-1.21485 2.446792,-3.18904 2.446792,-5.46693 0,-4.55576 -2.446792,-7.59292 -6.620728,-7.59292 -1.727144,0 -3.166432,0.45557 -4.173931,1.36673 0.863572,0.15174 1.727146,0.45557 2.446787,0.75927 0.575717,-0.30383 1.151431,-0.30383 1.727144,-0.30383 2.73465,0 4.317864,2.126 4.317864,5.77063 0,1.67044 -0.287869,2.88533 -1.007501,3.94833 0,0 0,0 0,0.15175 0,1.06304 -0.143916,2.27787 -0.431785,3.18903 0,0 0,0 0,0 0.719645,0 1.439286,0.15173 2.734645,1.06305 0.575718,0.45557 1.151432,1.21485 1.583218,2.42972 l 1.727146,-0.60743 c -0.719647,-1.67046 -1.583218,-2.73345 -2.302859,-3.34091 z"
+       d="m 107.38836,102.55339 v 0 c -0.86357,-0.75929 -1.58322,-1.21485 -2.4468,-1.36675 1.58322,-1.214848 2.44679,-3.189038 2.44679,-5.466928 0,-4.55576 -2.44679,-7.59292 -6.62073,-7.59292 -1.727135,0 -3.166425,0.45557 -4.173925,1.36673 0.86358,0.15174 1.72715,0.45557 2.44679,0.75927 0.57572,-0.30383 1.151425,-0.30383 1.727135,-0.30383 2.73465,0 4.31787,2.126 4.31787,5.77063 0,1.67044 -0.28787,2.88533 -1.00749,3.94833 0,0 0,0 0,0.15175 0,1.063038 -0.14392,2.277868 -0.4318,3.189028 0,0 0,0 0,0 0.71965,0 1.43929,0.15173 2.73465,1.06305 0.57571,0.45557 1.15144,1.21485 1.58322,2.42972 l 1.72715,-0.60743 c -0.71966,-1.67046 -1.58322,-2.73345 -2.30286,-3.34091 z"
        id="path8-7"
        style="fill:#ff1c79;stroke-width:1.4784" />
     <text
        xml:space="preserve"
-       transform="scale(0.26458333)"
-       id="text51085"
-       style="font-size:96px;line-height:1.25;font-family:'Al Bayan';-inkscape-font-specification:'Al Bayan, Normal';white-space:pre;shape-inside:url(#rect51087)" />
+       style="font-size:25.4px;line-height:1.25;font-family:'Al Bayan';-inkscape-font-specification:'Al Bayan, Normal';stroke-width:0.264583"
+       x="110.49162"
+       y="115.59428"
+       id="text64732"><tspan
+         id="tspan64730"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.4px;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="110.49162"
+         y="115.59428">ueue</tspan></text>
   </g>
 </svg>
