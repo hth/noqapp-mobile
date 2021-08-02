@@ -1,7 +1,5 @@
 package com.noqapp.mobile.view.filter;
 
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
-
 import com.noqapp.mobile.view.controller.open.IsWorkingController;
 import com.noqapp.search.elastic.config.IPGeoConfiguration;
 
