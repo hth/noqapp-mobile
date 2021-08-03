@@ -19,6 +19,7 @@ import com.noqapp.search.elastic.json.ElasticBizStoreSearchSource;
 import com.noqapp.search.elastic.service.BizStoreSearchElasticService;
 import com.noqapp.search.elastic.service.BizStoreSpatialElasticService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
+import com.noqapp.search.elastic.service.MarketplaceSearchElasticService;
 import com.noqapp.service.UserSearchService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -65,6 +66,7 @@ public class SearchAPIController {
     private AuthenticateMobileService authenticateMobileService;
     private BizStoreSpatialElasticService bizStoreSpatialElasticService;
     private BizStoreSearchElasticService bizStoreSearchElasticService;
+    private MarketplaceSearchElasticService marketplaceSearchElasticService;
     private GeoIPLocationService geoIPLocationService;
     private UserSearchService userSearchService;
     private ApiHealthService apiHealthService;
@@ -77,6 +79,7 @@ public class SearchAPIController {
         AuthenticateMobileService authenticateMobileService,
         BizStoreSpatialElasticService bizStoreSpatialElasticService,
         BizStoreSearchElasticService bizStoreSearchElasticService,
+        MarketplaceSearchElasticService marketplaceSearchElasticService,
         GeoIPLocationService geoIPLocationService,
         UserSearchService userSearchService,
         ApiHealthService apiHealthService
@@ -86,6 +89,7 @@ public class SearchAPIController {
         this.authenticateMobileService = authenticateMobileService;
         this.bizStoreSpatialElasticService = bizStoreSpatialElasticService;
         this.bizStoreSearchElasticService = bizStoreSearchElasticService;
+        this.marketplaceSearchElasticService = marketplaceSearchElasticService;
         this.geoIPLocationService = geoIPLocationService;
         this.userSearchService = userSearchService;
         this.apiHealthService = apiHealthService;
@@ -300,20 +304,6 @@ public class SearchAPIController {
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludePlaceOfWorship(),
                         BusinessTypeEnum.includePlaceOfWorship(),
-                        searchQuery.getSearchedOnBusinessType(),
-                        geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
-                case PR:
-                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
-                        BusinessTypeEnum.excludePropertyRental(),
-                        BusinessTypeEnum.includePropertyRental(),
-                        searchQuery.getSearchedOnBusinessType(),
-                        geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
-                case HI:
-                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
-                        BusinessTypeEnum.excludeHouseholdItem(),
-                        BusinessTypeEnum.includeHouseholdItem(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
                         searchQuery.getScrollId().getText()).asJson();
