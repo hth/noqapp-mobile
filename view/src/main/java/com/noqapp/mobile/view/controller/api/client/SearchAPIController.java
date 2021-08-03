@@ -303,6 +303,20 @@ public class SearchAPIController {
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
                         searchQuery.getScrollId().getText()).asJson();
+                case PR:
+                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                        BusinessTypeEnum.excludePropertyRental(),
+                        BusinessTypeEnum.includePropertyRental(),
+                        searchQuery.getSearchedOnBusinessType(),
+                        geoHash,
+                        searchQuery.getScrollId().getText()).asJson();
+                case HI:
+                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                        BusinessTypeEnum.excludeHouseholdItem(),
+                        BusinessTypeEnum.includeHouseholdItem(),
+                        searchQuery.getSearchedOnBusinessType(),
+                        geoHash,
+                        searchQuery.getScrollId().getText()).asJson();
                 case ZZ:
                 default:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(

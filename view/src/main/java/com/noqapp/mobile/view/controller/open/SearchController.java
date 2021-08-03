@@ -212,7 +212,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("NearMe invoked did={} dt={} businessType={} {}", did, dt, searchQuery.getSearchedOnBusinessType(), searchQuery.getCityName());
+        LOG.info("NearMe invoked did={} dt={} businessType={} \"{}\"", did, dt, searchQuery.getSearchedOnBusinessType(), searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
@@ -275,7 +275,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Business invoked did={} dt={} businessType={} cityName={}", did, dt, searchQuery.getSearchedOnBusinessType(), searchQuery.getCityName());
+        LOG.info("Business invoked did={} dt={} businessType={} cityName=\"{}\"", did, dt, searchQuery.getSearchedOnBusinessType(), searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
@@ -301,7 +301,7 @@ public class SearchController {
                 geoHash = "te7ut71tgd9n";
             }
 
-            LOG.info("Business {} city=\"{}\" geoHash={} ip={} did={} bt={}", searchQuery.getSearchedOnBusinessType(), searchQuery.getCityName(), geoHash, ipAddress, did.getText(), searchQuery.getSearchedOnBusinessType());
+            LOG.info("Business city=\"{}\" geoHash={} ip={} did={} bt={}", searchQuery.getCityName(), geoHash, ipAddress, did.getText(), searchQuery.getSearchedOnBusinessType());
             switch (searchQuery.getSearchedOnBusinessType()) {
                 case CD:
                 case CDQ:
@@ -401,11 +401,11 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("NearMe invoked did={} dt={} {}", did, dt, searchQuery.getCityName());
+        LOG.info("OtherMerchant invoked did={} dt={} \"{}\"", did, dt, searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.debug("NearMe city=\"{}\" lat={} lng={} filters={} ip={} did={}",
+            LOG.debug("OtherMerchant city=\"{}\" lat={} lng={} filters={} ip={} did={}",
                 searchQuery.getCityName(),
                 searchQuery.getLatitude(),
                 searchQuery.getLongitude(),
@@ -425,7 +425,7 @@ public class SearchController {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
-            LOG.info("NearMe city=\"{}\" geoHash={} ip={} did={}", searchQuery.getCityName(), geoHash, ipAddress, did.getText());
+            LOG.info("OtherMerchant city=\"{}\" geoHash={} ip={} did={}", searchQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                 new ArrayList<> () {
                     private static final long serialVersionUID = -1371033286799633594L;
@@ -487,7 +487,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("NearMe invoked did={} dt={} {}", did, dt, searchQuery.getCityName());
+        LOG.info("Canteen invoked did={} dt={} {}", did, dt, searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
@@ -549,7 +549,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("NearMe invoked did={} dt={} {}", did, dt, searchQuery.getCityName());
+        LOG.info("Restaurant invoked did={} dt={} \"{}\"", did, dt, searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
@@ -611,11 +611,11 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("NearMe invoked did={} dt={} {}", did, dt, searchQuery.getCityName());
+        LOG.info("PlaceOfWorship invoked did={} dt={} \"{}\"", did, dt, searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
-            LOG.debug("Canteen nearMe city=\"{}\" lat={} lng={} filters={} ip={} did={}",
+            LOG.debug("PlaceOfWorship nearMe city=\"{}\" lat={} lng={} filters={} ip={} did={}",
                 searchQuery.getCityName(),
                 searchQuery.getLatitude(),
                 searchQuery.getLongitude(),
@@ -635,7 +635,7 @@ public class SearchController {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
-            LOG.info("Worship NearMe city=\"{}\" geoHash={} ip={} did={}", searchQuery.getCityName(), geoHash, ipAddress, did.getText());
+            LOG.info("PlaceOfWorship NearMe city=\"{}\" geoHash={} ip={} did={}", searchQuery.getCityName(), geoHash, ipAddress, did.getText());
             return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                 BusinessTypeEnum.excludePlaceOfWorship(),
                 BusinessTypeEnum.includePlaceOfWorship(),
@@ -673,7 +673,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("HealthCare invoked did={} dt={} {}", did, dt, searchQuery.getCityName());
+        LOG.info("HealthCare invoked did={} dt={} \"{}\"", did, dt, searchQuery.getCityName());
 
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
@@ -734,7 +734,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Kiosk search query=\"{}\" qr=\"{}\" did={} dt={} {}", searchQuery.getQuery(), searchQuery.getCodeQR(), did, dt, searchQuery.getCityName());
+        LOG.info("Kiosk search query=\"{}\" qr=\"{}\" did={} dt={} \"{}\"", searchQuery.getQuery(), searchQuery.getCodeQR(), did, dt, searchQuery.getCityName());
 
         try {
             String query = searchQuery.getQuery().getText();
