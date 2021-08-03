@@ -1,4 +1,4 @@
-package com.noqapp.mobile.view.controller.api.client;
+package com.noqapp.mobile.view.controller.api.merchant;
 
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
@@ -30,25 +30,25 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * hitender
- * 12/30/20 10:51 PM
+ * 12/30/20 10:54 PM
  */
-@SuppressWarnings({
+@SuppressWarnings ({
     "PMD.BeanMembersShouldSerialize",
     "PMD.LocalVariableCouldBeFinal",
     "PMD.MethodArgumentCouldBeFinal",
     "PMD.LongVariable"
 })
 @RestController
-@RequestMapping(value = "/api/c/notification")
-public class NotificationAPIController {
-    private static final Logger LOG = LoggerFactory.getLogger(NotificationAPIController.class);
+@RequestMapping(value = "/api/m/notification")
+public class NotificationAcknowledgeBusinessController {
+    private static final Logger LOG = LoggerFactory.getLogger(NotificationAcknowledgeBusinessController.class);
 
     private MessageCustomerService messageCustomerService;
     private AuthenticateMobileService authenticateMobileService;
     private ApiHealthService apiHealthService;
 
     @Autowired
-    public NotificationAPIController(
+    public NotificationAcknowledgeBusinessController(
         MessageCustomerService messageCustomerService,
         AuthenticateMobileService authenticateMobileService,
         ApiHealthService apiHealthService
@@ -59,7 +59,7 @@ public class NotificationAPIController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String notificationAPIViewed(
+    public String notificationViewed(
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
@@ -81,10 +81,10 @@ public class NotificationAPIController {
         Instant start = Instant.now();
         LOG.debug("Notification read for {} did={} dt={} mail={}, auth={}", notification.getId(), did, dt, mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/c/notification")) return null;
+        if (authorizeRequest(response, qid, mail.getText(), did.getText(), "/api/m/notification")) return null;
 
         try {
-            messageCustomerService.increaseViewClientCount(notification.getId().getText(), qid);
+            messageCustomerService.increaseViewBusinessCount(notification.getId().getText(), qid);
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed processing notification view reason={}", e.getLocalizedMessage(), e);
@@ -93,8 +93,8 @@ public class NotificationAPIController {
         } finally {
             apiHealthService.insert(
                 "/",
-                "notificationAPIViewed",
-                NotificationAPIController.class.getName(),
+                "notificationViewed",
+                NotificationAcknowledgeBusinessController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
