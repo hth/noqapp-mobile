@@ -47,6 +47,12 @@ public class SearchQuery extends AbstractDomain {
     @JsonProperty("scrollId")
     private ScrubbedInput scrollId;
 
+    @JsonProperty("from")
+    private int from;
+
+    @JsonProperty("size")
+    private int size;
+
     /* Apply specific filter on fields set on app, like city. */
     @JsonProperty("filters")
     private ScrubbedInput filters;
@@ -114,6 +120,24 @@ public class SearchQuery extends AbstractDomain {
 
     public SearchQuery setScrollId(ScrubbedInput scrollId) {
         this.scrollId = scrollId;
+        return this;
+    }
+
+    public int getFrom() {
+        return from;
+    }
+
+    public SearchQuery setFrom(int from) {
+        this.from = from;
+        return this;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public SearchQuery setSize(int size) {
+        this.size = size;
         return this;
     }
 
