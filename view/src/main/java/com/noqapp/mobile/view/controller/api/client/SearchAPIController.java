@@ -14,6 +14,7 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.search.elastic.domain.BizStoreElasticList;
 import com.noqapp.search.elastic.domain.BizStoreSearchElasticList;
+import com.noqapp.search.elastic.domain.MarketplaceElasticList;
 import com.noqapp.search.elastic.helper.GeoIP;
 import com.noqapp.search.elastic.json.ElasticBizStoreSearchSource;
 import com.noqapp.search.elastic.service.BizStoreSearchElasticService;
@@ -221,7 +222,7 @@ public class SearchAPIController {
         }
     }
 
-    /** Populated with lat and lng at the minimum, when missing uses IP address. */
+    /** NearMe stores. Populated with lat and lng at the minimum, when missing uses IP address. */
     @PostMapping(
         value = "/business",
         produces = MediaType.APPLICATION_JSON_VALUE)
@@ -350,6 +351,97 @@ public class SearchAPIController {
             apiHealthService.insert(
                 "/business",
                 "business",
+                SearchAPIController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    /** NearMe marketplace. Populated with lat and lng at the minimum, when missing uses IP address. */
+    @PostMapping(
+        value = "/marketplace",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public String marketplace(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        SearchQuery searchQuery,
+
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        LOG.info("Marketplace businessType={} \"{}\" did={} dt={} mail={}", searchQuery.getSearchedOnBusinessType(),  searchQuery.getCityName(), did, dt, mail);
+        try {
+            String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
+            LOG.debug("Marketplace city=\"{}\" lat={} lng={} filters={} ip={} did={} bt={}",
+                searchQuery.getCityName(),
+                searchQuery.getLatitude(),
+                searchQuery.getLongitude(),
+                searchQuery.getFilters(),
+                ipAddress,
+                did.getText(),
+                searchQuery.getSearchedOnBusinessType());
+
+            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
+            GeoIP geoIp = getGeoIP(
+                null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
+                searchQuery.getLatitude().getText(),
+                searchQuery.getLongitude().getText(),
+                ipAddress,
+                bizStoreElasticList);
+            String geoHash = geoIp.getGeoHash();
+            if (StringUtils.isBlank(geoHash)) {
+                /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
+                geoHash = "te7ut71tgd9n";
+            }
+
+            LOG.info("Marketplace {} city=\"{}\" geoHash={} ip={} did={} bt={}", searchQuery.getSearchedOnBusinessType(), searchQuery.getCityName(), geoHash, ipAddress, did.getText(), searchQuery.getSearchedOnBusinessType());
+            switch (searchQuery.getSearchedOnBusinessType()) {
+                case PR:
+                    return marketplaceSearchElasticService.nearMeExcludedMarketTypes(
+                        BusinessTypeEnum.excludePropertyRental(),
+                        BusinessTypeEnum.includePropertyRental(),
+                        searchQuery.getSearchedOnBusinessType(),
+                        geoHash,
+                        searchQuery.getScrollId().getText()).asJson();
+                case HI:
+                    return marketplaceSearchElasticService.nearMeExcludedMarketTypes(
+                        BusinessTypeEnum.excludeHouseholdItem(),
+                        BusinessTypeEnum.includeHouseholdItem(),
+                        searchQuery.getSearchedOnBusinessType(),
+                        geoHash,
+                        searchQuery.getScrollId().getText()).asJson();
+                default:
+                    LOG.error("Reached unsupported businessType {}", searchQuery.getSearchedOnBusinessType());
+                    return new MarketplaceElasticList()
+                        .setSearchedOnBusinessType(searchQuery.getSearchedOnBusinessType())
+                        .asJson();
+            }
+        } catch (Exception e) {
+            LOG.error("Failed listing marketplace={} reason={}", searchQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new MarketplaceElasticList()
+                .setSearchedOnBusinessType(searchQuery.getSearchedOnBusinessType())
+                .asJson();
+        } finally {
+            apiHealthService.insert(
+                "/marketplace",
+                "marketplace",
                 SearchAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
