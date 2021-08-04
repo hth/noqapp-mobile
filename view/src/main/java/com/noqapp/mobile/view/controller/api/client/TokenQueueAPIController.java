@@ -461,68 +461,9 @@ public class TokenQueueAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        BizStoreEntity bizStore = tokenQueueMobileService.getBizService().findByCodeQR(joinQueue.getCodeQR());
-        if (null == bizStore) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid QR Code");
-            return null;
-        }
-
         try {
-            LOG.info("codeQR={} qid={} guardianQid={}", joinQueue.getCodeQR(), joinQueue.getQueueUserId(), joinQueue.getGuardianQid());
-            joinAbortService.checkCustomerApprovedForTheQueue(qid, bizStore);
-            if (!bizStore.isEnabledPayment()) {
-                return joinAbortService.joinQueue(
-                    did.getText(),
-                    joinQueue.getQueueUserId(),
-                    joinQueue.getGuardianQid(),
-                    bizStore,
-                    TokenServiceEnum.C).asJson();
-            }
-
-            return getErrorReason("Missing Payment For Service", QUEUE_JOIN_FAILED_PAYMENT_CALL_REQUEST);
-        } catch (StoreDayClosedException e) {
-            LOG.warn("Failed joining queue store closed qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("Store is closed today", STORE_DAY_CLOSED);
-        } catch (BeforeStartOfStoreException e) {
-            LOG.warn("Failed joining queue as trying to join before store opens qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has not started. Please correct time on your device.", DEVICE_TIMEZONE_OFF);
-        } catch (ExpectedServiceBeyondStoreClosingHour e) {
-            LOG.warn("Failed joining queue as service time is after store close qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " will close by the time you receive service. Please do not visit.", SERVICE_AFTER_CLOSING_HOUR);
-        } catch (AlreadyServicedTodayException e) {
-            LOG.warn("Failed joining queue as have been serviced or skipped today qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " has either serviced or skipped you for today. Try another day for service", SERVICED_TODAY);
-        } catch (WaitUntilServiceBegunException e) {
-            LOG.warn("Failed joining queue as you have cancelled service today qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("Cancelled service. Please wait until service has begun to reclaim your spot if available.", WAIT_UNTIL_SERVICE_BEGUN);
-        } catch (LimitedPeriodException e) {
-            LOG.warn("Failed joining queue as limited join allowed qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = true;
-            String message = bizStore.getDisplayName() + " allows a customer one token in " + bizStore.getBizName().getLimitServiceByDays()
-                + " days. You have been serviced with-in past " + bizStore.getBizName().getLimitServiceByDays()
-                + " days. Please try again later.";
-            return ErrorEncounteredJson.toJson(message, QUEUE_SERVICE_LIMIT);
-        } catch (TokenAvailableLimitReachedException e) {
-            LOG.warn("Failed joining queue as token limit reached qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson(bizStore.getDisplayName() + " token limit for the day has reached.", QUEUE_TOKEN_LIMIT);
-        } catch (JoiningQueuePreApprovedRequiredException e) {
-            LOG.warn("Store has to pre-approve qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("Store has to pre-approve. Please complete pre-approval before joining the queue.", JOIN_PRE_APPROVED_QUEUE_ONLY);
-        } catch (JoiningNonApprovedQueueException e) {
-            LOG.warn("This queue is not approved qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("This queue is not approved. Select correct pre-approved queue.", JOINING_NOT_PRE_APPROVED_QUEUE);
-        } catch(JoiningQueuePermissionDeniedException e) {
-            LOG.warn("Store prevented user from joining queue qid={}, reason={}", qid, e.getLocalizedMessage());
-            methodStatusSuccess = true;
-            return ErrorEncounteredJson.toJson("Store has denied you from joining the queue. Please contact store for resolving this issue.", JOINING_QUEUE_PERMISSION_DENIED);
+            LOG.warn("Sent warning to upgrade qid={} did{}", qid, did);
+            return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
         } catch (Exception e) {
             LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
