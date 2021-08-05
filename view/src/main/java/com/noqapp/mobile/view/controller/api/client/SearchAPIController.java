@@ -194,7 +194,8 @@ public class SearchAPIController {
                     null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                     geoHash,
                     searchQuery.getFilters().getText(),
-                    searchQuery.getScrollId().getText()).asJson();
+                    searchQuery.getScrollId().getText(),
+                    searchQuery.getFrom()).asJson();
             } else {
                 List<ElasticBizStoreSearchSource> elasticBizStoreSearchSources = bizStoreSearchElasticService.createBizStoreSearchDSLQuery(query, geoHash);
                 LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} qid={} result={}", query, searchQuery.getCityName(), geoHash, ipAddress, did.getText(), qid, elasticBizStoreSearchSources.size());
@@ -284,7 +285,8 @@ public class SearchAPIController {
                         BusinessTypeEnum.includeCanteen(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom()).asJson();
                 case RS:
                 case RSQ:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
@@ -292,7 +294,8 @@ public class SearchAPIController {
                         BusinessTypeEnum.includeRestaurant(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom()).asJson();
                 case HS:
                 case DO:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
@@ -300,14 +303,16 @@ public class SearchAPIController {
                         BusinessTypeEnum.includeHospital(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom()).asJson();
                 case PW:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludePlaceOfWorship(),
                         BusinessTypeEnum.includePlaceOfWorship(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom()).asJson();
                 case ZZ:
                 default:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
@@ -339,7 +344,8 @@ public class SearchAPIController {
                         },
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom()).asJson();
             }
         } catch (Exception e) {
             LOG.error("Failed listing business={} reason={}", searchQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
@@ -418,14 +424,16 @@ public class SearchAPIController {
                         BusinessTypeEnum.includePropertyRental(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom()).asJson();
                 case HI:
                     return marketplaceSearchElasticService.nearMeExcludedMarketTypes(
                         BusinessTypeEnum.excludeHouseholdItem(),
                         BusinessTypeEnum.includeHouseholdItem(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom()).asJson();
                 default:
                     LOG.error("Reached unsupported businessType {}", searchQuery.getSearchedOnBusinessType());
                     return new MarketplaceElasticList()
