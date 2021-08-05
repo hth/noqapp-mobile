@@ -363,8 +363,7 @@ public class QueueMobileService {
         }
 
         return new JsonTokenAndQueueList()
-            .setTokenAndQueues(jsonTokenAndQueues)
-            .setSinceBeginning(sinceBeginning);
+            .setTokenAndQueues(jsonTokenAndQueues);
     }
 
     /** Since review can be done in background. Moved logic to thread. */
