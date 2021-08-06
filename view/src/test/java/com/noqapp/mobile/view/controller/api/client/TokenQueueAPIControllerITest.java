@@ -311,7 +311,7 @@ class TokenQueueAPIControllerITest extends ITest {
             httpServletResponse
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
-        assertFalse(jsonTokenAndQueueList.isSinceBeginning());
+//        assertFalse(jsonTokenAndQueueList.isSinceBeginning());
         assertEquals(0, jsonTokenAndQueueList.getTokenAndQueues().size());
     }
 
@@ -354,7 +354,7 @@ class TokenQueueAPIControllerITest extends ITest {
             httpServletResponse
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
-        assertFalse(jsonTokenAndQueueList.isSinceBeginning());
+//        assertFalse(jsonTokenAndQueueList.isSinceBeginning());
         assertEquals(1, jsonTokenAndQueueList.getTokenAndQueues().size());
     }
 
@@ -384,7 +384,7 @@ class TokenQueueAPIControllerITest extends ITest {
             httpServletResponse
         );
         JsonTokenAndQueueList jsonTokenAndQueueList = new ObjectMapper().readValue(allJoinedQueues, JsonTokenAndQueueList.class);
-        assertFalse(jsonTokenAndQueueList.isSinceBeginning());
+//        assertFalse(jsonTokenAndQueueList.isSinceBeginning());
         assertEquals(0, jsonTokenAndQueueList.getTokenAndQueues().size());
     }
 
