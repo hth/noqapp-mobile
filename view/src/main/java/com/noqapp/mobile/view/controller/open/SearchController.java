@@ -168,7 +168,8 @@ public class SearchController {
                     null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                     geoHash,
                     searchQuery.getFilters().getText(),
-                    searchQuery.getScrollId().getText()).asJson();
+                    searchQuery.getScrollId().getText(),
+                    searchQuery.getFrom()).asJson();
             } else {
                 List<ElasticBizStoreSearchSource> elasticBizStoreSearchSources = bizStoreSearchElasticService.createBizStoreSearchDSLQuery(query, geoHash);
                 LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} result={}", query, searchQuery.getCityName(), geoHash, ipAddress, did.getText(), elasticBizStoreSearchSources.size());
@@ -248,7 +249,8 @@ public class SearchController {
                         BusinessTypeEnum.includeCanteen(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom()).asJson();
                 case RS:
                 case RSQ:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
@@ -256,7 +258,8 @@ public class SearchController {
                         BusinessTypeEnum.includeRestaurant(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom()).asJson();
                 case HS:
                 case DO:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
@@ -264,14 +267,16 @@ public class SearchController {
                         BusinessTypeEnum.includeHospital(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom()).asJson();
                 case PW:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludePlaceOfWorship(),
                         BusinessTypeEnum.includePlaceOfWorship(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom()).asJson();
                 case ZZ:
                 default:
                     return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
@@ -303,7 +308,8 @@ public class SearchController {
                         },
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
-                        searchQuery.getScrollId().getText()).asJson();
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom()).asJson();
             }
         } catch (Exception e) {
             LOG.error("Failed listing business={} reason={}", searchQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
@@ -363,7 +369,8 @@ public class SearchController {
                         return bizStoreSearchElasticService.kioskSearchUsingRestClient(
                             query,
                             bizStore.getBizName().getId(),
-                            searchQuery.getScrollId().getText()).asJson();
+                            searchQuery.getScrollId().getText(),
+                            searchQuery.getFrom()).asJson();
                     default:
                         LOG.error("Reached unsupported condition for bizNameId={} businessType={}",
                             bizStore.getBizName().getId(),
