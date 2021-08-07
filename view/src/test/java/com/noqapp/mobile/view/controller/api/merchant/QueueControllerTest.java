@@ -263,7 +263,7 @@ class QueueControllerTest {
         verify(businessUserStoreService, times(1)).hasAccess(any(String.class), any(String.class));
         verify(queueService, times(1)).updateAndGetNextInQueue(any(String.class), any(Integer.class), ArgumentMatchers.any(QueueUserStateEnum.class), anyString(), anyString(), ArgumentMatchers.any(TokenServiceEnum.class));
 
-        JsonObject jo = (JsonObject) new JsonParser().parse(responseJson);
+        JsonObject jo = (JsonObject) JsonParser.parseString(responseJson);
         assertEquals("queuecode", jo.get("qr").getAsString());
         assertEquals(QueueStatusEnum.D, QueueStatusEnum.valueOf(jo.get("q").getAsString()));
     }
