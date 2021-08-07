@@ -1,15 +1,20 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.USER_EXISTING;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
+import com.noqapp.common.errors.ErrorJsonList;
+import com.noqapp.common.errors.MobileSystemErrorCodeEnum;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.UserAccountEntity;
 import com.noqapp.domain.UserAddressEntity;
 import com.noqapp.domain.UserProfileEntity;
 import com.noqapp.domain.json.JsonProfile;
+import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.JsonUserAddress;
 import com.noqapp.domain.json.JsonUserAddressList;
 import com.noqapp.domain.shared.DecodedAddress;
@@ -17,6 +22,7 @@ import com.noqapp.domain.shared.Geocode;
 import com.noqapp.domain.types.GenderEnum;
 import com.noqapp.mobile.domain.body.client.MigrateProfile;
 import com.noqapp.mobile.domain.body.client.UpdateProfile;
+import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.view.ITest;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.ProfileCommonHelper;
@@ -24,6 +30,9 @@ import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -244,6 +253,53 @@ class ClientProfileAPIControllerITest extends ITest {
     }
 
     @Test
-    void upload() {
+    void migrateMail_Fail_When_Email_Existing() throws IOException {
+        //Rocket
+        UserProfileEntity userProfile1 = userProfileManager.findOneByPhone("9118000000001");
+        UserAccountEntity userAccount1 = userAccountManager.findByQueueUserId(userProfile1.getQueueUserId());
+        userAccount1.setAccountValidated(true);
+        userAccount1.setPhoneValidated(true);
+        accountService.save(userAccount1);
+
+        //Pintoa D
+        UserProfileEntity userProfile2 = userProfileManager.findOneByPhone("9118000000002");
+        UserAccountEntity userAccount2 = userAccountManager.findByQueueUserId(userProfile1.getQueueUserId());
+        userAccount2.setAccountValidated(true);
+        userAccount2.setPhoneValidated(true);
+        accountService.save(userAccount2);
+
+        JsonObject json = new JsonObject();
+        json.addProperty(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name(), userProfile2.getEmail());
+        String jsonRequest = new Gson().toJson(json);
+
+        String response = clientProfileAPIController.changeMail(
+            new ScrubbedInput(userProfile1.getEmail()),
+            new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
+            jsonRequest,
+            httpServletResponse
+        );
+        JsonResponse jsonResponse = new ObjectMapper().readValue(response, JsonResponse.class);
+        assertEquals(1, jsonResponse.getResponse());
+
+        assertNull(userProfile1.getMailOTP());
+        userProfile1 = userProfileManager.findOneByPhone("9118000000001");
+        assertNotNull(userProfile1.getMailOTP());
+
+        json = new JsonObject();
+        json.addProperty("userId", userProfile2.getEmail());
+        json.addProperty("mailOTP", userProfile1.getMailOTP());
+        jsonRequest = new Gson().toJson(json);
+
+        String errorResponse = clientProfileAPIController.migrateMail(
+            new ScrubbedInput(userProfile1.getEmail()),
+            new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
+            jsonRequest,
+            httpServletResponse
+        );
+
+        ErrorJsonList errorJsonList = new ObjectMapper().readValue(errorResponse, ErrorJsonList.class);
+        assertEquals("User already exists. Cannot continue migration.", errorJsonList.getError().getReason());
+        assertEquals(MobileSystemErrorCodeEnum.USER_EXISTING.getCode(), errorJsonList.getError().getSystemErrorCode());
+        assertEquals(MobileSystemErrorCodeEnum.USER_EXISTING.name(), errorJsonList.getError().getSystemError());
     }
 }
