@@ -416,7 +416,15 @@ public class SearchAPIController {
                 geoHash = "te7ut71tgd9n";
             }
 
-            LOG.info("Marketplace {} city=\"{}\" geoHash={} ip={} did={} bt={}", searchQuery.getSearchedOnBusinessType(), searchQuery.getCityName(), geoHash, ipAddress, did.getText(), searchQuery.getSearchedOnBusinessType());
+            LOG.info("Marketplace {} city=\"{}\" geoHash={} ip={} did={} bt={} from={}",
+                searchQuery.getSearchedOnBusinessType(),
+                searchQuery.getCityName(),
+                geoHash,
+                ipAddress,
+                did.getText(),
+                searchQuery.getSearchedOnBusinessType(),
+                searchQuery.getFrom());
+
             switch (searchQuery.getSearchedOnBusinessType()) {
                 case PR:
                     return marketplaceSearchElasticService.nearMeExcludedMarketTypes(
