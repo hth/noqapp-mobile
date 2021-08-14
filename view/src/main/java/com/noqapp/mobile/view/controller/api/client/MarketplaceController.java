@@ -133,64 +133,6 @@ public class MarketplaceController {
         }
     }
 
-    /** Get details of the post. */
-    @PostMapping(
-        value = "/view",
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    public String viewMarketplace(
-        @RequestHeader("X-R-DID")
-        ScrubbedInput did,
-
-        @RequestHeader ("X-R-DT")
-        ScrubbedInput dt,
-
-        @RequestHeader ("X-R-MAIL")
-        ScrubbedInput mail,
-
-        @RequestHeader ("X-R-AUTH")
-        ScrubbedInput auth,
-
-        @RequestBody
-        JsonMarketplace jsonMarketplace,
-
-        HttpServletResponse response
-    ) throws IOException {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.info("View marketplace API for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid)) return null;
-
-        MarketplaceElastic marketplaceElastic;
-        try {
-            switch (jsonMarketplace.getBusinessType()) {
-                case HI:
-                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(propertyRentalService.findOneByIdAndExpressInterest(jsonMarketplace.getId()));
-                    break;
-                case PR:
-                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItemService.findOneByIdAndExpressInterest(jsonMarketplace.getId()));
-                    break;
-                default:
-                    LOG.warn("Un-authorized access to /api/c/marketplace/view by mail={}", mail);
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid marketplace");
-                    return null;
-            }
-            marketplaceElasticService.save(marketplaceElastic);
-            return marketplaceElastic.asJson();
-        } catch (Exception e) {
-            LOG.error("Failed finding all posting on marketplace reason={}", e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return new JsonResponse(false).asJson();
-        } finally {
-            apiHealthService.insert(
-                "/view",
-                "viewMarketplace",
-                MarketplaceController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
     /** Post on marketplace. */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public String postOnMarketplace(
@@ -268,6 +210,64 @@ public class MarketplaceController {
         }
     }
 
+    /** View details of the post. */
+    @PostMapping(
+        value = "/view",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public String viewMarketplace(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonMarketplace jsonMarketplace,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("View marketplace API for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        MarketplaceElastic marketplaceElastic;
+        try {
+            switch (jsonMarketplace.getBusinessType()) {
+                case HI:
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(propertyRentalService.findOneByIdAndLikeCount(jsonMarketplace.getId()));
+                    break;
+                case PR:
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItemService.findOneByIdAndLikeCount(jsonMarketplace.getId()));
+                    break;
+                default:
+                    LOG.warn("Un-authorized access to /api/c/marketplace/view by mail={}", mail);
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid marketplace");
+                    return null;
+            }
+            marketplaceElasticService.save(marketplaceElastic);
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed finding all posting on marketplace reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonResponse(false).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/view",
+                "viewMarketplace",
+                MarketplaceController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
     /** Post on marketplace. */
     @PostMapping(
         value = "/initiateContact",
@@ -300,12 +300,10 @@ public class MarketplaceController {
             switch (jsonMarketplace.getBusinessType()) {
                 case HI:
                     HouseholdItemEntity householdItem = householdItemService.initiateContactWithMarketplacePostOwner(qid, jsonMarketplace);
-                    marketplaceElasticService.delete(householdItem.getId());
                     marketplaceElasticService.save(DomainConversion.getAsMarketplaceElastic(householdItem));
                     break;
                 case PR:
                     PropertyRentalEntity propertyRental = propertyRentalService.initiateContactWithMarketplacePostOwner(qid, jsonMarketplace);
-                    marketplaceElasticService.delete(propertyRental.getId());
                     marketplaceElasticService.save(DomainConversion.getAsMarketplaceElastic(propertyRental));
                     break;
                 default:
