@@ -297,18 +297,20 @@ public class MarketplaceController {
         if (authorizeRequest(response, qid)) return null;
 
         try {
+            MarketplaceElastic marketplaceElastic;
             switch (jsonMarketplace.getBusinessType()) {
                 case HI:
-                    HouseholdItemEntity householdItem = householdItemService.initiateContactWithMarketplacePostOwner(qid, jsonMarketplace);
-                    marketplaceElasticService.save(DomainConversion.getAsMarketplaceElastic(householdItem));
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItemService.initiateContactWithMarketplacePostOwner(qid, jsonMarketplace));
                     break;
                 case PR:
-                    PropertyRentalEntity propertyRental = propertyRentalService.initiateContactWithMarketplacePostOwner(qid, jsonMarketplace);
-                    marketplaceElasticService.save(DomainConversion.getAsMarketplaceElastic(propertyRental));
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(propertyRentalService.initiateContactWithMarketplacePostOwner(qid, jsonMarketplace));
                     break;
                 default:
-                    //
+                    LOG.warn("Un-authorized access to /api/c/marketplace/view by mail={}", mail);
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid marketplace");
+                    return null;
             }
+            marketplaceElasticService.save(marketplaceElastic);
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
             LOG.error("Failed initiate contact on marketplace={} reason={}", jsonMarketplace.getBusinessType(), e.getLocalizedMessage(), e);
