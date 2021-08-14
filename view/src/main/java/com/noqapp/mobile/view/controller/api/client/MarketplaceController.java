@@ -109,12 +109,12 @@ public class MarketplaceController {
 
         MarketplaceElasticList marketplaceElastics = new MarketplaceElasticList();
         try {
-            List<PropertyRentalEntity> propertyRentals = propertyRentalService.findPostedProperties(qid);
+            List<PropertyRentalEntity> propertyRentals = propertyRentalService.findPostedByMeOnMarketplace(qid);
             for (PropertyRentalEntity propertyRental : propertyRentals) {
                 marketplaceElastics.addMarketplaceElastic(DomainConversion.getAsMarketplaceElastic(propertyRental));
             }
 
-            List<HouseholdItemEntity> householdItems = householdItemService.findPostedProperties(qid);
+            List<HouseholdItemEntity> householdItems = householdItemService.findPostedByMeOnMarketplace(qid);
             for (HouseholdItemEntity householdItem : householdItems) {
                 marketplaceElastics.addMarketplaceElastic(DomainConversion.getAsMarketplaceElastic(householdItem));
             }
@@ -122,7 +122,7 @@ public class MarketplaceController {
         } catch (Exception e) {
             LOG.error("Failed finding all posting on marketplace reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return new JsonResponse(false).asJson();
+            return new MarketplaceElasticList().asJson();
         } finally {
             apiHealthService.insert(
                 "/",
@@ -185,7 +185,6 @@ public class MarketplaceController {
                             .setBathroom(jsonPropertyRental.getBathroom())
                             .setBedroom(jsonPropertyRental.getBedroom())
                             .setCarpetArea(jsonPropertyRental.getCarpetArea());
-
                     }
                     populateFrom(propertyRental, jsonMarketplace, qid);
                     propertyRentalService.save(propertyRental);
