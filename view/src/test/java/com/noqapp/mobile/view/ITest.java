@@ -691,6 +691,7 @@ public class ITest extends RealMongoForITest {
         bizStoreSpatialElasticManager = new BizStoreSpatialElasticManagerImpl(restHighLevelClient);
         bizStoreSpatialElasticService = new BizStoreSpatialElasticService(5, bizStoreSpatialElasticManager, restHighLevelClient);
         bizStoreElasticService = new BizStoreElasticService(
+            5,
             bizStoreElasticManager,
             elasticAdministrationService,
             bizStoreManager,
