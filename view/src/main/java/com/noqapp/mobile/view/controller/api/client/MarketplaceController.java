@@ -268,6 +268,64 @@ public class MarketplaceController {
         }
     }
 
+    /** Post on marketplace. */
+    @PostMapping(
+        value = "/initiateContact",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public String initiateContact(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonMarketplace jsonMarketplace,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Initiate contact API for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        try {
+            switch (jsonMarketplace.getBusinessType()) {
+                case HI:
+                    HouseholdItemEntity householdItem = householdItemService.initiateContactWithMarketplacePostOwner(qid, jsonMarketplace);
+                    marketplaceElasticService.delete(householdItem.getId());
+                    marketplaceElasticService.save(DomainConversion.getAsMarketplaceElastic(householdItem));
+                    break;
+                case PR:
+                    PropertyRentalEntity propertyRental = propertyRentalService.initiateContactWithMarketplacePostOwner(qid, jsonMarketplace);
+                    marketplaceElasticService.delete(propertyRental.getId());
+                    marketplaceElasticService.save(DomainConversion.getAsMarketplaceElastic(propertyRental));
+                    break;
+                default:
+                    //
+            }
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed initiate contact on marketplace={} reason={}", jsonMarketplace.getBusinessType(), e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonResponse(false).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/",
+                "initiateContact",
+                MarketplaceController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
     private void populateFrom(MarketplaceEntity marketplace, JsonMarketplace jsonMarketplace, String qid) {
         double[] coordinate;
         String countryShortName;
