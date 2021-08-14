@@ -211,7 +211,6 @@ import org.bson.types.ObjectId;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.mock.env.MockEnvironment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -691,6 +690,7 @@ public class ITest extends RealMongoForITest {
         bizStoreSpatialElasticManager = new BizStoreSpatialElasticManagerImpl(restHighLevelClient);
         bizStoreSpatialElasticService = new BizStoreSpatialElasticService(5, bizStoreSpatialElasticManager, restHighLevelClient);
         bizStoreElasticService = new BizStoreElasticService(
+            5,
             bizStoreElasticManager,
             elasticAdministrationService,
             bizStoreManager,
