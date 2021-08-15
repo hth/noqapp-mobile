@@ -182,23 +182,40 @@ public class SearchAPIController {
                 ipAddress,
                 bizStoreSearchElasticList);
             String geoHash = geoIp.getGeoHash();
-            if (StringUtils.isBlank(geoHash) || geoHash.equalsIgnoreCase("s00000000000")) {
+            if (StringUtils.isBlank(geoHash) || "s00000000000".equalsIgnoreCase(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
 
             if (useRestHighLevel) {
-                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} qid={}", query, searchQuery.getCityName(), geoHash, ipAddress, did.getText(), qid);
-                return bizStoreSearchElasticService.executeNearMeSearchOnBizStoreUsingRestClient(
+                BizStoreElasticList bizStoreElasticList = bizStoreSearchElasticService.executeNearMeSearchOnBizStoreUsingRestClient(
                     query,
                     null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                     geoHash,
                     searchQuery.getFilters().getText(),
                     searchQuery.getScrollId().getText(),
-                    searchQuery.getFrom()).asJson();
+                    searchQuery.getFrom());
+
+                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} qid={} count={}",
+                    query,
+                    searchQuery.getCityName(),
+                    geoHash,
+                    ipAddress,
+                    did.getText(),
+                    qid,
+                    bizStoreElasticList.getBizStoreElastics().size());
+                return bizStoreElasticList.asJson();
             } else {
                 List<ElasticBizStoreSearchSource> elasticBizStoreSearchSources = bizStoreSearchElasticService.createBizStoreSearchDSLQuery(query, geoHash);
-                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} qid={} result={}", query, searchQuery.getCityName(), geoHash, ipAddress, did.getText(), qid, elasticBizStoreSearchSources.size());
+                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} qid={} count={}",
+                    query,
+                    searchQuery.getCityName(),
+                    geoHash,
+                    ipAddress,
+                    did.getText(),
+                    qid,
+                    elasticBizStoreSearchSources.size());
+
                 UserSearchEntity userSearch = new UserSearchEntity()
                     .setQuery(query)
                     .setQid(qid)
@@ -271,51 +288,54 @@ public class SearchAPIController {
                 ipAddress,
                 bizStoreElasticList);
             String geoHash = geoIp.getGeoHash();
-            if (StringUtils.isBlank(geoHash)) {
+            if (StringUtils.isBlank(geoHash) || "s00000000000".equalsIgnoreCase(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
 
-            LOG.info("Business {} city=\"{}\" geoHash={} ip={} did={} bt={}", searchQuery.getSearchedOnBusinessType(), searchQuery.getCityName(), geoHash, ipAddress, did.getText(), searchQuery.getSearchedOnBusinessType());
             switch (searchQuery.getSearchedOnBusinessType()) {
                 case CD:
                 case CDQ:
-                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                    bizStoreElasticList = bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludeCanteen(),
                         BusinessTypeEnum.includeCanteen(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
                         searchQuery.getScrollId().getText(),
-                        searchQuery.getFrom()).asJson();
+                        searchQuery.getFrom());
+                    break;
                 case RS:
                 case RSQ:
-                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                    bizStoreElasticList = bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludeRestaurant(),
                         BusinessTypeEnum.includeRestaurant(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
                         searchQuery.getScrollId().getText(),
-                        searchQuery.getFrom()).asJson();
+                        searchQuery.getFrom());
+                    break;
                 case HS:
                 case DO:
-                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                    bizStoreElasticList = bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludeHospital(),
                         BusinessTypeEnum.includeHospital(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
                         searchQuery.getScrollId().getText(),
-                        searchQuery.getFrom()).asJson();
+                        searchQuery.getFrom());
+                    break;
                 case PW:
-                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                    bizStoreElasticList = bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludePlaceOfWorship(),
                         BusinessTypeEnum.includePlaceOfWorship(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
                         searchQuery.getScrollId().getText(),
-                        searchQuery.getFrom()).asJson();
+                        searchQuery.getFrom());
+                    break;
                 case ZZ:
                 default:
-                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                    bizStoreElasticList = bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         new ArrayList<>() {
                             private static final long serialVersionUID = -1371033286799633594L;
 
@@ -345,8 +365,18 @@ public class SearchAPIController {
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
                         searchQuery.getScrollId().getText(),
-                        searchQuery.getFrom()).asJson();
+                        searchQuery.getFrom());
             }
+
+            LOG.info("Business {} city=\"{}\" geoHash={} ip={} did={} bt={} count={}",
+                searchQuery.getSearchedOnBusinessType(),
+                searchQuery.getCityName(),
+                geoHash,
+                ipAddress,
+                did.getText(),
+                searchQuery.getSearchedOnBusinessType(),
+                bizStoreElasticList.getBizStoreElastics().size());
+            return bizStoreElasticList.asJson();
         } catch (Exception e) {
             LOG.error("Failed listing business={} reason={}", searchQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -403,51 +433,54 @@ public class SearchAPIController {
                 did.getText(),
                 searchQuery.getSearchedOnBusinessType());
 
-            BizStoreElasticList bizStoreElasticList = new BizStoreElasticList();
+            MarketplaceElasticList marketplaceElasticList = new MarketplaceElasticList();
             GeoIP geoIp = getGeoIP(
                 null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                 searchQuery.getLatitude().getText(),
                 searchQuery.getLongitude().getText(),
                 ipAddress,
-                bizStoreElasticList);
+                marketplaceElasticList);
             String geoHash = geoIp.getGeoHash();
-            if (StringUtils.isBlank(geoHash)) {
+            if (StringUtils.isBlank(geoHash) || "s00000000000".equalsIgnoreCase(geoHash)) {
                 /* Note: Fail safe when lat and lng are 0.0 and 0.0 */
                 geoHash = "te7ut71tgd9n";
             }
 
-            LOG.info("Marketplace {} city=\"{}\" geoHash={} ip={} did={} bt={} from={}",
+            switch (searchQuery.getSearchedOnBusinessType()) {
+                case PR:
+                    marketplaceElasticList = marketplaceSearchElasticService.nearMeExcludedMarketTypes(
+                        BusinessTypeEnum.excludePropertyRental(),
+                        BusinessTypeEnum.includePropertyRental(),
+                        searchQuery.getSearchedOnBusinessType(),
+                        geoHash,
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom());
+                    break;
+                case HI:
+                    marketplaceElasticList = marketplaceSearchElasticService.nearMeExcludedMarketTypes(
+                        BusinessTypeEnum.excludeHouseholdItem(),
+                        BusinessTypeEnum.includeHouseholdItem(),
+                        searchQuery.getSearchedOnBusinessType(),
+                        geoHash,
+                        searchQuery.getScrollId().getText(),
+                        searchQuery.getFrom());
+                    break;
+                default:
+                    LOG.error("Reached unsupported businessType {}", searchQuery.getSearchedOnBusinessType());
+                    marketplaceElasticList = new MarketplaceElasticList()
+                        .setSearchedOnBusinessType(searchQuery.getSearchedOnBusinessType());
+            }
+
+            LOG.info("Marketplace {} city=\"{}\" geoHash={} ip={} did={} bt={} from={} count={}",
                 searchQuery.getSearchedOnBusinessType(),
                 searchQuery.getCityName(),
                 geoHash,
                 ipAddress,
                 did.getText(),
                 searchQuery.getSearchedOnBusinessType(),
-                searchQuery.getFrom());
-
-            switch (searchQuery.getSearchedOnBusinessType()) {
-                case PR:
-                    return marketplaceSearchElasticService.nearMeExcludedMarketTypes(
-                        BusinessTypeEnum.excludePropertyRental(),
-                        BusinessTypeEnum.includePropertyRental(),
-                        searchQuery.getSearchedOnBusinessType(),
-                        geoHash,
-                        searchQuery.getScrollId().getText(),
-                        searchQuery.getFrom()).asJson();
-                case HI:
-                    return marketplaceSearchElasticService.nearMeExcludedMarketTypes(
-                        BusinessTypeEnum.excludeHouseholdItem(),
-                        BusinessTypeEnum.includeHouseholdItem(),
-                        searchQuery.getSearchedOnBusinessType(),
-                        geoHash,
-                        searchQuery.getScrollId().getText(),
-                        searchQuery.getFrom()).asJson();
-                default:
-                    LOG.error("Reached unsupported businessType {}", searchQuery.getSearchedOnBusinessType());
-                    return new MarketplaceElasticList()
-                        .setSearchedOnBusinessType(searchQuery.getSearchedOnBusinessType())
-                        .asJson();
-            }
+                searchQuery.getFrom(),
+                marketplaceElasticList.getMarketplaceElastics().size());
+            return marketplaceElasticList.asJson();
         } catch (Exception e) {
             LOG.error("Failed listing marketplace={} reason={}", searchQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -474,6 +507,10 @@ public class SearchAPIController {
 
         if (abstractDomain instanceof BizStoreSearchElasticList) {
             ((BizStoreSearchElasticList) abstractDomain).setCityName(geoIp.getCityName());
+        }
+
+        if (abstractDomain instanceof MarketplaceElasticList) {
+            ((MarketplaceElasticList) abstractDomain).setCityName(geoIp.getCityName());
         }
 
         LOG.info("city=\"{}\" based on ip={}", geoIp.getCityName(), ipAddress);

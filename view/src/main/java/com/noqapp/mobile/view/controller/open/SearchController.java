@@ -162,17 +162,32 @@ public class SearchController {
             }
 
             if (useRestHighLevel) {
-                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={}", query, searchQuery.getCityName(), geoHash, ipAddress, did.getText());
-                return bizStoreSearchElasticService.executeNearMeSearchOnBizStoreUsingRestClient(
+                BizStoreElasticList bizStoreElasticList = bizStoreSearchElasticService.executeNearMeSearchOnBizStoreUsingRestClient(
                     query,
                     null == searchQuery.getCityName() ? "": searchQuery.getCityName().getText(),
                     geoHash,
                     searchQuery.getFilters().getText(),
                     searchQuery.getScrollId().getText(),
-                    searchQuery.getFrom()).asJson();
+                    searchQuery.getFrom());
+
+                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} found={}",
+                    query,
+                    searchQuery.getCityName(),
+                    geoHash,
+                    ipAddress,
+                    did.getText(),
+                    bizStoreElasticList.getSize());
+                return bizStoreElasticList.asJson();
             } else {
                 List<ElasticBizStoreSearchSource> elasticBizStoreSearchSources = bizStoreSearchElasticService.createBizStoreSearchDSLQuery(query, geoHash);
-                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} result={}", query, searchQuery.getCityName(), geoHash, ipAddress, did.getText(), elasticBizStoreSearchSources.size());
+                LOG.info("Search query=\"{}\" city=\"{}\" geoHash={} ip={} did={} count={}",
+                    query,
+                    searchQuery.getCityName(),
+                    geoHash,
+                    ipAddress,
+                    did.getText(),
+                    elasticBizStoreSearchSources.size());
+
                 UserSearchEntity userSearch = new UserSearchEntity()
                     .setQuery(searchQuery.getQuery().getText())
                     .setDid(did.getText())
@@ -240,46 +255,49 @@ public class SearchController {
                 geoHash = "te7ut71tgd9n";
             }
 
-            LOG.info("Business city=\"{}\" geoHash={} ip={} did={} bt={}", searchQuery.getCityName(), geoHash, ipAddress, did.getText(), searchQuery.getSearchedOnBusinessType());
             switch (searchQuery.getSearchedOnBusinessType()) {
                 case CD:
                 case CDQ:
-                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                    bizStoreElasticList = bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludeCanteen(),
                         BusinessTypeEnum.includeCanteen(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
                         searchQuery.getScrollId().getText(),
-                        searchQuery.getFrom()).asJson();
+                        searchQuery.getFrom());
+                    break;
                 case RS:
                 case RSQ:
-                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                    bizStoreElasticList = bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludeRestaurant(),
                         BusinessTypeEnum.includeRestaurant(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
                         searchQuery.getScrollId().getText(),
-                        searchQuery.getFrom()).asJson();
+                        searchQuery.getFrom());
+                    break;
                 case HS:
                 case DO:
-                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                    bizStoreElasticList = bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludeHospital(),
                         BusinessTypeEnum.includeHospital(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
                         searchQuery.getScrollId().getText(),
-                        searchQuery.getFrom()).asJson();
+                        searchQuery.getFrom());
+                    break;
                 case PW:
-                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                    bizStoreElasticList = bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         BusinessTypeEnum.excludePlaceOfWorship(),
                         BusinessTypeEnum.includePlaceOfWorship(),
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
                         searchQuery.getScrollId().getText(),
-                        searchQuery.getFrom()).asJson();
+                        searchQuery.getFrom());
+                    break;
                 case ZZ:
                 default:
-                    return bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
+                    bizStoreElasticList = bizStoreSpatialElasticService.nearMeExcludedBusinessTypes(
                         new ArrayList<> () {
                             private static final long serialVersionUID = -1371033286799633594L;
 
@@ -309,8 +327,16 @@ public class SearchController {
                         searchQuery.getSearchedOnBusinessType(),
                         geoHash,
                         searchQuery.getScrollId().getText(),
-                        searchQuery.getFrom()).asJson();
+                        searchQuery.getFrom());
             }
+
+            LOG.info("Business city=\"{}\" geoHash={} ip={} did={} bt={} count={}",
+                searchQuery.getCityName(),
+                geoHash, ipAddress,
+                did.getText(),
+                searchQuery.getSearchedOnBusinessType(),
+                bizStoreElasticList.getBizStoreElastics().size());
+            return bizStoreElasticList.asJson();
         } catch (Exception e) {
             LOG.error("Failed listing business={} reason={}", searchQuery.getSearchedOnBusinessType(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -344,7 +370,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Kiosk search query=\"{}\" qr=\"{}\" did={} dt={} \"{}\"", searchQuery.getQuery(), searchQuery.getCodeQR(), did, dt, searchQuery.getCityName());
+        LOG.info("Kiosk search query=\"{}\" qr={} did={} dt={} \"{}\"", searchQuery.getQuery(), searchQuery.getCodeQR(), did, dt, searchQuery.getCityName());
 
         try {
             String query = searchQuery.getQuery().getText();
