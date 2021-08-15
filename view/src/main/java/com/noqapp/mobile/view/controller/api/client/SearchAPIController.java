@@ -268,7 +268,7 @@ public class SearchAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        LOG.info("Business businessType={} \"{}\" did={} dt={} mail={}", searchQuery.getSearchedOnBusinessType(),  searchQuery.getCityName(), did, dt, mail);
+        LOG.info("Business businessType={} city=\"{}\" did={} dt={} mail={}", searchQuery.getSearchedOnBusinessType(),  searchQuery.getCityName(), did, dt, mail);
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.debug("Business city=\"{}\" lat={} lng={} filters={} ip={} did={} bt={}",
