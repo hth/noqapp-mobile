@@ -1,8 +1,11 @@
 package com.noqapp.mobile.view.controller.api.client;
 
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
+import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_OFFLINE;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 
+import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.marketplace.JsonHouseholdItem;
@@ -160,6 +163,7 @@ public class MarketplaceController {
         if (authorizeRequest(response, qid)) return null;
 
         try {
+            MarketplaceElastic marketplaceElastic;
             switch (jsonMarketplace.getBusinessType()) {
                 case HI:
                     JsonHouseholdItem jsonHouseholdItem = (JsonHouseholdItem) jsonMarketplace;
@@ -172,7 +176,8 @@ public class MarketplaceController {
                     }
                     populateFrom(householdItem, jsonMarketplace, qid);
                     householdItemService.save(householdItem);
-                    marketplaceElasticService.save(DomainConversion.getAsMarketplaceElastic(householdItem));
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItem);
+                    marketplaceElasticService.save(marketplaceElastic);
                     break;
                 case PR:
                     JsonPropertyRental jsonPropertyRental = (JsonPropertyRental) jsonMarketplace;
@@ -188,13 +193,15 @@ public class MarketplaceController {
                     }
                     populateFrom(propertyRental, jsonMarketplace, qid);
                     propertyRentalService.save(propertyRental);
-                    marketplaceElasticService.save(DomainConversion.getAsMarketplaceElastic(propertyRental));
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(propertyRental);
+                    marketplaceElasticService.save(marketplaceElastic);
                     break;
                 default:
-                    //
+                    LOG.warn("Reached unsupported condition {} on /api/c/marketplace by mail={}", jsonMarketplace.getBusinessType(), mail);
+                    return ErrorEncounteredJson.toJson("Not supported condition", MOBILE);
             }
 
-            return new JsonResponse(true).asJson();
+            return marketplaceElastic.asJson();
         } catch (Exception e) {
             LOG.error("Failed posting on marketplace={} reason={}", jsonMarketplace.getBusinessType(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
@@ -247,9 +254,8 @@ public class MarketplaceController {
                     marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItemService.findOneByIdAndLikeCount(jsonMarketplace.getId()));
                     break;
                 default:
-                    LOG.warn("Un-authorized access to /api/c/marketplace/view by mail={}", mail);
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid marketplace");
-                    return null;
+                    LOG.warn("Reached unsupported condition {} on /api/c/marketplace/view by mail={}", jsonMarketplace.getBusinessType(), mail);
+                    return ErrorEncounteredJson.toJson("Not supported condition", MOBILE);
             }
             marketplaceElasticService.save(marketplaceElastic);
             return new JsonResponse(true).asJson();
@@ -305,9 +311,8 @@ public class MarketplaceController {
                     marketplaceElastic = DomainConversion.getAsMarketplaceElastic(propertyRentalService.initiateContactWithMarketplacePostOwner(qid, jsonMarketplace));
                     break;
                 default:
-                    LOG.warn("Un-authorized access to /api/c/marketplace/view by mail={}", mail);
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid marketplace");
-                    return null;
+                    LOG.warn("Reached unsupported condition {} on /api/c/marketplace/initiateContact by mail={}", jsonMarketplace.getBusinessType(), mail);
+                    return ErrorEncounteredJson.toJson("Not supported condition", MOBILE);
             }
             marketplaceElasticService.save(marketplaceElastic);
             return new JsonResponse(true).asJson();
