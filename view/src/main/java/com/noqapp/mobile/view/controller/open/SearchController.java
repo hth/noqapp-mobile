@@ -135,7 +135,7 @@ public class SearchController {
     ) {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Searching for query=\"{}\" {} did={} dt={}", searchQuery.getQuery(), searchQuery.getCityName(), did, dt);
+        LOG.info("Searching for query=\"{}\" city=\"{}\" did={} dt={}", searchQuery.getQuery(), searchQuery.getCityName(), did, dt);
 
         try {
             String query = searchQuery.getQuery().getText();
