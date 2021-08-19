@@ -248,10 +248,10 @@ public class MarketplaceController {
         try {
             switch (jsonMarketplace.getBusinessType()) {
                 case HI:
-                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(propertyRentalService.findOneByIdAndLikeCount(jsonMarketplace.getId()));
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(propertyRentalService.findOneByIdAndViewCount(jsonMarketplace.getId()));
                     break;
                 case PR:
-                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItemService.findOneByIdAndLikeCount(jsonMarketplace.getId()));
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItemService.findOneByIdAndViewCount(jsonMarketplace.getId()));
                     break;
                 default:
                     LOG.warn("Reached unsupported condition {} on /api/c/marketplace/view by mail={}", jsonMarketplace.getBusinessType(), mail);
