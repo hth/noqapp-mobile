@@ -184,12 +184,20 @@ public class MarketplaceController {
                     PropertyRentalEntity propertyRental;
                     if (StringUtils.isNotBlank(jsonPropertyRental.getId())) {
                         propertyRental = propertyRentalService.findOneById(jsonPropertyRental.getId());
+                        if (StringUtils.isBlank(propertyRental.getHousingAgentQID())) {
+                            propertyRental.setHousingAgentQID(jsonPropertyRental.getHousingAgentQID());
+                        }
+
+                        if (StringUtils.isBlank(propertyRental.getHousingAgentReview())) {
+                            propertyRental.setHousingAgentReview(jsonPropertyRental.getHousingAgentReview());
+                        }
                     } else {
                         propertyRental = new PropertyRentalEntity()
                             .setRentalType(jsonPropertyRental.getRentalType())
                             .setBathroom(jsonPropertyRental.getBathroom())
                             .setBedroom(jsonPropertyRental.getBedroom())
-                            .setCarpetArea(jsonPropertyRental.getCarpetArea());
+                            .setCarpetArea(jsonPropertyRental.getCarpetArea())
+                            .setRentalAvailableDay(jsonPropertyRental.getRentalAvailableDay());
                     }
                     populateFrom(propertyRental, jsonMarketplace, qid);
                     propertyRentalService.save(propertyRental);
@@ -359,7 +367,7 @@ public class MarketplaceController {
             .setDescription(jsonMarketplace.getDescription())
             .setPostImages(jsonMarketplace.getPostImages())
             .setTags(jsonMarketplace.getTags())
-            //likeCount skipped
+            //viewCount skipped
             //expressedInterestCount skipped
             .setAddress(jsonMarketplace.getAddress())
             .setCity(jsonMarketplace.getCity())
