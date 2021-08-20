@@ -56,7 +56,6 @@ class MerchantProfileControllerITest extends ITest {
             authenticateMobileService,
             accountClientValidator,
             accountMobileService,
-            externalService,
             professionalProfileValidator,
             apiHealthService
         );
