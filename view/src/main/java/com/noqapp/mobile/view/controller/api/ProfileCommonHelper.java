@@ -22,7 +22,6 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
-import com.noqapp.service.ExternalService;
 import com.noqapp.social.exception.AccountNotActiveException;
 
 import org.apache.commons.lang3.StringUtils;
