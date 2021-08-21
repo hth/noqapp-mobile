@@ -1,7 +1,6 @@
 package com.noqapp.mobile.view.controller.api.client;
 
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.STORE_OFFLINE;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 
@@ -16,14 +15,19 @@ import com.noqapp.domain.market.MarketplaceEntity;
 import com.noqapp.domain.market.PropertyRentalEntity;
 import com.noqapp.domain.shared.DecodedAddress;
 import com.noqapp.domain.shared.Geocode;
+import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
+import com.noqapp.mobile.domain.body.client.UpdateProfile;
 import com.noqapp.mobile.service.AuthenticateMobileService;
+import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
+import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.search.elastic.domain.MarketplaceElastic;
 import com.noqapp.search.elastic.domain.MarketplaceElasticList;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.search.elastic.service.MarketplaceElasticService;
 import com.noqapp.service.ExternalService;
+import com.noqapp.service.FileService;
 import com.noqapp.service.market.HouseholdItemService;
 import com.noqapp.service.market.PropertyRentalService;
 
@@ -39,12 +43,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -68,6 +75,9 @@ public class MarketplaceController {
     private MarketplaceElasticService marketplaceElasticService;
     private ExternalService externalService;
     private AuthenticateMobileService authenticateMobileService;
+    private FileService fileService;
+    private ImageCommonHelper imageCommonHelper;
+    private ImageValidator imageValidator;
     private ApiHealthService apiHealthService;
 
     @Autowired
@@ -77,6 +87,9 @@ public class MarketplaceController {
         MarketplaceElasticService marketplaceElasticService,
         ExternalService externalService,
         AuthenticateMobileService authenticateMobileService,
+        FileService fileService,
+        ImageCommonHelper imageCommonHelper,
+        ImageValidator imageValidator,
         ApiHealthService apiHealthService
     ) {
         this.propertyRentalService = propertyRentalService;
@@ -84,6 +97,9 @@ public class MarketplaceController {
         this.marketplaceElasticService = marketplaceElasticService;
         this.externalService = externalService;
         this.authenticateMobileService = authenticateMobileService;
+        this.fileService = fileService;
+        this.imageCommonHelper = imageCommonHelper;
+        this.imageValidator = imageValidator;
         this.apiHealthService = apiHealthService;
     }
 
@@ -218,6 +234,127 @@ public class MarketplaceController {
             apiHealthService.insert(
                 "/",
                 "postOnMarketplace",
+                MarketplaceController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    @PostMapping (
+        value = "/uploadImage",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String uploadImage(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestPart("file")
+        MultipartFile multipartFile,
+
+        @RequestPart("postId")
+        ScrubbedInput postId,
+
+        @RequestPart("businessTypeAsString")
+        ScrubbedInput businessTypeAsString,
+
+        HttpServletResponse response
+    ) throws IOException {
+        Map<String, String> errors = imageValidator.validate(multipartFile, ImageValidator.SUPPORTED_FILE.IMAGE);
+        if (!errors.isEmpty()) {
+            return ErrorEncounteredJson.toJson(errors);
+        }
+
+        return imageCommonHelper.uploadImageForMarketplace(
+            did.getText(),
+            dt.getText(),
+            mail.getText(),
+            auth.getText(),
+            postId.getText(),
+            BusinessTypeEnum.valueOf(businessTypeAsString.getText()),
+            multipartFile,
+            response);
+    }
+
+    /** Needs PostId, ImageId and Business Type to remove image. */
+    @PostMapping (
+        value = "/removeImage",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String removeImage(
+        @RequestHeader("X-R-DID")
+        ScrubbedInput did,
+
+        @RequestHeader ("X-R-DT")
+        ScrubbedInput dt,
+
+        @RequestHeader ("X-R-MAIL")
+        ScrubbedInput mail,
+
+        @RequestHeader ("X-R-AUTH")
+        ScrubbedInput auth,
+
+        @RequestBody
+        JsonMarketplace jsonMarketplace,
+
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = true;
+        Instant start = Instant.now();
+        LOG.info("Remove image from marketplace for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
+        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
+        if (authorizeRequest(response, qid)) return null;
+
+        try {
+            MarketplaceElastic marketplaceElastic;
+            switch (jsonMarketplace.getBusinessType()) {
+                case PR:
+                    PropertyRentalEntity propertyRental = propertyRentalService.findOneById(qid, jsonMarketplace.getId());
+                    for (String imageId : jsonMarketplace.getPostImages()) {
+                        if (propertyRental.getPostImages().contains(imageId)) {
+                            fileService.deleteMarketImage(propertyRental.getQueueUserId(), imageId, jsonMarketplace.getId(), propertyRental.getBusinessType());
+
+                            propertyRental.getPostImages().remove(imageId);
+                        }
+                    }
+                    propertyRentalService.save(propertyRental);
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(propertyRental);
+                    marketplaceElasticService.save(marketplaceElastic);
+                    break;
+                case HI:
+                    HouseholdItemEntity householdItem = householdItemService.findOneById(qid, jsonMarketplace.getId());
+                    for (String imageId : jsonMarketplace.getPostImages()) {
+                        if (householdItem.getPostImages().contains(imageId)) {
+                            fileService.deleteMarketImage(householdItem.getQueueUserId(), imageId, jsonMarketplace.getId(), householdItem.getBusinessType());
+
+                            householdItem.getPostImages().remove(imageId);
+                        }
+                    }
+                    householdItemService.save(householdItem);
+                    marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItem);
+                    marketplaceElasticService.save(marketplaceElastic);
+                    break;
+                default:
+                    LOG.error("Reached unsupported condition={}", jsonMarketplace.getBusinessType());
+                    throw new UnsupportedOperationException("Reached unsupported condition " + jsonMarketplace.getBusinessType());
+            }
+            return marketplaceElastic.asJson();
+        } catch (Exception e) {
+            LOG.error("Failed removing image from marketplace {} {} reason={}", jsonMarketplace.getBusinessType(), jsonMarketplace.getId(), e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonResponse(false).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/removeImage",
+                "removeImage",
                 MarketplaceController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);

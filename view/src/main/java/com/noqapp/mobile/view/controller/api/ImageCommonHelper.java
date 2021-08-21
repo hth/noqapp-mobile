@@ -7,6 +7,9 @@ import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.FileUtil;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.market.HouseholdItemEntity;
+import com.noqapp.domain.market.PropertyRentalEntity;
+import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.medical.LabCategoryEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
@@ -14,6 +17,7 @@ import com.noqapp.medical.service.MedicalFileService;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.client.ClientProfileAPIController;
+import com.noqapp.mobile.view.controller.api.client.MarketplaceController;
 import com.noqapp.mobile.view.controller.api.merchant.health.MedicalRecordController;
 import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.service.FileService;
@@ -99,10 +103,24 @@ public class ImageCommonHelper extends CommonHelper {
         } finally {
             apiHealthService.insert(
                 "/upload",
-                "upload",
+                "uploadProfileImage",
                 ClientProfileAPIController.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    private void processProfileImage(String qid, MultipartFile multipartFile) throws IOException {
+        BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
+        String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
+        if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
+            fileService.addProfileImage(
+                qid,
+                FileUtil.createRandomFilenameOf24Chars() + FileUtil.getImageFileExtension(multipartFile.getOriginalFilename(), mimeType),
+                bufferedImage);
+        } else {
+            LOG.error("Failed mime mismatch found={} sentMime={}", mimeType, multipartFile.getContentType());
+            throw new RuntimeException("Mime type mismatch");
         }
     }
 
@@ -302,17 +320,58 @@ public class ImageCommonHelper extends CommonHelper {
         }
     }
 
-    private void processProfileImage(String qid, MultipartFile multipartFile) throws IOException {
+    public String uploadImageForMarketplace(
+        String did,
+        String dt,
+        String mail,
+        String auth,
+        String postId,
+        BusinessTypeEnum businessType,
+        MultipartFile multipartFile,
+        HttpServletResponse response
+    ) throws IOException {
+        boolean methodStatusSuccess = false;
+        Instant start = Instant.now();
+        LOG.info("Image upload for marketplace bt={} dt={} did={} mail={}, auth={}", dt, businessType, did, mail, AUTH_KEY_HIDDEN);
+        String qid = authenticateMobileService.getQueueUserId(mail, auth);
+        if (null == qid) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
+            return null;
+        }
+
+        if (multipartFile.isEmpty()) {
+            LOG.error("File name missing in request or no file uploaded");
+            return ErrorEncounteredJson.toJson("File missing in request or no file uploaded.", MOBILE_UPLOAD);
+        }
+
+        try {
+            processMarketplaceImage(qid, postId, businessType, multipartFile);
+            methodStatusSuccess = true;
+            return new JsonResponse(true).asJson();
+        } catch (Exception e) {
+            LOG.error("Failed uploading profile image reason={}", e.getLocalizedMessage(), e);
+            methodStatusSuccess = false;
+            return new JsonResponse(false).asJson();
+        } finally {
+            apiHealthService.insert(
+                "/uploadImage",
+                "uploadImageForMarketplace",
+                MarketplaceController.class.getName(),
+                Duration.between(start, Instant.now()),
+                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
+        }
+    }
+
+    private void processMarketplaceImage(String qid, String postId, BusinessTypeEnum businessType, MultipartFile multipartFile) throws IOException {
         BufferedImage bufferedImage = fileService.bufferedImage(multipartFile.getInputStream());
         String mimeType = FileUtil.detectMimeType(multipartFile.getInputStream());
         if (mimeType.equalsIgnoreCase(multipartFile.getContentType())) {
-            fileService.addProfileImage(
+            fileService.addMarketplaceImage(
                 qid,
+                postId,
                 FileUtil.createRandomFilenameOf24Chars() + FileUtil.getImageFileExtension(multipartFile.getOriginalFilename(), mimeType),
+                businessType,
                 bufferedImage);
-        } else {
-            LOG.error("Failed mime mismatch found={} sentMime={}", mimeType, multipartFile.getContentType());
-            throw new RuntimeException("Mime type mismatch");
         }
     }
 }

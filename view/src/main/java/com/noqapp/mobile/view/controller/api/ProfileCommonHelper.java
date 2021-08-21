@@ -22,7 +22,6 @@ import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.ProfessionalProfileValidator;
-import com.noqapp.service.ExternalService;
 import com.noqapp.social.exception.AccountNotActiveException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -58,7 +57,6 @@ public class ProfileCommonHelper extends CommonHelper {
     private AuthenticateMobileService authenticateMobileService;
     private AccountClientValidator accountClientValidator;
     private AccountMobileService accountMobileService;
-    private ExternalService externalService;
     private ProfessionalProfileValidator professionalProfileValidator;
     private ApiHealthService apiHealthService;
 
@@ -67,7 +65,6 @@ public class ProfileCommonHelper extends CommonHelper {
         AuthenticateMobileService authenticateMobileService,
         AccountClientValidator accountClientValidator,
         AccountMobileService accountMobileService,
-        ExternalService externalService,
         ProfessionalProfileValidator professionalProfileValidator,
         ApiHealthService apiHealthService
     ) {
@@ -75,7 +72,6 @@ public class ProfileCommonHelper extends CommonHelper {
         this.authenticateMobileService = authenticateMobileService;
         this.accountClientValidator = accountClientValidator;
         this.accountMobileService = accountMobileService;
-        this.externalService = externalService;
         this.professionalProfileValidator = professionalProfileValidator;
         this.apiHealthService = apiHealthService;
     }
