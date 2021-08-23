@@ -243,9 +243,13 @@ public class TokenQueueMobileService {
 
                 switch (bizStore.getBusinessType()) {
                     case BK:
-                        String bannerImage = bizStore.getStoreServiceImages().isEmpty() ? null : bizStore.getStoreServiceImages().iterator().next();
+                        String bannerImage = bizStore.getStoreInteriorImages().isEmpty()
+                            ? null
+                            : bizStore.getCodeQR() + "/" + bizStore.getStoreInteriorImages().iterator().next();
                         if (StringUtils.isBlank(bannerImage)) {
-                            bannerImage = bizStore.getBizName().getBusinessServiceImages().isEmpty() ? null : bizStore.getBizName().getBusinessServiceImages().iterator().next();
+                            bannerImage = bizStore.getBizName().getBusinessServiceImages().isEmpty()
+                                ? null
+                                : bizStore.getBizName().getCodeQR() + "/" + bizStore.getBizName().getBusinessServiceImages().iterator().next();
                         }
 
                         bizStoreElastic.setDisplayImage(bannerImage);
