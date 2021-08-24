@@ -7,8 +7,6 @@ import static com.noqapp.common.utils.CommonUtil.UNAUTHORIZED;
 import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.FileUtil;
 import com.noqapp.domain.json.JsonResponse;
-import com.noqapp.domain.market.HouseholdItemEntity;
-import com.noqapp.domain.market.PropertyRentalEntity;
 import com.noqapp.domain.types.BusinessTypeEnum;
 import com.noqapp.domain.types.medical.LabCategoryEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
@@ -16,10 +14,6 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.medical.service.MedicalFileService;
 import com.noqapp.mobile.service.AccountMobileService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
-import com.noqapp.mobile.view.controller.api.client.ClientProfileAPIController;
-import com.noqapp.mobile.view.controller.api.client.MarketplaceController;
-import com.noqapp.mobile.view.controller.api.merchant.health.MedicalRecordController;
-import com.noqapp.mobile.view.controller.api.merchant.store.PurchaseOrderController;
 import com.noqapp.service.FileService;
 
 import org.slf4j.Logger;
@@ -104,7 +98,7 @@ public class ImageCommonHelper extends CommonHelper {
             apiHealthService.insert(
                 "/upload",
                 "uploadProfileImage",
-                ClientProfileAPIController.class.getName(),
+                ImageCommonHelper.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -158,7 +152,7 @@ public class ImageCommonHelper extends CommonHelper {
             apiHealthService.insert(
                 "/removeProfileImage",
                 "removeProfileImage",
-                ClientProfileAPIController.class.getName(),
+                ImageCommonHelper.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -198,8 +192,8 @@ public class ImageCommonHelper extends CommonHelper {
         } finally {
             apiHealthService.insert(
                 "/appendImage",
-                "appendImage",
-                MedicalRecordController.class.getName(),
+                "uploadMedicalRecordImage",
+                ImageCommonHelper.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -234,8 +228,8 @@ public class ImageCommonHelper extends CommonHelper {
         } finally {
             apiHealthService.insert(
                 "/removeImage",
-                "removeImage",
-                MedicalRecordController.class.getName(),
+                "removeMedicalImage",
+                ImageCommonHelper.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -276,8 +270,8 @@ public class ImageCommonHelper extends CommonHelper {
         } finally {
             apiHealthService.insert(
                 "/addAttachment",
-                "addAttachment",
-                PurchaseOrderController.class.getName(),
+                "processReport",
+                ImageCommonHelper.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -313,8 +307,8 @@ public class ImageCommonHelper extends CommonHelper {
         } finally {
             apiHealthService.insert(
                 "/removeAttachment",
-                "removeAttachment",
-                PurchaseOrderController.class.getName(),
+                "removeReport",
+                ImageCommonHelper.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
@@ -356,7 +350,7 @@ public class ImageCommonHelper extends CommonHelper {
             apiHealthService.insert(
                 "/uploadImage",
                 "uploadImageForMarketplace",
-                MarketplaceController.class.getName(),
+                ImageCommonHelper.class.getName(),
                 Duration.between(start, Instant.now()),
                 methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
         }
