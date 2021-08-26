@@ -1,6 +1,5 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.MOBILE;
 import static com.noqapp.common.utils.CommonUtil.AUTH_KEY_HIDDEN;
 import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController.authorizeRequest;
 
@@ -8,7 +7,6 @@ import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.marketplace.JsonPropertyRental;
-import com.noqapp.domain.market.HouseholdItemEntity;
 import com.noqapp.domain.market.MarketplaceEntity;
 import com.noqapp.domain.market.PropertyRentalEntity;
 import com.noqapp.domain.shared.DecodedAddress;
