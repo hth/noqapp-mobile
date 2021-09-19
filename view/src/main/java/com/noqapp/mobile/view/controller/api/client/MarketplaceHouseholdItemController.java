@@ -216,9 +216,6 @@ public class MarketplaceHouseholdItemController {
         @RequestPart("postId")
         ScrubbedInput postId,
 
-        @RequestPart("businessTypeAsString")
-        ScrubbedInput businessTypeAsString,
-
         HttpServletResponse response
     ) throws IOException {
         Map<String, String> errors = imageValidator.validate(multipartFile, ImageValidator.SUPPORTED_FILE.IMAGE);
@@ -232,7 +229,7 @@ public class MarketplaceHouseholdItemController {
             mail.getText(),
             auth.getText(),
             postId.getText(),
-            BusinessTypeEnum.valueOf(businessTypeAsString.getText()),
+            BusinessTypeEnum.HI,
             multipartFile,
             response);
     }
