@@ -6,6 +6,7 @@ import static com.noqapp.mobile.view.controller.api.client.TokenQueueAPIControll
 import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonResponse;
+import com.noqapp.domain.json.marketplace.JsonMarketplaceList;
 import com.noqapp.domain.json.marketplace.JsonPropertyRental;
 import com.noqapp.domain.market.MarketplaceEntity;
 import com.noqapp.domain.market.PropertyRentalEntity;
@@ -116,14 +117,14 @@ public class MarketplacePropertyRentalController {
         LOG.info("Show all my marketplace API for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
-
-        MarketplaceElasticList marketplaceElastics = new MarketplaceElasticList();
+        
+        JsonMarketplaceList jsonMarketplaceList = new JsonMarketplaceList();
         try {
             List<PropertyRentalEntity> propertyRentals = propertyRentalService.findPostedByMeOnMarketplace(qid);
             for (PropertyRentalEntity propertyRental : propertyRentals) {
-                marketplaceElastics.addMarketplaceElastic(DomainConversion.getAsMarketplaceElastic(propertyRental));
+                jsonMarketplaceList.addJsonPropertyRentals(propertyRental.populateJson());
             }
-            return marketplaceElastics.asJson();
+            return jsonMarketplaceList.asJson();
         } catch (Exception e) {
             LOG.error("Failed finding all posting on marketplace reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
