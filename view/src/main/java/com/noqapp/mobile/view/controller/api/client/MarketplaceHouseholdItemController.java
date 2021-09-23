@@ -128,7 +128,7 @@ public class MarketplaceHouseholdItemController {
         } catch (Exception e) {
             LOG.error("Failed finding all posting on marketplace reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
-            return new MarketplaceElasticList().asJson();
+            return jsonMarketplaceList.asJson();
         } finally {
             apiHealthService.insert(
                 "/",
