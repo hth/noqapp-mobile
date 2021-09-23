@@ -7,6 +7,7 @@ import com.noqapp.common.errors.ErrorEncounteredJson;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.json.JsonResponse;
 import com.noqapp.domain.json.marketplace.JsonHouseholdItem;
+import com.noqapp.domain.json.marketplace.JsonMarketplaceList;
 import com.noqapp.domain.market.HouseholdItemEntity;
 import com.noqapp.domain.market.MarketplaceEntity;
 import com.noqapp.domain.shared.DecodedAddress;
@@ -117,13 +118,13 @@ public class MarketplaceHouseholdItemController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        MarketplaceElasticList marketplaceElastics = new MarketplaceElasticList();
+        JsonMarketplaceList jsonMarketplaceList = new JsonMarketplaceList();
         try {
             List<HouseholdItemEntity> householdItems = householdItemService.findPostedByMeOnMarketplace(qid);
             for (HouseholdItemEntity householdItem : householdItems) {
-                marketplaceElastics.addMarketplaceElastic(DomainConversion.getAsMarketplaceElastic(householdItem));
+                jsonMarketplaceList.addJsonHouseholdItems(householdItem.populateJson());
             }
-            return marketplaceElastics.asJson();
+            return jsonMarketplaceList.asJson();
         } catch (Exception e) {
             LOG.error("Failed finding all posting on marketplace reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
