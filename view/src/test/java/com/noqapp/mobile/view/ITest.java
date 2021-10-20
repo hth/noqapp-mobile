@@ -639,7 +639,8 @@ public class ITest extends RealMongoForITest {
             propertyRentalManager,
             householdItemManager,
             bizService,
-            storeCategoryService
+            storeCategoryService,
+            mailService
         );
 
         storeProductService = new StoreProductService(storeProductManager, bizStoreManager, fileService, transactionService);
