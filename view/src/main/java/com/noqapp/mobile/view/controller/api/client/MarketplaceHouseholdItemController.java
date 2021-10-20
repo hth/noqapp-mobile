@@ -13,10 +13,12 @@ import com.noqapp.domain.market.MarketplaceEntity;
 import com.noqapp.domain.shared.DecodedAddress;
 import com.noqapp.domain.shared.Geocode;
 import com.noqapp.domain.types.BusinessTypeEnum;
+import com.noqapp.domain.types.ValidateStatusEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
+import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.search.elastic.domain.MarketplaceElastic;
 import com.noqapp.search.elastic.domain.MarketplaceElasticList;
@@ -48,6 +50,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -157,6 +160,7 @@ public class MarketplaceHouseholdItemController {
         @RequestBody
         JsonHouseholdItem jsonHouseholdItem,
 
+        HttpServletRequest request,
         HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
@@ -166,7 +170,6 @@ public class MarketplaceHouseholdItemController {
         if (authorizeRequest(response, qid)) return null;
 
         try {
-            MarketplaceElastic marketplaceElastic;
             HouseholdItemEntity householdItem;
             if (StringUtils.isNotBlank(jsonHouseholdItem.getId())) {
                 householdItem = householdItemService.findOneById(jsonHouseholdItem.getId());
@@ -174,9 +177,10 @@ public class MarketplaceHouseholdItemController {
                 householdItem = new HouseholdItemEntity()
                     .setItemCondition(jsonHouseholdItem.getItemCondition());
             }
-            populateFrom(householdItem, jsonHouseholdItem, qid);
+            populateFrom(householdItem, jsonHouseholdItem, qid, HttpRequestResponseParser.getClientIpAddress(request));
             householdItemService.save(householdItem);
-            marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItem);
+            
+            MarketplaceElastic marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItem);
             marketplaceElasticService.save(marketplaceElastic);
 
             return marketplaceElastic.asJson();
@@ -384,7 +388,7 @@ public class MarketplaceHouseholdItemController {
         }
     }
 
-    private void populateFrom(MarketplaceEntity marketplace, JsonHouseholdItem jsonHouseholdItem, String qid) {
+    private void populateFrom(MarketplaceEntity marketplace, JsonHouseholdItem jsonHouseholdItem, String qid, String ip) {
         double[] coordinate;
         String countryShortName;
 
@@ -423,6 +427,10 @@ public class MarketplaceHouseholdItemController {
             .setCity(jsonHouseholdItem.getCity())
             .setTown(jsonHouseholdItem.getTown())
             .setCountryShortName(countryShortName)
-            .setLandmark(jsonHouseholdItem.getLandmark());
+            .setLandmark(jsonHouseholdItem.getLandmark())
+            //publishUntil skipped
+            //validateByQid skipped
+            .setValidateStatus(ValidateStatusEnum.P)
+            .setIpAddress(ip);
     }
 }

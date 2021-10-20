@@ -13,10 +13,12 @@ import com.noqapp.domain.market.PropertyRentalEntity;
 import com.noqapp.domain.shared.DecodedAddress;
 import com.noqapp.domain.shared.Geocode;
 import com.noqapp.domain.types.BusinessTypeEnum;
+import com.noqapp.domain.types.ValidateStatusEnum;
 import com.noqapp.health.domain.types.HealthStatusEnum;
 import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
+import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.search.elastic.domain.MarketplaceElastic;
 import com.noqapp.search.elastic.domain.MarketplaceElasticList;
@@ -48,6 +50,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -157,6 +160,7 @@ public class MarketplacePropertyRentalController {
         @RequestBody
         JsonPropertyRental jsonPropertyRental,
 
+        HttpServletRequest request,
         HttpServletResponse response
     ) throws IOException {
         boolean methodStatusSuccess = true;
@@ -184,8 +188,9 @@ public class MarketplacePropertyRentalController {
                     .setCarpetArea(jsonPropertyRental.getCarpetArea())
                     .setRentalAvailableDay(jsonPropertyRental.getRentalAvailableDay());
             }
-            populateFrom(propertyRental, jsonPropertyRental, qid);
+            populateFrom(propertyRental, jsonPropertyRental, qid, HttpRequestResponseParser.getClientIpAddress(request));
             propertyRentalService.save(propertyRental);
+
             MarketplaceElastic marketplaceElastic = DomainConversion.getAsMarketplaceElastic(propertyRental);
             marketplaceElasticService.save(marketplaceElastic);
 
@@ -394,7 +399,7 @@ public class MarketplacePropertyRentalController {
         }
     }
 
-    private void populateFrom(MarketplaceEntity marketplace, JsonPropertyRental jsonPropertyRental, String qid) {
+    private void populateFrom(MarketplaceEntity marketplace, JsonPropertyRental jsonPropertyRental, String qid, String ip) {
         double[] coordinate;
         String countryShortName;
 
@@ -433,6 +438,10 @@ public class MarketplacePropertyRentalController {
             .setCity(jsonPropertyRental.getCity())
             .setTown(jsonPropertyRental.getTown())
             .setCountryShortName(countryShortName)
-            .setLandmark(jsonPropertyRental.getLandmark());
+            .setLandmark(jsonPropertyRental.getLandmark())
+            //publishUntil skipped
+            //validateByQid skipped
+            .setValidateStatus(ValidateStatusEnum.P)
+            .setIpAddress(ip);
     }
 }
