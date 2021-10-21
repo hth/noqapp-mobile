@@ -453,7 +453,7 @@ public class TokenQueueAPIController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Join queue v1 did={} dt={}", did, deviceType);
+        LOG.info("Join queue did={} dt={}", did, deviceType);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
