@@ -430,7 +430,7 @@ public class MarketplaceHouseholdItemController {
             .setLandmark(jsonHouseholdItem.getLandmark())
             //publishUntil skipped
             //validateByQid skipped
-            .setValidateStatus(ValidateStatusEnum.P)
+            .setValidateStatus(ValidateStatusEnum.I)
             .setIpAddress(ip);
     }
 }
