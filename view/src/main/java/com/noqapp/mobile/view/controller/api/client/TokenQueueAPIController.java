@@ -428,59 +428,9 @@ public class TokenQueueAPIController {
         }
     }
 
-    /**
-     * Join the queue.
-     * Note: /joinQueue is obsolete since 1.3.122. After support, always return message to upgrade app.
-     */
-    @Deprecated
+    /** Join the queue. Deprecate "v1/joinQueue" after 1.3.130 */
     @PostMapping (
-        value = "/joinQueue",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public String joinQueueObsolete(
-        @RequestHeader ("X-R-DID")
-        ScrubbedInput did,
-
-        @RequestHeader ("X-R-DT")
-        ScrubbedInput deviceType,
-
-        @RequestHeader ("X-R-MAIL")
-        ScrubbedInput mail,
-
-        @RequestHeader ("X-R-AUTH")
-        ScrubbedInput auth,
-
-        @RequestBody
-        JoinQueue joinQueue,
-
-        HttpServletResponse response
-    ) throws IOException {
-        boolean methodStatusSuccess = true;
-        Instant start = Instant.now();
-        LOG.info("Join queue did={} dt={}", did, deviceType);
-        String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
-        if (authorizeRequest(response, qid)) return null;
-
-        try {
-            LOG.warn("Sent warning to upgrade qid={} did{}", qid, did);
-            return getErrorReason("To continue, please upgrade to latest version", MOBILE_UPGRADE);
-        } catch (Exception e) {
-            LOG.error("Failed joining queue qid={}, reason={}", qid, e.getLocalizedMessage(), e);
-            methodStatusSuccess = false;
-            return getErrorReason("Something went wrong. Engineers are looking into this.", SEVERE);
-        } finally {
-            apiHealthService.insert(
-                "/joinQueue",
-                "joinQueue",
-                TokenQueueAPIController.class.getName(),
-                Duration.between(start, Instant.now()),
-                methodStatusSuccess ? HealthStatusEnum.G : HealthStatusEnum.F);
-        }
-    }
-
-    /** Join the queue. */
-    @PostMapping (
-        value = "/v1/joinQueue",
+        value = {"/v1/joinQueue", "joinQueue"},
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String joinQueue(
@@ -503,7 +453,7 @@ public class TokenQueueAPIController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Join queue v1 did={} dt={}", did, deviceType);
+        LOG.info("Join queue did={} dt={}", did, deviceType);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
@@ -573,7 +523,7 @@ public class TokenQueueAPIController {
         }
     }
 
-    /** Join the queue when their is pre-payment. */
+    /** Join the queue when there is pre-payment. */
     @PostMapping (
         value = "/payBeforeQueue",
         produces = MediaType.APPLICATION_JSON_VALUE

@@ -1,11 +1,5 @@
 package com.noqapp.mobile.service;
 
-import com.noqapp.common.utils.ScrubbedInput;
-import com.noqapp.domain.UserAccountEntity;
-import com.noqapp.domain.UserProfileEntity;
-import com.noqapp.domain.types.GenderEnum;
-import com.noqapp.domain.types.UserLevelEnum;
-import com.noqapp.mobile.domain.body.client.Registration;
 import com.noqapp.repository.EmailValidateManager;
 import com.noqapp.repository.EmailValidateManagerImpl;
 import com.noqapp.repository.ForgotRecoverManager;

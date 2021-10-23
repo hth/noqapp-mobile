@@ -441,7 +441,7 @@ public class MarketplacePropertyRentalController {
             .setLandmark(jsonPropertyRental.getLandmark())
             //publishUntil skipped
             //validateByQid skipped
-            .setValidateStatus(ValidateStatusEnum.P)
+            .setValidateStatus(ValidateStatusEnum.I)
             .setIpAddress(ip);
     }
 }

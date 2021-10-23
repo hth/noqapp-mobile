@@ -229,7 +229,7 @@ public class TokenQueueController {
         }
     }
 
-    /** Get all the queues user has token from. In short all the queues user has joined. */
+    /** Get all the queues' user has token from. In short all the queues' user has joined. */
     @GetMapping (
         value = "/queues",
         produces = MediaType.APPLICATION_JSON_VALUE
@@ -266,7 +266,7 @@ public class TokenQueueController {
 
     @API(status = DEPRECATED, since = "1.3.122")
     @Deprecated
-    /** Get all the historical queues user has token from. In short all the queues user has joined in past. */
+    /** Get all the historical queues' user has token from. In short all the queues' user has joined in the past. */
     @PostMapping(
         value = "/historical",
         produces = MediaType.APPLICATION_JSON_VALUE
