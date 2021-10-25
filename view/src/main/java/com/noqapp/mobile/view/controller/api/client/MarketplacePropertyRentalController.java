@@ -190,11 +190,7 @@ public class MarketplacePropertyRentalController {
             }
             populateFrom(propertyRental, jsonPropertyRental, qid, HttpRequestResponseParser.getClientIpAddress(request));
             propertyRentalService.save(propertyRental);
-
-            MarketplaceElastic marketplaceElastic = DomainConversion.getAsMarketplaceElastic(propertyRental);
-            marketplaceElasticService.save(marketplaceElastic);
-
-            return marketplaceElastic.asJson();
+            return propertyRental.populateJson().asJson();
         } catch (Exception e) {
             LOG.error("Failed posting on marketplace={} reason={}", jsonPropertyRental.getBusinessType(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;

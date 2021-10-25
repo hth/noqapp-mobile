@@ -179,11 +179,7 @@ public class MarketplaceHouseholdItemController {
             }
             populateFrom(householdItem, jsonHouseholdItem, qid, HttpRequestResponseParser.getClientIpAddress(request));
             householdItemService.save(householdItem);
-            
-            MarketplaceElastic marketplaceElastic = DomainConversion.getAsMarketplaceElastic(householdItem);
-            marketplaceElasticService.save(marketplaceElastic);
-
-            return marketplaceElastic.asJson();
+            return householdItem.populateJson().asJson();
         } catch (Exception e) {
             LOG.error("Failed posting on marketplace={} reason={}", jsonHouseholdItem.getBusinessType(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
