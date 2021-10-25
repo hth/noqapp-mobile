@@ -1,6 +1,5 @@
 package com.noqapp.mobile.view.controller.api.client;
 
-import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_DETAIL_MISSING;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.DEVICE_TIMEZONE_OFF;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_NOT_PRE_APPROVED_QUEUE;
 import static com.noqapp.common.errors.MobileSystemErrorCodeEnum.JOINING_QUEUE_PERMISSION_DENIED;
@@ -30,7 +29,6 @@ import static com.noqapp.mobile.view.controller.open.DeviceController.getErrorRe
 import static org.apiguardian.api.API.Status.DEPRECATED;
 
 import com.noqapp.common.errors.ErrorEncounteredJson;
-import com.noqapp.common.utils.CommonUtil;
 import com.noqapp.common.utils.ScrubbedInput;
 import com.noqapp.domain.BizStoreEntity;
 import com.noqapp.domain.BusinessCustomerEntity;
@@ -42,9 +40,7 @@ import com.noqapp.domain.json.JsonToken;
 import com.noqapp.domain.json.JsonTokenAndQueueList;
 import com.noqapp.domain.json.payment.cashfree.JsonCashfreeNotification;
 import com.noqapp.domain.json.payment.cashfree.JsonResponseWithCFToken;
-import com.noqapp.domain.types.AppFlavorEnum;
 import com.noqapp.domain.types.BusinessCustomerAttributeEnum;
-import com.noqapp.domain.types.DeviceTypeEnum;
 import com.noqapp.domain.types.PaymentModeEnum;
 import com.noqapp.domain.types.PaymentStatusEnum;
 import com.noqapp.domain.types.PurchaseOrderStateEnum;
@@ -56,13 +52,9 @@ import com.noqapp.mobile.domain.body.client.JoinQueue;
 import com.noqapp.mobile.domain.body.client.QueueAuthorize;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.mobile.service.PurchaseOrderMobileService;
-import com.noqapp.mobile.service.QueueMobileService;
 import com.noqapp.mobile.service.TokenQueueMobileService;
-import com.noqapp.mobile.service.exception.DeviceDetailMissingException;
-import com.noqapp.mobile.view.common.ParseTokenFCM;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.repository.UserAddressManager;
-import com.noqapp.search.elastic.helper.IpCoordinate;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
 import com.noqapp.service.BusinessCustomerService;
 import com.noqapp.service.JoinAbortService;
