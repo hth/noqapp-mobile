@@ -422,7 +422,7 @@ public class TokenQueueAPIController {
 
     /** Join the queue. Deprecate "v1/joinQueue" after 1.3.130 */
     @PostMapping (
-        value = {"/v1/joinQueue", "joinQueue"},
+        value = {"/v1/joinQueue", "/joinQueue"},
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String joinQueue(
