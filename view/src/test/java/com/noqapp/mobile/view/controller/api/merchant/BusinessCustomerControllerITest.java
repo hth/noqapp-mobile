@@ -23,6 +23,7 @@ import com.noqapp.mobile.view.controller.api.client.TokenQueueAPIController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -159,7 +160,7 @@ class BusinessCustomerControllerITest extends ITest {
         assertTrue(jsonQueuedPerson.getBusinessCustomerAttributes().contains(BusinessCustomerAttributeEnum.AP));
     }
 
-    @Test
+    @Disabled
     void accessAction_Reject_FirstTime() throws Exception {
         UserProfileEntity queueManagerUserProfile = accountService.checkUserExistsByPhone("9118000001102");
         List<BusinessUserStoreEntity> businessUserStores = businessUserStoreService.findAllStoreQueueAssociated(queueManagerUserProfile.getQueueUserId());
