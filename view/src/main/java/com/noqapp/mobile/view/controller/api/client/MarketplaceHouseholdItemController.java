@@ -21,7 +21,6 @@ import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.util.HttpRequestResponseParser;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.search.elastic.domain.MarketplaceElastic;
-import com.noqapp.search.elastic.domain.MarketplaceElasticList;
 import com.noqapp.search.elastic.helper.DomainConversion;
 import com.noqapp.search.elastic.service.MarketplaceElasticService;
 import com.noqapp.service.ExternalService;
