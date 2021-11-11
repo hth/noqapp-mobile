@@ -53,9 +53,9 @@ buildscript {
     }
     dependencies {
         classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:$spotbugsPluginGradle"
-        classpath "org.owasp:dependency-check-gradle:6.2.2"
-        classpath "org.codehaus.groovy:groovy-all:3.0.8"
-        classpath "de.aaschmid:gradle-cpd-plugin:3.2"
+        classpath "org.owasp:dependency-check-gradle:6.5.0.1"
+        classpath "org.codehaus.groovy:groovy-all:3.0.9"
+        classpath "de.aaschmid:gradle-cpd-plugin:3.3"
         //classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1'
     }
 }
@@ -307,7 +307,7 @@ subprojects {
     //https://ci.jenkins.io/job/Plugins/job/warnings-ng-plugin/job/master/lastStableBuild/
     cpd {
         language = 'java'
-        toolVersion = '6.35.0'
+        toolVersion = '6.38.0'
         minimumTokenCount = 100 // approximately 5-10 lines
     }
 
@@ -322,7 +322,7 @@ subprojects {
     }
 
     jacoco {
-        toolVersion = "0.8.7"
+        toolVersion = "0.8.8"
     }
 
     spotbugs {
