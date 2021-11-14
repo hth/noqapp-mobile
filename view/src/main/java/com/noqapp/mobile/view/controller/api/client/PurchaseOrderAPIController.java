@@ -41,6 +41,7 @@ import com.noqapp.health.service.ApiHealthService;
 import com.noqapp.mobile.domain.body.client.OrderDetail;
 import com.noqapp.mobile.service.AuthenticateMobileService;
 import com.noqapp.repository.UserAddressManager;
+import com.noqapp.search.elastic.service.PurchaseOrderElasticService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.CouponService;
 import com.noqapp.service.PurchaseOrderService;
@@ -91,6 +92,7 @@ public class PurchaseOrderAPIController {
     private static final Logger LOG = LoggerFactory.getLogger(PurchaseOrderAPIController.class);
 
     private PurchaseOrderService purchaseOrderService;
+    private PurchaseOrderElasticService purchaseOrderElasticService;
     private CouponService couponService;
     private BizService bizService;
     private UserAddressManager userAddressManager;
@@ -100,6 +102,7 @@ public class PurchaseOrderAPIController {
     @Autowired
     public PurchaseOrderAPIController(
         PurchaseOrderService purchaseOrderService,
+        PurchaseOrderElasticService purchaseOrderElasticService,
         CouponService couponService,
         BizService bizService,
         UserAddressManager userAddressManager,
@@ -107,6 +110,7 @@ public class PurchaseOrderAPIController {
         AuthenticateMobileService authenticateMobileService
     ) {
         this.purchaseOrderService = purchaseOrderService;
+        this.purchaseOrderElasticService = purchaseOrderElasticService;
         this.couponService = couponService;
         this.bizService = bizService;
         this.userAddressManager = userAddressManager;
@@ -163,6 +167,7 @@ public class PurchaseOrderAPIController {
             }
 
             purchaseOrderService.createOrderWithCFToken(jsonPurchaseOrder, qid, did.getText(), TokenServiceEnum.C);
+            purchaseOrderElasticService.save(jsonPurchaseOrder);
             LOG.info("Order Placed Successfully={}", jsonPurchaseOrder.getPresentOrderState());
             return jsonPurchaseOrder.asJson();
         } catch (StoreInActiveException e) {
@@ -234,6 +239,7 @@ public class PurchaseOrderAPIController {
             }
 
             JsonPurchaseOrder jsonPurchaseOrderResponse = purchaseOrderService.cancelOrderByClient(qid, jsonPurchaseOrder.getTransactionId());
+            purchaseOrderElasticService.remove(jsonPurchaseOrderResponse);
             LOG.info("Order Cancelled Successfully={}", jsonPurchaseOrderResponse.getPresentOrderState());
             return jsonPurchaseOrderResponse.asJson();
         } catch(PurchaseOrderRefundExternalException e) {

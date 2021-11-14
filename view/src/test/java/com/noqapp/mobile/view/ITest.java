@@ -156,10 +156,13 @@ import com.noqapp.search.elastic.repository.BizStoreElasticManager;
 import com.noqapp.search.elastic.repository.BizStoreElasticManagerImpl;
 import com.noqapp.search.elastic.repository.BizStoreSpatialElasticManager;
 import com.noqapp.search.elastic.repository.BizStoreSpatialElasticManagerImpl;
+import com.noqapp.search.elastic.repository.PurchaseOrderElasticManager;
+import com.noqapp.search.elastic.repository.PurchaseOrderElasticManagerImpl;
 import com.noqapp.search.elastic.service.BizStoreElasticService;
 import com.noqapp.search.elastic.service.BizStoreSpatialElasticService;
 import com.noqapp.search.elastic.service.ElasticAdministrationService;
 import com.noqapp.search.elastic.service.GeoIPLocationService;
+import com.noqapp.search.elastic.service.PurchaseOrderElasticService;
 import com.noqapp.service.AccountService;
 import com.noqapp.service.BizService;
 import com.noqapp.service.BusinessCustomerPriorityService;
@@ -351,6 +354,8 @@ public class ITest extends RealMongoForITest {
     protected BizStoreSpatialElasticManager<BizStoreElastic> bizStoreSpatialElasticManager;
     protected BizStoreElasticService bizStoreElasticService;
     protected BizStoreSpatialElasticService bizStoreSpatialElasticService;
+    protected PurchaseOrderElasticManager purchaseOrderElasticManager;
+    protected PurchaseOrderElasticService purchaseOrderElasticService;
     protected TransactionService transactionService;
     protected StoreHourService storeHourService;
     protected MedicalRecordMobileService medicalRecordMobileService;
@@ -654,7 +659,6 @@ public class ITest extends RealMongoForITest {
             purchaseOrderProductManager,
             purchaseOrderProductManagerJDBC,
             queueManager,
-            queueManagerJDBC,
             pointEarnedManager,
             couponService,
             userAddressService,
@@ -698,6 +702,9 @@ public class ITest extends RealMongoForITest {
             storeHourManager,
             bizStoreSpatialElasticService,
             apiHealthService);
+
+        purchaseOrderElasticManager = new PurchaseOrderElasticManagerImpl(restHighLevelClient);
+        purchaseOrderElasticService = new PurchaseOrderElasticService(purchaseOrderElasticManager, purchaseOrderManager, userAddressManager, apiHealthService);
 
         joinAbortService = new JoinAbortService(
             2,
