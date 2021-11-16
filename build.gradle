@@ -307,7 +307,7 @@ subprojects {
     //https://ci.jenkins.io/job/Plugins/job/warnings-ng-plugin/job/master/lastStableBuild/
     cpd {
         language = 'java'
-        toolVersion = '6.38.0'
+        toolVersion = '6.40.0'
         minimumTokenCount = 100 // approximately 5-10 lines
     }
 
@@ -326,7 +326,7 @@ subprojects {
     }
 
     spotbugs {
-        toolVersion = '4.2.3'
+        toolVersion = '4.5.0'
         ignoreFailures = true
         effort = 'max'
         showProgress = true
