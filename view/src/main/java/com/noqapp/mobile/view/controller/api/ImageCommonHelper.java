@@ -343,7 +343,7 @@ public class ImageCommonHelper extends CommonHelper {
             methodStatusSuccess = true;
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
-            LOG.error("Failed uploading profile image reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed uploading marketplace image reason={}", e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new JsonResponse(false).asJson();
         } finally {
