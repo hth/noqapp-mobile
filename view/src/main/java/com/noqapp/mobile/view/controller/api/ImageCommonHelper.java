@@ -326,7 +326,7 @@ public class ImageCommonHelper extends CommonHelper {
     ) throws IOException {
         boolean methodStatusSuccess = false;
         Instant start = Instant.now();
-        LOG.info("Image upload for marketplace bt={} dt={} did={} mail={}, auth={}", dt, businessType, did, mail, AUTH_KEY_HIDDEN);
+        LOG.info("Image upload for marketplace bt={} dt={} did={} mail={}, auth={}", businessType, dt, did, mail, AUTH_KEY_HIDDEN);
         String qid = authenticateMobileService.getQueueUserId(mail, auth);
         if (null == qid) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
