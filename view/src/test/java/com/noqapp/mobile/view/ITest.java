@@ -632,7 +632,7 @@ public class ITest extends RealMongoForITest {
         householdItemManager = new HouseholdItemManagerImpl(getMongoTemplate());
 
         fileService = new FileService(
-            192, 192, 300, 150,
+            192, 192, 300, 150, 10,
             accountService,
             ftpService,
             s3FileManager,
