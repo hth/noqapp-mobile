@@ -421,7 +421,7 @@ public class SearchAPIController {
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
-        LOG.info("Marketplace businessType={} \"{}\" did={} dt={} mail={}", searchQuery.getSearchedOnBusinessType(),  searchQuery.getCityName(), did, dt, mail);
+        LOG.info("Marketplace businessType={} \"{}\" did={} dt={} mail={}", searchQuery.getSearchedOnBusinessType().name(), searchQuery.getCityName(), did, dt, mail);
         try {
             String ipAddress = HttpRequestResponseParser.getClientIpAddress(request);
             LOG.debug("Marketplace city=\"{}\" lat={} lng={} filters={} ip={} did={} bt={}",
