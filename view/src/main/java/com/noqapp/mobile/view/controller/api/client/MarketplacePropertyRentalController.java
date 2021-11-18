@@ -56,7 +56,7 @@ import javax.servlet.http.HttpServletResponse;
  * hitender
  * 3/6/21 11:55 PM
  */
-@SuppressWarnings ({
+@SuppressWarnings({
     "PMD.BeanMembersShouldSerialize",
     "PMD.LocalVariableCouldBeFinal",
     "PMD.MethodArgumentCouldBeFinal",
@@ -103,13 +103,13 @@ public class MarketplacePropertyRentalController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         HttpServletResponse response
@@ -119,7 +119,7 @@ public class MarketplacePropertyRentalController {
         LOG.info("Show all my marketplace API for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
-        
+
         JsonMarketplaceList jsonMarketplaceList = new JsonMarketplaceList();
         try {
             List<PropertyRentalEntity> propertyRentals = propertyRentalService.findPostedByMeOnMarketplace(qid);
@@ -147,13 +147,13 @@ public class MarketplacePropertyRentalController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         @RequestBody
@@ -204,7 +204,7 @@ public class MarketplacePropertyRentalController {
         }
     }
 
-    @PostMapping (
+    @PostMapping(
         value = "/uploadImage",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -212,13 +212,13 @@ public class MarketplacePropertyRentalController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         @RequestPart("file")
@@ -246,7 +246,7 @@ public class MarketplacePropertyRentalController {
     }
 
     /** Needs PostId, ImageId and Business Type to remove image. */
-    @PostMapping (
+    @PostMapping(
         value = "/removeImage",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -254,13 +254,13 @@ public class MarketplacePropertyRentalController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         @RequestBody
@@ -310,13 +310,13 @@ public class MarketplacePropertyRentalController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         @RequestBody
@@ -356,13 +356,13 @@ public class MarketplacePropertyRentalController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         @RequestBody
