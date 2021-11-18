@@ -370,7 +370,7 @@ public class MarketplaceHouseholdItemController {
             marketplaceElasticService.save(marketplaceElastic);
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
-            LOG.error("Failed initiate contact on marketplace={} reason={}", jsonHouseholdItem.getBusinessType(), e.getLocalizedMessage(), e);
+            LOG.error("Failed initiate contact on marketplace={} reason={}", jsonHouseholdItem.getBusinessType().name(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new JsonResponse(false).asJson();
         } finally {
