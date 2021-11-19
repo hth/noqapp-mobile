@@ -108,27 +108,6 @@ public class LogContextFilter implements Filter {
                         + " query=\"" + (query == null ? "none" : query) + "\""
                         + " url=\"" + url + "\""
                 );
-            } else {
-                //Remove After 1.3.120 release
-                city = StringUtils.isEmpty(response.getCity().getName()) ? "" : response.getCity().getName();
-                if (null != response.getLocation()) {
-                    geoHash = new GeoPoint(response.getLocation().getLatitude(), response.getLocation().getLongitude()).getGeohash();
-
-                    LOG.info("Request received:"
-                            + " host=\"" + getHeader(headerMap, "host") + "\""
-                            + " userAgent=\"" + getHeader(headerMap, "user-agent") + "\""
-                            + " accept=\"" + getHeader(headerMap, "accept") + "\""
-                            + " ip=\"" + ip + "\""
-                            + " country=\"" + countryCode + "\""
-//                            + " city=\"" + city + "\""
-//                            + " geoHash=\"" + geoHash + "\""
-                            + " appVersion=\"" + appVersion + "\""
-                            + " flavor=\"" + flavor + "\""
-                            + " endpoint=\"" + extractDataFromURL(url, "$5") + "\""
-                            + " query=\"" + (query == null ? "none" : query) + "\""
-                            + " url=\"" + url + "\""
-                    );
-                }
             }
         } catch (AddressNotFoundException e) {
             LOG.warn("Failed finding ip={} reason={}", ip, e.getLocalizedMessage());
@@ -137,21 +116,6 @@ public class LogContextFilter implements Filter {
         } catch (IOException e) {
             LOG.error("Failed databaseReader reason={}", e.getLocalizedMessage(), e);
         }
-
-//        LOG.info("Request received:"
-//            + " host=\"" + getHeader(headerMap, "host") + "\""
-//            + " userAgent=\"" + getHeader(headerMap, "user-agent") + "\""
-//            + " accept=\"" + getHeader(headerMap, "accept") + "\""
-//            + " ip=\"" + ip + "\""
-//            + " country=\"" + countryCode + "\""
-////            + " city=\"" + city + "\""
-//            + " geoHash=\"" + geoHash + "\""
-//            + " version=\"" + ver + "\""
-//            + " flavor=\"" + flavor + "\""
-//            + " endpoint=\"" + extractDataFromURL(url, "$5") + "\""
-//            + " query=\"" + (query == null ? "none" : query) + "\""
-//            + " url=\"" + url + "\""
-//        );
 
         if (StringUtils.isNotBlank(countryCode)) {
             switch (countryCode) {

@@ -56,7 +56,7 @@ import javax.servlet.http.HttpServletResponse;
  * hitender
  * 3/6/21 11:55 PM
  */
-@SuppressWarnings ({
+@SuppressWarnings({
     "PMD.BeanMembersShouldSerialize",
     "PMD.LocalVariableCouldBeFinal",
     "PMD.MethodArgumentCouldBeFinal",
@@ -103,13 +103,13 @@ public class MarketplaceHouseholdItemController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         HttpServletResponse response
@@ -147,13 +147,13 @@ public class MarketplaceHouseholdItemController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         @RequestBody
@@ -164,7 +164,7 @@ public class MarketplaceHouseholdItemController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Post of marketplace API for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
+        LOG.info("Post householdItem API for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
@@ -193,7 +193,7 @@ public class MarketplaceHouseholdItemController {
         }
     }
 
-    @PostMapping (
+    @PostMapping(
         value = "/uploadImage",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -201,13 +201,13 @@ public class MarketplaceHouseholdItemController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         @RequestPart("file")
@@ -235,7 +235,7 @@ public class MarketplaceHouseholdItemController {
     }
 
     /** Needs PostId, ImageId and Business Type to remove image. */
-    @PostMapping (
+    @PostMapping(
         value = "/removeImage",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -243,13 +243,13 @@ public class MarketplaceHouseholdItemController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         @RequestBody
@@ -299,13 +299,13 @@ public class MarketplaceHouseholdItemController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         @RequestBody
@@ -345,13 +345,13 @@ public class MarketplaceHouseholdItemController {
         @RequestHeader("X-R-DID")
         ScrubbedInput did,
 
-        @RequestHeader ("X-R-DT")
+        @RequestHeader("X-R-DT")
         ScrubbedInput dt,
 
-        @RequestHeader ("X-R-MAIL")
+        @RequestHeader("X-R-MAIL")
         ScrubbedInput mail,
 
-        @RequestHeader ("X-R-AUTH")
+        @RequestHeader("X-R-AUTH")
         ScrubbedInput auth,
 
         @RequestBody
