@@ -83,31 +83,12 @@ public class LogContextFilter implements Filter {
         String city = "";
         String geoHash = "";
         try {
-            InetAddress ipAddress = InetAddress.getByName(ip);
-            CityResponse response = ipGeoConfiguration.getDatabaseReader().city(ipAddress);
-            countryCode = response.getCountry().getIsoCode();
-
-            if (StringUtils.isNotBlank(lat) && StringUtils.isNotBlank(lng)) {
-                geoHash = new GeoPoint(Double.parseDouble(lat), Double.parseDouble(lng)).getGeohash();
-
-                LOG.info("Request received:"
-                        + " host=\"" + getHeader(headerMap, "host") + "\""
-                        + " userAgent=\"" + getHeader(headerMap, "user-agent") + "\""
-                        + " accept=\"" + getHeader(headerMap, "accept") + "\""
-                        + " ip=\"" + ip + "\""
-                        + " country=\"" + countryCode + "\""
-//                        + " city=\"" + city + "\""
-                        + " geoHash=\"" + geoHash + "\""
-                        + " appVersion=\"" + appVersion + "\""
-                        + " flavor=\"" + flavor + "\""
-                        + " model=\"" + model + "\""
-                        + " did=\"" + did + "\""
-                        + " mail=\"" + mail + "\""
-                        + " qid=\"" + qid + "\""
-                        + " endpoint=\"" + extractDataFromURL(url, "$5") + "\""
-                        + " query=\"" + (query == null ? "none" : query) + "\""
-                        + " url=\"" + url + "\""
-                );
+            if (ip != null) {
+                InetAddress ipAddress = InetAddress.getByName(ip);
+                CityResponse response = ipGeoConfiguration.getDatabaseReader().city(ipAddress);
+                countryCode = response.getCountry().getIsoCode();
+            } else {
+                countryCode = "ZZ";
             }
         } catch (AddressNotFoundException e) {
             LOG.warn("Failed finding ip={} reason={}", ip, e.getLocalizedMessage());
@@ -115,6 +96,30 @@ public class LogContextFilter implements Filter {
             LOG.error("Failed reason={}", e.getLocalizedMessage(), e);
         } catch (IOException e) {
             LOG.error("Failed databaseReader reason={}", e.getLocalizedMessage(), e);
+        }
+
+        if (StringUtils.isNotBlank(lat) && StringUtils.isNotBlank(lng)) {
+            geoHash = new GeoPoint(Double.parseDouble(lat), Double.parseDouble(lng)).getGeohash();
+
+            LOG.info("Request received:"
+                + " host=\"" + getHeader(headerMap, "host") + "\""
+                + " userAgent=\"" + getHeader(headerMap, "user-agent") + "\""
+                + " accept=\"" + getHeader(headerMap, "accept") + "\""
+                + " content-type=\"" + getHeader(headerMap, "content-type") + "\""
+                + " ip=\"" + ip + "\""
+                + " country=\"" + countryCode + "\""
+//                + " city=\"" + city + "\""
+                + " geoHash=\"" + geoHash + "\""
+                + " appVersion=\"" + appVersion + "\""
+                + " flavor=\"" + flavor + "\""
+                + " model=\"" + model + "\""
+                + " did=\"" + did + "\""
+                + " mail=\"" + mail + "\""
+                + " qid=\"" + qid + "\""
+                + " endpoint=\"" + extractDataFromURL(url, "$5") + "\""
+                + " query=\"" + (query == null ? "none" : query) + "\""
+                + " url=\"" + url + "\""
+            );
         }
 
         if (StringUtils.isNotBlank(countryCode)) {
