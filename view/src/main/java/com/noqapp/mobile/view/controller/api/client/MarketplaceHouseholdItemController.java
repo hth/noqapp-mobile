@@ -164,7 +164,7 @@ public class MarketplaceHouseholdItemController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Post of marketplace API for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
+        LOG.info("Post householdItem API for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
