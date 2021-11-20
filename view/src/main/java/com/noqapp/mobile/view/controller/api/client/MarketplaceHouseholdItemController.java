@@ -214,7 +214,7 @@ public class MarketplaceHouseholdItemController {
         MultipartFile multipartFile,
 
         @RequestPart("postId")
-        ScrubbedInput postId,
+        String postId,
 
         HttpServletResponse response
     ) throws IOException {
@@ -228,7 +228,7 @@ public class MarketplaceHouseholdItemController {
             dt.getText(),
             mail.getText(),
             auth.getText(),
-            postId.getText(),
+            postId,
             BusinessTypeEnum.HI,
             multipartFile,
             response);
