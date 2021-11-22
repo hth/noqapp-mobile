@@ -335,7 +335,7 @@ public class MarketplacePropertyRentalController {
             marketplaceElasticService.save(marketplaceElastic);
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
-            LOG.error("Failed finding all posting on marketplace reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed loading propertyRental id={} reason={}", jsonPropertyRental.getId(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new JsonResponse(false).asJson();
         } finally {
