@@ -324,7 +324,7 @@ public class MarketplaceHouseholdItemController {
             marketplaceElasticService.save(marketplaceElastic);
             return new JsonResponse(true).asJson();
         } catch (Exception e) {
-            LOG.error("Failed finding all posting on marketplace reason={}", e.getLocalizedMessage(), e);
+            LOG.error("Failed loading householdItem id={} reason={}", jsonHouseholdItem.getId(), e.getLocalizedMessage(), e);
             methodStatusSuccess = false;
             return new JsonResponse(false).asJson();
         } finally {
