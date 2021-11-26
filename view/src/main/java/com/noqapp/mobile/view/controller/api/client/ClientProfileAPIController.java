@@ -398,7 +398,7 @@ public class ClientProfileAPIController {
         }
     }
 
-    /** Migrate Mail address. */
+    /** Migrate Mail address. Note: Move validation OTP to another method. TODO(hth)*/
     @PostMapping(
         value="/migrateMail",
         produces = MediaType.APPLICATION_JSON_VALUE
