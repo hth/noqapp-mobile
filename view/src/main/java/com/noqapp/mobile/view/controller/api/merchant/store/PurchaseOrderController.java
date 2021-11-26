@@ -63,6 +63,7 @@ import com.noqapp.mobile.view.controller.api.ImageCommonHelper;
 import com.noqapp.mobile.view.controller.api.merchant.queue.QueueController;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.repository.BizStoreManager;
+import com.noqapp.search.elastic.service.PurchaseOrderElasticService;
 import com.noqapp.service.BusinessUserStoreService;
 import com.noqapp.service.DeviceService;
 import com.noqapp.service.NotifyMobileService;
@@ -127,6 +128,7 @@ public class PurchaseOrderController {
     private AuthenticateMobileService authenticateMobileService;
     private BusinessUserStoreService businessUserStoreService;
     private PurchaseOrderService purchaseOrderService;
+    private PurchaseOrderElasticService purchaseOrderElasticService;
     private QueueMobileService queueMobileService;
     private TokenQueueService tokenQueueService;
     private MedicalRecordService medicalRecordService;
@@ -153,6 +155,7 @@ public class PurchaseOrderController {
         AuthenticateMobileService authenticateMobileService,
         BusinessUserStoreService businessUserStoreService,
         PurchaseOrderService purchaseOrderService,
+        PurchaseOrderElasticService purchaseOrderElasticService,
         QueueMobileService queueMobileService,
         TokenQueueService tokenQueueService,
         MedicalRecordService medicalRecordService,
@@ -170,6 +173,7 @@ public class PurchaseOrderController {
         this.authenticateMobileService = authenticateMobileService;
         this.businessUserStoreService = businessUserStoreService;
         this.purchaseOrderService = purchaseOrderService;
+        this.purchaseOrderElasticService = purchaseOrderElasticService;
         this.queueMobileService = queueMobileService;
         this.tokenQueueService = tokenQueueService;
         this.medicalRecordService = medicalRecordService;
@@ -677,7 +681,7 @@ public class PurchaseOrderController {
                     "Your order number is " + jsonPurchaseOrder.getDisplayToken(),
                     bizStore.getCodeQR());
             }
-
+            purchaseOrderElasticService.save(jsonPurchaseOrder);
             return jsonPurchaseOrder.asJson();
         } catch (StoreInActiveException e) {
             LOG.warn("Failed placing order reason={}", e.getLocalizedMessage());
