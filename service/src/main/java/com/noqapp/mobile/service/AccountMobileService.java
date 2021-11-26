@@ -182,6 +182,10 @@ public class AccountMobileService {
         return userAccount;
     }
 
+    public UserAccountEntity validateAccount(String qid, String mailOTP) {
+        return accountService.validateAccount(qid, mailOTP);
+    }
+
     public UserAccountEntity changeUIDWithMailOTP(String existingUserId, String newUserId) {
         /* No QID hence using method without QID. */
         UserAccountEntity userAccount = accountService.updateUID(existingUserId, newUserId);

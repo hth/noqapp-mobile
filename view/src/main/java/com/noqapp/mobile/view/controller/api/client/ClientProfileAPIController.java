@@ -33,6 +33,7 @@ import com.noqapp.mobile.view.controller.open.DeviceController;
 import com.noqapp.mobile.view.validator.AccountClientValidator;
 import com.noqapp.mobile.view.validator.ImageValidator;
 import com.noqapp.service.UserAddressService;
+import com.noqapp.service.exceptions.AccountEmailValidationException;
 import com.noqapp.service.exceptions.DuplicateAccountException;
 import com.noqapp.social.exception.AccountNotActiveException;
 
@@ -467,14 +468,27 @@ public class ClientProfileAPIController {
                 try {
                     userProfile = accountMobileService.findProfileByQueueUserId(qid);
                     if (userProfile.getMailOTP().equals(mailOTP)) {
-                        userAccount = accountMobileService.changeUIDWithMailOTP(userProfile.getEmail(), mailMigrate);
-                        accountMobileService.unsetMailOTP(userProfile.getId());
-
+                        userAccount = accountMobileService.findByQueueUserId(userProfile.getQueueUserId());
+                        if (!userAccount.isAccountValidated()) {
+                            userAccount = accountMobileService.validateAccount(userAccount.getQueueUserId(), mailOTP);
+                        } else {
+                            userAccount = accountMobileService.changeUIDWithMailOTP(userProfile.getEmail(), mailMigrate);
+                            accountMobileService.unsetMailOTP(userProfile.getId());
+                        }
                         response.addHeader("X-R-MAIL", userAccount.getUserId());
                         response.addHeader("X-R-AUTH", userAccount.getUserAuthentication().getAuthenticationKeyEncoded());
                     } else {
-                        return ErrorEncounteredJson.toJson("Entered Mail OTP is incorrect", MAIL_OTP_FAILED);
+                        return ErrorEncounteredJson.toJson("Entered Mail OTP is incorrect.", MAIL_OTP_FAILED);
                     }
+                } catch (AccountEmailValidationException e) {
+                    LOG.error("Failed validating account for user={} mailMigrate={} reason={}", mail, mailMigrate, e.getLocalizedMessage());
+
+                    errors = new HashMap<>();
+                    errors.put(ErrorEncounteredJson.REASON, "Failed validating account. Please try again.");
+                    errors.put(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name(), mailMigrate);
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR, USER_EXISTING.name());
+                    errors.put(ErrorEncounteredJson.SYSTEM_ERROR_CODE, USER_EXISTING.getCode());
+                    return ErrorEncounteredJson.toJson(errors);
                 } catch (DuplicateAccountException e) {
                     LOG.error("Failed migration account exists for user={} mailMigrate={} reason={}", mail, mailMigrate, e.getLocalizedMessage());
 
