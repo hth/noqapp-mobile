@@ -301,4 +301,62 @@ class ClientProfileAPIControllerITest extends ITest {
         assertEquals(MobileSystemErrorCodeEnum.USER_EXISTING.getCode(), errorJsonList.getError().getSystemErrorCode());
         assertEquals(MobileSystemErrorCodeEnum.USER_EXISTING.name(), errorJsonList.getError().getSystemError());
     }
+
+    @Test
+    void validateEmailOTP() throws IOException {
+        UserProfileEntity userProfile1 = userProfileManager.findOneByPhone("9118000001112");
+        UserAccountEntity userAccount1 = userAccountManager.findByQueueUserId(userProfile1.getQueueUserId());
+
+        if (!userAccount1.isAccountValidated()) {
+            JsonObject json = new JsonObject();
+            json.addProperty(AccountMobileService.ACCOUNT_MAIL_MIGRATE.EM.name(), userProfile1.getEmail());
+            String jsonRequest = new Gson().toJson(json);
+
+            String response = clientProfileAPIController.changeMail(
+                new ScrubbedInput(userProfile1.getEmail()),
+                new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
+                jsonRequest,
+                httpServletResponse
+            );
+            JsonResponse jsonResponse = new ObjectMapper().readValue(response, JsonResponse.class);
+            assertEquals(1, jsonResponse.getResponse());
+
+            assertNull(userProfile1.getMailOTP());
+            userProfile1 = userProfileManager.findOneByPhone("9118000001112");
+            assertNotNull(userProfile1.getMailOTP());
+
+
+            json = new JsonObject();
+            json.addProperty("userId", userProfile1.getEmail());
+            json.addProperty("mailOTP", "XXXXXX");
+            jsonRequest = new Gson().toJson(json);
+
+            String errorResponse = clientProfileAPIController.migrateMail(
+                new ScrubbedInput(userProfile1.getEmail()),
+                new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
+                jsonRequest,
+                httpServletResponse
+            );
+
+            ErrorJsonList errorJsonList = new ObjectMapper().readValue(errorResponse, ErrorJsonList.class);
+            assertEquals("Entered Mail OTP is incorrect.", errorJsonList.getError().getReason());
+            assertEquals(MobileSystemErrorCodeEnum.MAIL_OTP_FAILED.getCode(), errorJsonList.getError().getSystemErrorCode());
+            assertEquals(MobileSystemErrorCodeEnum.MAIL_OTP_FAILED.name(), errorJsonList.getError().getSystemError());
+
+            json = new JsonObject();
+            json.addProperty("userId", userProfile1.getEmail());
+            json.addProperty("mailOTP", userProfile1.getMailOTP());
+            jsonRequest = new Gson().toJson(json);
+
+            response = clientProfileAPIController.migrateMail(
+                new ScrubbedInput(userProfile1.getEmail()),
+                new ScrubbedInput(userAccount1.getUserAuthentication().getAuthenticationKey()),
+                jsonRequest,
+                httpServletResponse
+            );
+
+            JsonProfile jsonProfile = new ObjectMapper().readValue(response, JsonProfile.class);
+            assertTrue(jsonProfile.isAccountValidated());
+        }
+    }
 }
