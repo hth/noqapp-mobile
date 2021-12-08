@@ -174,7 +174,8 @@ public class MarketplaceHouseholdItemController {
                 householdItem = householdItemService.findOneById(jsonHouseholdItem.getId());
             } else {
                 householdItem = new HouseholdItemEntity()
-                    .setItemCondition(jsonHouseholdItem.getItemCondition());
+                    .setItemCondition(jsonHouseholdItem.getItemCondition())
+                    .setHouseholdItemCategory(jsonHouseholdItem.getHouseholdItemCategory());
             }
             populateFrom(householdItem, jsonHouseholdItem, qid, HttpRequestResponseParser.getClientIpAddress(request));
             householdItemService.save(householdItem);
