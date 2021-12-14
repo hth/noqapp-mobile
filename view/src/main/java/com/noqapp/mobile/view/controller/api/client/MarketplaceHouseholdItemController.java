@@ -219,6 +219,7 @@ public class MarketplaceHouseholdItemController {
 
         HttpServletResponse response
     ) throws IOException {
+        LOG.info("Upload householdItem image {} {}", mail, postId);
         Map<String, String> errors = imageValidator.validate(multipartFile, ImageValidator.SUPPORTED_FILE.IMAGE);
         if (!errors.isEmpty()) {
             return ErrorEncounteredJson.toJson(errors);

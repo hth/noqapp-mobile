@@ -229,6 +229,7 @@ public class MarketplacePropertyRentalController {
 
         HttpServletResponse response
     ) throws IOException {
+        LOG.info("Upload propertyRental image {} {}", mail, postId);
         Map<String, String> errors = imageValidator.validate(multipartFile, ImageValidator.SUPPORTED_FILE.IMAGE);
         if (!errors.isEmpty()) {
             return ErrorEncounteredJson.toJson(errors);
