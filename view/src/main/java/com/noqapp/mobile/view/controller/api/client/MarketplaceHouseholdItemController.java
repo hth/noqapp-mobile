@@ -65,7 +65,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping(value = "/api/c/marketplace/householdItem")
 public class MarketplaceHouseholdItemController {
-    private static final Logger LOG = LoggerFactory.getLogger(com.noqapp.mobile.view.controller.api.client.MarketplacePropertyRentalController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MarketplaceHouseholdItemController.class);
 
     private HouseholdItemService householdItemService;
     private MarketplaceElasticService marketplaceElasticService;
@@ -222,6 +222,7 @@ public class MarketplaceHouseholdItemController {
         LOG.info("Upload householdItem image {} {}", mail, postId);
         Map<String, String> errors = imageValidator.validate(multipartFile, ImageValidator.SUPPORTED_FILE.IMAGE);
         if (!errors.isEmpty()) {
+            LOG.warn("Failed uploading image {}", errors);
             return ErrorEncounteredJson.toJson(errors);
         }
 
