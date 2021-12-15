@@ -232,6 +232,7 @@ public class MarketplacePropertyRentalController {
         LOG.info("Upload propertyRental image {} {}", mail, postId);
         Map<String, String> errors = imageValidator.validate(multipartFile, ImageValidator.SUPPORTED_FILE.IMAGE);
         if (!errors.isEmpty()) {
+            LOG.warn("Failed uploading image {}", errors);
             return ErrorEncounteredJson.toJson(errors);
         }
 
