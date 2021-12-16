@@ -164,7 +164,7 @@ public class MarketplacePropertyRentalController {
     ) throws IOException {
         boolean methodStatusSuccess = true;
         Instant start = Instant.now();
-        LOG.info("Post propertyRental API for mail={} auth={} did={} dt={}", mail, AUTH_KEY_HIDDEN, did, dt);
+        LOG.info("Post propertyRental API for mail={} auth={} did={} dt={} \"{}\"", mail, AUTH_KEY_HIDDEN, did, dt, jsonPropertyRental);
         String qid = authenticateMobileService.getQueueUserId(mail.getText(), auth.getText());
         if (authorizeRequest(response, qid)) return null;
 
